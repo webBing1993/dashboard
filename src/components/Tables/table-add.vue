@@ -4,21 +4,19 @@
             <thead>
                 <tr>
                     <th>序号</th>
-                    <th>企业账户编码</th>
-                    <th>企业名称</th>
-                    <th>门店</th>
+                    <th>品牌名称</th>
+                    <th>品牌LOGO</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
-                    <td>{{ obj.code }}</td>
                     <td>{{ obj.name }}</td>
-                    <td class="pointer" @click="goDetail(obj)">{{ obj.num }}家</td>
+                    <td>{{ obj.logo?'已上传':'未上传'}}</td>
                     <td>
-                        <a class="v-options pointer" @click="goEdit(obj)">编辑</a>
-                        <a class="v-options pointer" @click="goConfig(obj)">配置</a>
+                        <a class="v-options pointer" @click="modify(obj)">修改</a>
+                        <a class="v-options pointer" @click="remove(obj)">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -39,15 +37,12 @@
       },
     },
     methods: {
-      goDetail(obj) {
-        this.$emit('detail', obj);
+      modify(obj) {
+        this.$emit('modify', obj);
       },
-      goEdit(obj) {
-        this.$emit('edit', obj);
-      },
-      goConfig(obj) {
-        this.$emit('config', obj);
-      },
+      remove(obj) {
+        this.$emit('remove', obj);
+      }
     }
   }
 </script>
