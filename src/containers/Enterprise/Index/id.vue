@@ -1,11 +1,9 @@
 <template>
-  <div>
-    auth
-  </div>
+  <router-view class="fourth-router"/>
 </template>
 
 <script>
   export default {
-    name: 'Auth'
+    name: 'Id'
   }
 </script>

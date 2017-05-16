@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="module-wrapper">
-      home
+      EnterpriseIdEdit
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Home'
+    name: 'Edit',
   }
 </script>

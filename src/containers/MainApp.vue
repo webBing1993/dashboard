@@ -11,7 +11,7 @@
         <router-link to="/enterprise">企业账户</router-link>
       </nav>
     </div>
-    <router-view/>
+    <router-view class="second-router"/>
     <footer class="copy-right">
       <span>Powered By Fortrun.</span>
       <span>Copyright©2016-2017  All Rights Reserved.</span>
@@ -21,6 +21,6 @@
 
 <script>
   export default {
-    name: 'Dashboard'
+    name: 'MainApp'
   }
 </script>

@@ -1,80 +1,77 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Auth from '@/containers/Auth'
-import Main from '@/containers/Main'
-import Home from '@/containers/Home'
 
-// 企业
-import EnterpriseAdd from '@/containers/Enterprise/add'
-import EnterpriseEdit from '@/containers/Enterprise/Detail/edit'
-import EnterpriseBrand from '@/containers/Enterprise/Detail/brand'
-// 企业菜单
-import EnterpriseMain from '@/containers/Enterprise/List/main'
-import EnterpriseGroup from '@/containers/Enterprise/List/group'
-import EnterpriseHotel from '@/containers/Enterprise/List/hotel'
-// 企业详情菜单
-import EnterpriseGroupMain from '@/containers/Enterprise/Detail/main'
-import EnterpriseGroupDetail from '@/containers/Enterprise/Detail/detail'
-import EnterpriseGroupHotel from '@/containers/Enterprise/Detail/hotel'
-import EnterpriseGroupConfig from '@/containers/Enterprise/Detail/config'
+// 1级路由
+import Auth from '@/containers/Auth'
+import MainApp from '@/containers/MainApp'
+// 2级路由
+import Home from '@/containers/Home'
+import Enterprise from '@/containers/Enterprise'
+// 3级路由
+import EnterpriseMenu from '@/containers/Enterprise/Index/menu'
+import EnterpriseAdd from '@/containers/Enterprise/Index/add'
+import EnterpriseId from '@/containers/Enterprise/Index/id'
+// 4级路由
+import EnterpriseGroupList from '@/containers/Enterprise/Index/Menu/group'
+import EnterpriseGroupHotel from '@/containers/Enterprise/Index/Menu/hotel'
+import EnterpriseIdMenu from '@/containers/Enterprise/Index/Id/menu'
+import EnterpriseIdEdit from '@/containers/Enterprise/Index/Id/edit'
+import EnterpriseIdBrand from '@/containers/Enterprise/Index/Id/brand'
+// 5级路由
+import EnterpriseIdMenuIndex from '@/containers/Enterprise/Index/Id/Menu/index'
+import EnterpriseIdMenuHotel from '@/containers/Enterprise/Index/Id/Menu/hotel'
+import EnterpriseIdMenuConfig from '@/containers/Enterprise/Index/Id/Menu/config'
 
 Vue.use(Router)
 
 const main = [{
-  path: '/login',
+  path: '/auth',
   name: 'Auth',
   component: Auth
 }, {
   path: '/',
-  component: Main,
+  component: MainApp,
   children: [{
     path: 'home',
     component: Home
   }, {
     path: 'enterprise',
-    component: {
-      name: 'Enterprise',
-      template: `<router-view class="second-router"/>`
-    },
+    component: Enterprise,
     children: [{
-      path: '/',
-      component: EnterpriseMain,
-      children: [
-        {
-          path: '/',
-          component: EnterpriseGroup,
-        }, {
-          path: 'hotel',
-          component: EnterpriseHotel
-        }]
-    }, {
       path: 'add',
       component: EnterpriseAdd,
     }, {
-      path: ':id',
-      component: {
-        name: 'Detail',
-        template: `<router-view class="third-router"/>`
-      },
+      path: '/',
+      component: EnterpriseMenu,
       children: [{
         path: '/',
-        component: EnterpriseGroupMain,
+        component: EnterpriseGroupList,
+      }, {
+        path: 'hotel',
+        component: EnterpriseGroupHotel
+      }]
+    }, {
+      path: ':id',
+      component: EnterpriseId,
+      children: [{
+        path: '/',
+        component: EnterpriseIdMenu,
         children: [{
           path: '/',
-          component: EnterpriseGroupDetail
+          component: EnterpriseIdMenuIndex
         }, {
           path: 'hotel',
-          component: EnterpriseGroupHotel
+          component: EnterpriseIdMenuHotel
         }, {
           path: 'config',
-          component: EnterpriseGroupConfig
+          component: EnterpriseIdMenuConfig
         }]
       }, {
         path: 'edit',
-        component: EnterpriseEdit,
+        component: EnterpriseIdEdit,
       }, {
         path: 'brand',
-        component: EnterpriseBrand,
+        component: EnterpriseIdBrand,
       }]
     }]
   }]

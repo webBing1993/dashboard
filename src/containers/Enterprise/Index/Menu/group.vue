@@ -1,21 +1,24 @@
 <template>
   <div>
-    <h1>账户管理</h1>
-    <div>
-      <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码" />
-      <button @click="getList"> 查询 </button>
-      <button @click="regist"> + 注册企业账户</button>
-    </div>
-    <div>
-      <h3>最近操作的企业账户</h3>
-      <table-enterprise :list="list" @detail="goDetail" @edit="goEdit" @config="goConfig"></table-enterprise>
+    <div class="module-wrapper">
+      <h1>账户管理</h1>
+      <div>
+        <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
+        <button @click="getList"> 查询 </button>
+        <button @click="regist"> + 注册企业账户</button>
+      </div>
+      <div>
+        <h3>最近操作的企业账户</h3>
+        <table-enterprise :list="list" @detail="goDetail" @edit="goEdit" @config="goConfig"></table-enterprise>
+      </div>
     </div>
   </div>
 </template>
+
 <script>
   import tableEnterprise from '@/components/Tables/table-enterprise.vue'
   export default {
-    name: 'EnterpriseGroup',
+    name: 'Group',
     data () {
       return {
         searchVal: '',
@@ -40,7 +43,7 @@
         console.log('goConfig')
       },
       getList() {
-        
+
       }
     }
   }

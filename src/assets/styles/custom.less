@@ -1,11 +1,13 @@
 html,
-body,
-#app,
+body {
+  height: 100%;
+  font-size: 14px;
+}
+
 .first-router {
   display: flex;
   flex-direction: column;
   height: 100%;
-  font-size: 14px;
   background-color: #EAEDF0;
   .login-banner {
     padding-left: 100px;
@@ -47,46 +49,48 @@ body,
       }
     }
   }
-  .second-router {
+}
+
+.second-router {
+  padding: 20px 100px;
+}
+
+.second-router,
+.third-router,
+.fourth-router,
+.fifth-router {
+  display: flex;
+  flex-grow: 1;
+  align-content: stretch;
+  align-self: stretch;
+}
+
+.module-wrapper {
+  flex-grow: 1;
+  background-color: #ffffff;
+}
+
+aside {
+  align-self: stretch;
+  min-width: 200px;
+  border-right: solid 1px #EAEDF0;
+  background-color: #ffffff;
+  a {
     display: flex;
-    flex-wrap: wrap;
-    flex-grow: 1;
-    background-color: #ffffff;
-    margin-top: 30px;
-    margin-left: 100px;
-    margin-right: 100px;
-    min-height: 600px;
-    aside {
-      align-self: stretch;
-      min-width: 200px;
-      border-right: solid 1px #EAEDF0;
-      a {
-        display: flex;
-        flex-direction: column;
-        padding-left: 15px;
-        color: #424242;
-        line-height: 44px;
-        &.router-link-exact-active {
-          color: #ffffff;
-          background-color: #0BB20C;
-        }
-      }
+    flex-direction: column;
+    padding-left: 15px;
+    color: #424242;
+    line-height: 44px;
+    &.router-link-exact-active {
+      color: #ffffff;
+      background-color: #0BB20C;
     }
-    .third-router {
-      flex-grow: 1;
-    }
-    .fourth-router {
-      flex-grow: 1;
-    }
-  }
-  .copy-right {
-    padding: 20px 0;
-    color: #999999;
-    font-size: 12px;
-    text-align: center;
   }
 }
 
-.module-wrapper{
-  flex-grow: 1;
+.copy-right {
+  padding: 20px 0;
+  color: #999999;
+  font-size: 12px;
+  text-align: center;
 }

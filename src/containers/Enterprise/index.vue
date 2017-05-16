@@ -1,11 +1,9 @@
 <template>
-  <div>
-    auth
-  </div>
+  <router-view class="third-router"/>
 </template>
 
 <script>
   export default {
-    name: 'Auth'
+    name: 'Enterprise'
   }
 </script>
