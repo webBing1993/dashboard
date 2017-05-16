@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Auth from '@/containers/Auth'
-import Main from '@/containers/List'
+import Main from '@/containers/Main'
 import Home from '@/containers/Home'
 
 // 企业路由
