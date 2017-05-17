@@ -19,7 +19,7 @@ module.exports = {
   },
   resource: (ctx, param) => {
     Vue.http({
-      url: param.url,
+      url: '/dashboard' + param.url,
       body: param.body || null,
       headers: param.headers,
       params: param.params || null,

@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content">
         <h3>企业门店</h3>
-        <table-hotel :list="list" @config="config" @service="service" @device="device" @source="source"></table-hotel>
+        <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
         <button @click="topPage">首页</button>
         <button @click="previousPage">上一页</button>
         <span>1</span>
@@ -22,7 +22,24 @@
     data () {
       return {
         searchVal: '',
-        list: [{code: 'E01', name: '如家酒店集团', enterprise: '如家酒店集团', status: 0, services: 3}]
+        list: [
+          {
+            "id":"酒店id",
+            "group_id": "所属集团id",
+            "brand_id": "所属品牌id",
+            "name": "门店名称",
+            "tel": "021-213232132",
+            "address": "广东省深圳市南山区xxxx",
+            "longitude": "234.34",
+            "latitude": "23.34",
+            "pms_type": "1",
+            "pms_proxy_id": "",
+            "contactName": "联系人",
+            "contactPhone": "13120933434",
+            "contactPosition": "前台经理",
+            "status":"1"    //状态（只用在搜索接口返回）
+          }
+        ]
       }
     },
     components: {
@@ -32,20 +49,20 @@
       ...mapActions([
         'getHotelList'
       ]),
-      regist() {
+      detail(obj) {
         
+      },
+      group(obj) {
+        this.$router.push(`${obj.id}`)
       },
       config(obj) {
-        
+        this.$router.push(`${obj.id}/config`)
       },
-      service(obj) {
-        
-      },
-      device(obj) {
-        
-      },
-      source(obj) {
-        
+      getList() {
+        this.getHotelList({
+          searchVal: this.searchVal,
+          onsuccess: body => console.log(body.data)
+        })
       },
       topPage() {
 
@@ -58,13 +75,6 @@
       },
       endPage() {
 
-      },
-      getList() {
-        this.getHotelList({
-          searchVal: this.searchVal,
-          id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
-        })
       }
     },
     mounted() {

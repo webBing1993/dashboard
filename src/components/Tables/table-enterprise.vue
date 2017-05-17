@@ -13,9 +13,9 @@
             <tbody>
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
-                    <td>{{ obj.code }}</td>
+                    <td>{{ obj.id }}</td>
                     <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
-                    <td class="pointer" @click="hotel(obj)">{{ obj.num }}家</td>
+                    <td class="pointer" @click="hotel(obj)">{{ obj.hotel_num }}家</td>
                     <td>
                         <a class="v-options pointer" @click="edit(obj)">编辑</a>
                         <a class="v-options pointer" @click="config(obj)">配置</a>

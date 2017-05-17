@@ -8,23 +8,23 @@
                     <th>门店名称</th>
                     <th>所属企业品牌</th>
                     <th>状态</th>
-                    <th>已选服务器</th>
+                    <!--<th>已选服务器</th>-->
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
-                    <td>{{ obj.code }}</td>
-                    <td>{{ obj.name }}</td>
-                    <td>{{ obj.enterprise }}</td>
-                    <td>{{ obj.status }}</td>
-                    <td>{{ obj.services }}</td>
+                    <td class="pointer" @click="detail(obj)">{{ obj.id }}</td>
+                    <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
+                    <td class="pointer" @click="belongGroup(obj)">{{ obj.group_id | group }}</td>
+                    <td>{{ obj.status | status }}</td>
+                    <!--<td>{{ obj.services }}</td>-->
                     <td>
                         <a class="v-options pointer" @click="config(obj)">配置</a>
-                        <a class="v-options pointer" @click="service(obj)">服务</a>
+                        <!--<a class="v-options pointer" @click="service(obj)">服务</a>
                         <a class="v-options pointer" @click="device(obj)">设备</a>
-                        <a class="v-options pointer" @click="source(obj)">数据</a>
+                        <a class="v-options pointer" @click="source(obj)">数据</a>-->
                     </td>
                 </tr>
             </tbody>
@@ -44,6 +44,17 @@
         default: []
       },
     },
+    filters: {
+        status(v) {
+            if (v === "1") return "未上线";
+            if (v === "1") return "运行中";
+            if (v === "1") return "已下线";
+            if (v === "1") return "已暂停";
+        },
+        group(v) {
+            return v;
+        }
+    },
     methods: {
       config(obj) {
         this.$emit('config', obj);
@@ -56,6 +67,12 @@
       },
       source(obj) {
         this.$emit('source', obj);
+      },
+      detail(obj) {
+          this.$emit('detail', obj);
+      },
+      belongGroup(obj) {
+          this.$emit('group', obj);
       }
     }
   }

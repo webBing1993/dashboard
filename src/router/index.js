@@ -18,10 +18,12 @@ import EnterpriseGroupHotel from '@/containers/Enterprise/Index/Menu/hotel'
 import EnterpriseIdMenu from '@/containers/Enterprise/Index/Id/menu'
 import EnterpriseIdEdit from '@/containers/Enterprise/Index/Id/edit'
 import EnterpriseIdBrand from '@/containers/Enterprise/Index/Id/brand'
+import HotelMenu from '@/containers/Enterprise/Index/Id/hotelMenu'
 // 5级路由
 import EnterpriseIdMenuIndex from '@/containers/Enterprise/Index/Id/Menu/index'
 import EnterpriseIdMenuHotel from '@/containers/Enterprise/Index/Id/Menu/hotel'
 import EnterpriseIdMenuConfig from '@/containers/Enterprise/Index/Id/Menu/config'
+import HotelMenuIndex from '@/containers/Enterprise/Index/Id/HotelMenu/index'
 
 Vue.use(Router)
 
@@ -69,6 +71,13 @@ const main = [{
         }, {
           path: 'config',
           component: EnterpriseIdMenuConfig
+        }]
+      }, {
+        path: ':id',
+        component: HotelMenu,
+        children: [{
+          path: '/',
+          component: HotelMenuIndex
         }]
       }, {
         path: 'edit',

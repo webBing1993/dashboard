@@ -3,20 +3,20 @@
     <div class="module-wrapper">
       <div class="top-content">
         <h3 class="title">企业账户</h3>
-        <p class="edit">编辑</p>
+        <p class="edit" @click="edit">编辑</p>
       </div>
       <div class="content">
         <div>
           <label for="enterpriseCode">企业账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="enterpriseCode"/>
+          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.id"/>
         </div>
         <div>
           <label for="enterpriseName">企业名称</label>
-          <input disabled="disabled" type="text" id="enterpriseName" v-model="enterpriseName"/>
+          <input disabled="disabled" type="text" id="enterpriseName" v-model="group.name"/>
         </div>
         <div>
           <label for="enterpriseDesc">企业简介</label>
-          <input disabled="disabled" type="text" id="enterpriseDesc" v-model="enterpriseDesc"/>
+          <input disabled="disabled" type="text" id="enterpriseDesc" v-model="group.memo"/>
         </div>
       </div>
     </div>
@@ -29,20 +29,26 @@
     name: 'Index',
     data() {
       return {
-        enterpriseCode: 'qwerty',
-        enterpriseName: 'qwet',
-        enterpriseDesc: 'qwertyuiuy'
+        group: {
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "如家集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com"
+        }
       }
     },
     methods: {
       ...mapActions([
-        'getEnterpriseInfo'
+        'getEnterprise'
       ]),
       getInfo() {
-        this.getEnterpriseInfo({
+        this.getEnterprise({
           id: this.$route.params.id,
           onsuccess: body => console.log(body.data)
         })
+      },
+      edit() {
+        this.$router.push(`${666}/edit`)
       }
     },
     mounted() {

@@ -1,53 +1,57 @@
 module.exports = {
-  addEnterprise(ctx, param) {
+  addBrand(ctx, param) {
     ctx.dispatch('resource', {
-      url: '/groups',
+      url: '/brands',
       method:'POST',
       body: {
+        group_id: param.group_id,
+        brand_id: param.brand_id,
         name: param.name,
-        memo: param.memo,
-        website: param.website,
+        tel: param.tel,
+        address: param.address,
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  getEnterprise(ctx, param) {
+  getBrand(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/groups/${param.id}`,
+      url: `/brands/${param.id}`,
       method:'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  modifyEnterprise(ctx, param) {
+  modifyBrand(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/groups/${param.id}`,
+      url: `/brands/${param.id}`,
       method:'PUT',
       body: {
+        group_id: param.group_id,
+        brand_id: param.brand_id,
         name: param.name,
-        memo: param.memo,
-        website: param.website,
+        tel: param.tel,
+        address: param.address,
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  removeEnterprise(ctx, param) {
+  removeBrand(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/groups/${param.id}`,
+      url: `/brands/${param.id}`,
       method:'DELETE',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  getEnterpriseList(ctx, param){
+  getBrandList(ctx, param){
     ctx.dispatch('resource', {
-      url: '/groups',
+      url: '/brands',
       method:'GET',
       params: {
         keyword: param.searchVal

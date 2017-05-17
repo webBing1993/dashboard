@@ -6,47 +6,28 @@
         <div class="enterprise-info">
           <div class="title-bar">
             <p class="info-title">企业信息</p>
-            <p class="info-modify">修改</p>
+            <p class="info-modify" @click="modify">修改</p>
           </div>
           <div class="info-content">
             <div>
               <label for="enterpriseCode">企业账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="enterpriseCode"/>
+              <input type="text" id="enterpriseCode" v-model="group.id"/>
             </div>
             <div>
               <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="enterpriseName"/>
+              <input type="text" id="enterpriseName" v-model="group.name"/>
             </div>
             <div>
               <label for="enterpriseDesc">企业简介</label>
-              <input type="text" id="enterpriseDesc" v-model="enterpriseDesc"/>
+              <input type="text" id="enterpriseDesc" v-model="group.memo"/>
             </div>
             <div>
               <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="enterpriseWeb"/>
+              <input type="text" id="enterpriseWeb" v-model="group.website"/>
             </div>
           </div>
         </div>
-        <div class="contact-info">
-          <div class="title-bar">
-            <p class="info-title">联系信息</p>
-            <p class="info-modify">修改</p>
-          </div>
-          <div class="info-content">
-            <div>
-              <label for="contactName">联系人姓名</label>
-              <input type="text" id="contactName" v-model="contactName"/>
-            </div>
-            <div>
-              <label for="contactPosition">联系人职务</label>
-              <input type="text" id="contactPosition" v-model="contactPosition"/>
-            </div>
-            <div>
-              <label for="contactPhone">联系人电话</label>
-              <input type="text" id="contactPhone" v-model="contactPhone"/>
-            </div>
-          </div>
-        </div>
+        <button @click="remove">删除</button>
       </div>
     </div>
   </div>
@@ -57,27 +38,40 @@
     name: 'Edit',
     data () {
       return {
-        enterpriseCode: '',
-        enterpriseName: '',
-        enterpriseDesc: '',
-        enterpriseWeb: '',
-        contactName: '',
-        contactPosition: '',
-        contactPhone: ''
+        group: {
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "如家集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com"
+        }
       }
     },
     methods: {
       ...mapActions([
-        'getEnterpriseInfo'
+        'getEnterprise',
+        'modifyEnterprise',
+        'removeEnterprise'
       ]),
       getInfo() {
-        this.getEnterpriseInfo({
+        this.getEnterprise({
           id: this.$route.params.id,
           onsuccess: body => console.log(body.data)
         })
       },
-      modify(obj) {
-        
+      modify() {
+        this.modifyEnterprise({
+          id: this.group.id,
+          name: this.group.name,
+          memo: this.group.memo,
+          website: this.group.website,
+          onsuccess: body => console.log(body.data)
+        })
+      },
+      remove() {
+        this.removeEnterprise({
+          id: this.group.id,
+          onsuccess: body => console.log(body.data)
+        })
       }
     },
     mounted() {
@@ -106,11 +100,6 @@
   .enterprise-info {
     border: 1px solid #757575;
   }
-  .contact-info {
-    border: 1px solid #757575;
-    margin-top: 20px;
-    /*box-sizing: border-box;*/
-  }
   .title-bar {
     position: relative;
     width: 100%;
@@ -120,6 +109,7 @@
     box-sizing: border-box;
   }
   .info-modify {
+    cursor: pointer;
     line-height: 30px;
     position: absolute;
     top: 0;

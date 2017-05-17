@@ -23,7 +23,15 @@
     data () {
       return {
         searchVal: '',
-        list: [{code: 'E01', name: '如家酒店集团', num: 15}]
+        list: [
+          {
+            "id":"xxxxxxxxxxxxxxxx",
+            "name": "如家集团",
+            "memo": "企业简介企业简介企业简介企业简介",
+            "website": "http://www.baidu.com",
+            "hotel_num":"23"   //门店数量（只用在搜索接口返回）
+          }
+        ]
       }
     },
     components: {
@@ -37,16 +45,16 @@
         this.$router.push('enterprise/add')
       },
       goDetail(obj) {
-        this.$router.push(`enterprise/${666}`)
+        this.$router.push(`enterprise/${obj.id}`)
       },
       goHotel(obj) {
-        this.$router.push(`enterprise/${666}/hotel`)
+        this.$router.push(`enterprise/${obj.id}/hotel`)
       },
       goEdit(obj) {
-        this.$router.push(`enterprise/${666}/edit`)
+        this.$router.push(`enterprise/${obj.id}/edit`)
       },
       goConfig(obj) {
-        this.$router.push(`enterprise/${666}/config`)
+        this.$router.push(`enterprise/${obj.id}/config`)
       },
       getList() {
         this.getEnterpriseList({
