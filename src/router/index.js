@@ -10,6 +10,7 @@ import Enterprise from '@/containers/Enterprise'
 // 3级路由
 import EnterpriseMenu from '@/containers/Enterprise/Index/menu'
 import EnterpriseAdd from '@/containers/Enterprise/Index/add'
+import HotelAdd from '@/containers/Enterprise/Index/addHotel'
 import EnterpriseId from '@/containers/Enterprise/Index/id'
 // 4级路由
 import EnterpriseGroupList from '@/containers/Enterprise/Index/Menu/group'
@@ -40,6 +41,9 @@ const main = [{
     children: [{
       path: 'add',
       component: EnterpriseAdd,
+    }, {
+      path: 'addhotel',
+      component: HotelAdd,
     }, {
       path: '/',
       component: EnterpriseMenu,

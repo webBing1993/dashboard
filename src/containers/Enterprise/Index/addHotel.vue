@@ -1,22 +1,43 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">注册企业账户</h3>
+      <h3 class="title">添加企业门店</h3>
       <div class="content">
-        <div class="enterprise-info">
-          <p class="info-title">企业信息</p>
+        <div class="store-info">
+          <p class="info-title">门店信息</p>
           <div class="info-content">
             <div>
-              <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="enterpriseName"/>
+              <span>所属企业</span>
+              <select>
+                <option v-for="(obj, index) of enterpriseList" v-model="enterprise">{{obj}}</option>
+              </select>
+              <span>所属品牌</span>
+              <select>
+                <option v-for="(obj, index) of brandList" v-model="brand">{{obj}}</option>
+              </select>
             </div>
             <div>
-              <label for="enterpriseDesc">企业名称</label>
-              <input type="text" id="enterpriseDesc" v-model="enterpriseDesc"/>
+              <label for="storeName">门店名称</label>
+              <input type="text" id="storeName" v-model="storeName"/>
             </div>
             <div>
-              <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="enterpriseWeb"/>
+              <label for="phone">前台电话</label>
+              <input type="text" id="phone" v-model="storeName"/>
+            </div>
+            <div>
+              <span>门店地址</span>
+              <select>
+                <option v-for="(obj, index) of provinceList" v-model="province">{{obj}}</option>
+              </select>
+              <select>
+                <option v-for="(obj, index) of cityList" v-model="city">{{obj}}</option>
+              </select>
+              <select>
+                <option v-for="(obj, index) of areaList" v-model="area">{{obj}}</option>
+              </select>
+            </div>
+            <div>
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）"/>
             </div>
           </div>
         </div>
@@ -32,69 +53,50 @@
               <input type="text" id="contactPosition" v-model="contactPosition"/>
             </div>
             <div>
-              <label for="contactPhone">联系人电话</label>
+              <label for="contactPhone">联系电话</label>
               <input type="text" id="contactPhone" v-model="contactPhone"/>
             </div>
           </div>
         </div>
-        <div class="brand-info">
-          <p class="info-title">品牌管理</p>
-          <div class="table-content">
-            <table-add :list="list" @modify="modify" @remove="remove"></table-add>
-          </div>
-        </div>
         <div class="button-content">
-          <button @click="regist">注册</button>
+          <button @click="regist">添加</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableAdd from '@/components/Tables/table-add.vue'
   export default {
-    name: 'Add',
+    name: 'AddHotel',
     data () {
       return {
-        enterpriseName: '',
-        enterpriseDesc: '',
-        enterpriseWeb: '',
+        enterprise: '',
+        enterpriseList: ['a', 'b', 'c', 'd'],
+        brand: '',
+        brandList: ['a', 'b', 'c', 'd'],
+        storeName: '',
+        provinceList: ['a', 'b', 'c', 'd'],
+        province: '',
+        cityList: ['a', 'b', 'c', 'd'],
+        city: '',
+        areaList: ['a', 'b', 'c', 'd'],
+        area: '',
+        address: '',
         contactName: '',
         contactPosition: '',
-        contactPhone: '',
-        list: [{id: 1, name: 'E01', logo: true}]
+        contactPhone: ''
       }
     },
-    components: {
-      tableAdd
-    },
     methods: {
-      ...mapActions([
-        'getBrandList',
-        'removeBrand'
-      ]),
       modify(obj) {
         
       },
       remove(obj) {
-        this.removeBrand({
-          id: obj.id,
-          onsuccess: body => console.log(body.data)
-        })
+
       },
       regist() {
 
-      },
-      getList() {
-        this.getBrandList({
-          // id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
-        })
       }
-    },
-    mounted() {
-      this.getList();
     }
   }
 </script>
@@ -119,14 +121,10 @@
     background-color: #EAEDF0;
     border-bottom: 1px solid #757575;
   }
-  .enterprise-info {
+  .store-info {
     border: 1px solid #757575;
   }
   .contact-info {
-    border: 1px solid #757575;
-    margin-top: 20px;
-  }
-  .brand-info {
     border: 1px solid #757575;
     margin-top: 20px;
   }

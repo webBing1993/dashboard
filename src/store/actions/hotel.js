@@ -1,8 +1,15 @@
 module.exports = {
-  gethotelinfo(ctx, hotel_id){
+  getHotelList(ctx, param){
     ctx.dispatch('resource', {
-      url: '/hotel/' + hotel_id,
-      onSuccess: body => ctx.commit('HOTEL', body.data)
+      url: 'http://localhost:8080/',
+      method:'GET',
+      params: {
+        search: param.searchVal,
+        id: param.id
+      },
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
     })
   }
 }

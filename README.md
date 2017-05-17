@@ -25,9 +25,10 @@ RouterMap:
 App - Auth
     - MainApp - Home
               - Enterprise - Add
+                           - AddHotel
                            - GroupMenu - Group
                                        - Hotel
-
+                                       
                            - Id        - Brand
                                        - Edit
                                        - IdMenu - Index

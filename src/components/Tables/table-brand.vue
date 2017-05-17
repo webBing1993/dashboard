@@ -4,21 +4,19 @@
             <thead>
                 <tr>
                     <th>序号</th>
-                    <th>企业账户编码</th>
-                    <th>企业名称</th>
-                    <th>门店</th>
+                    <th>品牌名称</th>
+                    <th>品牌LOGO</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
-                    <td>{{ obj.code }}</td>
-                    <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
-                    <td class="pointer" @click="hotel(obj)">{{ obj.num }}家</td>
+                    <td>{{ obj.name }}</td>
+                    <td>{{ obj.logo }}</td>
                     <td>
-                        <a class="v-options pointer" @click="edit(obj)">编辑</a>
-                        <a class="v-options pointer" @click="config(obj)">配置</a>
+                        <a class="v-options pointer" @click="modify(obj)">修改</a>
+                        <a class="v-options pointer" @click="remove(obj)">删除</a>
                     </td>
                 </tr>
             </tbody>
@@ -39,18 +37,12 @@
       },
     },
     methods: {
-      detail(obj) {
-        this.$emit('detail', obj);
+      modify(obj) {
+        this.$emit('modify', obj);
       },
-      hotel(obj) {
-        this.$emit('hotel', obj);
-      },
-      edit(obj) {
-        this.$emit('edit', obj);
-      },
-      config(obj) {
-        this.$emit('config', obj);
-      },
+      remove(obj) {
+        this.$emit('remove', obj);
+      }
     }
   }
 </script>
