@@ -9,15 +9,16 @@
       </div>
       <div class="content">
         <h3>最近操作的企业账户</h3>
-        <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit" @config="goConfig"></table-enterprise>
+        <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
+                          @config="goConfig"></table-enterprise>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableEnterprise from '@/components/Tables/table-enterprise.vue'
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import tableEnterprise from '@/components/Tables/table-enterprise.vue';
   export default {
     name: 'Group',
     data () {
@@ -25,11 +26,11 @@
         searchVal: '',
         list: [
           {
-            "id":"xxxxxxxxxxxxxxxx",
+            "id": "xxxxxxxxxxxxxxxx",
             "name": "如家集团",
             "memo": "企业简介企业简介企业简介企业简介",
             "website": "http://www.baidu.com",
-            "hotel_num":"23"   //门店数量（只用在搜索接口返回）
+            "hotel_num": "23"   //门店数量（只用在搜索接口返回）
           }
         ]
       }
@@ -72,32 +73,8 @@
     }
   }
 </script>
-<style scoped>
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    border-bottom: 1px solid #757575;
-  }
-  .search-bar {
-    width: 100%;
-    padding: 8px, 20px;
-    box-sizing: border-box;
-  }
-  input {
-    width: 50%;
-    height: 40px;
-    font-size: 18px;
-  }
-  button {
-    cursor: pointer;
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #0000FF;
-    border: none;
-  }
-  .content {
-    padding: 0 20px;
-  }
+
+<style scoped lang="less">
+  @import "./index.less";
 </style>
 

@@ -77,13 +77,23 @@ aside {
   background-color: #ffffff;
   a {
     display: flex;
-    flex-direction: column;
+    //flex-direction: column;
     padding-left: 15px;
     color: #424242;
     line-height: 44px;
     &.router-link-exact-active {
       color: #ffffff;
-      background-color: #0BB20C;
+      background-color: #8a8a8a;
+      &:before{
+        content: '';
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        position: relative;
+        top: 12px;
+        left: -6px;
+        background-color: #EF4F4F;
+      }
     }
   }
 }

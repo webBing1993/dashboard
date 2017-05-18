@@ -25,7 +25,7 @@
         searchVal: '',
         list: [
           {
-            "id":"酒店id",
+            "id": "酒店id",
             "group_id": "所属集团id",
             "brand_id": "所属品牌id",
             "name": "门店名称",
@@ -38,7 +38,7 @@
             "contactName": "联系人",
             "contactPhone": "13120933434",
             "contactPosition": "前台经理",
-            "status":"1"    //状态（只用在搜索接口返回）
+            "status": "1"    //状态（只用在搜索接口返回）
           }
         ]
       }
@@ -74,32 +74,57 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .title {
     line-height: 50px;
     padding: 0 20px;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid #ECECEC;
+    font-weight: 400;
+    font-size: 18px;
   }
+
   .search-bar {
+    display: flex;
+    align-items: center;
     width: 100%;
-    padding: 8px, 20px;
+    padding: 16px 20px;
     box-sizing: border-box;
+    input {
+      width: 65%;
+      height: 40px;
+      font-size: 14px;
+      outline: none;
+      text-indent: 1em;
+    }
+    button {
+      line-height: 42px;
+      width: 120px;
+      color: #ffffff;
+      cursor: pointer;
+      background-color: #8f8f8f;
+      font-size: 15px;
+      outline: none;
+      border: none;
+      margin-left: 40px;
+    }
+    button:last-child {
+      margin-left: 60px;
+      width: 140px;
+    }
   }
-  input {
-    width: 50%;
-    height: 40px;
-    font-size: 18px;
-  }
-  button {
-    cursor: pointer;
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #0000FF;
-    border: none;
-  }
+
   .content {
     padding: 0 20px;
+    h3 {
+      font-weight: 300;
+      font-size: 20px;
+      padding-bottom: 10px;
+      &:before {
+        content: '';
+        border-left: solid 4px #8f8f8f;
+        padding-right: 8px;
+      }
+    }
   }
 </style>
 

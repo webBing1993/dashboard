@@ -21,7 +21,7 @@
         searchVal: '',
         list: [
           {
-            "id":"酒店id",
+            "id": "酒店id",
             "group_id": "所属集团id",
             "brand_id": "所属品牌id",
             "name": "门店名称",
@@ -34,7 +34,7 @@
             "contactName": "联系人",
             "contactPhone": "13120933434",
             "contactPosition": "前台经理",
-            "status":"1"    //状态（只用在搜索接口返回）
+            "status": "1"    //状态（只用在搜索接口返回）
           }
         ],
         page: 1,
@@ -82,9 +82,38 @@
   }
 </script>
 
-<style scoped>
-  .content {
+<style scoped lang="less">
+  .module-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 0 20px;
+    .content {
+      width: 100%;
+      align-items: center;
+      h3 {
+        line-height: 50px;
+        border-bottom: 1px solid #ECECEC;
+        font-weight: 400;
+        font-size: 18px;
+      }
+      .v-table {
+        margin-top: 20px;
+        line-height: 45px;
+      }
+    }
+    .content-bot {
+      display: flex;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+      button {
+        width: 100px;
+        line-height: 32px;
+        margin: 0 8px;
+      }
+    }
   }
 </style>
 

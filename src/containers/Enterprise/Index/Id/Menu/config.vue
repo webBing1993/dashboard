@@ -5,7 +5,6 @@
         <div class="business">
           <h3 class="title">业务配置</h3>
           <div class="brand" @click="goBrand">
-            <div class="logo"></div>
             <div class="brand-info">
               <p>品牌配置</p>
               <p>相关的描述相关的描述相关的描述相关的描述</p>
@@ -24,9 +23,7 @@
   export default {
     name: 'Config',
     data() {
-      return {
-
-      }
+      return {}
     },
     methods: {
       goBrand() {
@@ -35,28 +32,36 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .content {
-    padding: 10px 20px;
-  }
-  .title {
-    line-height: 30px;
-  }
-  .business {
-    
-  }
-  .brand {
-    padding-top: 10px;
-  }
-  .logo {
-    float: left;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-    background-color: green;
-  }
-  .brand-info {
-    float: left;
+    .business {
+      .title {
+        line-height: 30px;
+        border-bottom: solid 1px #EAEDF0;
+        padding: 16px 20px;
+        font-weight: 400;
+        font-size: 18px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        padding: 16px 20px;
+        line-height: 25px;
+        .brand-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        &:before {
+          content: '';
+          width: 60px;
+          height: 60px;
+          margin-right: 20px;
+          background-color: #8f8f8f;
+          border-radius: 50%;
+        }
+      }
+    }
   }
 </style>
 

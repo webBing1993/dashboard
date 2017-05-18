@@ -6,15 +6,15 @@
         <div class="enterprise-info">
           <p class="info-title">企业信息</p>
           <div class="info-content">
-            <div>
+            <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
               <input type="text" id="enterpriseName" v-model="enterpriseName"/>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="enterpriseDesc">企业简称</label>
               <input type="text" id="enterpriseDesc" v-model="enterpriseDesc"/>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="enterpriseWeb">企业官网</label>
               <input type="text" id="enterpriseWeb" v-model="enterpriseWeb"/>
             </div>
@@ -27,7 +27,7 @@
           </div>
         </div>-->
         <div class="button-content">
-          <button @click="regist">注册</button>
+          <XButton @onClick="regist">注册</XButton>
         </div>
       </div>
     </div>
@@ -56,7 +56,7 @@
         'removeBrand'
       ]),
       modify(obj) {
-        
+
       },
       remove(obj) {
         this.removeBrand({
@@ -79,50 +79,68 @@
       }
     },
     mounted() {
-      
+
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .title {
     line-height: 50px;
     padding: 0 20px;
-    border-bottom: 1px solid #757575;
+    font-size: 18px;
+    font-weight: 400;
+    color: #222222;
+    border-bottom: 1px solid #ECECEC;
   }
+
   .content {
-    padding: 20px 20px;
+    padding: 20px;
   }
+
   .info-content {
     padding: 10px 40px;
   }
+
+  .content-msg {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    input {
+      outline: none;
+      border: none;
+      border-bottom: solid 1px #EAEDF0;
+      margin: 10px 20px;
+      padding: 8px;
+      flex: 1;
+      font-size: 14px;
+    }
+  }
+
   .table-content {
     padding: 10px 20px;
   }
+
   .info-title {
     line-height: 30px;
-    padding: 0 20px;
+    padding: 8px 20px;
+    font-size: 16px;
+    font-weight: 300;
     background-color: #EAEDF0;
-    border-bottom: 1px solid #757575;
+    border-bottom: 1px solid transparent;
   }
+
   .enterprise-info {
-    border: 1px solid #757575;
+    border: 1px solid #EAEDF0;
   }
+
   .brand-info {
-    border: 1px solid #757575;
+    border: 1px solid #EAEDF0;;
     margin-top: 20px;
   }
+
   .button-content {
-    margin-top: 20px;
-  }
-  button {
-    display: block;
-    margin: 0 auto;
+    margin-top: 45px;
     cursor: pointer;
-    width: 80px;
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #0000FF;
-    border: none;
   }
+
 </style>
