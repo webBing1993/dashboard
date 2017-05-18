@@ -22,11 +22,13 @@
             </div>
             <div class="content-input">
               <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="storeName"/>
+              <input type="text" id="storeName" v-model="storeName" @change="nameChange" />
+              <span v-show="nameError" class="error-info">* 请输入门店名称</span>
             </div>
             <div class="content-input">
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="storePhone"/>
+              <input type="text" id="phone" v-model="storePhone" @change="phoneChange" />
+              <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
             <div>
               <span>门店地址</span>
@@ -41,7 +43,8 @@
               </select>
             </div>
             <div class="content-add">
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）"/>
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />
+              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
@@ -110,6 +113,9 @@
         stateCode: '',
         cityCode: '',
         address: '',
+        nameError: false,
+        phoneError: false,
+        addressError: false,
         // contactName: '',
         // contactPosition: '',
         // contactPhone: ''
@@ -166,7 +172,30 @@
       cityChange(e) {
         this.cityCode = e.target.value;
       },
+      nameChange(e) {
+        if (e.target.value != '') 
+          this.nameError = false;
+        else 
+          this.nameError = true;
+      },
+      phoneChange(e) {
+        if (e.target.value != '') 
+          this.phoneError = false;
+        else 
+          this.phoneError = true;
+      },
+      addressChange(e) {
+        if (e.target.value != '') 
+          this.addressError = false;
+        else 
+          this.addressError = true;
+      },
       regist() {
+        if (this.storeName == '') this.nameError = true;
+        if (this.storePhone == '') this.phoneError = true;
+        if (this.address == '') this.addressError = true;
+        if (this.storeName == '' || this.storePhone == '' || this.address == '') return;
+
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined) obj = areaData[0];
         let state = obj.region.state.find(v => v.code == this.stateCode);
@@ -266,6 +295,10 @@
       margin-top: 30px;
       color: #576b95;
     }
+  }
+
+  .error-info {
+    color: red;
   }
 
   /*.table-content {*/

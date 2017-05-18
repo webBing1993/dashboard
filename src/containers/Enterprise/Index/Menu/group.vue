@@ -41,7 +41,6 @@
     methods: {
       ...mapActions([
         'getEnterpriseList',
-        'test'
       ]),
       regist() {
         this.$router.push('enterprise/add')
@@ -67,9 +66,6 @@
     },
     mounted() {
       // this.getList();
-      this.test({
-        onsuccess: (body, headers) => console.log(headers)
-      })
     }
   }
 </script>
