@@ -8,12 +8,12 @@
           <div class="info-content">
             <div>
               <span>所属企业</span>
-              <select>
-                <option v-for="(obj, index) of enterpriseList" v-model="enterprise">{{obj}}</option>
+              <select @change="enterpriseChange">
+                <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
               </select>
               <span>所属品牌</span>
-              <select>
-                <option v-for="(obj, index) of brandList" v-model="brand">{{obj}}</option>
+              <select @change="brandChange">
+                <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
               </select>
             </div>
             <div>
@@ -22,7 +22,7 @@
             </div>
             <div>
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="storeName"/>
+              <input type="text" id="phone" v-model="storePhone"/>
             </div>
             <div>
               <span>门店地址</span>
@@ -66,15 +66,43 @@
   </div>
 </template>
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'AddHotel',
     data () {
       return {
+        enterpriseList: [{
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "如家集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com",
+          "hotel_num":23   //门店数量（只用在搜索接口返回）
+        },{
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "四季集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com",
+          "hotel_num":23   //门店数量（只用在搜索接口返回）
+        }],
         enterprise: '',
-        enterpriseList: ['a', 'b', 'c', 'd'],
+        brandList: [{  
+          "id":"xxxxxxxx",
+          "group_id": "所属集团id",
+          "pms_id": "pms内部编码",
+          "pms_code": "pms外部编码",
+          "name": "名称",
+          "logo_url": "上传到服务器地址url"
+        },{  
+          "id":"xxxxxxxx",
+          "group_id": "所属集团id",
+          "pms_id": "pms内部编码",
+          "pms_code": "pms外部编码",
+          "name": "名名",
+          "logo_url": "上传到服务器地址url"
+        }],
         brand: '',
-        brandList: ['a', 'b', 'c', 'd'],
         storeName: '',
+        storePhone: '',
         provinceList: ['a', 'b', 'c', 'd'],
         province: '',
         cityList: ['a', 'b', 'c', 'd'],
@@ -82,21 +110,50 @@
         areaList: ['a', 'b', 'c', 'd'],
         area: '',
         address: '',
-        contactName: '',
-        contactPosition: '',
-        contactPhone: ''
+        // contactName: '',
+        // contactPosition: '',
+        // contactPhone: ''
       }
     },
     methods: {
-      modify(obj) {
-        
+      ...mapActions([
+        'getEnterpriseList',
+        'getBrandList',
+        'addHotel'
+      ]),
+      getEnterprise() {
+        this.getEnterpriseList({
+          onsuccess: body => this.enterpriseList = body.data
+        })
       },
-      remove(obj) {
-
+      getBrand() {
+        this.getBrandList({
+          onsuccess: body => this.brandList = body.data
+        })
+      },
+      enterpriseChange(e) {
+        this.enterprise = e.target.value;
+      },
+      brandChange(e) {
+        this.brand = e.target.value;
       },
       regist() {
-
+        this.addHotel({
+          group_id: this.enterprise,
+          brand_id: this.brand,
+          name: this.storeName,
+          tel: this.storePhone,
+          address: `${this.province}${this.city}${this.area}${this.address}`,
+          onsuccess: body => console.log(body)
+        })
       }
+    },
+    mounted() {
+      this.enterpriseList[0] ? this.enterprise = this.enterpriseList[0].id : null;
+      this.brandList[0] ? this.brand = this.brandList[0].id : null;
+      this.provinceList[0] ? this.province = this.provinceList[0] : null;
+      this.cityList[0] ? this.city = this.cityList[0] : null;
+      this.areaList[0] ? this.area = this.areaList[0] : null;
     }
   }
 </script>

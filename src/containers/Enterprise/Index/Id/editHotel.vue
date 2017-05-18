@@ -11,21 +11,21 @@
           <div class="info-content">
             <div>
               <span>所属企业</span>
-              <select>
-                <option v-for="(obj, index) of enterpriseList" v-model="enterprise">{{obj}}</option>
+              <select @change="enterpriseChange">
+                <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
               </select>
               <span>所属品牌</span>
-              <select>
-                <option v-for="(obj, index) of brandList" v-model="brand">{{obj}}</option>
+              <select @change="brandChange">
+                <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
               </select>
             </div>
             <div>
               <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="storeName"/>
+              <input type="text" id="storeName" v-model="hotel.name"/>
             </div>
             <div>
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="storeName"/>
+              <input type="text" id="phone" v-model="hotel.tel"/>
             </div>
             <div>
               <span>门店地址</span>
@@ -56,24 +56,48 @@
     data () {
       return {
         hotel: {
-            "group_id": "所属集团id",
-            "brand_id": "所属品牌id",
-            "name": "门店名称",
-            "tel": "021-213232132",
-            "address": "广东省深圳市南山区xxxx",
-            "longitude": "234.34",
-            "latitude": "23.34",
-            "pms_type": "1",
-            "pms_proxy_id": "",
-            "contactName": "联系人",
-            "contactPhone": "13120933434",
-            "contactPosition": "前台经理",
-          },
-        enterprise: '',
-        enterpriseList: ['a', 'b', 'c', 'd'],
-        brand: '',
-        brandList: ['a', 'b', 'c', 'd'],
-        storeName: '',
+          "id":"酒店id",
+          "group_id": "所属集团id",
+          "brand_id": "所属品牌id",
+          "name": "门店名称",
+          "tel": "021-213232132",
+          "address": "广东省深圳市南山区xxxx",
+          "longitude": "234.34",
+          "latitude": "23.34",
+          "pms_type": "1",
+          "pms_proxy_id": "",
+          "contactName": "联系人",
+          "contactPhone": "13120933434",
+          "contactPosition": "前台经理"
+        },
+        enterpriseList: [{
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "如家集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com",
+          "hotel_num":23   //门店数量（只用在搜索接口返回）
+        },{
+          "id":"xxxxxxxxxxxxxxxx",
+          "name": "四季集团",
+          "memo": "企业简介企业简介企业简介企业简介",
+          "website": "http://www.baidu.com",
+          "hotel_num":23   //门店数量（只用在搜索接口返回）
+        }],
+        brandList: [{  
+          "id":"xxxxxxxx",
+          "group_id": "所属集团id",
+          "pms_id": "pms内部编码",
+          "pms_code": "pms外部编码",
+          "name": "名称",
+          "logo_url": "上传到服务器地址url"
+        },{  
+          "id":"xxxxxxxx",
+          "group_id": "所属集团id",
+          "pms_id": "pms内部编码",
+          "pms_code": "pms外部编码",
+          "name": "名名",
+          "logo_url": "上传到服务器地址url"
+        }],
         provinceList: ['a', 'b', 'c', 'd'],
         province: '',
         cityList: ['a', 'b', 'c', 'd'],
@@ -81,9 +105,6 @@
         areaList: ['a', 'b', 'c', 'd'],
         area: '',
         address: '',
-        contactName: '',
-        contactPosition: '',
-        contactPhone: ''
       }
     },
     methods: {
@@ -101,9 +122,11 @@
       modify() {
         this.modifyHotel({
           id: this.hotel.id,
+          group_id: this.hotel.group_id,
+          brand_id: this.hotel.brand_id,
           name: this.hotel.name,
-          memo: this.hotel.memo,
-          website: this.hotel.website,
+          tel: this.hotel.tel,
+          address: `${this.province}${this.city}${this.area}${this.address}`,
           onsuccess: body => console.log(body.data)
         })
       },
@@ -112,6 +135,12 @@
           id: this.hotel.id,
           onsuccess: body => console.log(body.data)
         })
+      },
+      enterpriseChange(e) {
+        this.hotel.group_id = e.target.value;
+      },
+      brandChange(e) {
+        this.hotel.brand_id = e.target.value;
       }
     },
     mounted() {

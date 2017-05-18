@@ -74,7 +74,6 @@
       },
       getBrandList() {
         this.getBrandList({
-          // id: this.$route.params.id,
           onsuccess: body => console.log(body.data)
         })
       }

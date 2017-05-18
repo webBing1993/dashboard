@@ -59,7 +59,7 @@
       getList() {
         this.getEnterpriseList({
           searchVal: this.searchVal,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => this.list = body.data
         })
       }
     },

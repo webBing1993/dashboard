@@ -49,8 +49,12 @@ module.exports = {
     ctx.dispatch('resource', {
       url: '/groups',
       method:'GET',
+      // headers: {
+      //   'X-Current-Page': param.page || 1,
+      //   'X-Page-Size': param.size || 0
+      // },
       params: {
-        keyword: param.searchVal
+        keyword: param.searchVal || ''
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null

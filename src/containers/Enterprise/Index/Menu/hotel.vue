@@ -65,7 +65,7 @@
       getList() {
         this.getHotelList({
           searchVal: this.searchVal,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => this.list = body.data
         })
       }
     },

@@ -53,7 +53,7 @@
         this.$router.push(`/enterprise/hotel/${obj.id}`)
       },
       group(obj) {
-        this.$router.push(`${obj.id}`)
+        this.$router.push(`/enterprise/${obj.id}`)
       },
       config(obj) {
         this.$router.push(`config`)

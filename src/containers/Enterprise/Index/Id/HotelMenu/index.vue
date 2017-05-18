@@ -53,7 +53,7 @@
         })
       },
       edit() {
-        
+        this.$router.push(`/enterprise/hotel/${this.hotel.id}/edit`)
       }
     },
     mounted() {
