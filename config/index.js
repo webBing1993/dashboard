@@ -27,13 +27,17 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    // proxyTable: {},
     proxyTable: {
       '/dashboard': {
         target: 'https://intg.fortrun.cn/',
+        // target: 'https://qa.fortrun.cn/',
+        // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
           // '^/gemini': ''
         }
+      },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
