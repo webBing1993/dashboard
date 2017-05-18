@@ -17,7 +17,7 @@
                     <td>{{ ++index }}</td>
                     <td class="pointer" @click="detail(obj)">{{ obj.id }}</td>
                     <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
-                    <td class="pointer" @click="belongGroup(obj)">{{ obj.group_id | group }}</td>
+                    <td class="pointer" @click="belongGroup(obj)">{{ obj.brand_name }}</td>
                     <td>{{ obj.status | status }}</td>
                     <!--<td>{{ obj.services }}</td>-->
                     <td>
@@ -50,9 +50,6 @@
             if (v === "1") return "运行中";
             if (v === "1") return "已下线";
             if (v === "1") return "已暂停";
-        },
-        group(v) {
-            return v;
         }
     },
     methods: {

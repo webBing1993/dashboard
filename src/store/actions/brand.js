@@ -1,4 +1,7 @@
 module.exports = {
+  /** 
+   * 以下部分还没写，只是复制粘贴
+  */
   addBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: '/brands',
@@ -49,6 +52,9 @@ module.exports = {
       }
     })
   },
+  /**
+   * 这个接口是写好正在用的
+   */
   getBrandList(ctx, param){
     ctx.dispatch('resource', {
       url: '/brands',

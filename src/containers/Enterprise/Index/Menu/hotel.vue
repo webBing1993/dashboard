@@ -23,7 +23,8 @@
     data () {
       return {
         searchVal: '',
-        list: [
+        brandList: [],
+        hotelList: [
           {
             "id": "酒店id",
             "group_id": "所属集团id",
@@ -46,9 +47,23 @@
     components: {
       tableHotel
     },
+    computed: {
+      list() {
+        return this.hotelList.map(hotel => {
+          let obj = this.brandList.find(brand => brand.id == v.brand_id);
+          if (obj === undefined) {
+            hotel.brand_name = '';
+          } else {
+            hotel.brand_name = brand.name;
+          }
+          return hotel;
+        });
+      }
+    },
     methods: {
       ...mapActions([
-        'getHotelList'
+        'getHotelList',
+        'getBrandList'
       ]),
       regist() {
         this.$router.push('addhotel')
@@ -65,7 +80,12 @@
       getList() {
         this.getHotelList({
           searchVal: this.searchVal,
-          onsuccess: body => this.list = body.data
+          onsuccess: body => this.hotelList = body.data
+        })
+      },
+      brangList() {
+        this.getBrandList({
+          onsuccess: body => this.brandList = body.data
         })
       }
     },

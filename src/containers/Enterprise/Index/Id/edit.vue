@@ -11,7 +11,7 @@
           <div class="info-content">
             <div class="content-msg">
               <label for="enterpriseCode">企业账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="group.id"/>
+              <input type="text" id="enterpriseCode" v-model="group.id" readonly/>
             </div>
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
