@@ -7,6 +7,9 @@ import store from './store';
 
 Vue.config.productionTip = false
 
+// Components
+Vue.component('XButton', require('./components/Displays/button.vue'))
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

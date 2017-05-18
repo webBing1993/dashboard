@@ -9,19 +9,19 @@
             <p class="info-modify" @click="modify">修改</p>
           </div>
           <div class="info-content">
-            <div>
+            <div class="content-msg">
               <label for="enterpriseCode">企业账户编码</label>
               <input type="text" id="enterpriseCode" v-model="group.id"/>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
               <input type="text" id="enterpriseName" v-model="group.name"/>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="enterpriseDesc">企业简介</label>
               <input type="text" id="enterpriseDesc" v-model="group.memo"/>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="enterpriseWeb">企业官网</label>
               <input type="text" id="enterpriseWeb" v-model="group.website"/>
             </div>
@@ -39,7 +39,7 @@
     data () {
       return {
         group: {
-          "id":"xxxxxxxxxxxxxxxx",
+          "id": "xxxxxxxxxxxxxxxx",
           "name": "如家集团",
           "memo": "企业简介企业简介企业简介企业简介",
           "website": "http://www.baidu.com"
@@ -79,40 +79,58 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .title {
     line-height: 50px;
     padding: 0 20px;
     border-bottom: 1px solid #757575;
+    font-size: 18px;
+    font-weight: 400;
   }
+
   .content {
     padding: 20px 20px;
+    button {
+      float: right;
+      width: 120px;
+      line-height: 35px;
+      margin-top: 16px;
+    }
   }
-  .info-content {
-    padding: 10px 40px;
-  }
-  .table-content {
-    padding: 10px 20px;
-  }
-  .info-title {
-    line-height: 30px;
-  }
+
   .enterprise-info {
-    border: 1px solid #757575;
-  }
-  .title-bar {
-    position: relative;
-    width: 100%;
-    padding: 0 20px;
-    background-color: #EAEDF0;
-    border-bottom: 1px solid #757575;
-    box-sizing: border-box;
-  }
-  .info-modify {
-    cursor: pointer;
-    line-height: 30px;
-    position: absolute;
-    top: 0;
-    right: 10px;
+    border: 1px solid #EAEDF0;
+    .title-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid #EAEDF0;
+      line-height: 50px;
+      .info-title {
+        font-size: 18px;
+        font-weight: 400;
+      }
+    }
+    .info-content {
+      padding: 10px 40px;
+      .content-msg {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        label {
+          width: 90px;
+        }
+        input {
+          outline: none;
+          border: none;
+          border-bottom: solid 1px #EAEDF0;
+          margin: 10px 20px;
+          padding: 8px;
+          flex: 1;
+          font-size: 14px;
+        }
+      }
+    }
   }
 </style>

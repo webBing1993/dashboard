@@ -4,9 +4,7 @@
       <h3 class="title">品牌配置</h3>
       <div class="content">
         <table-brand :list="list" @modify="modify" @remove="remove"></table-brand>
-        <div>
-          <button @click="add"> + 添加品牌</button>
-        </div>
+        <button @click="add"> + 添加品牌</button>
       </div>
     </div>
   </div>
@@ -33,10 +31,10 @@
 
       },
       modify(obj) {
-        
+
       },
       remove(obj) {
-        
+
       },
       getList() {
         this.getBrandList({
@@ -51,25 +49,32 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
   .title {
     line-height: 50px;
     padding: 0 20px;
-    border-bottom: 1px solid #757575;
+    font-size: 18px;
+    font-weight: 300;
+    border-bottom: 1px solid #EAEDF0;
   }
+
   .content {
     padding: 20px;
+    button {
+      cursor: pointer;
+      width: 120px;
+      line-height: 40px;
+      font-size: 16px;
+      font-weight: 100;
+      color: #fff;
+      background-color: #576b95;
+      border: none;
+      display: block;
+      margin: 0 auto;
+      margin-right: 0;
+      outline: none;
+    }
   }
-  button {
-    cursor: pointer;
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #0000FF;
-    border: none;
-    display: block;
-    margin: 0 auto;
-    margin-right: 0;
-  }
+
 </style>
 
