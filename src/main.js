@@ -7,6 +7,9 @@ import store from './store';
 
 Vue.config.productionTip = false
 
+let VueValidator = require('vue-validator')
+Vue.use(VueValidator)
+
 // Components
 Vue.component('XButton', require('./components/Displays/button.vue'))
 
