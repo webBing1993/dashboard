@@ -24,7 +24,9 @@ RouterMap:
 
 App - Auth
     - MainApp - Home
-              - Enterprise - Add
+              - Enterprise - SearchGroup
+                           - SearchHotel
+                           - Add
                            - AddHotel
                            - GroupMenu - Group
                                        - Hotel

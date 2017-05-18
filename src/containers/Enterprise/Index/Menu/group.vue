@@ -4,7 +4,7 @@
       <h3 class="title">账户管理</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-        <button @click="getList"> 查询 </button>
+        <button @click="search"> 查询 </button>
         <button @click="regist"> + 注册企业账户</button>
       </div>
       <div class="content">
@@ -59,9 +59,12 @@
       },
       getList() {
         this.getEnterpriseList({
-          searchVal: this.searchVal,
           onsuccess: body => this.list = body.data
         })
+      },
+      search() {
+        let val = this.searchVal ? this.searchVal : undefined;
+        this.$router.push(`enterprise/searchGroup/${val}`)
       }
     },
     mounted() {

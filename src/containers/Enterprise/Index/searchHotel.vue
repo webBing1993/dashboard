@@ -1,24 +1,28 @@
 <template>
   <div>
     <div class="module-wrapper">
+      <h3 class="title">企业账户搜索</h3>
+      <div class="search-bar">
+        <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
+        <button @click="getList"> 查询 </button>
+      </div>
       <div class="content">
-        <h3>企业门店</h3>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
         <xpage :showJump="true" :init-page="page" :total-page="totalPage" @go-page="goPage"></xpage>
       </div>
     </div>
   </div>
 </template>
-
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tableHotel from '@/components/Tables/table-hotel.vue'
   export default {
-    name: 'Hotel',
+    name: 'SearchHotel',
     data () {
       return {
-        searchVal: '',
-        list: [
+        searchVal: this.$route.params.searchVal == 'undefined' ? '' : this.$route.params.searchVal,
+        brandList: [],
+        hotelList: [
           {
             "id": "酒店id",
             "group_id": "所属集团id",
@@ -38,15 +42,29 @@
         ],
         page: 1,
         size: 10,
-        totalPage: 0
+        totalPage: 10
       }
     },
     components: {
       tableHotel
     },
+    computed: {
+      list() {
+        return this.hotelList.map(hotel => {
+          let obj = this.brandList.find(brand => brand.id == v.brand_id);
+          if (obj === undefined) {
+            hotel.brand_name = '';
+          } else {
+            hotel.brand_name = brand.name;
+          }
+          return hotel;
+        });
+      }
+    },
     methods: {
       ...mapActions([
-        'getHotelList'
+        'getHotelList',
+        'getBrandList'
       ]),
       detail(obj) {
         this.$router.push(`/enterprise/hotel/${obj.id}`)
@@ -55,7 +73,7 @@
         this.$router.push(`/enterprise/${obj.id}`)
       },
       config(obj) {
-        this.$router.push(`config`)
+        this.$router.push(`/enterprise/${obj.id}/config`)
       },
       goPage(data) {
         this.page = data.page;
@@ -63,56 +81,41 @@
       },
       getList() {
         this.getHotelList({
-          group_id: this.$route.params.id,
           page: this.page.toString(),
           size: this.size.toString(),
+          searchVal: this.searchVal != 'undefined' ? this.searchVal : undefined,
           onsuccess: (body, headers) => {
             this.page = headers.map['X-Current-Page'];
             let total = headers.map['X-Total'];
             this.totalPage = Math.ceil(total / this.size);
-            this.list = body.data;
+            this.hotelList = body.data;
           }
         })
-      }
+      },
+      brangList() {
+        this.getBrandList({
+          onsuccess: body => this.brandList = body.data
+        })
+      },
     },
     mounted() {
-      this.getList();
+        this.getList();
     }
   }
 </script>
-
 <style scoped lang="less">
-  .module-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .title {
+    line-height: 50px;
     padding: 0 20px;
-    .content {
-      width: 100%;
-      align-items: center;
-      h3 {
-        line-height: 50px;
-        border-bottom: 1px solid #ECECEC;
-        font-weight: 400;
-        font-size: 18px;
-      }
-      .v-table {
-        margin-top: 20px;
-        line-height: 45px;
-      }
-    }
-    .content-bot {
-      display: flex;
-      align-items: center;
-      position: absolute;
-      bottom: 10px;
-      button {
-        width: 100px;
-        line-height: 32px;
-        margin: 0 8px;
-      }
-    }
+    font-size: 18px;
+    font-weight: 400;
+    color: #222222;
+    border-bottom: 1px solid #ECECEC;
   }
-</style>
 
+  .content {
+    padding: 20px;
+  }
+
+  
+</style>

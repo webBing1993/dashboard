@@ -13,6 +13,8 @@ import EnterpriseAdd from '@/containers/Enterprise/Index/add'
 import HotelAdd from '@/containers/Enterprise/Index/addHotel'
 import EnterpriseId from '@/containers/Enterprise/Index/id'
 import Hotel from '@/containers/Enterprise/Index/hotel'
+import SearchGroup from '@/containers/Enterprise/Index/searchGroup'
+import SearchHotel from '@/containers/Enterprise/Index/searchHotel'
 // 4级路由
 import EnterpriseGroupList from '@/containers/Enterprise/Index/Menu/group'
 import EnterpriseGroupHotel from '@/containers/Enterprise/Index/Menu/hotel'
@@ -49,6 +51,12 @@ const main = [{
       path: 'addhotel',
       component: HotelAdd,
     }, {
+      path: 'searchGroup/:searchVal',
+      component: SearchGroup,
+    }, {
+      path: 'searchHotel/:searchVal',
+      component: SearchHotel,
+    },{
       path: '/',
       component: EnterpriseMenu,
       children: [{

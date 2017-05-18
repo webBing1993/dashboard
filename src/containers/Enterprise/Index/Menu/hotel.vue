@@ -4,7 +4,7 @@
       <h3 class="title">门店管理</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
-        <button @click="getList"> 查询 </button>
+        <button @click="search"> 查询 </button>
         <button @click="regist"> + 添加企业门店</button>
       </div>
       <div class="content">
@@ -69,13 +69,13 @@
         this.$router.push('addhotel')
       },
       detail(obj) {
-        this.$router.push(`hotel/${obj.id}`)
+        this.$router.push(`/enterprise/hotel/${obj.id}`)
       },
       group(obj) {
-        this.$router.push(`${obj.id}`)
+        this.$router.push(`/enterprise/${obj.id}`)
       },
       config(obj) {
-        this.$router.push(`${obj.id}/config`)
+        this.$router.push(`/enterprise/${obj.id}/config`)
       },
       getList() {
         this.getHotelList({
@@ -87,6 +87,10 @@
         this.getBrandList({
           onsuccess: body => this.brandList = body.data
         })
+      },
+      search() {
+        let val = this.searchVal ? this.searchVal : undefined;
+        this.$router.push(`/enterprise/searchHotel/${val}`)
       }
     },
     mounted() {
