@@ -20,12 +20,12 @@
             </div>
           </div>
         </div>
-        <div class="brand-info">
+        <!--<div class="brand-info">
           <p class="info-title">品牌管理</p>
           <div class="table-content">
             <table-add :list="list" @modify="modify" @remove="remove"></table-add>
           </div>
-        </div>
+        </div>-->
         <div class="button-content">
           <button @click="regist">注册</button>
         </div>

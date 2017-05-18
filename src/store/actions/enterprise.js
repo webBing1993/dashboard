@@ -1,4 +1,18 @@
 module.exports = {
+  test(ctx, param) {
+    ctx.dispatch('resource', {
+      url: 'http://rapapi.org/mockjs/15406/getUser',
+      method:'GET',
+      body: {
+        name: param.name,
+        memo: param.memo,
+        website: param.website,
+      },
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
   addEnterprise(ctx, param) {
     ctx.dispatch('resource', {
       url: '/groups',
@@ -49,15 +63,15 @@ module.exports = {
     ctx.dispatch('resource', {
       url: '/groups',
       method:'GET',
-      // headers: {
-      //   'X-Current-Page': param.page || 1,
-      //   'X-Page-Size': param.size || 0
-      // },
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
+      },
       params: {
         keyword: param.searchVal || ''
       },
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
   }

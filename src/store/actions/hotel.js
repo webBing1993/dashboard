@@ -53,15 +53,16 @@ module.exports = {
     ctx.dispatch('resource', {
       url: '/hotels',
       method:'GET',
-      // headers: {
-      //   'X-Current-Page': param.page || 1,
-      //   'X-Page-Size': param.size || 0
-      // },
-      params: {
-        keyword: param.searchVal
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
       },
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
+      params: {
+        group_id: param.group_id || '',
+        keyword: param.searchVal || ''
+      },
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
   }

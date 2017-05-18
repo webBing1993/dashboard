@@ -29,14 +29,14 @@
             </div>
             <div>
               <span>门店地址</span>
-              <select>
-                <option v-for="(obj, index) of provinceList" v-model="province">{{obj}}</option>
+              <select @change="regionChange">
+                <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select>
-                <option v-for="(obj, index) of cityList" v-model="city">{{obj}}</option>
+              <select @change="stateChange">
+                <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select>
-                <option v-for="(obj, index) of areaList" v-model="area">{{obj}}</option>
+              <select @change="cityChange">
+                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
               </select>
             </div>
             <div>
@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+  import areaData from '@/assets/source/areadata'
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'EditHotel',
@@ -61,7 +62,7 @@
           "brand_id": "所属品牌id",
           "name": "门店名称",
           "tel": "021-213232132",
-          "address": "广东省深圳市南山区xxxx",
+          "address": "辽宁省沈阳市和平区大连路66号",
           "longitude": "234.34",
           "latitude": "23.34",
           "pms_type": "1",
@@ -98,14 +99,31 @@
           "name": "名名",
           "logo_url": "上传到服务器地址url"
         }],
-        provinceList: ['a', 'b', 'c', 'd'],
-        province: '',
-        cityList: ['a', 'b', 'c', 'd'],
-        city: '',
-        areaList: ['a', 'b', 'c', 'd'],
-        area: '',
+        regionCode: '',
+        stateCode: '',
+        cityCode: '',
         address: '',
       }
+    },
+    computed: {
+      regionList() {
+        return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
+      },
+      stateList() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined)
+          return [];
+        return obj.region.state;
+      },
+      cityList() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined)
+          return [];
+        let cityObj = obj.region.state.find(v => v.code == this.stateCode);
+        if (cityObj === undefined)
+          return [];
+        return cityObj.city;
+      },
     },
     methods: {
       ...mapActions([
@@ -116,17 +134,6 @@
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
-        })
-      },
-      modify() {
-        this.modifyHotel({
-          id: this.hotel.id,
-          group_id: this.hotel.group_id,
-          brand_id: this.hotel.brand_id,
-          name: this.hotel.name,
-          tel: this.hotel.tel,
-          address: `${this.province}${this.city}${this.area}${this.address}`,
           onsuccess: body => console.log(body.data)
         })
       },
@@ -141,9 +148,46 @@
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
+      },
+      regionChange(e) {
+        this.regionCode = e.target.value;
+      },
+      stateChange(e) {
+        this.stateCode = e.target.value;
+      },
+      cityChange(e) {
+        this.cityCode = e.target.value;
+      },
+      modify() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined) return;
+        let state = obj.region.state.find(v => v.code == this.stateCode);
+        if (state === undefined) return;
+        let city = state.city.find(v => v.code == this.cityCode);
+        if (city === undefined) return;
+
+        this.modifyHotel({
+          id: this.hotel.id,
+          group_id: this.hotel.group_id,
+          brand_id: this.hotel.brand_id,
+          name: this.hotel.name,
+          tel: this.hotel.tel,
+          address: `${obj.region.name}${state.name}${city.name}${this.address}`,
+          onsuccess: body => console.log(body.data)
+        })
       }
     },
     mounted() {
+      if (this.regionList[0]) {
+        this.regionCode = this.regionList[0].code;
+      }
+      if (this.stateList[0]) {
+        this.stateCode = this.stateList[0].code;
+      }
+      if (this.cityList[0]) {
+        this.cityCode = this.cityList[0].code;
+      }
+
       this.getInfo();
     }
   }

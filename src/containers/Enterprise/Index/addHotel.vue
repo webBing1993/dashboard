@@ -26,14 +26,14 @@
             </div>
             <div>
               <span>门店地址</span>
-              <select>
-                <option v-for="(obj, index) of provinceList" v-model="province">{{obj}}</option>
+              <select @change="regionChange">
+                <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select>
-                <option v-for="(obj, index) of cityList" v-model="city">{{obj}}</option>
+              <select @change="stateChange">
+                <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select>
-                <option v-for="(obj, index) of areaList" v-model="area">{{obj}}</option>
+              <select @change="cityChange">
+                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
               </select>
             </div>
             <div>
@@ -66,6 +66,7 @@
   </div>
 </template>
 <script>
+  import areaData from '@/assets/source/areadata'
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'AddHotel',
@@ -103,17 +104,34 @@
         brand: '',
         storeName: '',
         storePhone: '',
-        provinceList: ['a', 'b', 'c', 'd'],
-        province: '',
-        cityList: ['a', 'b', 'c', 'd'],
-        city: '',
-        areaList: ['a', 'b', 'c', 'd'],
-        area: '',
+        regionCode: '',
+        stateCode: '',
+        cityCode: '',
         address: '',
         // contactName: '',
         // contactPosition: '',
         // contactPhone: ''
       }
+    },
+    computed: {
+      regionList() {
+        return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
+      },
+      stateList() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined)
+          return [];
+        return obj.region.state;
+      },
+      cityList() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined)
+          return [];
+        let cityObj = obj.region.state.find(v => v.code == this.stateCode);
+        if (cityObj === undefined)
+          return [];
+        return cityObj.city;
+      },
     },
     methods: {
       ...mapActions([
@@ -137,13 +155,29 @@
       brandChange(e) {
         this.brand = e.target.value;
       },
+      regionChange(e) {
+        this.regionCode = e.target.value;
+      },
+      stateChange(e) {
+        this.stateCode = e.target.value;
+      },
+      cityChange(e) {
+        this.cityCode = e.target.value;
+      },
       regist() {
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined) obj = areaData[0];
+        let state = obj.region.state.find(v => v.code == this.stateCode);
+        if (state === undefined) state = obj.region.state[0];
+        let city = state.city.find(v => v.code == this.cityCode);
+        if (city === undefined) city = state.city[0];
+        
         this.addHotel({
           group_id: this.enterprise,
           brand_id: this.brand,
           name: this.storeName,
           tel: this.storePhone,
-          address: `${this.province}${this.city}${this.area}${this.address}`,
+          address: `${obj.region.name}${state.name}${city.name}${this.address}`,
           onsuccess: body => console.log(body)
         })
       }
@@ -151,9 +185,10 @@
     mounted() {
       this.enterpriseList[0] ? this.enterprise = this.enterpriseList[0].id : null;
       this.brandList[0] ? this.brand = this.brandList[0].id : null;
-      this.provinceList[0] ? this.province = this.provinceList[0] : null;
-      this.cityList[0] ? this.city = this.cityList[0] : null;
-      this.areaList[0] ? this.area = this.areaList[0] : null;
+
+      this.regionList[0] ? this.regionCode = this.regionList[0].code : null;
+      this.stateList[0] ? this.stateCode = this.stateList[0].code : null;
+      this.cityList[0] ? this.cityCode = this.cityList[0].code : null;
     }
   }
 </script>

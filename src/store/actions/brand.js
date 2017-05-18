@@ -53,15 +53,15 @@ module.exports = {
     ctx.dispatch('resource', {
       url: '/brands',
       method:'GET',
-      // headers: {
-      //   'X-Current-Page': param.page || 1,
-      //   'X-Page-Size': param.size || 0
-      // },
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
+      },
       params: {
         keyword: param.searchVal || ''
       },
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
   }

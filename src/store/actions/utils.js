@@ -19,7 +19,8 @@ module.exports = {
   },
   resource: (ctx, param) => {
     Vue.http({
-      url: '/dashboard' + param.url,
+      url: param.url,
+      // url: '/dashboard' + param.url,
       body: param.body || null,
       headers: param.headers,
       params: param.params || null,
@@ -31,7 +32,7 @@ module.exports = {
     }).then(
       response => {
         if (+response.body.errcode === 0) {
-          param.onSuccess ? param.onSuccess(response.body) : null
+          param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
           param.onFail ? param.onFail(response.body) : null
         }
