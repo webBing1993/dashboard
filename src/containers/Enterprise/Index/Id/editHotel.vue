@@ -1,10 +1,13 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">添加企业门店</h3>
+      <h3 class="title">酒店编辑</h3>
       <div class="content">
-        <div class="store-info">
-          <p class="info-title">门店信息</p>
+        <div class="enterprise-info">
+          <div class="title-bar">
+            <p class="info-title">酒店信息</p>
+            <p class="info-modify" @click="modify">修改</p>
+          </div>
           <div class="info-content">
             <div>
               <span>所属企业</span>
@@ -41,35 +44,31 @@
             </div>
           </div>
         </div>
-        <!--<div class="contact-info">
-          <p class="info-title">联系信息</p>
-          <div class="info-content">
-            <div>
-              <label for="contactName">联系人姓名</label>
-              <input type="text" id="contactName" v-model="contactName"/>
-            </div>
-            <div>
-              <label for="contactPosition">联系人职务</label>
-              <input type="text" id="contactPosition" v-model="contactPosition"/>
-            </div>
-            <div>
-              <label for="contactPhone">联系电话</label>
-              <input type="text" id="contactPhone" v-model="contactPhone"/>
-            </div>
-          </div>
-        </div>-->
-        <div class="button-content">
-          <button @click="regist">添加</button>
-        </div>
+        <button @click="remove">删除</button>
       </div>
     </div>
   </div>
 </template>
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'AddHotel',
+    name: 'EditHotel',
     data () {
       return {
+        hotel: {
+            "group_id": "所属集团id",
+            "brand_id": "所属品牌id",
+            "name": "门店名称",
+            "tel": "021-213232132",
+            "address": "广东省深圳市南山区xxxx",
+            "longitude": "234.34",
+            "latitude": "23.34",
+            "pms_type": "1",
+            "pms_proxy_id": "",
+            "contactName": "联系人",
+            "contactPhone": "13120933434",
+            "contactPosition": "前台经理",
+          },
         enterprise: '',
         enterpriseList: ['a', 'b', 'c', 'd'],
         brand: '',
@@ -88,15 +87,35 @@
       }
     },
     methods: {
-      modify(obj) {
-        
+      ...mapActions([
+        'getHotel',
+        'modifyHotel',
+        'removeHotel'
+      ]),
+      getInfo() {
+        this.getHotel({
+          id: this.$route.params.id,
+          onsuccess: body => console.log(body.data)
+        })
       },
-      remove(obj) {
-
+      modify() {
+        this.modifyHotel({
+          id: this.hotel.id,
+          name: this.hotel.name,
+          memo: this.hotel.memo,
+          website: this.hotel.website,
+          onsuccess: body => console.log(body.data)
+        })
       },
-      regist() {
-
+      remove() {
+        this.removeHotel({
+          id: this.hotel.id,
+          onsuccess: body => console.log(body.data)
+        })
       }
+    },
+    mounted() {
+      this.getInfo();
     }
   }
 </script>
@@ -117,29 +136,23 @@
   }
   .info-title {
     line-height: 30px;
+  }
+  .enterprise-info {
+    border: 1px solid #757575;
+  }
+  .title-bar {
+    position: relative;
+    width: 100%;
     padding: 0 20px;
     background-color: #EAEDF0;
     border-bottom: 1px solid #757575;
+    box-sizing: border-box;
   }
-  .store-info {
-    border: 1px solid #757575;
-  }
-  .contact-info {
-    border: 1px solid #757575;
-    margin-top: 20px;
-  }
-  .button-content {
-    margin-top: 20px;
-  }
-  button {
-    display: block;
-    margin: 0 auto;
+  .info-modify {
     cursor: pointer;
-    width: 80px;
-    height: 40px;
-    font-size: 18px;
-    color: #fff;
-    background-color: #0000FF;
-    border: none;
+    line-height: 30px;
+    position: absolute;
+    top: 0;
+    right: 10px;
   }
 </style>

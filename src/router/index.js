@@ -12,6 +12,7 @@ import EnterpriseMenu from '@/containers/Enterprise/Index/menu'
 import EnterpriseAdd from '@/containers/Enterprise/Index/add'
 import HotelAdd from '@/containers/Enterprise/Index/addHotel'
 import EnterpriseId from '@/containers/Enterprise/Index/id'
+import Hotel from '@/containers/Enterprise/Index/hotel'
 // 4级路由
 import EnterpriseGroupList from '@/containers/Enterprise/Index/Menu/group'
 import EnterpriseGroupHotel from '@/containers/Enterprise/Index/Menu/hotel'
@@ -19,6 +20,7 @@ import EnterpriseIdMenu from '@/containers/Enterprise/Index/Id/menu'
 import EnterpriseIdEdit from '@/containers/Enterprise/Index/Id/edit'
 import EnterpriseIdBrand from '@/containers/Enterprise/Index/Id/brand'
 import HotelMenu from '@/containers/Enterprise/Index/Id/hotelMenu'
+import EditHotel from '@/containers/Enterprise/Index/Id/editHotel'
 // 5级路由
 import EnterpriseIdMenuIndex from '@/containers/Enterprise/Index/Id/Menu/index'
 import EnterpriseIdMenuHotel from '@/containers/Enterprise/Index/Id/Menu/hotel'
@@ -60,6 +62,12 @@ const main = [{
       path: ':id',
       component: EnterpriseId,
       children: [{
+        path: 'edit',
+        component: EnterpriseIdEdit,
+      }, {
+        path: 'brand',
+        component: EnterpriseIdBrand,
+      }, {
         path: '/',
         component: EnterpriseIdMenu,
         children: [{
@@ -72,19 +80,20 @@ const main = [{
           path: 'config',
           component: EnterpriseIdMenuConfig
         }]
+      }]
+    }, {
+      path: 'hotel/:id',
+      component: Hotel,
+      children: [{
+        path: 'edit',
+        component: EditHotel,
       }, {
-        path: ':id',
+        path: '/',
         component: HotelMenu,
         children: [{
           path: '/',
           component: HotelMenuIndex
         }]
-      }, {
-        path: 'edit',
-        component: EnterpriseIdEdit,
-      }, {
-        path: 'brand',
-        component: EnterpriseIdBrand,
       }]
     }]
   }]

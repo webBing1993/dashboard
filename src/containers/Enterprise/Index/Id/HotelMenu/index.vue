@@ -1,28 +1,86 @@
 <template>
   <div>
     <div class="module-wrapper">
-        HotelIndex
+        <div class="top-content">
+          <h3 class="title">门店</h3>
+          <p class="edit" @click="edit">编辑</p>
+        </div>
+        <div class="content">
+          <div>
+            <label for="enterpriseCode">门店子账户编码</label>
+            <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.id"/>
+          </div>
+          <div>
+            <label for="enterpriseName">门店名称</label>
+            <input disabled="disabled" type="text" id="enterpriseName" v-model="hotel.name"/>
+          </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'HotelIndex',
     data() {
       return {
-        
+        hotel: {
+            "id":"酒店id",
+            "group_id": "所属集团id",
+            "brand_id": "所属品牌id",
+            "name": "门店名称",
+            "tel": "021-213232132",
+            "address": "广东省深圳市南山区xxxx",
+            "longitude": "234.34",
+            "latitude": "23.34",
+            "pms_type": "1",
+            "pms_proxy_id": "",
+            "contactName": "联系人",
+            "contactPhone": "13120933434",
+            "contactPosition": "前台经理"
+          }
       }
     },
     methods: {
-      
+      ...mapActions([
+        'getHotel'
+      ]),
+      getInfo() {
+        this.getHotel({
+          id: this.$route.params.hotelid,
+          onsuccess: body => console.log(body.data)
+        })
+      },
+      edit() {
+        
+      }
     },
     mounted() {
-      
+      this.getInfo();
     }
   }
 </script>
 
 <style scoped>
-  
+  .top-content {
+    position: relative;
+    padding-left: 0 20px;
+    border-bottom: 1px solid #757575;
+  }
+  .title {
+    line-height: 50px；
+  }
+  .edit {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    line-height: 50px；
+  }
+  .content {
+    padding: 20px;
+  }
+  input {
+    border: none;
+  }
 </style>

@@ -54,7 +54,7 @@
         this.$router.push('addhotel')
       },
       detail(obj) {
-        
+        this.$router.push(`hotel/${obj.id}`)
       },
       group(obj) {
         this.$router.push(`${obj.id}`)

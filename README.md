@@ -34,4 +34,5 @@ App - Auth
                                        - IdMenu - Index
                                                 - Hotel
                                                 - Config
+                           - Hotel     - EditHotel
                                        - HotelMenu - Index
