@@ -41,12 +41,7 @@
     name: 'Edit',
     data () {
       return {
-        group: {
-          "id": "xxxxxxxxxxxxxxxx",
-          "name": "如家集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com"
-        },
+        group: {},
         nameError: false,
         memoError: false,
         websiteError: false,
@@ -56,7 +51,8 @@
       ...mapActions([
         'getEnterprise',
         'modifyEnterprise',
-        'removeEnterprise'
+        'removeEnterprise',
+        'goto'
       ]),
       nameChange(e) {
         if (e.target.value != '') 
@@ -79,7 +75,7 @@
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
         })
       },
       modify() {
@@ -93,13 +89,13 @@
           name: this.group.name,
           memo: this.group.memo,
           website: this.group.website,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => alert('修改成功')
         })
       },
       remove() {
         this.removeEnterprise({
           id: this.group.id,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => this.goto(-1)
         })
       }
     },

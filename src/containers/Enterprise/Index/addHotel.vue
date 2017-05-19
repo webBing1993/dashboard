@@ -32,7 +32,7 @@
             </div>
             <div>
               <span>门店地址</span>
-              <select @change="regionChange">
+              <!--<select @change="regionChange">
                 <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
               <select @change="stateChange">
@@ -40,7 +40,7 @@
               </select>
               <select @change="cityChange">
                 <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-              </select>
+              </select>-->
             </div>
             <div class="content-add">
               <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />
@@ -77,35 +77,9 @@
     name: 'AddHotel',
     data () {
       return {
-        enterpriseList: [{
-          "id":"xxxxxxxxxxxxxxxx",
-          "name": "如家集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com",
-          "hotel_num":23   //门店数量（只用在搜索接口返回）
-        },{
-          "id":"xxxxxxxxxxxxxxxx",
-          "name": "四季集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com",
-          "hotel_num":23   //门店数量（只用在搜索接口返回）
-        }],
+        enterpriseList: [],
         enterprise: '',
-        brandList: [{  
-          "id":"xxxxxxxx",
-          "group_id": "所属集团id",
-          "pms_id": "pms内部编码",
-          "pms_code": "pms外部编码",
-          "name": "名称",
-          "logo_url": "上传到服务器地址url"
-        },{  
-          "id":"xxxxxxxx",
-          "group_id": "所属集团id",
-          "pms_id": "pms内部编码",
-          "pms_code": "pms外部编码",
-          "name": "名名",
-          "logo_url": "上传到服务器地址url"
-        }],
+        brandList: [],
         brand: '',
         storeName: '',
         storePhone: '',
@@ -145,7 +119,8 @@
       ...mapActions([
         'getEnterpriseList',
         'getBrandList',
-        'addHotel'
+        'addHotel',
+        'goto'
       ]),
       getEnterprise() {
         this.getEnterpriseList({
@@ -196,30 +171,36 @@
         if (this.address == '') this.addressError = true;
         if (this.storeName == '' || this.storePhone == '' || this.address == '') return;
 
-        let obj = areaData.find(v => v.region.code == this.regionCode);
-        if (obj === undefined) obj = areaData[0];
-        let state = obj.region.state.find(v => v.code == this.stateCode);
-        if (state === undefined) state = obj.region.state[0];
-        let city = state.city.find(v => v.code == this.cityCode);
-        if (city === undefined) city = state.city[0];
+        //没有选择的时候给个默认值
+        if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
+        if (this.brand == '' && this.brandList[0]) this.brand = this.brandList[0].id;
+
+        //没有选择的时候给个默认值
+        // if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].id;
+        // if (this.stateCode == '' && this.stateList[0]) this.stateCode = this.stateList[0].id;
+        // if (this.cityCode == '' && this.cityList[0]) this.cityCode = this.cityList[0].id;
+
+        // let obj = areaData.find(v => v.region.code == this.regionCode);
+        // if (obj === undefined) obj = areaData[0];
+        // let state = obj.region.state.find(v => v.code == this.stateCode);
+        // if (state === undefined) state = obj.region.state[0];
+        // let city = state.city.find(v => v.code == this.cityCode);
+        // if (city === undefined) city = state.city[0];
         
         this.addHotel({
           group_id: this.enterprise,
-          brand_id: this.brand,
+          brand_id: this.brand || 1,  //这里的1是瞎写
           name: this.storeName,
           tel: this.storePhone,
-          address: `${obj.region.name}${state.name}${city.name}${this.address}`,
-          onsuccess: body => console.log(body)
+          // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
+          address: this.address,
+          onsuccess: body => this.goto(-1)
         })
       }
     },
     mounted() {
-      this.enterpriseList[0] ? this.enterprise = this.enterpriseList[0].id : null;
-      this.brandList[0] ? this.brand = this.brandList[0].id : null;
-
-      this.regionList[0] ? this.regionCode = this.regionList[0].code : null;
-      this.stateList[0] ? this.stateCode = this.stateList[0].code : null;
-      this.cityList[0] ? this.cityCode = this.cityList[0].code : null;
+      this.getEnterprise();
+      this.getBrand();
     }
   }
 </script>

@@ -26,7 +26,7 @@
         <!--<div class="brand-info">
           <p class="info-title">品牌管理</p>
           <div class="table-content">
-            <table-add :list="list" @modify="modify" @remove="remove"></table-add>
+            <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
         <div class="button-content">
@@ -49,7 +49,7 @@
         nameError: false,
         memoError: false,
         websiteError: false,
-        list: [{id: 1, name: 'E01', logo: true}]
+        brandList: []
       }
     },
     components: {
@@ -59,7 +59,8 @@
       ...mapActions([
         'getBrandList',
         'addEnterprise',
-        'removeBrand'
+        'removeBrand',
+        'goto'
       ]),
       modify(obj) {
 
@@ -98,7 +99,7 @@
           name: this.enterpriseName,
           memo: this.enterpriseDesc,
           website: this.enterpriseWeb,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => this.goto(-1)
         })
       },
       getBrandList() {

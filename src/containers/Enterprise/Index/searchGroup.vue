@@ -22,15 +22,7 @@
     data () {
       return {
         searchVal: this.$route.params.searchVal == 'undefined' ? '' : this.$route.params.searchVal,
-        list: [
-          {
-            "id": "xxxxxxxxxxxxxxxx",
-            "name": "如家集团",
-            "memo": "企业简介企业简介企业简介企业简介",
-            "website": "http://www.baidu.com",
-            "hotel_num": "23"   //门店数量（只用在搜索接口返回）
-          }
-        ],
+        list: [],
         page: 1,
         size: 10,
         totalPage: 0

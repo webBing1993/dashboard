@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
+      
+    </div>
+    <div class="module-wrapper">
       <div class="top-content">
         <h3>企业账户</h3>
         <p class="edit" @click="edit">编辑</p>
@@ -29,12 +32,7 @@
     name: 'Index',
     data() {
       return {
-        group: {
-          "id": "xxxxxxxxxxxxxxxx",
-          "name": "如家集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com"
-        }
+        group: {}
       }
     },
     methods: {
@@ -44,11 +42,12 @@
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
         })
       },
       edit() {
-        this.$router.push(`${666}/edit`)
+        if (!this.group.id) return;
+        this.$router.push(`${this.group.id}/edit`)
       }
     },
     mounted() {

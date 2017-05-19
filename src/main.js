@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store';
 
+// Mockdata
+// import './mock';
+
 Vue.config.productionTip = false
 
 // Components

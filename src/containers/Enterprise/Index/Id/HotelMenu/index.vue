@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
+      
+    </div>
+    <div class="module-wrapper">
       <div class="top-content">
         <h3>门店</h3>
         <p @click="edit">编辑</p>
@@ -25,21 +28,7 @@
     name: 'HotelIndex',
     data() {
       return {
-        hotel: {
-          "id": "酒店id",
-          "group_id": "所属集团id",
-          "brand_id": "所属品牌id",
-          "name": "门店名称",
-          "tel": "021-213232132",
-          "address": "广东省深圳市南山区xxxx",
-          "longitude": "234.34",
-          "latitude": "23.34",
-          "pms_type": "1",
-          "pms_proxy_id": "",
-          "contactName": "联系人",
-          "contactPhone": "13120933434",
-          "contactPosition": "前台经理"
-        }
+        hotel: {}
       }
     },
     methods: {
@@ -48,11 +37,12 @@
       ]),
       getInfo() {
         this.getHotel({
-          id: this.$route.params.hotelid,
-          onsuccess: body => console.log(body.data)
+          id: this.$route.params.id,
+          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
         })
       },
       edit() {
+        if (!this.hotel.id) return;
         this.$router.push(`/enterprise/hotel/${this.hotel.id}/edit`)
       }
     },

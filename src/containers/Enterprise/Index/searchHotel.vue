@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">企业账户搜索</h3>
+      <h3 class="title">门店子账户搜索</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
         <button @click="getList"> 查询 </button>
@@ -22,27 +22,10 @@
       return {
         searchVal: this.$route.params.searchVal == 'undefined' ? '' : this.$route.params.searchVal,
         brandList: [],
-        hotelList: [
-          {
-            "id": "酒店id",
-            "group_id": "所属集团id",
-            "brand_id": "所属品牌id",
-            "name": "门店名称",
-            "tel": "021-213232132",
-            "address": "广东省深圳市南山区xxxx",
-            "longitude": "234.34",
-            "latitude": "23.34",
-            "pms_type": "1",
-            "pms_proxy_id": "",
-            "contactName": "联系人",
-            "contactPhone": "13120933434",
-            "contactPosition": "前台经理",
-            "status": "1"    //状态（只用在搜索接口返回）
-          }
-        ],
+        hotelList: [],
         page: 1,
         size: 10,
-        totalPage: 10
+        totalPage: 0
       }
     },
     components: {

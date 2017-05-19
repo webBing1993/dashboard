@@ -29,13 +29,13 @@ module.exports = {
     assetsPublicPath: '/',
     // proxyTable: {},
     proxyTable: {
-      '/dashboard': {
+      '/virgo': {
         target: 'https://intg.fortrun.cn/',
         // target: 'https://qa.fortrun.cn/',
         // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
-          // '^/gemini': ''
+          // '^/virgo': ''
         }
       },
     },

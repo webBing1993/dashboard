@@ -18,24 +18,7 @@
     data () {
       return {
         searchVal: '',
-        list: [
-          {
-            "id": "酒店id",
-            "group_id": "所属集团id",
-            "brand_id": "所属品牌id",
-            "name": "门店名称",
-            "tel": "021-213232132",
-            "address": "广东省深圳市南山区xxxx",
-            "longitude": "234.34",
-            "latitude": "23.34",
-            "pms_type": "1",
-            "pms_proxy_id": "",
-            "contactName": "联系人",
-            "contactPhone": "13120933434",
-            "contactPosition": "前台经理",
-            "status": "1"    //状态（只用在搜索接口返回）
-          }
-        ],
+        list: [],
         page: 1,
         size: 10,
         totalPage: 0

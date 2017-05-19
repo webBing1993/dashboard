@@ -24,15 +24,7 @@
     data () {
       return {
         searchVal: '',
-        list: [
-          {
-            "id": "xxxxxxxxxxxxxxxx",
-            "name": "如家集团",
-            "memo": "企业简介企业简介企业简介企业简介",
-            "website": "http://www.baidu.com",
-            "hotel_num": "23"   //门店数量（只用在搜索接口返回）
-          }
-        ]
+        list: []
       }
     },
     components: {
@@ -49,6 +41,7 @@
         this.$router.push(`enterprise/${obj.id}`)
       },
       goHotel(obj) {
+        if (obj.hotelNum == 0) return;
         this.$router.push(`enterprise/${obj.id}/hotel`)
       },
       goEdit(obj) {
@@ -68,7 +61,7 @@
       }
     },
     mounted() {
-      // this.getList();
+      this.getList();
     }
   }
 </script>

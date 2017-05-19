@@ -19,10 +19,13 @@ module.exports = {
   },
   resource: (ctx, param) => {
     Vue.http({
-      url: param.url,
-      // url: '/dashboard' + param.url,
+      url: '/virgo' + param.url,
+      // url: 'https://intg.fortrun.cn/virgo' + param.url,
       body: param.body || null,
-      headers: param.headers,
+      headers: {
+        session_id: sessionStorage.getItem('session_id'),
+        ...param.headers
+      },
       params: param.params || null,
       method: param.method || "GET",
       timeout: param.timeout || 5000,

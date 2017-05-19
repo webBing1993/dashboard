@@ -31,7 +31,7 @@
             </div>
             <div>
               <span>门店地址</span>
-              <select @change="regionChange">
+              <!--<select @change="regionChange">
                 <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
               <select @change="stateChange">
@@ -39,10 +39,11 @@
               </select>
               <select @change="cityChange">
                 <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-              </select>
+              </select>-->
             </div>
             <div>
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />
+              <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
+              <input type="text" v-model="hotel.address" placeholder="地址（详细到门牌号）" @change="addressChange" />
               <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
@@ -59,49 +60,9 @@
     name: 'EditHotel',
     data () {
       return {
-        hotel: {
-          "id":"酒店id",
-          "group_id": "222",
-          "brand_id": "333",
-          "name": "门店名称",
-          "tel": "021-213232132",
-          "address": "辽宁省沈阳市和平区大连路66号",
-          "longitude": "234.34",
-          "latitude": "23.34",
-          "pms_type": "1",
-          "pms_proxy_id": "",
-          "contactName": "联系人",
-          "contactPhone": "13120933434",
-          "contactPosition": "前台经理"
-        },
-        enterpriseList: [{
-          "id":"111",
-          "name": "如家集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com",
-          "hotel_num":23   //门店数量（只用在搜索接口返回）
-        },{
-          "id":"222",
-          "name": "四季集团",
-          "memo": "企业简介企业简介企业简介企业简介",
-          "website": "http://www.baidu.com",
-          "hotel_num":23   //门店数量（只用在搜索接口返回）
-        }],
-        brandList: [{  
-          "id":"333",
-          "group_id": "所属集团id",
-          "pms_id": "pms内部编码",
-          "pms_code": "pms外部编码",
-          "name": "三三三",
-          "logo_url": "上传到服务器地址url"
-        },{  
-          "id":"444",
-          "group_id": "所属集团id",
-          "pms_id": "pms内部编码",
-          "pms_code": "pms外部编码",
-          "name": "四四四",
-          "logo_url": "上传到服务器地址url"
-        }],
+        hotel: {},
+        enterpriseList: [],
+        brandList: [],
         regionCode: '',
         stateCode: '',
         cityCode: '',
@@ -109,6 +70,8 @@
         nameError: false,
         phoneError: false,
         addressError: false,
+        chooseEnterpriseList: [],
+        chooseBrandList: []
       }
     },
     computed: {
@@ -130,44 +93,69 @@
           return [];
         return cityObj.city;
       },
-      chooseEnterpriseList() {
-        let list = [].concat(this.enterpriseList);
+      // chooseEnterpriseList() {
+      //   let list = [].concat(this.enterpriseList);
+      //   let index = list.findIndex(v => v.id == this.hotel.group_id);
+      //   if (index == -1) return list;
+      //   let obj = list.splice(index, 1)[0];
+      //   if (obj == undefined) return list;
+      //   list.unshift(obj);
+      //   return list;
+      // },
+      // chooseBrandList() {
+      //   let list = [].concat(this.brandList);
+      //   let index = list.findIndex(v => v.id == this.hotel.brand_id);
+      //   if (index == -1) return list;
+      //   let obj = list.splice(index, 1)[0];
+      //   if (obj == undefined) return list;
+      //   list.unshift(obj);
+      //   return list;
+      // },
+    },
+    watch: {
+      enterpriseList(v) {
+        let list = [].concat(v);
         let index = list.findIndex(v => v.id == this.hotel.group_id);
-        if (index == -1) return list;
+        if (index == -1) {
+          this.chooseEnterpriseList = list;
+          return;
+        }
         let obj = list.splice(index, 1)[0];
-        if (obj == undefined) return list;
+        if (obj == undefined) {
+          this.chooseEnterpriseList = list;
+          return;
+        }
         list.unshift(obj);
-        return list;
+        this.chooseEnterpriseList = list;
       },
-      chooseBrandList() {
-        let list = [].concat(this.brandList);
+      brandList(v) {
+        let list = [].concat(v);
         let index = list.findIndex(v => v.id == this.hotel.brand_id);
-        if (index == -1) return list;
+        if (index == -1) {
+          this.chooseBrandList = list;
+          return;
+        }
         let obj = list.splice(index, 1)[0];
-        if (obj == undefined) return list;
+        if (obj == undefined) {
+          this.chooseBrandList = list;
+          return;
+        }
         list.unshift(obj);
+        this.chooseBrandList = list;
         return list;
-      },
+      }
     },
     methods: {
       ...mapActions([
+        'getEnterpriseList',
+        'getBrandList',
         'getHotel',
         'modifyHotel',
-        'removeHotel'
+        'removeHotel',
+        'goto'
       ]),
-      getInfo() {
-        this.getHotel({
-          id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
-        })
-      },
-      remove() {
-        this.removeHotel({
-          id: this.hotel.id,
-          onsuccess: body => console.log(body.data)
-        })
-      },
       enterpriseChange(e) {
+        console.log(e.target.value)
         this.hotel.group_id = e.target.value;
       },
       brandChange(e) {
@@ -200,18 +188,42 @@
         else 
           this.addressError = true;
       },
+      getEnterprise() {
+        this.getEnterpriseList({
+          onsuccess: body => this.enterpriseList = body.data
+        })
+      },
+      getBrand() {
+        this.getBrandList({
+          onsuccess: body => this.brandList = body.data
+        })
+      },
+      getInfo() {
+        this.getHotel({
+          id: this.$route.params.id,
+          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
+        })
+      },
+      remove() {
+        this.removeHotel({
+          id: this.hotel.id,
+          onsuccess: body => this.goto('/enterprise/hotel')
+        })
+      },
       modify() {
         if (this.hotel.name == '') this.nameError = true;
         if (this.hotel.tel == '') this.phoneError = true;
-        if (this.address == '') this.addressError = true;
-        if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
+        // if (this.address == '') this.addressError = true;
+        // if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
+        if (this.hotel.address == '') this.addressError = true;
+        if (this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
 
-        let obj = areaData.find(v => v.region.code == this.regionCode);
-        if (obj === undefined) return;
-        let state = obj.region.state.find(v => v.code == this.stateCode);
-        if (state === undefined) return;
-        let city = state.city.find(v => v.code == this.cityCode);
-        if (city === undefined) return;
+        // let obj = areaData.find(v => v.region.code == this.regionCode);
+        // if (obj === undefined) return;
+        // let state = obj.region.state.find(v => v.code == this.stateCode);
+        // if (state === undefined) return;
+        // let city = state.city.find(v => v.code == this.cityCode);
+        // if (city === undefined) return;
 
         this.modifyHotel({
           id: this.hotel.id,
@@ -219,8 +231,9 @@
           brand_id: this.hotel.brand_id,
           name: this.hotel.name,
           tel: this.hotel.tel,
-          address: `${obj.region.name}${state.name}${city.name}${this.address}`,
-          onsuccess: body => console.log(body.data)
+          // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
+          address: this.address,
+          onsuccess: body => alert('修改成功')
         })
       }
     },
@@ -235,6 +248,8 @@
         this.cityCode = this.cityList[0].code;
       }
 
+      this.getEnterprise();
+      this.getBrand();
       this.getInfo();
     }
   }
