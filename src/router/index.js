@@ -21,6 +21,8 @@ import EnterpriseGroupHotel from '@/containers/Enterprise/Index/Menu/hotel'
 import EnterpriseIdMenu from '@/containers/Enterprise/Index/Id/menu'
 import EnterpriseIdEdit from '@/containers/Enterprise/Index/Id/edit'
 import EnterpriseIdBrand from '@/containers/Enterprise/Index/Id/brand'
+import BrandAdd from '@/containers/Enterprise/Index/Id/addBrand'
+import BrandEdit from '@/containers/Enterprise/Index/Id/editBrand'
 import HotelMenu from '@/containers/Enterprise/Index/Id/hotelMenu'
 import EditHotel from '@/containers/Enterprise/Index/Id/editHotel'
 // 5级路由
@@ -73,8 +75,14 @@ const main = [{
         path: 'edit',
         component: EnterpriseIdEdit,
       }, {
+        path: 'addbrand',
+        component: BrandAdd,
+      },{
+          path: 'editbrand/:brandid',
+          component: BrandEdit
+      }, {
         path: 'brand',
-        component: EnterpriseIdBrand,
+        component: EnterpriseIdBrand
       }, {
         path: '/',
         component: EnterpriseIdMenu,

@@ -2,7 +2,7 @@
   <div>
     <div class="login-banner">
       <span>username,</span>
-      <a>退出</a>
+      <a @click="logoutAction">退出</a>
     </div>
     <div class="nav-banner">
       <span class="logo">生态酒店总控平台</span>
@@ -20,7 +20,21 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'MainApp'
+    name: 'MainApp',
+    methods: {
+      ...mapActions([
+        'logout',
+        'goto'
+      ]),
+      logoutAction() {
+        this.logout({
+          onsuccess: body => {
+            this.goto('/')
+          }
+        })
+      }
+    }
   }
 </script>

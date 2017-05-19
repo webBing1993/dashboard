@@ -1,8 +1,8 @@
 <template>
   <div>
     <aside>
-      <router-link to="/enterprise">账户</router-link>
-      <router-link to="/enterprise/hotel">门店</router-link>
+      <router-link to="/enterprise">账户管理</router-link>
+      <router-link to="/enterprise/hotel">门店管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
   </div>

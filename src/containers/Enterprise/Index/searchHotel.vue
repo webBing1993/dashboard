@@ -34,7 +34,11 @@
     computed: {
       list() {
         return this.hotelList.map(hotel => {
-          let obj = this.brandList.find(brand => brand.id == v.brand_id);
+          let brand;
+          let obj = this.brandList.find(v => {
+            brand = v;
+            return brand.id == hotel.brand_id
+          });
           if (obj === undefined) {
             hotel.brand_name = '';
           } else {
@@ -68,9 +72,11 @@
           size: this.size.toString(),
           searchVal: this.searchVal != 'undefined' ? this.searchVal : undefined,
           onsuccess: (body, headers) => {
-            this.page = headers.map['X-Current-Page'];
-            let total = headers.map['X-Total'];
+            let total = 0;
+            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
+            headers.map['x-total'] ? total = +headers.map['x-total'][0] : null;
             this.totalPage = Math.ceil(total / this.size);
+            
             this.hotelList = body.data;
           }
         })

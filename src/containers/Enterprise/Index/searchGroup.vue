@@ -57,8 +57,9 @@
           size: this.size.toString(),
           searchVal: this.searchVal != 'undefined' ? this.searchVal : undefined,
           onsuccess: (body, headers) => {
-            this.page = headers.map['X-Current-Page'];
-            let total = headers.map['X-Total'];
+            let total = 0;
+            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
+            headers.map['x-total'] ? total = +headers.map['x-total'][0] : null;
             this.totalPage = Math.ceil(total / this.size);
             this.list = body.data;
           }

@@ -30,7 +30,7 @@
           </div>
         </div>-->
         <div class="button-content">
-          <XButton @onClick="regist">注册</XButton>
+          <XButton @onClick="regist" value="添加"></XButton>
         </div>
       </div>
     </div>
@@ -99,7 +99,8 @@
           name: this.enterpriseName,
           memo: this.enterpriseDesc,
           website: this.enterpriseWeb,
-          onsuccess: body => this.goto(-1)
+          onsuccess: body => this.goto(-1),
+          onFail: err => alert(err.errmsg)
         })
       },
       getBrandList() {

@@ -142,7 +142,6 @@
         }
         list.unshift(obj);
         this.chooseBrandList = list;
-        return list;
       }
     },
     methods: {
@@ -207,7 +206,10 @@
       remove() {
         this.removeHotel({
           id: this.hotel.id,
-          onsuccess: body => this.goto('/enterprise/hotel')
+          onsuccess: body => {
+            alert('删除成功')
+            this.goto('/enterprise/hotel')
+          }
         })
       },
       modify() {
@@ -233,7 +235,8 @@
           tel: this.hotel.tel,
           // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
           address: this.address,
-          onsuccess: body => alert('修改成功')
+          onsuccess: body => alert('修改成功'),
+          onFail: err => alert(err.errmsg)
         })
       }
     },

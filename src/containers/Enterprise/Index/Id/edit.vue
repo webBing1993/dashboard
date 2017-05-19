@@ -89,13 +89,17 @@
           name: this.group.name,
           memo: this.group.memo,
           website: this.group.website,
-          onsuccess: body => alert('修改成功')
+          onsuccess: body => alert('修改成功'),
+          onFail: err => alert(err.errmsg)
         })
       },
       remove() {
         this.removeEnterprise({
           id: this.group.id,
-          onsuccess: body => this.goto(-1)
+          onsuccess: body => {
+            alert('删除成功')
+            this.goto('/enterprise')
+          }
         })
       }
     },

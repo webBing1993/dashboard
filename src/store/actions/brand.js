@@ -1,20 +1,17 @@
 module.exports = {
-  /** 
-   * 以下部分还没写，只是复制粘贴
-  */
   addBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: '/brands',
       method:'POST',
       body: {
         group_id: param.group_id,
-        brand_id: param.brand_id,
-        name: param.name,
-        tel: param.tel,
-        address: param.address,
+        name: param.name
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: err => {
+        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -33,13 +30,13 @@ module.exports = {
       method:'PUT',
       body: {
         group_id: param.group_id,
-        brand_id: param.brand_id,
-        name: param.name,
-        tel: param.tel,
-        address: param.address,
+        name: param.name
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: err => {
+        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -52,9 +49,6 @@ module.exports = {
       }
     })
   },
-  /**
-   * 这个接口是写好正在用的
-   */
   getBrandList(ctx, param){
     ctx.dispatch('resource', {
       url: '/brands',
@@ -64,7 +58,8 @@ module.exports = {
         'X-Page-Size': param.size || '0'
       },
       params: {
-        keyword: param.searchVal || ''
+        keyword: param.searchVal || '',
+        group_id: param.group_id
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

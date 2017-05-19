@@ -194,7 +194,8 @@
           tel: this.storePhone,
           // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
           address: this.address,
-          onsuccess: body => this.goto(-1)
+          onsuccess: body => this.goto(-1),
+          onFail: err => alert(err.errmsg)
         })
       }
     },

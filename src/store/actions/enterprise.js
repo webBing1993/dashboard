@@ -10,6 +10,9 @@ module.exports = {
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: err => {
+        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -33,6 +36,9 @@ module.exports = {
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: err => {
+        param.onFail ? param.onFail(err) : null
       }
     })
   },

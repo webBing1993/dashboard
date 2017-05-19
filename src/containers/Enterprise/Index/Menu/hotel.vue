@@ -33,7 +33,11 @@
     computed: {
       list() {
         return this.hotelList.map(hotel => {
-          let obj = this.brandList.find(brand => brand.id == v.brand_id);
+          let brand;
+          let obj = this.brandList.find(v => {
+            brand = v;
+            return brand.id == hotel.brand_id
+          });
           if (obj === undefined) {
             hotel.brand_name = '';
           } else {

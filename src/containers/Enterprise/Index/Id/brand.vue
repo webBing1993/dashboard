@@ -4,7 +4,7 @@
       <h3 class="title">品牌配置</h3>
       <div class="content">
         <table-brand :list="list" @modify="modify" @remove="remove"></table-brand>
-        <button @click="add"> + 添加品牌</button>
+        <button @click="addBrand"> + 添加品牌</button>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
     name: 'Brand',
     data () {
       return {
-        list: [{name: 'E01', logo: '如家酒店集团'}]
+        list: []
       }
     },
     components: {
@@ -25,21 +25,29 @@
     },
     methods: {
       ...mapActions([
-        'getBrandList'
+        'getBrandList',
+        'modifyBrand',
+        'removeBrand',
       ]),
-      add() {
-
+      addBrand() {
+        this.$router.push(`addbrand`)
       },
       modify(obj) {
-
+        this.$router.push(`editbrand/${obj.id}`)
       },
       remove(obj) {
-
+        this.removeBrand({
+          id: obj.id,
+          onsuccess: body => {
+            alert('删除成功')
+            this.getList();
+          }
+        })
       },
       getList() {
         this.getBrandList({
           id: this.$route.params.id,
-          onsuccess: body => console.log(body.data)
+          onsuccess: body => this.list = body.data
         })
       }
     },

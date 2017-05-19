@@ -32,6 +32,8 @@ App - Auth
                                        - Hotel
                                        
                            - Id        - Brand
+                                       - EditBrand
+                                       - AddBrand
                                        - Edit
                                        - IdMenu - Index
                                                 - Hotel
