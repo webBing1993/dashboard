@@ -12,20 +12,22 @@
             <div>
               <span>所属企业</span>
               <select @change="enterpriseChange">
-                <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
+                <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
               </select>
               <span>所属品牌</span>
               <select @change="brandChange">
-                <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
+                <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
               </select>
             </div>
             <div>
               <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="hotel.name"/>
+              <input type="text" id="storeName" v-model="hotel.name" @change="nameChange" />
+              <span v-show="nameError" class="error-info">* 请输入门店名称</span>
             </div>
             <div>
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="hotel.tel"/>
+              <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange" />
+              <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
             <div>
               <span>门店地址</span>
@@ -40,7 +42,8 @@
               </select>
             </div>
             <div>
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）"/>
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />
+              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
@@ -58,8 +61,8 @@
       return {
         hotel: {
           "id":"酒店id",
-          "group_id": "所属集团id",
-          "brand_id": "所属品牌id",
+          "group_id": "222",
+          "brand_id": "333",
           "name": "门店名称",
           "tel": "021-213232132",
           "address": "辽宁省沈阳市和平区大连路66号",
@@ -72,37 +75,40 @@
           "contactPosition": "前台经理"
         },
         enterpriseList: [{
-          "id":"xxxxxxxxxxxxxxxx",
+          "id":"111",
           "name": "如家集团",
           "memo": "企业简介企业简介企业简介企业简介",
           "website": "http://www.baidu.com",
           "hotel_num":23   //门店数量（只用在搜索接口返回）
         },{
-          "id":"xxxxxxxxxxxxxxxx",
+          "id":"222",
           "name": "四季集团",
           "memo": "企业简介企业简介企业简介企业简介",
           "website": "http://www.baidu.com",
           "hotel_num":23   //门店数量（只用在搜索接口返回）
         }],
         brandList: [{  
-          "id":"xxxxxxxx",
+          "id":"333",
           "group_id": "所属集团id",
           "pms_id": "pms内部编码",
           "pms_code": "pms外部编码",
-          "name": "名称",
+          "name": "三三三",
           "logo_url": "上传到服务器地址url"
         },{  
-          "id":"xxxxxxxx",
+          "id":"444",
           "group_id": "所属集团id",
           "pms_id": "pms内部编码",
           "pms_code": "pms外部编码",
-          "name": "名名",
+          "name": "四四四",
           "logo_url": "上传到服务器地址url"
         }],
         regionCode: '',
         stateCode: '',
         cityCode: '',
         address: '',
+        nameError: false,
+        phoneError: false,
+        addressError: false,
       }
     },
     computed: {
@@ -123,6 +129,24 @@
         if (cityObj === undefined)
           return [];
         return cityObj.city;
+      },
+      chooseEnterpriseList() {
+        let list = [].concat(this.enterpriseList);
+        let index = list.findIndex(v => v.id == this.hotel.group_id);
+        if (index == -1) return list;
+        let obj = list.splice(index, 1)[0];
+        if (obj == undefined) return list;
+        list.unshift(obj);
+        return list;
+      },
+      chooseBrandList() {
+        let list = [].concat(this.brandList);
+        let index = list.findIndex(v => v.id == this.hotel.brand_id);
+        if (index == -1) return list;
+        let obj = list.splice(index, 1)[0];
+        if (obj == undefined) return list;
+        list.unshift(obj);
+        return list;
       },
     },
     methods: {
@@ -158,7 +182,30 @@
       cityChange(e) {
         this.cityCode = e.target.value;
       },
+      nameChange(e) {
+        if (e.target.value != '') 
+          this.nameError = false;
+        else 
+          this.nameError = true;
+      },
+      phoneChange(e) {
+        if (e.target.value != '') 
+          this.phoneError = false;
+        else 
+          this.phoneError = true;
+      },
+      addressChange(e) {
+        if (e.target.value != '') 
+          this.addressError = false;
+        else 
+          this.addressError = true;
+      },
       modify() {
+        if (this.hotel.name == '') this.nameError = true;
+        if (this.hotel.tel == '') this.phoneError = true;
+        if (this.address == '') this.addressError = true;
+        if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
+
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined) return;
         let state = obj.region.state.find(v => v.code == this.stateCode);
@@ -227,5 +274,9 @@
     position: absolute;
     top: 0;
     right: 10px;
+  }
+
+  .error-info {
+    color: red;
   }
 </style>

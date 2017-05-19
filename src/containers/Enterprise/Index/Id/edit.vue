@@ -15,15 +15,18 @@
             </div>
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="group.name"/>
+              <input type="text" id="enterpriseName" v-model="group.name" @change="nameChange" />
+              <span v-show="nameError" class="error-info">* 请输入企业名称</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseDesc">企业简介</label>
-              <input type="text" id="enterpriseDesc" v-model="group.memo"/>
+              <input type="text" id="enterpriseDesc" v-model="group.memo" @change="memoChange" />
+              <span v-show="memoError" class="error-info">* 请输入企业简介</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="group.website"/>
+              <input type="text" id="enterpriseWeb" v-model="group.website" @change="websiteChange" />
+              <span v-show="websiteError" class="error-info">* 请输入企业官网</span>
             </div>
           </div>
         </div>
@@ -43,7 +46,10 @@
           "name": "如家集团",
           "memo": "企业简介企业简介企业简介企业简介",
           "website": "http://www.baidu.com"
-        }
+        },
+        nameError: false,
+        memoError: false,
+        websiteError: false,
       }
     },
     methods: {
@@ -52,6 +58,24 @@
         'modifyEnterprise',
         'removeEnterprise'
       ]),
+      nameChange(e) {
+        if (e.target.value != '') 
+          this.nameError = false;
+        else 
+          this.nameError = true;
+      },
+      memoChange(e) {
+        if (e.target.value != '') 
+          this.memoError = false;
+        else 
+          this.memoError = true;
+      },
+      websiteChange(e) {
+        if (e.target.value != '') 
+          this.websiteError = false;
+        else 
+          this.websiteError = true;
+      },
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
@@ -59,6 +83,11 @@
         })
       },
       modify() {
+        if (this.group.name == '') this.nameError = true;
+        if (this.group.memo == '') this.memoError = true;
+        if (this.group.website == '') this.websiteError = true;
+        if (this.group.name == '' || this.group.memo == '' || this.group.website == '') return;
+
         this.modifyEnterprise({
           id: this.group.id,
           name: this.group.name,
@@ -132,5 +161,9 @@
         }
       }
     }
+  }
+
+  .error-info {
+    color: red;
   }
 </style>
