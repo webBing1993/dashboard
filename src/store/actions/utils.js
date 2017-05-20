@@ -18,14 +18,19 @@ module.exports = {
     decodeURIComponent(window.location.search).split('&').forEach(i => i ? o[i.split(/=/)[0].replace(/\?/, '')] = i.split(/=/)[1] : null)
   },
   resource: (ctx, param) => {
+    let headers = param.headers || {};
+    if (param.url.indexOf('/register') == -1 && param.url.indexOf('/login') == -1 ) {
+      headers.session_id = sessionStorage.getItem('session_id');
+    }
+
     Vue.http({
       url: '/virgo' + param.url,
-      // url: 'https://intg.fortrun.cn/virgo' + param.url,
       body: param.body || null,
-      headers: {
-        session_id: sessionStorage.getItem('session_id'),
-        ...param.headers
-      },
+      // headers: {
+      //   session_id: sessionStorage.getItem('session_id'),
+      //   ...param.headers
+      // },
+      headers: headers,
       params: param.params || null,
       method: param.method || "GET",
       timeout: param.timeout || 5000,
