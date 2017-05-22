@@ -72,17 +72,20 @@ body {
 
 aside {
   align-self: stretch;
-  min-width: 200px;
+  min-width: 180px;
   border-right: solid 1px #EAEDF0;
   background-color: #ffffff;
   a {
     display: flex;
-    padding-left: 15px;
+    align-items: center;
+    width: 100%;
+    padding-left: 45px;
+    box-sizing: border-box;
     color: #424242;
     line-height: 44px;
     &.router-link-exact-active {
       color: #ffffff;
-      background-color: #8f8f8f;
+      background-color: #424242;
     }
   }
 }
