@@ -76,7 +76,7 @@
             headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
             headers.map['x-total'] ? total = +headers.map['x-total'][0] : null;
             this.totalPage = Math.ceil(total / this.size);
-            
+
             this.hotelList = body.data;
           }
         })
@@ -88,7 +88,7 @@
       },
     },
     mounted() {
-        this.getList();
+      this.getList();
     }
   }
 </script>
@@ -101,10 +101,25 @@
     color: #222222;
     border-bottom: 1px solid #ECECEC;
   }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 20px;
+    input {
+      flex: 1px;
+      line-height: 42px;
+      text-indent: 1em;
+      outline: none;
+    }
+    button {
+      width: 280px;
+      line-height: 42px;
+      margin: 0 30px 0 60px;
+    }
+  }
 
   .content {
     padding: 20px;
   }
-
-  
 </style>

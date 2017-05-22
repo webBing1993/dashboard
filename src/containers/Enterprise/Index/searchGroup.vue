@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">企业账户搜索</h3>
-      <div class="search-bar">
-        <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-        <button @click="getList"> 查询 </button>
+      <div class="title">
+        <h3>企业账户搜索</h3>
+        <div class="search-bar">
+          <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
+          <button @click="getList"> 查询 </button>
+        </div>
       </div>
       <div class="content">
         <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
@@ -67,23 +69,49 @@
       }
     },
     mounted() {
-        this.getList();
+      this.getList();
     }
   }
 </script>
 <style scoped lang="less">
   .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 400;
+    padding: 6px 20px;
     color: #222222;
     border-bottom: 1px solid #ECECEC;
+    h3 {
+      font-size: 18px;
+      font-weight: 400;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      input {
+        width: 320px;
+        text-indent: 1em;
+        line-height: 30px;
+        margin-right: 10px;
+        outline: none;
+      }
+      button {
+        line-height: 32px;
+        width: 160px;
+        color: #ffffff;
+        cursor: pointer;
+        background-color: #8f8f8f;
+        font-size: 15px;
+        outline: none;
+        border: none;
+      }
+    }
   }
 
   .content {
     padding: 20px;
   }
 
-  
+
 </style>

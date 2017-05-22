@@ -25,7 +25,7 @@
         hotelList: [],
         page: 1,
         size: 10,
-        totalPage: 0
+        totalPage: 0,
       }
     },
     components: {
@@ -84,7 +84,7 @@
             headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
             headers.map['x-total'] ? total = +headers.map['x-total'][0] : null;
             this.totalPage = Math.ceil(total / this.size);
-            
+
             this.hotelList = body.data;
           }
         })
@@ -98,60 +98,36 @@
 </script>
 
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    border-bottom: 1px solid #ECECEC;
-    font-weight: 400;
-    font-size: 18px;
-  }
 
-  .search-bar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 16px 20px;
-    box-sizing: border-box;
-    input {
-      width: 65%;
-      height: 40px;
-      font-size: 14px;
-      outline: none;
-      text-indent: 1em;
-    }
-    button {
-      line-height: 42px;
-      width: 120px;
-      color: #ffffff;
-      cursor: pointer;
-      background-color: #8f8f8f;
-      font-size: 15px;
-      outline: none;
-      border: none;
-      margin-left: 40px;
-    }
-    button:last-child {
-      margin-left: 60px;
-      width: 140px;
-    }
-  }
   .module-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     padding: 0 20px;
     .content {
       width: 100%;
       align-items: center;
-      h3 {
-        line-height: 50px;
+      .search-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         border-bottom: 1px solid #ECECEC;
-        font-weight: 400;
-        font-size: 18px;
+        h3 {
+          flex: 1;
+          line-height: 50px;
+          font-weight: 400;
+          font-size: 18px;
+          padding: 10px 0;
+          &:before {
+            content: '';
+            border-left: solid 4px #8f8f8f;
+            padding-right: 8px;
+          }
+        }
+        button {
+          width: 180px;
+          line-height: 35px;
+        }
       }
+
       .v-table {
-        margin-top: 20px;
         line-height: 45px;
       }
     }
