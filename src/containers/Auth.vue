@@ -7,7 +7,7 @@
       </div>
       <div>
         <span>密码</span>
-        <input type="text" v-model="logPassword">
+        <input type="password" v-model="logPassword">
       </div>
       <button @click="loginAction">登陆</button>
     </div>
@@ -18,7 +18,7 @@
       </div>
       <div>
         <span>密码</span>
-        <input type="text" v-model="password">
+        <input type="password" v-model="password">
       </div>
       <div>
         <span>用户名</span>

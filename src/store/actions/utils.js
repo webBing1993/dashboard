@@ -20,7 +20,7 @@ module.exports = {
   resource: (ctx, param) => {
     let headers = param.headers || {};
     if (param.url.indexOf('/register') == -1 && param.url.indexOf('/login') == -1 ) {
-      headers.session_id = sessionStorage.getItem('session_id');
+      headers.Session = sessionStorage.getItem('session_id');
     }
 
     Vue.http({
@@ -42,12 +42,18 @@ module.exports = {
         if (+response.body.errcode === 0) {
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
-          param.onFail ? param.onFail(response.body) : null
+          param.onFail ? param.onFail(response.body) : alert(response.body.errmsg)
         }
       }
     ).catch(
       error => {
         //ErrorCallback
+        if (+error.status === 401) {
+          alert('登录过期');
+          router.push('/auth')
+        } else {
+          alert(error.statusText);
+        }
       }
     ).finally(
       final => {
