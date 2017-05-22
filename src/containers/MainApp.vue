@@ -43,3 +43,14 @@
     }
   }
 </script>
+
+<style scoped lang="less">
+  .login-banner {
+    font-size: 15px;
+    line-height: 45px;
+    a {
+      padding-left: 20px;
+      cursor: pointer;
+    }
+  }
+</style>

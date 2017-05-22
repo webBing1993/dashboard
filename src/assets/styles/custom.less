@@ -72,28 +72,20 @@ body {
 
 aside {
   align-self: stretch;
-  min-width: 200px;
+  min-width: 180px;
   border-right: solid 1px #EAEDF0;
   background-color: #ffffff;
   a {
     display: flex;
-    //flex-direction: column;
-    padding-left: 15px;
+    align-items: center;
+    width: 100%;
+    padding-left: 45px;
+    box-sizing: border-box;
     color: #424242;
     line-height: 44px;
     &.router-link-exact-active {
       color: #ffffff;
-      background-color: #8a8a8a;
-      &:before{
-        content: '';
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        position: relative;
-        top: 12px;
-        left: -6px;
-        background-color: #EF4F4F;
-      }
+      background-color: #424242;
     }
   }
 }

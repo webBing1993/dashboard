@@ -24,12 +24,12 @@
             </div>
             <div class="content-input">
               <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="storeName" @change="nameChange" />
+              <input type="text" id="storeName" v-model="storeName" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入门店名称</span>
             </div>
             <div class="content-input">
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="storePhone" @change="phoneChange" />
+              <input type="text" id="phone" v-model="storePhone" @change="phoneChange"/>
               <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
             <div>
@@ -45,7 +45,7 @@
               </select>-->
             </div>
             <div class="content-add">
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
               <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
@@ -183,21 +183,21 @@
         this.cityCode = e.target.value;
       },
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       phoneChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.phoneError = false;
-        else 
+        else
           this.phoneError = true;
       },
       addressChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.addressError = false;
-        else 
+        else
           this.addressError = true;
       },
       regist() {
@@ -220,7 +220,7 @@
         // if (state === undefined) state = obj.region.state[0];
         // let city = state.city.find(v => v.code == this.cityCode);
         // if (city === undefined) city = state.city[0];
-        
+
         this.addHotel({
           group_id: this.group,
           brand_id: this.brand,  //这里的1是瞎写
@@ -249,7 +249,7 @@
   }
 
   .content {
-    padding: 20px 20px;
+    padding: 20px;
     .store-info {
       border: 1px solid #ECECEC;
       font-size: 16px;
@@ -263,6 +263,7 @@
         flex-direction: column;
         font-size: 14px;
         padding: 10px 40px;
+        line-height: 42px;
         .content-title {
           display: flex;
           .title-msg {
@@ -292,9 +293,10 @@
             outline: none;
             border: none;
             border-bottom: solid 1px #EAEDF0;
-            padding: 16px 0;
+            padding: 12px 0;
             flex: 1;
             font-size: 14px;
+            text-indent: 4px;
           }
         }
         span {
