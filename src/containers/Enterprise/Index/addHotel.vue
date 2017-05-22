@@ -9,15 +9,17 @@
             <div class="content-title">
               <div class="title-msg">
                 <span>所属企业</span>
-                <select @change="enterpriseChange">
+                <select @change="groupChange">
                   <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
                 </select>
+                <span v-show="groupError" class="error-info">* 请选择企业</span>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
                 <select @change="brandChange">
-                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
+                  <option v-for="(obj, index) of brandSlectList" :value="obj.id">{{obj.name}}</option>
                 </select>
+                <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
             </div>
             <div class="content-input">
@@ -78,8 +80,9 @@
     data () {
       return {
         enterpriseList: [],
-        enterprise: '',
+        group: '',
         brandList: [],
+        brandSlectList: [],
         brand: '',
         storeName: '',
         storePhone: '',
@@ -87,6 +90,8 @@
         stateCode: '',
         cityCode: '',
         address: '',
+        groupError: false,
+        brandError: false,
         nameError: false,
         phoneError: false,
         addressError: false,
@@ -113,7 +118,29 @@
         if (cityObj === undefined)
           return [];
         return cityObj.city;
+      }
+    },
+    watch: {
+      enterpriseList(list) {
+        //没有选择的时候给个默认值
+        if (this.group == '' && this.enterpriseList[0]) this.group = this.enterpriseList[0].id;
       },
+      brandList(brandList) {
+        if (this.group == '') return;
+        let list = brandList.filter(v => v.group_id == this.group);
+        if (list.length && list.length > 0)
+          this.brandSlectList = list;
+      },
+      brandSlectList(list) {
+        //没有选择的时候给个默认值
+        if (this.brand == '' && this.brandSlectList[0]) this.brand = this.brandSlectList[0].id;
+      },
+      group(val) {
+        if (val == '') return;
+        let list = this.brandList.filter(v => v.group_id == val);
+        if (list.length && list.length > 0)
+          this.brandSlectList = list;
+      }
     },
     methods: {
       ...mapActions([
@@ -132,11 +159,19 @@
           onsuccess: body => this.brandList = body.data
         })
       },
-      enterpriseChange(e) {
-        this.enterprise = e.target.value;
+      groupChange(e) {
+        this.group = e.target.value;
+        if (e.target.value != '') 
+          this.groupError = false;
+        else 
+          this.groupError = true;
       },
       brandChange(e) {
         this.brand = e.target.value;
+        if (e.target.value != '') 
+          this.brandError = false;
+        else 
+          this.brandError = true;
       },
       regionChange(e) {
         this.regionCode = e.target.value;
@@ -166,14 +201,13 @@
           this.addressError = true;
       },
       regist() {
+
         if (this.storeName == '') this.nameError = true;
         if (this.storePhone == '') this.phoneError = true;
         if (this.address == '') this.addressError = true;
-        if (this.storeName == '' || this.storePhone == '' || this.address == '') return;
-
-        //没有选择的时候给个默认值
-        if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
-        if (this.brand == '' && this.brandList[0]) this.brand = this.brandList[0].id;
+        if (this.group == '') this.groupError = true;
+        if (this.brand == '') this.brandError = true;
+        if (this.storeName == '' || this.storePhone == '' || this.address == '' || this.brand == '') return;
 
         //没有选择的时候给个默认值
         // if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].id;
@@ -188,8 +222,8 @@
         // if (city === undefined) city = state.city[0];
         
         this.addHotel({
-          group_id: this.enterprise,
-          brand_id: this.brand || 1,  //这里的1是瞎写
+          group_id: this.group,
+          brand_id: this.brand,  //这里的1是瞎写
           name: this.storeName,
           tel: this.storePhone,
           // address: `${obj.region.name}${state.name}${city.name}${this.address}`,

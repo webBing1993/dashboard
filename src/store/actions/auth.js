@@ -37,5 +37,28 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
+  },
+  getInfo(ctx, param){
+    ctx.dispatch('resource', {
+      url: '/getInfo',
+      method:'GET',
+      onSuccess: body => {
+        ctx.commit('USER_INFO', body.data)
+      }
+    })
+  },
+  CosCloudAssign(ctx, param){
+    ctx.dispatch('resource', {
+      url: '/cos/get_sign',
+      method:'POST',
+      body: {
+        bucket_name: param.bucket_name,
+        file_path: param.file_path,
+        expires: param.expires
+      },
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
   }
 }

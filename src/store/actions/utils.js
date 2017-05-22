@@ -19,17 +19,13 @@ module.exports = {
   },
   resource: (ctx, param) => {
     let headers = param.headers || {};
-    if (param.url.indexOf('/register') == -1 && param.url.indexOf('/login') == -1 ) {
+    if (param.url != '/register' && param.url != '/login' ) {
       headers.Session = sessionStorage.getItem('session_id');
     }
 
     Vue.http({
-      url: '/virgo' + param.url,
+      url: param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url,
       body: param.body || null,
-      // headers: {
-      //   session_id: sessionStorage.getItem('session_id'),
-      //   ...param.headers
-      // },
       headers: headers,
       params: param.params || null,
       method: param.method || "GET",

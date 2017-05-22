@@ -56,6 +56,7 @@
       ...mapActions([
         'login',
         'regist',
+        'getInfo',
         'goto'
       ]),
       loginAction() {
@@ -63,7 +64,8 @@
           userName: this.logUserName,
           password: this.logPassword,
           onsuccess: body => {
-            this.goto('/enterprise')
+            this.goto('/enterprise');
+            this.getInfo()
           }
         })
       },

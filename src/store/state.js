@@ -10,5 +10,6 @@ module.exports = {
     loading: {
       show: false
     }
-  }
+  },
+  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{}')
 }

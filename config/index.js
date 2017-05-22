@@ -38,6 +38,15 @@ module.exports = {
           // '^/virgo': ''
         }
       },
+      '/libra': {
+        target: 'https://intg.fortrun.cn/',
+        // target: 'https://qa.fortrun.cn/',
+        // target: 'https://gem.fortrun.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          // '^/virgo': ''
+        }
+      },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

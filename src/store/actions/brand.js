@@ -5,7 +5,8 @@ module.exports = {
       method:'POST',
       body: {
         group_id: param.group_id,
-        name: param.name
+        name: param.name,
+        logo_url: param.logo_url
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null

@@ -13,7 +13,7 @@
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
                     <td>{{ obj.name }}</td>
-                    <td>{{ obj.logo }}</td>
+                    <td>{{ obj.logo_url ? '已上传' : '未上传' }}</td>
                     <td>
                         <a class="v-options pointer" @click="modify(obj)">修改</a>
                         <a class="v-options pointer" @click="remove(obj)">删除</a>

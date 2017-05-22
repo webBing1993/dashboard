@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="login-banner">
-      <span>username,</span>
+      <span>{{userInfo.name}},</span>
       <a @click="logoutAction">退出</a>
     </div>
     <div class="nav-banner">
@@ -23,6 +23,11 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'MainApp',
+    computed: {
+      userInfo() {
+        return this.$store.state.userInfo;
+      }
+    },
     methods: {
       ...mapActions([
         'logout',

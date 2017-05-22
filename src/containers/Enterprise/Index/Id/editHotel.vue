@@ -63,6 +63,7 @@
         hotel: {},
         enterpriseList: [],
         brandList: [],
+        brandSlectList: [],
         regionCode: '',
         stateCode: '',
         cityCode: '',
@@ -127,9 +128,27 @@
         }
         list.unshift(obj);
         this.chooseEnterpriseList = list;
+        
+        this.setChooseBrandList();
       },
-      brandList(v) {
-        let list = [].concat(v);
+      brandList() {
+        this.setChooseBrandList();
+      }
+    },
+    methods: {
+      ...mapActions([
+        'getEnterpriseList',
+        'getBrandList',
+        'getHotel',
+        'modifyHotel',
+        'removeHotel',
+        'goto'
+      ]),
+      setChooseBrandList() {
+        if (!this.hotel.group_id) return;
+        let list = this.brandList.filter(v => v.group_id == this.hotel.group_id);
+        if (!list.length || list.length == 0) return;
+
         let index = list.findIndex(v => v.id == this.hotel.brand_id);
         if (index == -1) {
           this.chooseBrandList = list;
@@ -142,20 +161,10 @@
         }
         list.unshift(obj);
         this.chooseBrandList = list;
-      }
-    },
-    methods: {
-      ...mapActions([
-        'getEnterpriseList',
-        'getBrandList',
-        'getHotel',
-        'modifyHotel',
-        'removeHotel',
-        'goto'
-      ]),
+      },
       enterpriseChange(e) {
-        console.log(e.target.value)
         this.hotel.group_id = e.target.value;
+        this.setChooseBrandList();
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
@@ -234,7 +243,7 @@
           name: this.hotel.name,
           tel: this.hotel.tel,
           // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
-          address: this.address,
+          address: this.hotel.address,
           onsuccess: body => alert('修改成功'),
           onFail: err => alert(err.errmsg)
         })
