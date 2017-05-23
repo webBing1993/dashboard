@@ -4,24 +4,22 @@
       <h3 class="title">修改酒店品牌</h3>
       <div class="content">
         <div class="enterprise-info">
-          <p class="info-title">品牌信息</p>
+          <p>品牌信息</p>
           <div class="info-content">
             <div class="title-msg">
-                <span>所属企业</span>
-                <select @change="enterpriseChange">
-                  <option v-for="(obj, index) of chooseList" :value="obj.id">{{obj.name}}</option>
-                </select>
+              <span>所属企业</span>
+              <select @change="enterpriseChange">
+                <option v-for="(obj, index) of chooseList" :value="obj.id">{{obj.name}}</option>
+              </select>
             </div>
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="brand.name" @change="nameChange" />
+              <input type="text" id="brandName" v-model="brand.name" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入品牌名称</span>
             </div>
           </div>
         </div>
-        <div class="button-content">
-          <XButton @onClick="modify" value="修改"></XButton>
-        </div>
+        <XButton @onClick="modify" value="修改"></XButton>
       </div>
     </div>
   </div>
@@ -40,21 +38,21 @@
       }
     },
     watch: {
-        enterpriseList(val) {
-            let list = [].concat(val);
-            let index = list.findIndex(v => v.id == this.$route.params.id);
-            if (index == -1) {
-            this.chooseList = list;
-            return;
-            }
-            let obj = list.splice(index, 1)[0];
-            if (obj == undefined) {
-            this.chooseList = list;
-            return;
-            }
-            list.unshift(obj);
-            this.chooseList = list;
+      enterpriseList(val) {
+        let list = [].concat(val);
+        let index = list.findIndex(v => v.id == this.$route.params.id);
+        if (index == -1) {
+          this.chooseList = list;
+          return;
         }
+        let obj = list.splice(index, 1)[0];
+        if (obj == undefined) {
+          this.chooseList = list;
+          return;
+        }
+        list.unshift(obj);
+        this.chooseList = list;
+      }
     },
     methods: {
       ...mapActions([
@@ -67,9 +65,9 @@
         this.enterprise = e.target.value;
       },
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       getEnterprise() {
@@ -79,13 +77,13 @@
       },
       modify() {
         if (this.brand.name == '') {
-            this.nameError = true;
-            return;
+          this.nameError = true;
+          return;
         }
 
         //没有选择的时候给个默认值
         if (this.enterprise == '' && this.chooseList[0]) this.enterprise = this.chooseList[0].id;
-        
+
         this.modifyBrand({
           id: this.$route.params.brandid,
           name: this.brand.name,
@@ -105,8 +103,8 @@
       }
     },
     mounted() {
-        this.getEnterprise();
-        this.getInfo();
+      this.getEnterprise();
+      this.getInfo();
     }
   }
 </script>
@@ -122,24 +120,42 @@
 
   .content {
     padding: 20px;
-  }
-
-  .info-content {
-    padding: 10px 40px;
-  }
-
-  .content-msg {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    input {
-      outline: none;
-      border: none;
-      border-bottom: solid 1px #EAEDF0;
-      margin: 10px 20px;
-      padding: 8px;
-      flex: 1;
-      font-size: 14px;
+    .enterprise-info {
+      border: 1px solid #EAEDF0;
+      p {
+        line-height: 30px;
+        padding: 8px 20px;
+        font-size: 16px;
+        font-weight: 300;
+        background-color: #EAEDF0;
+        border-bottom: 1px solid transparent;
+      }
+      .info-content {
+        padding: 10px 40px;
+        .title-msg {
+          span {
+            padding-right: 20px;
+          }
+        }
+        .content-msg {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          input {
+            outline: none;
+            border: none;
+            border-bottom: solid 1px #EAEDF0;
+            margin: 10px 20px;
+            padding: 8px;
+            flex: 1;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    .weui-btn_default {
+      margin-top: 40px;
+      cursor: pointer;
     }
   }
 
@@ -147,27 +163,9 @@
     padding: 10px 20px;
   }
 
-  .info-title {
-    line-height: 30px;
-    padding: 8px 20px;
-    font-size: 16px;
-    font-weight: 300;
-    background-color: #EAEDF0;
-    border-bottom: 1px solid transparent;
-  }
-
-  .enterprise-info {
-    border: 1px solid #EAEDF0;
-  }
-
   .brand-info {
     border: 1px solid #EAEDF0;;
     margin-top: 20px;
-  }
-
-  .button-content {
-    margin-top: 45px;
-    cursor: pointer;
   }
 
   .error-info {
