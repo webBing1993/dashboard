@@ -13,7 +13,7 @@
         </div>
         <XButton @onClick="loginAction" value="登陆"/>
       </div>
-      <div class="content">
+      <!--<div class="content">
         <div class="content-item">
           <span>账号</span>
           <input type="text" v-model="userName" placeholder="请输入账号">
@@ -35,7 +35,7 @@
           <input type="text" v-model="mobile" placeholder="请输入您的手机号">
         </div>
         <XButton @onClick="registAction" value="注册"/>
-      </div>
+      </div>-->
     </div>
     <footer class="copy-right">
       <span>Powered By Fortrun.</span>
