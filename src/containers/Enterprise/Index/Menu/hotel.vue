@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">门店管理</h3>
+      <span class="title">门店管理</span>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
         <button @click="search"> 查询 </button>
         <button @click="regist"> + 添加企业门店</button>
       </div>
+      <h3>最近操作的门店</h3>
       <div class="content">
-        <h3>最近操作的门店</h3>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
       </div>
     </div>
@@ -91,6 +91,7 @@
   .title {
     line-height: 50px;
     padding: 0 20px;
+    display: block;
     border-bottom: 1px solid #ECECEC;
     font-weight: 400;
     font-size: 18px;
@@ -125,19 +126,20 @@
       width: 140px;
     }
   }
-
+  h3 {
+    font-weight: 300;
+    font-size: 20px;
+    padding: 0 20px 10px;
+    &:before {
+      content: '';
+      border-left: solid 4px #8f8f8f;
+      padding-right: 8px;
+    }
+  }
   .content {
     padding: 0 20px;
-    h3 {
-      font-weight: 300;
-      font-size: 20px;
-      padding-bottom: 10px;
-      &:before {
-        content: '';
-        border-left: solid 4px #8f8f8f;
-        padding-right: 8px;
-      }
-    }
+    height: 76%;
+    overflow: auto;
   }
 </style>
 

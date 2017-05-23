@@ -7,10 +7,12 @@
         <button @click="search"> 查询 </button>
         <button @click="regist"> + 注册企业账户</button>
       </div>
+      <h3>最近操作的企业账户</h3>
+
       <div class="content">
-        <h3>最近操作的企业账户</h3>
         <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
                           @config="goConfig"></table-enterprise>
+
       </div>
     </div>
   </div>
@@ -19,6 +21,7 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   import tableEnterprise from '@/components/Tables/table-enterprise.vue';
+
   export default {
     name: 'Group',
     data () {
