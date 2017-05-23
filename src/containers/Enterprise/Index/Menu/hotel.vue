@@ -129,7 +129,7 @@
 
   .content {
     padding: 0 20px;
-    height: 76%;
+    height: 70%;
     overflow: auto;
   }
 </style>
