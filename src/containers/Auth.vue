@@ -72,7 +72,7 @@
           password: this.logPassword,
           onsuccess: body => {
             this.goto('/enterprise');
-            this.getInfo()
+            this.getInfo();
           }
         })
       },

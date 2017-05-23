@@ -11,5 +11,5 @@ module.exports = {
       show: false
     }
   },
-  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{}')
+  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "复创"}')
 }
