@@ -121,11 +121,6 @@
             padding-right: 8px;
           }
         }
-        ._button {
-          width: 180px;
-          line-height: 38px;
-          font-size: 14px;
-        }
       }
 
       .v-table {

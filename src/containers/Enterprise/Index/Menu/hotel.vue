@@ -130,7 +130,10 @@
   .content {
     padding: 0 20px;
     height: 70%;
-    overflow: auto;
+    /*overflow: scroll;*/
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: auto;
   }
+
 </style>
 

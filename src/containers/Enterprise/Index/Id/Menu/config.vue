@@ -55,6 +55,11 @@
         line-height: 25px;
         border: solid 1px #EAEDF0;
         width: 400px;
+        &:hover {
+          border: solid 1px #EF4F4F;
+          cursor: pointer;
+          color: #EF4F4F;
+        }
         .brand-info {
           display: flex;
           flex-direction: column;

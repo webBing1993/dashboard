@@ -4,7 +4,7 @@
       <h3 class="title">门店子账户搜索</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
-        <button @click="getList"> 查询 </button>
+        <span class="_button" @click="getList">查询</span>
       </div>
       <div class="content">
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
@@ -101,6 +101,7 @@
     color: #222222;
     border-bottom: 1px solid #ECECEC;
   }
+
   .search-bar {
     display: flex;
     align-items: center;
@@ -112,10 +113,8 @@
       text-indent: 1em;
       outline: none;
     }
-    button {
-      width: 280px;
-      line-height: 42px;
-      margin: 0 30px 0 60px;
+    ._button {
+      margin: 0 55px;
     }
   }
 

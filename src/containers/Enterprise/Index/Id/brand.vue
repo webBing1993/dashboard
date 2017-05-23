@@ -69,7 +69,6 @@
   .content {
     padding: 20px;
     ._button {
-      line-height: 38px;
       display: block;
       margin: 0 auto;
       margin-right: 0;

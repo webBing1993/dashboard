@@ -1,7 +1,10 @@
 html,
 body {
+  font-family: "Helvetica Neue", "Hiragino Sans GB", "Microsoft YaHei", "\9ED1\4F53", Arial, sans-serif;
   height: 100%;
   font-size: 14px;
+  position: relative;
+  overflow-y: hidden;
 }
 
 .first-router {
@@ -72,20 +75,26 @@ body {
 
 aside {
   align-self: stretch;
-  min-width: 180px;
+  min-width: 220px;
   border-right: solid 1px #EAEDF0;
   background-color: #ffffff;
+  padding-top: 20px;
   a {
     display: flex;
     align-items: center;
     width: 100%;
     padding-left: 45px;
     box-sizing: border-box;
-    color: #424242;
+    color: #364149;
     line-height: 44px;
+    font-size: 16px;
     &.router-link-exact-active {
-      color: #ffffff;
-      background-color: #424242;
+      color: #1aad16;
+      background: 0 0;
+      text-decoration: none;
+    }
+    &:hover {
+      background-color: #e7e7eb;
     }
   }
 }

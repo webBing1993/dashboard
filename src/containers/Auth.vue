@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="login_content">
-      <span class="header">登录注册界面</span>
+      <span class="header">登录</span>
       <div class="content login">
         <div class="content-item">
           <span>账号</span>
@@ -113,7 +113,6 @@
     .content {
       flex: 1;
       position: relative;
-      /*border: dashed 2px #586C94;*/
       height: 460px;
       padding: 160px;
       margin: 0 10px;
@@ -141,10 +140,11 @@
         }
       }
       .weui-btn_default {
-        color: #ffffff;
-        background-color: #0D0D0D;
-        line-height: 36px;
+        cursor: pointer;
         margin-top: 60px;
+        &:hover {
+          border: solid 1px #000;
+        }
       }
     }
     .login {
