@@ -82,7 +82,6 @@
         enterpriseList: [],
         group: '',
         brandList: [],
-        // brandSlectList: [],
         brand: '',
         storeName: '',
         storePhone: '',
@@ -126,22 +125,10 @@
         if (this.group == '' && this.enterpriseList[0]) this.group = this.enterpriseList[0].id;
       },
       brandList(brandList) {
-        // if (this.group == '') return;
-        // let list = brandList.filter(v => v.group_id == this.group);
-        // if (list.length && list.length > 0)
-        //   this.brandSlectList = list;
-
         if (this.brand == '' && this.brandList[0]) this.brand = this.brandList[0].id;
       },
-      // brandSlectList(list) {
-      //   //没有选择的时候给个默认值
-      //   if (this.brand == '' && this.brandSlectList[0]) this.brand = this.brandSlectList[0].id;
-      // },
       group(val) {
         if (val == '') return;
-        // let list = this.brandList.filter(v => v.group_id == val);
-        // if (list.length && list.length > 0)
-        //   this.brandSlectList = list;
         this.getBrand();
       }
     },

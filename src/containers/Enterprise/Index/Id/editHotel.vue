@@ -96,24 +96,6 @@
           return [];
         return cityObj.city;
       },
-      // chooseEnterpriseList() {
-      //   let list = [].concat(this.enterpriseList);
-      //   let index = list.findIndex(v => v.id == this.hotel.group_id);
-      //   if (index == -1) return list;
-      //   let obj = list.splice(index, 1)[0];
-      //   if (obj == undefined) return list;
-      //   list.unshift(obj);
-      //   return list;
-      // },
-      // chooseBrandList() {
-      //   let list = [].concat(this.brandList);
-      //   let index = list.findIndex(v => v.id == this.hotel.brand_id);
-      //   if (index == -1) return list;
-      //   let obj = list.splice(index, 1)[0];
-      //   if (obj == undefined) return list;
-      //   list.unshift(obj);
-      //   return list;
-      // },
     },
     watch: {
       enterpriseList(v) {
@@ -131,13 +113,9 @@
         list.unshift(obj);
         this.chooseEnterpriseList = list;
 
-        // this.setChooseBrandList();
-
         this.getBrand();
       },
       brandList() {
-        // this.setChooseBrandList();
-
         if (!this.hotel.group_id) return;
         let list = [].concat(this.brandList);
         if (!list.length || list.length == 0) return;
@@ -165,28 +143,8 @@
         'removeHotel',
         'goto'
       ]),
-      // setChooseBrandList() {
-      //   if (!this.hotel.group_id) return;
-      //   let list = this.brandList.filter(v => v.group_id == this.hotel.group_id);
-      //   if (!list.length || list.length == 0) return;
-
-      //   let index = list.findIndex(v => v.id == this.hotel.brand_id);
-      //   if (index == -1) {
-      //     this.chooseBrandList = list;
-      //     return;
-      //   }
-      //   let obj = list.splice(index, 1)[0];
-      //   if (obj == undefined) {
-      //     this.chooseBrandList = list;
-      //     return;
-      //   }
-      //   list.unshift(obj);
-      //   this.chooseBrandList = list;
-      // },
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
-        // this.setChooseBrandList();
-        this.chooseBrandList = [];
         this.getBrand();
       },
       brandChange(e) {
@@ -225,6 +183,8 @@
         })
       },
       getBrand() {
+        this.brandList = [];
+        this.chooseBrandList = [];
         this.getBrandList({
           group_id: this.hotel.group_id,
           onsuccess: body => this.brandList = body.data
