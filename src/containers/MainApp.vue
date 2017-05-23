@@ -36,7 +36,8 @@
       logoutAction() {
         this.logout({
           onsuccess: body => {
-            this.$router.replace('/auth')
+            this.$router.replace('/auth');
+            sessionStorage.clear();
           }
         })
       }
