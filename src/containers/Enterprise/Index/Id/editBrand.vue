@@ -90,7 +90,10 @@
           id: this.$route.params.brandid,
           name: this.brand.name,
           group_id: this.enterprise,
-          onsuccess: body => alert('修改成功'),
+          onsuccess: body => {
+            alert('修改成功');
+            this.goto(-1)
+          },
           onFail: err => alert(err.errmsg)
         })
       },

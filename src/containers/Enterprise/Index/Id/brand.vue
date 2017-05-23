@@ -46,7 +46,7 @@
       },
       getList() {
         this.getBrandList({
-          id: this.$route.params.id,
+          group_id: this.$route.params.id,
           onsuccess: body => this.list = body.data
         })
       }

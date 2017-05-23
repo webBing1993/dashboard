@@ -89,7 +89,10 @@
           name: this.group.name,
           memo: this.group.memo,
           website: this.group.website,
-          onsuccess: body => alert('修改成功'),
+          onsuccess: body => {
+            alert('修改成功');
+            this.goto(-1)
+          },
           onFail: err => alert(err.errmsg)
         })
       },

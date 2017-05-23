@@ -131,24 +131,15 @@
         list.unshift(obj);
         this.chooseEnterpriseList = list;
 
-        this.setChooseBrandList();
+        // this.setChooseBrandList();
+
+        this.getBrand();
       },
       brandList() {
-        this.setChooseBrandList();
-      }
-    },
-    methods: {
-      ...mapActions([
-        'getEnterpriseList',
-        'getBrandList',
-        'getHotel',
-        'modifyHotel',
-        'removeHotel',
-        'goto'
-      ]),
-      setChooseBrandList() {
+        // this.setChooseBrandList();
+
         if (!this.hotel.group_id) return;
-        let list = this.brandList.filter(v => v.group_id == this.hotel.group_id);
+        let list = [].concat(this.brandList);
         if (!list.length || list.length == 0) return;
 
         let index = list.findIndex(v => v.id == this.hotel.brand_id);
@@ -163,10 +154,40 @@
         }
         list.unshift(obj);
         this.chooseBrandList = list;
-      },
+      }
+    },
+    methods: {
+      ...mapActions([
+        'getEnterpriseList',
+        'getBrandList',
+        'getHotel',
+        'modifyHotel',
+        'removeHotel',
+        'goto'
+      ]),
+      // setChooseBrandList() {
+      //   if (!this.hotel.group_id) return;
+      //   let list = this.brandList.filter(v => v.group_id == this.hotel.group_id);
+      //   if (!list.length || list.length == 0) return;
+
+      //   let index = list.findIndex(v => v.id == this.hotel.brand_id);
+      //   if (index == -1) {
+      //     this.chooseBrandList = list;
+      //     return;
+      //   }
+      //   let obj = list.splice(index, 1)[0];
+      //   if (obj == undefined) {
+      //     this.chooseBrandList = list;
+      //     return;
+      //   }
+      //   list.unshift(obj);
+      //   this.chooseBrandList = list;
+      // },
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
-        this.setChooseBrandList();
+        // this.setChooseBrandList();
+        this.chooseBrandList = [];
+        this.getBrand();
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
@@ -205,6 +226,7 @@
       },
       getBrand() {
         this.getBrandList({
+          group_id: this.hotel.group_id,
           onsuccess: body => this.brandList = body.data
         })
       },
@@ -246,7 +268,10 @@
           tel: this.hotel.tel,
           // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
           address: this.hotel.address,
-          onsuccess: body => alert('修改成功'),
+          onsuccess: body => {
+            alert('修改成功');
+            this.goto(-1)
+          },
           onFail: err => alert(err.errmsg)
         })
       }
@@ -263,7 +288,7 @@
       }
 
       this.getEnterprise();
-      this.getBrand();
+      // this.getBrand();
       this.getInfo();
     }
   }
