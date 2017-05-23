@@ -11,7 +11,6 @@
       <div class="content">
         <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
                           @config="goConfig"></table-enterprise>
-
       </div>
     </div>
   </div>
