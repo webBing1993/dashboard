@@ -5,6 +5,7 @@ module.exports = {
       method:'POST',
       body: {
         name: param.name,
+        code: param.code,
         memo: param.memo,
         website: param.website,
       },
@@ -30,6 +31,7 @@ module.exports = {
       url: `/groups/${param.id}`,
       method:'PUT',
       body: {
+        code: param.code,
         name: param.name,
         memo: param.memo,
         website: param.website,

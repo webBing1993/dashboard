@@ -15,7 +15,7 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableHotel from '@/components/Tables/table-hotel.vue'
+  import tableHotel from '@/modules/Tables/table-hotel.vue'
   export default {
     name: 'SearchHotel',
     data () {

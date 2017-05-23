@@ -12,7 +12,7 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableBrand from '@/components/Tables/table-brand.vue'
+  import tableBrand from '@/modules/Tables/table-brand.vue'
   export default {
     name: 'Brand',
     data () {

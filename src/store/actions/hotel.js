@@ -6,6 +6,7 @@ module.exports = {
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
+        code: param.code,
         name: param.name,
         tel: param.tel,
         address: param.address,
@@ -34,6 +35,7 @@ module.exports = {
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
+        code: param.code,
         name: param.name,
         tel: param.tel,
         address: param.address,

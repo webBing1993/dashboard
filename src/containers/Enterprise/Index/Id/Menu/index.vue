@@ -9,7 +9,7 @@
       <div class="content">
         <div class="content-msg">
           <label for="enterpriseCode">企业账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.id"/>
+          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.code"/>
         </div>
         <div class="content-msg">
           <label for="enterpriseName">企业名称</label>

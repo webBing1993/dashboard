@@ -9,7 +9,7 @@
       <div class="content">
         <div class="content-input">
           <label for="enterpriseCode">门店子账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.id"/>
+          <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.code"/>
         </div>
         <div class="content-input">
           <label for="enterpriseName">门店名称</label>

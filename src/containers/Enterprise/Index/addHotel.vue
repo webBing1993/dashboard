@@ -22,6 +22,11 @@
                 <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
             </div>
+            <div class="content-msg">
+              <label for="hotelCode">账户编码</label>
+              <input type="text" id="hotelCode" v-model="hotelCode" @change="codeChange"/>
+              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+            </div>
             <div class="content-input">
               <label for="storeName">门店名称</label>
               <input type="text" id="storeName" v-model="storeName" @change="nameChange"/>
@@ -34,7 +39,7 @@
             </div>
             <div>
               <span>门店地址</span>
-              <!--<select @change="regionChange">
+              <select @change="regionChange">
                 <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
               <select @change="stateChange">
@@ -42,7 +47,7 @@
               </select>
               <select @change="cityChange">
                 <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-              </select>-->
+              </select>
             </div>
             <div class="content-add">
               <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
@@ -83,6 +88,7 @@
         group: '',
         brandList: [],
         brand: '',
+        hotelCode: '',
         storeName: '',
         storePhone: '',
         regionCode: '',
@@ -91,6 +97,7 @@
         address: '',
         groupError: false,
         brandError: false,
+        codeError: false,
         nameError: false,
         phoneError: false,
         addressError: false,
@@ -101,9 +108,14 @@
     },
     computed: {
       regionList() {
-        return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
+        // return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
+        let aaa = areaData.map(v => {
+          return {code: v.region.code, name: v.region.name}
+        })
+        return aaa;
       },
       stateList() {
+        if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].code;
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined)
           return [];
@@ -174,6 +186,12 @@
       cityChange(e) {
         this.cityCode = e.target.value;
       },
+      codeChange(e) {
+        if (e.target.value != '')
+          this.codeError = false;
+        else
+          this.codeError = true;
+      },
       nameChange(e) {
         if (e.target.value != '')
           this.nameError = false;
@@ -194,31 +212,30 @@
       },
       regist() {
 
+        if (this.hotelCode == '') this.codeError = true;
         if (this.storeName == '') this.nameError = true;
         if (this.storePhone == '') this.phoneError = true;
         if (this.address == '') this.addressError = true;
         if (this.group == '') this.groupError = true;
         if (this.brand == '') this.brandError = true;
-        if (this.storeName == '' || this.storePhone == '' || this.address == '' || this.brand == '') return;
+        if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.brand == '') return;
 
-        //没有选择的时候给个默认值
-        // if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].id;
-        // if (this.stateCode == '' && this.stateList[0]) this.stateCode = this.stateList[0].id;
-        // if (this.cityCode == '' && this.cityList[0]) this.cityCode = this.cityList[0].id;
-
-        // let obj = areaData.find(v => v.region.code == this.regionCode);
-        // if (obj === undefined) obj = areaData[0];
-        // let state = obj.region.state.find(v => v.code == this.stateCode);
-        // if (state === undefined) state = obj.region.state[0];
-        // let city = state.city.find(v => v.code == this.cityCode);
-        // if (city === undefined) city = state.city[0];
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined) obj = areaData[0];
+        let state = obj.region.state.find(v => v.code == this.stateCode);
+        if (state === undefined) state = obj.region.state[0];
+        let city = state.city.find(v => v.code == this.cityCode);
+        if (city === undefined) city = state.city[0];
 
         this.addHotel({
           group_id: this.group,
-          brand_id: this.brand,  //这里的1是瞎写
+          brand_id: this.brand,
+          code: this.hotelCode,
           name: this.storeName,
           tel: this.storePhone,
-          // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
+          province: obj.region.name,
+          city: state.name,
+          area: city.name,
           address: this.address,
           onsuccess: body => this.goto(-1),
           onFail: err => alert(err.errmsg)
@@ -226,6 +243,17 @@
       }
     },
     mounted() {
+      //初始化地区默认值
+      if (this.regionList[0]) {
+        this.regionCode = this.regionList[0].code;
+      }
+      if (this.stateList[0]) {
+        this.stateCode = this.stateList[0].code;
+      }
+      if (this.cityList[0]) {
+        this.cityCode = this.cityList[0].code;
+      }
+
       this.getEnterprise();
       this.getBrand();
     }

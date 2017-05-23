@@ -13,7 +13,7 @@
             <tbody>
                 <tr v-for="(obj, index) of list">
                     <td>{{ ++index }}</td>
-                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.code }}</td>
                     <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
                     <td class="pointer" @click="hotel(obj)">{{ obj.hotelNum }}家</td>
                     <td>

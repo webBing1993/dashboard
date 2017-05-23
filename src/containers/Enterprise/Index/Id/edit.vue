@@ -11,7 +11,7 @@
           <div class="info-content">
             <div class="content-msg">
               <label for="enterpriseCode">企业账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="group.id" readonly/>
+              <input type="text" id="enterpriseCode" v-model="group.code"/>
             </div>
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
@@ -86,6 +86,7 @@
 
         this.modifyEnterprise({
           id: this.group.id,
+          code: this.group.code,
           name: this.group.name,
           memo: this.group.memo,
           website: this.group.website,
