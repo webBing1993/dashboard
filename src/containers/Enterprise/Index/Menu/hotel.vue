@@ -4,8 +4,8 @@
       <span class="title">门店管理</span>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
-        <button @click="search"> 查询 </button>
-        <button @click="regist"> + 添加企业门店</button>
+        <span class="_button" @click="search">查询</span>
+        <span class="_button" @click="regist">+ 添加企业门店</span>
       </div>
       <h3>最近操作的门店</h3>
       <div class="content">
@@ -110,22 +110,12 @@
       outline: none;
       text-indent: 1em;
     }
-    button {
-      line-height: 42px;
-      width: 120px;
-      color: #ffffff;
-      cursor: pointer;
-      background-color: #8f8f8f;
-      font-size: 15px;
-      outline: none;
-      border: none;
+    ._button {
+      width: 160px;
       margin-left: 40px;
     }
-    button:last-child {
-      margin-left: 60px;
-      width: 140px;
-    }
   }
+
   h3 {
     font-weight: 300;
     font-size: 20px;
@@ -136,6 +126,7 @@
       padding-right: 8px;
     }
   }
+
   .content {
     padding: 0 20px;
     height: 76%;

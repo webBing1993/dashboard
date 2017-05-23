@@ -4,11 +4,10 @@
       <h3 class="title">账户管理</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-        <button @click="search"> 查询 </button>
-        <button @click="regist"> + 注册企业账户</button>
+        <span class="_button" @click="search">查询</span>
+        <span class="_button" @click="regist">+ 注册企业账户</span>
       </div>
       <h3>最近操作的企业账户</h3>
-
       <div class="content">
         <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
                           @config="goConfig"></table-enterprise>

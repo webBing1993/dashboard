@@ -5,7 +5,7 @@
         <h3>企业账户搜索</h3>
         <div class="search-bar">
           <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-          <button @click="getList"> 查询 </button>
+          <span class="_button" @click="getList">查询</span>
         </div>
       </div>
       <div class="content">
@@ -96,15 +96,10 @@
         margin-right: 10px;
         outline: none;
       }
-      button {
-        line-height: 32px;
+      ._button {
+        line-height: 34px;
         width: 160px;
-        color: #ffffff;
-        cursor: pointer;
-        background-color: #8f8f8f;
         font-size: 15px;
-        outline: none;
-        border: none;
       }
     }
   }
@@ -112,6 +107,5 @@
   .content {
     padding: 20px;
   }
-
 
 </style>

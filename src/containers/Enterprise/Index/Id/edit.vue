@@ -15,22 +15,22 @@
             </div>
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="group.name" @change="nameChange" />
+              <input type="text" id="enterpriseName" v-model="group.name" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入企业名称</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseDesc">企业简介</label>
-              <input type="text" id="enterpriseDesc" v-model="group.memo" @change="memoChange" />
+              <input type="text" id="enterpriseDesc" v-model="group.memo" @change="memoChange"/>
               <span v-show="memoError" class="error-info">* 请输入企业简介</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="group.website" @change="websiteChange" />
+              <input type="text" id="enterpriseWeb" v-model="group.website" @change="websiteChange"/>
               <span v-show="websiteError" class="error-info">* 请输入企业官网</span>
             </div>
           </div>
         </div>
-        <button @click="remove">删除</button>
+        <span class="_button" @click="remove">删除</span>
       </div>
     </div>
   </div>
@@ -55,21 +55,21 @@
         'goto'
       ]),
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       memoChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.memoError = false;
-        else 
+        else
           this.memoError = true;
       },
       websiteChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.websiteError = false;
-        else 
+        else
           this.websiteError = true;
       },
       getInfo() {
@@ -119,10 +119,10 @@
 
   .content {
     padding: 20px 20px;
-    button {
+    ._button {
       float: right;
       width: 120px;
-      line-height: 35px;
+      line-height: 38px;
       margin-top: 16px;
     }
   }
@@ -139,6 +139,15 @@
       .info-title {
         font-size: 18px;
         font-weight: 400;
+      }
+      .info-modify {
+        cursor: pointer;
+        padding-right: 20px;
+        font-size: 15px;
+        &:hover {
+          color: #586C94;
+          text-decoration: underline;
+        }
       }
     }
     .info-content {

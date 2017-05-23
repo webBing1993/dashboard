@@ -4,7 +4,7 @@
       <h3 class="title">品牌配置</h3>
       <div class="content">
         <table-brand :list="list" @modify="modify" @remove="remove"></table-brand>
-        <button @click="addBrand"> + 添加品牌</button>
+        <span class="_button" @click="addBrand">+ 添加品牌</span>
       </div>
     </div>
   </div>
@@ -68,19 +68,11 @@
 
   .content {
     padding: 20px;
-    button {
-      cursor: pointer;
-      width: 120px;
-      line-height: 40px;
-      font-size: 16px;
-      font-weight: 100;
-      color: #fff;
-      background-color: #576b95;
-      border: none;
+    ._button {
+      line-height: 38px;
       display: block;
       margin: 0 auto;
       margin-right: 0;
-      outline: none;
     }
   }
 

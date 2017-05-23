@@ -1,0 +1,41 @@
+.button-mixin(@width) {
+  width: @width;
+  line-height: 42px;
+  background-color: #424242;
+  color: #ffffff;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  &.button_disabled {
+    background-color: rgba(0, 0, 0, .3);
+    color: rgba(255, 255, 255, .6);
+  }
+  &.button_default {
+    color: rgba(0, 0, 0, .3);
+    background-color: #F7F7F7;
+  }
+  &.button_primary {
+    background-color: #9ED99D;
+  }
+  &.button_warn {
+    background-color: #EC8B89;
+  }
+}
+
+._button {
+  font-family: 'Open Sans', sans-serif;
+  line-height: 42px;
+  width: 120px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  outline: none;
+  color: #ffffff;
+  background-color: #424242;
+  border: none;
+  border-radius: 6px;
+  box-shadow: inset rgba(255, 254, 255, 0.6) 0 0.3em .3em, inset rgba(0, 0, 0, 0.15) 0 -0.1em .3em,
+    /* inner shadow */ #424242 0 .1em 3px, #424242 0 .3em 1px,
+    /* color border */ rgba(0, 0, 0, 0.2) 0 .5em 5px;
+}

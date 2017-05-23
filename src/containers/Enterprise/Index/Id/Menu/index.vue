@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="module-wrapper">
-      
-    </div>
+    <!--<div class="module-wrapper"></div>-->
     <div class="module-wrapper">
       <div class="top-content">
         <h3>企业账户</h3>
@@ -64,9 +62,18 @@
     padding: 0 20px;
     border-bottom: 1px solid #EAEDF0;
     line-height: 50px;
-    h3{
+    h3 {
       font-size: 18px;
       font-weight: 400;
+    }
+    p {
+      cursor: pointer;
+      padding-right: 20px;
+      font-size: 15px;
+      &:hover {
+        color: #586C94;
+        text-decoration: underline;
+      }
     }
   }
 

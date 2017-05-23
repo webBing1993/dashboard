@@ -4,7 +4,7 @@
       <div class="content">
         <div class="search-bar">
           <h3>企业门店</h3>
-          <button @click="regist"> + 添加企业门店</button>
+          <span class="_button" @click="regist">+ 添加企业门店</span>
         </div>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
         <xpage :showJump="true" :init-page="page" :total-page="totalPage" @go-page="goPage"></xpage>
@@ -114,16 +114,17 @@
           line-height: 50px;
           font-weight: 400;
           font-size: 18px;
-          padding: 10px 0;
+          padding: 14px 0;
           &:before {
             content: '';
             border-left: solid 4px #8f8f8f;
             padding-right: 8px;
           }
         }
-        button {
+        ._button {
           width: 180px;
-          line-height: 35px;
+          line-height: 38px;
+          font-size: 14px;
         }
       }
 

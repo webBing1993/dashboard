@@ -1,8 +1,6 @@
 <template>
   <div>
-    <div class="module-wrapper">
-      
-    </div>
+    <!--<div class="module-wrapper"></div>-->
     <div class="module-wrapper">
       <div class="top-content">
         <h3>门店</h3>
@@ -64,6 +62,11 @@
     p {
       padding-right: 20px;
       color: #576b95;
+      cursor: pointer;
+      &:hover {
+        color: #586C94;
+        text-decoration: underline;
+      }
     }
   }
 

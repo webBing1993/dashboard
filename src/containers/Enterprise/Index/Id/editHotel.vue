@@ -5,50 +5,52 @@
       <div class="content">
         <div class="enterprise-info">
           <div class="title-bar">
-            <p class="info-title">酒店信息</p>
-            <p class="info-modify" @click="modify">修改</p>
+            <p>酒店信息</p>
+            <p @click="modify">修改</p>
           </div>
           <div class="info-content">
-            <div>
-              <span>所属企业</span>
-              <select @change="enterpriseChange">
-                <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
-              </select>
-              <span>所属品牌</span>
-              <select @change="brandChange">
-                <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
-              </select>
+            <div class="content-title">
+              <div class="title-msg">
+                <span>所属企业</span>
+                <select @change="enterpriseChange">
+                  <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
+                </select>
+              </div>
+              <div class="title-msg">
+                <span>所属品牌</span>
+                <select @change="brandChange">
+                  <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
+                </select>
+              </div>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="hotel.name" @change="nameChange" />
+              <input type="text" id="storeName" v-model="hotel.name" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入门店名称</span>
             </div>
-            <div>
+            <div class="content-msg">
               <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange" />
+              <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange"/>
               <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
-            <div>
-              <span>门店地址</span>
-              <!--<select @change="regionChange">
-                <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="stateChange">
-                <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="cityChange">
-                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-              </select>-->
-            </div>
-            <div>
+            <!--<select @change="regionChange">
+              <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
+            </select>
+            <select @change="stateChange">
+              <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
+            </select>
+            <select @change="cityChange">
+              <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
+            </select>-->
+            <div class="content-msg">
+              <label>门店地址</label>
               <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
-              <input type="text" v-model="hotel.address" placeholder="地址（详细到门牌号）" @change="addressChange" />
+              <input type="text" v-model="hotel.address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
               <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
-        <button @click="remove">删除</button>
+        <span class="_button" @click="remove">删除</span>
       </div>
     </div>
   </div>
@@ -128,7 +130,7 @@
         }
         list.unshift(obj);
         this.chooseEnterpriseList = list;
-        
+
         this.setChooseBrandList();
       },
       brandList() {
@@ -179,21 +181,21 @@
         this.cityCode = e.target.value;
       },
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       phoneChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.phoneError = false;
-        else 
+        else
           this.phoneError = true;
       },
       addressChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.addressError = false;
-        else 
+        else
           this.addressError = true;
       },
       getEnterprise() {
@@ -266,35 +268,86 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   .title {
     line-height: 50px;
     padding: 0 20px;
-    border-bottom: 1px solid #757575;
+    font-size: 18px;
+    font-weight: 400;
+    color: #222222;
+    border-bottom: 1px solid #ECECEC;
   }
+
   .content {
     padding: 20px 20px;
+    .enterprise-info {
+      border: 1px solid #EAEDF0;
+      .title-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 45px;
+        padding: 0 20px;
+        background-color: #EAEDF0;
+        border-bottom: 1px solid #EAEDF0;
+        box-sizing: border-box;
+        p:nth-child(2) {
+          cursor: pointer;
+          font-size: 15px;
+          &:hover {
+            color: #586C94;
+            text-decoration: underline;
+          }
+        }
+      }
+      .info-content {
+        padding: 10px 40px;
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        line-height: 42px;
+        .content-title {
+          display: flex;
+          .title-msg {
+            flex: 1;
+            align-items: center;
+            span {
+              margin-right: 10px;
+            }
+          }
+        }
+        .content-msg {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          label {
+            width: 90px;
+          }
+          input {
+            outline: none;
+            border: none;
+            border-bottom: solid 1px #EAEDF0;
+            margin: 10px;
+            padding: 8px;
+            flex: 1;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+    ._button {
+      width: 160px;
+      display: block;
+      float: right;
+      margin-top: 20px;
+      font-size: 16px;
+    }
   }
-  .info-content {
-    padding: 10px 40px;
-  }
+
   .table-content {
     padding: 10px 20px;
   }
-  .info-title {
-    line-height: 30px;
-  }
-  .enterprise-info {
-    border: 1px solid #757575;
-  }
-  .title-bar {
-    position: relative;
-    width: 100%;
-    padding: 0 20px;
-    background-color: #EAEDF0;
-    border-bottom: 1px solid #757575;
-    box-sizing: border-box;
-  }
+
   .info-modify {
     cursor: pointer;
     line-height: 30px;

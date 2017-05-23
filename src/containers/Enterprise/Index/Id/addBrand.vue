@@ -14,12 +14,13 @@
             </div>-->
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="brandName" @change="nameChange" />
+              <input type="text" id="brandName" v-model="brandName" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入品牌名称</span>
             </div>
-            <div>
+            <div class="content-logo">
               <label for="logo">上传LOGO</label>
-              <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false" accept="image/jpg,image/jpeg,image/png,image/gif">
+              <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
+                     accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
           </div>
         </div>
@@ -32,7 +33,7 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  // const cos = require('cos-js-sdk-v4') 
+  // const cos = require('cos-js-sdk-v4')
   let cos;
   export default {
     name: 'BrandAdd',
@@ -57,9 +58,9 @@
         this.enterprise = e.target.value;
       },
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       // getEnterprise() {
@@ -69,13 +70,13 @@
       // },
       regist() {
         if (this.brandName == '') {
-            this.nameError = true;
-            return;
+          this.nameError = true;
+          return;
         }
 
         //没有选择的时候给个默认值
         // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
-        
+
         this.addBrand({
           name: this.brandName,
           logo_url: this.logoUrl,
@@ -99,7 +100,7 @@
           getAppSign: function (callback) {//获取签名 必填参数
             self.CosCloudAssign({
               bucket_name: 'virgo',
-              file_path: '/brand_logo/'+file.name,
+              file_path: '/brand_logo/' + file.name,
               onsuccess: function (body) {
                 console.log(body)
                 callback(body.data)
@@ -109,7 +110,7 @@
           getAppSignOnce: function (callback) {//获取签名 必填参数
             self.CosCloudAssign({
               bucket_name: 'virgo',
-              file_path: '/brand_logo/'+file.name,
+              file_path: '/brand_logo/' + file.name,
               onsuccess: function (body) {
                 callback(body.data)
               }
@@ -120,18 +121,18 @@
         cos.uploadFile(
           body => {
             this.logoUrl = body.data.source_url;
-          }, 
-          err => console.log(err), 
-          progress => console.log(progress), 
-          'virgo', 
-          '/brand_logo/'+file.name, 
+          },
+          err => console.log(err),
+          progress => console.log(progress),
+          'virgo',
+          '/brand_logo/' + file.name,
           file,
           0
         );
       },
     },
     mounted() {
-        // this.getEnterprise();
+      // this.getEnterprise();
     }
   }
 </script>
@@ -166,6 +167,10 @@
       flex: 1;
       font-size: 14px;
     }
+  }
+
+  .content-logo {
+    margin: 15px 0 30px;
   }
 
   .table-content {

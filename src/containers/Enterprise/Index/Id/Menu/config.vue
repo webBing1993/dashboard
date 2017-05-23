@@ -65,7 +65,7 @@
           width: 48px;
           height: 48px;
           margin-right: 20px;
-          background-color: #8f8f8f;
+          background-color: #DEDEDE;
           border-radius: 50%;
         }
       }
