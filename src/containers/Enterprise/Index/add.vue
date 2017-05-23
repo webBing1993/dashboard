@@ -8,17 +8,17 @@
           <div class="info-content">
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="enterpriseName" @change="nameChange" />
+              <input type="text" id="enterpriseName" v-model="enterpriseName" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入企业名称</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseDesc">企业简称</label>
-              <input type="text" id="enterpriseDesc" v-model="enterpriseDesc" @change="memoChange" />
+              <input type="text" id="enterpriseDesc" v-model="enterpriseDesc" @change="memoChange"/>
               <span v-show="memoError" class="error-info">* 请输入企业简称</span>
             </div>
             <div class="content-msg">
               <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="enterpriseWeb" @change="websiteChange" />
+              <input type="text" id="enterpriseWeb" v-model="enterpriseWeb" @change="websiteChange"/>
               <span v-show="websiteError" class="error-info">* 请输入企业官网</span>
             </div>
           </div>
@@ -72,21 +72,21 @@
         })
       },
       nameChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.nameError = false;
-        else 
+        else
           this.nameError = true;
       },
       memoChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.memoError = false;
-        else 
+        else
           this.memoError = true;
       },
       websiteChange(e) {
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.websiteError = false;
-        else 
+        else
           this.websiteError = true;
       },
       regist() {
@@ -94,7 +94,7 @@
         if (this.enterpriseDesc == '') this.memoError = true;
         if (this.enterpriseWeb == '') this.websiteError = true;
         if (this.enterpriseName == '' || this.enterpriseDesc == '' || this.enterpriseWeb == '') return;
-        
+
         this.addEnterprise({
           name: this.enterpriseName,
           memo: this.enterpriseDesc,
