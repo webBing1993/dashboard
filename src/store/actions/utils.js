@@ -46,7 +46,7 @@ module.exports = {
         //ErrorCallback
         if (+error.status === 401) {
           alert('登录过期');
-          router.push('/auth')
+          router.replace('/auth')
         } else {
           alert(error.statusText);
         }

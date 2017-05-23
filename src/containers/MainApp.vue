@@ -36,7 +36,7 @@
       logoutAction() {
         this.logout({
           onsuccess: body => {
-            this.$router.replace('/')
+            this.$router.replace('/auth')
           }
         })
       }
