@@ -22,7 +22,7 @@ module.exports = {
     if (param.url != '/register' && param.url != '/login' ) {
       headers.Session = sessionStorage.getItem('session_id');
     }
-
+    ctx.commit('LOADING', 1)
     Vue.http({
       url: param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url,
       body: param.body || null,
@@ -36,24 +36,20 @@ module.exports = {
     }).then(
       response => {
         if (+response.body.errcode === 0) {
+          param.method && !param.url.match(/getInfo/) && !param.url.match(/login/) ? ctx.dispatch('showtoast') : null
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
-          param.onFail ? param.onFail(response.body) : alert(response.body.errmsg)
+          ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
         }
       }
     ).catch(
       error => {
         //ErrorCallback
-        if (+error.status === 401) {
-          alert('登录过期');
-          router.replace('/auth')
-        } else {
-          // alert("操作失败 : " + error.statusText);
-        }
+        ctx.dispatch('showtoast', error.status === 401 ? '登录失效!' : 'Request Error');
       }
     ).finally(
       final => {
-        //FinalCallback
+        ctx.commit('LOADING')
       }
     )
   }

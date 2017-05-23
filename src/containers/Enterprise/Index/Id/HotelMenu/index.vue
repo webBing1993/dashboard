@@ -31,12 +31,13 @@
     },
     methods: {
       ...mapActions([
-        'getHotel'
+        'getHotel',
+        'showtoast'
       ]),
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
         })
       },
       edit() {

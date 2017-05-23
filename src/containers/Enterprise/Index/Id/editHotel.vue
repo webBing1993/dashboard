@@ -147,7 +147,8 @@
         'getHotel',
         'modifyHotel',
         'removeHotel',
-        'goto'
+        'goto',
+        'showtoast'
       ]),
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
@@ -205,14 +206,13 @@
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
         })
       },
       remove() {
         this.removeHotel({
           id: this.hotel.id,
           onsuccess: body => {
-            alert('删除成功')
             this.goto('/enterprise/hotel')
           }
         })
@@ -243,10 +243,8 @@
           area: city.name,
           address: this.hotel.address,
           onsuccess: body => {
-            alert('修改成功');
             this.goto(-1)
-          },
-          onFail: err => alert(err.errmsg)
+          }
         })
       }
     },

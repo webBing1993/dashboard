@@ -82,8 +82,7 @@
           logo_url: this.logoUrl,
           // group_id: this.enterprise,
           group_id: this.$route.params.id,
-          onsuccess: body => this.goto(-1),
-          onFail: err => alert(err.errmsg)
+          onsuccess: body => this.goto(-1)
         })
       },
       imgChange(e) {

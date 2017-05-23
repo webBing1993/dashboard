@@ -52,7 +52,8 @@
         'getEnterprise',
         'modifyEnterprise',
         'removeEnterprise',
-        'goto'
+        'goto',
+        'showtoast'
       ]),
       nameChange(e) {
         if (e.target.value != '')
@@ -75,7 +76,7 @@
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
         })
       },
       modify() {
@@ -91,17 +92,14 @@
           memo: this.group.memo,
           website: this.group.website,
           onsuccess: body => {
-            alert('修改成功');
             this.goto(-1)
-          },
-          onFail: err => alert(err.errmsg)
+          }
         })
       },
       remove() {
         this.removeEnterprise({
           id: this.group.id,
           onsuccess: body => {
-            alert('删除成功')
             this.goto('/enterprise')
           }
         })

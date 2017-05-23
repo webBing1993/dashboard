@@ -11,9 +11,6 @@ module.exports = {
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -37,10 +34,8 @@ module.exports = {
         website: param.website,
       },
       onSuccess: body => {
+        ctx.dispatch('showtoast', '修改成功');
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -49,6 +44,7 @@ module.exports = {
       url: `/groups/${param.id}`,
       method:'DELETE',
       onSuccess: body => {
+        ctx.dispatch('showtoast', '删除成功');
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

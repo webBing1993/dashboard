@@ -13,6 +13,7 @@ Vue.config.productionTip = false
 // Components
 Vue.component('XButton', require('./components/Displays/button.vue'))
 Vue.component('xpage', require('./components/web-component-page.vue'))
+Vue.component('Toast', require('./components/Layers/toast.vue'))
 
 /* eslint-disable no-new */
 new Vue({

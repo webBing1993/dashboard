@@ -39,7 +39,6 @@
         this.removeBrand({
           id: obj.id,
           onsuccess: body => {
-            alert('删除成功')
             this.getList();
           }
         })

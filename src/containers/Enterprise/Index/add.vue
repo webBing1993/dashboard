@@ -114,8 +114,7 @@
           code: this.enterpriseCode,
           memo: this.enterpriseDesc,
           website: this.enterpriseWeb,
-          onsuccess: body => this.goto(-1),
-          onFail: err => alert(err.errmsg)
+          onsuccess: body => this.goto(-1)
         })
       },
       getBrandList() {

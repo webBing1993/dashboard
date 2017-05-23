@@ -83,7 +83,7 @@
           name: this.name,
           email: this.email,
           mobile: this.mobile,
-          onsuccess: body => alert('注册成功')
+          onsuccess: body => console.log(body.data)
         })
       },
     },

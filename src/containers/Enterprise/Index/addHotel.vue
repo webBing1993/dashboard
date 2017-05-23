@@ -237,8 +237,7 @@
           city: state.name,
           area: city.name,
           address: this.address,
-          onsuccess: body => this.goto(-1),
-          onFail: err => alert(err.errmsg)
+          onsuccess: body => this.goto(-1)
         })
       }
     },

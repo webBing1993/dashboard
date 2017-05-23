@@ -35,12 +35,13 @@
     },
     methods: {
       ...mapActions([
-        'getEnterprise'
+        'getEnterprise',
+        'showtoast'
       ]),
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
         })
       },
       edit() {
