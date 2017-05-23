@@ -48,7 +48,7 @@ module.exports = {
           alert('登录过期');
           router.replace('/auth')
         } else {
-          alert(error.statusText);
+          alert("操作失败 : " + error.statusText);
         }
       }
     ).finally(
