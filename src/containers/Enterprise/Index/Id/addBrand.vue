@@ -52,7 +52,8 @@
         // 'getEnterpriseList',
         'addBrand',
         'goto',
-        'CosCloudAssign'
+        'CosCloudAssign',
+        'showtoast'
       ]),
       enterpriseChange(e) {
         this.enterprise = e.target.value;
@@ -122,8 +123,12 @@
           body => {
             this.logoUrl = body.data.source_url;
           },
-          err => console.log(err),
-          progress => console.log(progress),
+          err => {
+            this.showtoast(err);
+          },
+          progress => {
+            this.showtoast(progress);
+          },
           'virgo',
           '/brand_logo/' + file.name,
           file,
