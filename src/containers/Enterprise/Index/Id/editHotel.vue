@@ -297,7 +297,12 @@
             flex: 1;
             align-items: center;
             span {
-              margin-right: 10px;
+              margin-right: 30px;
+            }
+            select {
+              min-width: 100px;
+              outline: none;
+              height: 24px;
             }
           }
         }
@@ -312,7 +317,7 @@
             outline: none;
             border: none;
             border-bottom: solid 1px #EAEDF0;
-            margin: 10px;
+            margin: 8px 0;
             padding: 8px;
             flex: 1;
             font-size: 14px;

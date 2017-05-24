@@ -32,8 +32,10 @@
               <input type="text" id="phone" v-model="storePhone" @change="phoneChange"/>
               <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
-            <div>
-              <span>门店地址</span>
+            <div class="content-input">
+              <label>门店地址</label>
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
+              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
               <!--<select @change="regionChange">
                 <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
               </select>
@@ -43,10 +45,6 @@
               <select @change="cityChange">
                 <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
               </select>-->
-            </div>
-            <div class="content-add">
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
-              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
@@ -153,16 +151,16 @@
       },
       groupChange(e) {
         this.group = e.target.value;
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.groupError = false;
-        else 
+        else
           this.groupError = true;
       },
       brandChange(e) {
         this.brand = e.target.value;
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.brandError = false;
-        else 
+        else
           this.brandError = true;
       },
       regionChange(e) {
@@ -261,6 +259,15 @@
           .title-msg {
             flex: 1;
             align-items: center;
+            select{
+              outline: none;
+              margin-left: 8px;
+              padding: 4px;
+              font-size: 14px;
+              border: solid 1px #EAEDF0;
+              width: 290px;
+              background-color: #ffffff;
+            }
           }
         }
         .content-input {
@@ -269,26 +276,14 @@
           font-size: 14px;
           input {
             outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
             margin: 10px 20px;
             padding: 4px;
-            flex: 1;
             font-size: 14px;
-          }
-        }
-        .content-add {
-          margin-right: 20px;
-          margin-bottom: 10px;
-          input {
-            width: 100%;
-            outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            padding: 12px 0;
-            flex: 1;
-            font-size: 14px;
-            text-indent: 4px;
+            border: solid 1px #EAEDF0;
+            width: 280px;
+            &:focus {
+              border-color: #8f8f8f;
+            }
           }
         }
         span {
@@ -302,8 +297,14 @@
       }
     }
     .weui-btn_default {
-      margin-top: 30px;
-      color: #576b95;
+      width: 200px;
+      cursor: pointer;
+      margin-top: 45px;
+      background-color: #1C9053;
+      color: #ffffff;
+      &:hover {
+        background-color: #0D0D0D;
+      }
     }
   }
 

@@ -51,14 +51,13 @@
         display: flex;
         align-items: center;
         margin: 16px;
-        padding: 16px;
+        padding: 16px 14px;
         line-height: 25px;
         border: solid 1px #EAEDF0;
-        width: 400px;
+        width: 380px;
         &:hover {
-          border: solid 1px #EF4F4F;
+          border: solid 1px #000;
           cursor: pointer;
-          color: #EF4F4F;
         }
         .brand-info {
           display: flex;

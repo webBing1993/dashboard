@@ -1,10 +1,13 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">注册企业账户</h3>
+      <div class="title">
+        <span></span>
+        <h3>注册企业账户</h3>
+      </div>
       <div class="content">
         <div class="enterprise-info">
-          <p class="info-title">企业信息</p>
+          <p>企业信息</p>
           <div class="info-content">
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
@@ -29,9 +32,7 @@
             <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
-        <div class="button-content">
-          <XButton @onClick="regist" value="添加"></XButton>
-        </div>
+        <XButton @onClick="regist" value="注册"></XButton>
       </div>
     </div>
   </div>
@@ -115,35 +116,83 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 400;
-    color: #222222;
-    border-bottom: 1px solid #ECECEC;
-  }
-
-  .content {
-    padding: 20px;
-  }
-
-  .info-content {
-    padding: 10px 40px;
-  }
-
-  .content-msg {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    input {
-      outline: none;
-      border: none;
-      border-bottom: solid 1px #EAEDF0;
-      margin: 10px 20px;
-      padding: 8px;
-      flex: 1;
-      font-size: 14px;
+  .module-wrapper {
+    position: relative;
+    .title {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      p {
+        font-size: 18px;
+        font-weight: 400;
+        color: #DEDEDE;
+      }
+      span {
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 9px;
+          top: 7px;
+          transform: rotate(45deg);
+        }
+      }
+    }
+    .content {
+      padding: 20px;
+      .enterprise-info {
+        border: 1px solid #EAEDF0;
+        p {
+          line-height: 30px;
+          padding: 8px 20px;
+          font-size: 16px;
+          font-weight: 300;
+          background-color: #EAEDF0;
+          border-bottom: 1px solid transparent;
+        }
+        .info-content {
+          padding: 10px 40px;
+          .content-msg {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              padding: 4px;
+              width: 280px;
+              font-size: 14px;
+              &:focus {
+                border-color: #8f8f8f;
+              }
+            }
+          }
+        }
+      }
+      .weui-btn_default {
+        width: 200px;
+        cursor: pointer;
+        margin-top: 45px;
+        background-color: #1C9053;
+        color: #ffffff;
+        &:hover {
+          background-color: #0D0D0D;
+        }
+      }
     }
   }
 
@@ -151,30 +200,13 @@
     padding: 10px 20px;
   }
 
-  .info-title {
-    line-height: 30px;
-    padding: 8px 20px;
-    font-size: 16px;
-    font-weight: 300;
-    background-color: #EAEDF0;
-    border-bottom: 1px solid transparent;
-  }
-
-  .enterprise-info {
-    border: 1px solid #EAEDF0;
-  }
-
   .brand-info {
     border: 1px solid #EAEDF0;;
     margin-top: 20px;
   }
 
-  .button-content {
-    margin-top: 45px;
-    cursor: pointer;
-  }
-
   .error-info {
     color: red;
+    font-size: 12px;
   }
 </style>
