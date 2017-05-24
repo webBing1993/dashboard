@@ -4,5 +4,8 @@ module.exports = {
   },
   LOADING(state, payload){
     state.Interface.loading.show = !!payload
-  }
+  },
+  ALERT(state, payload){
+    state.Interface.alert = {...state.Interface.alert, ...payload}
+  },
 }

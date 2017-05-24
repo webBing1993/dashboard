@@ -36,7 +36,7 @@ module.exports = {
     }).then(
       response => {
         if (+response.body.errcode === 0) {
-          param.method && !param.url.match(/getInfo/) && !param.url.match(/login/) ? ctx.dispatch('showtoast') : null
+          param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) ? ctx.dispatch('showtoast') : null
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
           ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
@@ -45,7 +45,16 @@ module.exports = {
     ).catch(
       error => {
         //ErrorCallback
-        ctx.dispatch('showtoast', error.status === 401 ? '登录失效!' : 'Request Error');
+        if (error.status === 401) {
+          // ctx.dispatch('showtoast', '登录失效!');
+          // router.push('/auth');
+          ctx.dispatch('showalert', {
+            code: error.status,
+            content: '登录失效!'
+          });
+        } else {
+          ctx.dispatch('showtoast', 'Request Error');
+        }
       }
     ).finally(
       final => {

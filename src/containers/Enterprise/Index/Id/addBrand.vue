@@ -101,7 +101,7 @@
               bucket_name: 'virgo',
               file_path: '/brand_logo/' + file.name,
               onsuccess: function (body) {
-                console.log(body)
+                // console.log(body)
                 callback(body.data)
               }
             })

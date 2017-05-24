@@ -54,7 +54,7 @@
         'getBrandList'
       ]),
       regist() {
-        this.$router.push('/enterprise/addhotel')
+        this.$router.push('addhotel')
       },
       detail(obj) {
         this.$router.push(`/enterprise/hotel/${obj.id}`)
