@@ -1,46 +1,40 @@
 <template>
-  <div>
-    <div class="login_content">
-      <span class="header">登录</span>
-      <div class="content login">
-        <div class="content-item">
-          <span>账号</span>
-          <input type="text" v-model="logUserName" placeholder="请输入您的账号">
-        </div>
-        <div class="content-item">
-          <span>密码</span>
-          <input type="password" v-model="logPassword" placeholder="请输入您的密码">
-        </div>
-        <XButton @onClick="loginAction" value="登录"/>
+  <div class="login_content">
+    <span class="header">登录</span>
+    <div class="content">
+      <div class="content-item">
+        <span>账号</span>
+        <input type="text" v-model="logUserName" placeholder="请输入您的账号">
       </div>
-      <!--<div class="content">
-        <div class="content-item">
-          <span>账号</span>
-          <input type="text" v-model="userName" placeholder="请输入账号">
-        </div>
-        <div class="content-item">
-          <span>密码</span>
-          <input type="password" v-model="password" placeholder="请输入密码">
-        </div>
-        <div class="content-item">
-          <span>用户名</span>
-          <input type="text" v-model="name" placeholder="请输入用户名">
-        </div>
-        <div class="content-item">
-          <span>邮箱</span>
-          <input type="text" v-model="email" placeholder="请输入您的邮箱">
-        </div>
-        <div class="content-item">
-          <span>手机</span>
-          <input type="text" v-model="mobile" placeholder="请输入您的手机号">
-        </div>
-        <XButton @onClick="registAction" value="注册"/>
-      </div>-->
+      <div class="content-item">
+        <span>密码</span>
+        <input type="password" v-model="logPassword" placeholder="请输入您的密码">
+      </div>
+      <XButton @onClick="loginAction" value="登录"/>
     </div>
-    <footer class="copy-right">
-      <span>Powered By Fortrun.</span>
-      <span>Copyright©2016-2017  All Rights Reserved.</span>
-    </footer>
+    <!--<div class="content">
+      <div class="content-item">
+        <span>账号</span>
+        <input type="text" v-model="userName" placeholder="请输入账号">
+      </div>
+      <div class="content-item">
+        <span>密码</span>
+        <input type="password" v-model="password" placeholder="请输入密码">
+      </div>
+      <div class="content-item">
+        <span>用户名</span>
+        <input type="text" v-model="name" placeholder="请输入用户名">
+      </div>
+      <div class="content-item">
+        <span>邮箱</span>
+        <input type="text" v-model="email" placeholder="请输入您的邮箱">
+      </div>
+      <div class="content-item">
+        <span>手机</span>
+        <input type="text" v-model="mobile" placeholder="请输入您的手机号">
+      </div>
+      <XButton @onClick="registAction" value="注册"/>
+    </div>-->
   </div>
 </template>
 
@@ -94,10 +88,6 @@
 </script>
 <style lang="less">
   .login_content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 45px;
     background-color: #ffffff;
     .header {
       position: fixed;
@@ -111,11 +101,7 @@
       color: #ffffff;
     }
     .content {
-      flex: 1;
-      position: relative;
-      height: 460px;
-      padding: 160px;
-      margin: 0 10px;
+      padding: 320px;
       opacity: .7;
       .content-item {
         display: flex;
@@ -147,13 +133,5 @@
         }
       }
     }
-    .login {
-      border-right: solid 2px #8f8f8f;
-    }
-  }
-
-  .copy-right {
-    bottom: 35px;
-    width: 100%;
   }
 </style>

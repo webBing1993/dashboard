@@ -19,7 +19,8 @@
             </div>
           </div>
         </div>
-        <XButton @onClick="modify" value="修改"></XButton>
+        <span class="_button" @click="modify">修改</span>
+        <!--<XButton @onClick="modify" value="修改"></XButton>-->
       </div>
     </div>
   </div>
@@ -118,7 +119,7 @@
   }
 
   .content {
-    padding: 20px;
+    padding: 20px 20px;
     .enterprise-info {
       border: 1px solid #EAEDF0;
       p {
@@ -130,10 +131,17 @@
         border-bottom: 1px solid transparent;
       }
       .info-content {
-        padding: 10px 40px;
+        padding: 20px 40px;
+        line-height: 45px;
         .title-msg {
           span {
             padding-right: 20px;
+          }
+          select {
+            width: 280px;
+            height: 32px;
+            outline: none;
+            background-color: #ffffff;
           }
         }
         .content-msg {
@@ -141,20 +149,21 @@
           align-items: center;
           font-size: 14px;
           input {
+            width: 260px;
             outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            margin: 10px 20px;
+            border: solid 1px #EAEDF0;
+            margin: 10px 26px;
             padding: 8px;
-            flex: 1;
             font-size: 14px;
           }
         }
       }
     }
-    .weui-btn_default {
-      margin-top: 40px;
-      cursor: pointer;
+    ._button {
+      float: right;
+      width: 120px;
+      line-height: 38px;
+      margin-top: 16px;
     }
   }
 

@@ -46,7 +46,7 @@
                 <span v-show="addressError" class="error-info">* 请输入详细地址</span>
               </div>
             </div>
-            <div class="content-item">
+            <div class="content-item content-item-end">
               <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
@@ -182,7 +182,7 @@
           this.brandError = false;
         else
           this.brandError = true;
-        // if (e.target.value != '') 
+        // if (e.target.value != '')
         //   this.brandError = false;
         // else
         //   this.brandError = true;
@@ -283,19 +283,20 @@
       font-size: 16px;
       p {
         line-height: 45px;
-        padding: 0 30px;
+        padding: 0 20px;
         background-color: #EAEDF0;
       }
       .info-content {
         display: flex;
         font-size: 14px;
-        padding: 30px 60px;
+        padding: 30px 20px;
         line-height: 46px;
         .content-item {
           flex: 1px;
+          min-width: 300px;
           .content-select {
             select {
-              width: 390px;
+              width: 280px;
               height: 35px;
               background-color: #ffffff;
               outline: none;
@@ -310,39 +311,46 @@
               outline: none;
               border: solid 1px #EAEDF0;
               margin: 10px 20px;
-              width: 390px;
-              line-height: 35px;
+              width: 280px;
+              line-height: 32px;
               font-size: 14px;
             }
           }
           .content-address {
+            span {
+              margin-right: 12px;
+            }
             select {
-              width: 116px;
-              height: 35px;
+              width: 90px;
+              height: 32px;
               background-color: #ffffff;
               outline: none;
-              margin-left: 16px;
+              margin-left: 4px;
             }
           }
           .content-add {
-            margin-right: 20px;
-            margin-bottom: 10px;
+            span {
+              margin-left: 10px;
+            }
             input {
               outline: none;
               border: solid 1px #EAEDF0;
               font-size: 14px;
               text-indent: 4px;
-              margin-top: 18px;
+              margin-top: 12px;
               margin-left: 76px;
-              width: 390px;
-              line-height: 35px;
+              width: 285px;
+              line-height: 32px;
             }
           }
+        }
+        .content-item-end {
+          width: 200px;
         }
       }
     }
     .weui-btn_default {
-      margin-top: 55px;
+      margin-top: 30px;
       width: 280px;
       background-color: #1C9053;
       color: #ffffff;

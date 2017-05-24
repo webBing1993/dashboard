@@ -153,7 +153,7 @@
       }
     }
     .info-content {
-      padding: 10px 40px;
+      padding: 20px 40px;
       .content-msg {
         display: flex;
         align-items: center;
@@ -163,11 +163,11 @@
         }
         input {
           outline: none;
-          border: none;
-          border-bottom: solid 1px #EAEDF0;
+          border: solid 1px #EAEDF0;
           margin: 10px 20px;
-          padding: 8px;
-          flex: 1;
+          text-indent: 8px;
+          width: 320px;
+          line-height: 32px;
           font-size: 14px;
         }
       }

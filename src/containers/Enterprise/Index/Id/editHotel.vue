@@ -9,54 +9,66 @@
             <p @click="modify">修改</p>
           </div>
           <div class="info-content">
-            <div class="content-title">
-              <div class="title-msg">
+            <div class="content-item">
+              <div class="content-select">
                 <span>所属企业</span>
                 <select @change="enterpriseChange">
-                  <option v-for="(obj, index) of enterpriseList" :value="obj.id" :selected="obj.id==hotel.group_id?'selected':''">{{obj.name}}</option>
+                  <option v-for="(obj, index) of enterpriseList" :value="obj.id"
+                          :selected="obj.id==hotel.group_id?'selected':''">{{obj.name}}
+                  </option>
                 </select>
                 <span v-show="groupError" class="error-info">* 请选择企业</span>
               </div>
-              <div class="title-msg">
+              <div class="content-input">
+                <label for="hotelCode">账户编码</label>
+                <input type="text" id="hotelCode" v-model="hotel.code" @change="codeChange"/>
+                <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+              </div>
+              <div class="content-input">
+                <label for="storeName">门店名称</label>
+                <input type="text" id="storeName" v-model="hotel.name" @change="nameChange"/>
+                <span v-show="nameError" class="error-info">* 请输入门店名称</span>
+              </div>
+              <div class="content-input">
+                <label for="phone">前台电话</label>
+                <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange"/>
+                <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
+              </div>
+              <div class="content-address">
+                <span>门店地址</span>
+                <select @change="regionChange">
+                  <option v-for="(obj, index) of regionList" :selected="obj.name==hotel.province?'selected':''"
+                          :value="obj.code">{{obj.name}}
+                  </option>
+                </select>
+                <select @change="stateChange">
+                  <option v-for="(obj, index) of stateList" :selected="obj.name==hotel.city?'selected':''"
+                          :value="obj.code">{{obj.name}}
+                  </option>
+                </select>
+                <select @change="cityChange">
+                  <option v-for="(obj, index) of cityList" :selected="obj.name==hotel.area?'selected':''"
+                          :value="obj.code">{{obj.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="content-input">
+                <label>门店地址</label>
+                <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
+                <input type="text" v-model="hotel.address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
+                <span v-show="addressError" class="error-info">* 请输入详细地址</span>
+              </div>
+            </div>
+            <div class="content-item">
+              <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
-                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==hotel.brand_id?'selected':''">{{obj.name}}</option>
+                  <option v-for="(obj, index) of brandList" :value="obj.id"
+                          :selected="obj.id==hotel.brand_id?'selected':''">{{obj.name}}
+                  </option>
                 </select>
                 <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
-            </div>
-            <div class="content-msg">
-              <label for="hotelCode">账户编码</label>
-              <input type="text" id="hotelCode" v-model="hotel.code" @change="codeChange"/>
-              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
-            </div>
-            <div class="content-msg">
-              <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="hotel.name" @change="nameChange"/>
-              <span v-show="nameError" class="error-info">* 请输入门店名称</span>
-            </div>
-            <div class="content-msg">
-              <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange"/>
-              <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
-            </div>
-            <div>
-              <span>门店地址</span>
-              <select @change="regionChange">
-                <option v-for="(obj, index) of regionList" :selected="obj.name==hotel.province?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="stateChange">
-                <option v-for="(obj, index) of stateList" :selected="obj.name==hotel.city?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="cityChange">
-                <option v-for="(obj, index) of cityList" :selected="obj.name==hotel.area?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-            </div>
-            <div class="content-msg">
-              <label>门店地址</label>
-              <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
-              <input type="text" v-model="hotel.address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
-              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
@@ -112,10 +124,10 @@
     },
     watch: {
       enterpriseList(v) {
-        
+
       },
       brandList() {
-        
+
       },
       hotel() {
         if (!this.hotel.id) return;
@@ -136,11 +148,11 @@
         } else {
           regionObj = obj.region;
         }
-        let stateObj = regionObj.state.find(v => v.name ==  this.hotel.city);
+        let stateObj = regionObj.state.find(v => v.name == this.hotel.city);
         if (stateObj === undefined) stateObj = this.stateList[0];
         this.stateCode = stateObj.code;
-        
-        let cityObj = stateObj.city.find(v => v.name ==  this.hotel.area);
+
+        let cityObj = stateObj.city.find(v => v.name == this.hotel.area);
         if (cityObj === undefined) cityObj = this.cityList[0];
         this.cityCode = cityObj.code;
       }
@@ -157,17 +169,17 @@
       ]),
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.groupError = false;
-        else 
+        else
           this.groupError = true;
         this.getBrand();
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.brandError = false;
-        else 
+        else
           this.brandError = true;
       },
       regionChange(e) {
@@ -272,14 +284,108 @@
 <style scoped lang="less">
   .title {
     line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 400;
-    color: #222222;
+    padding: 0 40px;
     border-bottom: 1px solid #ECECEC;
+    font-weight: 400;
+    font-size: 18px;
   }
 
   .content {
+    padding: 30px 60px;
+    .enterprise-info {
+      border: 1px solid #ECECEC;
+      font-size: 16px;
+      .title-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 45px;
+        padding: 0 20px;
+        background-color: #EAEDF0;
+        border-bottom: 1px solid #EAEDF0;
+        box-sizing: border-box;
+        p:nth-child(2) {
+          cursor: pointer;
+          font-size: 15px;
+          &:hover {
+            color: #586C94;
+            text-decoration: underline;
+          }
+        }
+      }
+      .info-content {
+        display: flex;
+        font-size: 14px;
+        padding: 30px 20px;
+        line-height: 46px;
+        .content-item {
+          flex: 1px;
+          min-width: 300px;
+          .content-select {
+            select {
+              width: 280px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
+          }
+          .content-input {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              width: 280px;
+              line-height: 32px;
+              font-size: 14px;
+            }
+          }
+          .content-address {
+            span {
+              margin-right: 12px;
+            }
+            select {
+              width: 90px;
+              height: 32px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 4px;
+            }
+          }
+          .content-add {
+            span {
+              margin-left: 10px;
+            }
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              font-size: 14px;
+              text-indent: 4px;
+              margin-top: 12px;
+              margin-left: 76px;
+              width: 285px;
+              line-height: 32px;
+            }
+          }
+        }
+        .content-item-end {
+          width: 200px;
+        }
+      }
+    }
+    ._button {
+      width: 160px;
+      display: block;
+      float: right;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  }
+
+  .contents {
     padding: 20px 20px;
     .enterprise-info {
       border: 1px solid #EAEDF0;
@@ -340,13 +446,6 @@
           }
         }
       }
-    }
-    ._button {
-      width: 160px;
-      display: block;
-      float: right;
-      margin-top: 20px;
-      font-size: 16px;
     }
   }
 
