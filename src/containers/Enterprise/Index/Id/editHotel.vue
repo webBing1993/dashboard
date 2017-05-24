@@ -114,7 +114,7 @@
       enterpriseList(v) {
         
       },
-      brandList() {
+      brandList(list) {
         
       },
       hotel() {
@@ -212,7 +212,19 @@
         this.brandList = [];
         this.getBrandList({
           group_id: this.hotel.group_id,
-          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
+          // onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
+          onsuccess: body => {
+            if (body.data && body.data.length > 0) {
+              this.brandList = body.data;
+              let index = this.brandList.findIndex(v => v.id == this.hotel.brand_id)
+              console.log(index)
+              if (index == -1) {
+                this.hotel.brand_id = this.brandList[0].id;
+              }
+            } else {
+              this.showtoast('暂无品牌')
+            }
+          }
         })
       },
       getInfo() {
