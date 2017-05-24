@@ -19,7 +19,7 @@ module.exports = {
   },
   resource: (ctx, param) => {
     let headers = param.headers || {};
-    if (param.url != '/register' && param.url != '/login' ) {
+    if (!param.url.match(/register/) && !param.url.match(/login/) ) {
       headers.Session = sessionStorage.getItem('session_id');
     }
     ctx.commit('LOADING', 1)
@@ -46,14 +46,15 @@ module.exports = {
       error => {
         //ErrorCallback
         if (error.status === 401) {
-          // ctx.dispatch('showtoast', '登录失效!');
-          // router.push('/auth');
           ctx.dispatch('showalert', {
             code: error.status,
             content: '登录失效!'
           });
         } else {
           ctx.dispatch('showtoast', 'Request Error');
+        }
+        if (param.url.match(/getInfo/) && param.onFail) {
+          param.onFail({name: '获取失败'})
         }
       }
     ).finally(

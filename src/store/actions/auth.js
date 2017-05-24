@@ -45,6 +45,9 @@ module.exports = {
       method:'GET',
       onSuccess: body => {
         ctx.commit('USER_INFO', body.data)
+      },
+      onFail: data => {
+        ctx.commit('USER_INFO', data)
       }
     })
   },

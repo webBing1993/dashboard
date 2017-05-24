@@ -111,10 +111,10 @@
     computed: {
       regionList() {
         // return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
-        let aaa = areaData.map(v => {
+        let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
         })
-        return aaa;
+        return arr;
       },
       stateList() {
         if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].code;
@@ -144,6 +144,9 @@
       group(val) {
         if (val == '') return;
         this.getBrand();
+      },
+      brand(val) {
+        this.brandError = val == '';
       }
     },
     methods: {
@@ -178,6 +181,10 @@
           this.brandError = false;
         else
           this.brandError = true;
+        // if (e.target.value != '') 
+        //   this.brandError = false;
+        // else
+        //   this.brandError = true;
       },
       regionChange(e) {
         this.regionCode = e.target.value;
@@ -256,7 +263,6 @@
       }
 
       this.getEnterprise();
-      this.getBrand();
     }
   }
 </script>
