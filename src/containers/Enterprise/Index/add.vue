@@ -37,7 +37,8 @@
             <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
-        <XButton @onClick="regist" value="注册"></XButton>
+        <span class="_button" @click="regist">注册</span>
+        <!--<XButton @onClick="regist" value="注册"></XButton>-->
       </div>
     </div>
   </div>
@@ -197,15 +198,12 @@
           }
         }
       }
-      .weui-btn_default {
-        width: 200px;
-        cursor: pointer;
-        margin-top: 45px;
-        background-color: #1C9053;
-        color: #ffffff;
-        &:hover {
-          background-color: #0D0D0D;
-        }
+      ._button {
+        width: 160px;
+        display: block;
+        float: right;
+        margin-top: 20px;
+        font-size: 16px;
       }
     }
   }

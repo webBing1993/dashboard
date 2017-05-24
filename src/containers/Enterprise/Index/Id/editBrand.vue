@@ -99,7 +99,7 @@
           id: this.$route.params.brandid,
           name: this.brand.name,
           group_id: this.enterprise,
-          logo_url: this.logoUrl?this.logoUrl:this.brand.logo_url,
+          logo_url: this.logoUrl ? this.logoUrl : this.brand.logo_url,
           onsuccess: body => {
             this.goto(-1)
           }
@@ -210,6 +210,16 @@
             margin: 10px 26px;
             padding: 8px;
             font-size: 14px;
+          }
+        }
+        .content-logo {
+          label {
+            margin-right: 10px;
+          }
+          input {
+            min-width: 280px;
+            outline: none;
+            height: 32px;
           }
         }
       }
