@@ -139,7 +139,7 @@
         if (this.group == '' && this.enterpriseList[0]) this.group = this.enterpriseList[0].id;
       },
       brandList(brandList) {
-        if (this.brand == '' && this.brandList[0]) this.brand = this.brandList[0].id;
+        if (this.brandList[0]) this.brand = this.brandList[0].id;
       },
       group(val) {
         if (val == '') return;

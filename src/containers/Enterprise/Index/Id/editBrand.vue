@@ -17,6 +17,12 @@
               <input type="text" id="brandName" v-model="brand.name" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入品牌名称</span>
             </div>
+            <div class="content-logo">
+              <label for="logo">修改LOGO</label>
+              <!--<img width="100" height="100" :src="brand.logo_url" />-->
+              <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
+                     accept="image/jpg,image/jpeg,image/png,image/gif">
+            </div>
           </div>
         </div>
         <span class="_button" @click="modify">修改</span>
@@ -27,6 +33,7 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  let cos;
   export default {
     name: 'BrandEdit',
     data () {
@@ -34,6 +41,7 @@
         brand: {},
         nameError: false,
         enterprise: '',
+        logoUrl: '',
         enterpriseList: [],
         chooseList: []
       }
@@ -61,7 +69,8 @@
         'modifyBrand',
         'getBrand',
         'goto',
-        'showtoast'
+        'showtoast',
+        'CosCloudAssign'
       ]),
       enterpriseChange(e) {
         this.enterprise = e.target.value;
@@ -90,6 +99,7 @@
           id: this.$route.params.brandid,
           name: this.brand.name,
           group_id: this.enterprise,
+          logo_url: this.logoUrl?this.logoUrl:this.brand.logo_url,
           onsuccess: body => {
             this.goto(-1)
           }
@@ -100,7 +110,52 @@
           id: this.$route.params.brandid,
           onsuccess: body => body.data ? this.brand = body.data : this.showtoast('数据不存在')
         })
-      }
+      },
+      imgChange(e) {
+        let file = e.target.files[0];
+        // this.$refs.inputfile.value = '';    //不清掉，选择同一张图片就不会触发change事件
+        this.uploadImg(file);
+      },
+      uploadImg(file) {
+        if (!file) return;
+        let self = this;
+        cos = new CosCloud({
+          appid: 1252821823,// APPID 必填参数
+          bucket: 'virgo',//bucketName 必填参数
+          region: 'sh',//地域信息 必填参数 华南地区填gz 华东填sh 华北填tj
+          getAppSign: function (callback) {//获取签名 必填参数
+            self.CosCloudAssign({
+              bucket_name: 'virgo',
+              file_path: '/brand_logo/' + file.name,
+              onsuccess: function (body) {
+                // console.log(body)
+                callback(body.data)
+              }
+            })
+          },
+          getAppSignOnce: function (callback) {//获取签名 必填参数
+            self.CosCloudAssign({
+              bucket_name: 'virgo',
+              file_path: '/brand_logo/' + file.name,
+              onsuccess: function (body) {
+                callback(body.data)
+              }
+            })
+          }
+        });
+
+        cos.uploadFile(
+          body => {
+            this.logoUrl = body.data.source_url;
+          },
+          err => console.log(err),
+          progress => console.log(progress),
+          'virgo',
+          '/brand_logo/' + file.name,
+          file,
+          0
+        );
+      },
     },
     mounted() {
       this.getEnterprise();
