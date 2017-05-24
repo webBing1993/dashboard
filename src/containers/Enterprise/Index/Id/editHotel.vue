@@ -13,14 +13,14 @@
               <div class="title-msg">
                 <span>所属企业</span>
                 <select @change="enterpriseChange">
-                  <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
+                  <option v-for="(obj, index) of enterpriseList" :value="obj.id" :selected="obj.id==hotel.group_id?'selected':''">{{obj.name}}</option>
                 </select>
                 <span v-show="groupError" class="error-info">* 请选择企业</span>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
                 <select @change="brandChange">
-                  <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
+                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==hotel.brand_id?'selected':''">{{obj.name}}</option>
                 </select>
                 <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
@@ -75,7 +75,6 @@
         hotel: {},
         enterpriseList: [],
         brandList: [],
-        brandSlectList: [],
         regionCode: '',
         stateCode: '',
         cityCode: '',
@@ -85,9 +84,7 @@
         codeError: false,
         nameError: false,
         phoneError: false,
-        addressError: false,
-        chooseEnterpriseList: [],
-        chooseBrandList: []
+        addressError: false
       }
     },
     computed: {
@@ -115,40 +112,10 @@
     },
     watch: {
       enterpriseList(v) {
-        let list = [].concat(v);
-        let index = list.findIndex(v => v.id == this.hotel.group_id);
-        if (index == -1) {
-          this.chooseEnterpriseList = list;
-          return;
-        }
-        let obj = list.splice(index, 1)[0];
-        if (obj == undefined) {
-          this.chooseEnterpriseList = list;
-          return;
-        }
-        list.unshift(obj);
-        this.chooseEnterpriseList = list;
+        
       },
       brandList() {
-        if (!this.hotel.group_id) return;
-        let list = [].concat(this.brandList);
-        if (!list.length || list.length == 0) return;
-
-        let index = list.findIndex(v => v.id == this.hotel.brand_id);
-        if (index == -1) {
-          this.chooseBrandList = list;
-          return;
-        }
-        let obj = list.splice(index, 1)[0];
-        if (obj == undefined) {
-          this.chooseBrandList = list;
-          return;
-        }
-        list.unshift(obj);
-        this.chooseBrandList = list;
-      },
-      chooseBrandList() {
-        this.hotel.brand_id = this.chooseBrandList[0] ? this.chooseBrandList[0].id : '';
+        
       },
       hotel() {
         if (!this.hotel.id) return;
@@ -243,7 +210,6 @@
       },
       getBrand() {
         this.brandList = [];
-        this.chooseBrandList = [];
         this.getBrandList({
           group_id: this.hotel.group_id,
           onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
@@ -298,8 +264,8 @@
       }
     },
     mounted() {
-      this.getEnterprise();
       this.getInfo();
+      this.getEnterprise();
     }
   }
 </script>
