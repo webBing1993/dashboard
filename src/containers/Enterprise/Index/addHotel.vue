@@ -142,6 +142,9 @@
       group(val) {
         if (val == '') return;
         this.getBrand();
+      },
+      brand(val) {
+        this.brandError = val == '';
       }
     },
     methods: {
@@ -172,10 +175,10 @@
       },
       brandChange(e) {
         this.brand = e.target.value;
-        if (e.target.value != '') 
-          this.brandError = false;
-        else 
-          this.brandError = true;
+        // if (e.target.value != '') 
+        //   this.brandError = false;
+        // else 
+        //   this.brandError = true;
       },
       regionChange(e) {
         this.regionCode = e.target.value;
@@ -254,7 +257,6 @@
       }
 
       this.getEnterprise();
-      this.getBrand();
     }
   }
 </script>

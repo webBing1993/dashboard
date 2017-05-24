@@ -38,15 +38,18 @@
               <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange"/>
               <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
-            <select @change="regionChange">
-              <option v-for="(obj, index) of regionList" :selected="obj.name==hotel.province?'selected':''" :value="obj.code">{{obj.name}}</option>
-            </select>
-            <select @change="stateChange">
-              <option v-for="(obj, index) of stateList" :selected="obj.name==hotel.city?'selected':''" :value="obj.code">{{obj.name}}</option>
-            </select>
-            <select @change="cityChange">
-              <option v-for="(obj, index) of cityList" :selected="obj.name==hotel.area?'selected':''" :value="obj.code">{{obj.name}}</option>
-            </select>
+            <div>
+              <span>门店地址</span>
+              <select @change="regionChange">
+                <option v-for="(obj, index) of regionList" :selected="obj.name==hotel.province?'selected':''" :value="obj.code">{{obj.name}}</option>
+              </select>
+              <select @change="stateChange">
+                <option v-for="(obj, index) of stateList" :selected="obj.name==hotel.city?'selected':''" :value="obj.code">{{obj.name}}</option>
+              </select>
+              <select @change="cityChange">
+                <option v-for="(obj, index) of cityList" :selected="obj.name==hotel.area?'selected':''" :value="obj.code">{{obj.name}}</option>
+              </select>
+            </div>
             <div class="content-msg">
               <label>门店地址</label>
               <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
@@ -121,8 +124,6 @@
         }
         list.unshift(obj);
         this.chooseEnterpriseList = list;
-
-        this.getBrand();
       },
       brandList() {
         if (!this.hotel.group_id) return;
@@ -143,6 +144,8 @@
         this.chooseBrandList = list;
       },
       hotel() {
+        this.getBrand();
+
         let region = this.regionList.find(v => v.name == this.hotel.province);
 
         if (region !== undefined) {
@@ -262,6 +265,7 @@
           id: this.hotel.id,
           group_id: this.hotel.group_id,
           brand_id: this.hotel.brand_id,
+          code: this.hotel.code,
           name: this.hotel.name,
           tel: this.hotel.tel,
           province: obj.region.name,
