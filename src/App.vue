@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-content">
     <router-view id="app" class="first-router"></router-view>
     <Toast v-model="Interface.toast.show" :title="Interface.toast.text"/>
     <Toast v-model="Interface.loading.show" loading/>
