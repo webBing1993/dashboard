@@ -17,5 +17,5 @@ module.exports = {
       content: ''
     }
   },
-  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "复创"}')
+  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "获取中"}')
 }
