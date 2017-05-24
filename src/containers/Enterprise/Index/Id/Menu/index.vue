@@ -9,7 +9,7 @@
       <div class="content">
         <div class="content-msg">
           <label for="enterpriseCode">企业账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.id"/>
+          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.code"/>
         </div>
         <div class="content-msg">
           <label for="enterpriseName">企业名称</label>
@@ -35,12 +35,13 @@
     },
     methods: {
       ...mapActions([
-        'getEnterprise'
+        'getEnterprise',
+        'showtoast'
       ]),
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
         })
       },
       edit() {

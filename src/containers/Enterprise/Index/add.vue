@@ -15,6 +15,11 @@
               <span v-show="nameError" class="error-info">* 请输入企业名称</span>
             </div>
             <div class="content-msg">
+              <label for="enterpriseCode">账户编码</label>
+              <input type="text" id="enterpriseCode" v-model="enterpriseCode" @change="codeChange"/>
+              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+            </div>
+            <div class="content-msg">
               <label for="enterpriseDesc">企业简称</label>
               <input type="text" id="enterpriseDesc" v-model="enterpriseDesc" @change="memoChange"/>
               <span v-show="memoError" class="error-info">* 请输入企业简称</span>
@@ -39,15 +44,17 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableAdd from '@/components/Tables/table-add.vue'
+  import tableAdd from '@/modules/Tables/table-add.vue'
   export default {
     name: 'Add',
     data () {
       return {
         enterpriseName: '',
+        enterpriseCode: '',
         enterpriseDesc: '',
         enterpriseWeb: '',
         nameError: false,
+        codeError: false,
         memoError: false,
         websiteError: false,
         brandList: []
@@ -78,6 +85,12 @@
         else
           this.nameError = true;
       },
+      codeChange(e) {
+        if (e.target.value != '')
+          this.codeError = false;
+        else
+          this.codeError = true;
+      },
       memoChange(e) {
         if (e.target.value != '')
           this.memoError = false;
@@ -92,16 +105,17 @@
       },
       regist() {
         if (this.enterpriseName == '') this.nameError = true;
+        if (this.enterpriseCode == '') this.codeError = true;
         if (this.enterpriseDesc == '') this.memoError = true;
         if (this.enterpriseWeb == '') this.websiteError = true;
-        if (this.enterpriseName == '' || this.enterpriseDesc == '' || this.enterpriseWeb == '') return;
+        if (this.enterpriseName == '' || this.enterpriseCode == '' || this.enterpriseDesc == '' || this.enterpriseWeb == '') return;
 
         this.addEnterprise({
           name: this.enterpriseName,
+          code: this.enterpriseCode,
           memo: this.enterpriseDesc,
           website: this.enterpriseWeb,
-          onsuccess: body => this.goto(-1),
-          onFail: err => alert(err.errmsg)
+          onsuccess: body => this.goto(-1)
         })
       },
       getBrandList() {

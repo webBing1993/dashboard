@@ -82,8 +82,7 @@
           logo_url: this.logoUrl,
           // group_id: this.enterprise,
           group_id: this.$route.params.id,
-          onsuccess: body => this.goto(-1),
-          onFail: err => alert(err.errmsg)
+          onsuccess: body => this.goto(-1)
         })
       },
       imgChange(e) {
@@ -102,7 +101,7 @@
               bucket_name: 'virgo',
               file_path: '/brand_logo/' + file.name,
               onsuccess: function (body) {
-                console.log(body)
+                // console.log(body)
                 callback(body.data)
               }
             })

@@ -24,6 +24,11 @@
               </div>
             </div>
             <div class="content-msg">
+              <label for="hotelCode">账户编码</label>
+              <input type="text" id="hotelCode" v-model="hotel.code" @change="codeChange"/>
+              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+            </div>
+            <div class="content-msg">
               <label for="storeName">门店名称</label>
               <input type="text" id="storeName" v-model="hotel.name" @change="nameChange"/>
               <span v-show="nameError" class="error-info">* 请输入门店名称</span>
@@ -33,15 +38,15 @@
               <input type="text" id="phone" v-model="hotel.tel" @change="phoneChange"/>
               <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
             </div>
-            <!--<select @change="regionChange">
-              <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
+            <select @change="regionChange">
+              <option v-for="(obj, index) of regionList" :selected="obj.name==hotel.province?'selected':''" :value="obj.code">{{obj.name}}</option>
             </select>
             <select @change="stateChange">
-              <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
+              <option v-for="(obj, index) of stateList" :selected="obj.name==hotel.city?'selected':''" :value="obj.code">{{obj.name}}</option>
             </select>
             <select @change="cityChange">
-              <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-            </select>-->
+              <option v-for="(obj, index) of cityList" :selected="obj.name==hotel.area?'selected':''" :value="obj.code">{{obj.name}}</option>
+            </select>
             <div class="content-msg">
               <label>门店地址</label>
               <!--<input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange" />-->
@@ -70,6 +75,7 @@
         stateCode: '',
         cityCode: '',
         address: '',
+        codeError: false,
         nameError: false,
         phoneError: false,
         addressError: false,
@@ -141,7 +147,8 @@
         'getHotel',
         'modifyHotel',
         'removeHotel',
-        'goto'
+        'goto',
+        'showtoast'
       ]),
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
@@ -158,6 +165,12 @@
       },
       cityChange(e) {
         this.cityCode = e.target.value;
+      },
+      codeChange(e) {
+        if (e.target.value != '')
+          this.codeError = false;
+        else
+          this.codeError = true;
       },
       nameChange(e) {
         if (e.target.value != '')
@@ -193,32 +206,31 @@
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
         })
       },
       remove() {
         this.removeHotel({
           id: this.hotel.id,
           onsuccess: body => {
-            alert('删除成功')
             this.goto('/enterprise/hotel')
           }
         })
       },
       modify() {
         if (this.hotel.name == '') this.nameError = true;
+        if (this.hotel.code == '') this.codeError = true;
         if (this.hotel.tel == '') this.phoneError = true;
-        // if (this.address == '') this.addressError = true;
         // if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
         if (this.hotel.address == '') this.addressError = true;
-        if (this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
+        if (this.hotel.code == '' || this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
 
-        // let obj = areaData.find(v => v.region.code == this.regionCode);
-        // if (obj === undefined) return;
-        // let state = obj.region.state.find(v => v.code == this.stateCode);
-        // if (state === undefined) return;
-        // let city = state.city.find(v => v.code == this.cityCode);
-        // if (city === undefined) return;
+        let obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined) return;
+        let state = obj.region.state.find(v => v.code == this.stateCode);
+        if (state === undefined) return;
+        let city = state.city.find(v => v.code == this.cityCode);
+        if (city === undefined) return;
 
         this.modifyHotel({
           id: this.hotel.id,
@@ -226,13 +238,13 @@
           brand_id: this.hotel.brand_id,
           name: this.hotel.name,
           tel: this.hotel.tel,
-          // address: `${obj.region.name}${state.name}${city.name}${this.address}`,
+          province: obj.region.name,
+          city: state.name,
+          area: city.name,
           address: this.hotel.address,
           onsuccess: body => {
-            alert('修改成功');
             this.goto(-1)
-          },
-          onFail: err => alert(err.errmsg)
+          }
         })
       }
     },
@@ -248,7 +260,6 @@
       }
 
       this.getEnterprise();
-      // this.getBrand();
       this.getInfo();
     }
   }

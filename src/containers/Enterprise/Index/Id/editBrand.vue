@@ -59,7 +59,8 @@
         'getEnterpriseList',
         'modifyBrand',
         'getBrand',
-        'goto'
+        'goto',
+        'showtoast'
       ]),
       enterpriseChange(e) {
         this.enterprise = e.target.value;
@@ -89,16 +90,14 @@
           name: this.brand.name,
           group_id: this.enterprise,
           onsuccess: body => {
-            alert('修改成功');
             this.goto(-1)
-          },
-          onFail: err => alert(err.errmsg)
+          }
         })
       },
       getInfo() {
         this.getBrand({
           id: this.$route.params.brandid,
-          onsuccess: body => body.data ? this.brand = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.brand = body.data : this.showtoast('数据不存在')
         })
       }
     },

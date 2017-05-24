@@ -1,4 +1,5 @@
 module.exports = {
     ...require('./enterprise'),
-    ...require('./auth')
+    ...require('./auth'),
+    ...require('./interface')
 }

@@ -11,7 +11,7 @@
           <div class="info-content">
             <div class="content-msg">
               <label for="enterpriseCode">企业账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="group.id" readonly/>
+              <input type="text" id="enterpriseCode" v-model="group.code"/>
             </div>
             <div class="content-msg">
               <label for="enterpriseName">企业名称</label>
@@ -52,7 +52,8 @@
         'getEnterprise',
         'modifyEnterprise',
         'removeEnterprise',
-        'goto'
+        'goto',
+        'showtoast'
       ]),
       nameChange(e) {
         if (e.target.value != '')
@@ -75,7 +76,7 @@
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.group = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
         })
       },
       modify() {
@@ -86,21 +87,19 @@
 
         this.modifyEnterprise({
           id: this.group.id,
+          code: this.group.code,
           name: this.group.name,
           memo: this.group.memo,
           website: this.group.website,
           onsuccess: body => {
-            alert('修改成功');
             this.goto(-1)
-          },
-          onFail: err => alert(err.errmsg)
+          }
         })
       },
       remove() {
         this.removeEnterprise({
           id: this.group.id,
           onsuccess: body => {
-            alert('删除成功')
             this.goto('/enterprise')
           }
         })
