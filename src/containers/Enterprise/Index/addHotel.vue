@@ -154,6 +154,7 @@
         'getEnterpriseList',
         'getBrandList',
         'addHotel',
+        'showtoast',
         'goto'
       ]),
       getEnterprise() {
@@ -165,7 +166,7 @@
         this.brandList = [];
         this.getBrandList({
           group_id: this.group,
-          onsuccess: body => this.brandList = body.data
+          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
         })
       },
       groupChange(e) {

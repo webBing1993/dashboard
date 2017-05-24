@@ -13,14 +13,16 @@
               <div class="title-msg">
                 <span>所属企业</span>
                 <select @change="enterpriseChange">
-                  <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
+                  <option v-for="(obj, index) of enterpriseList" :value="obj.id" :selected="obj.id==hotel.group_id?'selected':''">{{obj.name}}</option>
                 </select>
+                <span v-show="groupError" class="error-info">* 请选择企业</span>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
                 <select @change="brandChange">
-                  <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
+                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==hotel.brand_id?'selected':''">{{obj.name}}</option>
                 </select>
+                <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
             </div>
             <div class="content-msg">
@@ -73,17 +75,16 @@
         hotel: {},
         enterpriseList: [],
         brandList: [],
-        brandSlectList: [],
         regionCode: '',
         stateCode: '',
         cityCode: '',
         address: '',
+        groupError: false,
+        brandError: false,
         codeError: false,
         nameError: false,
         phoneError: false,
-        addressError: false,
-        chooseEnterpriseList: [],
-        chooseBrandList: []
+        addressError: false
       }
     },
     computed: {
@@ -111,39 +112,14 @@
     },
     watch: {
       enterpriseList(v) {
-        let list = [].concat(v);
-        let index = list.findIndex(v => v.id == this.hotel.group_id);
-        if (index == -1) {
-          this.chooseEnterpriseList = list;
-          return;
-        }
-        let obj = list.splice(index, 1)[0];
-        if (obj == undefined) {
-          this.chooseEnterpriseList = list;
-          return;
-        }
-        list.unshift(obj);
-        this.chooseEnterpriseList = list;
+        
       },
       brandList() {
-        if (!this.hotel.group_id) return;
-        let list = [].concat(this.brandList);
-        if (!list.length || list.length == 0) return;
-
-        let index = list.findIndex(v => v.id == this.hotel.brand_id);
-        if (index == -1) {
-          this.chooseBrandList = list;
-          return;
-        }
-        let obj = list.splice(index, 1)[0];
-        if (obj == undefined) {
-          this.chooseBrandList = list;
-          return;
-        }
-        list.unshift(obj);
-        this.chooseBrandList = list;
+        
       },
       hotel() {
+        if (!this.hotel.id) return;
+
         this.getBrand();
 
         let region = this.regionList.find(v => v.name == this.hotel.province);
@@ -181,10 +157,18 @@
       ]),
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
+        if (e.target.value != '') 
+          this.groupError = false;
+        else 
+          this.groupError = true;
         this.getBrand();
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
+        if (e.target.value != '') 
+          this.brandError = false;
+        else 
+          this.brandError = true;
       },
       regionChange(e) {
         this.regionCode = e.target.value;
@@ -226,10 +210,9 @@
       },
       getBrand() {
         this.brandList = [];
-        this.chooseBrandList = [];
         this.getBrandList({
           group_id: this.hotel.group_id,
-          onsuccess: body => this.brandList = body.data
+          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
         })
       },
       getInfo() {
@@ -247,12 +230,14 @@
         })
       },
       modify() {
+        if (this.hotel.group_id == '') this.groupError = true;
+        if (this.hotel.brand_id == '') this.brandError = true;
         if (this.hotel.name == '') this.nameError = true;
         if (this.hotel.code == '') this.codeError = true;
         if (this.hotel.tel == '') this.phoneError = true;
         // if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
         if (this.hotel.address == '') this.addressError = true;
-        if (this.hotel.code == '' || this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
+        if (this.hotel.group_id == '' || this.hotel.brand_id == '' || this.hotel.code == '' || this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
 
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined) return;
@@ -279,8 +264,8 @@
       }
     },
     mounted() {
-      this.getEnterprise();
       this.getInfo();
+      this.getEnterprise();
     }
   }
 </script>
