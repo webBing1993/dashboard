@@ -15,12 +15,14 @@
                 <select @change="enterpriseChange">
                   <option v-for="(obj, index) of chooseEnterpriseList" :value="obj.id">{{obj.name}}</option>
                 </select>
+                <span v-show="groupError" class="error-info">* 请选择企业</span>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
                 <select @change="brandChange">
                   <option v-for="(obj, index) of chooseBrandList" :value="obj.id">{{obj.name}}</option>
                 </select>
+                <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
             </div>
             <div class="content-msg">
@@ -78,6 +80,8 @@
         stateCode: '',
         cityCode: '',
         address: '',
+        groupError: false,
+        brandError: false,
         codeError: false,
         nameError: false,
         phoneError: false,
@@ -143,6 +147,9 @@
         list.unshift(obj);
         this.chooseBrandList = list;
       },
+      chooseBrandList() {
+        this.hotel.brand_id = this.chooseBrandList[0] ? this.chooseBrandList[0].id : '';
+      },
       hotel() {
         this.getBrand();
 
@@ -181,10 +188,18 @@
       ]),
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
+        if (e.target.value != '') 
+          this.groupError = false;
+        else 
+          this.groupError = true;
         this.getBrand();
       },
       brandChange(e) {
         this.hotel.brand_id = e.target.value;
+        if (e.target.value != '') 
+          this.brandError = false;
+        else 
+          this.brandError = true;
       },
       regionChange(e) {
         this.regionCode = e.target.value;
@@ -229,7 +244,7 @@
         this.chooseBrandList = [];
         this.getBrandList({
           group_id: this.hotel.group_id,
-          onsuccess: body => this.brandList = body.data
+          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
         })
       },
       getInfo() {
@@ -247,12 +262,14 @@
         })
       },
       modify() {
+        if (this.hotel.group_id == '') this.groupError = true;
+        if (this.hotel.brand_id == '') this.brandError = true;
         if (this.hotel.name == '') this.nameError = true;
         if (this.hotel.code == '') this.codeError = true;
         if (this.hotel.tel == '') this.phoneError = true;
         // if (this.hotel.name == '' || this.hotel.tel == '' || this.address == '') return;
         if (this.hotel.address == '') this.addressError = true;
-        if (this.hotel.code == '' || this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
+        if (this.hotel.group_id == '' || this.hotel.brand_id == '' || this.hotel.code == '' || this.hotel.name == '' || this.hotel.tel == '' || this.hotel.address == '') return;
 
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined) return;
