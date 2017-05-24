@@ -6,49 +6,51 @@
         <div class="store-info">
           <p>门店信息</p>
           <div class="info-content">
-            <div class="content-title">
-              <div class="title-msg">
-                <span>所属企业 : </span>
-                <span>{{group.name?group.name:$route.params.id}}</span>
+            <div class="content-item">
+              <div class="content-title">
+                <span>所属企业</span>
+                <span>{{group.name ? group.name : $route.params.id}}</span>
               </div>
-              <div class="title-msg">
+              <div class="content-input">
+                <label for="hotelCode">账户编码</label>
+                <input type="text" id="hotelCode" v-model="hotelCode" @change="codeChange"/>
+                <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+              </div>
+              <div class="content-input">
+                <label for="storeName">门店名称</label>
+                <input type="text" id="storeName" v-model="storeName" @change="nameChange"/>
+                <span v-show="nameError" class="error-info">* 请输入门店名称</span>
+              </div>
+              <div class="content-input">
+                <label for="phone">前台电话</label>
+                <input type="text" id="phone" v-model="storePhone" @change="phoneChange"/>
+                <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
+              </div>
+              <div class="content-address">
+                <span>门店地址</span>
+                <select @change="regionChange">
+                  <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
+                </select>
+                <select @change="stateChange">
+                  <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
+                </select>
+                <select @change="cityChange">
+                  <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
+                </select>
+              </div>
+              <div class="content-add">
+                <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
+                <span v-show="addressError" class="error-info">* 请输入详细地址</span>
+              </div>
+            </div>
+            <div class="content-item">
+              <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
                   <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
                 </select>
                 <span v-show="brandError" class="error-info">* 请选择品牌</span>
               </div>
-            </div>
-            <div class="content-msg">
-              <label for="hotelCode">账户编码</label>
-              <input type="text" id="hotelCode" v-model="hotelCode" @change="codeChange"/>
-              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
-            </div>
-            <div class="content-input">
-              <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="storeName" @change="nameChange"/>
-              <span v-show="nameError" class="error-info">* 请输入门店名称</span>
-            </div>
-            <div class="content-input">
-              <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="storePhone" @change="phoneChange"/>
-              <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
-            </div>
-            <div>
-              <span>门店地址</span>
-              <select @change="regionChange">
-                <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="stateChange">
-                <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select @change="cityChange">
-                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
-              </select>
-            </div>
-            <div class="content-add">
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
-              <span v-show="addressError" class="error-info">* 请输入详细地址</span>
             </div>
           </div>
         </div>
@@ -153,9 +155,9 @@
       },
       brandChange(e) {
         this.brand = e.target.value;
-        if (e.target.value != '') 
+        if (e.target.value != '')
           this.brandError = false;
-        else 
+        else
           this.brandError = true;
       },
       regionChange(e) {
@@ -248,83 +250,97 @@
   }
 
   .content {
-    padding: 20px;
+    padding: 30px 60px;
     .store-info {
       border: 1px solid #ECECEC;
       font-size: 16px;
       p {
-        line-height: 40px;
-        padding: 0 20px;
+        line-height: 45px;
+        padding: 0 30px;
         background-color: #EAEDF0;
       }
       .info-content {
         display: flex;
-        flex-direction: column;
         font-size: 14px;
-        padding: 10px 40px;
-        line-height: 42px;
-        .content-title {
-          display: flex;
-          .title-msg {
-            flex: 1;
+        padding: 30px 60px;
+        line-height: 46px;
+        .content-item {
+          flex: 1px;
+          .content-title {
+            span {
+              margin-right: 16px;
+            }
+          }
+          .content-select {
+            select {
+              width: 390px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
+          }
+          .content-input {
+            display: flex;
             align-items: center;
-          }
-        }
-        .content-input {
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          input {
-            outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            margin: 10px 20px;
-            padding: 4px;
-            flex: 1;
             font-size: 14px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              width: 390px;
+              line-height: 35px;
+              font-size: 14px;
+            }
           }
-        }
-        .content-add {
-          margin-right: 20px;
-          margin-bottom: 10px;
-          input {
-            width: 100%;
-            outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            padding: 12px 0;
-            flex: 1;
-            font-size: 14px;
-            text-indent: 4px;
+          .content-address {
+            select {
+              width: 116px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
           }
-        }
-        span {
-          padding-right: 8px;
-        }
-        select {
-          min-width: 60px;
-          height: 25px;
-          outline: none;
+          .content-add {
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              font-size: 14px;
+              text-indent: 4px;
+              margin-top: 18px;
+              margin-left: 76px;
+              width: 390px;
+              line-height: 35px;
+            }
+            span {
+              margin-left: 20px;
+            }
+          }
         }
       }
     }
     .weui-btn_default {
-      margin-top: 30px;
-      color: #576b95;
+      margin-top: 55px;
+      width: 280px;
+      background-color: #1C9053;
+      color: #ffffff;
+      border-radius: 6px;
+      cursor: pointer;
+      &:hover {
+        background-color: #0D0D0D;
+      }
     }
   }
 
   .error-info {
+    width: 92px;
     color: red;
+    font-size: 12px;
   }
 
-  /*.table-content {*/
-  /*padding: 10px 20px;*/
-  /*}*/
-
-  /*.contact-info {*/
-  /*border: 1px solid #757575;*/
-  /*margin-top: 20px;*/
-  /*}*/
+  .table-content {
+    padding: 10px 20px;
+  }
 
 </style>

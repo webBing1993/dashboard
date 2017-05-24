@@ -153,9 +153,9 @@
     }
   }
 
-  .copy-right {
-    position: absolute;
-    bottom: 35px;
-    width: 100%;
-  }
+  /*.copy-right {*/
+    /*position: absolute;*/
+    /*bottom: 35px;*/
+    /*width: 100%;*/
+  /*}*/
 </style>
