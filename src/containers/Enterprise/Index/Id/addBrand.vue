@@ -123,12 +123,14 @@
           body => {
             this.logoUrl = body.data.source_url;
           },
-          err => {
-            this.showtoast(err);
-          },
-          progress => {
-            this.showtoast(progress);
-          },
+          // err => {
+          //   this.showtoast(err);
+          // },
+          // progress => {
+          //   this.showtoast(progress);
+          // },
+          err => console.log(err),
+          progress => console.log(progress),
           'virgo',
           '/brand_logo/' + file.name,
           file,
