@@ -18,7 +18,7 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableEnterprise from '@/components/Tables/table-enterprise.vue';
+  import tableEnterprise from '@/modules/Tables/table-enterprise.vue';
   export default {
     name: 'SearchGroup',
     data () {

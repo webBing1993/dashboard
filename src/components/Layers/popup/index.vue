@@ -27,6 +27,9 @@
       maskShow: {
         type: Boolean
       },
+      noMaskTouch: {
+        type: Boolean
+      },
       bottom: {
         type: Boolean
       },
@@ -43,7 +46,7 @@
     },
     methods: {
       popupHide() {
-        this.$emit('input', false)
+        if (!this.noMaskTouch) this.$emit('input', false)
       }
     }
   }

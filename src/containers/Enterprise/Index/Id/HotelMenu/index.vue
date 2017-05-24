@@ -9,7 +9,7 @@
       <div class="content">
         <div class="content-input">
           <label for="enterpriseCode">门店子账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.id"/>
+          <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.code"/>
         </div>
         <div class="content-input">
           <label for="enterpriseName">门店名称</label>
@@ -31,12 +31,13 @@
     },
     methods: {
       ...mapActions([
-        'getHotel'
+        'getHotel',
+        'showtoast'
       ]),
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.hotel = body.data : alert('数据不存在')
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
         })
       },
       edit() {

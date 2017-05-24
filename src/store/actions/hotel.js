@@ -6,15 +6,13 @@ module.exports = {
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
+        code: param.code,
         name: param.name,
         tel: param.tel,
         address: param.address,
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -34,15 +32,14 @@ module.exports = {
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
+        code: param.code,
         name: param.name,
         tel: param.tel,
         address: param.address,
       },
       onSuccess: body => {
+        ctx.dispatch('showtoast', '修改成功');
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -51,6 +48,7 @@ module.exports = {
       url: `/hotels/${param.id}`,
       method:'DELETE',
       onSuccess: body => {
+        ctx.dispatch('showtoast', '删除成功');
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

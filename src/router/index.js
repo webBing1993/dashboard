@@ -22,6 +22,7 @@ import EnterpriseIdMenu from '@/containers/Enterprise/Index/Id/menu'
 import EnterpriseIdEdit from '@/containers/Enterprise/Index/Id/edit'
 import EnterpriseIdBrand from '@/containers/Enterprise/Index/Id/brand'
 import BrandAdd from '@/containers/Enterprise/Index/Id/addBrand'
+import AddHotel from '@/containers/Enterprise/Index/Id/addHotel'
 import BrandEdit from '@/containers/Enterprise/Index/Id/editBrand'
 import HotelMenu from '@/containers/Enterprise/Index/Id/hotelMenu'
 import EditHotel from '@/containers/Enterprise/Index/Id/editHotel'
@@ -77,6 +78,9 @@ const main = [{
       }, {
         path: 'addbrand',
         component: BrandAdd,
+      }, {
+        path: 'addhotel',
+        component: AddHotel,
       },{
           path: 'editbrand/:brandid',
           component: BrandEdit

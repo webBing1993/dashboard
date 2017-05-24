@@ -10,9 +10,6 @@ module.exports = {
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -34,10 +31,8 @@ module.exports = {
         name: param.name
       },
       onSuccess: body => {
+        ctx.dispatch('showtoast', '修改成功');
         param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: err => {
-        param.onFail ? param.onFail(err) : null
       }
     })
   },
@@ -46,6 +41,7 @@ module.exports = {
       url: `/brands/${param.id}`,
       method:'DELETE',
       onSuccess: body => {
+        ctx.dispatch('showtoast', '删除成功');
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

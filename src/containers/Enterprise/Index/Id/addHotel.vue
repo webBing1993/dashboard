@@ -8,11 +8,8 @@
           <div class="info-content">
             <div class="content-title">
               <div class="title-msg">
-                <span>所属企业</span>
-                <select @change="groupChange">
-                  <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
-                </select>
-                <span v-show="groupError" class="error-info">* 请选择企业</span>
+                <span>所属企业 : </span>
+                <span>{{group.name?group.name:$route.params.id}}</span>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
@@ -81,12 +78,11 @@
   import areaData from '@/assets/source/areadata'
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'HotelAdd',
+    name: 'AddHotel',
     data () {
       return {
-        enterpriseList: [],
-        group: '',
         brandList: [],
+        group: {},
         brand: '',
         hotelCode: '',
         storeName: '',
@@ -95,7 +91,6 @@
         stateCode: '',
         cityCode: '',
         address: '',
-        groupError: false,
         brandError: false,
         codeError: false,
         nameError: false,
@@ -132,43 +127,29 @@
       }
     },
     watch: {
-      enterpriseList(list) {
-        //没有选择的时候给个默认值
-        if (this.group == '' && this.enterpriseList[0]) this.group = this.enterpriseList[0].id;
-      },
       brandList(brandList) {
         if (this.brand == '' && this.brandList[0]) this.brand = this.brandList[0].id;
-      },
-      group(val) {
-        if (val == '') return;
-        this.getBrand();
       }
     },
     methods: {
       ...mapActions([
-        'getEnterpriseList',
+        'getEnterprise',
         'getBrandList',
         'addHotel',
         'goto'
       ]),
-      getEnterprise() {
-        this.getEnterpriseList({
-          onsuccess: body => this.enterpriseList = body.data
+      getInfo() {
+        this.getEnterprise({
+          id: this.$route.params.id,
+          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
         })
       },
       getBrand() {
         this.brandList = [];
         this.getBrandList({
-          group_id: this.group,
+          group_id: this.$route.params.id,
           onsuccess: body => this.brandList = body.data
         })
-      },
-      groupChange(e) {
-        this.group = e.target.value;
-        if (e.target.value != '') 
-          this.groupError = false;
-        else 
-          this.groupError = true;
       },
       brandChange(e) {
         this.brand = e.target.value;
@@ -216,7 +197,6 @@
         if (this.storeName == '') this.nameError = true;
         if (this.storePhone == '') this.phoneError = true;
         if (this.address == '') this.addressError = true;
-        if (this.group == '') this.groupError = true;
         if (this.brand == '') this.brandError = true;
         if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.brand == '') return;
 
@@ -228,7 +208,7 @@
         if (city === undefined) city = state.city[0];
 
         this.addHotel({
-          group_id: this.group,
+          group_id: this.$route.params.id,
           brand_id: this.brand,
           code: this.hotelCode,
           name: this.storeName,
@@ -253,7 +233,7 @@
         this.cityCode = this.cityList[0].code;
       }
 
-      this.getEnterprise();
+      this.getInfo();
       this.getBrand();
     }
   }
