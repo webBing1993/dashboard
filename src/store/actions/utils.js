@@ -36,7 +36,7 @@ module.exports = {
     }).then(
       response => {
         if (+response.body.errcode === 0) {
-          param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) ? ctx.dispatch('showtoast') : null
+          param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast') : null
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
           ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
