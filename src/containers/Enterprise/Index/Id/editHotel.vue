@@ -151,6 +151,8 @@
         this.hotel.brand_id = this.chooseBrandList[0] ? this.chooseBrandList[0].id : '';
       },
       hotel() {
+        if (!this.hotel.id) return;
+
         this.getBrand();
 
         let region = this.regionList.find(v => v.name == this.hotel.province);
