@@ -85,7 +85,10 @@
     },
     computed: {
       regionList() {
-        return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
+        let arr = areaData.map(v => {
+          return {code: v.region.code, name: v.region.name}
+        })
+        return arr;
       },
       stateList() {
         let obj = areaData.find(v => v.region.code == this.regionCode);
@@ -138,6 +141,29 @@
         }
         list.unshift(obj);
         this.chooseBrandList = list;
+      },
+      hotel() {
+        let region = this.regionList.find(v => v.name == this.hotel.province);
+
+        if (region !== undefined) {
+          this.regionCode = region.code;
+        } else {
+          this.regionCode = this.regionList[0].code;
+        }
+
+        let regionObj, obj = areaData.find(v => v.region.code == this.regionCode);
+        if (obj === undefined) {
+          regionObj = areaData[0].region;
+        } else {
+          regionObj = obj.region;
+        }
+        let stateObj = regionObj.state.find(v => v.name ==  this.hotel.city);
+        if (stateObj === undefined) stateObj = this.stateList[0];
+        this.stateCode = stateObj.code;
+        
+        let cityObj = stateObj.city.find(v => v.name ==  this.hotel.area);
+        if (cityObj === undefined) cityObj = this.cityList[0];
+        this.cityCode = cityObj.code;
       }
     },
     methods: {
@@ -249,16 +275,6 @@
       }
     },
     mounted() {
-      if (this.regionList[0]) {
-        this.regionCode = this.regionList[0].code;
-      }
-      if (this.stateList[0]) {
-        this.stateCode = this.stateList[0].code;
-      }
-      if (this.cityList[0]) {
-        this.cityCode = this.cityList[0].code;
-      }
-
       this.getEnterprise();
       this.getInfo();
     }

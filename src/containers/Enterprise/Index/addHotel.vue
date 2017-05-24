@@ -109,10 +109,10 @@
     computed: {
       regionList() {
         // return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
-        let aaa = areaData.map(v => {
+        let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
         })
-        return aaa;
+        return arr;
       },
       stateList() {
         if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].code;
