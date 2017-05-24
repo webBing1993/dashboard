@@ -148,14 +148,12 @@
       }
     }
     .login {
-
       border-right: solid 2px #8f8f8f;
     }
   }
 
-  /*.copy-right {*/
-    /*position: absolute;*/
-    /*bottom: 35px;*/
-    /*width: 100%;*/
-  /*}*/
+  .copy-right {
+    bottom: 35px;
+    width: 100%;
+  }
 </style>
