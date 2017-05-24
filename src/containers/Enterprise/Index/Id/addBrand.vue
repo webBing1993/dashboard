@@ -91,6 +91,7 @@
         this.uploadImg(file);
       },
       uploadImg(file) {
+        if (!file) return;
         let self = this;
         cos = new CosCloud({
           appid: 1252821823,// APPID 必填参数
