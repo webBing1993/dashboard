@@ -88,6 +88,7 @@
       },
     },
     mounted() {
+      this.brangList();
       this.getList();
     }
   }

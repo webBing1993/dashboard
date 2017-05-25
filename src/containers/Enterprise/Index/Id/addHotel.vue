@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="title">
-        <span @click="_goback"></span>
-        <h3>添加企业门店</h3>
-      </div>
+      <h3 class="title">添加企业门店</h3>
       <div class="content">
         <div class="store-info">
           <p>门店信息</p>
@@ -46,7 +43,7 @@
                 <span v-show="addressError" class="error-info">* 请输入详细地址</span>
               </div>
             </div>
-            <div class="content-item content-item-end">
+            <div class="content-item">
               <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
@@ -74,8 +71,7 @@
             </div>
           </div>
         </div>-->
-        <span class="_button" @click="regist">添加</span>
-        <!--<XButton value="添加" @onClick="regist"></XButton>-->
+        <XButton primary value="添加" @onClick="regist"></XButton>
       </div>
     </div>
   </div>
@@ -144,9 +140,6 @@
         'addHotel',
         'goto'
       ]),
-      _goback(){
-        this.goto(-1);
-      },
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
@@ -248,124 +241,83 @@
   }
 </script>
 <style scoped lang="less">
-  .module-wrapper {
-    .title {
-      display: flex;
-      align-items: center;
-      line-height: 50px;
-      padding: 0 20px;
-      border-bottom: 1px solid #ECECEC;
-      h3 {
-        font-size: 18px;
-        font-weight: 400;
-        color: #0D0D0D;
+  .title {
+    line-height: 50px;
+    padding: 0 20px;
+    border-bottom: 1px solid #ECECEC;
+    font-weight: 400;
+    font-size: 18px;
+  }
+
+  .content {
+    padding: 30px 60px;
+    .store-info {
+      border: 1px solid #ECECEC;
+      font-size: 16px;
+      p {
+        line-height: 45px;
+        padding: 0 30px;
+        background-color: #EAEDF0;
       }
-      span {
-        display: block;
-        width: 24px;
-        height: 24px;
-        background-color: #C8C8CD;
-        border-radius: 50%;
-        margin-right: 8px;
-        position: relative;
-        cursor: pointer;
-        &:before {
-          content: '';
-          width: 6px;
-          height: 6px;
-          display: block;
-          border-left: solid 1px #ffffff;
-          border-bottom: solid 1px #ffffff;
-          position: absolute;
-          left: 10px;
-          top: 8px;
-          transform: rotate(45deg);
-        }
-      }
-    }
-    .content {
-      padding: 30px 60px;
-      .store-info {
-        border: 1px solid #ECECEC;
-        font-size: 16px;
-        p {
-          line-height: 45px;
-          padding: 0 20px;
-          background-color: #EAEDF0;
-        }
-        .info-content {
-          display: flex;
-          font-size: 14px;
-          padding: 30px 20px;
-          line-height: 46px;
+      .info-content {
+        display: flex;
+        font-size: 14px;
+        padding: 30px 60px;
+        line-height: 46px;
+        .content-item {
+          flex: 1px;
           .content-title {
             span {
-              margin-right: 20px;
+              margin-right: 16px;
             }
           }
-          .content-item {
-            flex: 1px;
-            min-width: 300px;
-            .content-select {
-              select {
-                width: 280px;
-                height: 35px;
-                background-color: #ffffff;
-                outline: none;
-                margin-left: 16px;
-              }
+          .content-select {
+            select {
+              width: 390px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
             }
-            .content-input {
-              display: flex;
-              align-items: center;
+          }
+          .content-input {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              width: 390px;
+              line-height: 35px;
               font-size: 14px;
-              input {
-                outline: none;
-                border: solid 1px #EAEDF0;
-                margin: 10px 20px;
-                width: 280px;
-                line-height: 32px;
-                font-size: 14px;
-              }
-            }
-            .content-address {
-              span {
-                margin-right: 12px;
-              }
-              select {
-                width: 90px;
-                height: 32px;
-                background-color: #ffffff;
-                outline: none;
-                margin-left: 4px;
-              }
-            }
-            .content-add {
-              span {
-                margin-left: 10px;
-              }
-              input {
-                outline: none;
-                border: solid 1px #EAEDF0;
-                font-size: 14px;
-                text-indent: 4px;
-                margin-top: 12px;
-                margin-left: 76px;
-                width: 285px;
-                line-height: 32px;
-              }
             }
           }
-          .content-item-end {
-            width: 200px;
+          .content-address {
+            select {
+              width: 116px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
+          }
+          .content-add {
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              font-size: 14px;
+              text-indent: 4px;
+              margin-top: 18px;
+              margin-left: 76px;
+              width: 390px;
+              line-height: 35px;
+            }
+            span {
+              margin-left: 20px;
+            }
           }
         }
-      }
-      ._button {
-        float: right;
-        width: 120px;
-        line-height: 38px;
-        margin-top: 16px;
       }
     }
   }

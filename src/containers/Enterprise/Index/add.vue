@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="title">
-        <span @click="_goback"></span>
+        <span></span>
         <h3>注册企业账户</h3>
       </div>
       <div class="content">
@@ -37,8 +37,7 @@
             <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
-        <span class="_button" @click="regist">注册</span>
-        <!--<XButton @onClick="regist" value="注册"></XButton>-->
+        <XButton @onClick="regist" value="注册"></XButton>
       </div>
     </div>
   </div>
@@ -73,9 +72,6 @@
       ]),
       modify(obj) {
 
-      },
-      _goback(){
-        this.goto(-1);
       },
       remove(obj) {
         this.removeBrand({
@@ -135,16 +131,17 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
+    position: relative;
     .title {
       display: flex;
       align-items: center;
       line-height: 50px;
       padding: 0 20px;
       border-bottom: 1px solid #ECECEC;
-      h3 {
+      p {
         font-size: 18px;
         font-weight: 400;
-        color: #0D0D0D;
+        color: #DEDEDE;
       }
       span {
         display: block;
@@ -154,7 +151,6 @@
         border-radius: 50%;
         margin-right: 8px;
         position: relative;
-        cursor: pointer;
         &:before {
           content: '';
           width: 6px;
@@ -200,13 +196,6 @@
             }
           }
         }
-      }
-      ._button {
-        width: 160px;
-        display: block;
-        float: right;
-        margin-top: 20px;
-        font-size: 16px;
       }
     }
   }

@@ -1,10 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="title">
-        <span @click="_goback"></span>
-        <h3>添加企业门店</h3>
-      </div>
+      <h3 class="title">添加企业门店</h3>
       <div class="content">
         <div class="store-info">
           <p>门店信息</p>
@@ -12,73 +9,54 @@
             <div class="content-item">
               <div class="content-select">
                 <span>所属企业</span>
-                <select @change="groupChange">
+                <select v-model="group">
                   <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
                 </select>
-                <span v-show="groupError" class="error-info">* 请选择企业</span>
+              </div>
+              <div class="content-select">
+                <span>所属品牌</span>
+                <select v-model="brand">
+                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
+                </select>
               </div>
               <div class="content-input">
                 <label for="hotelCode">账户编码</label>
-                <input type="text" id="hotelCode" v-model="hotelCode" @change="codeChange"/>
-                <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+                <input type="text" id="hotelCode" v-model="hotelCode" />
               </div>
               <div class="content-input">
                 <label for="storeName">门店名称</label>
-                <input type="text" id="storeName" v-model="storeName" @change="nameChange"/>
-                <span v-show="nameError" class="error-info">* 请输入门店名称</span>
+                <input type="text" id="storeName" v-model="storeName" />
               </div>
               <div class="content-input">
                 <label for="phone">前台电话</label>
-                <input type="text" id="phone" v-model="storePhone" @change="phoneChange"/>
-                <span v-show="phoneError" class="error-info">* 请输入前台电话</span>
+                <input type="text" id="phone" v-model="storePhone" >
               </div>
               <div class="content-address">
                 <span>门店地址</span>
-                <select @change="regionChange">
+                <select v-model="regionCode">
                   <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
                 </select>
-                <select @change="stateChange">
-                  <option v-for="(obj, index) of stateList" :value="obj.code">{{obj.name}}</option>
+                <select v-model="stateCode">
+                  <option v-for="(obj, index) of stateList" :value="obj.code" :selected="stateCode==obj.code?'selected':''">{{obj.name}}</option>
                 </select>
-                <select @change="cityChange">
-                  <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
+                <select v-model="cityCode">
+                  <option v-for="(obj, index) of cityList" :value="obj.code" :selected="cityCode==obj.code?'selected':''">{{obj.name}}</option>
                 </select>
               </div>
               <div class="content-add">
-                <input type="text" v-model="address" placeholder="地址（详细到门牌号）" @change="addressChange"/>
-                <span v-show="addressError" class="error-info">* 请输入详细地址</span>
+                <input type="text" v-model="address" placeholder="地址（详细到门牌号）" />
               </div>
             </div>
-            <div class="content-item content-item-end">
-              <div class="content-select">
-                <span>所属品牌</span>
-                <select @change="brandChange">
-                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
-                </select>
-                <span v-show="brandError" class="error-info">* 请选择品牌</span>
+            <div class="content-item">
+              <div id="mapContainer">
+
               </div>
             </div>
           </div>
         </div>
-        <!--<div class="contact-info">
-          <p class="info-title">联系信息</p>
-          <div class="info-content">
-            <div>
-              <label for="contactName">联系人姓名</label>
-              <input type="text" id="contactName" v-model="contactName"/>
-            </div>
-            <div>
-              <label for="contactPosition">联系人职务</label>
-              <input type="text" id="contactPosition" v-model="contactPosition"/>
-            </div>
-            <div>
-              <label for="contactPhone">联系电话</label>
-              <input type="text" id="contactPhone" v-model="contactPhone"/>
-            </div>
-          </div>
-        </div>-->
-        <span class="_button" @click="regist">添加</span>
-        <!--<XButton value="添加" @onClick="regist"></XButton>-->
+        <div class="button-box">
+          <XButton primary :disabled="submitDisabled" value="添加" @onClick="regist"></XButton>
+        </div>
       </div>
     </div>
   </div>
@@ -86,6 +64,7 @@
 <script>
   import areaData from '@/assets/source/areadata'
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  let map, center, citylocation, marker;
   export default {
     name: 'HotelAdd',
     data () {
@@ -101,20 +80,12 @@
         stateCode: '',
         cityCode: '',
         address: '',
-        groupError: false,
-        brandError: false,
-        codeError: false,
-        nameError: false,
-        phoneError: false,
-        addressError: false,
-        // contactName: '',
-        // contactPosition: '',
-        // contactPhone: ''
+        lat: '',
+        lng: ''
       }
     },
     computed: {
       regionList() {
-        // return areaData.map(v => Object.create({code: v.region.code, name: v.region.name})) || [];
         let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
         })
@@ -135,6 +106,11 @@
         if (cityObj === undefined)
           return [];
         return cityObj.city;
+      },
+      submitDisabled() {
+        if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.lat == '' || this.lng == '' || this.brand == '')
+          return true;
+        return false;
       }
     },
     watch: {
@@ -151,6 +127,16 @@
       },
       brand(val) {
         this.brandError = val == '';
+      },
+      regionCode() {
+        this.stateCode = this.stateList[0]?this.stateList[0].code:0;
+
+        this.changeMapCenter();
+      },
+      stateCode() {
+        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+
+        this.changeMapCenter();
       }
     },
     methods: {
@@ -161,9 +147,6 @@
         'showtoast',
         'goto'
       ]),
-      _goback(){
-        this.goto(-1);
-      },
       getEnterprise() {
         this.getEnterpriseList({
           onsuccess: body => this.enterpriseList = body.data
@@ -176,66 +159,8 @@
           onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
         })
       },
-      groupChange(e) {
-        this.group = e.target.value;
-        if (e.target.value != '')
-          this.groupError = false;
-        else
-          this.groupError = true;
-      },
-      brandChange(e) {
-        this.brand = e.target.value;
-        if (e.target.value != '')
-          this.brandError = false;
-        else
-          this.brandError = true;
-        // if (e.target.value != '')
-        //   this.brandError = false;
-        // else
-        //   this.brandError = true;
-      },
-      regionChange(e) {
-        this.regionCode = e.target.value;
-      },
-      stateChange(e) {
-        this.stateCode = e.target.value;
-      },
-      cityChange(e) {
-        this.cityCode = e.target.value;
-      },
-      codeChange(e) {
-        if (e.target.value != '')
-          this.codeError = false;
-        else
-          this.codeError = true;
-      },
-      nameChange(e) {
-        if (e.target.value != '')
-          this.nameError = false;
-        else
-          this.nameError = true;
-      },
-      phoneChange(e) {
-        if (e.target.value != '')
-          this.phoneError = false;
-        else
-          this.phoneError = true;
-      },
-      addressChange(e) {
-        if (e.target.value != '')
-          this.addressError = false;
-        else
-          this.addressError = true;
-      },
       regist() {
-
-        if (this.hotelCode == '') this.codeError = true;
-        if (this.storeName == '') this.nameError = true;
-        if (this.storePhone == '') this.phoneError = true;
-        if (this.address == '') this.addressError = true;
-        if (this.group == '') this.groupError = true;
-        if (this.brand == '') this.brandError = true;
-        if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.brand == '') return;
+        if (this.submitDisabled) return;
 
         let obj = areaData.find(v => v.region.code == this.regionCode);
         if (obj === undefined) obj = areaData[0];
@@ -254,8 +179,60 @@
           city: state.name,
           area: city.name,
           address: this.address,
+          longitude: this.lng,
+          latitude: this.lat,
           onsuccess: body => this.goto(-1)
         })
+      },
+      initMap() {
+        center = new qq.maps.LatLng(39.916527,116.397128);  //默认北京
+        map = new qq.maps.Map(document.getElementById("mapContainer"), {
+          center: center,
+          zoom: 10,
+          panControl: false,
+          zoomControl: false,
+          mapTypeControlOptions: {
+            //设置控件的地图类型ID，ROADMAP显示普通街道地图，SATELLITE显示卫星图像，HYBRID显示卫星图像上的主要街道透明层
+            mapTypeIds: [
+                // qq.maps.MapTypeId.ROADMAP,
+                // qq.maps.MapTypeId.SATELLITE,
+                // qq.maps.MapTypeId.HYBRID
+            ],
+        }
+        });
+
+        let self = this;
+        let listener = qq.maps.event.addListener(
+          map,
+          'click',
+          function(event) {
+              // console.log('您点击的位置为:[' + event.latLng.getLat() +
+              // ',' + event.latLng.getLng() + ']');
+
+              self.$set(self, 'lat', event.latLng.getLat().toString());
+              self.$set(self, 'lng', event.latLng.getLng().toString());
+
+              if (marker) marker.setMap(null)
+
+              marker = new qq.maps.Marker({
+                position: new qq.maps.LatLng(event.latLng.getLat(), event.latLng.getLng()),
+                map: map
+              });
+          }
+        );
+        
+        //设置地图中心
+        citylocation = new qq.maps.CityService({
+          map : map,
+          complete : function(results){
+            map.panTo(new qq.maps.LatLng(results.detail.latLng.lat, results.detail.latLng.lng));
+          }
+        });
+      },
+      changeMapCenter() {
+        let state = this.stateList.find(v => v.code == this.stateCode);
+        if (!state || !citylocation) return;
+        citylocation.searchCityByName(state.name);
       }
     },
     mounted() {
@@ -271,137 +248,89 @@
       }
 
       this.getEnterprise();
+
+      this.initMap();
     }
   }
 </script>
 <style scoped lang="less">
-  .module-wrapper {
-    .title {
-      display: flex;
-      align-items: center;
-      line-height: 50px;
-      padding: 0 20px;
-      border-bottom: 1px solid #ECECEC;
-      h3 {
-        font-size: 18px;
-        font-weight: 400;
-        color: #0D0D0D;
-      }
-      span {
-        display: block;
-        width: 24px;
-        height: 24px;
-        background-color: #C8C8CD;
-        border-radius: 50%;
-        margin-right: 8px;
-        position: relative;
-        cursor: pointer;
-        &:before {
-          content: '';
-          width: 6px;
-          height: 6px;
-          display: block;
-          border-left: solid 1px #ffffff;
-          border-bottom: solid 1px #ffffff;
-          position: absolute;
-          left: 10px;
-          top: 8px;
-          transform: rotate(45deg);
-        }
-      }
-    }
-    .content {
-      padding: 30px 60px;
-      .store-info {
-        border: 1px solid #ECECEC;
-        font-size: 16px;
-        p {
-          line-height: 45px;
-          padding: 0 20px;
-          background-color: #EAEDF0;
-        }
-        .info-content {
-          display: flex;
-          font-size: 14px;
-          padding: 30px 20px;
-          line-height: 46px;
-          .content-item {
-            flex: 1px;
-            min-width: 300px;
-            .content-select {
-              select {
-                width: 280px;
-                height: 35px;
-                background-color: #ffffff;
-                outline: none;
-                margin-left: 16px;
-              }
-            }
-            .content-input {
-              display: flex;
-              align-items: center;
-              font-size: 14px;
-              input {
-                outline: none;
-                border: solid 1px #EAEDF0;
-                margin: 10px 20px;
-                width: 280px;
-                line-height: 32px;
-                font-size: 14px;
-              }
-            }
-            .content-address {
-              span {
-                margin-right: 12px;
-              }
-              select {
-                width: 90px;
-                height: 32px;
-                background-color: #ffffff;
-                outline: none;
-                margin-left: 4px;
-              }
-            }
-            .content-add {
-              span {
-                margin-left: 10px;
-              }
-              input {
-                outline: none;
-                border: solid 1px #EAEDF0;
-                font-size: 14px;
-                text-indent: 4px;
-                margin-top: 12px;
-                margin-left: 76px;
-                width: 285px;
-                line-height: 32px;
-              }
-            }
-          }
-          .content-item-end {
-            width: 200px;
-          }
-        }
-      }
-      ._button {
-        float: right;
-        width: 120px;
-        line-height: 38px;
-        margin-top: 16px;
-      }
-      /*.weui-btn_default {*/
-      /*margin-top: 30px;*/
-      /*width: 280px;*/
-      /*background-color: #1C9053;*/
-      /*color: #ffffff;*/
-      /*border-radius: 6px;*/
-      /*cursor: pointer;*/
-      /*&:hover {*/
-      /*background-color: #0D0D0D;*/
-      /*}*/
-      /*}*/
-    }
+  .title {
+    line-height: 50px;
+    padding: 0 40px;
+    border-bottom: 1px solid #ECECEC;
+    font-weight: 400;
+    font-size: 18px;
   }
+
+  .content {
+    padding: 30px 60px;
+    .store-info {
+      border: 1px solid #ECECEC;
+      font-size: 16px;
+      p {
+        line-height: 45px;
+        padding: 0 30px;
+        background-color: #EAEDF0;
+      }
+      .info-content {
+        display: flex;
+        font-size: 14px;
+        padding: 30px 60px;
+        line-height: 46px;
+        .content-item {
+          flex: 1px;
+          .content-select {
+            select {
+              width: 390px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
+          }
+          .content-input {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              width: 390px;
+              line-height: 35px;
+              font-size: 14px;
+            }
+          }
+          .content-address {
+            select {
+              width: 116px;
+              height: 35px;
+              background-color: #ffffff;
+              outline: none;
+              margin-left: 16px;
+            }
+          }
+          .content-add {
+            margin-right: 20px;
+            margin-bottom: 10px;
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              font-size: 14px;
+              text-indent: 4px;
+              margin-top: 18px;
+              margin-left: 76px;
+              width: 390px;
+              line-height: 35px;
+            }
+          }
+        }
+      }
+    }
+    
+  }
+
+
 
   .error-info {
     width: 92px;
@@ -418,4 +347,13 @@
     margin-top: 20px;
   }
 
+  .button-box {
+    width: 40%;
+    margin: 10px auto;
+  }
+
+  #mapContainer {
+    height: 100%;
+    width: 100%;
+  }
 </style>
