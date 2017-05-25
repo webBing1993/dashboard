@@ -14,7 +14,6 @@
     </div>
   </div>
 </template>
-
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tableHotel from '@/modules/Tables/table-hotel.vue'
@@ -88,52 +87,50 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    display: block;
-    border-bottom: 1px solid #ECECEC;
-    font-weight: 400;
-    font-size: 18px;
-  }
-
-  .search-bar {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 16px 20px;
-    box-sizing: border-box;
-    input {
-      width: 65%;
-      height: 40px;
-      font-size: 14px;
-      outline: none;
-      text-indent: 1em;
+  .module-wrapper {
+    position: relative;
+    overflow-y: auto;
+    .title {
+      line-height: 50px;
+      padding: 0 20px;
+      display: block;
+      border-bottom: 1px solid #ECECEC;
+      font-weight: 400;
+      font-size: 18px;
     }
-    ._button {
-      width: 160px;
-      margin-left: 40px;
+    .search-bar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 16px 20px;
+      box-sizing: border-box;
+      input {
+        width: 65%;
+        height: 40px;
+        font-size: 14px;
+        outline: none;
+        text-indent: 1em;
+      }
+      ._button {
+        width: 160px;
+        margin-left: 40px;
+      }
+    }
+    h3 {
+      font-weight: 300;
+      font-size: 20px;
+      padding: 0 20px 10px;
+      &:before {
+        content: '';
+        border-left: solid 4px #8f8f8f;
+        padding-right: 8px;
+      }
+    }
+    .content {
+      padding: 0 20px;
+      height: 70%;
+      /*overflow-y: scroll;*/
     }
   }
-
-  h3 {
-    font-weight: 300;
-    font-size: 20px;
-    padding: 0 20px 10px;
-    &:before {
-      content: '';
-      border-left: solid 4px #8f8f8f;
-      padding-right: 8px;
-    }
-  }
-
-  .content {
-    padding: 0 20px;
-    height: 70%;
-    /*overflow: scroll;*/
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: auto;
-  }
-
 </style>
 
