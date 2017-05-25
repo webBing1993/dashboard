@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="title">
-        <span></span>
+        <span @click="_goback"></span>
         <h3>注册企业账户</h3>
       </div>
       <div class="content">
@@ -74,6 +74,9 @@
       modify(obj) {
 
       },
+      _goback(){
+        this.goto(-1);
+      },
       remove(obj) {
         this.removeBrand({
           id: obj.id,
@@ -132,17 +135,16 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    position: relative;
     .title {
       display: flex;
       align-items: center;
       line-height: 50px;
       padding: 0 20px;
       border-bottom: 1px solid #ECECEC;
-      p {
+      h3 {
         font-size: 18px;
         font-weight: 400;
-        color: #DEDEDE;
+        color: #0D0D0D;
       }
       span {
         display: block;
@@ -152,6 +154,7 @@
         border-radius: 50%;
         margin-right: 8px;
         position: relative;
+        cursor: pointer;
         &:before {
           content: '';
           width: 6px;

@@ -1,12 +1,15 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">酒店编辑</h3>
+      <div class="title">
+        <span @click="_goback"></span>
+        <h3>酒店编辑</h3>
+      </div>
       <div class="content">
         <div class="enterprise-info">
           <div class="title-bar">
             <p>酒店信息</p>
-            <p @click="modify">修改</p>
+            <p class="info-modify" @click="modify">修改</p>
           </div>
           <div class="info-content">
             <div class="content-item">
@@ -59,7 +62,7 @@
                 <span v-show="addressError" class="error-info">* 请输入详细地址</span>
               </div>
             </div>
-            <div class="content-item">
+            <div class="content-item content-item-end">
               <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
@@ -72,6 +75,7 @@
             </div>
           </div>
         </div>
+        <!--<XButton value="删除" @onClick="remove"></XButton>-->
         <span class="_button" @click="remove">删除</span>
       </div>
     </div>
@@ -167,6 +171,9 @@
         'goto',
         'showtoast'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       enterpriseChange(e) {
         this.hotel.group_id = e.target.value;
         if (e.target.value != '')
@@ -294,183 +301,142 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 40px;
-    border-bottom: 1px solid #ECECEC;
-    font-weight: 400;
-    font-size: 18px;
-  }
-
-  .content {
-    padding: 30px 60px;
-    .enterprise-info {
-      border: 1px solid #ECECEC;
-      font-size: 16px;
-      .title-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        line-height: 45px;
-        padding: 0 20px;
-        background-color: #EAEDF0;
-        border-bottom: 1px solid #EAEDF0;
-        box-sizing: border-box;
-        p:nth-child(2) {
-          cursor: pointer;
-          font-size: 15px;
-          &:hover {
-            color: #586C94;
-            text-decoration: underline;
-          }
-        }
+  .module-wrapper {
+    .title {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #0D0D0D;
       }
-      .info-content {
-        display: flex;
-        font-size: 14px;
-        padding: 30px 20px;
-        line-height: 46px;
-        .content-item {
-          flex: 1px;
-          min-width: 300px;
-          .content-select {
-            select {
-              width: 280px;
-              height: 35px;
-              background-color: #ffffff;
-              outline: none;
-              margin-left: 16px;
-            }
-          }
-          .content-input {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
-              margin: 10px 20px;
-              width: 280px;
-              line-height: 32px;
-              font-size: 14px;
-            }
-          }
-          .content-address {
-            span {
-              margin-right: 12px;
-            }
-            select {
-              width: 90px;
-              height: 32px;
-              background-color: #ffffff;
-              outline: none;
-              margin-left: 4px;
-            }
-          }
-          .content-add {
-            span {
-              margin-left: 10px;
-            }
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
-              font-size: 14px;
-              text-indent: 4px;
-              margin-top: 12px;
-              margin-left: 76px;
-              width: 285px;
-              line-height: 32px;
-            }
-          }
-        }
-        .content-item-end {
-          width: 200px;
+      span {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          transform: rotate(45deg);
         }
       }
     }
-    ._button {
-      width: 160px;
-      display: block;
-      float: right;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-  }
-
-  .contents {
-    padding: 20px 20px;
-    .enterprise-info {
-      border: 1px solid #EAEDF0;
-      .title-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        line-height: 45px;
-        padding: 0 20px;
-        background-color: #EAEDF0;
-        border-bottom: 1px solid #EAEDF0;
-        box-sizing: border-box;
-        p:nth-child(2) {
-          cursor: pointer;
-          font-size: 15px;
-          &:hover {
-            color: #586C94;
-            text-decoration: underline;
-          }
-        }
-      }
-      .info-content {
-        padding: 10px 40px;
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        line-height: 42px;
-        .content-title {
-          display: flex;
-          .title-msg {
-            flex: 1;
-            align-items: center;
-            span {
-              margin-right: 30px;
-            }
-            select {
-              min-width: 100px;
-              outline: none;
-              height: 24px;
-            }
-          }
-        }
-        .content-msg {
+    .content {
+      padding: 30px 60px;
+      .enterprise-info {
+        border: 1px solid #ECECEC;
+        font-size: 16px;
+        .title-bar {
           display: flex;
           align-items: center;
-          font-size: 14px;
-          label {
-            width: 90px;
-          }
-          input {
-            outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            margin: 8px 0;
-            padding: 8px;
-            flex: 1;
-            font-size: 14px;
+          justify-content: space-between;
+          padding: 0 20px;
+          border-bottom: 1px solid #EAEDF0;
+          line-height: 50px;
+          font-size: 18px;
+          font-weight: 400;
+          .info-modify {
+            cursor: pointer;
+            font-size: 15px;
+            &:hover {
+              color: #586C94;
+              text-decoration: underline;
+            }
           }
         }
+
+        .info-content {
+          display: flex;
+          font-size: 14px;
+          padding: 30px 20px;
+          line-height: 46px;
+          .content-item {
+            flex: 1px;
+            min-width: 300px;
+            .content-select {
+              select {
+                width: 280px;
+                height: 35px;
+                background-color: #ffffff;
+                outline: none;
+                margin-left: 16px;
+              }
+            }
+            .content-input {
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+              input {
+                outline: none;
+                border: solid 1px #EAEDF0;
+                margin: 10px 20px;
+                width: 280px;
+                line-height: 32px;
+                font-size: 14px;
+              }
+              span {
+                font-size: 12px;
+              }
+            }
+            .content-address {
+              span {
+                margin-right: 12px;
+              }
+              select {
+                width: 90px;
+                height: 32px;
+                background-color: #ffffff;
+                outline: none;
+                margin-left: 4px;
+              }
+            }
+            .content-add {
+              span {
+                margin-left: 10px;
+              }
+              input {
+                outline: none;
+                border: solid 1px #EAEDF0;
+                font-size: 14px;
+                text-indent: 4px;
+                margin-top: 12px;
+                margin-left: 76px;
+                width: 285px;
+                line-height: 32px;
+              }
+            }
+          }
+          .content-item-end {
+            width: 200px;
+          }
+        }
+      }
+      ._button {
+        float: right;
+        width: 120px;
+        line-height: 38px;
+        margin-top: 16px;
       }
     }
   }
 
   .table-content {
     padding: 10px 20px;
-  }
-
-  .info-modify {
-    cursor: pointer;
-    line-height: 30px;
-    position: absolute;
-    top: 0;
-    right: 10px;
   }
 
   .error-info {

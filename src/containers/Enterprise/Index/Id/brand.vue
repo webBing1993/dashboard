@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">品牌配置</h3>
+      <div class="title">
+        <span @click="_goback"></span>
+        <h3>品牌配置</h3>
+      </div>
       <div class="content">
         <table-brand :list="list" @modify="modify" @remove="remove"></table-brand>
         <span class="_button" @click="addBrand">+ 添加品牌</span>
@@ -28,7 +31,11 @@
         'getBrandList',
         'modifyBrand',
         'removeBrand',
+        'goto'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       addBrand() {
         this.$router.push(`addbrand`)
       },
@@ -57,20 +64,48 @@
 </script>
 
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 300;
-    border-bottom: 1px solid #EAEDF0;
-  }
-
-  .content {
-    padding: 20px;
-    ._button {
-      display: block;
-      margin: 0 auto;
-      margin-right: 0;
+  .module-wrapper {
+    .title {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #0D0D0D;
+      }
+      span {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          transform: rotate(45deg);
+        }
+      }
+    }
+    .content {
+      padding: 20px 32px;
+      ._button {
+        display: block;
+        margin: 0 auto;
+        margin-right: 0;
+      }
     }
   }
 
