@@ -28,6 +28,7 @@ module.exports = {
       method:'PUT',
       body: {
         group_id: param.group_id,
+        logo_url: param.logo_url,
         name: param.name
       },
       onSuccess: body => {
