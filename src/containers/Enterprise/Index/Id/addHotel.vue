@@ -43,7 +43,7 @@
                 <span v-show="addressError" class="error-info">* 请输入详细地址</span>
               </div>
             </div>
-            <div class="content-item content-item-end">
+            <div class="content-item">
               <div class="content-select">
                 <span>所属品牌</span>
                 <select @change="brandChange">
@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>-->
-        <XButton value="添加" @onClick="regist"></XButton>
+        <XButton primary value="添加" @onClick="regist"></XButton>
       </div>
     </div>
   </div>
@@ -243,7 +243,7 @@
 <style scoped lang="less">
   .title {
     line-height: 50px;
-    padding: 0 40px;
+    padding: 0 20px;
     border-bottom: 1px solid #ECECEC;
     font-weight: 400;
     font-size: 18px;
@@ -256,25 +256,24 @@
       font-size: 16px;
       p {
         line-height: 45px;
-        padding: 0 20px;
+        padding: 0 30px;
         background-color: #EAEDF0;
       }
       .info-content {
         display: flex;
         font-size: 14px;
-        padding: 30px 20px;
+        padding: 30px 60px;
         line-height: 46px;
-        .content-title {
-          span {
-            margin-right: 20px;
-          }
-        }
         .content-item {
           flex: 1px;
-          min-width: 300px;
+          .content-title {
+            span {
+              margin-right: 16px;
+            }
+          }
           .content-select {
             select {
-              width: 280px;
+              width: 390px;
               height: 35px;
               background-color: #ffffff;
               outline: none;
@@ -289,53 +288,36 @@
               outline: none;
               border: solid 1px #EAEDF0;
               margin: 10px 20px;
-              width: 280px;
-              line-height: 32px;
+              width: 390px;
+              line-height: 35px;
               font-size: 14px;
             }
           }
           .content-address {
-            span {
-              margin-right: 12px;
-            }
             select {
-              width: 90px;
-              height: 32px;
+              width: 116px;
+              height: 35px;
               background-color: #ffffff;
               outline: none;
-              margin-left: 4px;
+              margin-left: 16px;
             }
           }
           .content-add {
-            span {
-              margin-left: 10px;
-            }
             input {
               outline: none;
               border: solid 1px #EAEDF0;
               font-size: 14px;
               text-indent: 4px;
-              margin-top: 12px;
+              margin-top: 18px;
               margin-left: 76px;
-              width: 285px;
-              line-height: 32px;
+              width: 390px;
+              line-height: 35px;
+            }
+            span {
+              margin-left: 20px;
             }
           }
         }
-        .content-item-end {
-          width: 200px;
-        }
-      }
-    }
-    .weui-btn_default {
-      margin-top: 30px;
-      width: 280px;
-      background-color: #1C9053;
-      color: #ffffff;
-      border-radius: 6px;
-      cursor: pointer;
-      &:hover {
-        background-color: #0D0D0D;
       }
     }
   }

@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">修改酒店品牌</h3>
+      <div class="title">
+        <span @click="_goback"></span>
+        <h3>修改酒店品牌</h3>
+      </div>
       <div class="content">
         <div class="enterprise-info">
           <p>品牌信息</p>
@@ -72,6 +75,9 @@
         'showtoast',
         'CosCloudAssign'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       enterpriseChange(e) {
         this.enterprise = e.target.value;
       },
@@ -164,71 +170,98 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 400;
-    color: #222222;
-    border-bottom: 1px solid #ECECEC;
-  }
-
-  .content {
-    padding: 20px 20px;
-    .enterprise-info {
-      border: 1px solid #EAEDF0;
-      p {
-        line-height: 30px;
-        padding: 8px 20px;
-        font-size: 16px;
-        font-weight: 300;
-        background-color: #EAEDF0;
-        border-bottom: 1px solid transparent;
+  .module-wrapper {
+    .title {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #0D0D0D;
       }
-      .info-content {
-        padding: 20px 40px;
-        line-height: 45px;
-        .title-msg {
-          span {
-            padding-right: 20px;
-          }
-          select {
-            width: 280px;
-            height: 32px;
-            outline: none;
-            background-color: #ffffff;
-          }
-        }
-        .content-msg {
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          input {
-            width: 260px;
-            outline: none;
-            border: solid 1px #EAEDF0;
-            margin: 10px 26px;
-            padding: 8px;
-            font-size: 14px;
-          }
-        }
-        .content-logo {
-          label {
-            margin-right: 10px;
-          }
-          input {
-            min-width: 280px;
-            outline: none;
-            height: 32px;
-          }
+      span {
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 9px;
+          top: 7px;
+          transform: rotate(45deg);
         }
       }
     }
-    ._button {
-      float: right;
-      width: 120px;
-      line-height: 38px;
-      margin-top: 16px;
+    .content {
+      padding: 20px 20px;
+      .enterprise-info {
+        border: 1px solid #EAEDF0;
+        p {
+          line-height: 30px;
+          padding: 8px 20px;
+          font-size: 16px;
+          font-weight: 300;
+          background-color: #EAEDF0;
+          border-bottom: 1px solid transparent;
+        }
+        .info-content {
+          padding: 20px 40px;
+          line-height: 45px;
+          .title-msg {
+            span {
+              padding-right: 20px;
+            }
+            select {
+              width: 280px;
+              height: 32px;
+              outline: none;
+              background-color: #ffffff;
+            }
+          }
+          .content-msg {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            input {
+              width: 260px;
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 26px;
+              padding: 8px;
+              font-size: 14px;
+            }
+          }
+          .content-logo {
+            label {
+              margin-right: 10px;
+            }
+            input {
+              min-width: 280px;
+              outline: none;
+              height: 32px;
+            }
+          }
+        }
+      }
+      ._button {
+        float: right;
+        width: 120px;
+        line-height: 38px;
+        margin-top: 16px;
+      }
     }
   }
 

@@ -1,7 +1,10 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">企业账户编辑</h3>
+      <div class="title">
+        <span @click="_goback"></span>
+        <h3>企业账户编辑</h3>
+      </div>
       <div class="content">
         <div class="enterprise-info">
           <div class="title-bar">
@@ -55,6 +58,9 @@
         'goto',
         'showtoast'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       nameChange(e) {
         if (e.target.value != '')
           this.nameError = false;
@@ -111,65 +117,92 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    border-bottom: 1px solid #757575;
-    font-size: 18px;
-    font-weight: 400;
-  }
-
-  .content {
-    padding: 20px 20px;
-    ._button {
-      float: right;
-      width: 120px;
-      line-height: 38px;
-      margin-top: 16px;
-    }
-  }
-
-  .enterprise-info {
-    border: 1px solid #EAEDF0;
-    .title-bar {
+  .module-wrapper {
+    .title {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid #EAEDF0;
       line-height: 50px;
-      .info-title {
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      h3 {
         font-size: 18px;
         font-weight: 400;
+        color: #0D0D0D;
       }
-      .info-modify {
+      span {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
         cursor: pointer;
-        padding-right: 20px;
-        font-size: 15px;
-        &:hover {
-          color: #586C94;
-          text-decoration: underline;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          transform: rotate(45deg);
         }
       }
     }
-    .info-content {
-      padding: 20px 40px;
-      .content-msg {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-        label {
-          width: 90px;
+    .content {
+      padding: 20px 20px;
+      .enterprise-info {
+        border: 1px solid #EAEDF0;
+        .title-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 20px;
+          border-bottom: 1px solid #EAEDF0;
+          line-height: 50px;
+          .info-title {
+            font-size: 18px;
+            font-weight: 400;
+          }
+          .info-modify {
+            cursor: pointer;
+            padding-right: 20px;
+            font-size: 15px;
+            &:hover {
+              color: #586C94;
+              text-decoration: underline;
+            }
+          }
         }
-        input {
-          outline: none;
-          border: solid 1px #EAEDF0;
-          margin: 10px 20px;
-          text-indent: 8px;
-          width: 320px;
-          line-height: 32px;
-          font-size: 14px;
+        .info-content {
+          padding: 20px 40px;
+          .content-msg {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            label {
+              width: 90px;
+            }
+            input {
+              outline: none;
+              border: solid 1px #EAEDF0;
+              margin: 10px 20px;
+              text-indent: 8px;
+              width: 320px;
+              line-height: 32px;
+              font-size: 14px;
+            }
+          }
         }
+      }
+      ._button {
+        float: right;
+        width: 120px;
+        line-height: 38px;
+        margin-top: 16px;
       }
     }
   }

@@ -2,7 +2,10 @@
   <div>
     <div class="module-wrapper">
       <div class="title">
-        <h3>企业账户搜索</h3>
+        <div class="header">
+          <span @click="_goback"></span>
+          <h3>企业账户搜索</h3>
+        </div>
         <div class="search-bar">
           <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
           <span class="_button" @click="getList">查询</span>
@@ -36,7 +39,11 @@
     methods: {
       ...mapActions([
         'getEnterpriseList',
+        'goto'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       goDetail(obj) {
         this.$router.push(`/enterprise/${obj.id}`)
       },
@@ -82,9 +89,36 @@
     padding: 6px 20px;
     color: #222222;
     border-bottom: 1px solid #ECECEC;
-    h3 {
-      font-size: 18px;
-      font-weight: 400;
+    .header {
+      display: flex;
+      align-items: center;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #0D0D0D;
+      }
+      span {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 10px;
+          top: 8px;
+          transform: rotate(45deg);
+        }
+      }
     }
     .search-bar {
       display: flex;

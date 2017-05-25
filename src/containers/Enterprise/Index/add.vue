@@ -37,8 +37,7 @@
             <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
-        <span class="_button" @click="regist">注册</span>
-        <!--<XButton @onClick="regist" value="注册"></XButton>-->
+        <XButton @onClick="regist" value="注册"></XButton>
       </div>
     </div>
   </div>
@@ -197,13 +196,6 @@
             }
           }
         }
-      }
-      ._button {
-        width: 160px;
-        display: block;
-        float: right;
-        margin-top: 20px;
-        font-size: 16px;
       }
     }
   }
