@@ -39,7 +39,8 @@ module.exports = {
           param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast') : null
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
-          ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
+          //ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
+          ctx.dispatch('showtoast', response.body.errmsg);
         }
       }
     ).catch(
