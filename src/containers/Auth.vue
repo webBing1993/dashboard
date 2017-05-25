@@ -139,13 +139,6 @@
           padding: 8px;
         }
       }
-      .weui-btn_default {
-        cursor: pointer;
-        margin-top: 60px;
-        &:hover {
-          border: solid 1px #000;
-        }
-      }
     }
     .login {
       border-right: solid 2px #8f8f8f;

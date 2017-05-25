@@ -71,7 +71,7 @@
             </div>
           </div>
         </div>-->
-        <XButton value="添加" @onClick="regist"></XButton>
+        <XButton primary value="添加" @onClick="regist"></XButton>
       </div>
     </div>
   </div>
@@ -318,17 +318,6 @@
             }
           }
         }
-      }
-    }
-    .weui-btn_default {
-      margin-top: 55px;
-      width: 280px;
-      background-color: #1C9053;
-      color: #ffffff;
-      border-radius: 6px;
-      cursor: pointer;
-      &:hover {
-        background-color: #0D0D0D;
       }
     }
   }

@@ -197,16 +197,6 @@
           }
         }
       }
-      .weui-btn_default {
-        width: 200px;
-        cursor: pointer;
-        margin-top: 45px;
-        background-color: #1C9053;
-        color: #ffffff;
-        &:hover {
-          background-color: #0D0D0D;
-        }
-      }
     }
   }
 
