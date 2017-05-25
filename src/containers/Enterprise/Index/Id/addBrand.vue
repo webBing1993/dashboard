@@ -51,7 +51,8 @@
         // 'getEnterpriseList',
         'addBrand',
         'goto',
-        'CosCloudAssign'
+        'CosCloudAssign',
+        'showtoast'
       ]),
       enterpriseChange(e) {
         this.enterprise = e.target.value;
@@ -75,7 +76,8 @@
 
         //没有选择的时候给个默认值
         // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
-
+        console.log('-----------------')
+        console.log(this.logoUrl)
         this.addBrand({
           name: this.brandName,
           logo_url: this.logoUrl,
@@ -120,7 +122,14 @@
         cos.uploadFile(
           body => {
             this.logoUrl = body.data.source_url;
+            this.showtoast("上传成功");
           },
+          // err => {
+          //   this.showtoast(err);
+          // },
+          // progress => {
+          //   this.showtoast(progress);
+          // },
           err => console.log(err),
           progress => console.log(progress),
           'virgo',
