@@ -1,9 +1,6 @@
 <template>
   <div class="app-content">
-    <router-view id="app" class="first-router"></router-view>
-    <Toast v-model="Interface.toast.show" :title="Interface.toast.text"/>
-    <Toast v-model="Interface.loading.show" loading/>
-    <Alert v-model="Interface.alert.show" :title="Interface.alert.title" @on-show="onShow" @on-hide="onHide">{{ Interface.alert.content }}</Alert>
+    <router-view v-loading.body="Interface.loading.show" id="app" class="first-router"></router-view>
   </div>
 </template>
 
@@ -16,16 +13,28 @@
         'Interface',
       ]),
     },
+    watch: {
+      'Interface.alert.show'(v) {
+        if (v) {
+          this.$alert(this.Interface.alert.content, this.Interface.alert.title, {
+            confirmButtonText: '确定',
+            callback: action => {
+              if (this.Interface.alert.code == 401) this.goto('/auth')
+            }
+          });
+        }
+      },
+      'Interface.toast.show'(v) {
+        if (v) {
+          this.$store.state.Interface.toast.show = false;
+          this.$message(this.Interface.toast.text);
+        }
+      }
+    },
     methods: {
       ...mapActions([
         'goto'
       ]),
-      onShow() {
-        // console.log('onShow')
-      },
-      onHide() {
-        if (this.Interface.alert.code == 401) this.goto('/auth')
-      },
     }
   }
 </script>
