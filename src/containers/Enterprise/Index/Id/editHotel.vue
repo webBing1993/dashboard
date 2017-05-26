@@ -15,14 +15,14 @@
             <div class="content-title">
               <div class="title-msg">
                 <span>所属企业</span>
-                <select v-model="group_id">
-                  <option v-for="(obj, index) of enterpriseList" :value="obj.id" :selected="obj.id==group_id?'selected':''">{{obj.name}}</option>
+                <select v-model="groupId">
+                  <option v-for="(obj, index) of groupList" :value="obj.id">{{obj.name}}</option>
                 </select>
               </div>
               <div class="title-msg">
                 <span>所属品牌</span>
-                <select v-model="brand_id">
-                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==brand_id?'selected':''">{{obj.name}}</option>
+                <select v-model="brandId">
+                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
                 </select>
               </div>
             </div>
@@ -40,18 +40,17 @@
             </div>
             <div>
               <span>门店地址</span>
-              <select v-model="regionCode" @change="regionCodeChange">
-                <option v-for="(obj, index) of regionList" :selected="obj.name==province?'selected':''" :value="obj.code">{{obj.name}}</option>
+              <select v-model="provinceCode" @change="provinceCodeChange">
+                <option v-for="(obj, index) of provinceList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select v-model="stateCode" @change="stateCodeChange">
-                <option v-for="(obj, index) of stateList" :selected="obj.name==city?'selected':''" :value="obj.code">{{obj.name}}</option>
+              <select v-model="cityCode" @change="cityCodeChange">
+                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
               </select>
-              <select v-model="cityCode">
-                <option v-for="(obj, index) of cityList" :selected="obj.name==area?'selected':''" :value="obj.code">{{obj.name}}</option>
+              <select v-model="areaCode">
+                <option v-for="(obj, index) of areaList" :value="obj.code">{{obj.name}}</option>
               </select>
             </div>
             <div class="content-msg">
-              <label>门店地址</label>
               <input type="text" v-model="address" placeholder="地址（详细到门牌号）" />
             </div>
           </div>
@@ -72,8 +71,8 @@
     data () {
       return {
         hotel: {},
-        group_id: '',
-        brand_id: '',
+        groupId: '',
+        brandId: '',
         code: '',
         name: '',
         tel: '',
@@ -83,37 +82,37 @@
         address: '',
         latitude: '',
         longitude: '',
-        enterpriseList: [],
+        groupList: [],
         brandList: [],
-        regionCode: '',
-        stateCode: '',
-        cityCode: ''
+        provinceCode: '',
+        cityCode: '',
+        areaCode: ''
       }
     },
     computed: {
-      regionList() {
+      provinceList() {
         let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
         })
         return arr;
       },
-      stateList() {
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+      cityList() {
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined)
           return [];
         return obj.region.state;
       },
-      cityList() {
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+      areaList() {
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined)
           return [];
-        let cityObj = obj.region.state.find(v => v.code == this.stateCode);
+        let cityObj = obj.region.state.find(v => v.code == this.cityCode);
         if (cityObj === undefined)
           return [];
         return cityObj.city;
       },
       submitDisabled() {
-        if (this.group_id == '' || this.brand_id == '' || this.code == '' || this.name == '' || this.tel == '' || this.address == '' || this.latitude == '' || this.longitude == '')
+        if (this.groupId == '' || this.brandId == '' || this.code == '' || this.name == '' || this.tel == '' || this.address == '' || this.latitude == '' || this.longitude == '')
           return true;
         return false;
       }
@@ -122,9 +121,8 @@
       hotel() {
         if (!this.hotel.id) return;
 
-        this.group_id = this.hotel.group_id;
-        console.log(this.group_id)
-        this.brand_id = this.hotel.brand_id;
+        this.groupId = this.hotel.group_id;
+        // this.brandId = this.hotel.brand_id;
         this.code = this.hotel.code;
         this.name = this.hotel.name;
         this.tel = this.hotel.tel;
@@ -137,31 +135,31 @@
 
         this.getBrand();
 
-        let region = this.regionList.find(v => v.name == this.province);
+        let region = this.provinceList.find(v => v.name == this.province);
 
         if (region !== undefined) {
-          this.regionCode = region.code;
+          this.provinceCode = region.code;
         } else {
-          this.regionCode = this.regionList[0].code;
+          this.provinceCode = this.provinceList[0].code;
         }
 
-        let regionObj, obj = areaData.find(v => v.region.code == this.regionCode);
+        let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) {
           regionObj = areaData[0].region;
         } else {
           regionObj = obj.region;
         }
         let stateObj = regionObj.state.find(v => v.name ==  this.city);
-        if (stateObj === undefined) stateObj = this.stateList[0];
-        this.stateCode = stateObj.code;
+        if (stateObj === undefined) stateObj = this.cityList[0];
+        this.cityCode = stateObj.code;
         
         let cityObj = stateObj.city.find(v => v.name ==  this.area);
-        if (cityObj === undefined) cityObj = this.cityList[0];
-        this.cityCode = cityObj.code;
+        if (cityObj === undefined) cityObj = this.areaList[0];
+        this.areaCode = cityObj.code;
 
         this.initMap();
       },
-      group_id() {
+      groupId() {
         this.getBrand();
       }
     },
@@ -175,18 +173,20 @@
         'goto',
         'showtoast'
       ]),
-      regionCodeChange(e) {
-        this.stateCode = this.stateList[0]?this.stateList[0].code:0;
-        this.changeMapCenter();
-      },
-      stateCodeChange(e) {
+      //这里两个用change事件是因为从网络获取的值赋值变化时不需要触发这些事情
+      provinceCodeChange(e) {
         this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
         this.changeMapCenter();
       },
-      getEnterprise() {
+      cityCodeChange(e) {
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
+        this.changeMapCenter();
+      },
+      getGroupList() {
         this.getEnterpriseList({
           onsuccess: body => {
-            this.enterpriseList = body.data;
+            this.groupList = body.data;
             this.getInfo();
           }
         })
@@ -194,14 +194,16 @@
       getBrand() {
         this.brandList = [];
         this.getBrandList({
-          group_id: this.group_id,
+          group_id: this.groupId,
           // onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
           onsuccess: body => {
             if (body.data && body.data.length > 0) {
               this.brandList = body.data;
-              let index = this.brandList.findIndex(v => v.id == this.brand_id)
+              //现有列表后有比对的brandId,不然即使先给brandId赋值，列表复制后v-model绑定的brandId会变成undefined
+              this.brandId = this.hotel.brand_id;
+              let index = this.brandList.findIndex(v => v.id == this.brandId)
               if (index == -1) {
-                this.brand_id = this.brandList[0].id;
+                this.brandId = this.brandList[0].id;
               }
             } else {
               this.showtoast('暂无品牌')
@@ -226,17 +228,17 @@
       modify() {
         if (this.submitDisabled) return;
 
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) return;
-        let state = obj.region.state.find(v => v.code == this.stateCode);
+        let state = obj.region.state.find(v => v.code == this.cityCode);
         if (state === undefined) return;
-        let city = state.city.find(v => v.code == this.cityCode);
+        let city = state.city.find(v => v.code == this.areaCode);
         if (city === undefined) return;
-        
+
         this.modifyHotel({
           id: this.hotel.id,
-          group_id: this.group_id,
-          brand_id: this.brand_id,
+          group_id: this.groupId,
+          brand_id: this.brandId,
           code: this.code,
           name: this.name,
           tel: this.tel,
@@ -304,14 +306,14 @@
         });
       },
       changeMapCenter() {
-        let state = this.stateList.find(v => v.code == this.stateCode);
+        let state = this.cityList.find(v => v.code == this.cityCode);
         if (!state || !citylocation) return;
         citylocation.searchCityByName(state.name);
       }
     },
     mounted() {
       
-      this.getEnterprise();
+      this.getGroupList();
     }
   }
 </script>
