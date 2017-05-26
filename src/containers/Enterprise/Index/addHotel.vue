@@ -9,13 +9,13 @@
             <div class="content-item">
               <div class="content-select">
                 <span>所属企业</span>
-                <select v-model="group">
-                  <option v-for="(obj, index) of enterpriseList" :value="obj.id">{{obj.name}}</option>
+                <select v-model="groupId">
+                  <option v-for="(obj, index) of groupList" :value="obj.id">{{obj.name}}</option>
                 </select>
               </div>
               <div class="content-select">
                 <span>所属品牌</span>
-                <select v-model="brand">
+                <select v-model="brandId">
                   <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
                 </select>
               </div>
@@ -33,14 +33,14 @@
               </div>
               <div class="content-address">
                 <span>门店地址</span>
-                <select v-model="regionCode">
-                  <option v-for="(obj, index) of regionList" :value="obj.code">{{obj.name}}</option>
-                </select>
-                <select v-model="stateCode">
-                  <option v-for="(obj, index) of stateList" :value="obj.code" :selected="stateCode==obj.code?'selected':''">{{obj.name}}</option>
+                <select v-model="provinceCode">
+                  <option v-for="(obj, index) of provinceList" :value="obj.code">{{obj.name}}</option>
                 </select>
                 <select v-model="cityCode">
                   <option v-for="(obj, index) of cityList" :value="obj.code" :selected="cityCode==obj.code?'selected':''">{{obj.name}}</option>
+                </select>
+                <select v-model="areaCode">
+                  <option v-for="(obj, index) of areaList" :value="obj.code" :selected="areaCode==obj.code?'selected':''">{{obj.name}}</option>
                 </select>
               </div>
               <div class="content-add">
@@ -69,72 +69,69 @@
     name: 'HotelAdd',
     data () {
       return {
-        enterpriseList: [],
-        group: '',
+        groupList: [],
+        groupId: '',
         brandList: [],
-        brand: '',
+        brandId: '',
         hotelCode: '',
         storeName: '',
         storePhone: '',
-        regionCode: '',
-        stateCode: '',
+        provinceCode: '',
         cityCode: '',
+        areaCode: '',
         address: '',
         lat: '',
         lng: ''
       }
     },
     computed: {
-      regionList() {
+      provinceList() {
         let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
         })
         return arr;
       },
-      stateList() {
-        if (this.regionCode == '' && this.regionList[0]) this.regionCode = this.regionList[0].code;
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+      cityList() {
+        if (this.provinceCode == '' && this.provinceList[0]) this.provinceCode = this.provinceList[0].code;
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined)
           return [];
         return obj.region.state;
       },
-      cityList() {
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+      areaList() {
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined)
           return [];
-        let cityObj = obj.region.state.find(v => v.code == this.stateCode);
+        let cityObj = obj.region.state.find(v => v.code == this.cityCode);
         if (cityObj === undefined)
           return [];
         return cityObj.city;
       },
       submitDisabled() {
-        if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.lat == '' || this.lng == '' || this.brand == '')
+        if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.lat == '' || this.lng == '' || this.brandId == '')
           return true;
         return false;
       }
     },
     watch: {
-      enterpriseList(list) {
+      groupList(list) {
         //没有选择的时候给个默认值
-        if (this.group == '' && this.enterpriseList[0]) this.group = this.enterpriseList[0].id;
+        if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
       },
       brandList(brandList) {
-        if (this.brandList[0]) this.brand = this.brandList[0].id;
+        if (this.brandList[0]) this.brandId = this.brandList[0].id;
       },
-      group(val) {
+      groupId(val) {
         if (val == '') return;
         this.getBrand();
       },
-      brand(val) {
-        this.brandError = val == '';
-      },
-      regionCode() {
-        this.stateCode = this.stateList[0]?this.stateList[0].code:0;
-
+      provinceCode() {
+        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
         this.changeMapCenter();
       },
-      stateCode() {
-        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+      cityCode() {
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
 
         this.changeMapCenter();
       }
@@ -147,31 +144,31 @@
         'showtoast',
         'goto'
       ]),
-      getEnterprise() {
+      getGroupList() {
         this.getEnterpriseList({
-          onsuccess: body => this.enterpriseList = body.data
+          onsuccess: body => this.groupList = body.data
         })
       },
       getBrand() {
         this.brandList = [];
         this.getBrandList({
-          group_id: this.group,
+          group_id: this.groupId,
           onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
         })
       },
       regist() {
         if (this.submitDisabled) return;
 
-        let obj = areaData.find(v => v.region.code == this.regionCode);
+        let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) obj = areaData[0];
-        let state = obj.region.state.find(v => v.code == this.stateCode);
+        let state = obj.region.state.find(v => v.code == this.cityCode);
         if (state === undefined) state = obj.region.state[0];
-        let city = state.city.find(v => v.code == this.cityCode);
+        let city = state.city.find(v => v.code == this.areaCode);
         if (city === undefined) city = state.city[0];
 
         this.addHotel({
-          group_id: this.group,
-          brand_id: this.brand,
+          group_id: this.groupId,
+          brand_id: this.brandId,
           code: this.hotelCode,
           name: this.storeName,
           tel: this.storePhone,
@@ -230,24 +227,24 @@
         });
       },
       changeMapCenter() {
-        let state = this.stateList.find(v => v.code == this.stateCode);
+        let state = this.cityList.find(v => v.code == this.cityCode);
         if (!state || !citylocation) return;
         citylocation.searchCityByName(state.name);
       }
     },
     mounted() {
       //初始化地区默认值
-      if (this.regionList[0]) {
-        this.regionCode = this.regionList[0].code;
-      }
-      if (this.stateList[0]) {
-        this.stateCode = this.stateList[0].code;
+      if (this.provinceList[0]) {
+        this.provinceCode = this.provinceList[0].code;
       }
       if (this.cityList[0]) {
         this.cityCode = this.cityList[0].code;
       }
+      if (this.areaList[0]) {
+        this.areaCode = this.areaList[0].code;
+      }
 
-      this.getEnterprise();
+      this.getGroupList();
 
       this.initMap();
     }
