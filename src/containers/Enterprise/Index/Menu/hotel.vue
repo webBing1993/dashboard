@@ -62,7 +62,7 @@
         this.$router.push(`/enterprise/${obj.group_id}`)
       },
       config(obj) {
-        this.$router.push(`/enterprise/${obj.id}/config`)
+        
       },
       getList() {
         this.getHotelList({

@@ -10,12 +10,20 @@ import store from './store';
 
 Vue.config.productionTip = false
 
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
+
+Vue.use(ElementUI)
+
 // Components
 Vue.component('XButton', require('./components/Displays/button.vue'))
-Vue.component('xpage', require('./components/web-component-page.vue'))
 Vue.component('Toast', require('./components/Layers/toast.vue'))
-Vue.component('alert', require('./components/Layers/alert.vue'))
+Vue.component('Alert', require('./components/Layers/alert.vue'))
 Vue.component('popup', require('./components/Layers/popup'))
+Vue.component('Group', require('./components/List/group.vue'))
+Vue.component('XInput', require('./components/Forms/x-input.vue'))
+
+Vue.component('xpage', require('./components/web-component-page.vue'))
 
 /* eslint-disable no-new */
 new Vue({

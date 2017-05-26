@@ -3,7 +3,7 @@
     <router-view id="app" class="first-router"></router-view>
     <Toast v-model="Interface.toast.show" :title="Interface.toast.text"/>
     <Toast v-model="Interface.loading.show" loading/>
-    <alert v-model="Interface.alert.show" :title="Interface.alert.title" @on-show="onShow" @on-hide="onHide">{{ Interface.alert.content }}</alert>
+    <Alert v-model="Interface.alert.show" :title="Interface.alert.title" @on-show="onShow" @on-hide="onHide">{{ Interface.alert.content }}</Alert>
   </div>
 </template>
 

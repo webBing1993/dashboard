@@ -10,24 +10,20 @@
           <p>企业信息</p>
           <div class="info-content">
             <div class="content-msg">
-              <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="enterpriseName" @change="nameChange"/>
-              <span v-show="nameError" class="error-info">* 请输入企业名称</span>
+              <span>企业名称</span>
+              <el-input class="el-right" v-model="enterpriseName" placeholder="请输入企业名称"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseCode">账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="enterpriseCode" @change="codeChange"/>
-              <span v-show="codeError" class="error-info">* 请输入账户编码</span>
+              <span>账户编码</span>
+              <el-input class="el-right" v-model="enterpriseCode" placeholder="请输入账户编码"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseDesc">企业简称</label>
-              <input type="text" id="enterpriseDesc" v-model="enterpriseDesc" @change="memoChange"/>
-              <span v-show="memoError" class="error-info">* 请输入企业简称</span>
+              <span>企业简称</span>
+              <el-input class="el-right" v-model="enterpriseDesc" placeholder="请输入企业简称"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="enterpriseWeb" @change="websiteChange"/>
-              <span v-show="websiteError" class="error-info">* 请输入企业官网</span>
+              <span>企业官网</span>
+              <el-input class="el-right" v-model="enterpriseWeb" placeholder="请输入企业官网"></el-input>
             </div>
           </div>
         </div>
@@ -37,7 +33,9 @@
             <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
           </div>
         </div>-->
-        <XButton @onClick="regist" value="注册"></XButton>
+        <div class="button-box">
+          <XButton primary :disabled="submitDisabled" value="注册" @onClick="regist"></XButton>
+        </div>
       </div>
     </div>
   </div>
@@ -53,15 +51,18 @@
         enterpriseCode: '',
         enterpriseDesc: '',
         enterpriseWeb: '',
-        nameError: false,
-        codeError: false,
-        memoError: false,
-        websiteError: false,
         brandList: []
       }
     },
     components: {
       tableAdd
+    },
+    computed: {
+      submitDisabled() {
+        if (this.enterpriseName == '' || this.enterpriseCode == '' || this.enterpriseDesc == '')
+          return true;
+        return false;
+      }
     },
     methods: {
       ...mapActions([
@@ -79,36 +80,8 @@
           onsuccess: body => console.log(body.data)
         })
       },
-      nameChange(e) {
-        if (e.target.value != '')
-          this.nameError = false;
-        else
-          this.nameError = true;
-      },
-      codeChange(e) {
-        if (e.target.value != '')
-          this.codeError = false;
-        else
-          this.codeError = true;
-      },
-      memoChange(e) {
-        if (e.target.value != '')
-          this.memoError = false;
-        else
-          this.memoError = true;
-      },
-      websiteChange(e) {
-        if (e.target.value != '')
-          this.websiteError = false;
-        else
-          this.websiteError = true;
-      },
       regist() {
-        if (this.enterpriseName == '') this.nameError = true;
-        if (this.enterpriseCode == '') this.codeError = true;
-        if (this.enterpriseDesc == '') this.memoError = true;
-        if (this.enterpriseWeb == '') this.websiteError = true;
-        if (this.enterpriseName == '' || this.enterpriseCode == '' || this.enterpriseDesc == '' || this.enterpriseWeb == '') return;
+        if (this.submitDisabled) return;
 
         this.addEnterprise({
           name: this.enterpriseName,
@@ -182,17 +155,22 @@
           .content-msg {
             display: flex;
             align-items: center;
-            font-size: 14px;
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
+            font-size: 18px;
+            // input {
+            //   outline: none;
+            //   border: solid 1px #EAEDF0;
+            //   margin: 10px 20px;
+            //   padding: 4px;
+            //   width: 280px;
+            //   font-size: 14px;
+            //   &:focus {
+            //     border-color: #8f8f8f;
+            //   }
+            // }
+            .el-right {
               margin: 10px 20px;
               padding: 4px;
-              width: 280px;
-              font-size: 14px;
-              &:focus {
-                border-color: #8f8f8f;
-              }
+              width: 80%;
             }
           }
         }
@@ -212,5 +190,10 @@
   .error-info {
     color: red;
     font-size: 12px;
+  }
+
+  .button-box {
+    width: 40%;
+    margin: 10px auto;
   }
 </style>

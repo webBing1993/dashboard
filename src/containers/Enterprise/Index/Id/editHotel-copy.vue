@@ -12,78 +12,51 @@
             </div>
           </div>
           <div class="info-content">
-            <div class="content-item">
-              <div>
+            <div class="content-title">
+              <div class="title-msg">
                 <span>所属企业</span>
-                <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
-                  <el-option
-                    v-for="(obj, index) of groupList"
-                    :key="obj.id"
-                    :label="obj.name"
-                    :value="obj.id">
-                  </el-option>
-                </el-select>
+                <select v-model="groupId">
+                  <option v-for="(obj, index) of groupList" :value="obj.id">{{obj.name}}</option>
+                </select>
               </div>
-              <div>
+              <div class="title-msg">
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
-                  <el-option
-                    v-for="(obj, index) of brandList"
-                    :key="obj.id"
-                    :label="obj.name"
-                    :value="obj.id">
-                  </el-option>
-                </el-select>
-              </div>
-              <div>
-                <span>账户编码</span>
-                <el-input class="el-right" v-model="code" placeholder="请输入账户编码"></el-input>
-              </div>
-              <div>
-                <span>门店名称</span>
-                <el-input class="el-right" v-model="name" placeholder="请输入门店名称"></el-input>
-              </div>
-              <div>
-                <span>前台电话</span>
-                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话"></el-input>
-              </div>
-              <div>
-                <span>门店地址</span>
-                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择">
-                  <el-option
-                    v-for="(obj, index) of provinceList"
-                    :key="index"
-                    :label="obj.name"
-                    :value="obj.code">
-                  </el-option>
-                </el-select>
-                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择">
-                  <el-option
-                    v-for="(obj, index) of cityList"
-                    :key="index"
-                    :label="obj.name"
-                    :value="obj.code">
-                  </el-option>
-                </el-select>
-                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择">
-                  <el-option
-                    v-for="(obj, index) of areaList"
-                    :key="index"
-                    :label="obj.name"
-                    :value="obj.code">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="content-add">
-                <el-input v-model="address" placeholder="地址（详细到门牌号）"></el-input>
+                <select v-model="brandId">
+                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
+                </select>
               </div>
             </div>
-            <div class="content-item">
-              <div id="mapContainer">
-
-              </div>
+            <div class="content-msg">
+              <label for="hotelCode">账户编码</label>
+              <input type="text" id="hotelCode" v-model="code" />
+            </div>
+            <div class="content-msg">
+              <label for="storeName">门店名称</label>
+              <input type="text" id="storeName" v-model="name" />
+            </div>
+            <div class="content-msg">
+              <label for="phone">前台电话</label>
+              <input type="text" id="phone" v-model="tel" />
+            </div>
+            <div>
+              <span>门店地址</span>
+              <select v-model="provinceCode" @change="provinceCodeChange">
+                <option v-for="(obj, index) of provinceList" :value="obj.code">{{obj.name}}</option>
+              </select>
+              <select v-model="cityCode" @change="cityCodeChange">
+                <option v-for="(obj, index) of cityList" :value="obj.code">{{obj.name}}</option>
+              </select>
+              <select v-model="areaCode">
+                <option v-for="(obj, index) of areaList" :value="obj.code">{{obj.name}}</option>
+              </select>
+            </div>
+            <div class="content-msg">
+              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" />
             </div>
           </div>
+        </div>
+        <div id="mapContainer">
+
         </div>
       </div>
     </div>
@@ -145,22 +118,50 @@
       }
     },
     watch: {
+      hotel() {
+        if (!this.hotel.id) return;
+
+        this.groupId = this.hotel.group_id;
+        // this.brandId = this.hotel.brand_id;
+        this.code = this.hotel.code;
+        this.name = this.hotel.name;
+        this.tel = this.hotel.tel;
+        this.province = this.hotel.province;
+        this.city = this.hotel.city;
+        this.area = this.hotel.area;
+        this.address = this.hotel.address;
+        this.longitude = this.hotel.longitude;
+        this.latitude = this.hotel.latitude;
+
+        this.getBrand();
+
+        let region = this.provinceList.find(v => v.name == this.province);
+
+        if (region !== undefined) {
+          this.provinceCode = region.code;
+        } else {
+          this.provinceCode = this.provinceList[0].code;
+        }
+
+        let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
+        if (obj === undefined) {
+          regionObj = areaData[0].region;
+        } else {
+          regionObj = obj.region;
+        }
+        let stateObj = regionObj.state.find(v => v.name ==  this.city);
+        if (stateObj === undefined) stateObj = this.cityList[0];
+        this.cityCode = stateObj.code;
+        
+        let cityObj = stateObj.city.find(v => v.name ==  this.area);
+        if (cityObj === undefined) cityObj = this.areaList[0];
+        this.areaCode = cityObj.code;
+
+        this.initMap();
+      },
       groupId() {
         this.getBrand();
-      },
-      provinceCode(val, oldVal) {
-        if (oldVal) {
-          this.cityCode = this.cityList[0]?this.cityList[0].code:0;
-          this.areaCode = this.areaList[0]?this.areaList[0].code:0;
-          this.changeMapCenter();
-        }
-      },
-      cityCode(val, oldVal) {
-        if (oldVal) {
-          this.areaCode = this.areaList[0]?this.areaList[0].code:0;
-          this.changeMapCenter();
-        }
-      },
+      }
     },
     methods: {
       ...mapActions([
@@ -172,13 +173,21 @@
         'goto',
         'showtoast'
       ]),
+      //这里两个用change事件是因为从网络获取的值赋值变化时不需要触发这些事情
+      provinceCodeChange(e) {
+        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
+        this.changeMapCenter();
+      },
+      cityCodeChange(e) {
+        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
+        this.changeMapCenter();
+      },
       getGroupList() {
         this.getEnterpriseList({
           onsuccess: body => {
             this.groupList = body.data;
-            
-            //现有列表后有比对的Id,不然即使先给Id赋值，列表复制后v-model绑定的Id会变成undefined
-            this.groupId = this.hotel.group_id;
+            this.getInfo();
           }
         })
       },
@@ -205,51 +214,7 @@
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => {
-            if (body.data) {
-              this.getGroupList();
-
-              this.hotel = body.data;
-
-              // this.groupId = this.hotel.group_id;
-              // this.brandId = this.hotel.brand_id;
-              this.code = this.hotel.code;
-              this.name = this.hotel.name;
-              this.tel = this.hotel.tel;
-              this.province = this.hotel.province;
-              this.city = this.hotel.city;
-              this.area = this.hotel.area;
-              this.address = this.hotel.address;
-              this.longitude = this.hotel.longitude;
-              this.latitude = this.hotel.latitude;
-
-              let region = this.provinceList.find(v => v.name == this.province);
-
-              if (region !== undefined) {
-                this.provinceCode = region.code;
-              } else {
-                this.provinceCode = this.provinceList[0].code;
-              }
-              
-              let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
-              if (obj === undefined) {
-                regionObj = areaData[0].region;
-              } else {
-                regionObj = obj.region;
-              }
-              let stateObj = regionObj.state.find(v => v.name ==  this.city);
-              if (stateObj === undefined) stateObj = this.cityList[0];
-              this.cityCode = stateObj.code;
-              
-              let cityObj = stateObj.city.find(v => v.name ==  this.area);
-              if (cityObj === undefined) cityObj = this.areaList[0];
-              this.areaCode = cityObj.code;
-
-              this.initMap();
-            } else {
-              this.showtoast('数据不存在')
-            }
-          }
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
         })
       },
       remove() {
@@ -347,7 +312,8 @@
       }
     },
     mounted() {
-      this.getInfo();
+      
+      this.getGroupList();
     }
   }
 </script>
@@ -386,11 +352,40 @@
       .info-content {
         padding: 10px 40px;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         font-size: 14px;
         line-height: 42px;
-        .content-item {
-          flex: 1;
+        .content-title {
+          display: flex;
+          .title-msg {
+            flex: 1;
+            align-items: center;
+            span {
+              margin-right: 30px;
+            }
+            select {
+              min-width: 100px;
+              outline: none;
+              height: 24px;
+            }
+          }
+        }
+        .content-msg {
+          display: flex;
+          align-items: center;
+          font-size: 14px;
+          label {
+            width: 90px;
+          }
+          input {
+            outline: none;
+            border: none;
+            border-bottom: solid 1px #EAEDF0;
+            margin: 8px 0;
+            padding: 8px;
+            flex: 1;
+            font-size: 14px;
+          }
         }
       }
     }
@@ -423,19 +418,4 @@
     height: 400px;
     width: 100%;
   }
-
-  .el-right {
-    width: 390px;
-    margin-left: 16px;
-  }
-
-  .el-right-address {
-    width: 116px;
-    margin-left: 16px;
-  }
-
-  .content-add {
-    width: 464px;
-  }
-
 </style>
