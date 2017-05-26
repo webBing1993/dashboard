@@ -1,9 +1,12 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">酒店编辑</h3>
+      <div class="title">
+        <span @click="_goback"></span>
+        <h3>酒店编辑</h3>
+      </div>
       <div class="content">
-        <div class="enterprise-info">
+        <div class="store-info">
           <div class="title-bar">
             <p>酒店信息</p>
             <div>
@@ -12,52 +15,61 @@
             </div>
           </div>
           <div class="info-content">
-            <div class="content-title">
-              <div class="title-msg">
+            <div class="content-item">
+              <div class="content-select">
                 <span>所属企业</span>
                 <select v-model="group_id">
-                  <option v-for="(obj, index) of enterpriseList" :value="obj.id" :selected="obj.id==group_id?'selected':''">{{obj.name}}</option>
+                  <option v-for="(obj, index) of enterpriseList" :value="obj.id"
+                          :selected="obj.id==group_id?'selected':''">{{obj.name}}
+                  </option>
                 </select>
               </div>
-              <div class="title-msg">
+              <div class="content-input">
+                <label for="hotelCode">账户编码</label>
+                <input type="text" id="hotelCode" v-model="code"/>
+              </div>
+              <div class="content-input">
+                <label for="storeName">门店名称</label>
+                <input type="text" id="storeName" v-model="name"/>
+              </div>
+              <div class="content-input">
+                <label for="phone">前台电话</label>
+                <input type="text" id="phone" v-model="tel"/>
+              </div>
+              <div class="content-address">
+                <span>门店地址</span>
+                <select v-model="regionCode" @change="regionCodeChange">
+                  <option v-for="(obj, index) of regionList" :selected="obj.name==province?'selected':''"
+                          :value="obj.code">{{obj.name}}
+                  </option>
+                </select>
+                <select v-model="stateCode" @change="stateCodeChange">
+                  <option v-for="(obj, index) of stateList" :selected="obj.name==city?'selected':''" :value="obj.code">
+                    {{obj.name}}
+                  </option>
+                </select>
+                <select v-model="cityCode">
+                  <option v-for="(obj, index) of cityList" :selected="obj.name==area?'selected':''" :value="obj.code">
+                    {{obj.name}}
+                  </option>
+                </select>
+              </div>
+              <div class="content-add">
+                <input type="text" v-model="address" placeholder="地址（详细到门牌号）"/>
+              </div>
+            </div>
+            <div class="content-item">
+              <div class="content-select">
                 <span>所属品牌</span>
                 <select v-model="brand_id">
-                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==brand_id?'selected':''">{{obj.name}}</option>
+                  <option v-for="(obj, index) of brandList" :value="obj.id" :selected="obj.id==brand_id?'selected':''">
+                    {{obj.name}}
+                  </option>
                 </select>
               </div>
-            </div>
-            <div class="content-msg">
-              <label for="hotelCode">账户编码</label>
-              <input type="text" id="hotelCode" v-model="code" />
-            </div>
-            <div class="content-msg">
-              <label for="storeName">门店名称</label>
-              <input type="text" id="storeName" v-model="name" />
-            </div>
-            <div class="content-msg">
-              <label for="phone">前台电话</label>
-              <input type="text" id="phone" v-model="tel" />
-            </div>
-            <div>
-              <span>门店地址</span>
-              <select v-model="regionCode" @change="regionCodeChange">
-                <option v-for="(obj, index) of regionList" :selected="obj.name==province?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select v-model="stateCode" @change="stateCodeChange">
-                <option v-for="(obj, index) of stateList" :selected="obj.name==city?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-              <select v-model="cityCode">
-                <option v-for="(obj, index) of cityList" :selected="obj.name==area?'selected':''" :value="obj.code">{{obj.name}}</option>
-              </select>
-            </div>
-            <div class="content-msg">
-              <label>门店地址</label>
-              <input type="text" v-model="address" placeholder="地址（详细到门牌号）" />
+              <div id="mapContainer"></div>
             </div>
           </div>
-        </div>
-        <div id="mapContainer">
-
         </div>
       </div>
     </div>
@@ -151,11 +163,11 @@
         } else {
           regionObj = obj.region;
         }
-        let stateObj = regionObj.state.find(v => v.name ==  this.city);
+        let stateObj = regionObj.state.find(v => v.name == this.city);
         if (stateObj === undefined) stateObj = this.stateList[0];
         this.stateCode = stateObj.code;
-        
-        let cityObj = stateObj.city.find(v => v.name ==  this.area);
+
+        let cityObj = stateObj.city.find(v => v.name == this.area);
         if (cityObj === undefined) cityObj = this.cityList[0];
         this.cityCode = cityObj.code;
 
@@ -175,12 +187,15 @@
         'goto',
         'showtoast'
       ]),
+      _goback(){
+        this.goto(-1);
+      },
       regionCodeChange(e) {
-        this.stateCode = this.stateList[0]?this.stateList[0].code:0;
+        this.stateCode = this.stateList[0] ? this.stateList[0].code : 0;
         this.changeMapCenter();
       },
       stateCodeChange(e) {
-        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
+        this.cityCode = this.cityList[0] ? this.cityList[0].code : 0;
         this.changeMapCenter();
       },
       getEnterprise() {
@@ -232,7 +247,7 @@
         if (state === undefined) return;
         let city = state.city.find(v => v.code == this.cityCode);
         if (city === undefined) return;
-        
+
         this.modifyHotel({
           id: this.hotel.id,
           group_id: this.group_id,
@@ -252,9 +267,9 @@
         })
       },
       initMap() {
-        
+
         let lat = this.latitude, lng = this.longitude;
-        center = new qq.maps.LatLng(lat,lng);
+        center = new qq.maps.LatLng(lat, lng);
         map = new qq.maps.Map(document.getElementById("mapContainer"), {
           center: center,
           zoom: 10,
@@ -263,42 +278,42 @@
           mapTypeControlOptions: {
             //设置控件的地图类型ID，ROADMAP显示普通街道地图，SATELLITE显示卫星图像，HYBRID显示卫星图像上的主要街道透明层
             mapTypeIds: [
-                // qq.maps.MapTypeId.ROADMAP,
-                // qq.maps.MapTypeId.SATELLITE,
-                // qq.maps.MapTypeId.HYBRID
+              // qq.maps.MapTypeId.ROADMAP,
+              // qq.maps.MapTypeId.SATELLITE,
+              // qq.maps.MapTypeId.HYBRID
             ],
-        }
-      });
-      
-      marker = new qq.maps.Marker({
-        position: new qq.maps.LatLng(lat, lng),
-        map: map
-      });
+          }
+        });
+
+        marker = new qq.maps.Marker({
+          position: new qq.maps.LatLng(lat, lng),
+          map: map
+        });
 
         let self = this;
         let listener = qq.maps.event.addListener(
           map,
           'click',
-          function(event) {
-              // console.log('您点击的位置为:[' + event.latLng.getLat() +
-              // ',' + event.latLng.getLng() + ']');
+          function (event) {
+            // console.log('您点击的位置为:[' + event.latLng.getLat() +
+            // ',' + event.latLng.getLng() + ']');
 
-              self.$set(self, 'latitude', event.latLng.getLat().toString());
-              self.$set(self, 'longitude', event.latLng.getLng().toString());
+            self.$set(self, 'latitude', event.latLng.getLat().toString());
+            self.$set(self, 'longitude', event.latLng.getLng().toString());
 
-              if (marker) marker.setMap(null)
+            if (marker) marker.setMap(null)
 
-              marker = new qq.maps.Marker({
-                position: new qq.maps.LatLng(event.latLng.getLat(), event.latLng.getLng()),
-                map: map
-              });
+            marker = new qq.maps.Marker({
+              position: new qq.maps.LatLng(event.latLng.getLat(), event.latLng.getLng()),
+              map: map
+            });
           }
         );
-        
+
         //设置地图中心
         citylocation = new qq.maps.CityService({
-          map : map,
-          complete : function(results){
+          map: map,
+          complete: function (results) {
             map.panTo(new qq.maps.LatLng(results.detail.latLng.lat, results.detail.latLng.lng));
           }
         });
@@ -310,89 +325,131 @@
       }
     },
     mounted() {
-      
+
       this.getEnterprise();
     }
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 20px;
-    font-size: 18px;
-    font-weight: 400;
-    color: #222222;
-    border-bottom: 1px solid #ECECEC;
-  }
-
-  .content {
-    padding: 20px 20px;
-    .enterprise-info {
-      border: 1px solid #EAEDF0;
-      .title-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        line-height: 45px;
-        padding: 0 20px;
-        background-color: #EAEDF0;
-        border-bottom: 1px solid #EAEDF0;
-        box-sizing: border-box;
-        p:nth-child(2) {
-          cursor: pointer;
-          font-size: 15px;
-          &:hover {
-            color: #586C94;
-            text-decoration: underline;
-          }
-        }
+  .module-wrapper {
+    .title {
+      display: flex;
+      align-items: center;
+      line-height: 50px;
+      padding: 0 20px;
+      border-bottom: 1px solid #ECECEC;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+        color: #0D0D0D;
       }
-      .info-content {
-        padding: 10px 40px;
-        display: flex;
-        flex-direction: column;
-        font-size: 14px;
-        line-height: 42px;
-        .content-title {
-          display: flex;
-          .title-msg {
-            flex: 1;
-            align-items: center;
-            span {
-              margin-right: 30px;
-            }
-            select {
-              min-width: 100px;
-              outline: none;
-              height: 24px;
-            }
-          }
-        }
-        .content-msg {
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          label {
-            width: 90px;
-          }
-          input {
-            outline: none;
-            border: none;
-            border-bottom: solid 1px #EAEDF0;
-            margin: 8px 0;
-            padding: 8px;
-            flex: 1;
-            font-size: 14px;
-          }
+      span {
+        display: block;
+        width: 22px;
+        height: 22px;
+        background-color: #C8C8CD;
+        border-radius: 50%;
+        margin-right: 8px;
+        position: relative;
+        cursor: pointer;
+        &:before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          display: block;
+          border-left: solid 1px #ffffff;
+          border-bottom: solid 1px #ffffff;
+          position: absolute;
+          left: 9px;
+          top: 7px;
+          transform: rotate(45deg);
         }
       }
     }
-    ._button {
-      width: 160px;
-      display: block;
-      float: right;
-      margin-top: 20px;
-      font-size: 16px;
+    .content {
+      padding: 20px 40px;
+      .store-info {
+        border: 1px solid #ECECEC;
+        font-size: 16px;
+        min-height: 500px;
+        .title-bar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          line-height: 35px;
+          padding: 0 10px 0 20px;
+          background-color: #EAEDF0;
+          .weui-btn_primary {
+            line-height: 35px;
+            width: 85px;
+            outline: none;
+            margin-right: 10px;
+          }
+        }
+        .info-content {
+          display: flex;
+          font-size: 14px;
+          padding: 30px 40px;
+          line-height: 46px;
+          .content-item {
+            flex: 1px;
+            .content-select {
+              select {
+                min-width: 390px;
+                height: 35px;
+                background-color: #ffffff;
+                outline: none;
+                margin-left: 16px;
+              }
+            }
+            .content-input {
+              display: flex;
+              align-items: center;
+              font-size: 14px;
+              input {
+                outline: none;
+                border: solid 1px #EAEDF0;
+                margin: 10px 20px;
+                width: 390px;
+                line-height: 35px;
+                font-size: 14px;
+                text-indent: 8px;
+              }
+            }
+            .content-address {
+              span {
+                margin-right: 10px;
+              }
+              select {
+                width: 124px;
+                height: 35px;
+                background-color: #ffffff;
+                outline: none;
+                margin-left: 6px;
+              }
+            }
+            .content-add {
+              input {
+                outline: none;
+                border: solid 1px #EAEDF0;
+                font-size: 14px;
+                text-indent: 8px;
+                margin-top: 18px;
+                margin-left: 76px;
+                width: 390px;
+                line-height: 35px;
+              }
+            }
+          }
+          #mapContainer {
+            width: 500px;
+            height: 100%;
+            margin-top: 14px;
+            /*width: 100%;*/
+            /*height: 400px;*/
+          }
+        }
+      }
     }
   }
 
@@ -412,8 +469,5 @@
     color: red;
   }
 
-  #mapContainer {
-    height: 400px;
-    width: 100%;
-  }
+
 </style>
