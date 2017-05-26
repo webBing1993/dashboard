@@ -129,8 +129,8 @@
         this.name = this.hotel.name;
         this.tel = this.hotel.tel;
         this.province = this.hotel.province;
-        this.city = this.hotel.province;
-        this.area = this.hotel.province;
+        this.city = this.hotel.city;
+        this.area = this.hotel.area;
         this.address = this.hotel.address;
         this.longitude = this.hotel.longitude;
         this.latitude = this.hotel.latitude;
