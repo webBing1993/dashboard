@@ -6,6 +6,7 @@
              :type="type"
              :placeholder="placeholder"
              :value="value"
+             :disabled="disabled"
              @input="updateValue($event.target.value)"/>
     </div>
     <div class="weui-cell__ft" v-if="!fill && footer"><label class="weui-label">{{footer}}</label></div>
@@ -33,6 +34,10 @@
       fill: {
         type: Boolean
       },
+      disabled: {
+        type: Boolean,
+        default: false
+      }
     },
     methods: {
       updateValue: function (value) {

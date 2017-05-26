@@ -11,7 +11,9 @@
           <span>密码</span>
           <input type="password" v-model="logPassword" placeholder="请输入您的密码">
         </div>
-        <XButton @onClick="loginAction" value="登录"/>
+        <div class="button-box">
+          <XButton primary value="登录" @click.native="loginAction"></XButton>
+        </div>
       </div>
       <!--<div class="content">
         <div class="content-item">
@@ -148,5 +150,10 @@
   .copy-right {
     bottom: 35px;
     width: 100%;
+  }
+
+  .button-box {
+    width: 40%;
+    margin: 10px auto;
   }
 </style>

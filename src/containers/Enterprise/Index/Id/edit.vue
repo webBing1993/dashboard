@@ -6,31 +6,30 @@
         <div class="enterprise-info">
           <div class="title-bar">
             <p class="info-title">企业信息</p>
-            <p class="info-modify" @click="modify">修改</p>
+            <div>
+              <XButton primary mini value="删除" @click.native="remove"></XButton>
+              <XButton primary mini :disabled="submitDisabled" value="修改" @click.native="modify"></XButton>
+            </div>
           </div>
           <div class="info-content">
             <div class="content-msg">
-              <label for="enterpriseCode">企业账户编码</label>
-              <input type="text" id="enterpriseCode" v-model="group.code"/>
+              <span>企业名称</span>
+              <el-input class="el-right" v-model="enterpriseName" placeholder="请输入企业名称"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseName">企业名称</label>
-              <input type="text" id="enterpriseName" v-model="group.name" @change="nameChange"/>
-              <span v-show="nameError" class="error-info">* 请输入企业名称</span>
+              <span>账户编码</span>
+              <el-input class="el-right" v-model="enterpriseCode" placeholder="请输入账户编码"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseDesc">企业简介</label>
-              <input type="text" id="enterpriseDesc" v-model="group.memo" @change="memoChange"/>
-              <span v-show="memoError" class="error-info">* 请输入企业简介</span>
+              <span>企业简称</span>
+              <el-input class="el-right" v-model="enterpriseDesc" placeholder="请输入企业简称"></el-input>
             </div>
             <div class="content-msg">
-              <label for="enterpriseWeb">企业官网</label>
-              <input type="text" id="enterpriseWeb" v-model="group.website" @change="websiteChange"/>
-              <span v-show="websiteError" class="error-info">* 请输入企业官网</span>
+              <span>企业官网</span>
+              <el-input class="el-right" v-model="enterpriseWeb" placeholder="请输入企业官网"></el-input>
             </div>
           </div>
         </div>
-        <span class="_button" @click="remove">删除</span>
       </div>
     </div>
   </div>
@@ -42,9 +41,17 @@
     data () {
       return {
         group: {},
-        nameError: false,
-        memoError: false,
-        websiteError: false,
+        enterpriseName: '',
+        enterpriseCode: '',
+        enterpriseDesc: '',
+        enterpriseWeb: '',
+      }
+    },
+    computed: {
+      submitDisabled() {
+        if (!this.group.id || this.enterpriseName == '' || this.enterpriseCode == '' || this.enterpriseDesc == '')
+          return true;
+        return false;
       }
     },
     methods: {
@@ -55,42 +62,32 @@
         'goto',
         'showtoast'
       ]),
-      nameChange(e) {
-        if (e.target.value != '')
-          this.nameError = false;
-        else
-          this.nameError = true;
-      },
-      memoChange(e) {
-        if (e.target.value != '')
-          this.memoError = false;
-        else
-          this.memoError = true;
-      },
-      websiteChange(e) {
-        if (e.target.value != '')
-          this.websiteError = false;
-        else
-          this.websiteError = true;
-      },
       getInfo() {
         this.getEnterprise({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.group = body.data : this.showtoast('数据不存在')
+          onsuccess: body => {
+            if (body.data) {
+              this.group = body.data;
+
+              this.enterpriseName = this.group.name;
+              this.enterpriseCode = this.group.code;
+              this.enterpriseDesc = this.group.memo;
+              this.enterpriseWeb = this.group.website;
+            } else {
+              this.showtoast('数据不存在')
+            }
+          }
         })
       },
       modify() {
-        if (this.group.name == '') this.nameError = true;
-        if (this.group.memo == '') this.memoError = true;
-        if (this.group.website == '') this.websiteError = true;
-        if (this.group.name == '' || this.group.memo == '' || this.group.website == '') return;
+        if (this.submitDisabled) return;
 
         this.modifyEnterprise({
           id: this.group.id,
-          code: this.group.code,
-          name: this.group.name,
-          memo: this.group.memo,
-          website: this.group.website,
+          code: this.enterpriseCode,
+          name: this.enterpriseName,
+          memo: this.enterpriseDesc,
+          website: this.enterpriseWeb,
           onsuccess: body => {
             this.goto(-1)
           }
@@ -157,18 +154,22 @@
       .content-msg {
         display: flex;
         align-items: center;
-        font-size: 14px;
-        label {
-          width: 90px;
-        }
-        input {
-          outline: none;
-          border: none;
-          border-bottom: solid 1px #EAEDF0;
+        font-size: 18px;
+        // input {
+        //   outline: none;
+        //   border: solid 1px #EAEDF0;
+        //   margin: 10px 20px;
+        //   padding: 4px;
+        //   width: 280px;
+        //   font-size: 14px;
+        //   &:focus {
+        //     border-color: #8f8f8f;
+        //   }
+        // }
+        .el-right {
           margin: 10px 20px;
-          padding: 8px;
-          flex: 1;
-          font-size: 14px;
+          padding: 4px;
+          width: 80%;
         }
       }
     }
