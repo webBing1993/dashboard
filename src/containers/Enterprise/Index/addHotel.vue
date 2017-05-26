@@ -7,44 +7,70 @@
           <p>门店信息</p>
           <div class="info-content">
             <div class="content-item">
-              <div class="content-select">
+              <div>
                 <span>所属企业</span>
-                <select v-model="groupId">
-                  <option v-for="(obj, index) of groupList" :value="obj.id">{{obj.name}}</option>
-                </select>
+                <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
+                  <el-option
+                    v-for="(obj, index) of groupList"
+                    :key="obj.id"
+                    :label="obj.name"
+                    :value="obj.id">
+                  </el-option>
+                </el-select>
               </div>
-              <div class="content-select">
+              <div>
                 <span>所属品牌</span>
-                <select v-model="brandId">
-                  <option v-for="(obj, index) of brandList" :value="obj.id">{{obj.name}}</option>
-                </select>
+                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
+                  <el-option
+                    v-for="(obj, index) of brandList"
+                    :key="obj.id"
+                    :label="obj.name"
+                    :value="obj.id">
+                  </el-option>
+                </el-select>
               </div>
-              <div class="content-input">
-                <label for="hotelCode">账户编码</label>
-                <input type="text" id="hotelCode" v-model="hotelCode" />
+              <div>
+                <span>账户编码</span>
+                <el-input class="el-right" v-model="hotelCode" placeholder="请输入账户编码"></el-input>
               </div>
-              <div class="content-input">
-                <label for="storeName">门店名称</label>
-                <input type="text" id="storeName" v-model="storeName" />
+              <div>
+                <span>门店名称</span>
+                <el-input class="el-right" v-model="storeName" placeholder="请输入门店名称"></el-input>
               </div>
-              <div class="content-input">
-                <label for="phone">前台电话</label>
-                <input type="text" id="phone" v-model="storePhone" >
+              <div>
+                <span>前台电话</span>
+                <el-input class="el-right" v-model="storePhone" placeholder="请输入前台电话"></el-input>
               </div>
+              
               <div class="content-address">
                 <span>门店地址</span>
-                <select v-model="provinceCode">
-                  <option v-for="(obj, index) of provinceList" :value="obj.code">{{obj.name}}</option>
-                </select>
-                <select v-model="cityCode">
-                  <option v-for="(obj, index) of cityList" :value="obj.code" :selected="cityCode==obj.code?'selected':''">{{obj.name}}</option>
-                </select>
-                <select v-model="areaCode">
-                  <option v-for="(obj, index) of areaList" :value="obj.code" :selected="areaCode==obj.code?'selected':''">{{obj.name}}</option>
-                </select>
+                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择">
+                  <el-option
+                    v-for="(obj, index) of provinceList"
+                    :key="index"
+                    :label="obj.name"
+                    :value="obj.code">
+                  </el-option>
+                </el-select>
+                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择">
+                  <el-option
+                    v-for="(obj, index) of cityList"
+                    :key="index"
+                    :label="obj.name"
+                    :value="obj.code">
+                  </el-option>
+                </el-select>
+                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择">
+                  <el-option
+                    v-for="(obj, index) of areaList"
+                    :key="index"
+                    :label="obj.name"
+                    :value="obj.code">
+                  </el-option>
+                </el-select>
               </div>
               <div class="content-add">
-                <input type="text" v-model="address" placeholder="地址（详细到门牌号）" />
+                <el-input v-model="address" placeholder="地址（详细到门牌号）"></el-input>
               </div>
             </div>
             <div class="content-item">
@@ -81,7 +107,9 @@
         areaCode: '',
         address: '',
         lat: '',
-        lng: ''
+        lng: '',
+        select: ["测试1", "测试2", "测试3"],
+        value: "",
       }
     },
     computed: {
@@ -119,7 +147,7 @@
         if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
       },
       brandList(brandList) {
-        if (this.brandList[0]) this.brandId = this.brandList[0].id;
+        this.brandList[0] ? this.brandId = this.brandList[0].id : this.brandId = '';
       },
       groupId(val) {
         if (val == '') return;
@@ -137,6 +165,12 @@
       }
     },
     methods: {
+
+      onChange(val) {
+                // console.log(val)
+                this.value = val
+            },
+            
       ...mapActions([
         'getEnterpriseList',
         'getBrandList',
@@ -289,14 +323,14 @@
             display: flex;
             align-items: center;
             font-size: 14px;
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
-              margin: 10px 20px;
-              width: 390px;
-              line-height: 35px;
-              font-size: 14px;
-            }
+            // input {
+            //   outline: none;
+            //   border: solid 1px #EAEDF0;
+            //   margin: 10px 20px;
+            //   width: 390px;
+            //   line-height: 35px;
+            //   font-size: 14px;
+            // }
           }
           .content-address {
             select {
@@ -308,26 +342,15 @@
             }
           }
           .content-add {
-            margin-right: 20px;
-            margin-bottom: 10px;
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
-              font-size: 14px;
-              text-indent: 4px;
-              margin-top: 18px;
-              margin-left: 76px;
-              width: 390px;
-              line-height: 35px;
-            }
+            // margin-right: 10px;
+            // margin-bottom: 10px;
+            width: 464px;
           }
         }
       }
     }
     
   }
-
-
 
   .error-info {
     width: 92px;
@@ -352,5 +375,15 @@
   #mapContainer {
     height: 100%;
     width: 100%;
+  }
+
+  .el-right {
+    width: 390px;
+    margin-left: 16px;
+  }
+
+  .el-right-address {
+    width: 116px;
+    margin-left: 16px;
   }
 </style>
