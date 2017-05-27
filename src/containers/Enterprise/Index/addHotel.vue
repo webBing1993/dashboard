@@ -7,7 +7,7 @@
           <p>门店信息</p>
           <div class="info-content">
             <div class="content-item">
-              <div>
+              <div v-if="groupList.length > 0">
                 <span>所属企业</span>
                 <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
                   <el-option
@@ -278,7 +278,11 @@
         this.areaCode = this.areaList[0].code;
       }
 
-      this.getGroupList();
+      if (this.$route.params.id) {
+        this.groupId = this.$route.params.id;
+      } else {
+        this.getGroupList();
+      }
 
       this.initMap();
     }
