@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="title">
-        <span @click="_goback"></span>
+        <span @click="goback"></span>
         <h3>修改酒店品牌</h3>
       </div>
       <div class="content">
@@ -11,14 +11,18 @@
           <div class="info-content">
             <div class="title-msg">
               <span>所属企业</span>
-              <select @change="enterpriseChange">
-                <option v-for="(obj, index) of chooseList" :value="obj.id">{{obj.name}}</option>
-              </select>
+              <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
+                <el-option
+                  v-for="(obj, index) of groupList"
+                  :key="obj.id"
+                  :label="obj.name"
+                  :value="obj.id">
+                </el-option>
+              </el-select>
             </div>
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="brand.name" @change="nameChange"/>
-              <span v-show="nameError" class="error-info">* 请输入品牌名称</span>
+              <input type="text" id="brandName" v-model="name" />
             </div>
             <div class="content-logo">
               <label for="logo">修改LOGO</label>
@@ -28,8 +32,7 @@
             </div>
           </div>
         </div>
-        <span class="_button" @click="modify">修改</span>
-        <!--<XButton @onClick="modify" value="修改"></XButton>-->
+        <el-button class="el-btn" type="success" @click.native="modify">修改</el-button>
       </div>
     </div>
   </div>
@@ -42,28 +45,10 @@
     data () {
       return {
         brand: {},
-        nameError: false,
-        enterprise: '',
+        name: '',
+        groupId: '',
         logoUrl: '',
-        enterpriseList: [],
-        chooseList: []
-      }
-    },
-    watch: {
-      enterpriseList(val) {
-        let list = [].concat(val);
-        let index = list.findIndex(v => v.id == this.$route.params.id);
-        if (index == -1) {
-          this.chooseList = list;
-          return;
-        }
-        let obj = list.splice(index, 1)[0];
-        if (obj == undefined) {
-          this.chooseList = list;
-          return;
-        }
-        list.unshift(obj);
-        this.chooseList = list;
+        groupList: []
       }
     },
     methods: {
@@ -75,36 +60,22 @@
         'showtoast',
         'CosCloudAssign'
       ]),
-      _goback(){
+      goback(){
         this.goto(-1);
       },
-      enterpriseChange(e) {
-        this.enterprise = e.target.value;
-      },
-      nameChange(e) {
-        if (e.target.value != '')
-          this.nameError = false;
-        else
-          this.nameError = true;
-      },
-      getEnterprise() {
+      getGroupList() {
         this.getEnterpriseList({
-          onsuccess: body => this.enterpriseList = body.data
+          onsuccess: body => this.groupList = body.data
         })
       },
       modify() {
-        if (this.brand.name == '') {
-          this.nameError = true;
-          return;
-        }
-
         //没有选择的时候给个默认值
-        if (this.enterprise == '' && this.chooseList[0]) this.enterprise = this.chooseList[0].id;
+        if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
 
         this.modifyBrand({
           id: this.$route.params.brandid,
-          name: this.brand.name,
-          group_id: this.enterprise,
+          name: this.name,
+          group_id: this.groupId,
           logo_url: this.logoUrl ? this.logoUrl : this.brand.logo_url,
           onsuccess: body => {
             this.goto(-1)
@@ -114,7 +85,13 @@
       getInfo() {
         this.getBrand({
           id: this.$route.params.brandid,
-          onsuccess: body => body.data ? this.brand = body.data : this.showtoast('数据不存在')
+          onsuccess: body => {
+            if (body.data) {
+              this.brand = body.data;
+              this.groupId = this.brand.group_id;
+              this.name = this.brand.name;
+            }
+          }
         })
       },
       imgChange(e) {
@@ -164,7 +141,7 @@
       },
     },
     mounted() {
-      this.getEnterprise();
+      this.getGroupList();
       this.getInfo();
     }
   }
@@ -277,4 +254,13 @@
   .error-info {
     color: red;
   }
+
+  .el-btn {
+    width: 160px;
+    display: block;
+    float: right;
+    margin-top: 20px;
+    font-size: 16px;
+  }
+
 </style>

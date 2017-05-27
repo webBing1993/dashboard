@@ -7,7 +7,16 @@
           <span class="_button" @click="regist">+ 添加企业门店</span>
         </div>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
-        <xpage :showJump="true" :init-page="page" :total-page="totalPage" @go-page="goPage"></xpage>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[5, 10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -25,7 +34,7 @@
         hotelList: [],
         page: 1,
         size: 10,
-        totalPage: 0,
+        total: 0
       }
     },
     components: {
@@ -65,8 +74,12 @@
       config(obj) {
         this.$router.push(`config`)
       },
-      goPage(data) {
-        this.page = data.page;
+      handleSizeChange(val) {
+        this.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.page = val;
         this.getList();
       },
       brangList() {
@@ -80,10 +93,8 @@
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            let total = 0;
             headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
-            headers.map['x-total'] ? total = +headers.map['x-total'][0] : null;
-            this.totalPage = Math.ceil(total / this.size);
+            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
 
             this.hotelList = body.data;
           }

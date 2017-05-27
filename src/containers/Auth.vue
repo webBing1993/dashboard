@@ -12,7 +12,7 @@
           <input type="password" v-model="logPassword" placeholder="请输入您的密码">
         </div>
         <div class="button-box">
-          <XButton primary value="登录" @click.native="loginAction"></XButton>
+          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
         </div>
       </div>
       <!--<div class="content">
@@ -36,7 +36,9 @@
           <span>手机</span>
           <input type="text" v-model="mobile" placeholder="请输入您的手机号">
         </div>
-        <XButton @onClick="registAction" value="注册"/>
+        <div class="button-box">
+          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="registAction">注册</el-button>
+        </div>
       </div>-->
     </div>
     <footer class="copy-right">
@@ -59,6 +61,11 @@
         name: '',
         email: '',
         mobile: ''
+      }
+    },
+    computed: {
+      btnDesabled() {
+        return this.logUserName == '' || this.logPassword == ''
       }
     },
     methods: {
@@ -155,5 +162,9 @@
   .button-box {
     width: 40%;
     margin: 10px auto;
+    .el-btn {
+      width: 100%;
+      height: 46px;
+    }
   }
 </style>

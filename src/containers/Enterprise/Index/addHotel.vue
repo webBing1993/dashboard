@@ -81,7 +81,7 @@
           </div>
         </div>
         <div class="button-box">
-          <XButton primary :disabled="submitDisabled" value="添加" @onClick="regist"></XButton>
+          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@
         this.brandList = [];
         this.getBrandList({
           group_id: this.groupId,
-          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
+          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast({text:'暂无品牌', type:'warning'})
         })
       },
       regist() {
@@ -370,6 +370,10 @@
   .button-box {
     width: 40%;
     margin: 10px auto;
+    .el-btn {
+      width: 100%;
+      height: 46px;
+    }
   }
 
   #mapContainer {

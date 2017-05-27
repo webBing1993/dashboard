@@ -5,7 +5,8 @@ module.exports = {
   Interface: {
     toast: {
       show: false,
-      text: '操作成功'
+      text: '操作成功',
+      type: 'info'
     },
     loading: {
       show: false

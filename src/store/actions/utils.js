@@ -35,12 +35,12 @@ module.exports = {
       emulateJSON: false,
     }).then(
       response => {
-        if (+response.body.errcode === 0) {
-          param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast') : null
+        if (+response.body.errcode === 0 || +response.status == 204) {
+          param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null
           param.onSuccess ? param.onSuccess(response.body, response.headers) : null
         } else {
           //ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
-          ctx.dispatch('showtoast', response.body.errmsg);
+          ctx.dispatch('showtoast', {text: response.body.errmsg, type:'warning'});
         }
       }
     ).catch(
@@ -52,7 +52,7 @@ module.exports = {
             content: '登录失效!'
           });
         } else {
-          ctx.dispatch('showtoast', 'Request Error');
+          ctx.dispatch('showtoast', {text: 'Request Error', type: 'error'});
         }
         if (param.url.match(/getInfo/) && param.onFail) {
           param.onFail({name: '获取失败'})

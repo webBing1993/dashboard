@@ -27,8 +27,7 @@
             </div>
           </div>
         </div>
-        <span class="_button" @click="regist">添加</span>
-        <!--<XButton @onClick="regist" value="添加"></XButton>-->
+        <el-button class="el-btn" :disabled="brandName == ''" type="success" @click.native="regist">添加</el-button>
       </div>
     </div>
   </div>
@@ -82,8 +81,6 @@
 
         //没有选择的时候给个默认值
         // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
-        console.log('-----------------')
-        console.log(this.logoUrl)
         this.addBrand({
           name: this.brandName,
           logo_url: this.logoUrl,
@@ -128,7 +125,7 @@
         cos.uploadFile(
           body => {
             this.logoUrl = body.data.source_url;
-            this.showtoast("上传成功");
+            this.showtoast({text: "上传成功", type: "success"});
           },
           // err => {
           //   this.showtoast(err);
@@ -251,5 +248,13 @@
 
   .error-info {
     color: red;
+  }
+
+  .el-btn {
+    width: 160px;
+    display: block;
+    float: right;
+    margin-top: 20px;
+    font-size: 16px;
   }
 </style>

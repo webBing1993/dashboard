@@ -37,7 +37,7 @@
       getInfo() {
         this.getHotel({
           id: this.$route.params.id,
-          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast('数据不存在')
+          onsuccess: body => body.data ? this.hotel = body.data : this.showtoast({text: '数据不存在', type: 'warning'})
         })
       },
       edit() {

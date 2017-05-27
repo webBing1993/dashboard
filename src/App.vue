@@ -27,7 +27,11 @@
       'Interface.toast.show'(v) {
         if (v) {
           this.$store.state.Interface.toast.show = false;
-          this.$message(this.Interface.toast.text);
+          this.$message({
+            showClose: true,
+            message: this.Interface.toast.text,
+            type: this.Interface.toast.type
+          });
         }
       }
     },
@@ -35,6 +39,9 @@
       ...mapActions([
         'goto'
       ]),
+    },
+    mounted() {
+      
     }
   }
 </script>

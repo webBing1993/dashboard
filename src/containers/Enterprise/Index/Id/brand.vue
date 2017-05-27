@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="title">
-        <span @click="_goback"></span>
+        <span @click="goback"></span>
         <h3>品牌配置</h3>
       </div>
       <div class="content">
@@ -33,7 +33,7 @@
         'removeBrand',
         'goto'
       ]),
-      _goback(){
+      goback(){
         this.goto(-1);
       },
       addBrand() {

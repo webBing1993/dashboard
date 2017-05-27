@@ -32,7 +32,7 @@ module.exports = {
         name: param.name
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', '修改成功');
+        ctx.dispatch('showtoast', {text: '修改成功', type:'success'});
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -42,7 +42,7 @@ module.exports = {
       url: `/brands/${param.id}`,
       method:'DELETE',
       onSuccess: body => {
-        ctx.dispatch('showtoast', '删除成功');
+        ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

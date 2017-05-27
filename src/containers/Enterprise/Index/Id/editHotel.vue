@@ -7,8 +7,8 @@
           <div class="title-bar">
             <p>酒店信息</p>
             <div>
-              <XButton primary mini value="删除" @click.native="remove"></XButton>
-              <XButton primary mini :disabled="submitDisabled" value="修改" @click.native="modify"></XButton>
+              <el-button type="success" size="small" @click.native="remove">删除</el-button>
+              <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
             </div>
           </div>
           <div class="info-content">
@@ -197,7 +197,7 @@
                 this.brandId = this.brandList[0].id;
               }
             } else {
-              this.showtoast('暂无品牌')
+              this.showtoast({text: '暂无品牌', type: 'warning'})
             }
           }
         })
@@ -247,7 +247,7 @@
 
               this.initMap();
             } else {
-              this.showtoast('数据不存在')
+              this.showtoast({text: '数据不存在', type: 'warning'})
             }
           }
         })

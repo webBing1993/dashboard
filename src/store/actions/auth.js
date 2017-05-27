@@ -24,7 +24,7 @@ module.exports = {
         password: param.password
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', '登陆成功');
+        ctx.dispatch('showtoast', {text: '登陆成功', type: 'success'});
         sessionStorage.setItem('session_id', body.data.session_id)
         param.onsuccess ? param.onsuccess(body) : null
       }

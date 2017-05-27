@@ -17,11 +17,6 @@ Vue.use(ElementUI)
 
 // Components
 Vue.component('XButton', require('./components/Displays/button.vue'))
-Vue.component('Toast', require('./components/Layers/toast.vue'))
-Vue.component('Alert', require('./components/Layers/alert.vue'))
-Vue.component('popup', require('./components/Layers/popup'))
-
-Vue.component('xpage', require('./components/web-component-page.vue'))
 
 /* eslint-disable no-new */
 new Vue({

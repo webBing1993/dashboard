@@ -1,9 +1,11 @@
 module.exports = {
-  showtoast(ctx, text){
+  showtoast(ctx, param){
+    param = param ? param : {}
     ctx.commit('TOAST',
       {
         show: true,
-        text: text ? text : '操作成功'
+        text: param.text || '操作成功',
+        type: param.type || 'info'
       }
     )
   },

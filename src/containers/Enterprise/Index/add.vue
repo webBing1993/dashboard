@@ -34,7 +34,7 @@
           </div>
         </div>-->
         <div class="button-box">
-          <XButton primary :disabled="submitDisabled" value="注册" @onClick="regist"></XButton>
+          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">注册</el-button>
         </div>
       </div>
     </div>
@@ -195,5 +195,9 @@
   .button-box {
     width: 40%;
     margin: 10px auto;
+    .el-btn {
+      width: 100%;
+      height: 46px;
+    }
   }
 </style>
