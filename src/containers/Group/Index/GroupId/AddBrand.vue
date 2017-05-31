@@ -10,8 +10,8 @@
           <p>品牌信息</p>
           <div class="info-content">
             <div class="content-msg">
-              <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="brandName" />
+              <span>品牌名称</span>
+              <el-input class="el-right" v-model="brandName" placeholder="请输入品牌名称"></el-input>
             </div>
             <div class="content-logo">
               <label for="logo">上传LOGO</label>
@@ -176,16 +176,21 @@
             display: flex;
             align-items: center;
             font-size: 14px;
-            input {
-              outline: none;
-              border: solid 1px #EAEDF0;
+            // input {
+            //   outline: none;
+            //   border: solid 1px #EAEDF0;
+            //   margin: 10px 20px;
+            //   padding: 4px;
+            //   width: 280px;
+            //   font-size: 14px;
+            //   &:focus {
+            //     border-color: #8f8f8f;
+            //   }
+            // }
+            .el-right {
               margin: 10px 20px;
               padding: 4px;
-              width: 280px;
-              font-size: 14px;
-              &:focus {
-                border-color: #8f8f8f;
-              }
+              width: 80%;
             }
           }
           .content-logo {
