@@ -35,7 +35,7 @@
     name: 'SearchGroup',
     data () {
       return {
-        searchVal: this.$route.params.searchVal == 'undefined' ? '' : this.$route.params.searchVal,
+        searchVal: this.$route.query.group || '',
         list: [],
         page: 1,
         size: 10,
@@ -47,23 +47,23 @@
     },
     methods: {
       ...mapActions([
-        'getEnterpriseList',
+        'getGroupList',
         'goto'
       ]),
       _goback(){
         this.goto(-1);
       },
       goDetail(obj) {
-        this.$router.push(`/enterprise/${obj.id}`)
+        this.$router.push(`/group/${obj.id}`)
       },
       goHotel(obj) {
-        this.$router.push(`/enterprise/${obj.id}/hotel`)
+        this.$router.push(`/group/${obj.id}/hotel`)
       },
       goEdit(obj) {
-        this.$router.push(`/enterprise/${obj.id}/edit`)
+        this.$router.push(`/group/${obj.id}`)
       },
       goConfig(obj) {
-        this.$router.push(`/enterprise/${obj.id}/config`)
+        this.$router.push(`group/${obj.id}/brand`)
       },
       handleSizeChange(val) {
         this.size = val;
@@ -74,7 +74,7 @@
         this.getList();
       },
       getList() {
-        this.getEnterpriseList({
+        this.getGroupList({
           page: this.page.toString(),
           size: this.size.toString(),
           searchVal: this.searchVal != 'undefined' ? this.searchVal : undefined,

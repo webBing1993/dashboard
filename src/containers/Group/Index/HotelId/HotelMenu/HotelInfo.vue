@@ -8,12 +8,12 @@
       </div>
       <div class="content">
         <div class="content-input">
-          <label for="enterpriseCode">门店子账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="hotel.code"/>
+          <label for="groupCode">门店子账户编码</label>
+          <input disabled="disabled" type="text" id="groupCode" v-model="hotel.code"/>
         </div>
         <div class="content-input">
-          <label for="enterpriseName">门店名称</label>
-          <input disabled="disabled" type="text" id="enterpriseName" v-model="hotel.name"/>
+          <label for="groupName">门店名称</label>
+          <input disabled="disabled" type="text" id="groupName" v-model="hotel.name"/>
         </div>
       </div>
     </div>
@@ -23,7 +23,7 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'HotelIndex',
+    name: 'HotelInfo',
     data() {
       return {
         hotel: {}
@@ -36,13 +36,13 @@
       ]),
       getInfo() {
         this.getHotel({
-          id: this.$route.params.id,
+          id: this.$route.params.hotelid,
           onsuccess: body => body.data ? this.hotel = body.data : this.showtoast({text: '数据不存在', type: 'warning'})
         })
       },
       edit() {
         if (!this.hotel.id) return;
-        this.$router.push(`/enterprise/hotel/${this.hotel.id}/edit`)
+        this.$router.push(`/group/hotel/${this.hotel.id}/edit`)
       }
     },
     mounted() {

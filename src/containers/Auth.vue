@@ -80,7 +80,7 @@
           userName: this.logUserName,
           password: this.logPassword,
           onsuccess: body => {
-            this.goto('/enterprise');
+            this.goto('/group');
             this.getInfo();
           }
         })

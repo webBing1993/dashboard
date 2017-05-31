@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="module-wrapper">
+      <h3 class="title">门店子账户搜索</h3>
+      <div class="search-bar">
+        <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
+        <span class="_button" @click="getList">查询</span>
+      </div>
       <div class="content">
-        <div class="search-bar">
-          <h3>企业门店</h3>
-          <span class="_button" @click="regist">+ 添加企业门店</span>
-        </div>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
         <el-pagination
           v-show="total > size"
@@ -21,15 +22,14 @@
     </div>
   </div>
 </template>
-
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tableHotel from '@/modules/Tables/table-hotel.vue'
   export default {
-    name: 'Hotel',
+    name: 'SearchHotel',
     data () {
       return {
-        searchVal: '',
+        searchVal: this.$route.query.hotel || '',
         brandList: [],
         hotelList: [],
         page: 1,
@@ -62,17 +62,14 @@
         'getHotelList',
         'getBrandList'
       ]),
-      regist() {
-        this.$router.push('addhotel')
-      },
       detail(obj) {
-        this.$router.push(`/enterprise/hotel/${obj.id}`)
+        this.$router.push(`/group/hotel/${obj.id}`)
       },
       group(obj) {
-        this.$router.push(`/enterprise/${obj.id}`)
+        this.$router.push(`/group/${obj.id}`)
       },
       config(obj) {
-        this.$router.push(`config`)
+        this.$router.push(`/group/hotel/${obj.group_id}/config`)
       },
       handleSizeChange(val) {
         this.size = val;
@@ -82,16 +79,11 @@
         this.page = val;
         this.getList();
       },
-      brangList() {
-        this.getBrandList({
-          onsuccess: body => this.brandList = body.data
-        })
-      },
       getList() {
         this.getHotelList({
-          group_id: this.$route.params.id,
           page: this.page.toString(),
           size: this.size.toString(),
+          searchVal: this.searchVal != 'undefined' ? this.searchVal : undefined,
           onsuccess: (body, headers) => {
             headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
             headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
@@ -99,7 +91,12 @@
             this.hotelList = body.data;
           }
         })
-      }
+      },
+      brangList() {
+        this.getBrandList({
+          onsuccess: body => this.brandList = body.data
+        })
+      },
     },
     mounted() {
       this.brangList();
@@ -107,48 +104,33 @@
     }
   }
 </script>
-
 <style scoped lang="less">
-
-  .module-wrapper {
+  .title {
+    line-height: 50px;
     padding: 0 20px;
-    .content {
-      width: 100%;
-      align-items: center;
-      .search-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #ECECEC;
-        h3 {
-          flex: 1;
-          line-height: 50px;
-          font-weight: 400;
-          font-size: 18px;
-          padding: 14px 0;
-          &:before {
-            content: '';
-            border-left: solid 4px #8f8f8f;
-            padding-right: 8px;
-          }
-        }
-      }
+    font-size: 18px;
+    font-weight: 400;
+    color: #222222;
+    border-bottom: 1px solid #ECECEC;
+  }
 
-      .v-table {
-        line-height: 45px;
-      }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    margin-top: 20px;
+    input {
+      flex: 1px;
+      line-height: 42px;
+      text-indent: 1em;
+      outline: none;
     }
-    .content-bot {
-      display: flex;
-      align-items: center;
-      position: absolute;
-      bottom: 10px;
-      button {
-        width: 100px;
-        line-height: 32px;
-        margin: 0 8px;
-      }
+    ._button {
+      margin: 0 55px;
     }
   }
-</style>
 
+  .content {
+    padding: 20px;
+  }
+</style>

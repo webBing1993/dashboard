@@ -8,16 +8,16 @@
       </div>
       <div class="content">
         <div class="content-msg">
-          <label for="enterpriseCode">企业账户编码</label>
-          <input disabled="disabled" type="text" id="enterpriseCode" v-model="group.code"/>
+          <label for="groupCode">企业账户编码</label>
+          <input disabled="disabled" type="text" id="groupCode" v-model="group.code"/>
         </div>
         <div class="content-msg">
-          <label for="enterpriseName">企业名称</label>
-          <input disabled="disabled" type="text" id="enterpriseName" v-model="group.name"/>
+          <label for="groupName">企业名称</label>
+          <input disabled="disabled" type="text" id="groupName" v-model="group.name"/>
         </div>
         <div class="content-msg">
-          <label for="enterpriseDesc">企业简介</label>
-          <input disabled="disabled" type="text" id="enterpriseDesc" v-model="group.memo"/>
+          <label for="groupDesc">企业简介</label>
+          <input disabled="disabled" type="text" id="groupDesc" v-model="group.memo"/>
         </div>
       </div>
     </div>
@@ -27,7 +27,7 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'Index',
+    name: 'GroupInfo',
     data() {
       return {
         group: {}
@@ -35,11 +35,11 @@
     },
     methods: {
       ...mapActions([
-        'getEnterprise',
+        'getGroup',
         'showtoast'
       ]),
       getInfo() {
-        this.getEnterprise({
+        this.getGroup({
           id: this.$route.params.id,
           onsuccess: body => body.data ? this.group = body.data : this.showtoast({text: '数据不存在', type: 'warning'})
         })

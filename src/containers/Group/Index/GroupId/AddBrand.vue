@@ -3,95 +3,64 @@
     <div class="module-wrapper">
       <div class="title">
         <span @click="goback"></span>
-        <h3>修改酒店品牌</h3>
+        <h3>添加酒店品牌</h3>
       </div>
       <div class="content">
         <div class="enterprise-info">
           <p>品牌信息</p>
           <div class="info-content">
-            <div class="title-msg">
-              <span>所属企业</span>
-              <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
-                <el-option
-                  v-for="(obj, index) of groupList"
-                  :key="obj.id"
-                  :label="obj.name"
-                  :value="obj.id">
-                </el-option>
-              </el-select>
-            </div>
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="name" />
+              <input type="text" id="brandName" v-model="brandName" />
             </div>
             <div class="content-logo">
-              <label for="logo">修改LOGO</label>
-              <!--<img width="100" height="100" :src="brand.logo_url" />-->
+              <label for="logo">上传LOGO</label>
               <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
                      accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
           </div>
         </div>
-        <el-button class="el-btn" type="success" @click.native="modify">修改</el-button>
+        <el-button class="el-btn" :disabled="brandName == ''" type="success" @click.native="regist">添加</el-button>
       </div>
     </div>
   </div>
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  // const cos = require('cos-js-sdk-v4')
   let cos;
   export default {
-    name: 'BrandEdit',
+    name: 'AddBrand',
     data () {
       return {
-        brand: {},
-        name: '',
-        groupId: '',
+        brandName: '',
         logoUrl: '',
-        groupList: []
+        list: [],
+        enterprise: '',
+        enterpriseList: []
       }
     },
     methods: {
       ...mapActions([
-        'getEnterpriseList',
-        'modifyBrand',
-        'getBrand',
+        'addBrand',
         'goto',
-        'showtoast',
-        'CosCloudAssign'
+        'CosCloudAssign',
+        'showtoast'
       ]),
       goback(){
         this.goto(-1);
       },
-      getGroupList() {
-        this.getEnterpriseList({
-          onsuccess: body => this.groupList = body.data
-        })
-      },
-      modify() {
+      regist() {
+        if (this.brandName == '') return;
+        
         //没有选择的时候给个默认值
-        if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
-
-        this.modifyBrand({
-          id: this.$route.params.brandid,
-          name: this.name,
-          group_id: this.groupId,
-          logo_url: this.logoUrl ? this.logoUrl : this.brand.logo_url,
-          onsuccess: body => {
-            this.goto(-1)
-          }
-        })
-      },
-      getInfo() {
-        this.getBrand({
-          id: this.$route.params.brandid,
-          onsuccess: body => {
-            if (body.data) {
-              this.brand = body.data;
-              this.groupId = this.brand.group_id;
-              this.name = this.brand.name;
-            }
-          }
+        // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
+        this.addBrand({
+          name: this.brandName,
+          logo_url: this.logoUrl,
+          // group_id: this.enterprise,
+          group_id: this.$route.params.id,
+          onsuccess: body => this.goto(-1)
         })
       },
       imgChange(e) {
@@ -130,7 +99,14 @@
         cos.uploadFile(
           body => {
             this.logoUrl = body.data.source_url;
+            this.showtoast({text: "上传成功", type: "success"});
           },
+          // err => {
+          //   this.showtoast(err);
+          // },
+          // progress => {
+          //   this.showtoast(progress);
+          // },
           err => console.log(err),
           progress => console.log(progress),
           'virgo',
@@ -141,8 +117,7 @@
       },
     },
     mounted() {
-      this.getGroupList();
-      this.getInfo();
+      
     }
   }
 </script>
@@ -183,7 +158,7 @@
       }
     }
     .content {
-      padding: 20px 20px;
+      padding: 20px;
       .enterprise-info {
         border: 1px solid #EAEDF0;
         p {
@@ -195,30 +170,22 @@
           border-bottom: 1px solid transparent;
         }
         .info-content {
-          padding: 20px 40px;
+          padding: 10px 40px;
           line-height: 45px;
-          .title-msg {
-            span {
-              padding-right: 20px;
-            }
-            select {
-              width: 280px;
-              height: 32px;
-              outline: none;
-              background-color: #ffffff;
-            }
-          }
           .content-msg {
             display: flex;
             align-items: center;
             font-size: 14px;
             input {
-              width: 260px;
               outline: none;
               border: solid 1px #EAEDF0;
-              margin: 10px 26px;
-              padding: 8px;
+              margin: 10px 20px;
+              padding: 4px;
+              width: 280px;
               font-size: 14px;
+              &:focus {
+                border-color: #8f8f8f;
+              }
             }
           }
           .content-logo {
@@ -232,12 +199,14 @@
             }
           }
         }
+
       }
       ._button {
+        width: 160px;
+        display: block;
         float: right;
-        width: 120px;
-        line-height: 38px;
-        margin-top: 16px;
+        margin-top: 20px;
+        font-size: 16px;
       }
     }
   }
@@ -262,5 +231,4 @@
     margin-top: 20px;
     font-size: 16px;
   }
-
 </style>

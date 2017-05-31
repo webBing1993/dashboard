@@ -11,19 +11,19 @@
           <div class="info-content">
             <div class="content-msg">
               <span>企业名称</span>
-              <el-input class="el-right" v-model="enterpriseName" placeholder="请输入企业名称"></el-input>
+              <el-input class="el-right" v-model="groupName" placeholder="请输入企业名称"></el-input>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" v-model="enterpriseCode" placeholder="请输入账户编码"></el-input>
+              <el-input class="el-right" v-model="groupCode" placeholder="请输入账户编码"></el-input>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" v-model="enterpriseDesc" placeholder="请输入企业简称"></el-input>
+              <el-input class="el-right" v-model="groupDesc" placeholder="请输入企业简称"></el-input>
             </div>
             <div class="content-msg">
               <span>企业官网</span>
-              <el-input class="el-right" v-model="enterpriseWeb" placeholder="请输入企业官网"></el-input>
+              <el-input class="el-right" v-model="groupWeb" placeholder="请输入企业官网"></el-input>
             </div>
           </div>
         </div>
@@ -44,13 +44,13 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tableAdd from '@/modules/Tables/table-add.vue'
   export default {
-    name: 'Add',
+    name: 'AddGroup',
     data () {
       return {
-        enterpriseName: '',
-        enterpriseCode: '',
-        enterpriseDesc: '',
-        enterpriseWeb: '',
+        groupName: '',
+        groupCode: '',
+        groupDesc: '',
+        groupWeb: '',
         brandList: []
       }
     },
@@ -59,7 +59,7 @@
     },
     computed: {
       submitDisabled() {
-        if (this.enterpriseName == '' || this.enterpriseCode == '' || this.enterpriseDesc == '')
+        if (this.groupName == '' || this.groupCode == '' || this.groupDesc == '')
           return true;
         return false;
       }
@@ -67,7 +67,7 @@
     methods: {
       ...mapActions([
         'getBrandList',
-        'addEnterprise',
+        'addGroup',
         'removeBrand',
         'goto'
       ]),
@@ -83,11 +83,11 @@
       regist() {
         if (this.submitDisabled) return;
 
-        this.addEnterprise({
-          name: this.enterpriseName,
-          code: this.enterpriseCode,
-          memo: this.enterpriseDesc,
-          website: this.enterpriseWeb,
+        this.addGroup({
+          name: this.groupName,
+          code: this.groupCode,
+          memo: this.groupDesc,
+          website: this.groupWeb,
           onsuccess: body => this.goto(-1)
         })
       },

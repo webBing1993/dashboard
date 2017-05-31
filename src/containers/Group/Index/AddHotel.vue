@@ -92,7 +92,7 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   let map, center, citylocation, marker;
   export default {
-    name: 'HotelAdd',
+    name: 'AddHotel',
     data () {
       return {
         groupList: [],
@@ -108,8 +108,6 @@
         address: '',
         lat: '',
         lng: '',
-        select: ["测试1", "测试2", "测试3"],
-        value: "",
       }
     },
     computed: {
@@ -165,21 +163,15 @@
       }
     },
     methods: {
-
-      onChange(val) {
-                // console.log(val)
-                this.value = val
-            },
-            
       ...mapActions([
-        'getEnterpriseList',
+        'getGroupList',
         'getBrandList',
         'addHotel',
         'showtoast',
         'goto'
       ]),
-      getGroupList() {
-        this.getEnterpriseList({
+      getGroupLists() {
+        this.getGroupList({
           onsuccess: body => this.groupList = body.data
         })
       },
@@ -281,7 +273,7 @@
       if (this.$route.params.id) {
         this.groupId = this.$route.params.id;
       } else {
-        this.getGroupList();
+        this.getGroupLists();
       }
 
       this.initMap();

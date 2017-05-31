@@ -24,20 +24,32 @@ RouterMap:
 
 App - Auth
     - MainApp - Home
-              - Enterprise - SearchGroup
-                           - SearchHotel
-                           - Add
-                           - AddHotel
-                           - GroupMenu - Group
-                                       - Hotel
+              - Group - SearchGroup
+                      - SearchHotel
+                      - AddGroup
+                      - AddHotel
+                      - GroupMenu - GroupList
+                                  - GroupHotel
                                        
-                           - Id        - Brand
-                                       - EditBrand
-                                       - AddBrand
-                                       - AddHotel
-                                       - Edit
-                                       - IdMenu - Index
-                                                - Hotel
-                                                - Config
-                           - Hotel     - EditHotel
-                                       - HotelMenu - Index
+                      - GroupId - AddBrand
+                                - EditBrand
+                                - AddHotel
+                                - GroupIdMenu - GroupInfo
+                                              - Brand
+                                              - GroupHotelList
+
+                                - GroupIdHotelMenu - HotelInfo
+                                                   - Device
+                                                   - AddDevice
+                                                   - EditDevice
+                                                   - Room
+                                                   - Config
+                                                   - ConfigSummary
+                                                   
+                      - HotelId - HotelMenu - HotelInfo
+                                            - Device
+                                            - AddDevice
+                                            - EditDevice
+                                            - Room
+                                            - Config
+                                            - ConfigSummary

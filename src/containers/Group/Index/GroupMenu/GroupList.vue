@@ -21,7 +21,7 @@
   import tableEnterprise from '@/modules/Tables/table-enterprise.vue';
 
   export default {
-    name: 'Group',
+    name: 'GroupList',
     data () {
       return {
         searchVal: '',
@@ -33,32 +33,32 @@
     },
     methods: {
       ...mapActions([
-        'getEnterpriseList',
+        'getGroupList',
       ]),
       regist() {
-        this.$router.push('enterprise/add')
+        this.$router.push('group/addgroup')
       },
       goDetail(obj) {
-        this.$router.push(`enterprise/${obj.id}`)
+        this.$router.push(`group/${obj.id}`)
       },
       goHotel(obj) {
         if (obj.hotelNum == 0) return;
-        this.$router.push(`enterprise/${obj.id}/hotel`)
+        this.$router.push(`group/${obj.id}/hotel`)
       },
       goEdit(obj) {
-        this.$router.push(`enterprise/${obj.id}/edit`)
+        // this.$router.push(`group/${obj.id}/edit`)
+        this.$router.push(`group/${obj.id}`)
       },
       goConfig(obj) {
-        this.$router.push(`enterprise/${obj.id}/config`)
+        this.$router.push(`group/${obj.id}/brand`)
       },
       getList() {
-        this.getEnterpriseList({
+        this.getGroupList({
           onsuccess: body => this.list = body.data
         })
       },
       search() {
-        let val = this.searchVal ? this.searchVal : undefined;
-        this.$router.push(`enterprise/searchGroup/${val}`)
+        this.$router.push(`group/searchGroup?group=${this.searchVal}`)
       }
     },
     mounted() {

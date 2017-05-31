@@ -1,5 +1,5 @@
 module.exports = {
-  addEnterprise(ctx, param) {
+  addGroup(ctx, param) {
     ctx.dispatch('resource', {
       url: '/groups',
       method:'POST',
@@ -14,7 +14,7 @@ module.exports = {
       }
     })
   },
-  getEnterprise(ctx, param) {
+  getGroup(ctx, param) {
     ctx.dispatch('resource', {
       url: `/groups/${param.id}`,
       method:'GET',
@@ -23,7 +23,7 @@ module.exports = {
       }
     })
   },
-  modifyEnterprise(ctx, param) {
+  modifyGroup(ctx, param) {
     ctx.dispatch('resource', {
       url: `/groups/${param.id}`,
       method:'PUT',
@@ -39,7 +39,7 @@ module.exports = {
       }
     })
   },
-  removeEnterprise(ctx, param) {
+  removeGroup(ctx, param) {
     ctx.dispatch('resource', {
       url: `/groups/${param.id}`,
       method:'DELETE',
@@ -49,7 +49,7 @@ module.exports = {
       }
     })
   },
-  getEnterpriseList(ctx, param){
+  getGroupList(ctx, param){
     ctx.dispatch('resource', {
       url: '/groups',
       method:'GET',

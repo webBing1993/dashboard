@@ -8,7 +8,7 @@
       <span class="logo">生态酒店总控平台</span>
       <nav>
         <router-link to="/home">首页</router-link>
-        <router-link to="/enterprise">企业账户</router-link>
+        <router-link to="/group">企业账户</router-link>
       </nav>
     </div>
     <router-view class="second-router"/>

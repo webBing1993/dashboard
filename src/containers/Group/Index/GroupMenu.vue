@@ -1,8 +1,8 @@
 <template>
   <div>
     <aside>
-      <router-link to="/enterprise" class="">账户管理</router-link>
-      <router-link to="/enterprise/hotel">门店管理</router-link>
+      <router-link to="/group" class="">账户管理</router-link>
+      <router-link to="/group/hotel">门店管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
   export default {
-    name: 'Menu'
+    name: 'GroupMenu'
   }
 </script>
 

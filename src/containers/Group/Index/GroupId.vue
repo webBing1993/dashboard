@@ -4,6 +4,6 @@
 
 <script>
   export default {
-    name: 'Id'
+    name: 'GroupId'
   }
 </script>

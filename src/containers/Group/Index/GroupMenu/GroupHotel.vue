@@ -18,7 +18,7 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tableHotel from '@/modules/Tables/table-hotel.vue'
   export default {
-    name: 'Hotel',
+    name: 'GroupHotel',
     data () {
       return {
         searchVal: '',
@@ -55,14 +55,14 @@
         this.$router.push('addhotel')
       },
       detail(obj) {
-        this.$router.push(`/enterprise/hotel/${obj.id}`)
+        this.$router.push(`/group/hotel/${obj.id}`)
       },
       group(obj) {
         if (obj.group_id == '') return;
-        this.$router.push(`/enterprise/${obj.group_id}`)
+        this.$router.push(`/group/${obj.group_id}`)
       },
       config(obj) {
-        
+        this.$router.push(`/group/hotel/${obj.group_id}/config`)
       },
       getList() {
         this.getHotelList({
@@ -76,8 +76,7 @@
         })
       },
       search() {
-        let val = this.searchVal ? this.searchVal : undefined;
-        this.$router.push(`/enterprise/searchHotel/${val}`)
+        this.$router.push(`/group/searchHotel?hotel=${this.searchVal}`)
       }
     },
     mounted() {

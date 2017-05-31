@@ -1,9 +1,11 @@
 <template>
-  <router-view class="fourth-router"/>
+  <div>
+    <h1>Room</h1>
+  </div>
 </template>
 
 <script>
   export default {
-    name: 'Hotel'
+    name: 'Room'
   }
 </script>
