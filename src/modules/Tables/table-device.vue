@@ -4,21 +4,20 @@
       <thead>
       <tr>
         <th>序号</th>
-        <th>企业账户编码</th>
-        <th>企业名称</th>
-        <th>门店</th>
+        <th>设备类型</th>
+        <th>设备ID</th>
+        <th>状态</th>
         <th>操作</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index }}</td>
-        <td>{{ obj.code }}</td>
-        <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
-        <td class="pointer" @click="hotel(obj)">{{ obj.hotelNum }}家</td>
+        <td>{{ obj.device_type | deviceType }}</td>
+        <td>{{ obj.device_id }}</td>
+        <td>{{ obj.enabled | status }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
-          <a class="v-options pointer" @click="config(obj)">配置</a>
         </td>
       </tr>
       </tbody>
@@ -36,19 +35,20 @@
         default: []
       },
     },
+    filters: {
+      deviceType(v) {
+        if (v === "31") return "底座";
+        if (v === "31") return "底座PAD";
+      },
+      status(v) {
+        if (v === 1) return "可用";
+        if (v === 0) return "禁用";
+      }
+    },
     methods: {
-      detail(obj) {
-        this.$emit('detail', obj);
-      },
-      hotel(obj) {
-        this.$emit('hotel', obj);
-      },
       edit(obj) {
         this.$emit('edit', obj);
-      },
-      config(obj) {
-        this.$emit('config', obj);
-      },
+      }
     }
   }
 </script>
@@ -117,7 +117,7 @@
   }
 
   .v-options {
-    color: #2254FB;
+    color: #39C240;
     padding-left: 10px;
   }
 

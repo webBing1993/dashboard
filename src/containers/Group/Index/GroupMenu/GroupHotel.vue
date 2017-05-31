@@ -16,7 +16,6 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableHotel from '@/modules/Tables/table-hotel.vue'
   export default {
     name: 'GroupHotel',
     data () {
@@ -25,9 +24,6 @@
         brandList: [],
         hotelList: []
       }
-    },
-    components: {
-      tableHotel
     },
     computed: {
       list() {

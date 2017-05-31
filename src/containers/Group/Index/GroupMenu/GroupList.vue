@@ -9,8 +9,8 @@
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content">
-        <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
-                          @config="goConfig"></table-enterprise>
+        <table-group :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
+                          @config="goConfig"></table-group>
       </div>
     </div>
   </div>
@@ -18,8 +18,6 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
-  import tableEnterprise from '@/modules/Tables/table-enterprise.vue';
-
   export default {
     name: 'GroupList',
     data () {
@@ -27,9 +25,6 @@
         searchVal: '',
         list: []
       }
-    },
-    components: {
-      tableEnterprise
     },
     methods: {
       ...mapActions([

@@ -1,11 +1,63 @@
 <template>
   <div>
-    <h1>Brand</h1>
+    <div class="module-wrapper">
+      <div class="content">
+        <span class="_button" @click="addBrand">+ 添加品牌</span>
+        <table-brand :list="list" @edit="edit"></table-brand>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
-    name: 'Brand'
+    name: 'Brand',
+    data () {
+      return {
+        list: []
+      }
+    },
+    methods: {
+      ...mapActions([
+        'getBrandList',
+        'modifyBrand',
+        'removeBrand',
+        'goto'
+      ]),
+      goback(){
+        this.goto(-1);
+      },
+      addBrand() {
+        this.$router.push(`addbrand`)
+      },
+      edit(obj) {
+        this.$router.push(`editbrand/${obj.id}`)
+      },
+      getList() {
+        this.getBrandList({
+          group_id: this.$route.params.id,
+          onsuccess: body => this.list = body.data
+        })
+      }
+    },
+    mounted() {
+      this.getList();
+    }
   }
 </script>
+
+<style scoped lang="less">
+  .module-wrapper {
+    .content {
+      padding: 20px 32px;
+      ._button {
+        display: block;
+        margin: 0 auto;
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+</style>

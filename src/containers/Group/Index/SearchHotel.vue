@@ -24,7 +24,6 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableHotel from '@/modules/Tables/table-hotel.vue'
   export default {
     name: 'SearchHotel',
     data () {
@@ -36,9 +35,6 @@
         size: 10,
         total: 0
       }
-    },
-    components: {
-      tableHotel
     },
     computed: {
       list() {

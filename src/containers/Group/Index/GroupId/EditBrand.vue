@@ -4,6 +4,10 @@
       <div class="title">
         <span @click="goback"></span>
         <h3>修改酒店品牌</h3>
+        <div>
+          <el-button type="success" size="small" @click.native="remove">删除</el-button>
+          <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
+        </div>
       </div>
       <div class="content">
         <div class="enterprise-info">
@@ -32,7 +36,6 @@
             </div>
           </div>
         </div>
-        <el-button class="el-btn" type="success" @click.native="modify">修改</el-button>
       </div>
     </div>
   </div>
@@ -49,6 +52,13 @@
         groupId: '',
         logoUrl: '',
         groupList: []
+      }
+    },
+    computed: {
+      submitDisabled() {
+        if (this.groupId == '' || this.name == '')
+          return true;
+        return false;
       }
     },
     methods: {

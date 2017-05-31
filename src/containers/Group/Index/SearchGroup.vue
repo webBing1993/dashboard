@@ -12,8 +12,8 @@
         </div>
       </div>
       <div class="content">
-        <table-enterprise :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
-                          @config="goConfig"></table-enterprise>
+        <table-group :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
+                          @config="goConfig"></table-group>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -30,7 +30,6 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableEnterprise from '@/modules/Tables/table-enterprise.vue';
   export default {
     name: 'SearchGroup',
     data () {
@@ -41,9 +40,6 @@
         size: 10,
         total: 0
       }
-    },
-    components: {
-      tableEnterprise
     },
     methods: {
       ...mapActions([

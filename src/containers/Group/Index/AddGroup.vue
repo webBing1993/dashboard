@@ -27,12 +27,6 @@
             </div>
           </div>
         </div>
-        <!--<div class="brand-info">
-          <p class="info-title">品牌管理</p>
-          <div class="table-content">
-            <table-add :list="brandList" @modify="modify" @remove="remove"></table-add>
-          </div>
-        </div>-->
         <div class="button-box">
           <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">注册</el-button>
         </div>
@@ -42,7 +36,6 @@
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
-  import tableAdd from '@/modules/Tables/table-add.vue'
   export default {
     name: 'AddGroup',
     data () {
@@ -53,9 +46,6 @@
         groupWeb: '',
         brandList: []
       }
-    },
-    components: {
-      tableAdd
     },
     computed: {
       submitDisabled() {
