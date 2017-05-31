@@ -73,51 +73,80 @@
   }
 </script>
 <style scoped lang="less">
+
   .v-table {
     clear: both;
-    padding: 0 0 30px 0;
+    padding: 0 0 2px 0;
+    table {
+      width: 100%;
+      border: 0;
+      text-align: center;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin: 0;
+      thead th {
+        padding-left: 10px;
+        font-size: 13px;
+        color: #ffffff;
+        font-weight: 300;
+        background-color: #999999;
+        word-break: keep-all;
+        white-space: nowrap;
+        cursor: default;
+      }
+      tbody {
+        tr {
+          td {
+            padding-left: 10px;
+            color: #757575;
+            font-size: 12px;
+            border-bottom: solid 1px #e0e0e0;
+            word-break: keep-all;
+            white-space: nowrap;
+            line-height: 44px;
+            .v-options {
+              color: #3CC51F;
+              padding-left: 10px;
+              font-size: 12px;
+              &:first-child {
+                padding-left: 0;
+              }
+            }
+          }
+          .status-icon {
+            position: relative;
+            &:before {
+              content: "";
+              position: absolute;
+              top: 15px;
+              left: -8px;
+              width: 12px;
+              height: 12px;
+              border-radius: 50%;
+              background-color: #CE3C39;
+            }
+          }
+          .pointer {
+            cursor: pointer;
+          }
+        }
+      }
+    }
   }
 
-  .v-table table {
-    margin: 0;
-    width: 100%;
-    border-spacing: 0;
-  }
-
-  .v-table td,
-  .v-table th {
+  .v-table td, .v-table th {
     height: 38px;
     text-align: left;
   }
 
-  .v-table th {
-    padding-left: 10px;
-    font-size: 12px;
-    color: #3e3e3e;
-    background-color: #F7F7F7;
-    word-break: keep-all;
-    white-space: nowrap;
-    cursor: default;
+  table tr:nth-child(odd) {
+    background: #F4F4F4;
   }
 
   .v-table tr {
     &:hover {
       background-color: #E1E1E1;
     }
-  }
-
-  .v-table td {
-    padding-left: 10px;
-    color: #757575;
-    font-size: 12px;
-    border-bottom: solid 1px #e0e0e0;
-    word-break: keep-all;
-    white-space: nowrap;
-    line-height: 44px;
-  }
-
-  .v-table td a {
-    font-size: 12px;
   }
 
   .v-table .checkbox {
@@ -136,17 +165,5 @@
     margin-left: 10px;
   }
 
-  .v-options {
-    color: #2254FB;
-    padding-left: 10px;
-  }
-
-  .v-options:first-child {
-    padding-left: 0;
-  }
-
-  .pointer {
-    cursor: pointer;
-  }
 </style>
 

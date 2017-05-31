@@ -1,20 +1,21 @@
 <template>
   <div>
     <div class="login_content">
-      <span class="header">登录</span>
-      <div class="content login">
+      <div class="header-icon"></div>
+      <div class="content">
+        <h3>微信生态酒店总控平台</h3>
         <div class="content-item">
-          <span>账号</span>
-          <input type="text" v-model="logUserName" placeholder="请输入您的账号">
-        </div>
-        <div class="content-item">
-          <span>密码</span>
-          <input type="password" v-model="logPassword" placeholder="请输入您的密码">
+          <input type="text" v-model="logUserName" placeholder="用户名">
+          <input type="password" v-model="logPassword" placeholder="密码">
         </div>
         <div class="button-box">
           <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
         </div>
       </div>
+      <footer class="foot">
+        <span>Powered By Fortrun.</span>
+        <span>Copyright©2016-2017  All Rights Reserved.</span>
+      </footer>
       <!--<div class="content">
         <div class="content-item">
           <span>账号</span>
@@ -41,10 +42,6 @@
         </div>
       </div>-->
     </div>
-    <footer class="copy-right">
-      <span>Powered By Fortrun.</span>
-      <span>Copyright©2016-2017  All Rights Reserved.</span>
-    </footer>
   </div>
 </template>
 
@@ -104,67 +101,76 @@
 <style lang="less">
   .login_content {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    margin-top: 45px;
     background-color: #ffffff;
-    .header {
-      position: fixed;
-      top: 0;
-      text-align: center;
-      display: block;
+    height: 100%;
+    position: relative;
+    .header-icon {
       width: 100%;
-      font-size: 18px;
-      line-height: 45px;
-      background-color: #0D0D0D;
-      color: #ffffff;
+      line-height: 39px;
+      margin: 50px 0 184px 0;
     }
     .content {
-      flex: 1;
-      position: relative;
-      height: 460px;
-      padding: 160px;
-      margin: 0 10px;
-      opacity: .7;
+      width: 100%;
+      text-align: center;
+      opacity: .8;
+      h3 {
+        display: block;
+        width: 100%;
+        font-size: 36px;
+        line-height: 45px;
+        background-color: transparent;
+        color: #4A4A4A;
+      }
       .content-item {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        line-height: 34px;
-        font-size: 18px;
-        margin-bottom: 10px;
-        span {
-          display: block;
-          width: 80px;
-        }
+        margin-top: 30px;
+        margin-bottom: 13px;
         input {
-          line-height: 28px;
+          width: 287px;
+          line-height: 40px;
           font-size: 14px;
           text-indent: 1em;
-          flex: 1;
           outline: none;
-          border: none;
-          border-bottom: solid 1px #EAEDF0;
-          margin: 10px 20px;
-          padding: 8px;
+          margin-top: 10px;
+          color: #000000;
+        }
+        input::-webkit-input-placeholder {
+          color: #9B9B9B;
+        }
+      }
+      .button-box {
+        width: 293px;
+        line-height: 40px;
+        margin: 10px auto;
+        .el-btn {
+          width: 100%;
+          background-color: #39C240;
+          color: #ffffff;
+          height: 42px;
         }
       }
     }
-    .login {
-      border-right: solid 2px #8f8f8f;
+    .foot {
+      position: absolute;
+      margin: 0 auto;
+      width: 100%;
+      line-height: 45px;
+      bottom: 14px;
+      color: #999999;
+      font-size: 12px;
+      text-align: center;
     }
+
   }
 
   .copy-right {
-    bottom: 35px;
+    bottom: 25px;
     width: 100%;
   }
 
-  .button-box {
-    width: 40%;
-    margin: 10px auto;
-    .el-btn {
-      width: 100%;
-      height: 46px;
-    }
-  }
+
 </style>

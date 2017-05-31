@@ -62,7 +62,7 @@
         this.$router.push(`/enterprise/${obj.group_id}`)
       },
       config(obj) {
-        
+
       },
       getList() {
         this.getHotelList({
@@ -105,15 +105,14 @@
       padding: 16px 20px;
       box-sizing: border-box;
       input {
-        width: 65%;
-        height: 40px;
+        width: 74%;
+        line-height: 37px;
         font-size: 14px;
         outline: none;
         text-indent: 1em;
       }
       ._button {
-        width: 160px;
-        margin-left: 40px;
+        margin-left: 14px;
       }
     }
     h3 {
