@@ -80,7 +80,7 @@
           userName: this.logUserName,
           password: this.logPassword,
           onsuccess: body => {
-            this.goto('/group');
+            this.$router.push({name: '/GroupList'})
             this.getInfo();
           }
         })

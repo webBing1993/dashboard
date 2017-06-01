@@ -46,7 +46,8 @@
       },
       edit() {
         if (!this.group.id) return;
-        this.$router.push(`${this.group.id}/edit`)
+        // this.$router.push(`${this.group.id}/edit`)
+        // 这里不要跳转了，直接在本页编辑
       }
     },
     mounted() {

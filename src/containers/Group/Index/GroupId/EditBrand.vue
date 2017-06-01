@@ -63,6 +63,7 @@
     },
     methods: {
       ...mapActions([
+        'addBrand',
         'getGroupList',
         'modifyBrand',
         'getBrand',
@@ -76,6 +77,19 @@
       getGroupLists() {
         this.getGroupList({
           onsuccess: body => this.groupList = body.data
+        })
+      },
+      regist() {
+        if (this.brandName == '') return;
+        
+        //没有选择的时候给个默认值
+        // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
+        this.addBrand({
+          name: this.name,
+          logo_url: this.logoUrl,
+          // group_id: this.enterprise,
+          group_id: this.$route.params.id,
+          onsuccess: body => this.goto(-1)
         })
       },
       modify() {

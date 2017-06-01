@@ -18,7 +18,6 @@ import HotelId from '@/containers/Group/Index/HotelId.vue'
 // 4级路由
 import GroupList from '@/containers/Group/Index/GroupMenu/GroupList.vue'
 import GroupHotel from '@/containers/Group/Index/GroupMenu/GroupHotel.vue'
-import AddBrand from '@/containers/Group/Index/GroupId/AddBrand.vue'
 import EditBrand from '@/containers/Group/Index/GroupId/EditBrand.vue'
 import GroupIdMenu from '@/containers/Group/Index/GroupId/GroupIdMenu.vue'
 import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
@@ -29,7 +28,6 @@ import Brand from '@/containers/Group/Index/GroupId/GroupIdMenu/Brand.vue'
 import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHotelList.vue'
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
-import AddDevice from '@/containers/Group/Index/HotelId/HotelMenu/AddDevice.vue'
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/EditDevice.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
@@ -40,13 +38,16 @@ Vue.use(Router)
 const main = [
     {
       path: '/auth',
+      name: 'Auth',
       component: Auth
     },{
       path: '/',
+      name: 'MainApp',
       component: MainApp,
       children: [
         {
           path: 'home',
+          name: 'Home',
           component: Home
         },{
           path: 'group',
@@ -54,15 +55,19 @@ const main = [
           children: [
             {
               path: 'searchgroup',
+              name: 'SearchGroup',
               component: SearchGroup,
             },{
               path: 'searchhotel',
+              name: 'SearchHotel',
               component: SearchHotel,
             },{
               path: 'addgroup',
+              name: 'AddGroup',
               component: AddGroup,
             },{
               path: 'addhotel',
+              name: 'AddHotel',
               component: AddHotel,
             },{
               path: '/',
@@ -70,24 +75,24 @@ const main = [
               children: [
                 {
                   path: '/',
+                  name: 'GroupList',
                   component: GroupList
                 },{
                   path: 'hotel',
+                  name: 'GroupHotel',
                   component: GroupHotel
                 }
               ]
             },{
               path: ':id',
               component: GroupId,
-              children: [
-                {
-                  path: 'addbrand',
-                  component: AddBrand,
-                },{
-                  path: 'editbrand/:brandid',
+              children: [{
+                  path: 'editbrand',
+                  name: 'EditBrand',
                   component: EditBrand,
                 },{
                   path: 'addhotel',
+                  name: 'GroupAddHotel',
                   component: AddHotel,
                 },{
                   path: '/',
@@ -95,12 +100,15 @@ const main = [
                   children: [
                     {
                       path: '/',
+                      name: 'GroupInfo',
                       component: GroupInfo
                     },{
                       path: 'brand',
+                      name: 'Brand',
                       component: Brand
                     },{
                       path: 'hotel',
+                      name: 'GroupHotelList',
                       component: GroupHotelList
                     }
                   ]
@@ -114,24 +122,27 @@ const main = [
                       children: [
                         {
                           path: '/',
+                          name: 'GroupHotelInfo',
                           component: HotelInfo
                         },{
                           path: 'device',
+                          name: 'GroupDevice',
                           component: Device
                         },{
-                          path: 'adddevice',
-                          component: AddDevice
-                        },{
                           path: 'editdevice',
+                          name: 'GroupEditDevice',
                           component: EditDevice
                         },{
                           path: 'room',
+                          name: 'GroupRoom',
                           component: Room
                         },{
                           path: 'config',
+                          name: 'GroupConfig',
                           component: Config
                         },{
                           path: 'configsummary',
+                          name: 'GroupConfigSummary',
                           component: ConfigSummary
                         }
                       ]
@@ -149,24 +160,27 @@ const main = [
                   children: [
                     {
                       path: '/',
+                      name: 'HotelInfo',
                       component: HotelInfo
                     },{
                       path: 'device',
+                      name: 'Device',
                       component: Device
                     },{
-                      path: 'adddevice',
-                      component: AddDevice
-                    },{
                       path: 'editdevice',
+                      name: 'EditDevice',
                       component: EditDevice
                     },{
                       path: 'room',
+                      name: 'Room',
                       component: Room
                     },{
                       path: 'config',
+                      name: 'Config',
                       component: Config
                     },{
                       path: 'configsummary',
+                      name: 'ConfigSummary',
                       component: ConfigSummary
                     }
                   ]

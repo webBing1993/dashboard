@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>ConfigSummary</h1>
+    <div class="module-wrapper">
+      <h1>配置汇总</h1>
+    </div>
   </div>
 </template>
 

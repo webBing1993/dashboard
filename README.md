@@ -31,8 +31,7 @@ App - Auth
                       - GroupMenu - GroupList
                                   - GroupHotel
                                        
-                      - GroupId - AddBrand
-                                - EditBrand
+                      - GroupId - EditBrand
                                 - AddHotel
                                 - GroupIdMenu - GroupInfo
                                               - Brand
@@ -40,7 +39,6 @@ App - Auth
 
                                 - GroupIdHotelMenu - HotelInfo
                                                    - Device
-                                                   - AddDevice
                                                    - EditDevice
                                                    - Room
                                                    - Config
@@ -48,7 +46,6 @@ App - Auth
                                                    
                       - HotelId - HotelMenu - HotelInfo
                                             - Device
-                                            - AddDevice
                                             - EditDevice
                                             - Room
                                             - Config

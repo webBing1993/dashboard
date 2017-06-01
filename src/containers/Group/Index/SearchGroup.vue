@@ -50,16 +50,37 @@
         this.goto(-1);
       },
       goDetail(obj) {
-        this.$router.push(`/group/${obj.id}`)
+        this.$router.push({
+          name: 'GroupInfo',
+          params: {
+            id: obj.id
+          }
+        })
       },
-      goHotel(obj) {
-        this.$router.push(`/group/${obj.id}/hotel`)
+      goHotelList(obj) {
+        if (obj.hotelNum == 0) return;
+        this.$router.push({
+          name: 'GroupHotelList',
+          params: {
+            id: obj.id
+          }
+        })
       },
       goEdit(obj) {
-        this.$router.push(`/group/${obj.id}`)
+        this.$router.push({
+          name: 'GroupInfo',
+          params: {
+            id: obj.id
+          }
+        })
       },
       goConfig(obj) {
-        this.$router.push(`group/${obj.id}/brand`)
+        this.$router.push({
+          name: 'Brand',
+          params: {
+            id: obj.id
+          }
+        })
       },
       handleSizeChange(val) {
         this.size = val;

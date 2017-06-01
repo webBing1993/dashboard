@@ -59,16 +59,33 @@
         'getBrandList'
       ]),
       regist() {
-        this.$router.push('addhotel')
+        this.$router.push({
+          name: 'GroupAddHotel'
+        })
       },
       detail(obj) {
-        this.$router.push(`/group/hotel/${obj.id}`)
+        this.$router.push({
+          name: 'HotelInfo',
+          params: {
+            hotelid: obj.id
+          }
+        })
       },
       group(obj) {
-        this.$router.push(`/group/${obj.id}`)
+        this.$router.push({
+          name: 'GroupInfo',
+          params: {
+            id: obj.group_id
+          }
+        })
       },
       config(obj) {
-        this.$router.push(`/group/hotel/${obj.group_id}/config`)
+        this.$router.push({
+          name: 'GroupConfig',
+          params: {
+            hotelid: obj.id
+          }
+        })
       },
       handleSizeChange(val) {
         this.size = val;

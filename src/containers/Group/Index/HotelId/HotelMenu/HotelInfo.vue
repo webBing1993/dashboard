@@ -42,7 +42,8 @@
       },
       edit() {
         if (!this.hotel.id) return;
-        this.$router.push(`/group/hotel/${this.hotel.id}/edit`)
+        // this.$router.push(`/group/hotel/${this.hotel.id}/edit`)
+        //这里不要跳门店编辑页面了，直接在当前页修改
       }
     },
     mounted() {

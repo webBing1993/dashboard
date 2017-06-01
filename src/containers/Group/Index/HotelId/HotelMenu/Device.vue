@@ -27,7 +27,19 @@
     },
     methods: {
       edit(obj) {
-        this.$router.push(`adddevice?device_id=${obj && obj.device_id ? obj.device_id : ''}`);
+        //这里需要判断是否有group_id,再决定跳哪个路由
+        this.$router.push({
+          name: 'EditDevice',
+          query: {
+            device_id: obj && obj.device_id ? obj.device_id : ''
+          }
+        })
+        // this.$router.push({
+        //   name: 'GroupEditDevice',
+        //   query: {
+        //     device_id: obj && obj.device_id ? obj.device_id : ''
+        //   }
+        // })
       }
     }
   }

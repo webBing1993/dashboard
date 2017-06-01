@@ -9,7 +9,7 @@
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content">
-        <table-group :list="list" @detail="goDetail" @hotel="goHotel" @edit="goEdit"
+        <table-group :list="list" @detail="goDetail" @hotel="goHotelList" @edit="goEdit"
                           @config="goConfig"></table-group>
       </div>
     </div>
@@ -31,21 +31,42 @@
         'getGroupList',
       ]),
       regist() {
-        this.$router.push('group/addgroup')
+        this.$router.push({
+          name: 'AddGroup'
+        })
       },
       goDetail(obj) {
-        this.$router.push(`group/${obj.id}`)
+        this.$router.push({
+          name: 'GroupInfo',
+          params: {
+            id: obj.id
+          }
+        })
       },
-      goHotel(obj) {
+      goHotelList(obj) {
         if (obj.hotelNum == 0) return;
-        this.$router.push(`group/${obj.id}/hotel`)
+        this.$router.push({
+          name: 'GroupHotelList',
+          params: {
+            id: obj.id
+          }
+        })
       },
       goEdit(obj) {
-        // this.$router.push(`group/${obj.id}/edit`)
-        this.$router.push(`group/${obj.id}`)
+        this.$router.push({
+          name: 'GroupInfo',
+          params: {
+            id: obj.id
+          }
+        })
       },
       goConfig(obj) {
-        this.$router.push(`group/${obj.id}/brand`)
+        this.$router.push({
+          name: 'Brand',
+          params: {
+            id: obj.id
+          }
+        })
       },
       getList() {
         this.getGroupList({
@@ -53,7 +74,12 @@
         })
       },
       search() {
-        this.$router.push(`group/searchGroup?group=${this.searchVal}`)
+        this.$router.push({
+          name: 'SearchGroup',
+          query: {
+            group: this.searchVal
+          }
+        })
       }
     },
     mounted() {

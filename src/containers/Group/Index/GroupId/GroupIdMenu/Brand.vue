@@ -29,10 +29,17 @@
         this.goto(-1);
       },
       addBrand() {
-        this.$router.push(`addbrand`)
+        this.$router.push({
+          name: 'EditBrand'
+        })
       },
       edit(obj) {
-        this.$router.push(`editbrand/${obj.id}`)
+        this.$router.push({
+          name: 'EditBrand',
+          query: {
+            brandid: obj.id
+          }
+        })
       },
       getList() {
         this.getBrandList({
