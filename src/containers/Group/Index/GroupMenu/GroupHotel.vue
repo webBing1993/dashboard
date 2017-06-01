@@ -49,13 +49,17 @@
       ]),
       regist() {
         this.$router.push({
-          name: 'GroupAddHotel'
+          name: 'AddHotel',
+          params: {
+            id: 0
+          }
         })
       },
       detail(obj) {
         this.$router.push({
           name: 'HotelInfo',
           params: {
+            id: obj.group_id,
             hotelid: obj.id
           }
         })
@@ -65,7 +69,7 @@
         this.$router.push({
           name: 'GroupInfo',
           params: {
-            hotelid: obj.group_id
+            id: obj.group_id
           }
         })
       },
@@ -73,6 +77,7 @@
         this.$router.push({
           name: 'Config',
           params: {
+            id: obj.group_id,
             hotelid: obj.group_id
           }
         })

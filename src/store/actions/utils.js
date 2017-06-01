@@ -51,6 +51,12 @@ module.exports = {
             code: error.status,
             content: '登录失效!'
           });
+        } else if (error.status === 400) {
+          ctx.dispatch('showtoast', {text: 'Bad Request', type: 'error'});
+        } else if (error.status === 404) {
+          ctx.dispatch('showtoast', {text: 'Not Found', type: 'error'});
+        } else if (error.status === 500) {
+          ctx.dispatch('showtoast', {text: 'Internal Server Error', type: 'error'});
         } else {
           ctx.dispatch('showtoast', {text: 'Request Error', type: 'error'});
         }

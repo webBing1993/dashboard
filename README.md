@@ -24,29 +24,19 @@ RouterMap:
 
 App - Auth
     - MainApp - Home
-              - Group - SearchGroup
-                      - SearchHotel
-                      - AddGroup
-                      - AddHotel
+              - Group - AddGroup
                       - GroupMenu - GroupList
                                   - GroupHotel
                                        
-                      - GroupId - EditBrand
-                                - AddHotel
-                                - GroupIdMenu - GroupInfo
-                                              - Brand
-                                              - GroupHotelList
+                      - GroupId   - EditBrand
+                                  - AddHotel
+                                  - GroupIdMenu      - GroupInfo
+                                                     - Brand
+                                                     - GroupHotelList
 
-                                - GroupIdHotelMenu - HotelInfo
-                                                   - Device
-                                                   - EditDevice
-                                                   - Room
-                                                   - Config
-                                                   - ConfigSummary
-                                                   
-                      - HotelId - HotelMenu - HotelInfo
-                                            - Device
-                                            - EditDevice
-                                            - Room
-                                            - Config
-                                            - ConfigSummary
+                                  - AddHotel
+                                  - GroupIdHotelMenu - HotelInfo
+                                                     - Device           - EditDevice
+                                                     - Room
+                                                     - Config           - ConfigInfo
+                                                                        - ConfigSummary

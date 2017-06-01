@@ -8,10 +8,7 @@ import MainApp from '@/containers/MainApp'
 import Home from '@/containers/Home'
 import Group from '@/containers/Group'
 // 3级路由
-import SearchGroup from '@/containers/Group/Index/SearchGroup.vue'
-import SearchHotel from '@/containers/Group/Index/SearchHotel.vue'
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
-import AddHotel from '@/containers/Group/Index/AddHotel.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
 import GroupId from '@/containers/Group/Index/GroupId.vue'
 import HotelId from '@/containers/Group/Index/HotelId.vue'
@@ -21,6 +18,7 @@ import GroupHotel from '@/containers/Group/Index/GroupMenu/GroupHotel.vue'
 import EditBrand from '@/containers/Group/Index/GroupId/EditBrand.vue'
 import GroupIdMenu from '@/containers/Group/Index/GroupId/GroupIdMenu.vue'
 import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
+import AddHotel from '@/containers/Group/Index/HotelId/AddHotel.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -28,10 +26,14 @@ import Brand from '@/containers/Group/Index/GroupId/GroupIdMenu/Brand.vue'
 import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHotelList.vue'
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
-import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/EditDevice.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
-import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/ConfigSummary.vue'
+
+// 6级路由
+import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/DeviceList.vue'
+import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
+import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
+import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 
 Vue.use(Router)
 
@@ -51,24 +53,17 @@ const main = [
           component: Home
         },{
           path: 'group',
+          meta:{
+                title:"First",
+                name:"企业管理",
+                path:'/group'
+          },
           component: Group,
-          children: [
-            {
-              path: 'searchgroup',
-              name: 'SearchGroup',
-              component: SearchGroup,
-            },{
-              path: 'searchhotel',
-              name: 'SearchHotel',
-              component: SearchHotel,
-            },{
-              path: 'addgroup',
+          children: [{
+              path: 'add',
               name: 'AddGroup',
+          
               component: AddGroup,
-            },{
-              path: 'addhotel',
-              name: 'AddHotel',
-              component: AddHotel,
             },{
               path: '/',
               component: GroupMenu,
@@ -80,20 +75,22 @@ const main = [
                 },{
                   path: 'hotel',
                   name: 'GroupHotel',
-                  component: GroupHotel
+                  component: GroupHotel      
                 }
               ]
             },{
               path: ':id',
+              meta:{
+                title:"Second",
+                name:"xiangqing",
+                path:'/group'
+              },
               component: GroupId,
+              
               children: [{
                   path: 'editbrand',
                   name: 'EditBrand',
                   component: EditBrand,
-                },{
-                  path: 'addhotel',
-                  name: 'GroupAddHotel',
-                  component: AddHotel,
                 },{
                   path: '/',
                   component: GroupIdMenu,
@@ -113,75 +110,55 @@ const main = [
                     }
                   ]
                 },{
-                  path: 'hotel/:hotelid',
+                  path: 'hotel',
                   component: HotelId,
                   children: [
                     {
-                      path: '/',
+                      path: 'add',
+                      name: 'AddHotel',
+                      component: AddHotel,
+                    },{
+                      path: ':hotelid',
                       component: HotelMenu,
                       children: [
                         {
                           path: '/',
-                          name: 'GroupHotelInfo',
+                          name: 'HotelInfo',
                           component: HotelInfo
                         },{
                           path: 'device',
-                          name: 'GroupDevice',
-                          component: Device
-                        },{
-                          path: 'editdevice',
-                          name: 'GroupEditDevice',
-                          component: EditDevice
+                          component: Device,
+                          children: [
+                            {
+                              path: '/',
+                              name: 'DeviceList',
+                              component: DeviceList
+                            },{
+                              path: 'editdevice',
+                              name: 'EditDevice',
+                              component: EditDevice
+                            }
+                          ]
                         },{
                           path: 'room',
-                          name: 'GroupRoom',
+                          name: 'Room',
                           component: Room
                         },{
                           path: 'config',
-                          name: 'GroupConfig',
-                          component: Config
-                        },{
-                          path: 'configsummary',
-                          name: 'GroupConfigSummary',
-                          component: ConfigSummary
+                          component: Config,
+                          children: [
+                            {
+                              path: '/',
+                              name: 'ConfigInfo',
+                              component: ConfigInfo
+                            },{
+                              path: 'configsummary',
+                              name: 'ConfigSummary',
+                              component: ConfigSummary
+                            },
+                          ]
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            },{
-              path: 'hotel/:hotelid',
-              component: HotelId,
-              children: [
-                {
-                  path: '/',
-                  component: HotelMenu,
-                  children: [
-                    {
-                      path: '/',
-                      name: 'HotelInfo',
-                      component: HotelInfo
-                    },{
-                      path: 'device',
-                      name: 'Device',
-                      component: Device
-                    },{
-                      path: 'editdevice',
-                      name: 'EditDevice',
-                      component: EditDevice
-                    },{
-                      path: 'room',
-                      name: 'Room',
-                      component: Room
-                    },{
-                      path: 'config',
-                      name: 'Config',
-                      component: Config
-                    },{
-                      path: 'configsummary',
-                      name: 'ConfigSummary',
-                      component: ConfigSummary
                     }
                   ]
                 }
