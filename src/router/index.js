@@ -18,7 +18,7 @@ import GroupHotel from '@/containers/Group/Index/GroupMenu/GroupHotel.vue'
 import EditBrand from '@/containers/Group/Index/GroupId/EditBrand.vue'
 import GroupIdMenu from '@/containers/Group/Index/GroupId/GroupIdMenu.vue'
 import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
-import AddHotel from '@/containers/Group/Index/HotelId/AddHotel.vue'
+import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'

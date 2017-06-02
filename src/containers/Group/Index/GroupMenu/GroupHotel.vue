@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <span class="title">门店管理</span>
+      <span class="title">门店管理（{{total}}家门店）</span>
       <div class="search-bar">
-        <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
-        <span class="_button" @click="getList">查询</span>
-        <span class="_button" @click="regist">+ 添加企业门店</span>
+        <el-input v-model="searchVal" placeholder="请输入门店的名称或子账户编码"></el-input>
+        <el-button type="success" @click.native="getList">查询</el-button>
+        <el-button type="success" @click.native="regist">+ 添加企业门店</el-button>
       </div>
       <h3>最近操作的门店</h3>
       <div class="content">
@@ -15,12 +15,31 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
-          :page-sizes="[5, 10, 20, 30]"
+          :page-sizes="[10, 20, 30]"
           :page-size="size"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
       </div>
+      <el-dialog 
+        title="选择企业" 
+        :visible.sync="showDialog"
+        >
+        <div class="dialog-content">
+          <div>
+            <span>所属企业</span>
+            <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
+              <el-option
+                v-for="(obj, index) of groupList"
+                :key="obj.id"
+                :label="obj.name"
+                :value="obj.id">
+              </el-option>
+            </el-select>
+          </div>
+          <el-button type="success" @click.native="chooseGroup">确定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -34,8 +53,11 @@
         brandList: [],
         hotelList: [],
         page: 1,
-        size: 10,
-        total: 0
+        size: 20,
+        total: 0,
+        showDialog: false,
+        groupId: '',
+        groupList: [],
       }
     },
     computed: {
@@ -58,13 +80,18 @@
     methods: {
       ...mapActions([
         'getHotelList',
-        'getBrandList'
+        'getBrandList',
+        'getGroupList',
       ]),
       regist() {
+        this.getGroupLists();
+        this.showDialog = true;
+      },
+      chooseGroup() {
         this.$router.push({
           name: 'AddHotel',
           params: {
-            id: 0
+            id: this.groupId
           }
         })
       },
@@ -102,6 +129,11 @@
       handleCurrentChange(val) {
         this.page = val;
         this.getList();
+      },
+      getGroupLists() {
+        this.getGroupList({
+          onsuccess: body => this.groupList = body.data
+        })
       },
       getList() {
         this.getHotelList({

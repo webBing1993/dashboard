@@ -19,13 +19,13 @@
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_id }}</td>
         <td class="pointer">{{ obj.brand_name }}</td>
-        <td><span :class="{'circle-green': obj.statu == 1, 'circle-red': obj.statu == 2, 'circle-yellow': obj.statu == 3}"></span>{{ obj.status | status }}</td>
+        <td><span :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
           <a class="v-options pointer" @click="config(obj)">配置</a>
           <a class="v-options pointer" @click="device(obj)">设备</a>
-          <a class="v-options pointer" @click="source(obj)">数据</a>
-          <a class="v-options pointer" @click="log(obj)">日志</a>
+          <!--<a class="v-options pointer" @click="source(obj)">数据</a>
+          <a class="v-options pointer" @click="log(obj)">日志</a>-->
         </td>
       </tr>
       </tbody>
@@ -46,9 +46,9 @@
     filters: {
       status(v) {
         if (v === "1") return "未上线";
-        if (v === "1") return "运行中";
-        if (v === "1") return "已下线";
-        if (v === "1") return "已暂停";
+        if (v === "2") return "运行中";
+        if (v === "3") return "已下线";
+        if (v === "4") return "已暂停";
       }
     },
     methods: {
@@ -153,6 +153,7 @@
     cursor: pointer;
   }
   .circle-green, .circle-red, .circle-yellow {
+    display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 5px;

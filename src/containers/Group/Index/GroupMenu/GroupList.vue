@@ -3,9 +3,9 @@
     <div class="module-wrapper">
       <h3 class="title">账户管理（共{{total}}家企业）</h3>
       <div class="search-bar">
-        <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-        <span class="_button" @click="getList">查询</span>
-        <span class="_button" @click="regist">+ 注册企业账户</span>
+        <el-input v-model="searchVal" placeholder="请输入企业的名称或账户编码"></el-input>
+        <el-button type="success" @click.native="getList">查询</el-button>
+        <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content">

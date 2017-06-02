@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <p><span v-for="(obj, index) of list" @click="breadGo(obj.path)">{{obj.name}}</span></p>
+      <p v-show="list.length > 1"><span v-for="(obj, index) of list" @click="breadGo(obj.path)">{{obj.name}}</span></p>
       <router-view class="third-router"/>
     </div>
   </div>

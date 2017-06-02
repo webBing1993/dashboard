@@ -1,23 +1,11 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">添加企业门店</h3>
       <div class="content">
         <div class="store-info">
           <p>门店信息</p>
           <div class="info-content">
             <div class="content-item">
-              <div v-if="groupList.length > 0">
-                <span>所属企业</span>
-                <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
-                  <el-option
-                    v-for="(obj, index) of groupList"
-                    :key="obj.id"
-                    :label="obj.name"
-                    :value="obj.id">
-                  </el-option>
-                </el-select>
-              </div>
               <div>
                 <span>所属品牌</span>
                 <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
@@ -95,7 +83,6 @@
     name: 'AddHotel',
     data () {
       return {
-        groupList: [],
         groupId: '',
         brandList: [],
         brandId: '',
@@ -140,10 +127,6 @@
       }
     },
     watch: {
-      groupList(list) {
-        //没有选择的时候给个默认值
-        if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
-      },
       brandList(brandList) {
         this.brandList[0] ? this.brandId = this.brandList[0].id : this.brandId = '';
       },
@@ -164,17 +147,11 @@
     },
     methods: {
       ...mapActions([
-        'getGroupList',
         'getBrandList',
         'addHotel',
         'showtoast',
         'goto'
       ]),
-      getGroupLists() {
-        this.getGroupList({
-          onsuccess: body => this.groupList = body.data
-        })
-      },
       getBrand() {
         this.brandList = [];
         this.getBrandList({
@@ -272,8 +249,6 @@
 
       if (this.$route.params.id) {
         this.groupId = this.$route.params.id;
-      } else {
-        this.getGroupLists();
       }
 
       this.initMap();

@@ -30,13 +30,12 @@ App - Auth
                                        
                       - GroupId   - EditBrand
                                   - AddHotel
-                                  - GroupIdMenu      - GroupInfo
-                                                     - Brand
-                                                     - GroupHotelList
+                                  - GroupIdMenu   - GroupInfo
+                                                  - Brand
+                                                  - GroupHotelList
 
-                                  - AddHotel
-                                  - GroupIdHotelMenu - HotelInfo
-                                                     - Device           - EditDevice
-                                                     - Room
-                                                     - Config           - ConfigInfo
+                                  - HotelMenu     - HotelInfo
+                                                  - Device           - EditDevice
+                                                  - Room
+                                                  - Config           - ConfigInfo
                                                                         - ConfigSummary
