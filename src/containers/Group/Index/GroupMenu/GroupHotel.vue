@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <span class="title">门店管理</span>
+      <h3 class="title">门店管理</h3>
       <div class="search-bar">
-        <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
+        <input type="text" v-model="searchVal" placeholder="输入门店名称或门店子编码"/>
         <span class="_button" @click="getList">查询</span>
         <span class="_button" @click="regist">+ 添加企业门店</span>
       </div>
@@ -131,13 +131,15 @@
   .module-wrapper {
     position: relative;
     overflow-y: auto;
+    h3 {
+      font-size: 16px;
+      color: #4A4A4A;
+      padding: 0 20px 10px;
+    }
     .title {
       line-height: 50px;
       padding: 0 20px;
-      display: block;
       border-bottom: 1px solid #ECECEC;
-      font-weight: 400;
-      font-size: 18px;
     }
     .search-bar {
       display: flex;
@@ -146,31 +148,23 @@
       padding: 16px 20px;
       box-sizing: border-box;
       input {
-        width: 65%;
-        height: 40px;
+        width: 74%;
+        line-height: 36px;
         font-size: 14px;
         outline: none;
         text-indent: 1em;
+        color: #9B9B9B;
+        background-color: #FBFBFB;
+        border: solid 1px #AEAEAE;
       }
       ._button {
-        width: 160px;
-        margin-left: 40px;
-      }
-    }
-    h3 {
-      font-weight: 300;
-      font-size: 20px;
-      padding: 0 20px 10px;
-      &:before {
-        content: '';
-        border-left: solid 4px #8f8f8f;
-        padding-right: 8px;
+        margin-left: 14px;
       }
     }
     .content {
+      //height: 100%;
       padding: 0 20px;
-      height: 70%;
-      /*overflow-y: scroll;*/
+      overflow-y: auto;
     }
   }
 </style>

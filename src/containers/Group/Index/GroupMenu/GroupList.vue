@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <h3 class="title">账户管理（共{{total}}家企业）</h3>
       <div class="search-bar">
-        <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
+        <input type="text" v-model="searchVal" placeholder="输入企业名称或账户编码"/>
         <span class="_button" @click="getList">查询</span>
         <span class="_button" @click="regist">+ 注册企业账户</span>
       </div>

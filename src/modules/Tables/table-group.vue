@@ -12,8 +12,8 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td>{{ ++index }}</td>
-        <td>{{ obj.code }}</td>
+        <td class="v-item">{{ ++index }}</td>
+        <td class="v-item">{{ obj.code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="hotel(obj)">{{ obj.hotelNum }}家</td>
         <td>
@@ -67,7 +67,7 @@
   .v-table td,
   .v-table th {
     height: 38px;
-    text-align: left;
+    text-align: center;
   }
 
   .v-table tr {
@@ -78,9 +78,10 @@
 
   .v-table th {
     padding-left: 10px;
-    font-size: 12px;
-    color: #3e3e3e;
-    background-color: #F7F7F7;
+    font-weight: 300;
+    color: #ffffff;
+    background-color: #9B9B9B;
+    font-size: 14px;
     word-break: keep-all;
     white-space: nowrap;
     cursor: default;
@@ -88,12 +89,16 @@
 
   .v-table td {
     padding-left: 10px;
-    color: #757575;
+    color: #3CC51F;
     font-size: 12px;
-    border-bottom: solid 1px #e0e0e0;
+    /*border-bottom: solid 1px #e0e0e0;*/
     word-break: keep-all;
     white-space: nowrap;
     line-height: 44px;
+  }
+
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
   }
 
   .v-table td a {
@@ -117,7 +122,7 @@
   }
 
   .v-options {
-    color: #39C240;
+    /*color: #39C240;*/
     padding-left: 10px;
   }
 
@@ -128,5 +133,10 @@
   .pointer {
     cursor: pointer;
   }
+
+  .v-item {
+    color: #757575 !important;
+  }
+
 </style>
 
