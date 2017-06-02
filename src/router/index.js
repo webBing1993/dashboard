@@ -53,11 +53,6 @@ const main = [
           component: Home
         },{
           path: 'group',
-          meta:{
-                title:"First",
-                name:"企业管理",
-                path:'/group'
-          },
           component: Group,
           children: [{
               path: 'add',
@@ -80,13 +75,7 @@ const main = [
               ]
             },{
               path: ':id',
-              meta:{
-                title:"Second",
-                name:"xiangqing",
-                path:'/group'
-              },
               component: GroupId,
-              
               children: [{
                   path: 'editbrand',
                   name: 'EditBrand',

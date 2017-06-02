@@ -11,31 +11,50 @@
   export default {
     name: 'Group',
     computed: {
-      groupId(){
-        return this.$route.fullPath.match(/\/hotel\/.+\//)
+      groupMeta() {
+        let meta = {};
+        for (let obj of this.$route.matched) {
+          if (obj.path === '/group/:id') {
+            meta = obj.meta;
+            break;
+          }
+        }
+        return meta;
+      },
+      hotelMeta() {
+        let meta = {};
+        for (let obj of this.$route.matched) {
+          if (obj.path === '/group/:id/hotel/:hotelid') {
+            meta = obj.meta;
+            break;
+          }
+        }
+        return meta;
       },
       list() {
-        let bread=[];
-        // for (let obj of this.$route.matched) {
-        //   if (obj.path === '/group')
-        //     bread.push({name: '企业管理', path: '/group'})
-        //   if (obj.path === '/group/:id') {
-        //     let fullPath = this.$route.fullPath;
-        //     let groupId = fullPath
-        //     bread.push({name: '企业管理', path: `/geoup/${}`})
-        //   }
-        // }
-        console.log(this.$route)
-        console.log(this.$route.matched)
+        let bread=[], groupId, hotelId;
+        let groupPath, hotelPath;
 
-        const groupPath = this.$route.fullPath.match(/^\/group.+\//)
-        const hotelPath = this.$route.fullPath.match(/^\/hotel.+\//)
+        for (let obj of this.$route.matched) {
+          if (obj.path === '/group') {
+            bread.push({name: '企业管理', path: '/group'})
+          } else if (obj.path === '/group/:id') {
+            // groupPath = this.$route.fullPath.match(/^\/group.+\//)[0];
 
-        
+            groupId = this.$route.fullPath.split('group/')[1].split('/hotel')[0];
+            
+            // obj.meta为空对象，但是obj打出来明明有meta值，所以先用了计算属性，没问题
+            let name = this.groupMeta.name ? this.groupMeta.name : '集团详情';
+            bread.push({name: ` > ${name}`, path: `/group/${groupId}`})
+          } else if (obj.path === '/group/:id/hotel/:hotelid') {
+            // hotelPath = this.$route.fullPath.match(/\/hotel\/.+\//)[0];
 
-        this.$route.matched.some(i=>i.path === '/group') ? bread.push({name: '企业管理', path: '/group'}) : null;
-        this.$route.matched.some(i=>i.path === '/group/:id') ? bread.push({name: '集团详情', path: groupPath[0]}) : null;
-        return bread
+            hotelId = this.$route.fullPath.split('hotel/')[1].split('/config')[0];
+            let name = this.hotelMeta.name ? this.hotelMeta.name : '门店详情';
+            bread.push({name: ` > ${name}`, path: `/group/${groupId}/hotel/${hotelId}`})
+          }
+        }
+        return bread;
       }
     },
     methods: {
