@@ -1,29 +1,16 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="title">
-        <span @click="goback"></span>
-        <h3>修改酒店品牌</h3>
-        <div>
-          <el-button type="success" size="small" @click.native="remove">删除</el-button>
-          <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
-        </div>
-      </div>
       <div class="content">
         <div class="enterprise-info">
-          <p>品牌信息</p>
-          <div class="info-content">
-            <div class="title-msg">
-              <span>所属企业</span>
-              <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
-                <el-option
-                  v-for="(obj, index) of groupList"
-                  :key="obj.id"
-                  :label="obj.name"
-                  :value="obj.id">
-                </el-option>
-              </el-select>
+          <div>
+            <span>品牌信息</span>
+            <div v-if="brandid != undefined">
+              <el-button type="success" size="small" @click.native="remove">删除</el-button>
+              <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
             </div>
+          </div>
+          <div class="info-content">
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
               <input type="text" id="brandName" v-model="name" />
@@ -34,6 +21,9 @@
               <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
                      accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
+          </div>
+          <div v-if="brandid == undefined" class="button-box">
+            <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
           </div>
         </div>
       </div>
@@ -49,14 +39,13 @@
       return {
         brand: {},
         name: '',
-        groupId: '',
         logoUrl: '',
-        groupList: []
+        brandid: this.$route.query.brandid
       }
     },
     computed: {
       submitDisabled() {
-        if (this.groupId == '' || this.name == '')
+        if (!this.$route.params.id || this.name == '')
           return true;
         return false;
       }
@@ -71,14 +60,6 @@
         'showtoast',
         'CosCloudAssign'
       ]),
-      goback(){
-        this.goto(-1);
-      },
-      getGroupLists() {
-        this.getGroupList({
-          onsuccess: body => this.groupList = body.data
-        })
-      },
       regist() {
         if (this.brandName == '') return;
         
@@ -93,13 +74,10 @@
         })
       },
       modify() {
-        //没有选择的时候给个默认值
-        if (this.groupId == '' && this.groupList[0]) this.groupId = this.groupList[0].id;
-
         this.modifyBrand({
-          id: this.$route.params.brandid,
+          id: this.brandid,
           name: this.name,
-          group_id: this.groupId,
+          group_id: this.$route.params.id,
           logo_url: this.logoUrl ? this.logoUrl : this.brand.logo_url,
           onsuccess: body => {
             this.goto(-1)
@@ -108,12 +86,12 @@
       },
       getInfo() {
         this.getBrand({
-          id: this.$route.params.brandid,
+          id: this.brandid,
           onsuccess: body => {
             if (body.data) {
               this.brand = body.data;
-              this.groupId = this.brand.group_id;
               this.name = this.brand.name;
+              this.brandid = this.brand.id;
             }
           }
         })
@@ -165,8 +143,9 @@
       },
     },
     mounted() {
-      this.getGroupLists();
-      this.getInfo();
+      if (this.brandid) {
+        this.getInfo();
+      }
     }
   }
 </script>

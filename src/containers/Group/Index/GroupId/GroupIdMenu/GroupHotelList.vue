@@ -2,9 +2,11 @@
   <div>
     <div class="module-wrapper">
       <div class="content">
+        <h3 class="title">账户管理（共{{total}}家企业）</h3>
         <div class="search-bar">
-          <h3>企业门店</h3>
-          <span class="_button" @click="regist">+ 添加企业门店</span>
+          <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
+          <span class="_button" @click="getList">查询</span>
+          <span class="_button" @click="regist">+ 注册企业账户</span>
         </div>
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
         <el-pagination
@@ -12,7 +14,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
-          :page-sizes="[5, 10, 20, 30]"
+          :page-sizes="[10, 20, 30]"
           :page-size="size"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total">
@@ -32,7 +34,7 @@
         brandList: [],
         hotelList: [],
         page: 1,
-        size: 10,
+        size: 20,
         total: 0
       }
     },

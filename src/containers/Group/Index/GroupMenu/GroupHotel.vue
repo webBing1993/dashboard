@@ -4,12 +4,22 @@
       <span class="title">门店管理</span>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入门店的名称或子账户编码"/>
-        <span class="_button" @click="search">查询</span>
+        <span class="_button" @click="getList">查询</span>
         <span class="_button" @click="regist">+ 添加企业门店</span>
       </div>
       <h3>最近操作的门店</h3>
       <div class="content">
         <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[5, 10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -22,7 +32,10 @@
       return {
         searchVal: '',
         brandList: [],
-        hotelList: []
+        hotelList: [],
+        page: 1,
+        size: 10,
+        total: 0
       }
     },
     computed: {
@@ -82,19 +95,30 @@
           }
         })
       },
+      handleSizeChange(val) {
+        this.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getList();
+      },
       getList() {
         this.getHotelList({
-          searchVal: this.searchVal,
-          onsuccess: body => this.hotelList = body.data
+          keyword: this.searchVal,
+          page: this.page.toString(),
+          size: this.size.toString(),
+          onsuccess: (body, headers) => {
+            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
+            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
+            this.hotelList = body.data;
+          }
         })
       },
       brangList() {
         this.getBrandList({
           onsuccess: body => this.brandList = body.data
         })
-      },
-      search() {
-        this.$router.push(`/group/searchHotel?hotel=${this.searchVal}`)
       }
     },
     mounted() {

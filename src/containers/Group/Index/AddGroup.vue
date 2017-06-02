@@ -1,10 +1,6 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="title">
-        <span></span>
-        <h3>注册企业账户</h3>
-      </div>
       <div class="content">
         <div class="enterprise-info">
           <p>企业信息</p>
@@ -27,6 +23,23 @@
             </div>
           </div>
         </div>
+        <div class="enterprise-info">
+          <p>联系信息</p>
+          <div class="info-content">
+            <div class="content-msg">
+              <span>联系人姓名</span>
+              <el-input class="el-right" v-model="groupName" placeholder="请输入联系人姓名"></el-input>
+            </div>
+            <div class="content-msg">
+              <span>联系人职务</span>
+              <el-input class="el-right" v-model="groupCode" placeholder="请输入联系人职务"></el-input>
+            </div>
+            <div class="content-msg">
+              <span>联系电话</span>
+              <el-input class="el-right" v-model="groupDesc" placeholder="请输入联系电话"></el-input>
+            </div>
+          </div>
+        </div>
         <div class="button-box">
           <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">注册</el-button>
         </div>
@@ -44,6 +57,9 @@
         groupCode: '',
         groupDesc: '',
         groupWeb: '',
+        contactName: '',
+        contactPhone: '',
+        contactPosition: '',
         brandList: []
       }
     },
@@ -78,6 +94,9 @@
           code: this.groupCode,
           memo: this.groupDesc,
           website: this.groupWeb,
+          contact_name: this.groupName,
+          contact_phone: this.contactPhone,
+          contact_position: this.contactPosition,
           onsuccess: body => this.goto(-1)
         })
       },

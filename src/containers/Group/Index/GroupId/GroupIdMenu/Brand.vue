@@ -2,7 +2,9 @@
   <div>
     <div class="module-wrapper">
       <div class="content">
-        <span class="_button" @click="addBrand">+ 添加品牌</span>
+        <div class="el-btn-box">
+          <el-button type="success" @click.native="addBrand">+ 添加品牌</el-button>
+        </div>
         <table-brand :list="list" @edit="edit"></table-brand>
       </div>
     </div>
@@ -21,8 +23,6 @@
     methods: {
       ...mapActions([
         'getBrandList',
-        'modifyBrand',
-        'removeBrand',
         'goto'
       ]),
       goback(){

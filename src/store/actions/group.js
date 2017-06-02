@@ -8,6 +8,9 @@ module.exports = {
         code: param.code,
         memo: param.memo,
         website: param.website,
+        contact_name: param.contact_name,
+        contact_phone: param.contact_phone,
+        contact_position: param.contact_position
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -58,7 +61,7 @@ module.exports = {
         'X-Page-Size': param.size || '0'
       },
       params: {
-        keyword: param.searchVal || ''
+        keyword: param.keyword || ''
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

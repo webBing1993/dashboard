@@ -1,16 +1,26 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">账户管理</h3>
+      <h3 class="title">账户管理（共{{total}}家企业）</h3>
       <div class="search-bar">
         <input type="text" v-model="searchVal" placeholder="请输入企业的名称或账户编码"/>
-        <span class="_button" @click="search">查询</span>
+        <span class="_button" @click="getList">查询</span>
         <span class="_button" @click="regist">+ 注册企业账户</span>
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content">
         <table-group :list="list" @detail="goDetail" @hotel="goHotelList" @edit="goEdit"
                           @config="goConfig"></table-group>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[2,10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
     </div>
   </div>
@@ -23,7 +33,10 @@
     data () {
       return {
         searchVal: '',
-        list: []
+        list: [],
+        page: 1,
+        size: 20,
+        total: 0
       }
     },
     methods: {
@@ -68,16 +81,23 @@
           }
         })
       },
+      handleSizeChange(val) {
+        this.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getList();
+      },
       getList() {
         this.getGroupList({
-          onsuccess: body => this.list = body.data
-        })
-      },
-      search() {
-        this.$router.push({
-          name: 'SearchGroup',
-          query: {
-            group: this.searchVal
+          keyword: this.searchVal,
+          page: this.page.toString(),
+          size: this.size.toString(),
+          onsuccess: (body, headers) => {
+            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
+            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
+            this.list = body.data;
           }
         })
       }

@@ -73,7 +73,7 @@ module.exports = {
       },
       params: {
         group_id: param.group_id || '',
-        keyword: param.searchVal || ''
+        keyword: param.keyword || ''
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

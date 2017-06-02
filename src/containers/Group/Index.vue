@@ -8,59 +8,91 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     name: 'Group',
+    data() {
+      return {
+        groupId: '',
+        hotelId: '',
+        groupName: '企业详情',
+        hotelName: '酒店详情'
+      }
+    },
     computed: {
-      groupMeta() {
-        let meta = {};
-        for (let obj of this.$route.matched) {
-          if (obj.path === '/group/:id') {
-            meta = obj.meta;
-            break;
-          }
-        }
-        return meta;
-      },
-      hotelMeta() {
-        let meta = {};
-        for (let obj of this.$route.matched) {
-          if (obj.path === '/group/:id/hotel/:hotelid') {
-            meta = obj.meta;
-            break;
-          }
-        }
-        return meta;
-      },
       list() {
-        let bread=[], groupId, hotelId;
-        let groupPath, hotelPath;
+        let bread=[];
 
         for (let obj of this.$route.matched) {
           if (obj.path === '/group') {
             bread.push({name: '企业管理', path: '/group'})
           } else if (obj.path === '/group/:id') {
-            // groupPath = this.$route.fullPath.match(/^\/group.+\//)[0];
-
-            groupId = this.$route.fullPath.split('group/')[1].split('/hotel')[0];
+            this.groupId = this.$route.params.id;
             
-            // obj.meta为空对象，但是obj打出来明明有meta值，所以先用了计算属性，没问题
-            let name = this.groupMeta.name ? this.groupMeta.name : '集团详情';
-            bread.push({name: ` > ${name}`, path: `/group/${groupId}`})
+            bread.push({name: ` > ${this.groupName}`, path: `/group/${this.groupId}`})
           } else if (obj.path === '/group/:id/hotel/:hotelid') {
-            // hotelPath = this.$route.fullPath.match(/\/hotel\/.+\//)[0];
-
-            hotelId = this.$route.fullPath.split('hotel/')[1].split('/config')[0];
-            let name = this.hotelMeta.name ? this.hotelMeta.name : '门店详情';
-            bread.push({name: ` > ${name}`, path: `/group/${groupId}/hotel/${hotelId}`})
+            this.hotelId = this.$route.params.hotelid;
+            
+            bread.push({name: ` > ${this.hotelName}`, path: `/group/${this.groupId}/hotel/${this.hotelId}`})
+          } else if (obj.name && obj.name === 'EditDevice') {
+            if (this.$route.query && this.$route.query.deviceid) {
+              bread.push({name: ' > 编辑设备', path: this.$route.fullPath})
+            } else if (!this.$route.query || !this.$route.query.deviceid) {
+              bread.push({name: ' > 添加设备', path: this.$route.fullPath})
+            }
+          } else if (obj.name && obj.name === 'AddGroup') {
+            bread.push({name: ' > 添加企业', path: this.$route.fullPath})
+          } else if (obj.name && obj.name === 'AddHotel') {
+            bread.push({name: ' > 添加门店', path: this.$route.fullPath})
+          } else if (obj.name && obj.name === 'EditBrand') {
+            if (this.$route.query && this.$route.query.brandid) {
+              bread.push({name: ' > 编辑品牌', path: this.$route.fullPath})
+            } else if (!this.$route.query || !this.$route.query.deviceid) {
+              bread.push({name: ' > 添加品牌', path: this.$route.fullPath})
+            }
           }
         }
         return bread;
+      },
+      matched() {
+        return this.$route.matched
+      }
+    },
+    watch: {
+      groupId() {
+        this.getGroupInfo();
+      },
+      hotelId() {
+        this.getHotelInfo();
       }
     },
     methods: {
+      ...mapActions([
+        'getGroup',
+        'getHotel'
+      ]),
       breadGo(path) {
-        console.log(path)
         this.$router.push(path)
+      },
+      getGroupInfo() {
+        this.getGroup({
+          id: this.$route.params.id,
+          onsuccess: body => {
+            if (body.data) {
+              this.groupName = body.data.name;
+            }
+          }
+        })
+      },
+      getHotelInfo() {
+        this.getHotel({
+          id: this.$route.params.hotelid,
+          onsuccess: body => {
+            if (body.data) {
+              this.hotelName = body.data.name;
+            }
+          }
+        })
       }
     }
   }
