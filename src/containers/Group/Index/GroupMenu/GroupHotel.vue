@@ -163,13 +163,15 @@
   .module-wrapper {
     position: relative;
     overflow-y: auto;
+    h3 {
+      font-size: 16px;
+      color: #4A4A4A;
+      padding: 0 20px 10px;
+    }
     .title {
       line-height: 50px;
       padding: 0 20px;
-      display: block;
       border-bottom: 1px solid #ECECEC;
-      font-weight: 400;
-      font-size: 18px;
     }
     .search-bar {
       display: flex;
@@ -178,31 +180,23 @@
       padding: 16px 20px;
       box-sizing: border-box;
       input {
-        width: 65%;
-        height: 40px;
+        width: 74%;
+        line-height: 36px;
         font-size: 14px;
         outline: none;
         text-indent: 1em;
+        color: #9B9B9B;
+        background-color: #FBFBFB;
+        border: solid 1px #AEAEAE;
       }
       ._button {
-        width: 160px;
-        margin-left: 40px;
-      }
-    }
-    h3 {
-      font-weight: 300;
-      font-size: 20px;
-      padding: 0 20px 10px;
-      &:before {
-        content: '';
-        border-left: solid 4px #8f8f8f;
-        padding-right: 8px;
+        margin-left: 14px;
       }
     }
     .content {
+      //height: 100%;
       padding: 0 20px;
-      height: 70%;
-      /*overflow-y: scroll;*/
+      overflow-y: auto;
     }
   }
 </style>

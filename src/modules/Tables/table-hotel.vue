@@ -91,14 +91,15 @@
   .v-table td,
   .v-table th {
     height: 38px;
-    text-align: left;
+    text-align: center;
   }
 
   .v-table th {
     padding-left: 10px;
-    font-size: 12px;
-    color: #3e3e3e;
-    background-color: #F7F7F7;
+    font-size: 14px;
+    font-weight: normal;
+    color: #ffffff;
+    background-color: #9B9B9B;
     word-break: keep-all;
     white-space: nowrap;
     cursor: default;
@@ -110,11 +111,15 @@
     }
   }
 
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
+  }
+
   .v-table td {
     padding-left: 10px;
     color: #757575;
     font-size: 12px;
-    border-bottom: solid 1px #e0e0e0;
+    /*border-bottom: solid 1px #e0e0e0;*/
     word-break: keep-all;
     white-space: nowrap;
     line-height: 44px;
@@ -141,8 +146,7 @@
   }
 
   .v-options {
-    color: #39C240;
-    padding-left: 10px;
+    padding-left: 1px;
   }
 
   .v-options:first-child {
@@ -151,23 +155,28 @@
 
   .pointer {
     cursor: pointer;
+    color: #39C240 !important;
   }
+
   .circle-green, .circle-red, .circle-yellow {
     display: inline-block;
     width: 10px;
     height: 10px;
     border-radius: 5px;
   }
+
   .circle-green {
-    border: 1px solid green; 
+    border: 1px solid green;
     background-color: green;
   }
+
   .circle-red {
-    border: 1px solid red; 
+    border: 1px solid red;
     background-color: red;
   }
+
   .circle-yellow {
-    border: 1px solid yellow; 
+    border: 1px solid yellow;
     background-color: yellow;
   }
 </style>
