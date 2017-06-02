@@ -28,15 +28,15 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="groupName" placeholder="请输入联系人姓名"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="请输入联系人职务"></el-input>
+              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="请输入联系电话"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话"></el-input>
             </div>
           </div>
         </div>

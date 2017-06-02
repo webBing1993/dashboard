@@ -66,6 +66,24 @@
 
               </div>
             </div>
+            <p>请点击地图确认坐标 lat: {{lat}} lng: {{lng}}</p>
+          </div>
+        </div>
+        <div class="store-info">
+          <p>联系信息</p>
+          <div class="info-content">
+            <div class="content-msg">
+              <span>联系人姓名</span>
+              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名"></el-input>
+            </div>
+            <div class="content-msg">
+              <span>联系人职务</span>
+              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务"></el-input>
+            </div>
+            <div class="content-msg">
+              <span>联系电话</span>
+              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话"></el-input>
+            </div>
           </div>
         </div>
         <div class="button-box">
@@ -95,6 +113,9 @@
         address: '',
         lat: '',
         lng: '',
+        contactName: '',
+        contactPhone: '',
+        contactPosition: '',
       }
     },
     computed: {
@@ -127,9 +148,6 @@
       }
     },
     watch: {
-      brandList(brandList) {
-        this.brandList[0] ? this.brandId = this.brandList[0].id : this.brandId = '';
-      },
       groupId(val) {
         if (val == '') return;
         this.getBrand();
@@ -181,6 +199,9 @@
           address: this.address,
           longitude: this.lng,
           latitude: this.lat,
+          contact_name: this.groupName,
+          contact_phone: this.contactPhone,
+          contact_position: this.contactPosition,
           onsuccess: body => this.goto(-1)
         })
       },
@@ -247,9 +268,7 @@
         this.areaCode = this.areaList[0].code;
       }
 
-      if (this.$route.params.id) {
-        this.groupId = this.$route.params.id;
-      }
+      this.groupId = this.$route.params.id;
 
       this.initMap();
     }
