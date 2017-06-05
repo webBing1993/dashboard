@@ -31,6 +31,7 @@
     data () {
       return {
         searchVal: '',
+        groupList: [],
         brandList: [],
         hotelList: [],
         page: 1,
@@ -41,22 +42,35 @@
     computed: {
       list() {
         return this.hotelList.map(hotel => {
-          let brand;
-          let obj = this.brandList.find(v => {
+          let group, brand;
+
+          let groupObj = this.groupList.find(v => {
+            group = v;
+            return group.id == hotel.group_id
+          });
+          if (groupObj === undefined) {
+            hotel.group_name = '';
+          } else {
+            hotel.group_name = group.name;
+          }
+
+          let brandObj = this.brandList.find(v => {
             brand = v;
             return brand.id == hotel.brand_id
           });
-          if (obj === undefined) {
+          if (brandObj === undefined) {
             hotel.brand_name = '';
           } else {
             hotel.brand_name = brand.name;
           }
+
           return hotel;
         });
       }
     },
     methods: {
       ...mapActions([
+        'getGroupList',
         'getHotelList',
         'getBrandList'
       ]),
@@ -97,6 +111,11 @@
         this.page = val;
         this.getList();
       },
+      getGroupLists() {
+        this.getGroupList({
+          onsuccess: body => this.groupList = body.data
+        })
+      },
       brangList() {
         this.getBrandList({
           onsuccess: body => this.brandList = body.data
@@ -118,6 +137,7 @@
       }
     },
     mounted() {
+      this.getGroupLists();
       this.brangList();
       this.getList();
     }

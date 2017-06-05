@@ -4,5 +4,8 @@ module.exports = {
   ...require('./hotel'),
   ...require('./brand'),
   ...require('./auth'),
-  ...require('./ui')
+  ...require('./ui'),
+  ...require('./config'),
+  ...require('./device'),
+  ...require('./room'),
 }

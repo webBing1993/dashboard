@@ -37,7 +37,7 @@
               </el-option>
             </el-select>
           </div>
-          <el-button type="success" @click.native="chooseGroup">确定</el-button>
+          <el-button type="success" :disabled="groupBrandList.length == 0" @click.native="chooseGroup">确定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -58,23 +58,41 @@
         showDialog: false,
         groupId: '',
         groupList: [],
+        groupBrandList: []
       }
     },
     computed: {
       list() {
         return this.hotelList.map(hotel => {
-          let brand;
-          let obj = this.brandList.find(v => {
+          let group, brand;
+
+          let groupObj = this.groupList.find(v => {
+            group = v;
+            return group.id == hotel.group_id
+          });
+          if (groupObj === undefined) {
+            hotel.group_name = '';
+          } else {
+            hotel.group_name = group.name;
+          }
+
+          let brandObj = this.brandList.find(v => {
             brand = v;
             return brand.id == hotel.brand_id
           });
-          if (obj === undefined) {
+          if (brandObj === undefined) {
             hotel.brand_name = '';
           } else {
             hotel.brand_name = brand.name;
           }
+
           return hotel;
         });
+      }
+    },
+    watch: {
+      groupId() {
+        this.getBrand();
       }
     },
     methods: {
@@ -82,9 +100,9 @@
         'getHotelList',
         'getBrandList',
         'getGroupList',
+        'showtoast'
       ]),
       regist() {
-        this.getGroupLists();
         this.showDialog = true;
       },
       chooseGroup() {
@@ -151,9 +169,17 @@
         this.getBrandList({
           onsuccess: body => this.brandList = body.data
         })
-      }
+      },
+      getBrand() {
+        this.groupBrandList = [];
+        this.getBrandList({
+          group_id: this.groupId,
+          onsuccess: body => body.data && body.data.length > 0 ? this.groupBrandList = body.data : this.showtoast({text:'暂无品牌', type:'warning'})
+        })
+      },
     },
     mounted() {
+      this.getGroupLists();
       this.brangList();
       this.getList();
     }

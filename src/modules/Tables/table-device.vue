@@ -15,7 +15,7 @@
         <td>{{ ++index }}</td>
         <td>{{ obj.device_type | deviceType }}</td>
         <td>{{ obj.device_id }}</td>
-        <td>{{ obj.enabled | status }}</td>
+        <td><span :class="{'circle-green': obj.enabled == 1, 'circle-red': obj.enabled == 0}"></span>{{ obj.enabled | status }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>
@@ -38,7 +38,7 @@
     filters: {
       deviceType(v) {
         if (v === "31") return "底座";
-        if (v === "31") return "底座PAD";
+        if (v === "32") return "底座PAD";
       },
       status(v) {
         if (v === 1) return "可用";
@@ -127,6 +127,23 @@
 
   .pointer {
     cursor: pointer;
+  }
+
+  .circle-green, .circle-red {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+  }
+
+  .circle-green {
+    border: 1px solid green;
+    background-color: green;
+  }
+
+  .circle-red {
+    border: 1px solid red;
+    background-color: red;
   }
 </style>
 

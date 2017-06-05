@@ -27,7 +27,7 @@ module.exports = {
   },
   modifyDevice(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/devices/${param.device_id}`,
+      url: `/devices/${param.old_device_id}`,
       method:'PUT',
       body: {
         hotel_id: param.hotel_id,

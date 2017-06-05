@@ -17,7 +17,7 @@
         <td>{{ ++index }}</td>
         <td>{{ obj.code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
-        <td class="pointer" @click="belongGroup(obj)">{{ obj.group_id }}</td>
+        <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
         <td class="pointer">{{ obj.brand_name }}</td>
         <td><span :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status }}</td>
         <td>

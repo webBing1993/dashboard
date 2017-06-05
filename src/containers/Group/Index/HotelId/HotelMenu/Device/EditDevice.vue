@@ -6,9 +6,9 @@
         <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
           <el-option
             v-for="(obj, index) of deviceTypeList"
-            :key="obj.device_id"
-            :label="obj.device_type"
-            :value="obj.device_id">
+            :key="obj.id"
+            :label="obj.name"
+            :value="obj.id">
           </el-option>
         </el-select>
       </div>
@@ -24,54 +24,91 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <el-button type="success" @click.native="addDevice">确认添加</el-button>
-      <el-button type="success" @click.native="modifyDevice">确认修改</el-button>
-      <el-button type="success" @click.native="removeDevice">删除设备</el-button>
+      <div v-if="isAdd">
+        <el-button type="success" :disabled="submitDisabled" @click.native="addDevice">确认添加</el-button>
+      </div>
+      <div v-else>
+        <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevice">确认修改</el-button>
+        <el-button type="danger" @click.native="removeDevice">删除设备</el-button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   export default {
     name: 'EditDevice',
     data() {
       return {
+        isAdd: true,
         deviceId: '',
         deviceType: '',
-        enabled: 1,
-        deviceTypeList: [
-          {                                                                                
-            "hotel_id":"3c04bfba87c74e8b9bab8876ac01b01b",
-            "device_id":"f86cf4b3355011e78ece0bb05596f0f1",
-            "device_type":"31",//31底座、32底座PAD
-            "device_name":"设备名称",
-            "enabled":1,  //1可用0禁用
-            "created_time":"2017-04-28 17:21:37"
-          },{                                                                                
-            "hotel_id":"3c04bfba87c74e8b9bab8876ac01b01b",
-            "device_id":"f86cf4b3155011e78ece0bb05596f0f1",
-            "device_type":"32",//31底座、32底座PAD
-            "device_name":"设备名称",
-            "enabled":1,  //1可用0禁用
-            "created_time":"2017-04-28 17:21:37"
-          }
-        ]
+        enabled: true,
+        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: '底座PAD'}]
+      }
+    },
+    computed: {
+      submitDisabled() {
+        if (this.deviceId == '' || this.deviceType == '' || this.$route.params.id == '' || this.$route.params.hotelid == '')
+          return true;
+        return false;
       }
     },
     methods: {
-      addDevice() {
-        
+      ...mapActions([
+        'addDevice',
+        'getDevice',
+        'modifyDevice',
+        'removeDevice'
+      ]),
+      addDevices() {
+        if (this.submitDisabled) return;
+        this.addDevice({
+          group_id: this.$route.params.id,
+          hotel_id: this.$route.params.hotelid,
+          device_id: this.deviceId,
+          device_type: this.deviceType,
+          // device_name: this.deviceName,  //????
+          enabled: this.enabled ? 1 : 0,
+          onsuccess: body => this.goto(-1)
+        })
       },
-      modifyDevice() {
-        
+      getDevices() {
+        this.getDevice({
+          device_id: this.$route.params.device_id,
+          onsuccess: (body, headers) => {
+            this.deviceId = body.data.device_id;
+            this.deviceType = body.data.device_type;
+            this.enabled = body.data.enabled == 1 ? true : false;
+          }
+        })
       },
-      removeDevice() {
-        
-      }
+      modifyDevices() {
+        if (this.submitDisabled) return;
+        this.modifyDevice({
+          old_device_id: this.$route.query.device_id,
+          group_id: this.$route.params.id,
+          hotel_id: this.$route.params.hotelid,
+          device_id: this.deviceId,
+          device_type: this.deviceType,
+          // device_name: this.deviceName,  //????
+          enabled: this.enabled ? 1 : 0,
+          onsuccess: body => this.goto(-1)
+        })
+      },
+      removeDevices() {
+        this.modifyDevice({
+          device_id: this.$route.query.device_id,
+          onsuccess: body => this.goto(-1)
+        })
+      },
     },
     mounted() {
       if (this.$route.query.device_id) {
-        
+        this.isAdd = false;
+        this.deviceId = this.$route.query.device_id;
+        this.getDevices();
       }
     }
   }

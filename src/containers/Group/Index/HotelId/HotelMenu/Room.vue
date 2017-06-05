@@ -1,20 +1,53 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3>数据源</h3>
-      <p>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</p>
-      <el-button type="success">PMS同步数据</el-button>
-      <el-button type="success">添加房间(非对接PMS)</el-button>
-      <table-room :list="list" @edit="edit"></table-room>
+      <div class="content">
+        <h3>数据源</h3>
+        <p>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</p>
+        <el-button type="success">PMS同步数据</el-button>
+        <el-button type="success">添加房间(非对接PMS)</el-button>
+        <table-room :list="list" @edit="edit"></table-room>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
+      <el-dialog 
+        title="房间标签配置" 
+        :visible.sync="showDialog" 
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+        >
+        <div class="dialog-content">
+          <el-checkbox-group v-model="checkList">
+            <el-checkbox label="朝南"></el-checkbox>
+            <el-checkbox label="无烟"></el-checkbox>
+          </el-checkbox-group>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   export default {
     name: 'Room',
     data() {
       return {
+        showDialog: false,
+        checkList: ["朝南"],
         list: [
           {
             "room_id":"00090117c8dc4c68ac1d5cd343cb59a4",
@@ -24,13 +57,47 @@
             "room_type_name":"大床房",
             "roomfeature_desc":"无烟,朝南"
           }
-        ]
+        ],
+        page: 1,
+        size: 20,
+        total: 0
       }
     },
     methods: {
+      ...mapActions([
+        'getRoomList'
+      ]),
       edit(obj) {
-
+        this.showDialog = true;
+      },
+      hideDialog() {
+        this.showDialog = false;
+      },
+      submitDialog() {
+        this.showDialog = false;
+      },
+      handleSizeChange(val) {
+        this.size = val;
+        this.getList();
+      },
+      handleCurrentChange(val) {
+        this.page = val;
+        this.getList();
+      },
+      getList() {
+        this.getRoomList({
+          page: this.page.toString(),
+          size: this.size.toString(),
+          onsuccess: (body, headers) => {
+            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
+            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
+            this.list = body.data;
+          }
+        })
       }
+    },
+    mounted() {
+
     }
   }
 </script>

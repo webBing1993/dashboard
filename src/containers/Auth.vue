@@ -5,8 +5,8 @@
       <div class="content">
         <h3>微信生态酒店总控平台</h3>
         <div class="content-item">
-          <input type="text" v-model="logUserName" placeholder="用户名">
-          <input type="password" v-model="logPassword" placeholder="密码">
+          <el-input v-model="logUserName" placeholder="请输入用户名"></el-input>
+          <el-input type="password" v-model="logPassword" placeholder="请输入密码"></el-input>
         </div>
         <div class="button-box">
           <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>

@@ -3,12 +3,12 @@
     <div class="module-wrapper">
       <div class="content">
         <div class="store-info">
-          <p>门店信息</p>
+          <p>门店信息 <a @click="edit">修改</a></p>
           <div class="info-content">
             <div class="content-item">
               <div>
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
+                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌" :disabled="!isEdit">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -19,20 +19,20 @@
               </div>
               <div>
                 <span>账户编码</span>
-                <el-input class="el-right" v-model="code" placeholder="请输入账户编码"></el-input>
+                <el-input class="el-right" v-model="code" placeholder="请输入账户编码" :disabled="!isEdit"></el-input>
               </div>
               <div>
                 <span>门店名称</span>
-                <el-input class="el-right" v-model="name" placeholder="请输入门店名称"></el-input>
+                <el-input class="el-right" v-model="name" placeholder="请输入门店名称" :disabled="!isEdit"></el-input>
               </div>
               <div>
                 <span>前台电话</span>
-                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话"></el-input>
+                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话" :disabled="!isEdit"></el-input>
               </div>
               
               <div class="content-address">
                 <span>门店地址</span>
-                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择">
+                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择" :disabled="!isEdit">
                   <el-option
                     v-for="(obj, index) of provinceList"
                     :key="index"
@@ -40,7 +40,7 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择">
+                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择" :disabled="!isEdit">
                   <el-option
                     v-for="(obj, index) of cityList"
                     :key="index"
@@ -48,7 +48,7 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择">
+                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择" :disabled="!isEdit">
                   <el-option
                     v-for="(obj, index) of areaList"
                     :key="index"
@@ -58,7 +58,7 @@
                 </el-select>
               </div>
               <div class="content-add">
-                <el-input v-model="address" placeholder="地址（详细到门牌号）"></el-input>
+                <el-input v-model="address" placeholder="地址（详细到门牌号）" :disabled="!isEdit"></el-input>
               </div>
             </div>
             <div class="content-item">
@@ -74,20 +74,21 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名" :disabled="!isEdit"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务"></el-input>
+              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务" :disabled="!isEdit"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话" :disabled="!isEdit"></el-input>
             </div>
           </div>
         </div>
-        <div class="button-box">
-          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
+        <div class="button-box" v-show="isEdit">
+          <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+          <el-button @click.native="cancel">取消</el-button>
         </div>
       </div>
     </div>
@@ -121,6 +122,7 @@
         contactName: '',
         contactPhone: '',
         contactPosition: '',
+        isEdit: false
       }
     },
     computed: {
@@ -181,17 +183,13 @@
       getBrand() {
         this.brandList = [];
         this.getBrandList({
-          group_id: this.groupId,
+          group_id: this.$route.params.id,
           // onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast('暂无品牌')
           onsuccess: body => {
             if (body.data && body.data.length > 0) {
               this.brandList = body.data;
               //现有列表后有比对的brandId,不然即使先给brandId赋值，列表复制后v-model绑定的brandId会变成undefined
               this.brandId = this.hotel.brand_id;
-              let index = this.brandList.findIndex(v => v.id == this.brandId)
-              if (index == -1) {
-                this.brandId = this.brandList[0].id;
-              }
             } else {
               this.showtoast({text: '暂无品牌', type: 'warning'})
             }
@@ -204,7 +202,7 @@
           onsuccess: body => {
             if (body.data) {
               this.hotel = body.data;
-              // this.groupId = this.hotel.group_id;
+              this.groupId = this.hotel.group_id;
               // this.brandId = this.hotel.brand_id;
               this.code = this.hotel.code;
               this.name = this.hotel.name;
@@ -250,9 +248,15 @@
         this.removeHotel({
           id: this.hotel.id,
           onsuccess: body => {
-            this.goto('/enterprise/hotel')
+            this.goto('/group/hotel')
           }
         })
+      },
+      cancel() {
+        this.isEdit = false;
+      },
+      edit() {
+        this.isEdit = true;
       },
       modify() {
         if (this.submitDisabled) return;
@@ -264,7 +268,7 @@
         if (city === undefined) return;
         this.modifyHotel({
           id: this.hotel.id,
-          group_id: this.groupId,
+          group_id: this.hotel.group_id,
           brand_id: this.brandId,
           code: this.code,
           name: this.name,
