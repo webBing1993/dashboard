@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div>
+      <div class="content-item">
         <span>所属品牌</span>
         <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
           <el-option
@@ -12,11 +12,11 @@
           </el-option>
         </el-select>
       </div>
-      <div class="content-msg">
+      <div class="content-item">
         <span>设备ID</span>
         <el-input class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
       </div>
-      <div>
+      <div class="content-item">
         <span>是否开启</span>
         <el-switch
           v-model="enabled"
@@ -24,10 +24,10 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <div v-if="isAdd">
+      <div v-if="isAdd" class="content-btn">
         <el-button type="success" :disabled="submitDisabled" @click.native="addDevice">确认添加</el-button>
       </div>
-      <div v-else>
+      <div v-else class="content-btn">
         <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevice">确认修改</el-button>
         <el-button type="danger" @click.native="removeDevice">删除设备</el-button>
       </div>
@@ -115,14 +115,36 @@
 </script>
 
 <style scoped lang="less">
-  .content-msg {
-    display: flex;
-    align-items: center;
-    font-size: 18px;
+  .module-wrapper {
+    padding: 26px 47px;
+    .content-item {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      color: #4A4A4A;
+      margin-bottom: 14px;
+      span {
+        min-width: 68px;
+        text-align: end;
+      }
+      .el-switch {
+        margin-left: 24px;
+      }
+      .el-right {
+        margin-left: 20px;
+        padding: 4px;
+        width: 80%;
+      }
+    }
+    .content-btn {
+      width: 100%;
+      margin-top: 53px;
+      text-align: center;
+      .el-button {
+        width: 173px;
+        line-height: 18px;
+      }
+    }
   }
-  .el-right {
-    margin: 10px 20px;
-    padding: 4px;
-    width: 80%;
-  }
+
 </style>

@@ -174,7 +174,10 @@
         this.groupBrandList = [];
         this.getBrandList({
           group_id: this.groupId,
-          onsuccess: body => body.data && body.data.length > 0 ? this.groupBrandList = body.data : this.showtoast({text:'暂无品牌', type:'warning'})
+          onsuccess: body => body.data && body.data.length > 0 ? this.groupBrandList = body.data : this.showtoast({
+            text: '暂无品牌',
+            type: 'warning'
+          })
         })
       },
     },
@@ -225,6 +228,18 @@
       //height: 100%;
       padding: 0 20px;
       overflow-y: auto;
+    }
+    .dialog-content {
+      .el-select {
+        min-width: 300px;
+        margin-left: 20px;
+      }
+      .el-button {
+        margin: 20px 0;
+
+        min-width: 200px;
+        float: right;
+      }
     }
   }
 </style>

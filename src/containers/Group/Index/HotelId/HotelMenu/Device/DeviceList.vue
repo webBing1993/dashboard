@@ -1,19 +1,21 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3>设备管理</h3>
-      <el-button type="success" @click.native="add">添加设备</el-button>
+      <div class="header">
+        <h3>设备管理</h3>
+        <el-button type="success" @click.native="add">添加设备</el-button>
+      </div>
       <table-device :list="list" @edit="edit"></table-device>
       <el-pagination
-          v-show="total > size"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 30]"
-          :page-size="size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
+        v-show="total > size"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30]"
+        :page-size="size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -25,13 +27,13 @@
     data() {
       return {
         list: [
-          {                                                                                
-            "hotel_id":"3c04bfba87c74e8b9bab8876ac01b01b",
-            "device_id":"f86cf4b3155011e78ece0bb05596f0f1",
-            "device_type":"31",//31底座、32底座PAD
-            "device_name":"设备名称",
-            "enabled":1,  //1可用0禁用
-            "created_time":"2017-04-28 17:21:37"
+          {
+            "hotel_id": "3c04bfba87c74e8b9bab8876ac01b01b",
+            "device_id": "f86cf4b3155011e78ece0bb05596f0f1",
+            "device_type": "31",//31底座、32底座PAD
+            "device_name": "设备名称",
+            "enabled": 1,  //1可用0禁用
+            "created_time": "2017-04-28 17:21:37"
           }
         ],
         page: 1,
@@ -82,3 +84,25 @@
     }
   }
 </script>
+<style lang="less">
+  .module-wrapper {
+    padding: 20px 24px;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 7px;
+      h3 {
+        font-size: 16px;
+        font-weight: normal;
+        color: #4A4A4A;
+      }
+      .el-button {
+        min-width: 173px;
+        line-height: 18px;
+      }
+    }
+  }
+
+
+</style>

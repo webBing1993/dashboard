@@ -15,7 +15,9 @@
         <td>{{ ++index }}</td>
         <td>{{ obj.device_type | deviceType }}</td>
         <td>{{ obj.device_id }}</td>
-        <td><span :class="{'circle-green': obj.enabled == 1, 'circle-red': obj.enabled == 0}"></span>{{ obj.enabled | status }}</td>
+        <td><span
+          :class="{'circle-green': obj.enabled == 1, 'circle-red': obj.enabled == 0}"></span>{{ obj.enabled | status }}
+        </td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>
@@ -67,7 +69,11 @@
   .v-table td,
   .v-table th {
     height: 38px;
-    text-align: left;
+    text-align: center;
+  }
+
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
   }
 
   .v-table tr {
@@ -78,9 +84,10 @@
 
   .v-table th {
     padding-left: 10px;
-    font-size: 12px;
-    color: #3e3e3e;
-    background-color: #F7F7F7;
+    font-size: 14px;
+    font-weight: normal;
+    color: #ffffff;
+    background-color: #9B9B9B;
     word-break: keep-all;
     white-space: nowrap;
     cursor: default;
@@ -130,6 +137,9 @@
   }
 
   .circle-green, .circle-red {
+    position: relative;
+    top: 1px;
+    left: -4px;
     display: inline-block;
     width: 10px;
     height: 10px;

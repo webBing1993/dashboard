@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content">
         <div class="enterprise-info">
-          <div>
+          <div class="info-header">
             <span>品牌信息</span>
             <div v-if="brandid != undefined">
               <el-button type="success" size="small" @click.native="remove">删除</el-button>
@@ -13,7 +13,7 @@
           <div class="info-content">
             <div class="content-msg">
               <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="name" />
+              <input type="text" id="brandName" v-model="name"/>
             </div>
             <div class="content-logo">
               <label for="logo">修改LOGO</label>
@@ -62,7 +62,7 @@
       ]),
       regist() {
         if (this.brandName == '') return;
-        
+
         //没有选择的时候给个默认值
         // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
         this.addBrand({
@@ -151,52 +151,25 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    .title {
-      display: flex;
-      align-items: center;
-      line-height: 50px;
-      padding: 0 20px;
-      border-bottom: 1px solid #ECECEC;
-      h3 {
-        font-size: 18px;
-        font-weight: 400;
-        color: #0D0D0D;
-      }
-      span {
-        display: block;
-        width: 22px;
-        height: 22px;
-        background-color: #C8C8CD;
-        border-radius: 50%;
-        margin-right: 8px;
-        position: relative;
-        cursor: pointer;
-        &:before {
-          content: '';
-          width: 6px;
-          height: 6px;
-          display: block;
-          border-left: solid 1px #ffffff;
-          border-bottom: solid 1px #ffffff;
-          position: absolute;
-          left: 9px;
-          top: 7px;
-          transform: rotate(45deg);
-        }
-      }
-    }
     .content {
       padding: 20px 20px;
       .enterprise-info {
         border: 1px solid #EAEDF0;
-        p {
+        .info-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          border-bottom: 1px solid #EAEDF0;
           line-height: 30px;
-          padding: 8px 20px;
+          padding: 16px 20px;
           font-size: 16px;
-          font-weight: 300;
-          background-color: #EAEDF0;
-          border-bottom: 1px solid transparent;
+          .el-button {
+            min-width: 160px;
+            line-height: 20px;
+            margin-left: 20px;
+          }
         }
+
         .info-content {
           padding: 20px 40px;
           line-height: 45px;
