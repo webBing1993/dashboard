@@ -16,7 +16,7 @@ module.exports = {
         ...param.data
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '修改成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

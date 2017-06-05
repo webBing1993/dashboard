@@ -31,6 +31,7 @@ module.exports = {
       method:'PUT',
       body: {
         hotel_id: param.hotel_id,
+        group_id: param.group_id,
         device_id: param.device_id,
         device_type: param.device_type,
         device_name: param.device_name,

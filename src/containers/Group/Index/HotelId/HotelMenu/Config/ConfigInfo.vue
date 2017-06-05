@@ -126,7 +126,7 @@
               <div v-if="lvyeType == 'LOCAL'">
                 <div>
                   <span>公安参数</span>
-                  <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数"></el-input>
+                  <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                 </div>
               </div>
             </div>
@@ -389,8 +389,8 @@
                 <el-option
                   v-for="(obj, index) of syncSpaceTimeList"
                   :key="index"
-                  :label="obj"
-                  :value="obj">
+                  :label="obj.name"
+                  :value="obj.value">
                 </el-option>
               </el-select>
             </div>
@@ -444,7 +444,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
-          <el-button type="primary" @click="submitDialog">确 定</el-button>
+          <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -505,11 +505,14 @@
                       '脏房配置',
                       '房间标签配置',
                     ];
-
+  
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  import tool from '@/assets/tools/tool.js'
   export default {
     name: 'ConfigInfo',
     data() {
       return {
+        config: '',
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -598,8 +601,11 @@
         //可选房数量
         maxAllowRoomcount: '10',
         //PMS同步频率
-        syncSpaceTime: '30分钟',
-        syncSpaceTimeList: ['10分钟','20分钟','30分钟','1小时','2小时','3小时','6小时','12小时','24小时'],
+        syncSpaceTime: '30',
+        syncSpaceTimeList: [
+          {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
+          {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
+          {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
         //自动预付款确认
         prepayKeyword: '',
         prepayExclusionKeyword: '',
@@ -613,97 +619,237 @@
         hotelfeatureDesc: ['']
       }
     },
+    computed: {
+      invoiceNameList() {
+        return this.invoiceName.filter(v => v != '');
+      },
+      hotelfeatureDescList() {
+        return this.hotelfeatureDesc.filter(v => v != '');
+      },
+      //无数个validate
+      validatePMS() {
+
+      },
+      validatelvyeReportType() {
+        if (this.lvyeType == 'CLOUD') {
+          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType)) 
+            return true;
+          return false; 
+        } else if (this.lvyeType == 'LOCAL') {
+          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && tool.isNotBlank(this.policeParam)) {
+            let flag = true;
+            try {
+              JSON.parse(this.policeParam);
+            } catch(e) {
+              flag = false;
+            }
+            if (flag)
+              return true;
+            return false;
+          }
+          return false; 
+        } else {
+          return false;
+        }
+      },
+      validatedoorLock_unknown() {
+        
+      },
+      validatefacein() {
+        if (tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue)) 
+          return true;
+        return false;
+      },
+      validatewechatPay() {
+        if (tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode)) 
+          return true;
+        return false;
+      },
+      validatewxHotel() {
+        if (tool.isNotBlank(this.wxHotelId)) 
+          return true;
+        return false;
+      },
+      validateminiApp() {
+        if (tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName)) 
+          return true;
+        return false;
+      },
+      validatesign() {
+        return true;
+      },
+      validatephoneCancel_unknown() {
+        
+      },
+      validateinvoice() {
+        if (this.enabledInvoice) {
+          if (this.invoiceNameList.length > 0) 
+            return true;
+          return false;
+        }
+        return false;
+      },
+      validatepreCheckinSms() {
+        return true;
+      },
+      validatedelayedPayment() {
+        return true;
+      },
+      validateautoCheckout() {
+        return true;
+      },
+      validateautoRefund() {
+        return true;
+      },
+      validatepreCheckin() {
+        return true;
+      },
+      validateroomCard() {
+        return true;
+      },
+      validatecashPledge() {
+        if (this.cashPledgeType == 'none_cash_pledge') {
+          return true;
+        } else if (this.cashPledgeType == 'fixed_cash_pledge') {
+          if (tool.isBlank(this.fixedCashPledge) || isNaN(+this.fixedCashPledge)) 
+            return false;
+          if (this.hasDayOfIncidentals) {
+            if (tool.isBlank(this.dayOfIncidentals)) 
+              return false;
+            return true;
+          }
+          return true;
+        } else if (this.cashPledgeType == 'first_day_of_room_price') {
+          if (this.hasDayOfIncidentals) {
+            if (tool.isBlank(this.dayOfIncidentals)) 
+              return false;
+            return true;
+          }
+          return true;
+        } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
+          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1) 
+            return false;
+          if (this.hasDayOfIncidentals) {
+            if (tool.isBlank(this.dayOfIncidentals) || isNaN(+this.dayOfIncidentals)) 
+              return false;
+            return true;
+          }
+          return true;
+        }
+      },
+      validatebreakfastStemFrom() {
+        return true;
+      },
+      validatemaxAllowRoomcount() {
+        if (tool.isBlank(this.maxAllowRoomcount) || isNaN(+this.maxAllowRoomcount))
+          return false;
+        return true;
+      },
+      validatesyncSpaceTime() {
+        return true;
+      },
+      validateautoConfirmPrePay() {
+        if (tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword))
+          return true;
+        return false;
+      },
+      validatesupportVd() {
+        return true;
+      },
+      validatehotelfeatureDesc() {
+        if (this.hotelfeatureDescList.length > 0) 
+          return true;
+        return false;
+      },
+      validateAll() {
+        let result = false;
+        switch (this.showType) {
+          case enumShowType.PMS: 
+            result = this.validatePMS;
+            break;
+          case enumShowType.lvyeReportType: 
+            result = this.validatelvyeReportType;
+            break;
+          case enumShowType.doorLock_unknown: 
+            result = this.validatedoorLock_unknown;
+            break;
+          case enumShowType.facein: 
+            result = this.validatefacein;
+            break;
+          case enumShowType.wechatPay: 
+            result = this.validatewechatPay;
+            break;
+          case enumShowType.wxHotel: 
+            result = this.validatewxHotel;
+            break;
+          case enumShowType.miniApp: 
+            result = this.validateminiApp;
+            break;
+          case enumShowType.sign: 
+            result = this.validatesign;
+            break;
+          case enumShowType.phoneCancel_unknown: 
+            result = this.validatephoneCancel_unknown;
+            break;
+          case enumShowType.invoice: 
+            result = this.validateinvoice;
+            break;
+          case enumShowType.preCheckinSms: 
+            result = this.validatepreCheckinSms;
+            break;
+          case enumShowType.delayedPayment: 
+            result = this.validatedelayedPayment;
+            break;
+          case enumShowType.autoCheckout: 
+            result = this.validateautoCheckout;
+            break;
+          case enumShowType.autoRefund: 
+            result = this.validateautoRefund;
+            break;
+          case enumShowType.preCheckin: 
+            result = this.validatepreCheckin;
+            break;
+          case enumShowType.roomCard: 
+            result = this.validateroomCard;
+            break;
+          case enumShowType.cashPledge: 
+            result = this.validatecashPledge;
+            break;
+          case enumShowType.breakfastStemFrom: 
+            result = this.validatebreakfastStemFrom;
+            break;
+          case enumShowType.maxAllowRoomcount: 
+            result = this.validatemaxAllowRoomcount;
+            break;
+          case enumShowType.syncSpaceTime: 
+            result = this.validatesyncSpaceTime;
+            break;
+          case enumShowType.autoConfirmPrePay: 
+            result = this.validateautoConfirmPrePay;
+            break;
+          case enumShowType.supportVd: 
+            result = this.validatesupportVd;
+            break;
+          case enumShowType.hotelfeatureDesc: 
+            result = this.validatehotelfeatureDesc;
+            break;
+          default:
+            result = false;
+        }
+        return result;
+      }
+    },
     methods: {
+      ...mapActions([
+        'getConfig',
+        'patchConfig',
+        'showtoast'
+      ]),
       goSummary() {
         //这里需要判断是否有group_id,再决定跳哪个路由
         this.$router.push({
           name: 'ConfigSummary'
         })
-      },
-      hideDialog() {
-        this.showDialog = false;
-      },
-      submitDialog() {
-
-        switch (this.showType) {
-          case enumShowType.PMS: 
-            
-            break;
-          case enumShowType.lvyeReportType: 
-            
-            break;
-          case enumShowType.doorLock_unknown: 
-            
-            break;
-          case enumShowType.facein: 
-            
-            break;
-          case enumShowType.wechatPay: 
-            
-            break;
-          case enumShowType.wxHotel: 
-            
-            break;
-          case enumShowType.miniApp: 
-            
-            break;
-          case enumShowType.sign: 
-            
-            break;
-          case enumShowType.phoneCancel_unknown: 
-            
-            break;
-          case enumShowType.invoice: 
-            {
-              let arr = this.invoiceName.filter(v => v != '');  //去除空字符串
-              console.log(arr)
-            }
-            break;
-          case enumShowType.preCheckinSms: 
-            
-            break;
-          case enumShowType.delayedPayment: 
-            
-            break;
-          case enumShowType.autoCheckout: 
-            
-            break;
-          case enumShowType.autoRefund: 
-            
-            break;
-          case enumShowType.preCheckin: 
-            
-            break;
-          case enumShowType.roomCard: 
-            
-            break;
-          case enumShowType.cashPledge: 
-            
-            break;
-          case enumShowType.breakfastStemFrom: 
-            
-            break;
-          case enumShowType.maxAllowRoomcount: 
-            
-            break;
-          case enumShowType.syncSpaceTime: 
-            
-            break;
-          case enumShowType.autoConfirmPrePay: 
-            
-            break;
-          case enumShowType.supportVd: 
-            
-            break;
-          case enumShowType.hotelfeatureDesc: 
-            {
-              let arr = this.hotelfeatureDesc.filter(v => v != '');  //去除空字符串
-              console.log(arr)
-            }
-            break;
-          default:
-            console.log('enumShowType.init');
-        }
       },
       dialogConfig(type) {
         this.showType = type;
@@ -723,6 +869,271 @@
         if (this.hotelfeatureDesc.length == 1) return;
         this.hotelfeatureDesc.pop();
       },
+      hideDialog() {
+        this.showDialog = false;
+      },
+      submitDialog() {
+        let data;
+        switch (this.showType) {
+          case enumShowType.PMS: 
+            
+            break;
+          case enumShowType.lvyeReportType: 
+            data = {
+              lvye_report_type: this.lvyeType,
+              hotel_ga_id:  this.policeId,
+              police_type: this.policeType,
+              police_param: JSON.parse(this.policeParam)
+            }
+            break;
+          case enumShowType.doorLock_unknown: 
+            
+            break;
+          case enumShowType.facein:
+            data = {
+              facein_pass_value: this.faceinPassValue.toString(),
+              facein_reject_value: this.faceinRejectValue.toString()
+            }
+            break;
+          case enumShowType.wechatPay: 
+            data = {
+              miniapp_config: {
+                app_id: this.wechatPayAppId,
+                mch_id: this.mchId,
+                mch_api_key: this.mchApiKey
+              },
+              pay_code: this.payCode,
+              refund_code: this.refundCode
+            }
+            break;
+          case enumShowType.wxHotel: 
+            data = {
+              wx_hotel_id: this.wxHotelId
+            }
+            break;
+          case enumShowType.miniApp:
+            data = {
+              app_id: this.appId,
+              app_secret: this.appSecret,
+              original_id: this.originalId,
+              app_name: this.appName
+            }
+            break;
+          case enumShowType.sign: 
+            data = {
+              enabled_sign: this.enabledSign.toString()
+            }
+            break;
+          case enumShowType.phoneCancel_unknown: 
+            
+            break;
+          case enumShowType.invoice: 
+            data = {
+              enabled_invoice: this.enabledInvoice.toString(),
+              invoice_name: this.invoiceNameList
+            }
+            break;
+          case enumShowType.preCheckinSms: 
+            data = {
+              enabled_pre_checkin_sms: this.enabledPreCheckinSms.toString()
+            }
+            break;
+          case enumShowType.delayedPayment: 
+            data = {
+              enabled_delayed_payment: this.enabledDelayedPayment.toString()
+            }
+            break;
+          case enumShowType.autoCheckout: 
+            data = {
+              enable_auto_checkout: this.enableAutoCheckout.toString()
+            }
+            break;
+          case enumShowType.autoRefund: 
+            data = {
+              enabled_auto_refund: this.enabledAutoRefund.toString()
+            }
+            break;
+          case enumShowType.preCheckin: 
+            data = {
+              enabled_pre_checkin: this.enabledPreCheckin.toString()
+            }
+            break;
+          case enumShowType.roomCard: 
+            data = {
+              support_room_card: this.supportRoomCard.toString()
+            }
+            break;
+          case enumShowType.cashPledge: 
+            data = {
+              cash_pledge_type: this.cashPledgeType,
+              fixed_cash_pledge: +this.fixedCashPledge,
+              multiple_of_cash_pledge: +this.multipleOfCashPledge,
+              round_up_to_integer: this.roundUpToInteger,
+              has_day_of_incidentals: this.hasDayOfIncidentals,
+              day_of_incidentals: +this.dayOfIncidentals 
+            }
+            break;
+          case enumShowType.breakfastStemFrom: 
+            data = {
+              breakfast_stem_from: this.breakfastStemFrom
+            }
+            break;
+          case enumShowType.maxAllowRoomcount: 
+            data = {
+              max_allow_roomcount: this.maxAllowRoomcount
+            }
+            break;
+          case enumShowType.syncSpaceTime: 
+            data = {
+              sync_space_time: this.syncSpaceTime
+            }
+            break;
+          case enumShowType.autoConfirmPrePay:
+            data = {
+              prepay_keyword: this.prepayKeyword,
+              prepay_exclusion_keyword: this.prepayExclusionKeyword,
+              postpay_keyword: this.postpayKeyword,
+              postpay_exclusion_keyword: this.postpayExclusionKeyword,
+              free_deposit_keyword: this.freeDepositKeyword,
+              need_deposit_keyword: this.needDepositKeyword
+            }
+            break;
+          case enumShowType.supportVd: 
+            data = {
+              is_support_vd: this.isSupportVd ? '1' : '0'
+            }
+            break;
+          case enumShowType.hotelfeatureDesc: 
+            data = {
+              hotelfeature_desc: this.hotelfeatureDescList
+            }
+            break;
+          default:
+            data = {};
+        }
+        this.patchConfigData(data);
+      },
+      patchConfigData(data) {
+        this.patchConfig({
+          hotelId: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => this.showDialog = false
+        })
+      },
+      getConfigs() {
+        this.getConfig({
+          hotelId: this.$route.params.hotelid,
+          onsuccess: body => {
+            if(tool.isNotBlank(body.data)) {
+              this.config = body.data;
+              
+
+        //       //PMS配置
+        // PMSBrandList: ['绿云', '捷信达', '别样红', '住哲'],
+        // PMSBrand: '',
+        // PMSCode: '',
+        // hotelService: '',
+        // billService: '',
+        // CRMService: '',
+        // orderService: '',
+        // securityService: '',
+        // PMSUserName: '',
+        // PMSPassword: '',
+        // cid: '',
+        // key: '',
+        // datakey: '',
+        // // 旅业配置
+        // lvyeTypeList: [{id: 'LOCAL', name: '本地'}, {id: 'CLOUD', name: '云端'}],
+        // lvyeType: '',
+        // policeId: '',
+        // policeType: '',
+        // policeParam: '',
+        // //门锁配置，暂无
+        // //人脸识别配置
+        // faceinPassValue: 70,
+        // faceinRejectValue: 70,
+        // //微信支付配置
+        // wechatPayAppId: '',
+        // mchId: '',
+        // mchApiKey: '',
+        // payCode: '',
+        // refundCode: '',
+        // //微信生态酒店配置
+        // wxHotelId: '',
+        // //小程序配置
+        // appId: '',
+        // appSecret: '',
+        // originalId: '',
+        // appName: '',
+        // //电子签名
+        // enabledSign: false,
+        // //电话取消订单  暂无
+        // phoneCancel_unknown: false,
+        // phoneCancelTime_unknown: false,
+        // phoneCancelTimeList_unknown: ['12:00','12:30','13:00',
+        // '13:30','14:00','14:30','15:00','15:30',
+        // '16:00','16:30','17:00','17:30','18:00',
+        // '18:30','19:00','19:30','20:00','20:30',
+        // '21:00','21:30','22:00','22:30','23:00',
+        // '23:30','24:00'],
+        // //发票配置
+        // enabledInvoice: true,
+        // invoiceName: [''],
+        // //预登记短信配置
+        // enabledPreCheckinSms: false,
+        // //到店支付配置
+        // enabledDelayedPayment: true,
+        // //自动退房
+        // enableAutoCheckout: false,
+        // //自动退款
+        // enabledAutoRefund: true,
+        // //无证入住
+        // enabledPreCheckin: true,
+        // //门卡配置
+        // supportRoomCard: true,
+        // //押金配置
+        // cashPledgeType: '',
+        // cashPledgeTypeList: [
+        //   {name: '无押金', value: 'none_cash_pledge'},
+        //   {name: '固定押金', value: 'fixed_cash_pledge'},
+        //   {name: '首晚房费', value: 'first_day_of_room_price'},
+        //   {name: '最大系数', value: 'multiple_of_cash_pledge'}],
+        // fixedCashPledge: '',
+        // multipleOfCashPledge: '',
+        // roundUpToInteger: false,
+        // hasDayOfIncidentals: false,
+        // dayOfIncidentals: '',
+        // //早餐券配置
+        // breakfastStemFrom: 'MANKE',
+        // breakfastStemFromList: [
+        //   {name: '无早', value: 'NONE'},
+        //   {name: '同步PMS早餐券', value: 'PMS'},
+        //   {name: '漫客平台定义,人/张', value: 'MANKE'}],
+        // //可选房数量
+        // maxAllowRoomcount: '10',
+        // //PMS同步频率
+        // syncSpaceTime: '30',
+        // syncSpaceTimeList: [
+        //   {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
+        //   {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
+        //   {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
+        // //自动预付款确认
+        // prepayKeyword: '',
+        // prepayExclusionKeyword: '',
+        // postpayKeyword: '',
+        // postpayExclusionKeyword: '',
+        // freeDepositKeyword: '',
+        // needDepositKeyword: '',
+        // //脏房配置
+        // isSupportVd: true,
+        // //酒店标签配置
+        // hotelfeatureDesc: ['']
+
+
+            }
+          }
+        })
+      }
     }
   }
 </script>

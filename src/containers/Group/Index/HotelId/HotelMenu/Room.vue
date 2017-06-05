@@ -26,14 +26,13 @@
         :show-close="false"
         >
         <div class="dialog-content">
-          <el-checkbox-group v-model="checkList">
-            <el-checkbox label="朝南"></el-checkbox>
-            <el-checkbox label="无烟"></el-checkbox>
+          <el-checkbox-group v-model="roomfeatureDesc">
+            <el-checkbox v-for="(obj, index) of roomfeatureDesc" :label="obj" :key="index"></el-checkbox>
           </el-checkbox-group>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
-          <el-button type="primary" @click="submitDialog">确 定</el-button>
+          <el-button type="primary" @click="modify">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -47,7 +46,6 @@
     data() {
       return {
         showDialog: false,
-        checkList: ["朝南"],
         list: [
           {
             "room_id":"00090117c8dc4c68ac1d5cd343cb59a4",
@@ -55,25 +53,28 @@
             "floor_name":"2层楼",
             "room_num":"0201",  
             "room_type_name":"大床房",
-            "roomfeature_desc":"无烟,朝南"
+            "roomfeature_desc":[
+              "可抽烟",
+              "朝南"
+            ]
           }
         ],
         page: 1,
         size: 20,
-        total: 0
+        total: 0,
+        roomfeatureDesc: []
       }
     },
     methods: {
       ...mapActions([
-        'getRoomList'
+        'getRoomList',
+        'modifyRoom',
       ]),
       edit(obj) {
+        this.roomfeatureDesc = obj.roomfeature_desc;
         this.showDialog = true;
       },
       hideDialog() {
-        this.showDialog = false;
-      },
-      submitDialog() {
         this.showDialog = false;
       },
       handleSizeChange(val) {
@@ -92,6 +93,21 @@
             headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
             headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
             this.list = body.data;
+          }
+        })
+      },
+      modify(obj) {
+        this.showDialog = false;
+
+        this.modifyRoom({
+          room_id: obj.room_id,
+          building_name: obj.building_name,
+          floor_name: obj.floor_name,
+          room_num: obj.room_num,
+          room_type_name: obj.room_type_name,
+          roomfeature_desc: this.roomfeatureDesc,
+          onsuccess: body => {
+            this.showDialog = false;
           }
         })
       }
