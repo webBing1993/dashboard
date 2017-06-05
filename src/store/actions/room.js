@@ -8,7 +8,7 @@ module.exports = {
       }
     })
   },
-  getBrandList(ctx, param){
+  getRoomList(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotels/${param.hotelId}/rooms`,
       method:'GET',
