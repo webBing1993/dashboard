@@ -57,12 +57,21 @@
 <style scoped lang="less">
   .module-wrapper {
     .content {
-      padding: 20px 32px;
-      ._button {
-        display: block;
-        margin: 0 auto;
-        margin-right: 0;
+      padding: 12px 20px;
+      .el-btn-box {
+        width: 172px;
+        line-height: 40px;
+        float: right;
+        background-color: #39C240;
         margin-bottom: 10px;
+        font-size: 14px;
+        border-radius: 3px;
+        button {
+          width: 100%;
+          height: 100%;
+          background-color: transparent;
+          padding: 12px 0;
+        }
       }
     }
   }

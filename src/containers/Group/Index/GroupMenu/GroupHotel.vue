@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <span class="title">门店管理（{{total}}家门店）</span>
+      <h3 class="title">门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
         <el-input v-model="searchVal" placeholder="请输入门店的名称或子账户编码"></el-input>
         <el-button type="success" @click.native="getList">查询</el-button>
@@ -21,10 +21,10 @@
           :total="total">
         </el-pagination>
       </div>
-      <el-dialog 
-        title="选择企业" 
+      <el-dialog
+        title="选择企业"
         :visible.sync="showDialog"
-        >
+      >
         <div class="dialog-content">
           <div>
             <span>所属企业</span>
@@ -172,6 +172,8 @@
       line-height: 50px;
       padding: 0 20px;
       border-bottom: 1px solid #ECECEC;
+      font-size: 16px;
+      color: #4A4A4A;
     }
     .search-bar {
       display: flex;
@@ -179,18 +181,18 @@
       width: 100%;
       padding: 16px 20px;
       box-sizing: border-box;
-      input {
-        width: 74%;
-        line-height: 36px;
-        font-size: 14px;
-        outline: none;
-        text-indent: 1em;
-        color: #9B9B9B;
-        background-color: #FBFBFB;
-        border: solid 1px #AEAEAE;
+      .el-input {
+        el-input__inner {
+          background-color: #FBFBFB;
+        }
       }
-      ._button {
-        margin-left: 14px;
+
+      .el-button--success {
+        margin-left: 17px;
+        border-radius: 2px;
+        background-color: #39C240;
+        min-width: 140px;
+        font-size: 14px;
       }
     }
     .content {

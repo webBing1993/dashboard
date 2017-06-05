@@ -19,7 +19,10 @@
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_id }}</td>
         <td class="pointer">{{ obj.brand_name }}</td>
-        <td><span :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status }}</td>
+        <td class="pointer-icon"><span
+          :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status
+          }}
+        </td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
           <a class="v-options pointer" @click="config(obj)">配置</a>
@@ -158,7 +161,14 @@
     color: #39C240 !important;
   }
 
+  .pointer-icon {
+    position: relative;
+  }
+
   .circle-green, .circle-red, .circle-yellow {
+    position: absolute;
+    top: 15px;
+    left: 1px;
     display: inline-block;
     width: 10px;
     height: 10px;

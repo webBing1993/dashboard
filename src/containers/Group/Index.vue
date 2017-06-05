@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <p v-show="list.length > 1"><span v-for="(obj, index) of list" @click="breadGo(obj.path)">{{obj.name}}</span></p>
+      <p class="side_title" v-show="list.length > 1"><span v-for="(obj, index) of list"
+                                                           @click="breadGo(obj.path)">{{obj.name}}</span></p>
       <router-view class="third-router"/>
     </div>
   </div>
@@ -21,34 +22,34 @@
     },
     computed: {
       list() {
-        let bread=[];
+        let bread = [];
 
         for (let obj of this.$route.matched) {
           if (obj.path === '/group') {
             bread.push({name: '企业管理', path: '/group'})
           } else if (obj.path === '/group/:id') {
             this.groupId = this.$route.params.id;
-            
-            bread.push({name: ` > ${this.groupName}`, path: `/group/${this.groupId}`})
+
+            bread.push({name: `${this.groupName}`, path: `/group/${this.groupId}`})
           } else if (obj.path === '/group/:id/hotel/:hotelid') {
             this.hotelId = this.$route.params.hotelid;
-            
-            bread.push({name: ` > ${this.hotelName}`, path: `/group/${this.groupId}/hotel/${this.hotelId}`})
+
+            bread.push({name: `${this.hotelName}`, path: `/group/${this.groupId}/hotel/${this.hotelId}`})
           } else if (obj.name && obj.name === 'EditDevice') {
             if (this.$route.query && this.$route.query.deviceid) {
-              bread.push({name: ' > 编辑设备', path: this.$route.fullPath})
+              bread.push({name: '编辑设备', path: this.$route.fullPath})
             } else if (!this.$route.query || !this.$route.query.deviceid) {
-              bread.push({name: ' > 添加设备', path: this.$route.fullPath})
+              bread.push({name: '添加设备', path: this.$route.fullPath})
             }
           } else if (obj.name && obj.name === 'AddGroup') {
-            bread.push({name: ' > 添加企业', path: this.$route.fullPath})
+            bread.push({name: '添加企业', path: this.$route.fullPath})
           } else if (obj.name && obj.name === 'AddHotel') {
-            bread.push({name: ' > 添加门店', path: this.$route.fullPath})
+            bread.push({name: '添加门店', path: this.$route.fullPath})
           } else if (obj.name && obj.name === 'EditBrand') {
             if (this.$route.query && this.$route.query.brandid) {
-              bread.push({name: ' > 编辑品牌', path: this.$route.fullPath})
+              bread.push({name: '编辑品牌', path: this.$route.fullPath})
             } else if (!this.$route.query || !this.$route.query.deviceid) {
-              bread.push({name: ' > 添加品牌', path: this.$route.fullPath})
+              bread.push({name: '添加品牌', path: this.$route.fullPath})
             }
           }
         }
@@ -97,3 +98,33 @@
     }
   }
 </script>
+<style scoped lang="less">
+  .side_title {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #4A4A4A;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 39px;
+    padding: 13px 0 8px 40px;
+    position: relative;
+    border-bottom: solid 1px #e0e0e0;
+    span {
+      display: flex;
+      align-items: center;
+      &:not(:first-child):before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        margin-left: 3px;
+        margin-right: 6px;
+        border-left: solid 1px #4A4A4A;
+        border-bottom: solid 1px #4A4A4A;
+        transform: rotate(-135deg);
+      }
+    }
+  }
+
+</style>

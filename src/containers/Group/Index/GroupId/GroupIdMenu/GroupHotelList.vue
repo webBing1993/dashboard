@@ -2,8 +2,8 @@
   <div>
     <div class="module-wrapper">
       <div class="search-bar">
-        <span class="title">共{{total}}家门店</span>
-        <el-input v-model="searchVal" placeholder="请输入企业的名称或账户编码"></el-input>
+        <h3>共{{total}}家门店</h3>
+        <el-input v-model="searchVal" placeholder="输入该集团下的门店名称或门店子编码"></el-input>
         <el-button type="success" @click.native="getList">查询</el-button>
         <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
       </div>
@@ -128,28 +128,28 @@
 
   .module-wrapper {
     padding: 0 20px;
+    .search-bar {
+      display: flex;
+      align-items: center;
+      margin: 19px 0;
+      h3 {
+        font-size: 16px;
+        font-weight: normal;
+        color: #4A4A4A;
+        width: 380px;
+      }
+      .el-input {
+        font-size: 14px;
+      }
+
+      .el-button {
+        min-width: 173px;
+        margin-left: 17px;
+      }
+    }
     .content {
       width: 100%;
       align-items: center;
-      .search-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid #ECECEC;
-        h3 {
-          flex: 1;
-          line-height: 50px;
-          font-weight: 400;
-          font-size: 18px;
-          padding: 14px 0;
-          &:before {
-            content: '';
-            border-left: solid 4px #8f8f8f;
-            padding-right: 8px;
-          }
-        }
-      }
-
       .v-table {
         line-height: 45px;
       }

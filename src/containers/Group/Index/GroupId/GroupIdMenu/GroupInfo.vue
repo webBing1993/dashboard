@@ -21,7 +21,7 @@
       </div>-->
       <div class="content">
         <div class="enterprise-info">
-          <p>企业信息 <a @click="edit">修改</a></p>
+          <p>企业信息</p>
           <div class="info-content">
             <div class="content-msg">
               <span>企业名称</span>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="enterprise-info">
-          <p>联系信息</p>
+          <p>联系信息<a @click="edit">修改</a></p>
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
@@ -152,42 +152,54 @@
   }
 
   .content {
-      padding: 20px;
-      .enterprise-info {
-        border: 1px solid #EAEDF0;
-        p {
-          line-height: 30px;
-          padding: 8px 20px;
-          font-size: 16px;
-          font-weight: 300;
-          background-color: #EAEDF0;
-          border-bottom: 1px solid transparent;
+    padding: 20px;
+    .enterprise-info {
+      border: 1px solid #EAEDF0;
+      font-size: 16px;
+      font-weight: normal;
+      margin-bottom: 27px;
+      p {
+        line-height: 30px;
+        padding: 8px 20px;
+        background-color: #FAFAFA;
+        border-bottom: 1px solid transparent;
+        a {
+          float: right;
+          color: #39C240;
+          cursor: pointer;
         }
-        .info-content {
-          padding: 10px 40px;
-          .content-msg {
-            display: flex;
-            align-items: center;
-            font-size: 18px;
-            // input {
-            //   outline: none;
-            //   border: solid 1px #EAEDF0;
-            //   margin: 10px 20px;
-            //   padding: 4px;
-            //   width: 280px;
-            //   font-size: 14px;
-            //   &:focus {
-            //     border-color: #8f8f8f;
-            //   }
-            // }
-            .el-right {
-              margin: 10px 20px;
-              padding: 4px;
-              width: 80%;
-            }
+      }
+      .info-content {
+        padding: 10px 40px;
+        .content-msg {
+          display: flex;
+          align-items: center;
+          span {
+            min-width: 80px;
+            text-align: right;
+          }
+          .el-input {
+            outline: none;
+            background-color: #FBFBFB;
+          }
+          .el-right {
+            margin: 10px 20px;
+            padding: 4px;
+            width: 80%;
           }
         }
       }
     }
+    .button-box {
+      display: inline-block;
+      align-items: center;
+      width: 100%;
+      text-align: center;
+      .el-button {
+        width: 246px;
+        line-height: 18px;
+      }
+    }
+  }
 
 </style>
