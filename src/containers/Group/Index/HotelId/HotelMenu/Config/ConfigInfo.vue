@@ -425,15 +425,7 @@
             <div>
               <span>是否支持分脏房？</span>
               <el-switch
-                v-model="supportRoomCard"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div>
-              <span>是否支持脏房入住？</span>
-              <el-switch
-                v-model="supportRoomCard"
+                v-model="isSupportVd"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -616,6 +608,7 @@
         freeDepositKeyword: '',
         needDepositKeyword: '',
         //脏房配置
+        isSupportVd: true,
         //酒店标签配置
         hotelfeatureDesc: ['']
       }
