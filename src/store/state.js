@@ -18,5 +18,6 @@ module.exports = {
       content: ''
     }
   },
-  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "获取中"}')
+  userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "获取中"}'),
+  configData: ''
 }

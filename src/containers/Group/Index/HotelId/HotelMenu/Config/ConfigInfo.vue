@@ -1026,114 +1026,79 @@
           onsuccess: body => {
             if(tool.isNotBlank(body.data)) {
               this.config = body.data;
-              
-
-        //       //PMS配置
-        // PMSBrandList: ['绿云', '捷信达', '别样红', '住哲'],
-        // PMSBrand: '',
-        // PMSCode: '',
-        // hotelService: '',
-        // billService: '',
-        // CRMService: '',
-        // orderService: '',
-        // securityService: '',
-        // PMSUserName: '',
-        // PMSPassword: '',
-        // cid: '',
-        // key: '',
-        // datakey: '',
-        // // 旅业配置
-        // lvyeTypeList: [{id: 'LOCAL', name: '本地'}, {id: 'CLOUD', name: '云端'}],
-        // lvyeType: '',
-        // policeId: '',
-        // policeType: '',
-        // policeParam: '',
-        // //门锁配置，暂无
-        // //人脸识别配置
-        // faceinPassValue: 70,
-        // faceinRejectValue: 70,
-        // //微信支付配置
-        // wechatPayAppId: '',
-        // mchId: '',
-        // mchApiKey: '',
-        // payCode: '',
-        // refundCode: '',
-        // //微信生态酒店配置
-        // wxHotelId: '',
-        // //小程序配置
-        // appId: '',
-        // appSecret: '',
-        // originalId: '',
-        // appName: '',
-        // //电子签名
-        // enabledSign: false,
-        // //电话取消订单  暂无
-        // phoneCancel_unknown: false,
-        // phoneCancelTime_unknown: false,
-        // phoneCancelTimeList_unknown: ['12:00','12:30','13:00',
-        // '13:30','14:00','14:30','15:00','15:30',
-        // '16:00','16:30','17:00','17:30','18:00',
-        // '18:30','19:00','19:30','20:00','20:30',
-        // '21:00','21:30','22:00','22:30','23:00',
-        // '23:30','24:00'],
-        // //发票配置
-        // enabledInvoice: true,
-        // invoiceName: [''],
-        // //预登记短信配置
-        // enabledPreCheckinSms: false,
-        // //到店支付配置
-        // enabledDelayedPayment: true,
-        // //自动退房
-        // enableAutoCheckout: false,
-        // //自动退款
-        // enabledAutoRefund: true,
-        // //无证入住
-        // enabledPreCheckin: true,
-        // //门卡配置
-        // supportRoomCard: true,
-        // //押金配置
-        // cashPledgeType: '',
-        // cashPledgeTypeList: [
-        //   {name: '无押金', value: 'none_cash_pledge'},
-        //   {name: '固定押金', value: 'fixed_cash_pledge'},
-        //   {name: '首晚房费', value: 'first_day_of_room_price'},
-        //   {name: '最大系数', value: 'multiple_of_cash_pledge'}],
-        // fixedCashPledge: '',
-        // multipleOfCashPledge: '',
-        // roundUpToInteger: false,
-        // hasDayOfIncidentals: false,
-        // dayOfIncidentals: '',
-        // //早餐券配置
-        // breakfastStemFrom: 'MANKE',
-        // breakfastStemFromList: [
-        //   {name: '无早', value: 'NONE'},
-        //   {name: '同步PMS早餐券', value: 'PMS'},
-        //   {name: '漫客平台定义,人/张', value: 'MANKE'}],
-        // //可选房数量
-        // maxAllowRoomcount: '10',
-        // //PMS同步频率
-        // syncSpaceTime: '30',
-        // syncSpaceTimeList: [
-        //   {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
-        //   {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
-        //   {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
-        // //自动预付款确认
-        // prepayKeyword: '',
-        // prepayExclusionKeyword: '',
-        // postpayKeyword: '',
-        // postpayExclusionKeyword: '',
-        // freeDepositKeyword: '',
-        // needDepositKeyword: '',
-        // //脏房配置
-        // isSupportVd: true,
-        // //酒店标签配置
-        // hotelfeatureDesc: ['']
-
+              //PMS配置
+              // 旅业配置
+              this.lvyeType = body.data.lvye_report_type;
+              this.policeId = body.data.hotel_ga_id;
+              this.policeType = body.data.police_type;
+              this.policeParam = body.data.police_param;
+              //门锁配置，暂无
+              //人脸识别配置
+              this.faceinPassValue = +body.data.facein_pass_value;
+              this.faceinRejectValue = +body.data.facein_reject_value;              
+              //微信支付配置
+              this.wechatPayAppId = body.data.miniapp_config.app_id;
+              this.mchId = body.data.miniapp_config.mch_id;                  
+              this.mchApiKey = body.data.miniapp_config.mch_api_key;                  
+              this.payCode = body.data.pay_code;                  
+              this.refundCode = body.data.refund_code;
+              //微信生态酒店配置
+              this.wxHotelId = body.data.wx_hotel_id;
+              //小程序配置
+              this.appId = body.data.app_id;
+              this.appSecret = body.data.app_secret;
+              this.originalId = body.data.original_id;
+              this.appName = body.data.app_name;
+              //电子签名
+              this.enabledSign = body.data.enabled_sign == 'true' ? true : false;
+              //电话取消订单  暂无
+              //发票配置
+              this.enabledInvoice = body.data.enabled_invoice == 'true' ? true : false;
+              this.invoiceName = body.data.invoice_name;
+              //预登记短信配置
+              this.enabledPreCheckinSms = body.data.enabled_pre_checkin_sms == 'true' ? true : false;
+              //到店支付配置
+              this.enabledDelayedPayment = body.data.enabled_delayed_payment == 'true' ? true : false;
+              //自动退房
+              this.enableAutoCheckout = body.data.enable_auto_checkout == 'true' ? true : false;
+              //自动退款
+              this.enabledAutoRefund = body.data.enabled_auto_refund == 'true' ? true : false;
+              //无证入住
+              this.enabledPreCheckin = body.data.enabled_pre_checkin == 'true' ? true : false;
+              //门卡配置
+              this.supportRoomCard = body.data.support_room_card == 'true' ? true : false;
+              //押金配置
+              this.cashPledgeType = body.data.cash_pledge_config.cash_pledge_type;
+              this.fixedCashPledge = +body.data.cash_pledge_config.fixed_cash_pledge;
+              this.multipleOfCashPledge = +body.data.cash_pledge_config.multiple_of_cash_pledge;
+              this.roundUpToInteger = body.data.cash_pledge_config.round_up_to_integer;
+              this.hasDayOfIncidentals = body.data.cash_pledge_config.has_day_of_incidentals;
+              this.dayOfIncidentals = +body.data.cash_pledge_config.day_of_incidentals;
+              //早餐券配置
+              this.breakfastStemFrom = body.data.breakfast_stem_from;
+              //可选房数量
+              this.maxAllowRoomcount = body.data.max_allow_roomcount;
+              //PMS同步频率
+              this.syncSpaceTime = body.data.sync_space_time;
+              //自动预付款确认
+              this.prepayKeyword = body.data.prepay_keyword;
+              this.prepayExclusionKeyword = body.data.prepay_exclusion_keyword;
+              this.postpayKeyword = body.data.postpay_keyword;
+              this.postpayExclusionKeyword = body.data.postpay_exclusion_keyword;
+              this.freeDepositKeyword = body.data.free_deposit_keyword;
+              this.needDepositKeyword = body.data.need_deposit_keyword;
+              //脏房配置
+              this.isSupportVd = body.data.is_support_vd == '1' ? true : false;
+              //酒店标签配置
+              this.hotelfeatureDesc = body.data.hotelfeature_desc;
 
             }
           }
         })
-      }
+      },
+    },
+    mounted() {
+      this.getConfigs()
     }
   }
 </script>

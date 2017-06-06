@@ -4,6 +4,7 @@ module.exports = {
       url: `/hotel/${param.hotelId}/config`,
       method:'GET',
       onSuccess: body => {
+        ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -17,6 +18,7 @@ module.exports = {
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

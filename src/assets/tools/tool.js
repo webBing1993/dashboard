@@ -8,11 +8,17 @@ class Tool {
     }
     //为空
     isBlank(val) {
-        if (typeof(val) == "undefined" || val == null || val == "") {
+        if (typeof(val) == "undefined" || val == null || val == "")
             return true;
-        }
-            return false;
-        }
+        return false;
+    }
+    //是空对象
+    isEmptyObject(obj) {
+        for (let key in obj) {
+            return false
+        };
+        return true
+    }
 }
 
 export default new Tool()
