@@ -18,7 +18,7 @@
         <td>{{ obj.code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
-        <td class="pointer">{{ obj.brand_name }}</td>
+        <td>{{ obj.brand_name }}</td>
         <td class="pointer-icon"><span
           :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status
           }}
@@ -161,14 +161,10 @@
     color: #39C240 !important;
   }
 
-  .pointer-icon {
-    position: relative;
-  }
-
   .circle-green, .circle-red, .circle-yellow {
-    position: absolute;
-    top: 15px;
-    left: 1px;
+    position: relative;
+    top: 2px;
+    left: -4px;
     display: inline-block;
     width: 10px;
     height: 10px;

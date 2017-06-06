@@ -2,10 +2,14 @@
   <div>
     <div class="module-wrapper">
       <div class="content">
-        <h3>数据源</h3>
-        <p>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</p>
-        <el-button type="success">PMS同步数据</el-button>
-        <el-button type="success">添加房间(非对接PMS)</el-button>
+        <span>数据源</span>
+        <div class="header">
+          <p>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</p>
+          <div>
+            <el-button type="success">PMS同步数据</el-button>
+            <el-button type="success">添加房间(非对接PMS)</el-button>
+          </div>
+        </div>
         <table-room :list="list" @edit="edit"></table-room>
         <el-pagination
           v-show="total > size"
@@ -18,13 +22,13 @@
           :total="total">
         </el-pagination>
       </div>
-      <el-dialog 
-        title="房间标签配置" 
-        :visible.sync="showDialog" 
+      <el-dialog
+        title="房间标签配置"
+        :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="false"
-        >
+      >
         <div class="dialog-content">
           <el-checkbox-group v-model="roomfeatureDesc">
             <el-checkbox v-for="(obj, index) of roomfeatureDesc" :label="obj" :key="index"></el-checkbox>
@@ -117,3 +121,30 @@
     }
   }
 </script>
+
+<style scoped lang="less">
+  .content {
+    font-size: 16px;
+    color: #4A4A4A;
+    font-weight: normal;
+    padding: 8px 24px;
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 14px;
+      .el-button {
+        line-height: 18px;
+        min-width: 140px;
+      }
+    }
+  }
+
+  .el-dialog {
+    .el-dialog__header {
+      /*padding: 20px 20px 0;*/
+      border-bottom: solid 1px red;
+    }
+  }
+</style>

@@ -1,43 +1,102 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <a @click="goSummary">查看配置汇总</a>
-      <div>
-        <button @click="dialogConfig(enumShowType.PMS)">pms对接配置</button>
-        <button @click="dialogConfig(enumShowType.lvyeReportType)">旅业系统配置</button>
-        <button @click="dialogConfig(enumShowType.doorLock_unknown)">门锁配置</button>
-        <button @click="dialogConfig(enumShowType.facein)">人脸识别配置</button>
-        <button @click="dialogConfig(enumShowType.wechatPay)">微信支付配置</button>
-        <button @click="dialogConfig(enumShowType.wxHotel)">生态酒店配置</button>
-        <button @click="dialogConfig(enumShowType.miniApp)">小程序配置</button>
+      <div class="content-title">
+        <span>系统配置</span>
+        <a @click="goSummary">查看配置汇总</a>
       </div>
-      <div>
-        <button @click="dialogConfig(enumShowType.sign)">电子签名</button>
-        <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">电话取消订单</button>
-        <button @click="dialogConfig(enumShowType.invoice)">发票申请</button>
-        <button @click="dialogConfig(enumShowType.preCheckinSms)">预登记</button>
-        <button @click="dialogConfig(enumShowType.delayedPayment)">到店支付</button>
-        <button @click="dialogConfig(enumShowType.autoCheckout)">自动退房</button>
-        <button @click="dialogConfig(enumShowType.autoRefund)">自动退款</button>
-        <button @click="dialogConfig(enumShowType.preCheckin)">无证入住</button>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.PMS)">pms对接配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.lvyeReportType)">旅业系统配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.doorLock_unknown)">门锁配置</button>
+        </el-col>
+
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.facein)">人脸识别配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.wechatPay)">微信支付配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.wxHotel)">生态酒店配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.miniApp)">小程序配置</button>
+        </el-col>
+      </el-row>
+
+      <div class="content-title">
+        <span>业务配置 <i>（选择酒店开启业务）</i></span>
       </div>
-      <div>
-        <button @click="dialogConfig(enumShowType.roomCard)">房卡配置</button>
-        <button @click="dialogConfig(enumShowType.cashPledge)">押金配置</button>
-        <button @click="dialogConfig(enumShowType.breakfastStemFrom)">早餐券配置</button>
-        <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">可选房数量</button>
-        <button @click="dialogConfig(enumShowType.syncSpaceTime)">PMS同步频率</button>
-        <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">自动确认预付款</button>
-        <button @click="dialogConfig(enumShowType.supportVd)">脏房配置</button>
-        <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">房间标签配置</button>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.sign)">电子签名</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">电话取消订单</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.invoice)">发票申请</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.preCheckinSms)">预登记</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.delayedPayment)">到店支付</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoCheckout)">自动退房</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoRefund)">自动退款</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.preCheckin)">无证入住</button>
+        </el-col>
+      </el-row>
+
+      <div class="content-title">
+        <span>酒店配置 <i>（需要配置以下所有项目）</i></span>
       </div>
-      <el-dialog 
-        :title="typeTitles[showType]" 
-        :visible.sync="showDialog" 
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.roomCard)">房卡配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.cashPledge)">押金配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.breakfastStemFrom)">早餐券配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">可选房数量</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.syncSpaceTime)">PMS同步频率</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">自动确认预付款</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.supportVd)">脏房配置</button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">房间标签配置</button>
+        </el-col>
+      </el-row>
+
+      <el-dialog
+        :title="typeTitles[showType]"
+        :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="false"
-        >
+      >
         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
             <div>
@@ -220,7 +279,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.phoneCancel_unknown">
-             <div>
+            <div>
               <span>是否支持电话取消订单？</span>
               <el-switch
                 v-model="phoneCancel_unknown"
@@ -452,6 +511,7 @@
 </template>
 
 <script>
+  import ElRow from "element-ui/packages/row/src/row";
 
   const enumShowType = {
     init: 0,
@@ -509,6 +569,7 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tool from '@/assets/tools/tool.js'
   export default {
+    components: {ElRow},
     name: 'ConfigInfo',
     data() {
       return {
@@ -559,12 +620,12 @@
         //电话取消订单  暂无
         phoneCancel_unknown: false,
         phoneCancelTime_unknown: false,
-        phoneCancelTimeList_unknown: ['12:00','12:30','13:00',
-        '13:30','14:00','14:30','15:00','15:30',
-        '16:00','16:30','17:00','17:30','18:00',
-        '18:30','19:00','19:30','20:00','20:30',
-        '21:00','21:30','22:00','22:30','23:00',
-        '23:30','24:00'],
+        phoneCancelTimeList_unknown: ['12:00', '12:30', '13:00',
+          '13:30', '14:00', '14:30', '15:00', '15:30',
+          '16:00', '16:30', '17:00', '17:30', '18:00',
+          '18:30', '19:00', '19:30', '20:00', '20:30',
+          '21:00', '21:30', '22:00', '22:30', '23:00',
+          '23:30', '24:00'],
         //发票配置
         enabledInvoice: true,
         invoiceName: [''],
@@ -1103,8 +1164,36 @@
   }
 </script>
 <style scoped lang="less">
-  .el-right {
-    width: 300px;
-    margin-left: 16px;
+  .module-wrapper {
+    padding: 24px 24px 24px 21px;
+    .content-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 16px;
+      margin-bottom: 18px;
+      i {
+        font-size: 12px;
+        font-style: normal;
+      }
+      a {
+        color: #39C240;
+        cursor: pointer;
+      }
+    }
+    .el-row {
+      .el-col-8 {
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        height: 90px;
+      }
+    }
+    .el-right {
+      width: 300px;
+      margin-left: 16px;
+    }
   }
+
 </style>

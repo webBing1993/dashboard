@@ -133,7 +133,7 @@
         margin-top: 30px;
         margin-bottom: 13px;
 
-        input {
+        .el-input {
           width: 287px;
           line-height: 40px;
           font-size: 14px;
