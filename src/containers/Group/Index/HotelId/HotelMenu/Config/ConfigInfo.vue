@@ -218,13 +218,13 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">
+          <button @click="dialogConfig(enumShowType.roomTags)">
             <img class="images" src="../../../../../../assets/images/标签.png" alt="a">
             <div class="item-text">
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-          </button>、
+          </button>
         </el-col>
       </el-row>
 
@@ -341,6 +341,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.doorLock_unknown">
+            <h1>暂无</h1>
           </div>
           <div v-if="showType === enumShowType.facein">
             <div>
@@ -429,7 +430,8 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.phoneCancel_unknown">
-            <div>
+            <h1>暂无</h1>
+            <!--<div>
               <span>是否支持电话取消订单？</span>
               <el-switch
                 v-model="phoneCancel_unknown"
@@ -447,7 +449,7 @@
                   :value="obj">
                 </el-option>
               </el-select>
-            </div>
+            </div>-->
           </div>
           <div v-if="showType === enumShowType.invoice">
             <div>
@@ -1175,7 +1177,7 @@
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
             break;
           case enumShowType.roomTags:
-            this.roomTags = [...this.configData.room_tags];
+            this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           default:
             
@@ -1398,7 +1400,7 @@
               //脏房配置
               this.isSupportVd = body.data.is_support_vd == '1' ? true : false;
               //酒店标签配置
-              this.roomTags = [...body.data.room_tags];
+              this.roomTags = body.data.room_tags.length > 0 ? [...body.data.room_tags] : [''];
 
             }
           }

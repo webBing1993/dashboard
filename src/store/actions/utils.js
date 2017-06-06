@@ -77,7 +77,7 @@ module.exports = {
 
     //url, url params
     let urlStr = param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url;
-    let url = new URL('http://localhost:8080' + urlStr);
+    let url = new URL(`${window.location.protocol}//${window.location.host}${urlStr}`);
     // let url = new URL(param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url);
     if (param.params) {
       Object.keys(param.params).forEach(key => url.searchParams.append(key, param.params[key])) 
@@ -106,7 +106,7 @@ module.exports = {
     try {
       ctx.commit('LOADING')
       let response = await _fetchRequest(fetch(request), param.timeout || 5000);
-      console.log(response)
+      // console.log(response)
 
       if (response.ok) {
         param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null

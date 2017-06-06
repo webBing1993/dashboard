@@ -129,8 +129,8 @@
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
-            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
+            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
 
             this.hotelList = body.data;
           }

@@ -45,6 +45,7 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import tool from '@/assets/tools/tool.js';
   export default {
     name: 'Room',
     data() {
@@ -57,10 +58,16 @@
         roomfeatureDesc: []
       }
     },
+    computed: {
+      ...mapState([
+        'configData'
+      ]),
+    },
     methods: {
       ...mapActions([
         'getRoomList',
         'modifyRoom',
+        'getConfig'
       ]),
       edit(obj) {
         this.roomfeatureDesc = obj.roomfeature_desc;
@@ -82,8 +89,8 @@
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            headers.map['x-current-page'] ? this.page = +headers.map['x-current-page'][0] : null;
-            headers.map['x-total'] ? this.total = +headers.map['x-total'][0] : null;
+            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
             this.list = body.data;
           }
         })
@@ -102,10 +109,21 @@
             this.showDialog = false;
           }
         })
+      },
+      getConfigs() {
+        this.getConfig({
+            hotelId: this.$route.params.hotelid,
+            onsuccess: body => {
+
+            }
+        })
       }
     },
     mounted() {
       this.getList();
+      if (tool.isBlank(this.configData)) {
+        this.getConfigs();
+      }
     }
   }
 </script>
