@@ -1,7 +1,8 @@
 module.exports = {
   getConfig(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotel/${param.hotelId}/config`,
+      // url: `/hotel/${param.hotelId}/config`,
+      url: `/config`,
       method:'GET',
       onSuccess: body => {
         ctx.commit('CONFIGDATA', body.data)

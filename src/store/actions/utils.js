@@ -61,29 +61,88 @@ module.exports = {
     let o = {}
     decodeURIComponent(window.location.search).split('&').forEach(i => i ? o[i.split(/=/)[0].replace(/\?/, '')] = i.split(/=/)[1] : null)
   },
-  // fatch: (ctx, param) => {
-  //   let headers = new Headers({
-  //     'Content-Type': 'application/json;charset=UTF-8',
-  //     ...param.headers
-  //   });
-  //   if (!param.url.match(/register/) && !param.url.match(/login/) ) {
-  //     headers.append('Session', sessionStorage.getItem('session_id'));
-  //   }
+  _fetch: async (ctx, param) => {
+    ctx.commit('LOADING', 1);
 
-  //   ctx.commit('LOADING', 1);
+    //headers
+    let headers = new Headers({
+      ...param.headers
+    });
+    if (!headers.has("Content-Type")) {
+      headers.append('Content-Type', 'application/json;charset=UTF-8'); //默认为json
+    }
+    if (!param.url.match(/register/) && !param.url.match(/login/) ) {
+      headers.append('Session', sessionStorage.getItem('session_id'));
+    }
 
-  //   let requestParam = {
-  //     method: param.method || "GET",
-  //     headers: headers,
-  //     body: JSON.stringify(param.body) || null,
-  //     mode: 'cors',
-  //     credentials: 'include',
-  //     cache: 'default',
+    //url, url params
+    let urlStr = param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url;
+    let url = new URL('http://localhost:8080' + urlStr);
+    // let url = new URL(param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url);
+    if (param.params) {
+      Object.keys(param.params).forEach(key => url.searchParams.append(key, param.params[key])) 
+    }
 
-  //   }
-  // },
+    let body;
+    if (param.formData) {
+      body = Object.keys(param.formData).map((key) => {
+        return encodeURIComponent(key) + '=' + encodeURIComponent(param.formData[key]);
+      }).join('&');
+    } else if (param.body) {
+      body = JSON.stringify(param.body) || null;
+    }
+    
+    let requestParam = {
+      method: param.method || "GET",
+      headers: headers,
+      body: body,
+      mode: 'cors',
+      // credentials: 'include',
+      // cache: 'default'
+    }
 
+    let request = new Request(url, requestParam);
 
+    try {
+      ctx.commit('LOADING')
+      let response = await _fetchRequest(fetch(request), param.timeout || 5000);
+      console.log(response)
+
+      if (response.ok) {
+        param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null
+        if (+response.status === 200) {
+          let data = await response.json();
+          param.onSuccess ? param.onSuccess(data, response.headers) : null
+        } else if (+response.status === 204) {
+          param.onSuccess ? param.onSuccess(null, response.headers) : null
+        }
+      } else {
+        if (+response.status === 401) {
+          ctx.dispatch('showalert', {
+            code: +response.status,
+            content: '登录失效!'
+          });
+        } else if (+response.status === 400) {
+          ctx.dispatch('showtoast', {text: 'Bad Request', type: 'error'});
+        } else if (+response.status === 404) {
+          ctx.dispatch('showtoast', {text: 'Not Found', type: 'error'});
+        } else if (+response.status === 500) {
+          ctx.dispatch('showtoast', {text: 'Internal Server Error', type: 'error'});
+        } else {
+          ctx.dispatch('showtoast', {text: 'Request Error', type: 'error'});
+        }
+        if (param.url.match(/getInfo/) && param.onFail) {
+          param.onFail({name: '获取失败'})
+        }
+      }
+    } catch(e) {
+      ctx.commit('LOADING')
+      /**按照 MDN 的 说法 ，fetch 只有在遇到网络错误的时候才会 reject 这个 promise，比如用户断网或请求地址的域名无法解析等。
+       * 只要服务器能够返回 HTTP 响应（甚至只是 CORS preflight 的 OPTIONS 响应），promise 一定是 resolved 的状态。 */
+      console.log("Oops, error", e);
+      ctx.dispatch('showtoast', {text: 'Request Error', type: 'error'});
+    }
+  },
   resource: (ctx, param) => {
     let headers = param.headers || {};
     if (!param.url.match(/register/) && !param.url.match(/login/) ) {
@@ -138,3 +197,25 @@ module.exports = {
     )
   }
 }
+function _fetchRequest(fetch_promise, timeout) {
+      let abort_fn = null;
+
+      //这是一个可以被reject的promise
+      let abort_promise = new Promise(function(resolve, reject) {
+             abort_fn = function() {
+                reject('abort promise');
+             };
+      });
+
+      //这里使用Promise.race，以最快 resolve 或 reject 的结果来传入后续绑定的回调
+       let abortable_promise = Promise.race([
+             fetch_promise,
+             abort_promise
+       ]);
+
+       setTimeout(function() {
+             abort_fn();
+        }, timeout);
+
+       return abortable_promise;
+  }
