@@ -224,7 +224,7 @@
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-          </button>
+          </button>、
         </el-col>
       </el-row>
 
@@ -296,6 +296,18 @@
               <div>
                 <span>数据加密密钥</span>
                 <el-input class="el-right" v-model="datakey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
+              </div>
+              <div>
+                <span>用户名</span>
+                <el-input class="el-right" v-model="PMSUserName" placeholder="请输入用户名"></el-input>
+              </div>
+              <div>
+                <span>密码</span>
+                <el-input class="el-right" v-model="PMSPassword" placeholder="请输入密码"></el-input>
+              </div>
+              <div>
+                <span>品牌ID</span>
+                <el-input class="el-right" v-model="PMSBranId" placeholder="请输入密码"></el-input>
               </div>
             </div>
           </div>
@@ -628,14 +640,14 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.hotelfeatureDesc">
+          <div v-if="showType === enumShowType.roomTags">
             <div>
               <span>房间标签</span>
-              <div v-for="(obj, index) of hotelfeatureDesc">
-                <el-input class="el-right" v-model="hotelfeatureDesc[index]" placeholder="请输入房间标签"></el-input>
+              <div v-for="(obj, index) of roomTags">
+                <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
               </div>
-              <button @click="addHotelfeatureDesc">+++++</button>
-              <button v-show="hotelfeatureDesc.length > 1" @click="subtractHotelfeatureDesc">-----</button>
+              <button @click="addRoomTags">+++++</button>
+              <button v-show="roomTags.length > 1" @click="subtractRoomTags">-----</button>
             </div>
           </div>
         </div>
@@ -675,7 +687,7 @@
     syncSpaceTime: 20,  //PMS同步频率配置
     autoConfirmPrePay: 21,  //自动确认预付款配置
     supportVd: 22,  //脏房配置
-    hotelfeatureDesc: 23,  //房间标签配置
+    roomTags: 23,  //房间标签配置
   }
 
   const typeTitles = [' ',
@@ -711,7 +723,6 @@
     name: 'ConfigInfo',
     data() {
       return {
-        config: '',
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -730,6 +741,7 @@
         cid: '',
         key: '',
         datakey: '',
+        PMSBranId: '',
         // 旅业配置
         lvyeTypeList: [{id: 'LOCAL', name: '本地'}, {id: 'CLOUD', name: '云端'}],
         lvyeType: '',
@@ -815,15 +827,18 @@
         //脏房配置
         isSupportVd: true,
         //酒店标签配置
-        hotelfeatureDesc: ['']
+        roomTags: ['']
       }
     },
     computed: {
+      ...mapState([
+        'configData'
+      ]),
       invoiceNameList() {
         return this.invoiceName.filter(v => v != '');
       },
-      hotelfeatureDescList() {
-        return this.hotelfeatureDesc.filter(v => v != '');
+      roomTagsList() {
+        return this.roomTags.filter(v => v != '');
       },
       //无数个validate
       validatePMS() {
@@ -955,8 +970,8 @@
       validatesupportVd() {
         return true;
       },
-      validatehotelfeatureDesc() {
-        if (this.hotelfeatureDescList.length > 0)
+      validateroomTags() {
+        if (this.roomTagsList.length > 0)
           return true;
         return false;
       },
@@ -1029,8 +1044,8 @@
           case enumShowType.supportVd:
             result = this.validatesupportVd;
             break;
-          case enumShowType.hotelfeatureDesc:
-            result = this.validatehotelfeatureDesc;
+          case enumShowType.roomTags: 
+            result = this.validateroomTags;
             break;
           default:
             result = false;
@@ -1042,11 +1057,11 @@
       ...mapActions([
         'getConfig',
         'patchConfig',
-        'showtoast'
+        'showtoast',
+        'goto'
       ]),
       goSummary() {
-        //这里需要判断是否有group_id,再决定跳哪个路由
-        this.$router.push({
+        this.goto({
           name: 'ConfigSummary'
         })
       },
@@ -1061,15 +1076,110 @@
         if (this.invoiceName.length == 1) return;
         this.invoiceName.pop();
       },
-      addHotelfeatureDesc() {
-        this.hotelfeatureDesc.push('');
+      addRoomTags() {
+        this.roomTags.push('');
       },
-      subtractHotelfeatureDesc() {
-        if (this.hotelfeatureDesc.length == 1) return;
-        this.hotelfeatureDesc.pop();
+      subtractRoomTags() {
+        if (this.roomTags.length == 1) return;
+        this.roomTags.pop();
       },
       hideDialog() {
         this.showDialog = false;
+        switch (this.showType) {
+          case enumShowType.PMS: 
+            
+            break;
+          case enumShowType.lvyeReportType: 
+            this.lvyeType = this.configData.lvye_report_type;
+            this.policeId = this.configData.hotel_ga_id;
+            this.policeType = this.configData.police_type;
+            this.policeParam = JSON.stringify(this.configData.police_param);
+            break;
+          case enumShowType.doorLock_unknown: 
+            
+            break;
+          case enumShowType.facein:
+            this.faceinPassValue = +this.configData.facein_pass_value;
+            this.faceinRejectValue = +this.configData.facein_reject_value;
+            break;
+          case enumShowType.wechatPay: 
+            this.wechatPayAppId = this.configData.miniapp_config.app_id;
+            this.mchId = this.configData.miniapp_config.mch_id;                  
+            this.mchApiKey = this.configData.miniapp_config.mch_api_key;                  
+            this.payCode = this.configData.pay_code;                  
+            this.refundCode = this.configData.refund_code;
+            break;
+          case enumShowType.wxHotel: 
+            this.wxHotelId = this.configData.wx_hotel_id;
+            break;
+          case enumShowType.miniApp:
+            this.appId = this.configData.app_id;
+            this.appSecret = this.configData.app_secret;
+            this.originalId = this.configData.original_id;
+            this.appName = this.configData.app_name;
+            break;
+          case enumShowType.sign: 
+            this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
+            break;
+          case enumShowType.phoneCancel_unknown: 
+            
+            break;
+          case enumShowType.invoice: 
+            this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
+            this.invoiceName = [...this.configData.invoice_name];
+            break;
+          case enumShowType.preCheckinSms: 
+            this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
+            break;
+          case enumShowType.delayedPayment: 
+            this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
+            break;
+          case enumShowType.autoCheckout: 
+            this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
+            break;
+          case enumShowType.autoRefund: 
+            this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
+            break;
+          case enumShowType.preCheckin: 
+            this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
+            break;
+          case enumShowType.roomCard: 
+            this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
+            break;
+          case enumShowType.cashPledge: 
+            this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
+            this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
+            this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
+            this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
+            break;
+          case enumShowType.breakfastStemFrom: 
+            this.breakfastStemFrom = this.configData.breakfast_stem_from;
+            break;
+          case enumShowType.maxAllowRoomcount: 
+            this.maxAllowRoomcount = this.configData.max_allow_roomcount;
+            break;
+          case enumShowType.syncSpaceTime: 
+            this.syncSpaceTime = this.configData.sync_space_time;
+            break;
+          case enumShowType.autoConfirmPrePay:
+            this.prepayKeyword = this.configData.prepay_keyword;
+            this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
+            this.postpayKeyword = this.configData.postpay_keyword;
+            this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
+            this.freeDepositKeyword = this.configData.free_deposit_keyword;
+            this.needDepositKeyword = this.configData.need_deposit_keyword;
+            break;
+          case enumShowType.supportVd: 
+            this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+            break;
+          case enumShowType.roomTags:
+            this.roomTags = [...this.configData.room_tags];
+            break;
+          default:
+            
+        }
       },
       submitDialog() {
         let data;
@@ -1202,9 +1312,9 @@
               is_support_vd: this.isSupportVd ? '1' : '0'
             }
             break;
-          case enumShowType.hotelfeatureDesc:
+          case enumShowType.roomTags: 
             data = {
-              hotelfeature_desc: this.hotelfeatureDescList
+              room_tags: this.roomTagsList
             }
             break;
           default:
@@ -1223,14 +1333,13 @@
         this.getConfig({
           hotelId: this.$route.params.hotelid,
           onsuccess: body => {
-            if (tool.isNotBlank(body.data)) {
-              this.config = body.data;
+            if(tool.isNotBlank(body.data)) {
               //PMS配置
               // 旅业配置
               this.lvyeType = body.data.lvye_report_type;
               this.policeId = body.data.hotel_ga_id;
               this.policeType = body.data.police_type;
-              this.policeParam = body.data.police_param;
+              this.policeParam = JSON.stringify(body.data.police_param);
               //门锁配置，暂无
               //人脸识别配置
               this.faceinPassValue = +body.data.facein_pass_value;
@@ -1253,7 +1362,7 @@
               //电话取消订单  暂无
               //发票配置
               this.enabledInvoice = body.data.enabled_invoice == 'true' ? true : false;
-              this.invoiceName = body.data.invoice_name;
+              this.invoiceName = [...body.data.invoice_name];
               //预登记短信配置
               this.enabledPreCheckinSms = body.data.enabled_pre_checkin_sms == 'true' ? true : false;
               //到店支付配置
@@ -1289,7 +1398,7 @@
               //脏房配置
               this.isSupportVd = body.data.is_support_vd == '1' ? true : false;
               //酒店标签配置
-              this.hotelfeatureDesc = body.data.hotelfeature_desc;
+              this.roomTags = [...body.data.room_tags];
 
             }
           }

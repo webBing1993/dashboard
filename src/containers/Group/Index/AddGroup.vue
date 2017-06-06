@@ -19,7 +19,7 @@
             </div>
             <div class="content-msg">
               <span>企业官网</span>
-              <el-input class="el-right" v-model="groupWeb" placeholder="请输入企业官网"></el-input>
+              <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网"></el-input>
             </div>
           </div>
         </div>
@@ -28,15 +28,15 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务"></el-input>
+              <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话"></el-input>
             </div>
           </div>
         </div>

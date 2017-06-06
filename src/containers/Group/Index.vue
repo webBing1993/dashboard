@@ -70,10 +70,11 @@
     methods: {
       ...mapActions([
         'getGroup',
-        'getHotel'
+        'getHotel',
+        'goto'
       ]),
       breadGo(path) {
-        this.$router.push(path)
+        this.goto(path)
       },
       getGroupInfo() {
         this.getGroup({

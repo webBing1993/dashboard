@@ -38,6 +38,15 @@ module.exports = {
           // '^/virgo': ''
         }
       },
+      '/virgo': {
+        target: 'https://intg.fortrun.cn/',
+        // target: 'https://qa.fortrun.cn/',
+        // target: 'https://gem.fortrun.cn/',
+        changeOrigin: true,
+        pathRewrite: {
+          // '^/virgo': ''
+        }
+      },
       '/libra': {
         target: 'https://intg.fortrun.cn/',
         // target: 'https://qa.fortrun.cn/',

@@ -100,13 +100,14 @@
         'getHotelList',
         'getBrandList',
         'getGroupList',
-        'showtoast'
+        'showtoast',
+        'goto'
       ]),
       regist() {
         this.showDialog = true;
       },
       chooseGroup() {
-        this.$router.push({
+        this.goto({
           name: 'AddHotel',
           params: {
             id: this.groupId
@@ -114,7 +115,7 @@
         })
       },
       detail(obj) {
-        this.$router.push({
+        this.goto({
           name: 'HotelInfo',
           params: {
             id: obj.group_id,
@@ -124,7 +125,7 @@
       },
       group(obj) {
         if (obj.group_id == '') return;
-        this.$router.push({
+        this.goto({
           name: 'GroupInfo',
           params: {
             id: obj.group_id
@@ -132,7 +133,7 @@
         })
       },
       config(obj) {
-        this.$router.push({
+        this.goto({
           name: 'Config',
           params: {
             id: obj.group_id,
