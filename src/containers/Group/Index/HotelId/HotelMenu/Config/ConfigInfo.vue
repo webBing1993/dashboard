@@ -7,26 +7,68 @@
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.PMS)">pms对接配置</button>
+          <button @click="dialogConfig(enumShowType.PMS)">
+            <img class="images" src="../../../../../../assets/images/系统.png" alt="a">
+            <div class="item-text">
+              <span>pms对接配置</span>
+              <p>对接PMS的酒店必须开通该配置。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.lvyeReportType)">旅业系统配置</button>
+          <button @click="dialogConfig(enumShowType.lvyeReportType)">
+            <img class="images" src="../../../../../../assets/images/公安.png" alt="a">
+            <div class="item-text">
+              <span>旅业系统配置</span>
+              <p>必须开通该配置。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.doorLock_unknown)">门锁配置</button>
-        </el-col>
-
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.facein)">人脸识别配置</button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.wechatPay)">微信支付配置</button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.wxHotel)">生态酒店配置</button>
+          <button @click="dialogConfig(enumShowType.doorLock_unknown)">
+            <img class="images" src="../../../../../../assets/images/门锁.png" alt="a">
+            <div class="item-text">
+              <span>门锁配置</span>
+              <p>必须开通该配置。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.miniApp)">小程序配置</button>
+          <button @click="dialogConfig(enumShowType.facein)">
+            <img class="images" src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
+            <div class="item-text">
+              <span>人脸识别配置</span>
+              <p>必须开通该配置。</p>
+            </div>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.wechatPay)">
+            <img class="images" src="../../../../../../assets/images/微信支付.png" alt="a">
+            <div class="item-text">
+              <span>微信支付配置</span>
+              <p>配置微信支付信息。</p>
+            </div>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.wxHotel)">
+            <img class="images" src="../../../../../../assets/images/cancel.png" alt="a">
+            <div class="item-text">
+              <span>生态酒店配置</span>
+              <p>必须开通该配置,身份识别、旅业上报
+                等接口需要用到。</p>
+            </div>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.miniApp)">
+            <img class="images" src="../../../../../../assets/images/小程序.png" alt="a">
+            <div class="item-text">
+              <span>小程序配置</span>
+              <p>关联小程序配置。</p>
+            </div>
+          </button>
         </el-col>
       </el-row>
 
@@ -35,28 +77,76 @@
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.sign)">电子签名</button>
+          <button @click="dialogConfig(enumShowType.sign)">
+            <img class="images" src="../../../../../../assets/images/签名.png" alt="a">
+            <div class="item-text">
+              <span>电子签名</span>
+              <p>客人是否需要在支付后签名。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">电话取消订单</button>
+          <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">
+            <img class="images" src="../../../../../../assets/images/cancel.png" alt="a">
+            <div class="item-text">
+              <span>电话取消订单</span>
+              <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.invoice)">发票申请</button>
+          <button @click="dialogConfig(enumShowType.invoice)">
+            <img class="images" src="../../../../../../assets/images/发票.png" alt="a">
+            <div class="item-text">
+              <span>发票申请</span>
+              <p>配置客人是否可以申请发票。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckinSms)">预登记</button>
+          <button @click="dialogConfig(enumShowType.preCheckinSms)">
+            <img class="images" src="../../../../../../assets/images/登记.png" alt="a">
+            <div class="item-text">
+              <span>预登记</span>
+              <p>配置客人是否可以预登记。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.delayedPayment)">到店支付</button>
+          <button @click="dialogConfig(enumShowType.delayedPayment)">
+            <img class="images" src="../../../../../../assets/images/到店.png" alt="a">
+            <div class="item-text">
+              <span>到店支付</span>
+              <p>开通后客人可以免支付完成预登记</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoCheckout)">自动退房</button>
+          <button @click="dialogConfig(enumShowType.autoCheckout)">
+            <img class="images" src="../../../../../../assets/images/退房.png" alt="a">
+            <div class="item-text">
+              <span>自动退房</span>
+              <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoRefund)">自动退款</button>
+          <button @click="dialogConfig(enumShowType.autoRefund)">
+            <img class="images" src="../../../../../../assets/images/退款.png" alt="a">
+            <div class="item-text">
+              <span>自动退款</span>
+              <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckin)">无证入住</button>
+          <button @click="dialogConfig(enumShowType.preCheckin)">
+            <img class="images" src="../../../../../../assets/images/认证.png" alt="a">
+            <div class="item-text">
+              <span>无证入住</span>
+              <p>酒店是否支持无证入住</p>
+            </div>
+          </button>
         </el-col>
       </el-row>
 
@@ -65,28 +155,76 @@
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.roomCard)">房卡配置</button>
+          <button @click="dialogConfig(enumShowType.roomCard)">
+            <img class="images" src="../../../../../../assets/images/卡.png" alt="a">
+            <div class="item-text">
+              <span>房卡配置</span>
+              <p>酒店是否支持写卡吐卡</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.cashPledge)">押金配置</button>
+          <button @click="dialogConfig(enumShowType.cashPledge)">
+            <img class="images" src="../../../../../../assets/images/押金.png" alt="a">
+            <div class="item-text">
+              <span>押金配置</span>
+              <p>配置酒店押金规则</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.breakfastStemFrom)">早餐券配置</button>
+          <button @click="dialogConfig(enumShowType.breakfastStemFrom)">
+            <img class="images" src="../../../../../../assets/images/卡券.png" alt="a">
+            <div class="item-text">
+              <span>早餐券配置</span>
+              <p>配置早餐券规则</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">可选房数量</button>
+          <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">
+            <img class="images" src="../../../../../../assets/images/列表.png" alt="a">
+            <div class="item-text">
+              <span>可选房数量</span>
+              <p>展示给用户看的最大房间数量</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.syncSpaceTime)">PMS同步频率</button>
+          <button @click="dialogConfig(enumShowType.syncSpaceTime)">
+            <img class="images" src="../../../../../../assets/images/同步.png" alt="a">
+            <div class="item-text">
+              <span>PMS同步频率</span>
+              <p>设置自动同步周期</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">自动确认预付款</button>
+          <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
+            <img class="images" src="../../../../../../assets/images/自动投标.png" alt="a">
+            <div class="item-text">
+              <span>自动确认预付款</span>
+              <p>配置预付款确认关键字</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.supportVd)">脏房配置</button>
+          <button @click="dialogConfig(enumShowType.supportVd)">
+            <img class="images" src="../../../../../../assets/images/打扫.png" alt="a">
+            <div class="item-text">
+              <span>脏房配置</span>
+              <p>配置酒店对脏房的态度</p>
+            </div>
+          </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">房间标签配置</button>
+          <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">
+            <img class="images" src="../../../../../../assets/images/标签.png" alt="a">
+            <div class="item-text">
+              <span>房间标签配置</span>
+              <p>配置酒店对脏房的态度</p>
+            </div>
+          </button>
         </el-col>
       </el-row>
 
@@ -541,31 +679,31 @@
   }
 
   const typeTitles = [' ',
-                      'PMS信息',
-                      '旅业系统配置',
-                      '门锁配置',
-                      '人脸识别配置',
-                      '微信支付配置',
-                      '微信生态酒店配置',
-                      '小程序配置',
-                      '电子签名配置',
-                      '电话取消订单配置',
-                      '发票配置',
-                      '预登记短信配置',
-                      '到店支付配置',
-                      '自动退房配置',
-                      '自动退款配置',
-                      '无证入住配置',
-                      '门卡配置',
-                      '押金配置',
-                      '早餐券配置',
-                      '最大房间数量配置',
-                      'PMS同步频率配置',
-                      '自动确认预付款配置',
-                      '脏房配置',
-                      '房间标签配置',
-                    ];
-  
+    'PMS信息',
+    '旅业系统配置',
+    '门锁配置',
+    '人脸识别配置',
+    '微信支付配置',
+    '微信生态酒店配置',
+    '小程序配置',
+    '电子签名配置',
+    '电话取消订单配置',
+    '发票配置',
+    '预登记短信配置',
+    '到店支付配置',
+    '自动退房配置',
+    '自动退款配置',
+    '无证入住配置',
+    '门卡配置',
+    '押金配置',
+    '早餐券配置',
+    '最大房间数量配置',
+    'PMS同步频率配置',
+    '自动确认预付款配置',
+    '脏房配置',
+    '房间标签配置',
+  ];
+
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tool from '@/assets/tools/tool.js'
   export default {
@@ -693,46 +831,46 @@
       },
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD') {
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType)) 
+          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType))
             return true;
-          return false; 
+          return false;
         } else if (this.lvyeType == 'LOCAL') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && tool.isNotBlank(this.policeParam)) {
             let flag = true;
             try {
               JSON.parse(this.policeParam);
-            } catch(e) {
+            } catch (e) {
               flag = false;
             }
             if (flag)
               return true;
             return false;
           }
-          return false; 
+          return false;
         } else {
           return false;
         }
       },
       validatedoorLock_unknown() {
-        
+
       },
       validatefacein() {
-        if (tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue)) 
+        if (tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue))
           return true;
         return false;
       },
       validatewechatPay() {
-        if (tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode)) 
+        if (tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode))
           return true;
         return false;
       },
       validatewxHotel() {
-        if (tool.isNotBlank(this.wxHotelId)) 
+        if (tool.isNotBlank(this.wxHotelId))
           return true;
         return false;
       },
       validateminiApp() {
-        if (tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName)) 
+        if (tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName))
           return true;
         return false;
       },
@@ -740,11 +878,11 @@
         return true;
       },
       validatephoneCancel_unknown() {
-        
+
       },
       validateinvoice() {
         if (this.enabledInvoice) {
-          if (this.invoiceNameList.length > 0) 
+          if (this.invoiceNameList.length > 0)
             return true;
           return false;
         }
@@ -772,26 +910,26 @@
         if (this.cashPledgeType == 'none_cash_pledge') {
           return true;
         } else if (this.cashPledgeType == 'fixed_cash_pledge') {
-          if (tool.isBlank(this.fixedCashPledge) || isNaN(+this.fixedCashPledge)) 
+          if (tool.isBlank(this.fixedCashPledge) || isNaN(+this.fixedCashPledge))
             return false;
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals)) 
+            if (tool.isBlank(this.dayOfIncidentals))
               return false;
             return true;
           }
           return true;
         } else if (this.cashPledgeType == 'first_day_of_room_price') {
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals)) 
+            if (tool.isBlank(this.dayOfIncidentals))
               return false;
             return true;
           }
           return true;
         } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
-          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1) 
+          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1)
             return false;
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals) || isNaN(+this.dayOfIncidentals)) 
+            if (tool.isBlank(this.dayOfIncidentals) || isNaN(+this.dayOfIncidentals))
               return false;
             return true;
           }
@@ -818,80 +956,80 @@
         return true;
       },
       validatehotelfeatureDesc() {
-        if (this.hotelfeatureDescList.length > 0) 
+        if (this.hotelfeatureDescList.length > 0)
           return true;
         return false;
       },
       validateAll() {
         let result = false;
         switch (this.showType) {
-          case enumShowType.PMS: 
+          case enumShowType.PMS:
             result = this.validatePMS;
             break;
-          case enumShowType.lvyeReportType: 
+          case enumShowType.lvyeReportType:
             result = this.validatelvyeReportType;
             break;
-          case enumShowType.doorLock_unknown: 
+          case enumShowType.doorLock_unknown:
             result = this.validatedoorLock_unknown;
             break;
-          case enumShowType.facein: 
+          case enumShowType.facein:
             result = this.validatefacein;
             break;
-          case enumShowType.wechatPay: 
+          case enumShowType.wechatPay:
             result = this.validatewechatPay;
             break;
-          case enumShowType.wxHotel: 
+          case enumShowType.wxHotel:
             result = this.validatewxHotel;
             break;
-          case enumShowType.miniApp: 
+          case enumShowType.miniApp:
             result = this.validateminiApp;
             break;
-          case enumShowType.sign: 
+          case enumShowType.sign:
             result = this.validatesign;
             break;
-          case enumShowType.phoneCancel_unknown: 
+          case enumShowType.phoneCancel_unknown:
             result = this.validatephoneCancel_unknown;
             break;
-          case enumShowType.invoice: 
+          case enumShowType.invoice:
             result = this.validateinvoice;
             break;
-          case enumShowType.preCheckinSms: 
+          case enumShowType.preCheckinSms:
             result = this.validatepreCheckinSms;
             break;
-          case enumShowType.delayedPayment: 
+          case enumShowType.delayedPayment:
             result = this.validatedelayedPayment;
             break;
-          case enumShowType.autoCheckout: 
+          case enumShowType.autoCheckout:
             result = this.validateautoCheckout;
             break;
-          case enumShowType.autoRefund: 
+          case enumShowType.autoRefund:
             result = this.validateautoRefund;
             break;
-          case enumShowType.preCheckin: 
+          case enumShowType.preCheckin:
             result = this.validatepreCheckin;
             break;
-          case enumShowType.roomCard: 
+          case enumShowType.roomCard:
             result = this.validateroomCard;
             break;
-          case enumShowType.cashPledge: 
+          case enumShowType.cashPledge:
             result = this.validatecashPledge;
             break;
-          case enumShowType.breakfastStemFrom: 
+          case enumShowType.breakfastStemFrom:
             result = this.validatebreakfastStemFrom;
             break;
-          case enumShowType.maxAllowRoomcount: 
+          case enumShowType.maxAllowRoomcount:
             result = this.validatemaxAllowRoomcount;
             break;
-          case enumShowType.syncSpaceTime: 
+          case enumShowType.syncSpaceTime:
             result = this.validatesyncSpaceTime;
             break;
-          case enumShowType.autoConfirmPrePay: 
+          case enumShowType.autoConfirmPrePay:
             result = this.validateautoConfirmPrePay;
             break;
-          case enumShowType.supportVd: 
+          case enumShowType.supportVd:
             result = this.validatesupportVd;
             break;
-          case enumShowType.hotelfeatureDesc: 
+          case enumShowType.hotelfeatureDesc:
             result = this.validatehotelfeatureDesc;
             break;
           default:
@@ -936,19 +1074,19 @@
       submitDialog() {
         let data;
         switch (this.showType) {
-          case enumShowType.PMS: 
-            
+          case enumShowType.PMS:
+
             break;
-          case enumShowType.lvyeReportType: 
+          case enumShowType.lvyeReportType:
             data = {
               lvye_report_type: this.lvyeType,
-              hotel_ga_id:  this.policeId,
+              hotel_ga_id: this.policeId,
               police_type: this.policeType,
               police_param: JSON.parse(this.policeParam)
             }
             break;
-          case enumShowType.doorLock_unknown: 
-            
+          case enumShowType.doorLock_unknown:
+
             break;
           case enumShowType.facein:
             data = {
@@ -956,7 +1094,7 @@
               facein_reject_value: this.faceinRejectValue.toString()
             }
             break;
-          case enumShowType.wechatPay: 
+          case enumShowType.wechatPay:
             data = {
               miniapp_config: {
                 app_id: this.wechatPayAppId,
@@ -967,7 +1105,7 @@
               refund_code: this.refundCode
             }
             break;
-          case enumShowType.wxHotel: 
+          case enumShowType.wxHotel:
             data = {
               wx_hotel_id: this.wxHotelId
             }
@@ -980,71 +1118,71 @@
               app_name: this.appName
             }
             break;
-          case enumShowType.sign: 
+          case enumShowType.sign:
             data = {
               enabled_sign: this.enabledSign.toString()
             }
             break;
-          case enumShowType.phoneCancel_unknown: 
-            
+          case enumShowType.phoneCancel_unknown:
+
             break;
-          case enumShowType.invoice: 
+          case enumShowType.invoice:
             data = {
               enabled_invoice: this.enabledInvoice.toString(),
               invoice_name: this.invoiceNameList
             }
             break;
-          case enumShowType.preCheckinSms: 
+          case enumShowType.preCheckinSms:
             data = {
               enabled_pre_checkin_sms: this.enabledPreCheckinSms.toString()
             }
             break;
-          case enumShowType.delayedPayment: 
+          case enumShowType.delayedPayment:
             data = {
               enabled_delayed_payment: this.enabledDelayedPayment.toString()
             }
             break;
-          case enumShowType.autoCheckout: 
+          case enumShowType.autoCheckout:
             data = {
               enable_auto_checkout: this.enableAutoCheckout.toString()
             }
             break;
-          case enumShowType.autoRefund: 
+          case enumShowType.autoRefund:
             data = {
               enabled_auto_refund: this.enabledAutoRefund.toString()
             }
             break;
-          case enumShowType.preCheckin: 
+          case enumShowType.preCheckin:
             data = {
               enabled_pre_checkin: this.enabledPreCheckin.toString()
             }
             break;
-          case enumShowType.roomCard: 
+          case enumShowType.roomCard:
             data = {
               support_room_card: this.supportRoomCard.toString()
             }
             break;
-          case enumShowType.cashPledge: 
+          case enumShowType.cashPledge:
             data = {
               cash_pledge_type: this.cashPledgeType,
               fixed_cash_pledge: +this.fixedCashPledge,
               multiple_of_cash_pledge: +this.multipleOfCashPledge,
               round_up_to_integer: this.roundUpToInteger,
               has_day_of_incidentals: this.hasDayOfIncidentals,
-              day_of_incidentals: +this.dayOfIncidentals 
+              day_of_incidentals: +this.dayOfIncidentals
             }
             break;
-          case enumShowType.breakfastStemFrom: 
+          case enumShowType.breakfastStemFrom:
             data = {
               breakfast_stem_from: this.breakfastStemFrom
             }
             break;
-          case enumShowType.maxAllowRoomcount: 
+          case enumShowType.maxAllowRoomcount:
             data = {
               max_allow_roomcount: this.maxAllowRoomcount
             }
             break;
-          case enumShowType.syncSpaceTime: 
+          case enumShowType.syncSpaceTime:
             data = {
               sync_space_time: this.syncSpaceTime
             }
@@ -1059,12 +1197,12 @@
               need_deposit_keyword: this.needDepositKeyword
             }
             break;
-          case enumShowType.supportVd: 
+          case enumShowType.supportVd:
             data = {
               is_support_vd: this.isSupportVd ? '1' : '0'
             }
             break;
-          case enumShowType.hotelfeatureDesc: 
+          case enumShowType.hotelfeatureDesc:
             data = {
               hotelfeature_desc: this.hotelfeatureDescList
             }
@@ -1085,7 +1223,7 @@
         this.getConfig({
           hotelId: this.$route.params.hotelid,
           onsuccess: body => {
-            if(tool.isNotBlank(body.data)) {
+            if (tool.isNotBlank(body.data)) {
               this.config = body.data;
               //PMS配置
               // 旅业配置
@@ -1096,12 +1234,12 @@
               //门锁配置，暂无
               //人脸识别配置
               this.faceinPassValue = +body.data.facein_pass_value;
-              this.faceinRejectValue = +body.data.facein_reject_value;              
+              this.faceinRejectValue = +body.data.facein_reject_value;
               //微信支付配置
               this.wechatPayAppId = body.data.miniapp_config.app_id;
-              this.mchId = body.data.miniapp_config.mch_id;                  
-              this.mchApiKey = body.data.miniapp_config.mch_api_key;                  
-              this.payCode = body.data.pay_code;                  
+              this.mchId = body.data.miniapp_config.mch_id;
+              this.mchApiKey = body.data.miniapp_config.mch_api_key;
+              this.payCode = body.data.pay_code;
               this.refundCode = body.data.refund_code;
               //微信生态酒店配置
               this.wxHotelId = body.data.wx_hotel_id;
@@ -1165,13 +1303,14 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    padding: 24px 24px 24px 21px;
+    padding: 24px 0px 24px 8px;
     .content-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 16px;
       margin-bottom: 18px;
+      padding: 0 19px;
       i {
         font-size: 12px;
         font-style: normal;
@@ -1184,6 +1323,31 @@
     .el-row {
       .el-col-8 {
         margin-bottom: 20px;
+        button {
+          display: flex;
+          align-items: center;
+          background-color: #ffffff;
+          border: solid 1px #9B9B9B;
+          outline: none;
+          color: #4A4A4A;
+          padding: 6px;
+          .images {
+            border: solid 1px #979797;
+            border-radius: 50%;
+            padding: 10px;
+          }
+          .item-text {
+            text-align: left;
+            margin-left: 10px;
+            span {
+              font-size: 16px;
+            }
+            p {
+              font-size: 12px;
+              margin-top: 5px;
+            }
+          }
+        }
       }
       button {
         width: 100%;

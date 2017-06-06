@@ -4,8 +4,8 @@
       <div class="content">
         <span>数据源</span>
         <div class="header">
-          <p>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</p>
-          <div>
+          <span>当前门店楼宇房间信息来自PMS系统,上次同步时间:2017/06/01 23:33 。</span>
+          <div class="header-btn">
             <el-button type="success">PMS同步数据</el-button>
             <el-button type="success">添加房间(非对接PMS)</el-button>
           </div>
@@ -52,12 +52,12 @@
         showDialog: false,
         list: [
           {
-            "room_id":"00090117c8dc4c68ac1d5cd343cb59a4",
-            "building_name":"1号楼", 
-            "floor_name":"2层楼",
-            "room_num":"0201",  
-            "room_type_name":"大床房",
-            "roomfeature_desc":[
+            "room_id": "00090117c8dc4c68ac1d5cd343cb59a4",
+            "building_name": "1号楼",
+            "floor_name": "2层楼",
+            "room_num": "0201",
+            "room_type_name": "大床房",
+            "roomfeature_desc": [
               "可抽烟",
               "朝南"
             ]
@@ -123,28 +123,36 @@
 </script>
 
 <style scoped lang="less">
-  .content {
-    font-size: 16px;
-    color: #4A4A4A;
-    font-weight: normal;
+  .module-wrapper {
     padding: 8px 24px;
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 20px;
-      font-size: 14px;
-      .el-button {
-        line-height: 18px;
-        min-width: 140px;
+    .content {
+      font-size: 16px;
+      color: #4A4A4A;
+      font-weight: normal;
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 14px;
+        span{
+          flex: 1;
+        }
+        .header-btn{
+          flex: 1;
+          .el-button {
+            line-height: 18px;
+          }
+        }
+      }
+    }
+
+    .el-dialog {
+      .el-dialog__header {
+        /*padding: 20px 20px 0;*/
+        border-bottom: solid 1px red;
       }
     }
   }
 
-  .el-dialog {
-    .el-dialog__header {
-      /*padding: 20px 20px 0;*/
-      border-bottom: solid 1px red;
-    }
-  }
 </style>

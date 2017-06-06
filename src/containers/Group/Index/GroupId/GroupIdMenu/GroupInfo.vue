@@ -129,75 +129,77 @@
 </script>
 
 <style scoped lang="less">
-  .top-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    border-bottom: 1px solid #EAEDF0;
-    line-height: 50px;
-    h3 {
-      font-size: 18px;
-      font-weight: 400;
-    }
-    p {
-      cursor: pointer;
-      padding-right: 20px;
-      font-size: 15px;
-      &:hover {
-        color: #586C94;
-        text-decoration: underline;
-      }
-    }
-  }
-
-  .content {
-    padding: 20px;
-    .enterprise-info {
-      border: 1px solid #EAEDF0;
-      font-size: 16px;
-      font-weight: normal;
-      margin-bottom: 27px;
-      p {
-        line-height: 30px;
-        padding: 8px 20px;
-        background-color: #FAFAFA;
-        border-bottom: 1px solid transparent;
-        a {
-          float: right;
-          color: #39C240;
-          cursor: pointer;
-        }
-      }
-      .info-content {
-        padding: 10px 40px;
-        .content-msg {
-          display: flex;
-          align-items: center;
-          span {
-            min-width: 80px;
-            text-align: right;
-          }
-          .el-input {
-            outline: none;
-            background-color: #FBFBFB;
-          }
-          .el-right {
-            margin: 10px 20px;
-            padding: 4px;
-            width: 80%;
-          }
-        }
-      }
-    }
-    .button-box {
-      display: inline-block;
+  .module-wrapper{
+    padding: 20px 38px;
+    .top-content {
+      display: flex;
       align-items: center;
-      width: 100%;
-      text-align: center;
-      .el-button {
-        width: 246px;
-        line-height: 18px;
+      justify-content: space-between;
+      padding: 0 20px;
+      border-bottom: 1px solid #EAEDF0;
+      line-height: 50px;
+      h3 {
+        font-size: 18px;
+        font-weight: 400;
+      }
+      p {
+        cursor: pointer;
+        padding-right: 20px;
+        font-size: 15px;
+        &:hover {
+          color: #586C94;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .content {
+      .enterprise-info {
+        border: 1px solid #EAEDF0;
+        font-size: 16px;
+        font-weight: normal;
+        margin-bottom: 27px;
+        p {
+          line-height: 30px;
+          padding: 8px 20px;
+          background-color: #FAFAFA;
+          border-bottom: 1px solid transparent;
+          a {
+            float: right;
+            color: #39C240;
+            cursor: pointer;
+          }
+        }
+        .info-content {
+          padding: 10px 40px;
+          .content-msg {
+            display: flex;
+            align-items: center;
+            span {
+              min-width: 80px;
+              text-align: right;
+            }
+            .el-input {
+              outline: none;
+              background-color: #FBFBFB;
+            }
+            .el-right {
+              margin: 10px 20px;
+              padding: 4px;
+              width: 80%;
+            }
+          }
+        }
+      }
+      .button-box {
+        display: inline-block;
+        align-items: center;
+        width: 100%;
+        text-align: center;
+        .el-button {
+          width: 246px;
+          line-height: 18px;
+        }
       }
     }
   }

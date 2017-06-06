@@ -6,7 +6,7 @@
           <p>门店信息</p>
           <div class="info-content">
             <div class="content-item">
-              <div>
+              <div class="item">
                 <span>所属品牌</span>
                 <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
                   <el-option
@@ -17,19 +17,19 @@
                   </el-option>
                 </el-select>
               </div>
-              <div>
+              <div class="item">
                 <span>账户编码</span>
                 <el-input class="el-right" v-model="hotelCode" placeholder="请输入账户编码"></el-input>
               </div>
-              <div>
+              <div class="item">
                 <span>门店名称</span>
                 <el-input class="el-right" v-model="storeName" placeholder="请输入门店名称"></el-input>
               </div>
-              <div>
+              <div class="item">
                 <span>前台电话</span>
                 <el-input class="el-right" v-model="storePhone" placeholder="请输入前台电话"></el-input>
               </div>
-              
+
               <div class="content-address">
                 <span>门店地址</span>
                 <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择">
@@ -62,25 +62,23 @@
               </div>
             </div>
             <div class="content-item">
-              <div id="mapContainer">
-
-              </div>
+              <div id="mapContainer"></div>
+              <span class="map-text">请点击地图确认坐标 lat: {{lat}} lng: {{lng}}</span>
             </div>
-            <p>请点击地图确认坐标 lat: {{lat}} lng: {{lng}}</p>
           </div>
         </div>
         <div class="store-info">
           <p>联系信息</p>
-          <div class="info-content">
-            <div class="content-msg">
+          <div class="info-msg">
+            <div class="item">
               <span>联系人姓名</span>
               <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名"></el-input>
             </div>
-            <div class="content-msg">
+            <div class="item">
               <span>联系人职务</span>
               <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务"></el-input>
             </div>
-            <div class="content-msg">
+            <div class="item">
               <span>联系电话</span>
               <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话"></el-input>
             </div>
@@ -153,12 +151,12 @@
         this.getBrand();
       },
       provinceCode() {
-        this.cityCode = this.cityList[0]?this.cityList[0].code:0;
-        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
+        this.cityCode = this.cityList[0] ? this.cityList[0].code : 0;
+        this.areaCode = this.areaList[0] ? this.areaList[0].code : 0;
         this.changeMapCenter();
       },
       cityCode() {
-        this.areaCode = this.areaList[0]?this.areaList[0].code:0;
+        this.areaCode = this.areaList[0] ? this.areaList[0].code : 0;
 
         this.changeMapCenter();
       }
@@ -174,7 +172,10 @@
         this.brandList = [];
         this.getBrandList({
           group_id: this.groupId,
-          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast({text:'暂无品牌', type:'warning'})
+          onsuccess: body => body.data && body.data.length > 0 ? this.brandList = body.data : this.showtoast({
+            text: '暂无品牌',
+            type: 'warning'
+          })
         })
       },
       regist() {
@@ -206,7 +207,7 @@
         })
       },
       initMap() {
-        center = new qq.maps.LatLng(39.916527,116.397128);  //默认北京
+        center = new qq.maps.LatLng(39.916527, 116.397128);  //默认北京
         map = new qq.maps.Map(document.getElementById("mapContainer"), {
           center: center,
           zoom: 10,
@@ -215,37 +216,37 @@
           mapTypeControlOptions: {
             //设置控件的地图类型ID，ROADMAP显示普通街道地图，SATELLITE显示卫星图像，HYBRID显示卫星图像上的主要街道透明层
             mapTypeIds: [
-                // qq.maps.MapTypeId.ROADMAP,
-                // qq.maps.MapTypeId.SATELLITE,
-                // qq.maps.MapTypeId.HYBRID
+              // qq.maps.MapTypeId.ROADMAP,
+              // qq.maps.MapTypeId.SATELLITE,
+              // qq.maps.MapTypeId.HYBRID
             ],
-        }
+          }
         });
 
         let self = this;
         let listener = qq.maps.event.addListener(
           map,
           'click',
-          function(event) {
-              // console.log('您点击的位置为:[' + event.latLng.getLat() +
-              // ',' + event.latLng.getLng() + ']');
+          function (event) {
+            // console.log('您点击的位置为:[' + event.latLng.getLat() +
+            // ',' + event.latLng.getLng() + ']');
 
-              self.$set(self, 'lat', event.latLng.getLat().toString());
-              self.$set(self, 'lng', event.latLng.getLng().toString());
+            self.$set(self, 'lat', event.latLng.getLat().toString());
+            self.$set(self, 'lng', event.latLng.getLng().toString());
 
-              if (marker) marker.setMap(null)
+            if (marker) marker.setMap(null)
 
-              marker = new qq.maps.Marker({
-                position: new qq.maps.LatLng(event.latLng.getLat(), event.latLng.getLng()),
-                map: map
-              });
+            marker = new qq.maps.Marker({
+              position: new qq.maps.LatLng(event.latLng.getLat(), event.latLng.getLng()),
+              map: map
+            });
           }
         );
-        
+
         //设置地图中心
         citylocation = new qq.maps.CityService({
-          map : map,
-          complete : function(results){
+          map: map,
+          complete: function (results) {
             map.panTo(new qq.maps.LatLng(results.detail.latLng.lat, results.detail.latLng.lng));
           }
         });
@@ -275,71 +276,109 @@
   }
 </script>
 <style scoped lang="less">
-  .title {
-    line-height: 50px;
-    padding: 0 40px;
-    border-bottom: 1px solid #ECECEC;
-    font-weight: 400;
-    font-size: 18px;
-  }
-
-  .content {
-    padding: 30px 60px;
-    .store-info {
-      border: 1px solid #ECECEC;
-      font-size: 16px;
-      p {
-        line-height: 45px;
-        padding: 0 30px;
-        background-color: #EAEDF0;
-      }
-      .info-content {
-        display: flex;
-        font-size: 14px;
-        padding: 30px 60px;
-        line-height: 46px;
-        .content-item {
-          flex: 1px;
-          .content-select {
-            select {
-              width: 390px;
-              height: 35px;
-              background-color: #ffffff;
-              outline: none;
-              margin-left: 16px;
+  .module-wrapper {
+    padding: 24px;
+    .content {
+      .store-info {
+        border: 1px solid #ECECEC;
+        font-size: 16px;
+        margin-bottom: 30px;
+        p {
+          line-height: 45px;
+          padding: 0 30px;
+          background-color: #EAEDF0;
+        }
+        .info-content {
+          display: flex;
+          font-size: 16px;
+          color: #4A4A4A;
+          padding: 17px 15px 22px 38px;
+          .content-item {
+            flex: 1px;
+            margin-left: 16px;
+            .item {
+              display: flex;
+              align-items: center;
+              line-height: 46px;
+              span {
+                width: 76px;
+                display: block;
+              }
+              .el-select {
+                width: 80%;
+                outline: none;
+              }
+              .el-input {
+                width: 80%;
+              }
+            }
+            .content-address {
+              display: flex;
+              align-items: center;
+              line-height: 46px;
+              span {
+                margin-right: 16px;
+                width: 71px;
+                display: block;
+              }
+              .el-select {
+                width: 26%;
+                outline: none;
+                margin-left: 2px;
+              }
+            }
+            .content-add {
+              margin-left: 88px;
+              line-height: 46px;
+              .el-input {
+                width: 100%;
+              }
+            }
+            #mapContainer {
+              height: 90%;
+              width: 100%;
+            }
+            .map-text {
+              width: 100%;
+              display: inline-block;
+              font-size: 12px;
+              color: #4A4A4A;
+              padding: 10px 0;
             }
           }
-          .content-input {
+        }
+        .info-msg {
+          padding: 19px 0 19px 39px;
+          line-height: 45px;
+          .item {
             display: flex;
             align-items: center;
+            width: 66%;
             font-size: 14px;
-            // input {
-            //   outline: none;
-            //   border: solid 1px #EAEDF0;
-            //   margin: 10px 20px;
-            //   width: 390px;
-            //   line-height: 35px;
-            //   font-size: 14px;
-            // }
-          }
-          .content-address {
-            select {
-              width: 116px;
-              height: 35px;
-              background-color: #ffffff;
-              outline: none;
-              margin-left: 16px;
+            span {
+              width: 72px;
+              display: block;
+              margin-right: 14px;
             }
-          }
-          .content-add {
-            // margin-right: 10px;
-            // margin-bottom: 10px;
-            width: 464px;
+            .el-select {
+              width: 80%;
+            }
+            .el-input {
+              width: 80%;
+            }
           }
         }
       }
+      .button-box {
+        width: 30%;
+        margin: 10px auto;
+        .el-btn {
+          width: 100%;
+          height: 46px;
+        }
+      }
     }
-    
+
   }
 
   .error-info {
@@ -355,20 +394,6 @@
   .contact-info {
     border: 1px solid #757575;
     margin-top: 20px;
-  }
-
-  .button-box {
-    width: 40%;
-    margin: 10px auto;
-    .el-btn {
-      width: 100%;
-      height: 46px;
-    }
-  }
-
-  #mapContainer {
-    height: 100%;
-    width: 100%;
   }
 
   .el-right {
