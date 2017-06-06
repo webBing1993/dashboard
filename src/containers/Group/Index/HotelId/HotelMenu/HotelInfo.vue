@@ -74,15 +74,15 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="contactName" placeholder="请输入联系人姓名" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名" :disabled="!isEdit"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="contactPosition" placeholder="请输入联系人职务" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务" :disabled="!isEdit"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="contactPhone" placeholder="请输入联系电话" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话" :disabled="!isEdit"></el-input>
             </div>
           </div>
         </div>

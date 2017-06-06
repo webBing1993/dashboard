@@ -6,17 +6,84 @@ import router from '../../router'
 
 module.exports = {
   goto: (ctx, param) => {
-    typeof param === 'number'
-      ? router.go(param)
-      : router.push(param)
+      if (typeof param === 'number') {
+        router.go(param)
+      } else if (typeof param === 'string') {
+        router.push(param)
+      } else if (typeof param === 'object' && param.path) {
+        router.push({
+          path: param.path,
+          query: {
+            ...param.query
+          },
+          params: {
+            ...param.params
+          }
+        })
+      } else if (typeof param === 'object' && param.name) {
+        router.push({
+          name: param.name,
+          query: {
+            ...param.query
+          },
+          params: {
+            ...param.params
+          }
+        })
+      }
   },
   replaceto: (ctx, param) => {
-    router.replace(param)
+    if (typeof param === 'string') {
+        router.replace(param)
+      } else if (typeof param === 'object' && param.path) {
+        router.replace({
+          path: param.path,
+          query: {
+            ...param.query
+          },
+          params: {
+            ...param.params
+          }
+        })
+      } else if (typeof param === 'object' && param.name) {
+        router.replace({
+          name: param.name,
+          query: {
+            ...param.query
+          },
+          params: {
+            ...param.params
+          }
+        })
+      }
   },
   urlquery(ctx) {
     let o = {}
     decodeURIComponent(window.location.search).split('&').forEach(i => i ? o[i.split(/=/)[0].replace(/\?/, '')] = i.split(/=/)[1] : null)
   },
+  // fatch: (ctx, param) => {
+  //   let headers = new Headers({
+  //     'Content-Type': 'application/json;charset=UTF-8',
+  //     ...param.headers
+  //   });
+  //   if (!param.url.match(/register/) && !param.url.match(/login/) ) {
+  //     headers.append('Session', sessionStorage.getItem('session_id'));
+  //   }
+
+  //   ctx.commit('LOADING', 1);
+
+  //   let requestParam = {
+  //     method: param.method || "GET",
+  //     headers: headers,
+  //     body: JSON.stringify(param.body) || null,
+  //     mode: 'cors',
+  //     credentials: 'include',
+  //     cache: 'default',
+
+  //   }
+  // },
+
+
   resource: (ctx, param) => {
     let headers = param.headers || {};
     if (!param.url.match(/register/) && !param.url.match(/login/) ) {

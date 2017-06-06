@@ -44,14 +44,15 @@
     methods: {
       ...mapActions([
         'getDeviceList',
+        'goto'
       ]),
       add(obj) {
-        this.$router.push({
+        this.goto({
           name: 'EditDevice'
         })
       },
       edit(obj) {
-        this.$router.push({
+        this.goto({
           name: 'EditDevice',
           query: {
             device_id: obj.device_id

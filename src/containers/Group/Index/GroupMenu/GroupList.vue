@@ -42,14 +42,15 @@
     methods: {
       ...mapActions([
         'getGroupList',
+        'goto'
       ]),
       regist() {
-        this.$router.push({
+        this.goto({
           name: 'AddGroup'
         })
       },
       goDetail(obj) {
-        this.$router.push({
+        this.goto({
           name: 'GroupInfo',
           params: {
             id: obj.id
@@ -58,7 +59,7 @@
       },
       goHotelList(obj) {
         if (obj.hotelNum == 0) return;
-        this.$router.push({
+        this.goto({
           name: 'GroupHotelList',
           params: {
             id: obj.id
@@ -66,7 +67,7 @@
         })
       },
       goEdit(obj) {
-        this.$router.push({
+        this.goto({
           name: 'GroupInfo',
           params: {
             id: obj.id
@@ -74,7 +75,7 @@
         })
       },
       goConfig(obj) {
-        this.$router.push({
+        this.goto({
           name: 'Brand',
           params: {
             id: obj.id

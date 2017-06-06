@@ -128,7 +128,7 @@
         <div>
           <h3>房间标签配置</h3>
           <p>房间标签: </p>
-          <p v-for="(obj, index) of configData.hotelfeature_desc" :key="index">{{obj}}</p>
+          <p v-for="(obj, index) of configData.room_tags" :key="index">{{obj}}</p>
         </div>
       </div>
     </div>
@@ -233,7 +233,7 @@
           "is_support_vd":"1", //1支持，0不支持
           
           //酒店标签配置
-        "hotelfeature_desc":[
+        "room_tags":[
             "可抽烟",
             "朝南"
           ]

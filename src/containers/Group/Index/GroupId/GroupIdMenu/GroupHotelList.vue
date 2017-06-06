@@ -72,15 +72,16 @@
       ...mapActions([
         'getGroupList',
         'getHotelList',
-        'getBrandList'
+        'getBrandList',
+        'goto'
       ]),
       regist() {
-        this.$router.push({
+        this.goto({
           name: 'GroupAddHotel'
         })
       },
       detail(obj) {
-        this.$router.push({
+        this.goto({
           name: 'HotelInfo',
           params: {
             hotelid: obj.id
@@ -88,7 +89,7 @@
         })
       },
       group(obj) {
-        this.$router.push({
+        this.goto({
           name: 'GroupInfo',
           params: {
             id: obj.group_id
@@ -96,7 +97,7 @@
         })
       },
       config(obj) {
-        this.$router.push({
+        this.goto({
           name: 'GroupConfig',
           params: {
             hotelid: obj.id

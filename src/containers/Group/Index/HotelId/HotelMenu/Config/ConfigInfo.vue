@@ -86,7 +86,7 @@
           <button @click="dialogConfig(enumShowType.supportVd)">脏房配置</button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.hotelfeatureDesc)">房间标签配置</button>
+          <button @click="dialogConfig(enumShowType.roomTags)">房间标签配置</button>
         </el-col>
       </el-row>
 
@@ -490,14 +490,14 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.hotelfeatureDesc">
+          <div v-if="showType === enumShowType.roomTags">
             <div>
               <span>房间标签</span>
-              <div v-for="(obj, index) of hotelfeatureDesc">
-                <el-input class="el-right" v-model="hotelfeatureDesc[index]" placeholder="请输入房间标签"></el-input>
+              <div v-for="(obj, index) of roomTags">
+                <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
               </div>
-              <button @click="addHotelfeatureDesc">+++++</button>
-              <button v-show="hotelfeatureDesc.length > 1" @click="subtractHotelfeatureDesc">-----</button>
+              <button @click="addRoomTags">+++++</button>
+              <button v-show="roomTags.length > 1" @click="subtractRoomTags">-----</button>
             </div>
           </div>
         </div>
@@ -537,7 +537,7 @@
     syncSpaceTime: 20,  //PMS同步频率配置
     autoConfirmPrePay: 21,  //自动确认预付款配置
     supportVd: 22,  //脏房配置
-    hotelfeatureDesc: 23,  //房间标签配置
+    roomTags: 23,  //房间标签配置
   }
 
   const typeTitles = [' ',
@@ -677,15 +677,15 @@
         //脏房配置
         isSupportVd: true,
         //酒店标签配置
-        hotelfeatureDesc: ['']
+        roomTags: ['']
       }
     },
     computed: {
       invoiceNameList() {
         return this.invoiceName.filter(v => v != '');
       },
-      hotelfeatureDescList() {
-        return this.hotelfeatureDesc.filter(v => v != '');
+      roomTagsList() {
+        return this.roomTags.filter(v => v != '');
       },
       //无数个validate
       validatePMS() {
@@ -817,8 +817,8 @@
       validatesupportVd() {
         return true;
       },
-      validatehotelfeatureDesc() {
-        if (this.hotelfeatureDescList.length > 0) 
+      validateroomTags() {
+        if (this.roomTagsList.length > 0) 
           return true;
         return false;
       },
@@ -891,8 +891,8 @@
           case enumShowType.supportVd: 
             result = this.validatesupportVd;
             break;
-          case enumShowType.hotelfeatureDesc: 
-            result = this.validatehotelfeatureDesc;
+          case enumShowType.roomTags: 
+            result = this.validateroomTags;
             break;
           default:
             result = false;
@@ -904,11 +904,12 @@
       ...mapActions([
         'getConfig',
         'patchConfig',
-        'showtoast'
+        'showtoast',
+        'goto'
       ]),
       goSummary() {
         //这里需要判断是否有group_id,再决定跳哪个路由
-        this.$router.push({
+        this.goto({
           name: 'ConfigSummary'
         })
       },
@@ -923,12 +924,12 @@
         if (this.invoiceName.length == 1) return;
         this.invoiceName.pop();
       },
-      addHotelfeatureDesc() {
-        this.hotelfeatureDesc.push('');
+      addRoomTags() {
+        this.roomTags.push('');
       },
-      subtractHotelfeatureDesc() {
-        if (this.hotelfeatureDesc.length == 1) return;
-        this.hotelfeatureDesc.pop();
+      subtractRoomTags() {
+        if (this.roomTags.length == 1) return;
+        this.roomTags.pop();
       },
       hideDialog() {
         this.showDialog = false;
@@ -1064,9 +1065,9 @@
               is_support_vd: this.isSupportVd ? '1' : '0'
             }
             break;
-          case enumShowType.hotelfeatureDesc: 
+          case enumShowType.roomTags: 
             data = {
-              hotelfeature_desc: this.hotelfeatureDescList
+              room_tags: this.roomTagsList
             }
             break;
           default:
@@ -1151,7 +1152,7 @@
               //脏房配置
               this.isSupportVd = body.data.is_support_vd == '1' ? true : false;
               //酒店标签配置
-              this.hotelfeatureDesc = body.data.hotelfeature_desc;
+              this.roomTags = body.data.room_tags;
 
             }
           }
