@@ -69,7 +69,7 @@
           hotel_id: this.$route.params.hotelid,
           device_id: this.deviceId,
           device_type: this.deviceType,
-          // device_name: this.deviceName,  //????
+          device_name: '',
           enabled: this.enabled ? 1 : 0,
           onsuccess: body => this.goto(-1)
         })
@@ -92,7 +92,7 @@
           hotel_id: this.$route.params.hotelid,
           device_id: this.deviceId,
           device_type: this.deviceType,
-          // device_name: this.deviceName,  //????
+          device_name: '',
           enabled: this.enabled ? 1 : 0,
           onsuccess: body => this.goto(-1)
         })
