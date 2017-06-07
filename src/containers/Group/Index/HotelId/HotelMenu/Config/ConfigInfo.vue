@@ -878,7 +878,7 @@
         configData(state) {
           let configData = state.configData;
 
-          if(tool.isNotBlank(configData)) {
+          if (tool.isNotBlank(configData)) {
             //PMS信息
             //绿云,捷信达
             this.pmsId = configData.pms_id;
@@ -1204,7 +1204,7 @@
           case enumShowType.supportVd:
             result = this.validatesupportVd;
             break;
-          case enumShowType.roomTags: 
+          case enumShowType.roomTags:
             result = this.validateroomTags;
             break;
           default:
@@ -1340,7 +1340,7 @@
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
-          case enumShowType.PMS: 
+          case enumShowType.PMS:
             //绿云,捷信达
             this.pmsId = this.configData.pms_id;
             // this.pmsName = this.configData.pms_name; //放在计算属性
@@ -1361,27 +1361,27 @@
             this.adminPassword = this.configData.admin_password;
             this.brandId = this.configData.brand_id;
             break;
-          case enumShowType.lvyeReportType: 
+          case enumShowType.lvyeReportType:
             this.lvyeType = this.configData.lvye_report_type;
             this.policeId = this.configData.hotel_ga_id;
             this.policeType = this.configData.police_type;
             this.policeParam = JSON.stringify(this.configData.police_param);
             break;
-          case enumShowType.doorLock_unknown: 
-            
+          case enumShowType.doorLock_unknown:
+
             break;
           case enumShowType.facein:
             this.faceinPassValue = +this.configData.facein_pass_value;
             this.faceinRejectValue = +this.configData.facein_reject_value;
             break;
-          case enumShowType.wechatPay: 
+          case enumShowType.wechatPay:
             this.wechatPayAppId = this.configData.miniapp_config.app_id;
-            this.mchId = this.configData.miniapp_config.mch_id;                  
-            this.mchApiKey = this.configData.miniapp_config.mch_api_key;                  
-            this.payCode = this.configData.pay_code;                  
+            this.mchId = this.configData.miniapp_config.mch_id;
+            this.mchApiKey = this.configData.miniapp_config.mch_api_key;
+            this.payCode = this.configData.pay_code;
             this.refundCode = this.configData.refund_code;
             break;
-          case enumShowType.wxHotel: 
+          case enumShowType.wxHotel:
             this.wxHotelId = this.configData.wx_hotel_id;
             break;
           case enumShowType.miniApp:
@@ -1390,35 +1390,35 @@
             this.originalId = this.configData.original_id;
             this.appName = this.configData.app_name;
             break;
-          case enumShowType.sign: 
+          case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
             break;
-          case enumShowType.phoneCancel_unknown: 
-            
+          case enumShowType.phoneCancel_unknown:
+
             break;
-          case enumShowType.invoice: 
+          case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
             this.invoiceName = [...this.configData.invoice_name];
             break;
-          case enumShowType.preCheckinSms: 
+          case enumShowType.preCheckinSms:
             this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
             break;
-          case enumShowType.delayedPayment: 
+          case enumShowType.delayedPayment:
             this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
             break;
-          case enumShowType.autoCheckout: 
+          case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             break;
-          case enumShowType.autoRefund: 
+          case enumShowType.autoRefund:
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
             break;
-          case enumShowType.preCheckin: 
+          case enumShowType.preCheckin:
             this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
             break;
-          case enumShowType.roomCard: 
+          case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             break;
-          case enumShowType.cashPledge: 
+          case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
             this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
             this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
@@ -1426,13 +1426,13 @@
             this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
             this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
             break;
-          case enumShowType.breakfastStemFrom: 
+          case enumShowType.breakfastStemFrom:
             this.breakfastStemFrom = this.configData.breakfast_stem_from;
             break;
-          case enumShowType.maxAllowRoomcount: 
+          case enumShowType.maxAllowRoomcount:
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             break;
-          case enumShowType.syncSpaceTime: 
+          case enumShowType.syncSpaceTime:
             this.syncSpaceTime = this.configData.sync_space_time;
             break;
           case enumShowType.autoConfirmPrePay:
@@ -1443,72 +1443,70 @@
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
             break;
-          case enumShowType.supportVd: 
+          case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           default:
-            
+
         }
       },
       submitDialog() {
         let data;
         switch (this.showType) {
-          case enumShowType.PMS:
-            {
-              let paramData = {
-                pms_id: this.pmsId,
-                pms_name: this.pmsName,
-                hotel_pmscode: this.hotelPmsCode,
-                hotel_service_url: this.hotelServiceUrl
+          case enumShowType.PMS: {
+            let paramData = {
+              pms_id: this.pmsId,
+              pms_name: this.pmsName,
+              hotel_pmscode: this.hotelPmsCode,
+              hotel_service_url: this.hotelServiceUrl
+            }
+            if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+              data = {
+                ...paramData
               }
-              if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
-                data = {
-                  ...paramData
-                }
-              } else if (this.pmsName == '别样红') {
-                data = {
-                  ...paramData,
-                  bill_service_url: this.billServiceUrl,
-                  crm_service_url: this.crmServiceUrl,
-                  order_service_url: this.orderServiceUrl,
-                  sec_service_url: this.secServiceUrl,
-                  user_name: this.userName,
-                  user_pass: this.userPass,
-                }
-              } else if (this.pmsName == '住哲') {
-                data = {
-                  ...paramData,
-                  cid: this.cid,
-                  key: this.key,
-                  datakey: this.dataKey,
-                  admin_name: this.adminName,
-                  admin_password: this.adminPassword,
-                  brand_id: this.brandId,
-                }
+            } else if (this.pmsName == '别样红') {
+              data = {
+                ...paramData,
+                bill_service_url: this.billServiceUrl,
+                crm_service_url: this.crmServiceUrl,
+                order_service_url: this.orderServiceUrl,
+                sec_service_url: this.secServiceUrl,
+                user_name: this.userName,
+                user_pass: this.userPass,
+              }
+            } else if (this.pmsName == '住哲') {
+              data = {
+                ...paramData,
+                cid: this.cid,
+                key: this.key,
+                datakey: this.dataKey,
+                admin_name: this.adminName,
+                admin_password: this.adminPassword,
+                brand_id: this.brandId,
               }
             }
+          }
             break;
-          case enumShowType.lvyeReportType:
-            {
-              let tempData = {
-                lvye_report_type: this.lvyeType,
-                hotel_ga_id: this.policeId,
-                police_type: this.policeType
+          case enumShowType.lvyeReportType: {
+            let tempData = {
+              lvye_report_type: this.lvyeType,
+              hotel_ga_id: this.policeId,
+              police_type: this.policeType
+            }
+            if (this.lvyeType == 'CLOUD') {
+              data = {
+                ...tempData
               }
-              if (this.lvyeType == 'CLOUD') {
-                data = {
-                  ...tempData
-                }
-              } else if (this.lvyeType == 'LOCAL') {
-                data = {
-                  ...tempData,
-                  police_param: JSON.parse(this.policeParam)
-                }
+            } else if (this.lvyeType == 'LOCAL') {
+              data = {
+                ...tempData,
+                police_param: JSON.parse(this.policeParam)
               }
             }
+          }
             break;
           case enumShowType.doorLock_unknown:
 
@@ -1587,46 +1585,45 @@
               support_room_card: this.supportRoomCard.toString()
             }
             break;
-          case enumShowType.cashPledge:
-            {
-              let tempData = {
-                cash_pledge_type: this.cashPledgeType
+          case enumShowType.cashPledge: {
+            let tempData = {
+              cash_pledge_type: this.cashPledgeType
+            }
+            if (this.cashPledgeType == 'none_cash_pledge') {
+              data = {
+                ...tempData
               }
-              if (this.cashPledgeType == 'none_cash_pledge') {
-                data = {
-                  ...tempData
-                }
-              } else if (this.cashPledgeType == 'fixed_cash_pledge') {
-                data = {
-                  ...tempData,
-                  fixed_cash_pledge: +this.fixedCashPledge,
-                  round_up_to_integer: this.roundUpToInteger,
-                  has_day_of_incidentals: this.hasDayOfIncidentals
-                }
-                if (this.hasDayOfIncidentals) {
-                  data.day_of_incidentals = +this.dayOfIncidentals;
-                }
-              } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
-                data = {
-                  ...tempData,
-                  multiple_of_cash_pledge: +this.multipleOfCashPledge,
-                  round_up_to_integer: this.roundUpToInteger,
-                  has_day_of_incidentals: this.hasDayOfIncidentals
-                }
-                if (this.hasDayOfIncidentals) {
-                  data.day_of_incidentals = +this.dayOfIncidentals;
-                }
-              } else if (this.cashPledgeType == 'first_day_of_room_price') {
-                data = {
-                  ...tempData,
-                  round_up_to_integer: this.roundUpToInteger,
-                  has_day_of_incidentals: this.hasDayOfIncidentals
-                }
-                if (this.hasDayOfIncidentals) {
-                  data.day_of_incidentals = +this.dayOfIncidentals;
-                }
+            } else if (this.cashPledgeType == 'fixed_cash_pledge') {
+              data = {
+                ...tempData,
+                fixed_cash_pledge: +this.fixedCashPledge,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                data.day_of_incidentals = +this.dayOfIncidentals;
+              }
+            } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
+              data = {
+                ...tempData,
+                multiple_of_cash_pledge: +this.multipleOfCashPledge,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                data.day_of_incidentals = +this.dayOfIncidentals;
+              }
+            } else if (this.cashPledgeType == 'first_day_of_room_price') {
+              data = {
+                ...tempData,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                data.day_of_incidentals = +this.dayOfIncidentals;
               }
             }
+          }
             break;
           case enumShowType.breakfastStemFrom:
             data = {
@@ -1658,7 +1655,7 @@
               is_support_vd: this.isSupportVd ? '1' : '0'
             }
             break;
-          case enumShowType.roomTags: 
+          case enumShowType.roomTags:
             data = {
               room_tags: this.roomTagsList
             }
@@ -1679,7 +1676,7 @@
         this.getConfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            
+
           }
         })
       },
@@ -1707,14 +1704,14 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    padding: 24px 0px 24px 8px;
+    padding: 24px 20px 0 8px;
     .content-title {
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 16px;
       margin-bottom: 18px;
-      padding: 0 19px;
+      padding: 0 0 0 12px;
       i {
         font-size: 12px;
         font-style: normal;
@@ -1725,6 +1722,7 @@
       }
     }
     .el-row {
+      padding-right: 20px;
       .el-col-8 {
         margin-bottom: 20px;
         button {

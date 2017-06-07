@@ -1,21 +1,23 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="header">
-        <h3>设备管理</h3>
-        <el-button type="success" @click.native="add">添加设备</el-button>
+      <div class="content_devicelist">
+        <div class="header">
+          <h3>设备管理</h3>
+          <el-button type="success" @click.native="add">添加设备</el-button>
+        </div>
+        <table-device :list="list" @edit="edit"></table-device>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
       </div>
-      <table-device :list="list" @edit="edit"></table-device>
-      <el-pagination
-        v-show="total > size"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="page"
-        :page-sizes="[10, 20, 30]"
-        :page-size="size"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
-      </el-pagination>
     </div>
   </div>
 </template>
@@ -77,8 +79,8 @@
   }
 </script>
 <style lang="less">
-  .module-wrapper {
-    padding: 20px 24px;
+  .content_devicelist {
+    padding: 20px 18px 0;
     .header {
       display: flex;
       align-items: center;
@@ -95,6 +97,5 @@
       }
     }
   }
-
 
 </style>

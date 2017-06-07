@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content">
+      <div class="content_room">
         <span>数据源</span>
-        <div class="header">
+        <div class="data_title">
           <span>当前门店楼宇房间信息来自PMS系统,上次同步时间:2017/06/01 23:33 。</span>
           <div class="header-btn">
             <el-button type="success">PMS同步数据</el-button>
@@ -119,10 +119,10 @@
       },
       getConfigs() {
         this.getConfig({
-            hotel_id: this.$route.params.hotelid,
-            onsuccess: body => {
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
 
-            }
+          }
         })
       }
     },
@@ -137,32 +137,33 @@
 
 <style scoped lang="less">
   .module-wrapper {
-    padding: 8px 24px;
-    .content {
+    .content_room {
       font-size: 16px;
       color: #4A4A4A;
       font-weight: normal;
-      .header {
+      padding: 8px 24px;
+      .data_title {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
-        font-size: 14px;
-        span{
+        span {
           flex: 1;
+          font-size: 14px;
         }
-        .header-btn{
-          flex: 1;
+        .header-btn {
+          display: flex;
+          margin-left: 6px;
           .el-button {
             line-height: 18px;
+            min-width: 143px;
+            font-size: 13px;
           }
         }
       }
     }
-
     .el-dialog {
       .el-dialog__header {
-        /*padding: 20px 20px 0;*/
         border-bottom: solid 1px red;
       }
     }
