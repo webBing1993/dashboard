@@ -883,9 +883,11 @@
             this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
             this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
             //微信支付配置
-            this.wechatPayAppId = configData.miniapp_config.app_id;
-            this.mchId = configData.miniapp_config.mch_id;
-            this.mchApiKey = configData.miniapp_config.mch_api_key;
+            if (tool.isNotBlank(configData.miniapp_config)) {
+              this.wechatPayAppId = configData.miniapp_config.app_id;
+              this.mchId = configData.miniapp_config.mch_id;
+              this.mchApiKey = configData.miniapp_config.mch_api_key;
+            }
             this.payCode = configData.pay_code;
             this.refundCode = configData.refund_code;
             //微信生态酒店配置
@@ -895,7 +897,9 @@
             //电话取消订单  暂无
             //发票配置
             this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-            this.invoiceName = [...configData.invoice_name];
+            if (tool.isNotBlank(configData.invoice_name)) {
+              this.invoiceName = [...configData.invoice_name];
+            }
             //预登记短信配置
             this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
             //到店支付配置
@@ -909,12 +913,14 @@
             //门卡配置
             this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
             //押金配置
-            this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
-            this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
-            this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
-            this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
-            this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
-            this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+            if (tool.isNotBlank(configData.cash_pledge_config)) {
+              this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
+              this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
+              this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
+              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer == 'true' ? true : false;;
+              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals == 'true' ? true : false;;
+              this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+            }
             //早餐券配置
             this.breakfastStemFrom = configData.breakfast_stem_from;
             //可选房数量
@@ -931,7 +937,9 @@
             //脏房配置
             this.isSupportVd = configData.is_support_vd == '1' ? true : false;
             //酒店标签配置
-            this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+            if (tool.isNotBlank(configData.room_tags)) {
+              this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+            }
           }
 
           return configData;
@@ -1612,42 +1620,47 @@
             }
             break;
           case enumShowType.cashPledge: {
+            let cash_pledge_config = {};
             let tempData = {
               cash_pledge_type: this.cashPledgeType
             }
             if (this.cashPledgeType == 'none_cash_pledge') {
-              data = {
+              cash_pledge_config = {
                 ...tempData
               }
             } else if (this.cashPledgeType == 'fixed_cash_pledge') {
-              data = {
+              cash_pledge_config = {
                 ...tempData,
                 fixed_cash_pledge: +this.fixedCashPledge,
                 round_up_to_integer: this.roundUpToInteger,
                 has_day_of_incidentals: this.hasDayOfIncidentals
               }
               if (this.hasDayOfIncidentals) {
-                data.day_of_incidentals = +this.dayOfIncidentals;
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
               }
             } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
-              data = {
+              cash_pledge_config = {
                 ...tempData,
                 multiple_of_cash_pledge: +this.multipleOfCashPledge,
                 round_up_to_integer: this.roundUpToInteger,
                 has_day_of_incidentals: this.hasDayOfIncidentals
               }
               if (this.hasDayOfIncidentals) {
-                data.day_of_incidentals = +this.dayOfIncidentals;
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
               }
             } else if (this.cashPledgeType == 'first_day_of_room_price') {
-              data = {
+              cash_pledge_config = {
                 ...tempData,
                 round_up_to_integer: this.roundUpToInteger,
                 has_day_of_incidentals: this.hasDayOfIncidentals
               }
               if (this.hasDayOfIncidentals) {
-                data.day_of_incidentals = +this.dayOfIncidentals;
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
               }
+            }
+
+            data = {
+              cash_pledge_config
             }
           }
             break;
@@ -1700,7 +1713,17 @@
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
           data: data,
-          onsuccess: body => this.showDialog = false
+          onsuccess: body => {
+            this.showDialog = false;
+            let obj = {
+              ...this.configData
+            }
+            for(let key in body.data) {
+              obj[key] = body.data[key];
+            }
+            this.$store.state.configData = obj;
+            // this.getConfigs();
+          }
         })
       },
       getPms() {
@@ -1712,7 +1735,10 @@
         this.patchPMS({
           hotel_id: this.$route.params.hotelid,
           data: data,
-          onsuccess: body => this.showDialog = false
+          onsuccess: body => {
+            this.showDialog = false;
+            // this.getConfigs();
+          }
         })
       },
       getPMSBrandLists() {
@@ -1738,7 +1764,10 @@
         this.patchLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
-          onsuccess: body => this.showDialog = false
+          onsuccess: body => {
+            this.showDialog = false;
+            // this.getConfigs();
+          }
         })
       },
       getWechatApps() {
@@ -1750,7 +1779,10 @@
         this.patchWechatApp({
           hotel_id: this.$route.params.hotelid,
           data: data,
-          onsuccess: body => this.showDialog = false
+          onsuccess: body => {
+            this.showDialog = false;
+            // this.getConfigs();
+          }
         })
       },
     },

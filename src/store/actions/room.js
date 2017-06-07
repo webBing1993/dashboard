@@ -13,6 +13,7 @@ module.exports = {
       url: `/hotels/${param.hotel_id}/rooms/${param.room_id}`,
       method:'PUT',
       body: {
+        hotel_id: param.hotel_id,
         room_id: param.room_id,
         building_name: param.building_name,
         floor_name: param.floor_name,
