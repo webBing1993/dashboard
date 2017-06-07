@@ -8,27 +8,35 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.PMS)">
-            <img class="images" src="../../../../../../assets/images/系统.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/系统.png" alt="a">
+            </div>
             <div class="item-text">
               <span>pms对接配置</span>
               <p>对接PMS的酒店必须开通该配置。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !pmsId, 'tag_text_green': pmsId}">{{pmsId ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !pmsId, 'tag_text_green': pmsId}">{{pmsId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.lvyeReportType)">
-            <img class="images" src="../../../../../../assets/images/公安.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
             <div class="item-text">
               <span>旅业系统配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.doorLock_unknown)">
-            <img class="images" src="../../../../../../assets/images/门锁.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/门锁.png" alt="a">
+            </div>
             <div class="item-text">
               <span>门锁配置</span>
               <p>必须开通该配置。</p>
@@ -38,43 +46,55 @@
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.facein)">
-            <img class="images" src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
+            </div>
             <div class="item-text">
               <span>人脸识别配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.wechatPay)">
-            <img class="images" src="../../../../../../assets/images/微信支付.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/微信支付.png" alt="a">
+            </div>
             <div class="item-text">
               <span>微信支付配置</span>
               <p>配置微信支付信息。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !wechatPayAppId, 'tag_text_green': wechatPayAppId}">{{wechatPayAppId ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !wechatPayAppId, 'tag_text_green': wechatPayAppId}">{{wechatPayAppId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.wxHotel)">
-            <img class="images" src="../../../../../../assets/images/cancel.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/cancel.png" alt="a">
+            </div>
             <div class="item-text">
               <span>生态酒店配置</span>
               <p>必须开通该配置,身份识别、旅业上报
                 等接口需要用到。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !wxHotelId, 'tag_text_green': wxHotelId}">{{wxHotelId ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !wxHotelId, 'tag_text_green': wxHotelId}">{{wxHotelId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.miniApp)">
-            <img class="images" src="../../../../../../assets/images/小程序.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/小程序.png" alt="a">
+            </div>
             <div class="item-text">
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -84,17 +104,22 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.sign)">
-            <img class="images" src="../../../../../../assets/images/签名.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/签名.png" alt="a">
+            </div>
             <div class="item-text">
               <span>电子签名</span>
               <p>客人是否需要在支付后签名。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">
-            <img class="images" src="../../../../../../assets/images/cancel.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/cancel.png" alt="a">
+            </div>
             <div class="item-text">
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
@@ -104,37 +129,48 @@
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.invoice)">
-            <img class="images" src="../../../../../../assets/images/发票.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/发票.png" alt="a">
+            </div>
             <div class="item-text">
               <span>发票申请</span>
               <p>配置客人是否可以申请发票。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.preCheckinSms)">
-            <img class="images" src="../../../../../../assets/images/登记.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/登记.png" alt="a">
+            </div>
             <div class="item-text">
               <span>预登记</span>
               <p>配置客人是否可以预登记。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.delayedPayment)">
-            <img class="images" src="../../../../../../assets/images/到店.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/到店.png" alt="a">
+            </div>
             <div class="item-text">
               <span>到店支付</span>
               <p>开通后客人可以免支付完成预登记</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledDelayedPayment, 'tag_text_green': enabledDelayedPayment}">{{enabledDelayedPayment ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledDelayedPayment, 'tag_text_green': enabledDelayedPayment}">{{enabledDelayedPayment ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoCheckout)">
-            <img class="images" src="../../../../../../assets/images/退房.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/退房.png" alt="a">
+            </div>
             <div class="item-text">
               <span>自动退房</span>
               <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
@@ -144,22 +180,28 @@
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoRefund)">
-            <img class="images" src="../../../../../../assets/images/退款.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/退款.png" alt="a">
+            </div>
             <div class="item-text">
               <span>自动退款</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.preCheckin)">
-            <img class="images" src="../../../../../../assets/images/认证.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
             <div class="item-text">
               <span>无证入住</span>
               <p>酒店是否支持无证入住</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -169,82 +211,106 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomCard)">
-            <img class="images" src="../../../../../../assets/images/卡.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡.png" alt="a">
+            </div>
             <div class="item-text">
               <span>房卡配置</span>
               <p>酒店是否支持写卡吐卡</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !supportRoomCard, 'tag_text_green': supportRoomCard}">{{supportRoomCard ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !supportRoomCard, 'tag_text_green': supportRoomCard}">{{supportRoomCard ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.cashPledge)">
-            <img class="images" src="../../../../../../assets/images/押金.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/押金.png" alt="a">
+            </div>
             <div class="item-text">
               <span>押金配置</span>
               <p>配置酒店押金规则</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !cashPledgeType, 'tag_text_green': cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !cashPledgeType, 'tag_text_green': cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.breakfastStemFrom)">
-            <img class="images" src="../../../../../../assets/images/卡券.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡券.png" alt="a">
+            </div>
             <div class="item-text">
               <span>早餐券配置</span>
               <p>配置早餐券规则</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !breakfastStemFrom, 'tag_text_green': breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !breakfastStemFrom, 'tag_text_green': breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">
-            <img class="images" src="../../../../../../assets/images/列表.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/列表.png" alt="a">
+            </div>
             <div class="item-text">
               <span>可选房数量</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green': maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green': maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.syncSpaceTime)">
-            <img class="images" src="../../../../../../assets/images/同步.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/同步.png" alt="a">
+            </div>
             <div class="item-text">
               <span>PMS同步频率</span>
               <p>设置自动同步周期</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !syncSpaceTime, 'tag_text_green': syncSpaceTime}">{{syncSpaceTime ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !syncSpaceTime, 'tag_text_green': syncSpaceTime}">{{syncSpaceTime ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
-            <img class="images" src="../../../../../../assets/images/自动投标.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/自动投标.png" alt="a">
+            </div>
             <div class="item-text">
               <span>自动确认预付款</span>
               <p>配置预付款确认关键字</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.supportVd)">
-            <img class="images" src="../../../../../../assets/images/打扫.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/打扫.png" alt="a">
+            </div>
             <div class="item-text">
               <span>脏房配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
-            <img class="images" src="../../../../../../assets/images/标签.png" alt="a">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
             <div class="item-text">
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -877,7 +943,7 @@
       ...mapState({
         configData(state) {
           let configData = state.configData;
-          if(tool.isNotBlank(configData)) {
+          if (tool.isNotBlank(configData)) {
             //门锁配置，暂无
             //人脸识别配置
             this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
@@ -939,7 +1005,7 @@
         pmsData(state) {
           let pmsData = state.pmsData;
 
-          if(tool.isNotBlank(pmsData)) {
+          if (tool.isNotBlank(pmsData)) {
             //PMS信息
             //绿云,捷信达
             this.pmsId = pmsData.pms_id;
@@ -967,7 +1033,7 @@
         lvyeData(state) {
           let lvyeData = state.lvyeData;
 
-          if(tool.isNotBlank(lvyeData)) {
+          if (tool.isNotBlank(lvyeData)) {
             // 旅业配置
             this.lvyeType = lvyeData.lvye_report_type;
             this.policeId = lvyeData.hotel_ga_id;
@@ -980,7 +1046,7 @@
         wechatAppData(state) {
           let wechatAppData = state.wechatAppData;
 
-          if(tool.isNotBlank(wechatAppData)) {
+          if (tool.isNotBlank(wechatAppData)) {
             //小程序配置
             this.appId = wechatAppData.app_id;
             this.appSecret = wechatAppData.app_secret;
@@ -1072,7 +1138,7 @@
       },
       validateinvoice() {
         if (this.enabledInvoice) {
-            return (this.invoiceNameList.length > 0);
+          return (this.invoiceNameList.length > 0);
         }
         return true;
       },
@@ -1380,7 +1446,7 @@
             this.adminPassword = this.pmsData.admin_password;
             this.brandId = this.pmsData.brand_id;
             break;
-          case enumShowType.lvyeReportType: 
+          case enumShowType.lvyeReportType:
             this.lvyeType = this.lvyeData.lvye_report_type;
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
@@ -1508,11 +1574,10 @@
               }
             }
             this.patchPms(data);
-              return;
+            return;
           }
-            // break;
-          case enumShowType.lvyeReportType: 
-          {
+          // break;
+          case enumShowType.lvyeReportType: {
             let tempData = {
               lvye_report_type: this.lvyeType,
               hotel_ga_id: this.policeId,
@@ -1531,7 +1596,7 @@
               return;
             }
           }
-            // break;
+          // break;
           case enumShowType.doorLock_unknown:
 
             break;
@@ -1566,7 +1631,7 @@
             }
             this.patchWechatApps(data);
             return;
-            // break;
+          // break;
           case enumShowType.sign:
             data = {
               enabled_sign: this.enabledSign.toString()
@@ -1804,18 +1869,24 @@
           padding: 12px 6px;
           position: relative;
           height: 110px;
-          .images {
-            width: 46px;
-            height: 46px;
+          .item_img {
+            width: 44px;
+            height: 44px;
             text-align: center;
             border: solid 1px #979797;
             border-radius: 50%;
             padding: 10px;
+            display: flex;
+            align-items: center;
+            img {
+              width: 42px;
+              height: 42px;
+            }
           }
           .item-text {
-            text-align: left;
+            text-align: start;
             margin-left: 10px;
-            padding-top: 10px;
+            /*padding-top: 10px;*/
             span {
               font-size: 16px;
             }
@@ -1830,13 +1901,13 @@
             right: 5px;
             font-size: 16px;
           }
-          .tag_text_red{
+          .tag_text_red {
             color: #D0011B;
           }
-          .tag_text_green{
+          .tag_text_green {
             color: #39C240;
           }
-          .tag_text_gray{
+          .tag_text_gray {
             color: #9B9B9B;
           }
         }
