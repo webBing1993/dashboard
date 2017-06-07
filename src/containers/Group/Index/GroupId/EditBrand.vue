@@ -55,6 +55,7 @@
         'addBrand',
         'getGroupList',
         'modifyBrand',
+        'removeBrand',
         'getBrand',
         'goto',
         'showtoast',
@@ -82,6 +83,12 @@
           onsuccess: body => {
             this.goto(-1)
           }
+        })
+      },
+      remove() {
+        this.removeBrand({
+          id: this.$route.query.brandid,
+          onsuccess: body => this.goto(-1)
         })
       },
       getInfo() {

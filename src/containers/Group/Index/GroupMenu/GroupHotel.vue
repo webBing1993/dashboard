@@ -9,7 +9,7 @@
       </div>
       <h3>最近操作的门店</h3>
       <div class="content">
-        <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
+        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config" @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -137,7 +137,16 @@
           name: 'ConfigInfo',
           params: {
             id: obj.group_id,
-            hotelid: obj.group_id
+            hotelid: obj.id
+          }
+        })
+      },
+      device(obj) {
+        this.goto({
+          name: 'DeviceList',
+          params: {
+            id: obj.group_id,
+            hotelid: obj.id
           }
         })
       },

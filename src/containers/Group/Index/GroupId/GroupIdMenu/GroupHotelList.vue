@@ -8,7 +8,7 @@
         <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
       </div>
       <div class="content">
-        <table-hotel :list="list" @detail="detail" @group="group" @config="config"></table-hotel>
+        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config" @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -77,7 +77,7 @@
       ]),
       regist() {
         this.goto({
-          name: 'GroupAddHotel'
+          name: 'AddHotel'
         })
       },
       detail(obj) {
@@ -98,8 +98,18 @@
       },
       config(obj) {
         this.goto({
-          name: 'GroupConfig',
+          name: 'ConfigInfo',
           params: {
+            id: obj.group_id,
+            hotelid: obj.id
+          }
+        })
+      },
+      device(obj) {
+        this.goto({
+          name: 'DeviceList',
+          params: {
+            id: obj.group_id,
             hotelid: obj.id
           }
         })

@@ -26,16 +26,7 @@
     name: 'DeviceList',
     data() {
       return {
-        list: [
-          {
-            "hotel_id": "3c04bfba87c74e8b9bab8876ac01b01b",
-            "device_id": "f86cf4b3155011e78ece0bb05596f0f1",
-            "device_type": "31",//31底座、32底座PAD
-            "device_name": "设备名称",
-            "enabled": 1,  //1可用0禁用
-            "created_time": "2017-04-28 17:21:37"
-          }
-        ],
+        list: [],
         page: 1,
         size: 20,
         total: 0
@@ -69,7 +60,7 @@
       },
       getList() {
         this.getDeviceList({
-          keyword: this.searchVal,
+          hotel_id: this.$route.params.hotelid,
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
@@ -81,7 +72,7 @@
       }
     },
     mounted() {
-      // this.getList();
+      this.getList();
     }
   }
 </script>
