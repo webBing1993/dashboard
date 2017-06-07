@@ -5,25 +5,33 @@
         <h1>配置汇总</h1>
         <div>
           <h3>PMS对接配置</h3>
-          <!--<p>PMS品牌: </p>
-          <p>酒店PMS编码: </p>
-          <p>酒店服务地址: </p>
-          <p>账单服务地址: </p>
-          <p>CRM服务地址: </p>
-          <p>订单服务地址: </p>
-          <p>安全服务地址: </p>
-          <p>用户名: </p>
-          <p>密码: </p>
-          <p>调用ID: </p>
-          <p>密钥: </p>
-          <p>数据加密密钥: </p>-->
+          <p>PMS品牌id: {{pmsData.pms_id}}</p>
+          <p>PMS品牌: {{pmsData.pms_name}}</p>
+          <p>酒店PMS编码: {{pmsData.hotel_pmscode}}</p>
+          <p>酒店服务地址: {{pmsData.hotel_service_url}}</p>
+          <div v-if="pmsData.pms_name == '别样红'">
+            <p>账单服务地址: {{pmsData.bill_service_url}}</p>
+            <p>CRM服务地址: {{pmsData.crm_service_url}}</p>
+            <p>订单服务地址: {{pmsData.order_service_url}}</p>
+            <p>安全服务地址: {{pmsData.sec_service_url}}</p>
+            <p>用户名: {{pmsData.user_name}}</p>
+            <p>密码: {{pmsData.user_pass}}</p>
+          </div>
+          <div v-if="pmsData.pms_name == '住哲'">
+            <p>调用ID: {{pmsData.cid}}</p>
+            <p>密钥: {{pmsData.key}}</p>
+            <p>数据加密密钥: {{pmsData.datakey}}</p>
+            <p>用户名: {{pmsData.admin_name}}</p>
+            <p>密码: {{pmsData.admin_password}}</p>
+            <p>品牌ID:{{pmsData.brand_id}} </p>
+          </div>
         </div>
         <div>
           <h3>旅业系统配置</h3>
-          <p>旅业系统类型: {{configData.lvye_report_type}}</p>
-          <p>酒店公安ID: {{configData.hotel_ga_id}}</p>
-          <p>公安类型: {{configData.police_type}}</p>
-          <p>公安参数: {{configData.police_param}}</p>
+          <p>旅业系统类型: {{lvyeData.lvye_report_type}}</p>
+          <p>酒店公安ID: {{lvyeData.hotel_ga_id}}</p>
+          <p>公安类型: {{lvyeData.police_type}}</p>
+          <p>公安参数: {{lvyeData.police_param}}</p>
         </div>
         <div>
           <h3>门锁配置</h3>
@@ -48,10 +56,10 @@
         </div>
         <div>
           <h3>小程序配置</h3>
-          <p>小程序app_id: {{configData.app_id}}</p>
-          <p>小程序名称: {{configData.app_secret}}</p>
-          <p>小程序密钥: {{configData.original_id}}</p>
-          <p>小程序原始ID: {{configData.app_name}}</p>
+          <p>小程序app_id: {{wechatAppData.app_id}}</p>
+          <p>小程序名称: {{wechatAppData.app_secret}}</p>
+          <p>小程序密钥: {{wechatAppData.original_id}}</p>
+          <p>小程序原始ID: {{wechatAppData.app_name}}</p>
         </div>
         <div>
           <h3>电子签名配置</h3>
@@ -147,12 +155,18 @@
     },
     computed: {
       ...mapState([
-        'configData'
+        'configData',
+        'pmsData',
+        'lvyeData',
+        'wechatAppData'
       ]),
     },
     methods: {
       ...mapActions([
         'getConfig',
+        'getPMS',
+        'getLvye',
+        'getWechatApp',
         'showtoast'
       ]),
       isEmptyConfigData() {
@@ -160,16 +174,37 @@
       },
       getConfigs() {
         this.getConfig({
-            hotel_id: this.$route.params.hotelid,
-            onsuccess: body => {
-
-            }
+            hotel_id: this.$route.params.hotelid
+        })
+      },
+      getPms() {
+        this.getPMS({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
+      getLvyes() {
+        this.getLvye({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
+      getWechatApps() {
+        this.getWechatApp({
+          hotel_id: this.$route.params.hotelid
         })
       }
     },
     mounted() {
       if (tool.isBlank(this.configData)) {
         this.getConfigs();
+      }
+      if (tool.isBlank(this.pmsData)) {
+        this.getPms();
+      }
+      if (tool.isBlank(this.lvyeData)) {
+        this.getLvyes();
+      }
+      if (tool.isBlank(this.wechatAppData)) {
+        this.getWechatApps();
       }
     }
   }
