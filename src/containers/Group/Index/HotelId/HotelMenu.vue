@@ -1,12 +1,12 @@
 <template>
   <div>
     <aside>
-      <div>门店信息</div>
+      <a style="color: #4A4A4A;font-size: 16px;margin-top: 12px;font-weight: 600">门店信息</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId">基本信息</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/room'">楼宇房间</router-link>
-      <div>门店配置</div>
+      <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">配置管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'">门店配置</router-link>
-      <div>门店设备</div>
+      <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">门店设备</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/device'">设备管理</router-link>
     </aside>
     <router-view class="fifth-router"/>
