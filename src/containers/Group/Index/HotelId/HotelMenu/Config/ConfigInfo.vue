@@ -13,6 +13,7 @@
               <span>pms对接配置</span>
               <p>对接PMS的酒店必须开通该配置。</p>
             </div>
+            <span class="tag_text">未配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -22,6 +23,7 @@
               <span>旅业系统配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -31,6 +33,7 @@
               <span>门锁配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -40,6 +43,7 @@
               <span>人脸识别配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -49,6 +53,7 @@
               <span>微信支付配置</span>
               <p>配置微信支付信息。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -59,6 +64,7 @@
               <p>必须开通该配置,身份识别、旅业上报
                 等接口需要用到。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -68,10 +74,10 @@
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
-
       <div class="content-title">
         <span>业务配置 <i>（选择酒店开启业务）</i></span>
       </div>
@@ -83,6 +89,7 @@
               <span>电子签名</span>
               <p>客人是否需要在支付后签名。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -92,6 +99,7 @@
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -101,6 +109,7 @@
               <span>发票申请</span>
               <p>配置客人是否可以申请发票。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -110,6 +119,7 @@
               <span>预登记</span>
               <p>配置客人是否可以预登记。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -119,6 +129,7 @@
               <span>到店支付</span>
               <p>开通后客人可以免支付完成预登记</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -128,6 +139,7 @@
               <span>自动退房</span>
               <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -137,6 +149,7 @@
               <span>自动退款</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -146,10 +159,10 @@
               <span>无证入住</span>
               <p>酒店是否支持无证入住</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
-
       <div class="content-title">
         <span>酒店配置 <i>（需要配置以下所有项目）</i></span>
       </div>
@@ -161,6 +174,7 @@
               <span>房卡配置</span>
               <p>酒店是否支持写卡吐卡</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -170,6 +184,7 @@
               <span>押金配置</span>
               <p>配置酒店押金规则</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -179,6 +194,7 @@
               <span>早餐券配置</span>
               <p>配置早餐券规则</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -188,6 +204,7 @@
               <span>可选房数量</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -197,6 +214,7 @@
               <span>PMS同步频率</span>
               <p>设置自动同步周期</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -206,6 +224,7 @@
               <span>自动确认预付款</span>
               <p>配置预付款确认关键字</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -215,6 +234,7 @@
               <span>脏房配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -224,6 +244,7 @@
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
@@ -1695,12 +1716,18 @@
         button {
           display: flex;
           align-items: center;
+          justify-content: flex-start;
           background-color: #ffffff;
           border: solid 1px #9B9B9B;
           outline: none;
           color: #4A4A4A;
-          padding: 6px;
+          padding: 12px 6px;
+          position: relative;
+          height: 110px;
           .images {
+            width: 46px;
+            height: 46px;
+            text-align: center;
             border: solid 1px #979797;
             border-radius: 50%;
             padding: 10px;
@@ -1708,6 +1735,7 @@
           .item-text {
             text-align: left;
             margin-left: 10px;
+            padding-top: 10px;
             span {
               font-size: 16px;
             }
@@ -1715,6 +1743,13 @@
               font-size: 12px;
               margin-top: 5px;
             }
+          }
+          .tag_text {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+            color: #D0011B;
           }
         }
       }
@@ -1726,6 +1761,92 @@
     .el-right {
       width: 300px;
       margin-left: 16px;
+    }
+    .el-dialog {
+      .dialog-content {
+        .item-form {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          span {
+            min-width: 90px;
+            text-align: end;
+          }
+          .el-select {
+            width: 70%;
+          }
+          .el-input {
+            width: 70%;
+          }
+          .el-switch {
+            margin-left: 16px;
+          }
+        }
+        article {
+          ul {
+            font-size: 14px;
+            color: #9B9B9B;
+            margin-left: 20px;
+            line-height: 22px;
+            li {
+              margin-left: 20px;
+            }
+          }
+        }
+        .item_small {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          span {
+            width: 174px;
+            text-align: end;
+          }
+          .el-input {
+            width: 60%;
+          }
+        }
+        .item-tag {
+          display: flex;
+          align-items: flex-start;
+          span {
+            width: 60px;
+            text-align: end;
+            margin-right: 14px;
+            padding-top: 12px;
+          }
+          .tag-input {
+            position: relative;
+            line-height: 45px;
+            width: 70%;
+            .el-input {
+              width: 100%;
+            }
+            .tag-btn {
+              position: absolute;
+              margin-left: 10px;
+              bottom: 0;
+              right: -72px;
+              button {
+                border-radius: 50px;
+                outline: none;
+                border: solid 1px;
+                margin-left: 5px;
+                padding-bottom: 2px;
+                background-color: #ffffff;
+                height: 20px;
+                width: 20px;
+              }
+            }
+          }
+        }
+      }
+      .dialog-footer {
+        margin-top: -10px;
+        text-align: center;
+        .el-button {
+          min-width: 200px;
+        }
+      }
     }
   }
 
