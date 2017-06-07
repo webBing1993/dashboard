@@ -117,7 +117,7 @@
     .content {
       .enterprise-info {
         border: 1px solid #EAEDF0;
-        margin-bottom: 17px;
+        margin: 20px 37px 17px 39px;
         p {
           line-height: 30px;
           padding: 8px 20px;
@@ -126,7 +126,7 @@
           background-color: #FAFAFA;
         }
         .info-content {
-          padding: 10px 46px;
+          padding: 19px 54px;
           font-size: 16px;
           color: #4A4A4A;
           line-height: 55px;
@@ -140,17 +140,22 @@
             }
             .el-right {
               padding: 4px;
-              width: 60%;
+              width: 56%;
             }
           }
         }
       }
       .button-box {
-        width: 30%;
+        width: 246px;
         margin: 10px auto;
         .el-btn {
           width: 100%;
-          height: 46px;
+          height: 40px;
+          padding: 0;
+          background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
+          color: #ffffff;
         }
       }
     }

@@ -80,7 +80,7 @@
 </script>
 <style lang="less">
   .content_devicelist {
-    padding: 20px 18px 0;
+    padding: 20px 25px 0 24px;
     .header {
       display: flex;
       align-items: center;
@@ -94,6 +94,9 @@
       .el-button {
         min-width: 173px;
         line-height: 18px;
+        background-color: #39C240;
+        border-color: #39C240;
+        border-radius: 0;
       }
     }
   }

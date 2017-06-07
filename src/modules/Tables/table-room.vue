@@ -61,7 +61,11 @@
   .v-table td,
   .v-table th {
     height: 38px;
-    text-align: left;
+    text-align: center;
+  }
+
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
   }
 
   .v-table tr {
@@ -72,9 +76,9 @@
 
   .v-table th {
     padding-left: 10px;
-    font-size: 12px;
+    font-size: 14px;
     color: #3e3e3e;
-    background-color: #F7F7F7;
+    background-color: #9B9B9B;
     word-break: keep-all;
     white-space: nowrap;
     cursor: default;
@@ -84,7 +88,6 @@
     padding-left: 10px;
     color: #757575;
     font-size: 12px;
-    border-bottom: solid 1px #e0e0e0;
     word-break: keep-all;
     white-space: nowrap;
     line-height: 44px;

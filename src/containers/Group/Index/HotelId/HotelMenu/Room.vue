@@ -4,7 +4,7 @@
       <div class="content_room">
         <span>数据源</span>
         <div class="data_title">
-          <span>当前门店楼宇房间信息来自PMS系统,上次同步时间:2017/06/01 23:33 。</span>
+          <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</span>
           <div class="header-btn">
             <el-button type="success">PMS同步数据</el-button>
             <el-button type="success">添加房间(非对接PMS)</el-button>
@@ -141,7 +141,7 @@
       font-size: 16px;
       color: #4A4A4A;
       font-weight: normal;
-      padding: 8px 24px;
+      padding: 9px 25px 0 24px;
       .data_title {
         display: flex;
         align-items: center;
@@ -150,14 +150,22 @@
         span {
           flex: 1;
           font-size: 14px;
+          color: #4A4A4A;
         }
         .header-btn {
           display: flex;
-          margin-left: 6px;
+          /*margin-right: 6px;*/
           .el-button {
             line-height: 18px;
-            min-width: 143px;
+            min-width: 173px;
             font-size: 13px;
+            background-color: #39C240;
+            border-color: #39C240;
+            border-radius: 0;
+            margin: 0;
+            &:nth-child(1) {
+              margin-right: 59px;
+            }
           }
         }
       }

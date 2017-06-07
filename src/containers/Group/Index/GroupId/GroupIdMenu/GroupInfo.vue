@@ -39,6 +39,10 @@
               <span>企业官网</span>
               <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网" :disabled="!isEdit"></el-input>
             </div>
+            <div class="button-box" v-show="isEdit">
+              <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+              <el-button @click.native="cancel">取消</el-button>
+            </div>
           </div>
         </div>
         <div class="enterprise-info">
@@ -58,10 +62,7 @@
             </div>
           </div>
         </div>
-        <div class="button-box" v-show="isEdit">
-          <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-          <el-button @click.native="cancel">取消</el-button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -129,8 +130,8 @@
 </script>
 
 <style scoped lang="less">
-  .module-wrapper{
-    padding: 20px 38px;
+  .module-wrapper {
+    padding: 23px 36px 50px 25px;
     .top-content {
       display: flex;
       align-items: center;
@@ -171,7 +172,7 @@
           }
         }
         .info-content {
-          padding: 10px 40px;
+          padding: 22px 0 29px 40px;
           .content-msg {
             display: flex;
             align-items: center;
@@ -186,19 +187,25 @@
             .el-right {
               margin: 10px 20px;
               padding: 4px;
-              width: 80%;
+              width: 65%;
             }
           }
-        }
-      }
-      .button-box {
-        display: inline-block;
-        align-items: center;
-        width: 100%;
-        text-align: center;
-        .el-button {
-          width: 246px;
-          line-height: 18px;
+          .button-box {
+            display: inline-block;
+            align-items: center;
+            width: 100%;
+            text-align: center;
+            margin-top: 6px;
+            .el-button {
+              width: 246px;
+              line-height: 18px;
+            }
+            .el-button--success {
+              background-color: #39C240;
+              border-color: #39C240;
+              border-radius: 0;
+            }
+          }
         }
       }
     }

@@ -125,7 +125,7 @@
 
 <style scoped lang="less">
   .module-wrapper {
-    padding: 26px 47px;
+    padding: 26px 45px;
     .content-item {
       display: flex;
       align-items: center;
@@ -152,6 +152,10 @@
       .el-button {
         width: 173px;
         line-height: 18px;
+        background-color: #39C240;
+        border-color: #39C240;
+        border-radius: 0;
+        color: #ffffff;
       }
     }
   }

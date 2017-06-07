@@ -66,6 +66,10 @@
               <span class="item-text">请点击地图确认坐标 lat: {{latitude}} lng: {{longitude}}</span>
             </div>
           </div>
+          <div class="button-box" v-show="isEdit">
+            <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+            <el-button @click.native="cancel">取消</el-button>
+          </div>
         </div>
         <div class="store-info">
           <p>联系信息<a @click="edit">修改</a></p>
@@ -76,17 +80,14 @@
             </div>
             <div class="item">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务"
+                        :disabled="!isEdit"></el-input>
             </div>
             <div class="item">
               <span>联系电话</span>
               <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话" :disabled="!isEdit"></el-input>
             </div>
           </div>
-        </div>
-        <div class="button-box" v-show="isEdit">
-          <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-          <el-button @click.native="cancel">取消</el-button>
         </div>
       </div>
     </div>
@@ -344,13 +345,13 @@
 
 <style scoped lang="less">
   .module-wrapper {
-    padding: 24px;
+    padding: 23px 36px 28px 24px;
     .content {
       .store-info {
         overflow: hidden;
         border: 1px solid #ECECEC;
         font-size: 16px;
-        margin-bottom: 25px;
+        margin-bottom: 24px;
         p {
           padding: 10px 24px;
           background-color: #EAEDF0;
@@ -365,13 +366,16 @@
         .info-content {
           display: flex;
           font-size: 14px;
-          padding: 17px 15px 22px 44px;
+          padding: 24px 27px 19px 21px;
           .content-item {
             flex: 1px;
+            &:nth-child(1) {
+              margin-right: 32px;
+            }
             .item {
               display: flex;
               align-items: center;
-              width: 96%;
+              width: 100%;
               line-height: 48px;
               span {
                 width: 60px;
@@ -397,7 +401,7 @@
                 margin-right: 14px;
               }
               .el-right-address {
-                width: 24%;
+                width: 26.4%;
                 background-color: #ffffff;
                 outline: none;
                 margin-left: 4px;
@@ -407,7 +411,7 @@
               margin-left: 78px;
               line-height: 48px;
               .el-input {
-                width: 95%;
+                width: 100%;
               }
             }
             #mapContainer {
@@ -421,6 +425,21 @@
               padding: 12px 0;
             }
 
+          }
+        }
+        .button-box {
+          width: 100%;
+          text-align: center;
+          margin-bottom: 28px;
+          .el-button {
+            width: 28%;
+            margin-right: 6px;
+            line-height: 18px;
+            border-radius: 0;
+          }
+          .el-button--success {
+            background-color: #39C240;
+            border-color: #39C240;
           }
         }
         .info-msg {
@@ -445,15 +464,7 @@
           }
         }
       }
-      .button-box {
-        width: 100%;
-        text-align: center;
-        .el-button {
-          width: 28%;
-          margin-right: 6px;
-          line-height: 18px;
-        }
-      }
+
     }
 
     .error-info {
