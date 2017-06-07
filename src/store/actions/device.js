@@ -44,6 +44,7 @@ module.exports = {
     })
   },
   removeDevice(ctx, param) {
+    console.log(param.device_id)
     ctx.dispatch('resource', {
       url: `/devices/${param.device_id}`,
       method:'DELETE',

@@ -839,9 +839,100 @@
       }
     },
     computed: {
-      ...mapState([
-        'configData'
-      ]),
+      ...mapState({
+        configData(state) {
+          let configData = state.configData;
+
+          if(tool.isNotBlank(configData)) {
+            //PMS信息
+            //绿云,捷信达
+            this.pmsId = configData.pms_id;
+            // this.pmsName = configData.pms_name; //放在计算属性
+            this.hotelPmsCode = configData.hotel_pmscode;
+            this.hotelServiceUrl = configData.hotel_service_url;
+            //别样红
+            this.billServiceUrl = configData.bill_service_url;
+            this.crmServiceUrl = configData.crm_service_url;
+            this.orderServiceUrl = configData.order_service_url;
+            this.secServiceUrl = configData.sec_service_url;
+            this.userName = configData.user_name;
+            this.userPass = configData.user_pass;
+            //住哲
+            this.cid = configData.cid;
+            this.key = configData.key;
+            this.dataKey = configData.datakey;
+            this.adminName = configData.admin_name;
+            this.adminPassword = configData.admin_password;
+            this.brandId = configData.brand_id;
+            // 旅业配置
+            this.lvyeType = configData.lvye_report_type;
+            this.policeId = configData.hotel_ga_id;
+            this.policeType = configData.police_type;
+            this.policeParam = JSON.stringify(configData.police_param);
+            //门锁配置，暂无
+            //人脸识别配置
+            this.faceinPassValue = +configData.facein_pass_value;
+            this.faceinRejectValue = +configData.facein_reject_value;
+            //微信支付配置
+            this.wechatPayAppId = configData.miniapp_config.app_id;
+            this.mchId = configData.miniapp_config.mch_id;
+            this.mchApiKey = configData.miniapp_config.mch_api_key;
+            this.payCode = configData.pay_code;
+            this.refundCode = configData.refund_code;
+            //微信生态酒店配置
+            this.wxHotelId = configData.wx_hotel_id;
+            //小程序配置
+            this.appId = configData.app_id;
+            this.appSecret = configData.app_secret;
+            this.originalId = configData.original_id;
+            this.appName = configData.app_name;
+            //电子签名
+            this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+            //电话取消订单  暂无
+            //发票配置
+            this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
+            this.invoiceName = [...configData.invoice_name];
+            //预登记短信配置
+            this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
+            //到店支付配置
+            this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
+            //自动退房
+            this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
+            //自动退款
+            this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
+            //无证入住
+            this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
+            //门卡配置
+            this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
+            //押金配置
+            this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
+            this.fixedCashPledge = +configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = +configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
+            this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
+            this.dayOfIncidentals = +configData.cash_pledge_config.day_of_incidentals;
+            //早餐券配置
+            this.breakfastStemFrom = configData.breakfast_stem_from;
+            //可选房数量
+            this.maxAllowRoomcount = configData.max_allow_roomcount;
+            //PMS同步频率
+            this.syncSpaceTime = configData.sync_space_time;
+            //自动预付款确认
+            this.prepayKeyword = configData.prepay_keyword;
+            this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
+            this.postpayKeyword = configData.postpay_keyword;
+            this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
+            this.freeDepositKeyword = configData.free_deposit_keyword;
+            this.needDepositKeyword = configData.need_deposit_keyword;
+            //脏房配置
+            this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+            //酒店标签配置
+            this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+          }
+
+          return configData;
+        }
+      }),
       pmsName() {
         let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
         if (tool.isNotBlank(obj))
@@ -1087,96 +1178,96 @@
         return result;
       }
     },
-    watch: {
-      configData(val) {
-        if(tool.isNotBlank(this.configData)) {
-          //PMS信息
-          //绿云,捷信达
-          this.pmsId = this.configData.pms_id;
-          // this.pmsName = this.configData.pms_name; //放在计算属性
-          this.hotelPmsCode = this.configData.hotel_pmscode;
-          this.hotelServiceUrl = this.configData.hotel_service_url;
-          //别样红
-          this.billServiceUrl = this.configData.bill_service_url;
-          this.crmServiceUrl = this.configData.crm_service_url;
-          this.orderServiceUrl = this.configData.order_service_url;
-          this.secServiceUrl = this.configData.sec_service_url;
-          this.userName = this.configData.user_name;
-          this.userPass = this.configData.user_pass;
-          //住哲
-          this.cid = this.configData.cid;
-          this.key = this.configData.key;
-          this.dataKey = this.configData.datakey;
-          this.adminName = this.configData.admin_name;
-          this.adminPassword = this.configData.admin_password;
-          this.brandId = this.configData.brand_id;
-          // 旅业配置
-          this.lvyeType = this.configData.lvye_report_type;
-          this.policeId = this.configData.hotel_ga_id;
-          this.policeType = this.configData.police_type;
-          this.policeParam = JSON.stringify(this.configData.police_param);
-          //门锁配置，暂无
-          //人脸识别配置
-          this.faceinPassValue = +this.configData.facein_pass_value;
-          this.faceinRejectValue = +this.configData.facein_reject_value;
-          //微信支付配置
-          this.wechatPayAppId = this.configData.miniapp_config.app_id;
-          this.mchId = this.configData.miniapp_config.mch_id;
-          this.mchApiKey = this.configData.miniapp_config.mch_api_key;
-          this.payCode = this.configData.pay_code;
-          this.refundCode = this.configData.refund_code;
-          //微信生态酒店配置
-          this.wxHotelId = this.configData.wx_hotel_id;
-          //小程序配置
-          this.appId = this.configData.app_id;
-          this.appSecret = this.configData.app_secret;
-          this.originalId = this.configData.original_id;
-          this.appName = this.configData.app_name;
-          //电子签名
-          this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
-          //电话取消订单  暂无
-          //发票配置
-          this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
-          this.invoiceName = [...this.configData.invoice_name];
-          //预登记短信配置
-          this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
-          //到店支付配置
-          this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
-          //自动退房
-          this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
-          //自动退款
-          this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
-          //无证入住
-          this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
-          //门卡配置
-          this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
-          //押金配置
-          this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
-          this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
-          this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
-          this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
-          this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
-          this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
-          //早餐券配置
-          this.breakfastStemFrom = this.configData.breakfast_stem_from;
-          //可选房数量
-          this.maxAllowRoomcount = this.configData.max_allow_roomcount;
-          //PMS同步频率
-          this.syncSpaceTime = this.configData.sync_space_time;
-          //自动预付款确认
-          this.prepayKeyword = this.configData.prepay_keyword;
-          this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
-          this.postpayKeyword = this.configData.postpay_keyword;
-          this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
-          this.freeDepositKeyword = this.configData.free_deposit_keyword;
-          this.needDepositKeyword = this.configData.need_deposit_keyword;
-          //脏房配置
-          this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
-          //酒店标签配置
-          this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
-        }
-      }
-    },
+    // watch: {
+    //   configData(val) {
+    //     if(tool.isNotBlank(this.configData)) {
+    //       //PMS信息
+    //       //绿云,捷信达
+    //       this.pmsId = this.configData.pms_id;
+    //       // this.pmsName = this.configData.pms_name; //放在计算属性
+    //       this.hotelPmsCode = this.configData.hotel_pmscode;
+    //       this.hotelServiceUrl = this.configData.hotel_service_url;
+    //       //别样红
+    //       this.billServiceUrl = this.configData.bill_service_url;
+    //       this.crmServiceUrl = this.configData.crm_service_url;
+    //       this.orderServiceUrl = this.configData.order_service_url;
+    //       this.secServiceUrl = this.configData.sec_service_url;
+    //       this.userName = this.configData.user_name;
+    //       this.userPass = this.configData.user_pass;
+    //       //住哲
+    //       this.cid = this.configData.cid;
+    //       this.key = this.configData.key;
+    //       this.dataKey = this.configData.datakey;
+    //       this.adminName = this.configData.admin_name;
+    //       this.adminPassword = this.configData.admin_password;
+    //       this.brandId = this.configData.brand_id;
+    //       // 旅业配置
+    //       this.lvyeType = this.configData.lvye_report_type;
+    //       this.policeId = this.configData.hotel_ga_id;
+    //       this.policeType = this.configData.police_type;
+    //       this.policeParam = JSON.stringify(this.configData.police_param);
+    //       //门锁配置，暂无
+    //       //人脸识别配置
+    //       this.faceinPassValue = +this.configData.facein_pass_value;
+    //       this.faceinRejectValue = +this.configData.facein_reject_value;
+    //       //微信支付配置
+    //       this.wechatPayAppId = this.configData.miniapp_config.app_id;
+    //       this.mchId = this.configData.miniapp_config.mch_id;
+    //       this.mchApiKey = this.configData.miniapp_config.mch_api_key;
+    //       this.payCode = this.configData.pay_code;
+    //       this.refundCode = this.configData.refund_code;
+    //       //微信生态酒店配置
+    //       this.wxHotelId = this.configData.wx_hotel_id;
+    //       //小程序配置
+    //       this.appId = this.configData.app_id;
+    //       this.appSecret = this.configData.app_secret;
+    //       this.originalId = this.configData.original_id;
+    //       this.appName = this.configData.app_name;
+    //       //电子签名
+    //       this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
+    //       //电话取消订单  暂无
+    //       //发票配置
+    //       this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
+    //       this.invoiceName = [...this.configData.invoice_name];
+    //       //预登记短信配置
+    //       this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
+    //       //到店支付配置
+    //       this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
+    //       //自动退房
+    //       this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
+    //       //自动退款
+    //       this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
+    //       //无证入住
+    //       this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
+    //       //门卡配置
+    //       this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
+    //       //押金配置
+    //       this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
+    //       this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
+    //       this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
+    //       this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
+    //       this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
+    //       this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
+    //       //早餐券配置
+    //       this.breakfastStemFrom = this.configData.breakfast_stem_from;
+    //       //可选房数量
+    //       this.maxAllowRoomcount = this.configData.max_allow_roomcount;
+    //       //PMS同步频率
+    //       this.syncSpaceTime = this.configData.sync_space_time;
+    //       //自动预付款确认
+    //       this.prepayKeyword = this.configData.prepay_keyword;
+    //       this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
+    //       this.postpayKeyword = this.configData.postpay_keyword;
+    //       this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
+    //       this.freeDepositKeyword = this.configData.free_deposit_keyword;
+    //       this.needDepositKeyword = this.configData.need_deposit_keyword;
+    //       //脏房配置
+    //       this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+    //       //酒店标签配置
+    //       this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
+    //     }
+    //   }
+    // },
     methods: {
       ...mapActions([
         'getConfig',
@@ -1331,44 +1422,57 @@
         let data;
         switch (this.showType) {
           case enumShowType.PMS:
-            let paramData = {
-              pms_id: this.pmsId,
-              pms_name: this.pmsName,
-              hotel_pmscode: this.hotelPmsCode,
-              hotel_service_url: this.hotelServiceUrl
-            }
-            if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
-              data = {
-                ...paramData
+            {
+              let paramData = {
+                pms_id: this.pmsId,
+                pms_name: this.pmsName,
+                hotel_pmscode: this.hotelPmsCode,
+                hotel_service_url: this.hotelServiceUrl
               }
-            } else if (this.pmsName == '别样红') {
-              data = {
-                ...paramData,
-                bill_service_url: this.billServiceUrl,
-                crm_service_url: this.crmServiceUrl,
-                order_service_url: this.orderServiceUrl,
-                sec_service_url: this.secServiceUrl,
-                user_name: this.userName,
-                user_pass: this.userPass,
-              }
-            } else if (this.pmsName == '住哲') {
-              data = {
-                ...paramData,
-                cid: this.cid,
-                key: this.key,
-                datakey: this.dataKey,
-                admin_name: this.adminName,
-                admin_password: this.adminPassword,
-                brand_id: this.brandId,
+              if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+                data = {
+                  ...paramData
+                }
+              } else if (this.pmsName == '别样红') {
+                data = {
+                  ...paramData,
+                  bill_service_url: this.billServiceUrl,
+                  crm_service_url: this.crmServiceUrl,
+                  order_service_url: this.orderServiceUrl,
+                  sec_service_url: this.secServiceUrl,
+                  user_name: this.userName,
+                  user_pass: this.userPass,
+                }
+              } else if (this.pmsName == '住哲') {
+                data = {
+                  ...paramData,
+                  cid: this.cid,
+                  key: this.key,
+                  datakey: this.dataKey,
+                  admin_name: this.adminName,
+                  admin_password: this.adminPassword,
+                  brand_id: this.brandId,
+                }
               }
             }
             break;
           case enumShowType.lvyeReportType:
-            data = {
-              lvye_report_type: this.lvyeType,
-              hotel_ga_id: this.policeId,
-              police_type: this.policeType,
-              police_param: JSON.parse(this.policeParam)
+            {
+              let tempData = {
+                lvye_report_type: this.lvyeType,
+                hotel_ga_id: this.policeId,
+                police_type: this.policeType
+              }
+              if (this.lvyeType == 'CLOUD') {
+                data = {
+                  ...tempData
+                }
+              } else if (this.lvyeType == 'LOCAL') {
+                data = {
+                  ...tempData,
+                  police_param: JSON.parse(this.policeParam)
+                }
+              }
             }
             break;
           case enumShowType.doorLock_unknown:
@@ -1449,13 +1553,44 @@
             }
             break;
           case enumShowType.cashPledge:
-            data = {
-              cash_pledge_type: this.cashPledgeType,
-              fixed_cash_pledge: +this.fixedCashPledge,
-              multiple_of_cash_pledge: +this.multipleOfCashPledge,
-              round_up_to_integer: this.roundUpToInteger,
-              has_day_of_incidentals: this.hasDayOfIncidentals,
-              day_of_incidentals: +this.dayOfIncidentals
+            {
+              let tempData = {
+                cash_pledge_type: this.cashPledgeType
+              }
+              if (this.cashPledgeType == 'none_cash_pledge') {
+                data = {
+                  ...tempData
+                }
+              } else if (this.cashPledgeType == 'fixed_cash_pledge') {
+                data = {
+                  ...tempData,
+                  fixed_cash_pledge: +this.fixedCashPledge,
+                  round_up_to_integer: this.roundUpToInteger,
+                  has_day_of_incidentals: this.hasDayOfIncidentals
+                }
+                if (this.hasDayOfIncidentals) {
+                  data.day_of_incidentals = +this.dayOfIncidentals;
+                }
+              } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
+                data = {
+                  ...tempData,
+                  multiple_of_cash_pledge: +this.multipleOfCashPledge,
+                  round_up_to_integer: this.roundUpToInteger,
+                  has_day_of_incidentals: this.hasDayOfIncidentals
+                }
+                if (this.hasDayOfIncidentals) {
+                  data.day_of_incidentals = +this.dayOfIncidentals;
+                }
+              } else if (this.cashPledgeType == 'first_day_of_room_price') {
+                data = {
+                  ...tempData,
+                  round_up_to_integer: this.roundUpToInteger,
+                  has_day_of_incidentals: this.hasDayOfIncidentals
+                }
+                if (this.hasDayOfIncidentals) {
+                  data.day_of_incidentals = +this.dayOfIncidentals;
+                }
+              }
             }
             break;
           case enumShowType.breakfastStemFrom:

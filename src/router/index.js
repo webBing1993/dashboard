@@ -154,7 +154,8 @@ const main = [
               ]
             }
           ]
-        },{
+        }
+        ,{
           path: '*',
           redirect: '/auth'
         }
