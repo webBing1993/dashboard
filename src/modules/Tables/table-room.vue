@@ -19,7 +19,7 @@
         <td>{{ obj.floor_name }}</td>
         <td>{{ obj.room_num }}</td>
         <td>{{ obj.room_type_name }}</td>
-        <td>{{ obj.roomfeature_desc.join(',') }}</td>
+        <td>{{ obj.roomfeature_desc }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>
