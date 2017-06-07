@@ -75,7 +75,7 @@
       ]),
       edit(obj) {
         this.tempObj = obj;
-        this.roomfeatureDesc = obj.roomfeature_desc;
+        this.roomfeatureDesc = obj.roomfeature_desc.split(',');
         this.showDialog = true;
       },
       hideDialog() {
@@ -111,7 +111,7 @@
           floor_name: this.tempObj.floor_name,
           room_num: this.tempObj.room_num,
           room_type_name: this.tempObj.room_type_name,
-          roomfeature_desc: this.roomfeatureDesc,
+          roomfeature_desc: this.roomfeatureDesc.join(),
           onsuccess: body => {
             this.showDialog = false;
           }

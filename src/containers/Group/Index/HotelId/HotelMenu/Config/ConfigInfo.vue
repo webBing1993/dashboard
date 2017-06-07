@@ -13,7 +13,7 @@
               <span>pms对接配置</span>
               <p>对接PMS的酒店必须开通该配置。</p>
             </div>
-            <span class="tag_text">未配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !pmsId, 'tag_text_green': pmsId}">{{pmsId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -23,7 +23,7 @@
               <span>旅业系统配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -33,7 +33,7 @@
               <span>门锁配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text">未配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -43,7 +43,7 @@
               <span>人脸识别配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -53,7 +53,7 @@
               <span>微信支付配置</span>
               <p>配置微信支付信息。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !wechatPayAppId, 'tag_text_green': wechatPayAppId}">{{wechatPayAppId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -64,7 +64,7 @@
               <p>必须开通该配置,身份识别、旅业上报
                 等接口需要用到。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !wxHotelId, 'tag_text_green': wxHotelId}">{{wxHotelId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -74,7 +74,7 @@
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -89,7 +89,7 @@
               <span>电子签名</span>
               <p>客人是否需要在支付后签名。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -99,7 +99,7 @@
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text">未开通</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -109,7 +109,7 @@
               <span>发票申请</span>
               <p>配置客人是否可以申请发票。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -119,7 +119,7 @@
               <span>预登记</span>
               <p>配置客人是否可以预登记。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -129,7 +129,7 @@
               <span>到店支付</span>
               <p>开通后客人可以免支付完成预登记</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledDelayedPayment, 'tag_text_green': enabledDelayedPayment}">{{enabledDelayedPayment ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -139,7 +139,7 @@
               <span>自动退房</span>
               <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -149,7 +149,7 @@
               <span>自动退款</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -159,7 +159,7 @@
               <span>无证入住</span>
               <p>酒店是否支持无证入住</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -174,7 +174,7 @@
               <span>房卡配置</span>
               <p>酒店是否支持写卡吐卡</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !supportRoomCard, 'tag_text_green': supportRoomCard}">{{supportRoomCard ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -184,7 +184,7 @@
               <span>押金配置</span>
               <p>配置酒店押金规则</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !cashPledgeType, 'tag_text_green': cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -194,7 +194,7 @@
               <span>早餐券配置</span>
               <p>配置早餐券规则</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !breakfastStemFrom, 'tag_text_green': breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -204,7 +204,7 @@
               <span>可选房数量</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green': maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -214,7 +214,7 @@
               <span>PMS同步频率</span>
               <p>设置自动同步周期</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !syncSpaceTime, 'tag_text_green': syncSpaceTime}">{{syncSpaceTime ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -224,7 +224,7 @@
               <span>自动确认预付款</span>
               <p>配置预付款确认关键字</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -234,7 +234,7 @@
               <span>脏房配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -244,7 +244,7 @@
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
-            <span class="tag_text">已配置</span>
+            <span class="tag_text" :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -880,8 +880,8 @@
           if(tool.isNotBlank(configData)) {
             //门锁配置，暂无
             //人脸识别配置
-            this.faceinPassValue = +configData.facein_pass_value;
-            this.faceinRejectValue = +configData.facein_reject_value;
+            this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
+            this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
             //微信支付配置
             this.wechatPayAppId = configData.miniapp_config.app_id;
             this.mchId = configData.miniapp_config.mch_id;
@@ -910,11 +910,11 @@
             this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
             //押金配置
             this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
-            this.fixedCashPledge = +configData.cash_pledge_config.fixed_cash_pledge;
-            this.multipleOfCashPledge = +configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
             this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
             this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
-            this.dayOfIncidentals = +configData.cash_pledge_config.day_of_incidentals;
+            this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
             //早餐券配置
             this.breakfastStemFrom = configData.breakfast_stem_from;
             //可选房数量
@@ -1390,8 +1390,8 @@
 
             break;
           case enumShowType.facein:
-            this.faceinPassValue = +this.configData.facein_pass_value;
-            this.faceinRejectValue = +this.configData.facein_reject_value;
+            this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
+            this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
             break;
           case enumShowType.wechatPay:
             this.wechatPayAppId = this.configData.miniapp_config.app_id;
@@ -1439,11 +1439,11 @@
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
-            this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
-            this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.fixedCashPledge = this.configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = this.configData.cash_pledge_config.multiple_of_cash_pledge;
             this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
             this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
-            this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
+            this.dayOfIncidentals = this.configData.cash_pledge_config.day_of_incidentals;
             break;
           case enumShowType.breakfastStemFrom:
             this.breakfastStemFrom = this.configData.breakfast_stem_from;
@@ -1829,7 +1829,15 @@
             top: 5px;
             right: 5px;
             font-size: 16px;
+          }
+          .tag_text_red{
             color: #D0011B;
+          }
+          .tag_text_green{
+            color: #39C240;
+          }
+          .tag_text_gray{
+            color: #9B9B9B;
           }
         }
       }
