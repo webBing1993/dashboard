@@ -1074,7 +1074,7 @@
         if (this.enabledInvoice) {
             return (this.invoiceNameList.length > 0);
         }
-        return false;
+        return true;
       },
       validatepreCheckinSms() {
         return true;
