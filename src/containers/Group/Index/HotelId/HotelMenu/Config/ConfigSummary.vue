@@ -160,7 +160,7 @@
       },
       getConfigs() {
         this.getConfig({
-            hotelId: this.$route.params.hotelid,
+            hotel_id: this.$route.params.hotelid,
             onsuccess: body => {
 
             }

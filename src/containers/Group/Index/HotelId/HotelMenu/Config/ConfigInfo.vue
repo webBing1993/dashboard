@@ -239,52 +239,52 @@
           <div v-if="showType === enumShowType.PMS">
             <div>
               <span>PMS品牌</span>
-              <el-select class="el-right" v-model="PMSBrand" placeholder="请选择PMS品牌">
+              <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌">
                 <el-option
                   v-for="(obj, index) of PMSBrandList"
-                  :key="index"
-                  :label="obj"
-                  :value="obj">
+                  :key="obj.id"
+                  :label="obj.name"
+                  :value="obj.id">
                 </el-option>
               </el-select>
             </div>
-            <div v-show="PMSBrand != ''">
+            <div v-show="pmsId != ''">
               <div>
                 <span>酒店PMS编码</span>
-                <el-input class="el-right" v-model="PMSCode" placeholder="请输入酒店PMS编码"></el-input>
+                <el-input class="el-right" v-model="hotelPmsCode" placeholder="请输入酒店PMS编码"></el-input>
               </div>
               <div>
                 <span>酒店服务地址</span>
-                <el-input class="el-right" v-model="hotelService" placeholder="请输入酒店服务地址"></el-input>
+                <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
-            <div v-show="PMSBrand == '别样红'">
+            <div v-show="pmsName == '别样红'">
               <div>
                 <span>账单服务地址</span>
-                <el-input class="el-right" v-model="billService" placeholder="请输入账单服务地址"></el-input>
+                <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
               </div>
               <div>
                 <span>CRM服务地址</span>
-                <el-input class="el-right" v-model="CRMService" placeholder="请输入CRM服务地址"></el-input>
+                <el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>
               </div>
               <div>
                 <span>订单服务地址</span>
-                <el-input class="el-right" v-model="orderService" placeholder="请输入订单服务地址"></el-input>
+                <el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>
               </div>
               <div>
                 <span>安全服务地址</span>
-                <el-input class="el-right" v-model="securityService" placeholder="请输入安全服务地址"></el-input>
+                <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
               </div>
               <div>
                 <span>用户名</span>
-                <el-input class="el-right" v-model="PMSUserName" placeholder="请输入用户名"></el-input>
+                <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
               <div>
                 <span>密码</span>
-                <el-input class="el-right" v-model="PMSPassword" placeholder="请输入密码"></el-input>
+                <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
-            <div v-show="PMSBrand == '住哲'">
+            <div v-show="pmsName == '住哲'">
               <div>
                 <span>调用ID</span>
                 <el-input class="el-right" v-model="cid" placeholder="请输入住哲分配的调用ID(cid)"></el-input>
@@ -295,19 +295,19 @@
               </div>
               <div>
                 <span>数据加密密钥</span>
-                <el-input class="el-right" v-model="datakey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
+                <el-input class="el-right" v-model="dataKey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
               </div>
               <div>
                 <span>用户名</span>
-                <el-input class="el-right" v-model="PMSUserName" placeholder="请输入用户名"></el-input>
+                <el-input class="el-right" v-model="adminName" placeholder="请输入用户名"></el-input>
               </div>
               <div>
                 <span>密码</span>
-                <el-input class="el-right" v-model="PMSPassword" placeholder="请输入密码"></el-input>
+                <el-input class="el-right" v-model="adminPassword" placeholder="请输入密码"></el-input>
               </div>
               <div>
                 <span>品牌ID</span>
-                <el-input class="el-right" v-model="PMSBranId" placeholder="请输入密码"></el-input>
+                <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
           </div>
@@ -730,20 +730,26 @@
         showType: '',
         showDialog: false,
         //PMS配置
-        PMSBrandList: ['绿云', '捷信达', '别样红', '住哲'],
-        PMSBrand: '',
-        PMSCode: '',
-        hotelService: '',
-        billService: '',
-        CRMService: '',
-        orderService: '',
-        securityService: '',
-        PMSUserName: '',
-        PMSPassword: '',
+        PMSBrandList: [],
+        //绿云,捷信达
+        pmsId: '',
+        // pmsName: '', //放在计算属性
+        hotelPmsCode: '',
+        hotelServiceUrl: '',
+        //别样红
+        billServiceUrl: '',
+        crmServiceUrl: '',
+        orderServiceUrl: '',
+        secServiceUrl: '',
+        userName: '',
+        userPass: '',
+        //住哲
         cid: '',
         key: '',
-        datakey: '',
-        PMSBranId: '',
+        dataKey: '',
+        adminName: '',
+        adminPassword: '',
+        brandId: '',
         // 旅业配置
         lvyeTypeList: [{id: 'LOCAL', name: '本地'}, {id: 'CLOUD', name: '云端'}],
         lvyeType: '',
@@ -836,6 +842,12 @@
       ...mapState([
         'configData'
       ]),
+      pmsName() {
+        let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
+        if (tool.isNotBlank(obj))
+          return obj.name;
+        return '';
+      },
       invoiceNameList() {
         return this.invoiceName.filter(v => v != '');
       },
@@ -844,7 +856,27 @@
       },
       //无数个validate
       validatePMS() {
-
+        if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsName) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
+          if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+            return true;
+          } else if (this.pmsName == '别样红') {
+            if (tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)) {
+              return true;
+            } else {
+              return false;
+            }
+          } else if (this.pmsName == '住哲') {
+            if (tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey) && tool.isNotBlank(this.adminName) && tool.isNotBlank(this.adminPassword) && tool.isNotBlank(this.brandId)) {
+              return true;
+            } else {
+              return false;
+            }
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
       },
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD') {
@@ -1055,10 +1087,101 @@
         return result;
       }
     },
+    watch: {
+      configData(val) {
+        if(tool.isNotBlank(this.configData)) {
+          //PMS信息
+          //绿云,捷信达
+          this.pmsId = this.configData.pms_id;
+          // this.pmsName = this.configData.pms_name; //放在计算属性
+          this.hotelPmsCode = this.configData.hotel_pmscode;
+          this.hotelServiceUrl = this.configData.hotel_service_url;
+          //别样红
+          this.billServiceUrl = this.configData.bill_service_url;
+          this.crmServiceUrl = this.configData.crm_service_url;
+          this.orderServiceUrl = this.configData.order_service_url;
+          this.secServiceUrl = this.configData.sec_service_url;
+          this.userName = this.configData.user_name;
+          this.userPass = this.configData.user_pass;
+          //住哲
+          this.cid = this.configData.cid;
+          this.key = this.configData.key;
+          this.dataKey = this.configData.datakey;
+          this.adminName = this.configData.admin_name;
+          this.adminPassword = this.configData.admin_password;
+          this.brandId = this.configData.brand_id;
+          // 旅业配置
+          this.lvyeType = this.configData.lvye_report_type;
+          this.policeId = this.configData.hotel_ga_id;
+          this.policeType = this.configData.police_type;
+          this.policeParam = JSON.stringify(this.configData.police_param);
+          //门锁配置，暂无
+          //人脸识别配置
+          this.faceinPassValue = +this.configData.facein_pass_value;
+          this.faceinRejectValue = +this.configData.facein_reject_value;
+          //微信支付配置
+          this.wechatPayAppId = this.configData.miniapp_config.app_id;
+          this.mchId = this.configData.miniapp_config.mch_id;
+          this.mchApiKey = this.configData.miniapp_config.mch_api_key;
+          this.payCode = this.configData.pay_code;
+          this.refundCode = this.configData.refund_code;
+          //微信生态酒店配置
+          this.wxHotelId = this.configData.wx_hotel_id;
+          //小程序配置
+          this.appId = this.configData.app_id;
+          this.appSecret = this.configData.app_secret;
+          this.originalId = this.configData.original_id;
+          this.appName = this.configData.app_name;
+          //电子签名
+          this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
+          //电话取消订单  暂无
+          //发票配置
+          this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
+          this.invoiceName = [...this.configData.invoice_name];
+          //预登记短信配置
+          this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
+          //到店支付配置
+          this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
+          //自动退房
+          this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
+          //自动退款
+          this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
+          //无证入住
+          this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
+          //门卡配置
+          this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
+          //押金配置
+          this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
+          this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
+          this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
+          this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
+          this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
+          this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
+          //早餐券配置
+          this.breakfastStemFrom = this.configData.breakfast_stem_from;
+          //可选房数量
+          this.maxAllowRoomcount = this.configData.max_allow_roomcount;
+          //PMS同步频率
+          this.syncSpaceTime = this.configData.sync_space_time;
+          //自动预付款确认
+          this.prepayKeyword = this.configData.prepay_keyword;
+          this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
+          this.postpayKeyword = this.configData.postpay_keyword;
+          this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
+          this.freeDepositKeyword = this.configData.free_deposit_keyword;
+          this.needDepositKeyword = this.configData.need_deposit_keyword;
+          //脏房配置
+          this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+          //酒店标签配置
+          this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
+        }
+      }
+    },
     methods: {
       ...mapActions([
         'getConfig',
         'patchConfig',
+        'getPMSBrandList',
         'showtoast',
         'goto'
       ]),
@@ -1070,6 +1193,9 @@
       dialogConfig(type) {
         this.showType = type;
         this.showDialog = true;
+        if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
+          this.getPMSBrandLists();
+        }
       },
       addInvoiceName() {
         this.invoiceName.push('');
@@ -1089,7 +1215,25 @@
         this.showDialog = false;
         switch (this.showType) {
           case enumShowType.PMS: 
-            
+            //绿云,捷信达
+            this.pmsId = this.configData.pms_id;
+            // this.pmsName = this.configData.pms_name; //放在计算属性
+            this.hotelPmsCode = this.configData.hotel_pmscode;
+            this.hotelServiceUrl = this.configData.hotel_service_url;
+            //别样红
+            this.billServiceUrl = this.configData.bill_service_url;
+            this.crmServiceUrl = this.configData.crm_service_url;
+            this.orderServiceUrl = this.configData.order_service_url;
+            this.secServiceUrl = this.configData.sec_service_url;
+            this.userName = this.configData.user_name;
+            this.userPass = this.configData.user_pass;
+            //住哲
+            this.cid = this.configData.cid;
+            this.key = this.configData.key;
+            this.dataKey = this.configData.datakey;
+            this.adminName = this.configData.admin_name;
+            this.adminPassword = this.configData.admin_password;
+            this.brandId = this.configData.brand_id;
             break;
           case enumShowType.lvyeReportType: 
             this.lvyeType = this.configData.lvye_report_type;
@@ -1187,7 +1331,37 @@
         let data;
         switch (this.showType) {
           case enumShowType.PMS:
-
+            let paramData = {
+              pms_id: this.pmsId,
+              pms_name: this.pmsName,
+              hotel_pmscode: this.hotelPmsCode,
+              hotel_service_url: this.hotelServiceUrl
+            }
+            if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+              data = {
+                ...paramData
+              }
+            } else if (this.pmsName == '别样红') {
+              data = {
+                ...paramData,
+                bill_service_url: this.billServiceUrl,
+                crm_service_url: this.crmServiceUrl,
+                order_service_url: this.orderServiceUrl,
+                sec_service_url: this.secServiceUrl,
+                user_name: this.userName,
+                user_pass: this.userPass,
+              }
+            } else if (this.pmsName == '住哲') {
+              data = {
+                ...paramData,
+                cid: this.cid,
+                key: this.key,
+                datakey: this.dataKey,
+                admin_name: this.adminName,
+                admin_password: this.adminPassword,
+                brand_id: this.brandId,
+              }
+            }
             break;
           case enumShowType.lvyeReportType:
             data = {
@@ -1326,89 +1500,38 @@
       },
       patchConfigData(data) {
         this.patchConfig({
-          hotelId: this.$route.params.hotelid,
+          hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => this.showDialog = false
         })
       },
       getConfigs() {
         this.getConfig({
-          hotelId: this.$route.params.hotelid,
+          hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            if(tool.isNotBlank(body.data)) {
-              //PMS配置
-              // 旅业配置
-              this.lvyeType = body.data.lvye_report_type;
-              this.policeId = body.data.hotel_ga_id;
-              this.policeType = body.data.police_type;
-              this.policeParam = JSON.stringify(body.data.police_param);
-              //门锁配置，暂无
-              //人脸识别配置
-              this.faceinPassValue = +body.data.facein_pass_value;
-              this.faceinRejectValue = +body.data.facein_reject_value;
-              //微信支付配置
-              this.wechatPayAppId = body.data.miniapp_config.app_id;
-              this.mchId = body.data.miniapp_config.mch_id;
-              this.mchApiKey = body.data.miniapp_config.mch_api_key;
-              this.payCode = body.data.pay_code;
-              this.refundCode = body.data.refund_code;
-              //微信生态酒店配置
-              this.wxHotelId = body.data.wx_hotel_id;
-              //小程序配置
-              this.appId = body.data.app_id;
-              this.appSecret = body.data.app_secret;
-              this.originalId = body.data.original_id;
-              this.appName = body.data.app_name;
-              //电子签名
-              this.enabledSign = body.data.enabled_sign == 'true' ? true : false;
-              //电话取消订单  暂无
-              //发票配置
-              this.enabledInvoice = body.data.enabled_invoice == 'true' ? true : false;
-              this.invoiceName = [...body.data.invoice_name];
-              //预登记短信配置
-              this.enabledPreCheckinSms = body.data.enabled_pre_checkin_sms == 'true' ? true : false;
-              //到店支付配置
-              this.enabledDelayedPayment = body.data.enabled_delayed_payment == 'true' ? true : false;
-              //自动退房
-              this.enableAutoCheckout = body.data.enable_auto_checkout == 'true' ? true : false;
-              //自动退款
-              this.enabledAutoRefund = body.data.enabled_auto_refund == 'true' ? true : false;
-              //无证入住
-              this.enabledPreCheckin = body.data.enabled_pre_checkin == 'true' ? true : false;
-              //门卡配置
-              this.supportRoomCard = body.data.support_room_card == 'true' ? true : false;
-              //押金配置
-              this.cashPledgeType = body.data.cash_pledge_config.cash_pledge_type;
-              this.fixedCashPledge = +body.data.cash_pledge_config.fixed_cash_pledge;
-              this.multipleOfCashPledge = +body.data.cash_pledge_config.multiple_of_cash_pledge;
-              this.roundUpToInteger = body.data.cash_pledge_config.round_up_to_integer;
-              this.hasDayOfIncidentals = body.data.cash_pledge_config.has_day_of_incidentals;
-              this.dayOfIncidentals = +body.data.cash_pledge_config.day_of_incidentals;
-              //早餐券配置
-              this.breakfastStemFrom = body.data.breakfast_stem_from;
-              //可选房数量
-              this.maxAllowRoomcount = body.data.max_allow_roomcount;
-              //PMS同步频率
-              this.syncSpaceTime = body.data.sync_space_time;
-              //自动预付款确认
-              this.prepayKeyword = body.data.prepay_keyword;
-              this.prepayExclusionKeyword = body.data.prepay_exclusion_keyword;
-              this.postpayKeyword = body.data.postpay_keyword;
-              this.postpayExclusionKeyword = body.data.postpay_exclusion_keyword;
-              this.freeDepositKeyword = body.data.free_deposit_keyword;
-              this.needDepositKeyword = body.data.need_deposit_keyword;
-              //脏房配置
-              this.isSupportVd = body.data.is_support_vd == '1' ? true : false;
-              //酒店标签配置
-              this.roomTags = body.data.room_tags.length > 0 ? [...body.data.room_tags] : [''];
-
+            
+          }
+        })
+      },
+      getPMSBrandLists() {
+        this.getPMSBrandList({
+          onsuccess: body => {
+            if (body.data.length > 0) {
+              this.PMSBrandList = body.data;
+            } else {
+              this.showtoast({
+                text: '无PMS品牌',
+                type: 'warning'
+              })
             }
           }
         })
       },
     },
     mounted() {
-      this.getConfigs()
+      if (tool.isBlank(this.configData)) {
+        this.getConfigs();
+      }
     }
   }
 </script>

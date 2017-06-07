@@ -1,7 +1,7 @@
 module.exports = {
   getRoom(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotelId}/rooms/${param.roomId}`,
+      url: `/hotels/${param.hotel_id}/rooms/${param.roomId}`,
       method:'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -28,7 +28,7 @@ module.exports = {
   },
   getRoomList(ctx, param){
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotelId}/rooms`,
+      url: `/hotels/${param.hotel_id}/rooms`,
       method:'GET',
       headers: {
         'X-Current-Page': param.page || '1',

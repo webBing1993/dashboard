@@ -11,7 +11,6 @@ const groupModel = {
 Mock.mock(
     /\/groups/,
     function(request){
-        console.log(request)
         let re = {
             "errcode": "0",
             "errmsg": "ok"

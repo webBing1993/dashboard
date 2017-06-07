@@ -31,7 +31,7 @@
       >
         <div class="dialog-content">
           <el-checkbox-group v-model="roomfeatureDesc">
-            <el-checkbox v-for="(obj, index) of roomfeatureDesc" :label="obj" :key="index"></el-checkbox>
+            <el-checkbox v-for="(obj, index) of roomTags" :label="obj" :key="index"></el-checkbox>
           </el-checkbox-group>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -51,6 +51,7 @@
     data() {
       return {
         showDialog: false,
+        tempObj: '',
         list: [],
         page: 1,
         size: 20,
@@ -62,6 +63,9 @@
       ...mapState([
         'configData'
       ]),
+      roomTags() {
+        return this.configData.room_tags;
+      }
     },
     methods: {
       ...mapActions([
@@ -70,6 +74,7 @@
         'getConfig'
       ]),
       edit(obj) {
+        this.tempObj = obj;
         this.roomfeatureDesc = obj.roomfeature_desc;
         this.showDialog = true;
       },
@@ -88,6 +93,7 @@
         this.getRoomList({
           page: this.page.toString(),
           size: this.size.toString(),
+          hotel_id: this.$route.params.hotelid,
           onsuccess: (body, headers) => {
             headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
             headers.get('x-total') ? this.total = +headers.get('x-total') : null;
@@ -95,15 +101,16 @@
           }
         })
       },
-      modify(obj) {
+      modify() {
         this.showDialog = false;
 
         this.modifyRoom({
-          room_id: obj.room_id,
-          building_name: obj.building_name,
-          floor_name: obj.floor_name,
-          room_num: obj.room_num,
-          room_type_name: obj.room_type_name,
+          hotel_id: this.$route.params.hotelid,
+          room_id: this.tempObj.room_id,
+          building_name: this.tempObj.building_name,
+          floor_name: this.tempObj.floor_name,
+          room_num: this.tempObj.room_num,
+          room_type_name: this.tempObj.room_type_name,
           roomfeature_desc: this.roomfeatureDesc,
           onsuccess: body => {
             this.showDialog = false;
@@ -112,7 +119,7 @@
       },
       getConfigs() {
         this.getConfig({
-            hotelId: this.$route.params.hotelid,
+            hotel_id: this.$route.params.hotelid,
             onsuccess: body => {
 
             }
