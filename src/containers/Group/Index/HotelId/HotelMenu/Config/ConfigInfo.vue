@@ -877,33 +877,7 @@
       ...mapState({
         configData(state) {
           let configData = state.configData;
-
-          if (tool.isNotBlank(configData)) {
-            //PMS信息
-            //绿云,捷信达
-            this.pmsId = configData.pms_id;
-            // this.pmsName = configData.pms_name; //放在计算属性
-            this.hotelPmsCode = configData.hotel_pmscode;
-            this.hotelServiceUrl = configData.hotel_service_url;
-            //别样红
-            this.billServiceUrl = configData.bill_service_url;
-            this.crmServiceUrl = configData.crm_service_url;
-            this.orderServiceUrl = configData.order_service_url;
-            this.secServiceUrl = configData.sec_service_url;
-            this.userName = configData.user_name;
-            this.userPass = configData.user_pass;
-            //住哲
-            this.cid = configData.cid;
-            this.key = configData.key;
-            this.dataKey = configData.datakey;
-            this.adminName = configData.admin_name;
-            this.adminPassword = configData.admin_password;
-            this.brandId = configData.brand_id;
-            // 旅业配置
-            this.lvyeType = configData.lvye_report_type;
-            this.policeId = configData.hotel_ga_id;
-            this.policeType = configData.police_type;
-            this.policeParam = JSON.stringify(configData.police_param);
+          if(tool.isNotBlank(configData)) {
             //门锁配置，暂无
             //人脸识别配置
             this.faceinPassValue = +configData.facein_pass_value;
@@ -916,11 +890,6 @@
             this.refundCode = configData.refund_code;
             //微信生态酒店配置
             this.wxHotelId = configData.wx_hotel_id;
-            //小程序配置
-            this.appId = configData.app_id;
-            this.appSecret = configData.app_secret;
-            this.originalId = configData.original_id;
-            this.appName = configData.app_name;
             //电子签名
             this.enabledSign = configData.enabled_sign == 'true' ? true : false;
             //电话取消订单  暂无
@@ -966,6 +935,60 @@
           }
 
           return configData;
+        },
+        pmsData(state) {
+          let pmsData = state.pmsData;
+
+          if(tool.isNotBlank(pmsData)) {
+            //PMS信息
+            //绿云,捷信达
+            this.pmsId = pmsData.pms_id;
+            // this.pmsName = pmsData.pms_name; //放在计算属性
+            this.hotelPmsCode = pmsData.hotel_pmscode;
+            this.hotelServiceUrl = pmsData.hotel_service_url;
+            //别样红
+            this.billServiceUrl = pmsData.bill_service_url;
+            this.crmServiceUrl = pmsData.crm_service_url;
+            this.orderServiceUrl = pmsData.order_service_url;
+            this.secServiceUrl = pmsData.sec_service_url;
+            this.userName = pmsData.user_name;
+            this.userPass = pmsData.user_pass;
+            //住哲
+            this.cid = pmsData.cid;
+            this.key = pmsData.key;
+            this.dataKey = pmsData.datakey;
+            this.adminName = pmsData.admin_name;
+            this.adminPassword = pmsData.admin_password;
+            this.brandId = pmsData.brand_id;
+          }
+
+          return pmsData;
+        },
+        lvyeData(state) {
+          let lvyeData = state.lvyeData;
+
+          if(tool.isNotBlank(lvyeData)) {
+            // 旅业配置
+            this.lvyeType = lvyeData.lvye_report_type;
+            this.policeId = lvyeData.hotel_ga_id;
+            this.policeType = lvyeData.police_type;
+            this.policeParam = JSON.stringify(lvyeData.police_param);
+          }
+
+          return lvyeData;
+        },
+        wechatAppData(state) {
+          let wechatAppData = state.wechatAppData;
+
+          if(tool.isNotBlank(wechatAppData)) {
+            //小程序配置
+            this.appId = wechatAppData.app_id;
+            this.appSecret = wechatAppData.app_secret;
+            this.originalId = wechatAppData.original_id;
+            this.appName = wechatAppData.app_name;
+          }
+
+          return wechatAppData;
         }
       }),
       pmsName() {
@@ -1030,24 +1053,16 @@
 
       },
       validatefacein() {
-        if (tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue))
-          return true;
-        return false;
+        return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
       },
       validatewechatPay() {
-        if (tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode))
-          return true;
-        return false;
+        return tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
       },
       validatewxHotel() {
-        if (tool.isNotBlank(this.wxHotelId))
-          return true;
-        return false;
+        return tool.isNotBlank(this.wxHotelId);
       },
       validateminiApp() {
-        if (tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName))
-          return true;
-        return false;
+        return tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName);
       },
       validatesign() {
         return true;
@@ -1057,9 +1072,7 @@
       },
       validateinvoice() {
         if (this.enabledInvoice) {
-          if (this.invoiceNameList.length > 0)
-            return true;
-          return false;
+            return (this.invoiceNameList.length > 0);
         }
         return false;
       },
@@ -1307,7 +1320,13 @@
       ...mapActions([
         'getConfig',
         'patchConfig',
+        'getPMS',
+        'patchPMS',
         'getPMSBrandList',
+        'getLvye',
+        'patchLvye',
+        'getWechatApp',
+        'patchWechatApp',
         'showtoast',
         'goto'
       ]),
@@ -1342,30 +1361,30 @@
         switch (this.showType) {
           case enumShowType.PMS:
             //绿云,捷信达
-            this.pmsId = this.configData.pms_id;
-            // this.pmsName = this.configData.pms_name; //放在计算属性
-            this.hotelPmsCode = this.configData.hotel_pmscode;
-            this.hotelServiceUrl = this.configData.hotel_service_url;
+            this.pmsId = this.pmsData.pms_id;
+            // this.pmsName = this.pmsData.pms_name; //放在计算属性
+            this.hotelPmsCode = this.pmsData.hotel_pmscode;
+            this.hotelServiceUrl = this.pmsData.hotel_service_url;
             //别样红
-            this.billServiceUrl = this.configData.bill_service_url;
-            this.crmServiceUrl = this.configData.crm_service_url;
-            this.orderServiceUrl = this.configData.order_service_url;
-            this.secServiceUrl = this.configData.sec_service_url;
-            this.userName = this.configData.user_name;
-            this.userPass = this.configData.user_pass;
+            this.billServiceUrl = this.pmsData.bill_service_url;
+            this.crmServiceUrl = this.pmsData.crm_service_url;
+            this.orderServiceUrl = this.pmsData.order_service_url;
+            this.secServiceUrl = this.pmsData.sec_service_url;
+            this.userName = this.pmsData.user_name;
+            this.userPass = this.pmsData.user_pass;
             //住哲
-            this.cid = this.configData.cid;
-            this.key = this.configData.key;
-            this.dataKey = this.configData.datakey;
-            this.adminName = this.configData.admin_name;
-            this.adminPassword = this.configData.admin_password;
-            this.brandId = this.configData.brand_id;
+            this.cid = this.pmsData.cid;
+            this.key = this.pmsData.key;
+            this.dataKey = this.pmsData.datakey;
+            this.adminName = this.pmsData.admin_name;
+            this.adminPassword = this.pmsData.admin_password;
+            this.brandId = this.pmsData.brand_id;
             break;
-          case enumShowType.lvyeReportType:
-            this.lvyeType = this.configData.lvye_report_type;
-            this.policeId = this.configData.hotel_ga_id;
-            this.policeType = this.configData.police_type;
-            this.policeParam = JSON.stringify(this.configData.police_param);
+          case enumShowType.lvyeReportType: 
+            this.lvyeType = this.lvyeData.lvye_report_type;
+            this.policeId = this.lvyeData.hotel_ga_id;
+            this.policeType = this.lvyeData.police_type;
+            this.policeParam = JSON.stringify(this.lvyeData.police_param);
             break;
           case enumShowType.doorLock_unknown:
 
@@ -1385,10 +1404,10 @@
             this.wxHotelId = this.configData.wx_hotel_id;
             break;
           case enumShowType.miniApp:
-            this.appId = this.configData.app_id;
-            this.appSecret = this.configData.app_secret;
-            this.originalId = this.configData.original_id;
-            this.appName = this.configData.app_name;
+            this.appId = this.wechatAppData.app_id;
+            this.appSecret = this.wechatAppData.app_secret;
+            this.originalId = this.wechatAppData.original_id;
+            this.appName = this.wechatAppData.app_name;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -1488,9 +1507,12 @@
                 brand_id: this.brandId,
               }
             }
+            this.patchPms(data);
+              return;
           }
-            break;
-          case enumShowType.lvyeReportType: {
+            // break;
+          case enumShowType.lvyeReportType: 
+          {
             let tempData = {
               lvye_report_type: this.lvyeType,
               hotel_ga_id: this.policeId,
@@ -1505,9 +1527,11 @@
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
               }
+              this.patchLvyes(data);
+              return;
             }
           }
-            break;
+            // break;
           case enumShowType.doorLock_unknown:
 
             break;
@@ -1540,7 +1564,9 @@
               original_id: this.originalId,
               app_name: this.appName
             }
-            break;
+            this.patchWechatApps(data);
+            return;
+            // break;
           case enumShowType.sign:
             data = {
               enabled_sign: this.enabledSign.toString()
@@ -1665,6 +1691,11 @@
         }
         this.patchConfigData(data);
       },
+      getConfigs() {
+        this.getConfig({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
       patchConfigData(data) {
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
@@ -1672,12 +1703,16 @@
           onsuccess: body => this.showDialog = false
         })
       },
-      getConfigs() {
-        this.getConfig({
+      getPms() {
+        this.getPMS({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
+      patchPms(data) {
+        this.patchPMS({
           hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-
-          }
+          data: data,
+          onsuccess: body => this.showDialog = false
         })
       },
       getPMSBrandLists() {
@@ -1694,10 +1729,43 @@
           }
         })
       },
+      getLvyes() {
+        this.getLvye({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
+      patchLvyes(data) {
+        this.patchLvye({
+          hotel_id: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => this.showDialog = false
+        })
+      },
+      getWechatApps() {
+        this.getWechatApp({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
+      patchWechatApps(data) {
+        this.patchWechatApp({
+          hotel_id: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => this.showDialog = false
+        })
+      },
     },
     mounted() {
       if (tool.isBlank(this.configData)) {
         this.getConfigs();
+      }
+      if (tool.isBlank(this.pmsData)) {
+        this.getPms();
+      }
+      if (tool.isBlank(this.lvyeData)) {
+        this.getLvyes();
+      }
+      if (tool.isBlank(this.wechatAppData)) {
+        this.getWechatApps();
       }
     }
   }

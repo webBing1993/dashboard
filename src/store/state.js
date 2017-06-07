@@ -19,5 +19,8 @@ module.exports = {
     }
   },
   userInfo: JSON.parse(sessionStorage.getItem('userInfo') || '{"name": "获取中"}'),
-  configData: ''
+  configData: '',
+  pmsData: '',
+  lvyeData: '',
+  wechatAppData: ''
 }

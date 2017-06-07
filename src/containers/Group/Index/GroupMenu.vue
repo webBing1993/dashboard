@@ -1,6 +1,7 @@
 <template>
   <div>
     <aside>
+      <div>企业账户</div>
       <router-link to="/group" class="">账户管理</router-link>
       <router-link to="/group/hotel">门店管理</router-link>
     </aside>
