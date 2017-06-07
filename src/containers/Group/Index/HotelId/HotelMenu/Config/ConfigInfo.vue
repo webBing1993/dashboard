@@ -258,7 +258,7 @@
       >
         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
-            <div>
+            <div class="item-form">
               <span>PMS品牌</span>
               <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌">
                 <el-option
@@ -270,70 +270,70 @@
               </el-select>
             </div>
             <div v-show="pmsId != ''">
-              <div>
+              <div class="item-form">
                 <span>酒店PMS编码</span>
                 <el-input class="el-right" v-model="hotelPmsCode" placeholder="请输入酒店PMS编码"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>酒店服务地址</span>
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
             <div v-show="pmsName == '别样红'">
-              <div>
+              <div class="item-form">
                 <span>账单服务地址</span>
                 <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>CRM服务地址</span>
                 <el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>订单服务地址</span>
                 <el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>安全服务地址</span>
                 <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密码</span>
                 <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
             <div v-show="pmsName == '住哲'">
-              <div>
+              <div class="item-form">
                 <span>调用ID</span>
                 <el-input class="el-right" v-model="cid" placeholder="请输入住哲分配的调用ID(cid)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密钥</span>
                 <el-input class="el-right" v-model="key" placeholder="请输入住哲分配的密钥(key)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>数据加密密钥</span>
                 <el-input class="el-right" v-model="dataKey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="adminName" placeholder="请输入用户名"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密码</span>
                 <el-input class="el-right" v-model="adminPassword" placeholder="请输入密码"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>品牌ID</span>
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
-            <div>
+            <div class="item-form">
               <span>旅业系统类型</span>
               <el-select class="el-right" v-model="lvyeType" placeholder="请选择旅业系统类型">
                 <el-option
@@ -345,16 +345,16 @@
               </el-select>
             </div>
             <div v-if="lvyeType != ''">
-              <div>
+              <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>公安类型</span>
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
               <div v-if="lvyeType == 'LOCAL'">
-                <div>
+                <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                 </div>
@@ -365,7 +365,7 @@
             <h1>暂无</h1>
           </div>
           <div v-if="showType === enumShowType.facein">
-            <div>
+            <div class="item-form">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
                 <el-option
@@ -376,7 +376,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动拒绝值</span>
               <el-select class="el-right" v-model="faceinRejectValue" placeholder="请选择自动拒绝值">
                 <el-option
@@ -388,60 +388,62 @@
               </el-select>
             </div>
             <article>
-              帮助：
-              · 大于自动通过值则自动通过公安验证。
-              · 小于自动拒绝值则验证自动拒绝。
-              · 在自动通过值和自动拒绝值之间需要人工参与核实。
+              <ul>
+                帮助：
+                <li>大于自动通过值则自动通过公安验证。</li>
+                <li>小于自动拒绝值则验证自动拒绝。</li>
+                <li>在自动通过值和自动拒绝值之间需要人工参与核实。</li>
+              </ul>
             </article>
           </div>
           <div v-if="showType === enumShowType.wechatPay">
-            <div>
+            <div class="item_small">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="wechatPayAppId" placeholder="请输入小程序app_id"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>小程序对应的商户号</span>
               <el-input class="el-right" v-model="mchId" placeholder="请输入小程序对应的商户号"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>小程序对应的商户号api密钥</span>
               <el-input class="el-right" v-model="mchApiKey" placeholder="请输入小程序对应的商户号api密钥"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>酒店微信账务退款代码</span>
               <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.wxHotel">
-            <div>
+            <div class="item-form">
               <span>微信酒店ID</span>
               <el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <div>
+            <div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序名称</span>
               <el-input class="el-right" v-model="appSecret" placeholder="请输入小程序名称"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序密钥</span>
               <el-input class="el-right" v-model="originalId" placeholder="请输入小程序密钥(app_secr)"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.sign">
-            <div>
+            <div class="item-form">
               <span>是否开通电子签名？</span>
               <el-switch
                 v-model="enabledSign"
@@ -473,7 +475,7 @@
             </div>-->
           </div>
           <div v-if="showType === enumShowType.invoice">
-            <div>
+            <div class="item-form">
               <span>是否支持申请发票？</span>
               <el-switch
                 v-model="enabledInvoice"
@@ -482,18 +484,24 @@
               </el-switch>
             </div>
             <div v-show="enabledInvoice">
-              <div>
+              <div class="item-tag">
                 <span>发票类型</span>
-                <div v-for="(obj, index) of invoiceName">
-                  <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
+                <div class="tag-input">
+                  <div v-for="(obj, index) of invoiceName">
+                    <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
+                  </div>
+                  <div class="tag-btn">
+                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
+                    <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
+                            @click="subtractInvoiceName">-
+                    </button>
+                  </div>
                 </div>
               </div>
-              <button @click="addInvoiceName">+++++</button>
-              <button v-show="invoiceName.length > 1" @click="subtractInvoiceName">-----</button>
             </div>
           </div>
           <div v-if="showType === enumShowType.preCheckinSms">
-            <div>
+            <div class="item-form">
               <span>预登记是否发送短信？</span>
               <el-switch
                 v-model="enabledPreCheckinSms"
@@ -503,7 +511,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.delayedPayment">
-            <div>
+            <div class="item-form">
               <span>是否开通到店支付？</span>
               <el-switch
                 v-model="enabledDelayedPayment"
@@ -513,7 +521,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoCheckout">
-            <div>
+            <div class="item-form">
               <span>是否开通自动退房服务？</span>
               <el-switch
                 v-model="enableAutoCheckout"
@@ -523,7 +531,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoRefund">
-            <div>
+            <div class="item-form">
               <span>是否开通自动退款服务？</span>
               <el-switch
                 v-model="enabledAutoRefund"
@@ -533,7 +541,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.preCheckin">
-            <div>
+            <div class="item-form">
               <span>是否开通无证入住业务？</span>
               <el-switch
                 v-model="enabledPreCheckin"
@@ -543,7 +551,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.roomCard">
-            <div>
+            <div class="item-form">
               <span>是否支持吞吐门卡？</span>
               <el-switch
                 v-model="supportRoomCard"
@@ -553,7 +561,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.cashPledge">
-            <div>
+            <div class="item-form">
               <span>押金类型</span>
               <el-select class="el-right" v-model="cashPledgeType" placeholder="请选择押金类型">
                 <el-option
@@ -565,15 +573,15 @@
               </el-select>
             </div>
             <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
-              <div v-show="cashPledgeType == 'fixed_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
                 <span>固定押金金额</span>
                 <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
               </div>
-              <div v-show="cashPledgeType == 'multiple_of_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'multiple_of_cash_pledge'">
                 <span>放大系数</span>
                 <el-input class="el-right" v-model="multipleOfCashPledge" placeholder="请输入放大系数(0到1之间,例如0.2)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>是否向上取整</span>
                 <el-switch
                   v-model="roundUpToInteger"
@@ -581,7 +589,7 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div>
+              <div class="item-form">
                 <span>是否有日杂费</span>
                 <el-switch
                   v-model="hasDayOfIncidentals"
@@ -589,14 +597,14 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div v-show="hasDayOfIncidentals">
+              <div class="item-form" v-show="hasDayOfIncidentals">
                 <span>日杂费金额</span>
                 <el-input class="el-right" v-model="dayOfIncidentals" placeholder="请输入日杂费金额"></el-input>
               </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.breakfastStemFrom">
-            <div>
+            <div class="item-form">
               <span>早餐券规则</span>
               <el-select class="el-right" v-model="breakfastStemFrom" placeholder="请选择早餐券规则">
                 <el-option
@@ -609,13 +617,13 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.maxAllowRoomcount">
-            <div>
-              <span>请输入选房列表最大展示房间数量</span>
+            <div class="item-form">
+              <span style="width: 240px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.syncSpaceTime">
-            <div>
+            <div class="item-form">
               <span>PMS同步频率</span>
               <el-select class="el-right" v-model="syncSpaceTime" placeholder="请选择PMS同步频率">
                 <el-option
@@ -628,33 +636,33 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoConfirmPrePay">
-            <div>
+            <div class="item-form">
               <span>自动确认预付关键字</span>
               <el-input class="el-right" v-model="prepayKeyword" placeholder="预付|预付款|已付款"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认预付冲突字</span>
               <el-input class="el-right" v-model="prepayExclusionKeyword" placeholder="现付|未预付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认后付关键字</span>
               <el-input class="el-right" v-model="postpayKeyword" placeholder="挂帐|公付|公司付费|公司已付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认后付冲突字</span>
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认免押关键字 </span>
               <el-input class="el-right" v-model="freeDepositKeyword" placeholder="免押金|免押"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认免押冲突字 </span>
               <el-input class="el-right" v-model="needDepositKeyword" placeholder=""></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.supportVd">
-            <div>
+            <div class="item-form">
               <span>是否支持分脏房？</span>
               <el-switch
                 v-model="isSupportVd"
@@ -664,13 +672,19 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.roomTags">
-            <div>
+            <div class="item-tag">
               <span>房间标签</span>
-              <div v-for="(obj, index) of roomTags">
-                <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+              <div class="tag-input">
+                <div v-for="(obj, index) of roomTags">
+                  <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+                </div>
+                <div class="tag-btn">
+                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
+                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
+                          @click="subtractRoomTags">-
+                  </button>
+                </div>
               </div>
-              <button @click="addRoomTags">+++++</button>
-              <button v-show="roomTags.length > 1" @click="subtractRoomTags">-----</button>
             </div>
           </div>
         </div>
