@@ -13,6 +13,7 @@
               <span>pms对接配置</span>
               <p>对接PMS的酒店必须开通该配置。</p>
             </div>
+            <span class="tag_text">未配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -22,6 +23,7 @@
               <span>旅业系统配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -31,6 +33,7 @@
               <span>门锁配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -40,6 +43,7 @@
               <span>人脸识别配置</span>
               <p>必须开通该配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -49,6 +53,7 @@
               <span>微信支付配置</span>
               <p>配置微信支付信息。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -59,6 +64,7 @@
               <p>必须开通该配置,身份识别、旅业上报
                 等接口需要用到。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -68,6 +74,7 @@
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
@@ -83,6 +90,7 @@
               <span>电子签名</span>
               <p>客人是否需要在支付后签名。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -92,6 +100,7 @@
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -101,6 +110,7 @@
               <span>发票申请</span>
               <p>配置客人是否可以申请发票。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -110,6 +120,7 @@
               <span>预登记</span>
               <p>配置客人是否可以预登记。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -119,6 +130,7 @@
               <span>到店支付</span>
               <p>开通后客人可以免支付完成预登记</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -128,6 +140,7 @@
               <span>自动退房</span>
               <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -137,6 +150,7 @@
               <span>自动退款</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -146,6 +160,7 @@
               <span>无证入住</span>
               <p>酒店是否支持无证入住</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
@@ -161,6 +176,7 @@
               <span>房卡配置</span>
               <p>酒店是否支持写卡吐卡</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -170,6 +186,7 @@
               <span>押金配置</span>
               <p>配置酒店押金规则</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -179,6 +196,7 @@
               <span>早餐券配置</span>
               <p>配置早餐券规则</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -188,6 +206,7 @@
               <span>可选房数量</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -197,6 +216,7 @@
               <span>PMS同步频率</span>
               <p>设置自动同步周期</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -206,6 +226,7 @@
               <span>自动确认预付款</span>
               <p>配置预付款确认关键字</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -215,6 +236,7 @@
               <span>脏房配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -224,6 +246,7 @@
               <span>房间标签配置</span>
               <p>配置酒店对脏房的态度</p>
             </div>
+            <span class="tag_text">已配置</span>
           </button>
         </el-col>
       </el-row>
@@ -237,7 +260,7 @@
       >
         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
-            <div>
+            <div class="item-form">
               <span>PMS品牌</span>
               <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌">
                 <el-option
@@ -249,70 +272,70 @@
               </el-select>
             </div>
             <div v-show="pmsId != ''">
-              <div>
+              <div class="item-form">
                 <span>酒店PMS编码</span>
                 <el-input class="el-right" v-model="hotelPmsCode" placeholder="请输入酒店PMS编码"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>酒店服务地址</span>
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
             <div v-show="pmsName == '别样红'">
-              <div>
+              <div class="item-form">
                 <span>账单服务地址</span>
                 <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>CRM服务地址</span>
                 <el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>订单服务地址</span>
                 <el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>安全服务地址</span>
                 <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密码</span>
                 <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
             <div v-show="pmsName == '住哲'">
-              <div>
+              <div class="item-form">
                 <span>调用ID</span>
                 <el-input class="el-right" v-model="cid" placeholder="请输入住哲分配的调用ID(cid)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密钥</span>
                 <el-input class="el-right" v-model="key" placeholder="请输入住哲分配的密钥(key)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>数据加密密钥</span>
                 <el-input class="el-right" v-model="dataKey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="adminName" placeholder="请输入用户名"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>密码</span>
                 <el-input class="el-right" v-model="adminPassword" placeholder="请输入密码"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>品牌ID</span>
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
-            <div>
+            <div class="item-form">
               <span>旅业系统类型</span>
               <el-select class="el-right" v-model="lvyeType" placeholder="请选择旅业系统类型">
                 <el-option
@@ -324,16 +347,16 @@
               </el-select>
             </div>
             <div v-if="lvyeType != ''">
-              <div>
+              <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>公安类型</span>
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
               <div v-if="lvyeType == 'LOCAL'">
-                <div>
+                <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                 </div>
@@ -344,7 +367,7 @@
             <h1>暂无</h1>
           </div>
           <div v-if="showType === enumShowType.facein">
-            <div>
+            <div class="item-form">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
                 <el-option
@@ -355,7 +378,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动拒绝值</span>
               <el-select class="el-right" v-model="faceinRejectValue" placeholder="请选择自动拒绝值">
                 <el-option
@@ -367,60 +390,62 @@
               </el-select>
             </div>
             <article>
-              帮助：
-              · 大于自动通过值则自动通过公安验证。
-              · 小于自动拒绝值则验证自动拒绝。
-              · 在自动通过值和自动拒绝值之间需要人工参与核实。
+              <ul>
+                帮助：
+                <li>大于自动通过值则自动通过公安验证。</li>
+                <li>小于自动拒绝值则验证自动拒绝。</li>
+                <li>在自动通过值和自动拒绝值之间需要人工参与核实。</li>
+              </ul>
             </article>
           </div>
           <div v-if="showType === enumShowType.wechatPay">
-            <div>
+            <div class="item_small">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="wechatPayAppId" placeholder="请输入小程序app_id"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>小程序对应的商户号</span>
               <el-input class="el-right" v-model="mchId" placeholder="请输入小程序对应的商户号"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>小程序对应的商户号api密钥</span>
               <el-input class="el-right" v-model="mchApiKey" placeholder="请输入小程序对应的商户号api密钥"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
             </div>
-            <div>
+            <div class="item_small">
               <span>酒店微信账务退款代码</span>
               <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.wxHotel">
-            <div>
+            <div class="item-form">
               <span>微信酒店ID</span>
               <el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <div>
+            <div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序名称</span>
               <el-input class="el-right" v-model="appSecret" placeholder="请输入小程序名称"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序密钥</span>
               <el-input class="el-right" v-model="originalId" placeholder="请输入小程序密钥(app_secr)"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.sign">
-            <div>
+            <div class="item-form">
               <span>是否开通电子签名？</span>
               <el-switch
                 v-model="enabledSign"
@@ -452,7 +477,7 @@
             </div>-->
           </div>
           <div v-if="showType === enumShowType.invoice">
-            <div>
+            <div class="item-form">
               <span>是否支持申请发票？</span>
               <el-switch
                 v-model="enabledInvoice"
@@ -461,18 +486,24 @@
               </el-switch>
             </div>
             <div v-show="enabledInvoice">
-              <div>
+              <div class="item-tag">
                 <span>发票类型</span>
-                <div v-for="(obj, index) of invoiceName">
-                  <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
+                <div class="tag-input">
+                  <div v-for="(obj, index) of invoiceName">
+                    <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
+                  </div>
+                  <div class="tag-btn">
+                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
+                    <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
+                            @click="subtractInvoiceName">-
+                    </button>
+                  </div>
                 </div>
               </div>
-              <button @click="addInvoiceName">+++++</button>
-              <button v-show="invoiceName.length > 1" @click="subtractInvoiceName">-----</button>
             </div>
           </div>
           <div v-if="showType === enumShowType.preCheckinSms">
-            <div>
+            <div class="item-form">
               <span>预登记是否发送短信？</span>
               <el-switch
                 v-model="enabledPreCheckinSms"
@@ -482,7 +513,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.delayedPayment">
-            <div>
+            <div class="item-form">
               <span>是否开通到店支付？</span>
               <el-switch
                 v-model="enabledDelayedPayment"
@@ -492,7 +523,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoCheckout">
-            <div>
+            <div class="item-form">
               <span>是否开通自动退房服务？</span>
               <el-switch
                 v-model="enableAutoCheckout"
@@ -502,7 +533,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoRefund">
-            <div>
+            <div class="item-form">
               <span>是否开通自动退款服务？</span>
               <el-switch
                 v-model="enabledAutoRefund"
@@ -512,7 +543,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.preCheckin">
-            <div>
+            <div class="item-form">
               <span>是否开通无证入住业务？</span>
               <el-switch
                 v-model="enabledPreCheckin"
@@ -522,7 +553,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.roomCard">
-            <div>
+            <div class="item-form">
               <span>是否支持吞吐门卡？</span>
               <el-switch
                 v-model="supportRoomCard"
@@ -532,7 +563,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.cashPledge">
-            <div>
+            <div class="item-form">
               <span>押金类型</span>
               <el-select class="el-right" v-model="cashPledgeType" placeholder="请选择押金类型">
                 <el-option
@@ -544,15 +575,15 @@
               </el-select>
             </div>
             <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
-              <div v-show="cashPledgeType == 'fixed_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
                 <span>固定押金金额</span>
                 <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
               </div>
-              <div v-show="cashPledgeType == 'multiple_of_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'multiple_of_cash_pledge'">
                 <span>放大系数</span>
                 <el-input class="el-right" v-model="multipleOfCashPledge" placeholder="请输入放大系数(0到1之间,例如0.2)"></el-input>
               </div>
-              <div>
+              <div class="item-form">
                 <span>是否向上取整</span>
                 <el-switch
                   v-model="roundUpToInteger"
@@ -560,7 +591,7 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div>
+              <div class="item-form">
                 <span>是否有日杂费</span>
                 <el-switch
                   v-model="hasDayOfIncidentals"
@@ -568,14 +599,14 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div v-show="hasDayOfIncidentals">
+              <div class="item-form" v-show="hasDayOfIncidentals">
                 <span>日杂费金额</span>
                 <el-input class="el-right" v-model="dayOfIncidentals" placeholder="请输入日杂费金额"></el-input>
               </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.breakfastStemFrom">
-            <div>
+            <div class="item-form">
               <span>早餐券规则</span>
               <el-select class="el-right" v-model="breakfastStemFrom" placeholder="请选择早餐券规则">
                 <el-option
@@ -588,13 +619,13 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.maxAllowRoomcount">
-            <div>
-              <span>请输入选房列表最大展示房间数量</span>
+            <div class="item-form">
+              <span style="width: 240px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.syncSpaceTime">
-            <div>
+            <div class="item-form">
               <span>PMS同步频率</span>
               <el-select class="el-right" v-model="syncSpaceTime" placeholder="请选择PMS同步频率">
                 <el-option
@@ -607,33 +638,33 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.autoConfirmPrePay">
-            <div>
+            <div class="item-form">
               <span>自动确认预付关键字</span>
               <el-input class="el-right" v-model="prepayKeyword" placeholder="预付|预付款|已付款"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认预付冲突字</span>
               <el-input class="el-right" v-model="prepayExclusionKeyword" placeholder="现付|未预付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认后付关键字</span>
               <el-input class="el-right" v-model="postpayKeyword" placeholder="挂帐|公付|公司付费|公司已付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认后付冲突字</span>
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认免押关键字 </span>
               <el-input class="el-right" v-model="freeDepositKeyword" placeholder="免押金|免押"></el-input>
             </div>
-            <div>
+            <div class="item-form">
               <span>自动确认免押冲突字 </span>
               <el-input class="el-right" v-model="needDepositKeyword" placeholder=""></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.supportVd">
-            <div>
+            <div class="item-form">
               <span>是否支持分脏房？</span>
               <el-switch
                 v-model="isSupportVd"
@@ -643,13 +674,19 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.roomTags">
-            <div>
+            <div class="item-tag">
               <span>房间标签</span>
-              <div v-for="(obj, index) of roomTags">
-                <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+              <div class="tag-input">
+                <div v-for="(obj, index) of roomTags">
+                  <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+                </div>
+                <div class="tag-btn">
+                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
+                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
+                          @click="subtractRoomTags">-
+                  </button>
+                </div>
               </div>
-              <button @click="addRoomTags">+++++</button>
-              <button v-show="roomTags.length > 1" @click="subtractRoomTags">-----</button>
             </div>
           </div>
         </div>
@@ -1078,7 +1115,7 @@
           case enumShowType.supportVd:
             result = this.validatesupportVd;
             break;
-          case enumShowType.roomTags: 
+          case enumShowType.roomTags:
             result = this.validateroomTags;
             break;
           default:
@@ -1089,7 +1126,7 @@
     },
     watch: {
       configData(val) {
-        if(tool.isNotBlank(this.configData)) {
+        if (tool.isNotBlank(this.configData)) {
           //PMS信息
           //绿云,捷信达
           this.pmsId = this.configData.pms_id;
@@ -1214,7 +1251,7 @@
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
-          case enumShowType.PMS: 
+          case enumShowType.PMS:
             //绿云,捷信达
             this.pmsId = this.configData.pms_id;
             // this.pmsName = this.configData.pms_name; //放在计算属性
@@ -1235,27 +1272,27 @@
             this.adminPassword = this.configData.admin_password;
             this.brandId = this.configData.brand_id;
             break;
-          case enumShowType.lvyeReportType: 
+          case enumShowType.lvyeReportType:
             this.lvyeType = this.configData.lvye_report_type;
             this.policeId = this.configData.hotel_ga_id;
             this.policeType = this.configData.police_type;
             this.policeParam = JSON.stringify(this.configData.police_param);
             break;
-          case enumShowType.doorLock_unknown: 
-            
+          case enumShowType.doorLock_unknown:
+
             break;
           case enumShowType.facein:
             this.faceinPassValue = +this.configData.facein_pass_value;
             this.faceinRejectValue = +this.configData.facein_reject_value;
             break;
-          case enumShowType.wechatPay: 
+          case enumShowType.wechatPay:
             this.wechatPayAppId = this.configData.miniapp_config.app_id;
-            this.mchId = this.configData.miniapp_config.mch_id;                  
-            this.mchApiKey = this.configData.miniapp_config.mch_api_key;                  
-            this.payCode = this.configData.pay_code;                  
+            this.mchId = this.configData.miniapp_config.mch_id;
+            this.mchApiKey = this.configData.miniapp_config.mch_api_key;
+            this.payCode = this.configData.pay_code;
             this.refundCode = this.configData.refund_code;
             break;
-          case enumShowType.wxHotel: 
+          case enumShowType.wxHotel:
             this.wxHotelId = this.configData.wx_hotel_id;
             break;
           case enumShowType.miniApp:
@@ -1264,35 +1301,35 @@
             this.originalId = this.configData.original_id;
             this.appName = this.configData.app_name;
             break;
-          case enumShowType.sign: 
+          case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
             break;
-          case enumShowType.phoneCancel_unknown: 
-            
+          case enumShowType.phoneCancel_unknown:
+
             break;
-          case enumShowType.invoice: 
+          case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
             this.invoiceName = [...this.configData.invoice_name];
             break;
-          case enumShowType.preCheckinSms: 
+          case enumShowType.preCheckinSms:
             this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
             break;
-          case enumShowType.delayedPayment: 
+          case enumShowType.delayedPayment:
             this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
             break;
-          case enumShowType.autoCheckout: 
+          case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             break;
-          case enumShowType.autoRefund: 
+          case enumShowType.autoRefund:
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
             break;
-          case enumShowType.preCheckin: 
+          case enumShowType.preCheckin:
             this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
             break;
-          case enumShowType.roomCard: 
+          case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             break;
-          case enumShowType.cashPledge: 
+          case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
             this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
             this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
@@ -1300,13 +1337,13 @@
             this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
             this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
             break;
-          case enumShowType.breakfastStemFrom: 
+          case enumShowType.breakfastStemFrom:
             this.breakfastStemFrom = this.configData.breakfast_stem_from;
             break;
-          case enumShowType.maxAllowRoomcount: 
+          case enumShowType.maxAllowRoomcount:
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             break;
-          case enumShowType.syncSpaceTime: 
+          case enumShowType.syncSpaceTime:
             this.syncSpaceTime = this.configData.sync_space_time;
             break;
           case enumShowType.autoConfirmPrePay:
@@ -1317,14 +1354,14 @@
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
             break;
-          case enumShowType.supportVd: 
+          case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           default:
-            
+
         }
       },
       submitDialog() {
@@ -1488,7 +1525,7 @@
               is_support_vd: this.isSupportVd ? '1' : '0'
             }
             break;
-          case enumShowType.roomTags: 
+          case enumShowType.roomTags:
             data = {
               room_tags: this.roomTagsList
             }
@@ -1509,7 +1546,7 @@
         this.getConfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            
+
           }
         })
       },
@@ -1560,12 +1597,18 @@
         button {
           display: flex;
           align-items: center;
+          justify-content: flex-start;
           background-color: #ffffff;
           border: solid 1px #9B9B9B;
           outline: none;
           color: #4A4A4A;
-          padding: 6px;
+          padding: 12px 6px;
+          position: relative;
+          height: 110px;
           .images {
+            width: 46px;
+            height: 46px;
+            text-align: center;
             border: solid 1px #979797;
             border-radius: 50%;
             padding: 10px;
@@ -1573,6 +1616,7 @@
           .item-text {
             text-align: left;
             margin-left: 10px;
+            padding-top: 10px;
             span {
               font-size: 16px;
             }
@@ -1580,6 +1624,13 @@
               font-size: 12px;
               margin-top: 5px;
             }
+          }
+          .tag_text {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+            color: #D0011B;
           }
         }
       }
@@ -1591,6 +1642,93 @@
     .el-right {
       width: 300px;
       margin-left: 16px;
+    }
+
+    .el-dialog {
+      .dialog-content {
+        .item-form {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          span {
+            min-width: 90px;
+            text-align: end;
+          }
+          .el-select {
+            width: 70%;
+          }
+          .el-input {
+            width: 70%;
+          }
+          .el-switch {
+            margin-left: 16px;
+          }
+        }
+        article {
+          ul {
+            font-size: 14px;
+            color: #9B9B9B;
+            margin-left: 20px;
+            line-height: 22px;
+            li {
+              margin-left: 20px;
+            }
+          }
+        }
+        .item_small {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          span {
+            width: 174px;
+            text-align: end;
+          }
+          .el-input {
+            width: 60%;
+          }
+        }
+        .item-tag {
+          display: flex;
+          align-items: flex-start;
+          span {
+            width: 60px;
+            text-align: end;
+            margin-right: 14px;
+            padding-top: 12px;
+          }
+          .tag-input {
+            position: relative;
+            line-height: 45px;
+            width: 70%;
+            .el-input {
+              width: 100%;
+            }
+            .tag-btn {
+              position: absolute;
+              margin-left: 10px;
+              bottom: 0;
+              right: -72px;
+              button {
+                border-radius: 50px;
+                outline: none;
+                border: solid 1px;
+                margin-left: 5px;
+                padding-bottom: 2px;
+                background-color: #ffffff;
+                height: 20px;
+                width: 20px;
+              }
+            }
+          }
+        }
+      }
+      .dialog-footer {
+        margin-top: -10px;
+        text-align: center;
+        .el-button {
+          min-width: 200px;
+        }
+      }
     }
   }
 
