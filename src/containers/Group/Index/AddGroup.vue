@@ -111,7 +111,7 @@
     }
   }
 </script>
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
     /*padding: 19px 39px;*/
     .content {
@@ -139,7 +139,6 @@
               margin-right: 20px;
             }
             .el-right {
-              padding: 4px;
               width: 56%;
             }
           }

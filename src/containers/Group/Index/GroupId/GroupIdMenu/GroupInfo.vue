@@ -51,15 +51,18 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="groupName" placeholder="选填，请输入联系人姓名" :disabled="!isEditContact"></el-input>
+              <el-input class="el-right" v-model="groupName" placeholder="选填，请输入联系人姓名"
+                        :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="选填，请输入联系人职务" :disabled="!isEditContact"></el-input>
+              <el-input class="el-right" v-model="groupCode" placeholder="选填，请输入联系人职务"
+                        :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="选填，请输入联系电话" :disabled="!isEditContact"></el-input>
+              <el-input class="el-right" v-model="groupDesc" placeholder="选填，请输入联系电话"
+                        :disabled="!isEditContact"></el-input>
             </div>
             <div class="button-box" v-show="isEditContact">
               <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
@@ -138,7 +141,7 @@
           contact_position: this.contactPosition,
           onsuccess: body => {
             this.cancel();
-            
+
             this.group = body.data;
 
             this.groupName = body.data.name;
@@ -162,9 +165,9 @@
   }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
-    padding: 23px 36px 50px 25px;
+    /*padding: 23px 36px 50px 25px;*/
     .top-content {
       display: flex;
       align-items: center;
@@ -215,15 +218,15 @@
             }
 
             .el-right {
-              border-radius: 0;
               outline: none;
-              background-color: #FBFBFB;
-              margin: 10px 20px;
-              padding: 4px;
               width: 68%;
               .el-input__inner {
                 border-radius: 0;
-                height: 100%;
+                background-color: #FBFBFB;
+                border: solid 1px #D0D0D0;
+                font-size: 14px;
+                color: #9B9B9B;
+                height: 40px;
               }
             }
           }
