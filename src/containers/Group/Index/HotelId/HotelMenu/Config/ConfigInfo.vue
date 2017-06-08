@@ -410,7 +410,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div v-if="lvyeType != ''">
+            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL'">
               <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -419,11 +419,11 @@
                 <span>公安类型</span>
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
-              <div v-if="lvyeType == 'LOCAL'">
-                <div class="item-form">
-                  <span>公安参数</span>
-                  <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
-                </div>
+            </div>
+            <div v-if="lvyeType == 'LOCAL'">
+              <div class="item-form">
+                <span>公安参数</span>
+                <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
               </div>
             </div>
           </div>
@@ -491,7 +491,8 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <div class="item-form">
+            <h1>暂无</h1>
+            <!--<div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
@@ -506,7 +507,7 @@
             <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
-            </div>
+            </div>-->
           </div>
           <div v-if="showType === enumShowType.sign">
             <div class="item-form">
@@ -1105,20 +1106,17 @@
       },
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD') {
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType))
-            return true;
-          return false;
+          return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.lvyeType == 'LOCAL') {
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && tool.isNotBlank(this.policeParam)) {
+          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
               JSON.parse(this.policeParam);
             } catch (e) {
               flag = false;
             }
-            if (flag)
-              return true;
-            return false;
+            
+            return flag;
           }
           return false;
         } else {
@@ -1302,107 +1300,17 @@
         return result;
       }
     },
-    // watch: {
-    //   configData(val) {
-    //     if(tool.isNotBlank(this.configData)) {
-    //       //PMS信息
-    //       //绿云,捷信达
-    //       this.pmsId = this.configData.pms_id;
-    //       // this.pmsName = this.configData.pms_name; //放在计算属性
-    //       this.hotelPmsCode = this.configData.hotel_pmscode;
-    //       this.hotelServiceUrl = this.configData.hotel_service_url;
-    //       //别样红
-    //       this.billServiceUrl = this.configData.bill_service_url;
-    //       this.crmServiceUrl = this.configData.crm_service_url;
-    //       this.orderServiceUrl = this.configData.order_service_url;
-    //       this.secServiceUrl = this.configData.sec_service_url;
-    //       this.userName = this.configData.user_name;
-    //       this.userPass = this.configData.user_pass;
-    //       //住哲
-    //       this.cid = this.configData.cid;
-    //       this.key = this.configData.key;
-    //       this.dataKey = this.configData.datakey;
-    //       this.adminName = this.configData.admin_name;
-    //       this.adminPassword = this.configData.admin_password;
-    //       this.brandId = this.configData.brand_id;
-    //       // 旅业配置
-    //       this.lvyeType = this.configData.lvye_report_type;
-    //       this.policeId = this.configData.hotel_ga_id;
-    //       this.policeType = this.configData.police_type;
-    //       this.policeParam = JSON.stringify(this.configData.police_param);
-    //       //门锁配置，暂无
-    //       //人脸识别配置
-    //       this.faceinPassValue = +this.configData.facein_pass_value;
-    //       this.faceinRejectValue = +this.configData.facein_reject_value;
-    //       //微信支付配置
-    //       this.wechatPayAppId = this.configData.miniapp_config.app_id;
-    //       this.mchId = this.configData.miniapp_config.mch_id;
-    //       this.mchApiKey = this.configData.miniapp_config.mch_api_key;
-    //       this.payCode = this.configData.pay_code;
-    //       this.refundCode = this.configData.refund_code;
-    //       //微信生态酒店配置
-    //       this.wxHotelId = this.configData.wx_hotel_id;
-    //       //小程序配置
-    //       this.appId = this.configData.app_id;
-    //       this.appSecret = this.configData.app_secret;
-    //       this.originalId = this.configData.original_id;
-    //       this.appName = this.configData.app_name;
-    //       //电子签名
-    //       this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
-    //       //电话取消订单  暂无
-    //       //发票配置
-    //       this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
-    //       this.invoiceName = [...this.configData.invoice_name];
-    //       //预登记短信配置
-    //       this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
-    //       //到店支付配置
-    //       this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
-    //       //自动退房
-    //       this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
-    //       //自动退款
-    //       this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
-    //       //无证入住
-    //       this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
-    //       //门卡配置
-    //       this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
-    //       //押金配置
-    //       this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
-    //       this.fixedCashPledge = +this.configData.cash_pledge_config.fixed_cash_pledge;
-    //       this.multipleOfCashPledge = +this.configData.cash_pledge_config.multiple_of_cash_pledge;
-    //       this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
-    //       this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
-    //       this.dayOfIncidentals = +this.configData.cash_pledge_config.day_of_incidentals;
-    //       //早餐券配置
-    //       this.breakfastStemFrom = this.configData.breakfast_stem_from;
-    //       //可选房数量
-    //       this.maxAllowRoomcount = this.configData.max_allow_roomcount;
-    //       //PMS同步频率
-    //       this.syncSpaceTime = this.configData.sync_space_time;
-    //       //自动预付款确认
-    //       this.prepayKeyword = this.configData.prepay_keyword;
-    //       this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
-    //       this.postpayKeyword = this.configData.postpay_keyword;
-    //       this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
-    //       this.freeDepositKeyword = this.configData.free_deposit_keyword;
-    //       this.needDepositKeyword = this.configData.need_deposit_keyword;
-    //       //脏房配置
-    //       this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
-    //       //酒店标签配置
-    //       this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
-    //     }
-    //   }
-    // },
     methods: {
       ...mapActions([
         'getConfig',
         'patchConfig',
         'getPMS',
-        'patchPMS',
+        'modifyPMS',
         'getPMSBrandList',
         'getLvye',
-        'patchLvye',
+        'modifyLvye',
         'getWechatApp',
-        'patchWechatApp',
+        'modifyWechatApp',
         'showtoast',
         'goto'
       ]),
@@ -1583,7 +1491,7 @@
                 brand_id: this.brandId,
               }
             }
-            this.patchPms(data);
+            this.modifyPms(data);
             return;
           }
           // break;
@@ -1602,7 +1510,7 @@
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
               }
-              this.patchLvyes(data);
+              this.modifyLvyes(data);
               return;
             }
           }
@@ -1639,7 +1547,7 @@
               original_id: this.originalId,
               app_name: this.appName
             }
-            this.patchWechatApps(data);
+            this.modifyWechatApps(data);
             return;
           // break;
           case enumShowType.sign:
@@ -1798,8 +1706,8 @@
           hotel_id: this.$route.params.hotelid
         })
       },
-      patchPms(data) {
-        this.patchPMS({
+      modifyPms(data) {
+        this.modifyPMS({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
@@ -1827,8 +1735,8 @@
           hotel_id: this.$route.params.hotelid
         })
       },
-      patchLvyes(data) {
-        this.patchLvye({
+      modifyLvyes(data) {
+        this.modifyLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
@@ -1842,8 +1750,8 @@
           hotel_id: this.$route.params.hotelid
         })
       },
-      patchWechatApps(data) {
-        this.patchWechatApp({
+      modifyWechatApps(data) {
+        this.modifyWechatApp({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
@@ -1863,9 +1771,9 @@
       if (tool.isBlank(this.lvyeData)) {
         this.getLvyes();
       }
-      if (tool.isBlank(this.wechatAppData)) {
-        this.getWechatApps();
-      }
+      // if (tool.isBlank(this.wechatAppData)) {
+      //   this.getWechatApps();
+      // }
     }
   }
 </script>
