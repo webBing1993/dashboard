@@ -201,9 +201,9 @@
       if (tool.isBlank(this.lvyeData)) {
         this.getLvyes();
       }
-      if (tool.isBlank(this.wechatAppData)) {
-        this.getWechatApps();
-      }
+      // if (tool.isBlank(this.wechatAppData)) {
+      //   this.getWechatApps();
+      // }
     }
   }
 </script>

@@ -41,7 +41,7 @@
               <span>门锁配置</span>
               <p>必须开通该配置。</p>
             </div>
-            <span class="tag_text">未配置</span>
+            <span class="tag_text">暂无</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -124,7 +124,7 @@
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
             </div>
-            <span class="tag_text">未开通</span>
+            <span class="tag_text">暂无</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -1014,45 +1014,41 @@
           return configData;
         },
         pmsData(state) {
-          let pmsData = state.pmsData;
+          // let pmsData = state.pmsData;
+          // if (tool.isNotBlank(pmsData)) {
+          //   //PMS信息
+          //   //绿云,捷信达
+          //   this.pmsId = pmsData.pms_id;
+          //   // this.pmsName = pmsData.pms_name; //放在计算属性
+          //   this.hotelPmsCode = pmsData.hotel_pmscode;
+          //   this.hotelServiceUrl = pmsData.hotel_service_url;
+          //   //别样红
+          //   this.billServiceUrl = pmsData.bill_service_url;
+          //   this.crmServiceUrl = pmsData.crm_service_url;
+          //   this.orderServiceUrl = pmsData.order_service_url;
+          //   this.secServiceUrl = pmsData.sec_service_url;
+          //   this.userName = pmsData.user_name;
+          //   this.userPass = pmsData.user_pass;
+          //   //住哲
+          //   this.cid = pmsData.cid;
+          //   this.key = pmsData.key;
+          //   this.dataKey = pmsData.datakey;
+          //   this.adminName = pmsData.admin_name;
+          //   this.adminPassword = pmsData.admin_password;
+          //   this.brandId = pmsData.brand_id;
+          // }
 
-          if (tool.isNotBlank(pmsData)) {
-            //PMS信息
-            //绿云,捷信达
-            this.pmsId = pmsData.pms_id;
-            // this.pmsName = pmsData.pms_name; //放在计算属性
-            this.hotelPmsCode = pmsData.hotel_pmscode;
-            this.hotelServiceUrl = pmsData.hotel_service_url;
-            //别样红
-            this.billServiceUrl = pmsData.bill_service_url;
-            this.crmServiceUrl = pmsData.crm_service_url;
-            this.orderServiceUrl = pmsData.order_service_url;
-            this.secServiceUrl = pmsData.sec_service_url;
-            this.userName = pmsData.user_name;
-            this.userPass = pmsData.user_pass;
-            //住哲
-            this.cid = pmsData.cid;
-            this.key = pmsData.key;
-            this.dataKey = pmsData.datakey;
-            this.adminName = pmsData.admin_name;
-            this.adminPassword = pmsData.admin_password;
-            this.brandId = pmsData.brand_id;
-          }
-
-          return pmsData;
+          return state.pmsData;
         },
         lvyeData(state) {
-          let lvyeData = state.lvyeData;
+          //这里不能及时赋值，也是懵逼，先放在watch里
+          // 旅业配置
+          // this.lvyeType = state.lvyeData.lvye_report_type;
+          // this.policeId = state.lvyeData.hotel_ga_id;
+          // this.policeType = state.lvyeData.police_type;
+          // this.policeParam = JSON.stringify(state.lvyeData.police_param);
 
-          if (tool.isNotBlank(lvyeData)) {
-            // 旅业配置
-            this.lvyeType = lvyeData.lvye_report_type;
-            this.policeId = lvyeData.hotel_ga_id;
-            this.policeType = lvyeData.police_type;
-            this.policeParam = JSON.stringify(lvyeData.police_param);
-          }
-
-          return lvyeData;
+          return state.lvyeData;
         },
         wechatAppData(state) {
           let wechatAppData = state.wechatAppData;
@@ -1298,6 +1294,42 @@
             result = false;
         }
         return result;
+      }
+    },
+    watch: {
+      //不知道为什么写在computed里面没用，打开devtools点到这个组建久有值了!
+      pmsData() {
+        if(tool.isNotBlank(this.pmsData)) {
+          //PMS信息
+          //绿云,捷信达
+          this.pmsId = this.pmsData.pms_id;
+          // this.pmsName = this.pmsData.pms_name; //放在计算属性
+          this.hotelPmsCode = this.pmsData.hotel_pmscode;
+          this.hotelServiceUrl = this.pmsData.hotel_service_url;
+          //别样红
+          this.billServiceUrl = this.pmsData.bill_service_url;
+          this.crmServiceUrl = this.pmsData.crm_service_url;
+          this.orderServiceUrl = this.pmsData.order_service_url;
+          this.secServiceUrl = this.pmsData.sec_service_url;
+          this.userName = this.pmsData.user_name;
+          this.userPass = this.pmsData.user_pass;
+          //住哲
+          this.cid = this.pmsData.cid;
+          this.key = this.pmsData.key;
+          this.dataKey = this.pmsData.datakey;
+          this.adminName = this.pmsData.admin_name;
+          this.adminPassword = this.pmsData.admin_password;
+          this.brandId = this.pmsData.brand_id;
+        }
+      },
+      lvyeData() {
+        // 旅业配置
+        if(tool.isNotBlank(this.lvyeData)) {
+          this.lvyeType = this.lvyeData.lvye_report_type;
+          this.policeId = this.lvyeData.hotel_ga_id;
+          this.policeType = this.lvyeData.police_type;
+          this.policeParam = JSON.stringify(this.lvyeData.police_param);
+        }
       }
     },
     methods: {
