@@ -41,22 +41,16 @@ module.exports = {
       }
     })
   },
-  patchPMS(ctx, param){
+  modifyPMS(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/pms`,
-      method:'PATCH',
+      method:'PUT',
       body: {
         ...param.data
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        let obj = {
-          ...ctx.state.pmsData
-        }
-        for(let key in body.data) {
-          obj[key] = body.data[key];
-        }
-        ctx.commit('PMSDATA', obj)
+        ctx.commit('PMSDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -85,57 +79,21 @@ module.exports = {
       }
     })
   },
-  patchLvye(ctx, param){
+  modifyLvye(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/lvye`,
-      method:'PATCH',
+      method:'PUT',
       body: {
         ...param.data
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        let obj = {
-          ...ctx.state.lvyeData
-        }
-        for(let key in body.data) {
-          obj[key] = body.data[key];
-        }
-        ctx.commit('LVYEATA', obj)
+        ctx.commit('LVYEATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
   //小程序
-  // getWechatApp(ctx, param) {
-  //   ctx.dispatch('resource', {
-  //     url: `/hotel/${param.hotel_id}/wechatapp`,
-  //     method:'GET',
-  //     onSuccess: body => {
-  //       ctx.commit('WECHATAPPDATA', body.data)
-  //       param.onsuccess ? param.onsuccess(body) : null
-  //     }
-  //   })
-  // },
-  // patchWechatApp(ctx, param){
-  //   ctx.dispatch('resource', {
-  //     url: `/hotel/${param.hotel_id}/wechatapp`,
-  //     method:'PATCH',
-  //     body: {
-  //       ...param.data
-  //     },
-  //     onSuccess: body => {
-  //       ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-  //       let obj = {
-  //         ...ctx.state.wechatAppData
-  //       }
-  //       for(let key in body.data) {
-  //         obj[key] = body.data[key];
-  //       }
-  //       ctx.commit('WECHATAPPDATA', obj)
-  //       param.onsuccess ? param.onsuccess(body) : null
-  //     }
-  //   })
-  // },
   getWechatApp(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/wechatapp`,
@@ -146,22 +104,16 @@ module.exports = {
       }
     })
   },
-  patchWechatApp(ctx, param){
+  modifyWechatApp(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotel/wechatapp`,
-      method:'PATCH',
+      method:'PUT',
       body: {
         ...param.data
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        let obj = {
-          ...ctx.state.wechatAppData
-        }
-        for(let key in body.data) {
-          obj[key] = body.data[key];
-        }
-        ctx.commit('WECHATAPPDATA', obj)
+        ctx.commit('WECHATAPPDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
