@@ -2,14 +2,14 @@
   <div>
     <div class="module-wrapper">
       <div class="content_room">
-        <span>数据源</span>
+        <!--<span>数据源</span>
         <div class="data_title">
           <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</span>
           <div class="header-btn">
             <el-button type="success">PMS同步数据</el-button>
             <el-button type="success">添加房间(非对接PMS)</el-button>
           </div>
-        </div>
+        </div>-->
         <table-room :list="list" @edit="edit"></table-room>
         <el-pagination
           v-show="total > size"
