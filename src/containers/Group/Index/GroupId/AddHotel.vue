@@ -200,7 +200,7 @@
           address: this.address,
           longitude: this.lng,
           latitude: this.lat,
-          contact_name: this.groupName,
+          contact_name: this.contactName,
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           onsuccess: body => this.goto(-1)

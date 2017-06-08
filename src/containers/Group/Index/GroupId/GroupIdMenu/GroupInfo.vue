@@ -21,25 +21,25 @@
       </div>-->
       <div class="content">
         <div class="enterprise-info">
-          <p>企业信息</p>
+          <p>企业信息<a @click="editInfo">修改</a></p>
           <div class="info-content">
             <div class="content-msg">
               <span>企业名称</span>
-              <el-input class="el-right" v-model="groupName" placeholder="请输入企业名称" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupName" placeholder="请输入企业名称" :disabled="!isEditInfo"></el-input>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="请输入账户编码" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupCode" placeholder="请输入账户编码" :disabled="!isEditInfo"></el-input>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="请输入企业简称" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupDesc" placeholder="请输入企业简称" :disabled="!isEditInfo"></el-input>
             </div>
             <div class="content-msg">
               <span>企业官网</span>
-              <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网" :disabled="!isEditInfo"></el-input>
             </div>
-            <div class="button-box" v-show="isEdit">
+            <div class="button-box" v-show="isEditInfo">
               <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
               <el-button @click.native="cancel">取消</el-button>
             </div>
@@ -47,19 +47,23 @@
         </div>
 
         <div class="enterprise-info">
-          <p>联系信息<a @click="edit">修改</a></p>
+          <p>联系信息<a @click="editContact">修改</a></p>
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="groupName" placeholder="选填，请输入联系人姓名" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupName" placeholder="选填，请输入联系人姓名" :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="选填，请输入联系人职务" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupCode" placeholder="选填，请输入联系人职务" :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="选填，请输入联系电话" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="groupDesc" placeholder="选填，请输入联系电话" :disabled="!isEditContact"></el-input>
+            </div>
+            <div class="button-box" v-show="isEditContact">
+              <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+              <el-button @click.native="cancel">取消</el-button>
             </div>
           </div>
         </div>
@@ -83,7 +87,8 @@
         contactName: '',
         contactPhone: '',
         contactPosition: '',
-        isEdit: false
+        isEditInfo: false,
+        isEditContact: false
       }
     },
     computed: {
@@ -96,6 +101,7 @@
     methods: {
       ...mapActions([
         'getGroup',
+        'modifyGroup',
         'showtoast'
       ]),
       getInfo() {
@@ -114,14 +120,40 @@
           }
         })
       },
-      edit() {
-        this.isEdit = true;
+      editInfo() {
+        this.isEditInfo = true;
+      },
+      editContact() {
+        this.isEditContact = true;
       },
       modify() {
+        this.modifyGroup({
+          id: this.$route.params.id,
+          name: this.groupName,
+          code: this.groupCode,
+          memo: this.groupDesc,
+          website: this.groupWeb,
+          contact_name: this.groupName,
+          contact_phone: this.contactPhone,
+          contact_position: this.contactPosition,
+          onsuccess: body => {
+            this.cancel();
+            
+            this.group = body.data;
 
+            this.groupName = body.data.name;
+            this.groupCode = body.data.code;
+            this.groupDesc = body.data.memo;
+            this.groupWeb = body.data.website;
+            this.contactName = body.data.contact_name;
+            this.contactPhone = body.data.contact_phone;
+            this.contactPosition = body.data.contact_position;
+          }
+        })
       },
       cancel() {
-        this.isEdit = false;
+        this.isEditInfo = false;
+        this.isEditContact = false;
       }
     },
     mounted() {

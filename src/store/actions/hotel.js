@@ -48,7 +48,10 @@ module.exports = {
         tel: param.tel,
         address: param.address,
         longitude: param.longitude,
-        latitude: param.latitude
+        latitude: param.latitude,
+        contact_name: param.contact_name,
+        contact_phone: param.contact_phone,
+        contact_position: param.contact_position
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '修改成功', type:'success'});

@@ -3,12 +3,12 @@
     <div class="module-wrapper">
       <div class="content">
         <div class="store-info">
-          <p>门店信息</p>
+          <p>门店信息<a @click="editInfo">修改</a></p>
           <div class="info-content">
             <div class="content-item">
               <div class="item">
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌" :disabled="!isEdit">
+                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌" :disabled="!isEditInfo">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -19,20 +19,20 @@
               </div>
               <div class="item">
                 <span>账户编码</span>
-                <el-input class="el-right" v-model="code" placeholder="请输入账户编码" :disabled="!isEdit"></el-input>
+                <el-input class="el-right" v-model="code" placeholder="请输入账户编码" :disabled="!isEditInfo"></el-input>
               </div>
               <div class="item">
                 <span>门店名称</span>
-                <el-input class="el-right" v-model="name" placeholder="请输入门店名称" :disabled="!isEdit"></el-input>
+                <el-input class="el-right" v-model="name" placeholder="请输入门店名称" :disabled="!isEditInfo"></el-input>
               </div>
               <div class="item">
                 <span>前台电话</span>
-                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话" :disabled="!isEdit"></el-input>
+                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话" :disabled="!isEditInfo"></el-input>
               </div>
 
               <div class="content-address">
                 <span>门店地址</span>
-                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择" :disabled="!isEdit">
+                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择" :disabled="!isEditInfo">
                   <el-option
                     v-for="(obj, index) of provinceList"
                     :key="index"
@@ -40,7 +40,7 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择" :disabled="!isEdit">
+                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择" :disabled="!isEditInfo">
                   <el-option
                     v-for="(obj, index) of cityList"
                     :key="index"
@@ -48,7 +48,7 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择" :disabled="!isEdit">
+                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择" :disabled="!isEditInfo">
                   <el-option
                     v-for="(obj, index) of areaList"
                     :key="index"
@@ -58,7 +58,7 @@
                 </el-select>
               </div>
               <div class="content-add">
-                <el-input v-model="address" placeholder="地址（详细到门牌号）" :disabled="!isEdit"></el-input>
+                <el-input v-model="address" placeholder="地址（详细到门牌号）" :disabled="!isEditInfo"></el-input>
               </div>
             </div>
             <div class="content-item">
@@ -66,27 +66,31 @@
               <span class="item-text">拖动坐标可以修改地理位置 <p>lat：{{latitude}} &nbsp lng: {{longitude}}</p></span>
             </div>
           </div>
-          <div class="button-box" v-show="isEdit">
+          <div class="button-box" v-show="isEditInfo">
             <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
             <el-button @click.native="cancel">取消</el-button>
           </div>
         </div>
         <div class="store-info">
-          <p>联系信息<a @click="edit">修改</a></p>
+          <p>联系信息<a @click="editContact">修改</a></p>
           <div class="info-msg">
             <div class="item">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名" :disabled="!isEditContact"></el-input>
             </div>
             <div class="item">
               <span>联系人职务</span>
               <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务"
-                        :disabled="!isEdit"></el-input>
+                        :disabled="!isEditContact"></el-input>
             </div>
             <div class="item">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话" :disabled="!isEdit"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话" :disabled="!isEditContact"></el-input>
             </div>
+          </div>
+          <div class="button-box" v-show="isEditContact">
+            <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+            <el-button @click.native="cancel">取消</el-button>
           </div>
         </div>
       </div>
@@ -121,7 +125,8 @@
         contactName: '',
         contactPhone: '',
         contactPosition: '',
-        isEdit: false
+        isEditInfo: false,
+        isEditContact: false
       }
     },
     computed: {
@@ -252,10 +257,14 @@
         })
       },
       cancel() {
-        this.isEdit = false;
+        this.isEditInfo = false;
+        this.isEditContact = false;
       },
-      edit() {
-        this.isEdit = true;
+      editInfo() {
+        this.isEditInfo = true;
+      },
+      editContact() {
+        this.isEditContact = true;
       },
       modify() {
         if (this.submitDisabled) return;
@@ -278,8 +287,52 @@
           address: this.address,
           longitude: this.longitude,
           latitude: this.latitude,
+          contact_name: this.contactName,
+          contact_phone: this.contactPhone,
+          contact_position: this.contactPosition,
           onsuccess: body => {
-            this.goto(-1)
+            this.cancel();
+            if (body.data) {
+              this.hotel = body.data;
+              this.groupId = this.hotel.group_id;
+              // this.brandId = this.hotel.brand_id;
+              this.code = this.hotel.code;
+              this.name = this.hotel.name;
+              this.tel = this.hotel.tel;
+              this.province = this.hotel.province;
+              this.city = this.hotel.city;
+              this.area = this.hotel.area;
+              this.address = this.hotel.address;
+              this.longitude = this.hotel.longitude;
+              this.latitude = this.hotel.latitude;
+              this.contactName = this.hotel.contact_name;
+              this.contactPhone = this.hotel.contact_phone;
+              this.contactPosition = this.hotel.contact_position;
+
+              let region = this.provinceList.find(v => v.name == this.province);
+              if (region !== undefined) {
+                this.provinceCode = region.code;
+              } else {
+                this.provinceCode = this.provinceList[0].code;
+              }
+
+              let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
+              if (obj === undefined) {
+                regionObj = areaData[0].region;
+              } else {
+                regionObj = obj.region;
+              }
+              let stateObj = regionObj.state.find(v => v.name == this.city);
+              if (stateObj === undefined) stateObj = this.cityList[0];
+              this.cityCode = stateObj.code;
+
+              let cityObj = stateObj.city.find(v => v.name == this.area);
+              if (cityObj === undefined) cityObj = this.areaList[0];
+              this.areaCode = cityObj.code;
+              this.initMap();
+            } else {
+              this.showtoast({text: '数据不存在', type: 'warning'})
+            }
           }
         })
       },
