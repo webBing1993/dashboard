@@ -45,6 +45,7 @@
             </div>
           </div>
         </div>
+
         <div class="enterprise-info">
           <p>联系信息<a @click="edit">修改</a></p>
           <div class="info-content">
@@ -172,7 +173,7 @@
           }
         }
         .info-content {
-          padding: 22px 0 29px 40px;
+          padding: 22px 0 16px 40px;
           .content-msg {
             display: flex;
             align-items: center;
@@ -180,14 +181,18 @@
               min-width: 80px;
               text-align: right;
             }
-            .el-input {
+
+            .el-right {
+              border-radius: 0;
               outline: none;
               background-color: #FBFBFB;
-            }
-            .el-right {
               margin: 10px 20px;
               padding: 4px;
-              width: 65%;
+              width: 68%;
+              .el-input__inner {
+                border-radius: 0;
+                height: 100%;
+              }
             }
           }
           .button-box {

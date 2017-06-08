@@ -172,18 +172,18 @@
   }
 
   .circle-green {
-    border: 1px solid green;
-    background-color: green;
+    border: 1px solid #39C240;
+    background-color: #39C240;
   }
 
   .circle-red {
-    border: 1px solid red;
-    background-color: red;
+    border: 1px solid #D0011B;
+    background-color: #D0011B;
   }
 
   .circle-yellow {
-    border: 1px solid yellow;
-    background-color: yellow;
+    border: 1px solid #F6A623;
+    background-color: #F6A623;
   }
 </style>
 

@@ -8,7 +8,8 @@
         <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
       </div>
       <div class="content">
-        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config" @device="device"></table-hotel>
+        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
+                     @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -158,11 +159,11 @@
 <style scoped lang="less">
 
   .module-wrapper {
-    padding: 0 20px;
+    padding: 19px 24px 0;
     .search-bar {
       display: flex;
       align-items: center;
-      margin: 19px 0;
+      margin-bottom: 19px;
       h3 {
         font-size: 16px;
         font-weight: normal;
@@ -176,6 +177,9 @@
       .el-button {
         min-width: 173px;
         margin-left: 17px;
+        border-radius: 0;
+        background-color: #39C240;
+        line-height: 18px;
       }
     }
     .content {
@@ -183,17 +187,6 @@
       align-items: center;
       .v-table {
         line-height: 45px;
-      }
-    }
-    .content-bot {
-      display: flex;
-      align-items: center;
-      position: absolute;
-      bottom: 10px;
-      button {
-        width: 100px;
-        line-height: 32px;
-        margin: 0 8px;
       }
     }
   }

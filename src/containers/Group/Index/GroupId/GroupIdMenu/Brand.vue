@@ -57,23 +57,21 @@
 <style scoped lang="less">
   .module-wrapper {
     .content {
-      padding: 12px 20px;
+      padding: 12px 20px 12px 18px;
       .el-btn-box {
-        width: 172px;
-        line-height: 40px;
+        width: 173px;
         float: right;
-        background-color: #39C240;
         margin-bottom: 10px;
         font-size: 14px;
-        border-radius: 3px;
-        button {
+        text-align: center;
+        .el-button {
           width: 100%;
           height: 100%;
-          background-color: transparent;
-          padding: 12px 0;
+          border-radius: 0;
+          background-color: #39C240;
+          line-height: 18px;
         }
       }
     }
   }
-
 </style>

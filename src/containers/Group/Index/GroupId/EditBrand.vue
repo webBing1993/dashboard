@@ -3,15 +3,9 @@
     <div class="module-wrapper">
       <div class="content">
         <div class="enterprise-info">
-          <div class="info-header">
-            <span>品牌信息</span>
-            <div v-if="brandid != undefined">
-              <el-button type="success" size="small" @click.native="remove">删除</el-button>
-              <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
-            </div>
-          </div>
+          <h3>品牌信息</h3>
           <div class="info-content">
-            <div class="content-msg">
+            <div class="content-item">
               <label for="brandName">品牌名称</label>
               <input type="text" id="brandName" v-model="name"/>
             </div>
@@ -22,8 +16,12 @@
                      accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
           </div>
-          <div v-if="brandid == undefined" class="button-box">
-            <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
+          <div class="edit_btn" v-if="brandid != undefined">
+            <el-button type="success" size="small" @click.native="remove">删除</el-button>
+            <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
+          </div>
+          <div v-if="brandid == undefined" class="edit_btn">
+            <el-button type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
           </div>
         </div>
       </div>
@@ -159,39 +157,21 @@
 <style scoped lang="less">
   .module-wrapper {
     .content {
-      padding: 20px 20px;
+      padding: 23px 36px 25px 25px;
       .enterprise-info {
         border: 1px solid #EAEDF0;
-        .info-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+        h3 {
+          background-color: #FAFAFA;
           border-bottom: 1px solid #EAEDF0;
-          line-height: 30px;
-          padding: 16px 20px;
+          line-height: 42px;
           font-size: 16px;
-          .el-button {
-            min-width: 160px;
-            line-height: 20px;
-            margin-left: 20px;
-          }
+          color: #4A4A4A;
+          padding: 0 20px;
         }
-
         .info-content {
-          padding: 20px 40px;
-          line-height: 45px;
-          .title-msg {
-            span {
-              padding-right: 20px;
-            }
-            select {
-              width: 280px;
-              height: 32px;
-              outline: none;
-              background-color: #ffffff;
-            }
-          }
-          .content-msg {
+          padding: 22px 40px 44px;
+          line-height: 35px;
+          .content-item {
             display: flex;
             align-items: center;
             font-size: 14px;
@@ -215,12 +195,24 @@
             }
           }
         }
-      }
-      ._button {
-        float: right;
-        width: 120px;
-        line-height: 38px;
-        margin-top: 16px;
+
+        .edit_btn {
+          display: inline-block;
+          align-items: center;
+          width: 100%;
+          text-align: center;
+          margin-bottom: 26px;
+          .el-button {
+            width: 246px;
+            line-height: 24px;
+            background-color: #39C240;
+            border-color: #39C240;
+            border-radius: 0;
+            &:nth-child(1){
+              margin-right: 12px;
+            }
+          }
+        }
       }
     }
   }

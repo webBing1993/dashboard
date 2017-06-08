@@ -277,7 +277,7 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    padding: 24px;
+    padding: 23px 37px 23px 39px;
     .content {
       .store-info {
         border: 1px solid #ECECEC;
@@ -285,17 +285,19 @@
         margin-bottom: 30px;
         p {
           line-height: 45px;
-          padding: 0 30px;
+          padding-left: 22px;
           background-color: #EAEDF0;
         }
         .info-content {
           display: flex;
           font-size: 16px;
           color: #4A4A4A;
-          padding: 17px 15px 22px 38px;
+          padding: 17px 15px 23px 54px;
           .content-item {
             flex: 1px;
-            margin-left: 16px;
+            &:nth-child(1) {
+              margin-right: 23px;
+            }
             .item {
               display: flex;
               align-items: center;
@@ -317,18 +319,18 @@
               align-items: center;
               line-height: 46px;
               span {
-                margin-right: 16px;
-                width: 71px;
+                margin-right: 21px;
+                width: 68px;
                 display: block;
               }
               .el-select {
-                width: 26%;
+                width: 27%;
                 outline: none;
                 margin-left: 2px;
               }
             }
             .content-add {
-              margin-left: 88px;
+              margin-left: 92px;
               line-height: 46px;
               .el-input {
                 width: 100%;
