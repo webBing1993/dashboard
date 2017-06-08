@@ -93,8 +93,9 @@
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
+            <span class="tag_text">暂无</span>
+            <!--<span class="tag_text"
+                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>-->
           </button>
         </el-col>
       </el-row>
@@ -1795,12 +1796,14 @@
       if (tool.isBlank(this.configData)) {
         this.getConfigs();
       }
-      if (tool.isBlank(this.pmsData)) {
-        this.getPms();
-      }
-      if (tool.isBlank(this.lvyeData)) {
-        this.getLvyes();
-      }
+      // if (tool.isBlank(this.pmsData)) {
+      //   this.getPms();
+      // }
+      // if (tool.isBlank(this.lvyeData)) {
+      //   this.getLvyes();
+      // }
+      this.getPms();
+      this.getLvyes();
       // if (tool.isBlank(this.wechatAppData)) {
       //   this.getWechatApps();
       // }
