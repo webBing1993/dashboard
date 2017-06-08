@@ -491,7 +491,8 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <div class="item-form">
+            <h1>暂无</h1>
+            <!--<div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
@@ -506,7 +507,7 @@
             <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
-            </div>
+            </div>-->
           </div>
           <div v-if="showType === enumShowType.sign">
             <div class="item-form">
