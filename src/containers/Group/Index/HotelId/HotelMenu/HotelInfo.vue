@@ -76,7 +76,8 @@
           <div class="info-msg">
             <div class="item">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名" :disabled="!isEditContact"></el-input>
+              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名"
+                        :disabled="!isEditContact"></el-input>
             </div>
             <div class="item">
               <span>联系人职务</span>
@@ -85,7 +86,8 @@
             </div>
             <div class="item">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话" :disabled="!isEditContact"></el-input>
+              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话"
+                        :disabled="!isEditContact"></el-input>
             </div>
           </div>
           <div class="button-box" v-show="isEditContact">
