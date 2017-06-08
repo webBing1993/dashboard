@@ -210,7 +210,7 @@
 
 <style scoped lang="less">
   .content-configsummary {
-    padding: 23px 44px;
+    padding: 23px 45px;
     h1 {
       font-size: 18px;
       color: #4A4A4A;
@@ -218,7 +218,7 @@
     .configsummary_item {
       padding: 0px 24px 17px;
       color: #9B9B9B;
-      h3{
+      h3 {
         font-size: 16px;
       }
       p {

@@ -73,7 +73,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.wxHotel)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/cancel.png" alt="a">
+              <img src="../../../../../../assets/images/酒店.png" alt="a">
             </div>
             <div class="item-text">
               <span>生态酒店配置</span>
@@ -983,8 +983,10 @@
               this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
               this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
               this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
-              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer == 'true' ? true : false;;
-              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals == 'true' ? true : false;;
+              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer == 'true' ? true : false;
+              ;
+              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals == 'true' ? true : false;
+              ;
               this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
             }
             //早餐券配置
@@ -1783,7 +1785,7 @@
             let obj = {
               ...this.configData
             }
-            for(let key in body.data) {
+            for (let key in body.data) {
               obj[key] = body.data[key];
             }
             this.$store.state.configData = obj;
@@ -1895,30 +1897,31 @@
           align-items: center;
           justify-content: flex-start;
           background-color: #ffffff;
-          border: solid 1px #9B9B9B;
+          border: solid 1px #E5E5E5;
           outline: none;
           color: #4A4A4A;
           padding: 12px 6px;
           position: relative;
           height: 110px;
           .item_img {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             text-align: center;
-            border: solid 1px #979797;
+            border: solid 1px #E5E5E5;
+            background-color: #FBFBFB;
             border-radius: 50%;
             padding: 10px;
             display: flex;
             align-items: center;
+            -webkit-align-items: center;
             img {
-              width: 42px;
-              height: 42px;
+              width: 38px;
+              height: 38px;
             }
           }
           .item-text {
             text-align: start;
             margin-left: 10px;
-            /*padding-top: 10px;*/
             span {
               font-size: 16px;
             }
