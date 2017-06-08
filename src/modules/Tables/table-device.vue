@@ -97,7 +97,6 @@
     padding-left: 10px;
     color: #757575;
     font-size: 12px;
-    border-bottom: solid 1px #e0e0e0;
     word-break: keep-all;
     white-space: nowrap;
     line-height: 44px;
@@ -147,13 +146,13 @@
   }
 
   .circle-green {
-    border: 1px solid green;
-    background-color: green;
+    border: 1px solid #39C240;
+    background-color: #39C240;
   }
 
   .circle-red {
-    border: 1px solid red;
-    background-color: red;
+    border: 1px solid #D0011B;
+    background-color: #D0011B;
   }
 </style>
 
