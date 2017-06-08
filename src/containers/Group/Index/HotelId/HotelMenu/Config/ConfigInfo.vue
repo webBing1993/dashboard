@@ -1214,9 +1214,7 @@
         return true;
       },
       validateroomTags() {
-        if (this.roomTagsList.length > 0)
-          return true;
-        return false;
+        return true;
       },
       validateAll() {
         let result = false;
