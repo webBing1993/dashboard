@@ -6,7 +6,7 @@ import Auth from '@/containers/Auth'
 import MainApp from '@/containers/MainApp'
 // 2级路由
 import Home from '@/containers/Home'
-import Group from '@/containers/Group'
+import Group from '@/containers/Group/index.vue'
 // 3级路由
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
