@@ -277,7 +277,7 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    padding: 23px 37px 23px 39px;
+    padding: 23px 37px 28px 39px;
     .content {
       .store-info {
         border: 1px solid #ECECEC;
@@ -303,15 +303,13 @@
               align-items: center;
               line-height: 46px;
               span {
-                width: 76px;
+                width: 64px;
                 display: block;
+                margin-right: 20px;
               }
-              .el-select {
+              .el-select, .el-input {
                 width: 80%;
                 outline: none;
-              }
-              .el-input {
-                width: 80%;
               }
             }
             .content-address {
@@ -319,18 +317,18 @@
               align-items: center;
               line-height: 46px;
               span {
-                margin-right: 21px;
-                width: 68px;
+                margin-right: 16px;
+                width: 66px;
                 display: block;
               }
               .el-select {
                 width: 27%;
                 outline: none;
-                margin-left: 2px;
+                margin-left: 4px;
               }
             }
             .content-add {
-              margin-left: 92px;
+              margin-left: 84px;
               line-height: 46px;
               .el-input {
                 width: 100%;
@@ -360,7 +358,8 @@
             span {
               width: 72px;
               display: block;
-              margin-right: 14px;
+              margin-right: 20px;
+              text-align: end;
             }
             .el-select {
               width: 80%;
@@ -372,15 +371,18 @@
         }
       }
       .button-box {
-        width: 30%;
-        margin: 10px auto;
+        width: 246px;
+        margin: 0 auto;
         .el-btn {
           width: 100%;
-          height: 46px;
+          line-height: 18px;
+          background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
+          color: #ffffff;
         }
       }
     }
-
   }
 
   .error-info {
@@ -396,11 +398,6 @@
   .contact-info {
     border: 1px solid #757575;
     margin-top: 20px;
-  }
-
-  .el-right {
-    width: 390px;
-    margin-left: 16px;
   }
 
   .el-right-address {

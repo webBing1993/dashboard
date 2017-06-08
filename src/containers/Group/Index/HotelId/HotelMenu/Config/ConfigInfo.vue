@@ -2038,7 +2038,23 @@
         margin-top: -10px;
         text-align: center;
         .el-button {
-          min-width: 200px;
+          width: 246px;
+          display: inline-block;
+          white-space: nowrap;
+          cursor: pointer;
+          background: #fff;
+          line-height: 18px;
+          border: 1px solid #979797;
+          color: #4A4A4A;
+          border-radius: 0;
+          margin: 0;
+          padding: 10px 15px;
+          &:nth-child(1) {
+            background-color: #39C240;
+            border-color: #39C240;
+            color: #ffffff;
+            margin-right: 23px;
+          }
         }
       }
     }

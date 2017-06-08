@@ -63,7 +63,7 @@
             </div>
             <div class="content-item">
               <div id="mapContainer"/>
-              <span class="item-text">请点击地图确认坐标 lat: {{latitude}} lng: {{longitude}}</span>
+              <span class="item-text">拖动坐标可以修改地理位置 <p>lat：{{latitude}} &nbsp lng: {{longitude}}</p></span>
             </div>
           </div>
           <div class="button-box" v-show="isEdit">
@@ -370,7 +370,7 @@
           .content-item {
             flex: 1px;
             &:nth-child(1) {
-              margin-right: 32px;
+              margin-right: 33px;
             }
             .item {
               display: flex;
@@ -382,11 +382,9 @@
                 display: block;
                 margin-right: 20px;
               }
-              .el-select {
+              .el-select, .el-input {
                 width: 80%;
-              }
-              .el-input {
-                width: 80%;
+                outline: none;
               }
             }
 
@@ -398,7 +396,7 @@
               span {
                 width: 60px;
                 display: block;
-                margin-right: 14px;
+                margin-right: 16px;
               }
               .el-right-address {
                 width: 26.4%;
@@ -419,12 +417,15 @@
               height: 82%;
             }
             .item-text {
-              font-size: 12px;
+              font-size: 14px;
               color: #4A4A4A;
               display: block;
               padding: 12px 0;
+              p {
+                padding: 0;
+                background-color: transparent;
+              }
             }
-
           }
         }
         .button-box {
