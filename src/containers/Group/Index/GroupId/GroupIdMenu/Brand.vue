@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content">
+      <div class="content_brand">
         <div class="el-btn-box">
           <el-button type="success" @click.native="addBrand">+ 添加品牌</el-button>
         </div>
@@ -56,7 +56,7 @@
 
 <style scoped lang="less">
   .module-wrapper {
-    .content {
+    .content_brand {
       padding: 12px 20px 12px 18px;
       .el-btn-box {
         width: 173px;

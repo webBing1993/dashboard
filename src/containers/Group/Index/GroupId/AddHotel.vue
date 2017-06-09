@@ -353,8 +353,8 @@
               }
             }
             #mapContainer {
-              height: 90%;
               width: 100%;
+              min-height: 400px;
             }
             .map-text {
               width: 100%;

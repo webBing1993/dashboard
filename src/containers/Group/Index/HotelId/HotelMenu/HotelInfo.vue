@@ -334,7 +334,7 @@
             ],
           }
         });
-        
+
         marker = new qq.maps.Marker({
           position: new qq.maps.LatLng(lat, lng),
           map: map
@@ -376,10 +376,10 @@
   }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
-    padding: 23px 36px 28px 24px;
     .content_hotelinfo {
+      padding: 23px 36px 28px 24px;
       .store-info {
         overflow: hidden;
         border: 1px solid #ECECEC;
@@ -399,18 +399,19 @@
         .info-content {
           display: flex;
           font-size: 14px;
-          padding: 24px 27px 19px 21px;
+          padding: 24px 15px 19px 21px;
           .content-item {
             flex: 1px;
             &:nth-child(1) {
               flex: 1.2;
-              margin-right: 33px;
+              margin-right: 28px;
             }
             .item {
               display: flex;
               align-items: center;
               width: 100%;
-              line-height: 48px;
+              height: 40px;
+              margin-bottom: 10px;
               span {
                 width: 60px;
                 display: block;
@@ -419,6 +420,9 @@
               .el-select, .el-input {
                 width: 80%;
                 outline: none;
+                .el-input {
+                  width: 100%;
+                }
               }
             }
 
@@ -426,29 +430,45 @@
               display: flex;
               align-items: center;
               width: 100%;
-              line-height: 48px;
+              height: 40px;
               span {
                 width: 60px;
                 display: block;
                 margin-right: 16px;
               }
-              .el-right-address {
-                width: 26.4%;
+              .el-select{
+                width: 26%;
                 background-color: #ffffff;
                 outline: none;
                 margin-left: 4px;
+                .el-input{
+                  font-size: 12px;
+                  .el-input__inner{
+                    height: 40px;
+                    border-radius: 0;
+                  }
+                  .el-input__icon{
+                    width: 26px;
+                  }
+                }
               }
             }
             .content-add {
               margin-left: 78px;
-              line-height: 48px;
+              height: 40px;
+              margin-top: 10px;
               .el-input {
                 width: 100%;
+                .el-input__inner {
+                  border-radius: 0;
+                  font-size: 14px;
+                  height: 40px;
+                }
               }
             }
             #mapContainer {
               width: 100%;
-              height: 82%;
+              min-height: 220px;
             }
             .item-text {
               font-size: 14px;
@@ -457,6 +477,7 @@
               padding: 12px 0;
               p {
                 padding: 0;
+                font-size: 12px;
                 background-color: transparent;
               }
             }
