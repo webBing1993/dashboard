@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="content-item">
-        <span>所属品牌</span>
+        <span>设备类型</span>
         <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
           <el-option
             v-for="(obj, index) of deviceTypeList"
