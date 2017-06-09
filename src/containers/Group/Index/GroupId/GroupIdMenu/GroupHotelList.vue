@@ -5,7 +5,7 @@
         <h3>共{{total}}家门店</h3>
         <el-input v-model="searchVal" placeholder="输入该集团下的门店名称或门店子编码"></el-input>
         <el-button type="success" @click.native="getList">查询</el-button>
-        <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
+        <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
       <div class="content">
         <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
