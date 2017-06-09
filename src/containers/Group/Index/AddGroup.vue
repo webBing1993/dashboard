@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content">
+      <div class="content_addgroup">
         <div class="enterprise-info">
           <p>企业信息</p>
           <div class="info-content">
@@ -114,7 +114,7 @@
 <style lang="less">
   .module-wrapper {
     /*padding: 19px 39px;*/
-    .content {
+    .content_addgroup {
       .enterprise-info {
         border: 1px solid #EAEDF0;
         margin: 20px 37px 17px 39px;
@@ -140,6 +140,9 @@
             }
             .el-right {
               width: 56%;
+              .el-input__inner {
+                color: #000000;
+              }
             }
           }
         }

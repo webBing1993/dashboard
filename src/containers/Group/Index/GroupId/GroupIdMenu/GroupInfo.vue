@@ -19,7 +19,7 @@
           <input disabled="disabled" type="text" id="groupDesc" v-model="group.memo"/>
         </div>
       </div>-->
-      <div class="content">
+      <div class="content_groupinfo">
         <div class="enterprise-info">
           <p>企业信息<a @click="editInfo">修改</a></p>
           <div class="info-content">
@@ -178,7 +178,6 @@
 
 <style lang="less">
   .module-wrapper {
-    /*padding: 23px 36px 50px 25px;*/
     .top-content {
       display: flex;
       align-items: center;
@@ -201,7 +200,8 @@
       }
     }
 
-    .content {
+    .content_groupinfo {
+      padding: 23px 36px 50px 25px;
       .enterprise-info {
         border: 1px solid #EAEDF0;
         font-size: 16px;
@@ -223,20 +223,23 @@
           .content-msg {
             display: flex;
             align-items: center;
+            margin-bottom: 13px;
             span {
-              min-width: 80px;
+              width: 80px;
               text-align: right;
+              margin-right: 21px;
             }
 
             .el-right {
               outline: none;
               width: 68%;
+
               .el-input__inner {
                 border-radius: 0;
                 background-color: #FBFBFB;
                 border: solid 1px #D0D0D0;
                 font-size: 14px;
-                color: #9B9B9B;
+                color: #000;
                 height: 40px;
               }
             }
@@ -246,10 +249,11 @@
             align-items: center;
             width: 100%;
             text-align: center;
-            margin-top: 6px;
+            margin-top: 3px;
             .el-button {
               width: 246px;
               line-height: 18px;
+              border-radius: 0;
             }
             .el-button--success {
               background-color: #39C240;
