@@ -1,22 +1,24 @@
 <template>
   <div>
     <div class="login_content">
-      <div class="header-icon"></div>
+      <div class="header-icon">
+        <img src="../assets/images/LOGO.png"/>
+      </div>
       <div class="content">
         <h3>微信生态酒店总控平台</h3>
         <div class="content-item">
           <el-input v-model="logUserName" placeholder="请输入用户名"></el-input>
           <el-input type="password" v-model="logPassword" placeholder="请输入密码"></el-input>
+          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
         </div>
         <div class="button-box">
-          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
+
         </div>
       </div>
       <footer class="foot">
         <span>Powered By Fortrun.</span>
         <span>Copyright©2016-2017  All Rights Reserved.</span>
       </footer>
-
       <!--<div class="content">
         <div class="content-item">
           <span>账号</span>
@@ -110,8 +112,11 @@
 
     .header-icon {
       width: 100%;
-      line-height: 39px;
-      margin: 50px 0 184px 0;
+      margin: 50px 0 184px 51px;
+      img {
+        width: 133px;
+        height: 39px;
+      }
     }
     .content {
       width: 100%;
@@ -135,29 +140,34 @@
 
         .el-input {
           width: 287px;
-          line-height: 40px;
-          font-size: 14px;
-          text-indent: 1em;
-          outline: none;
-          margin-top: 10px;
-          color: #000000;
+          margin-bottom: 10px;
+          .el-input__inner {
+            width: 100%;
+            line-height: 40px;
+            font-size: 14px;
+            text-indent: 1em;
+            outline: none;
+            background-color: #FBFBFB;
+            border: solid 1px #D0D0D0;
+            border-radius: 0;
+            color: #000;
+            height: 40px;
+          }
         }
         input::-webkit-input-placeholder {
           color: #9B9B9B;
         }
-      }
-      .button-box {
-        width: 293px;
-        line-height: 40px;
-        margin: 10px auto;
-        .el-btn {
-          width: 100%;
+        .el-button {
+          width: 287px;
+          height: 40px;
+          padding: 0;
           background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
           color: #ffffff;
-          height: 42px;
+          margin-top: 3px;
         }
       }
-
     }
     .foot {
       position: absolute;

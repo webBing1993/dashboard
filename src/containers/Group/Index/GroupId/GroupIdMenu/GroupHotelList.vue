@@ -157,51 +157,17 @@
 </script>
 
 <style scoped lang="less">
-  .module-wrapper{
-    .search-bar{
-      h3 {
-
-        font-size: 16px;
-        font-weight: normal;
-        color: #4A4A4A;
-        width: 380px;
-        line-height: 24px;
-        background-color: red;
-      }
-    }
-  }
-
-
-  .module-wrappers {
-    padding: 19px 24px 0;
+  .module-wrapper {
     .search-bar {
-      display: flex;
-      align-items: center;
-      margin-bottom: 19px;
       h3 {
+        padding: 0;
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
-        width: 380px;
-        background-color: red;
+        width: 260px;
       }
       .el-input {
-        font-size: 14px;
-      }
-
-      .el-button {
-        min-width: 173px;
-        margin-left: 17px;
-        border-radius: 0;
-        background-color: #39C240;
-        line-height: 18px;
-      }
-    }
-    .content {
-      width: 100%;
-      align-items: center;
-      .v-table {
-        line-height: 45px;
+        font-size: 13px;
       }
     }
   }

@@ -14,7 +14,7 @@
               <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
                      accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
-            <img v-if="logoUrl" width="100" height="100" :src="logoUrl" />
+            <img v-if="logoUrl" width="100" height="100" :src="logoUrl"/>
           </div>
           <div class="edit_btn" v-if="brandid != undefined">
             <el-button type="success" size="small" @click.native="remove">删除</el-button>
@@ -161,6 +161,7 @@
       padding: 23px 36px 25px 25px;
       .enterprise-info {
         border: 1px solid #EAEDF0;
+        margin: 0;
         h3 {
           background-color: #FAFAFA;
           border-bottom: 1px solid #EAEDF0;
@@ -175,24 +176,30 @@
           .content-item {
             display: flex;
             align-items: center;
-            font-size: 14px;
-            input {
-              width: 260px;
+            span {
+              font-size: 14px;
+              width: 86px;
+            }
+            .el-input {
+              width: 50%;
               outline: none;
-              border: solid 1px #EAEDF0;
-              margin: 10px 26px;
-              padding: 8px;
               font-size: 14px;
             }
           }
           .content-logo {
+            display: flex;
+            align-items: center;
+            line-height: 65px;
             label {
-              margin-right: 10px;
+              font-size: 14px;
+              margin-right: 18px;
             }
             input {
+              display: flex;
+              align-items: center;
               min-width: 280px;
               outline: none;
-              height: 32px;
+              font-size: 14px;
             }
           }
         }
@@ -205,11 +212,11 @@
           margin-bottom: 26px;
           .el-button {
             width: 246px;
-            line-height: 24px;
+            line-height: 18px;
             background-color: #39C240;
             border-color: #39C240;
             border-radius: 0;
-            &:nth-child(1){
+            &:nth-child(1) {
               margin-right: 12px;
             }
           }
