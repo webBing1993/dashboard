@@ -1592,7 +1592,10 @@
           case enumShowType.invoice:
             data = {
               enabled_invoice: this.enabledInvoice.toString(),
-              invoice_name: this.invoiceNameList
+              // invoice_name: this.invoiceNameList
+            }
+            if (this.enabledInvoice) {
+              data.invoice_name = this.invoiceNameList;
             }
             break;
           case enumShowType.preCheckinSms:
