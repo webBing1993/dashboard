@@ -6,15 +6,15 @@
           <h3>品牌信息</h3>
           <div class="info-content">
             <div class="content-item">
-              <label for="brandName">品牌名称</label>
-              <input type="text" id="brandName" v-model="name"/>
+              <span>品牌名称</span>
+              <el-input class="el-right" v-model="name" placeholder="请输入品牌名称"></el-input>
             </div>
             <div class="content-logo">
-              <label for="logo">修改LOGO</label>
-              <!--<img width="100" height="100" :src="brand.logo_url" />-->
+              <label for="logo">上传LOGO</label>
               <input id="logo" ref="inputfile" @change="imgChange" type="file" multiple="false"
                      accept="image/jpg,image/jpeg,image/png,image/gif">
             </div>
+            <img v-if="logoUrl" width="100" height="100" :src="logoUrl" />
           </div>
           <div class="edit_btn" v-if="brandid != undefined">
             <el-button type="success" size="small" @click.native="remove">删除</el-button>
@@ -97,6 +97,7 @@
               this.brand = body.data;
               this.name = this.brand.name;
               this.brandid = this.brand.id;
+              this.logoUrl = this.brand.logo_url;
             }
           }
         })
