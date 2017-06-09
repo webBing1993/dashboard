@@ -303,7 +303,7 @@
             .item {
               display: flex;
               align-items: center;
-              line-height: 46px;
+              line-height: 48px;
               span {
                 width: 64px;
                 display: block;
@@ -367,12 +367,12 @@
         }
         .info-msg {
           padding: 19px 0 19px 39px;
-          line-height: 45px;
           .item {
             display: flex;
             align-items: center;
             width: 66%;
             font-size: 14px;
+            line-height: 48px;
             span {
               width: 72px;
               display: block;
