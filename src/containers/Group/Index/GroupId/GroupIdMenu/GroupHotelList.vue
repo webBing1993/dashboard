@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="search-bar">
-        <h3>共{{total}}家门店</h3>
+      <div class="content_title">
+        <span>共{{total}}家门店</span>
         <el-input v-model="searchVal" placeholder="输入该集团下的门店名称或门店子编码"></el-input>
         <el-button type="success" @click.native="getList">查询</el-button>
         <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
-      <div class="content">
+      <div class="content_grouphotellist">
         <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
                      @device="device"></table-hotel>
         <el-pagination
@@ -156,11 +156,13 @@
   }
 </script>
 
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
-    .search-bar {
-      h3 {
-        padding: 0;
+    .content_title {
+      display: flex;
+      align-items: center;
+      padding: 20px 23px 0 24px;
+      span {
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
@@ -168,7 +170,21 @@
       }
       .el-input {
         font-size: 13px;
+        margin-right: 17px;
       }
+      .el-button {
+        width: 246px;
+        background-color: #39C240;
+        border-color: #39C240;
+        border-radius: 0;
+        span {
+          font-size: 14px;
+          color: #ffffff;
+        }
+      }
+    }
+    .content_grouphotellist {
+      padding: 19px 20px;
     }
   }
 </style>

@@ -220,6 +220,7 @@
       color: #9B9B9B;
       h3 {
         font-size: 16px;
+        border-bottom: 0;
       }
       p {
         font-size: 14px;
