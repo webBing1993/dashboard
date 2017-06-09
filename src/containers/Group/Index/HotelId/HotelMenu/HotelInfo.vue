@@ -279,7 +279,6 @@
         })
       },
       dealData() {
-        this.hotel = body.data;
         this.groupId = this.hotel.group_id;
         // this.brandId = this.hotel.brand_id;
         this.code = this.hotel.code;
@@ -335,7 +334,7 @@
             ],
           }
         });
-
+        
         marker = new qq.maps.Marker({
           position: new qq.maps.LatLng(lat, lng),
           map: map
