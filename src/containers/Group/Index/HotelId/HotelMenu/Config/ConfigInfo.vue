@@ -942,129 +942,12 @@
       }
     },
     computed: {
-      ...mapState({
-        configData(state) {
-          let configData = state.configData;
-          if (tool.isNotBlank(configData)) {
-            //门锁配置，暂无
-            //人脸识别配置
-            this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
-            this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
-            //微信支付配置
-            if (tool.isNotBlank(configData.miniapp_config)) {
-              this.wechatPayAppId = configData.miniapp_config.app_id;
-              this.mchId = configData.miniapp_config.mch_id;
-              this.mchApiKey = configData.miniapp_config.mch_api_key;
-            }
-            this.payCode = configData.pay_code;
-            this.refundCode = configData.refund_code;
-            //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
-            //电子签名
-            this.enabledSign = configData.enabled_sign == 'true' ? true : false;
-            //电话取消订单  暂无
-            //发票配置
-            this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-            if (tool.isNotBlank(configData.invoice_name)) {
-              this.invoiceName = [...configData.invoice_name];
-            }
-            //预登记短信配置
-            this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
-            //到店支付配置
-            this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
-            //自动退房
-            this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
-            //自动退款
-            this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
-            //无证入住
-            this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
-            //门卡配置
-            this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
-            //押金配置
-            if (tool.isNotBlank(configData.cash_pledge_config)) {
-              this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
-              this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
-              this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
-              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer == 'true' ? true : false;
-              ;
-              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals == 'true' ? true : false;
-              ;
-              this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
-            }
-            //早餐券配置
-            this.breakfastStemFrom = configData.breakfast_stem_from;
-            //可选房数量
-            this.maxAllowRoomcount = configData.max_allow_roomcount;
-            //PMS同步频率
-            this.syncSpaceTime = configData.sync_space_time;
-            //自动预付款确认
-            this.prepayKeyword = configData.prepay_keyword;
-            this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
-            this.postpayKeyword = configData.postpay_keyword;
-            this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
-            this.freeDepositKeyword = configData.free_deposit_keyword;
-            this.needDepositKeyword = configData.need_deposit_keyword;
-            //脏房配置
-            this.isSupportVd = configData.is_support_vd == '1' ? true : false;
-            //酒店标签配置
-            if (tool.isNotBlank(configData.room_tags)) {
-              this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
-            }
-          }
-
-          return configData;
-        },
-        pmsData(state) {
-          // let pmsData = state.pmsData;
-          // if (tool.isNotBlank(pmsData)) {
-          //   //PMS信息
-          //   //绿云,捷信达
-          //   this.pmsId = pmsData.pms_id;
-          //   // this.pmsName = pmsData.pms_name; //放在计算属性
-          //   this.hotelPmsCode = pmsData.hotel_pmscode;
-          //   this.hotelServiceUrl = pmsData.hotel_service_url;
-          //   //别样红
-          //   this.billServiceUrl = pmsData.bill_service_url;
-          //   this.crmServiceUrl = pmsData.crm_service_url;
-          //   this.orderServiceUrl = pmsData.order_service_url;
-          //   this.secServiceUrl = pmsData.sec_service_url;
-          //   this.userName = pmsData.user_name;
-          //   this.userPass = pmsData.user_pass;
-          //   //住哲
-          //   this.cid = pmsData.cid;
-          //   this.key = pmsData.key;
-          //   this.dataKey = pmsData.datakey;
-          //   this.adminName = pmsData.admin_name;
-          //   this.adminPassword = pmsData.admin_password;
-          //   this.brandId = pmsData.brand_id;
-          // }
-
-          return state.pmsData;
-        },
-        lvyeData(state) {
-          //这里不能及时赋值，也是懵逼，先放在watch里
-          // 旅业配置
-          // this.lvyeType = state.lvyeData.lvye_report_type;
-          // this.policeId = state.lvyeData.hotel_ga_id;
-          // this.policeType = state.lvyeData.police_type;
-          // this.policeParam = JSON.stringify(state.lvyeData.police_param);
-
-          return state.lvyeData;
-        },
-        wechatAppData(state) {
-          let wechatAppData = state.wechatAppData;
-
-          if (tool.isNotBlank(wechatAppData)) {
-            //小程序配置
-            this.appId = wechatAppData.app_id;
-            this.appSecret = wechatAppData.app_secret;
-            this.originalId = wechatAppData.original_id;
-            this.appName = wechatAppData.app_name;
-          }
-
-          return wechatAppData;
-        }
-      }),
+      ...mapState([
+        'configData',
+        'pmsData',
+        'lvyeData',
+        'wechatAppData'
+      ]),
       pmsName() {
         let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
         if (tool.isNotBlank(obj))
@@ -1296,7 +1179,75 @@
       }
     },
     watch: {
-      //不知道为什么写在computed里面没用，打开devtools点到这个组建久有值了!
+      configData() {
+        let configData = this.configData;
+          if (tool.isNotBlank(configData)) {
+            //门锁配置，暂无
+            //人脸识别配置
+            this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
+            this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
+            //微信支付配置
+            if (tool.isNotBlank(configData.miniapp_config)) {
+              this.wechatPayAppId = configData.miniapp_config.app_id;
+              this.mchId = configData.miniapp_config.mch_id;
+              this.mchApiKey = configData.miniapp_config.mch_api_key;
+            }
+            this.payCode = configData.pay_code;
+            this.refundCode = configData.refund_code;
+            //微信生态酒店配置
+            this.wxHotelId = configData.wx_hotel_id;
+            //电子签名
+            this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+            //电话取消订单  暂无
+            //发票配置
+            this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
+            if (tool.isNotBlank(configData.invoice_name)) {
+              this.invoiceName = [...configData.invoice_name];
+            }
+            //预登记短信配置
+            this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
+            //到店支付配置
+            this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
+            //自动退房
+            this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
+            //自动退款
+            this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
+            //无证入住
+            this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
+            //门卡配置
+            this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
+            //押金配置
+            if (tool.isNotBlank(configData.cash_pledge_config)) {
+              this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
+              this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
+              this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
+              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
+              ;
+              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
+              ;
+              this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+            }
+            //早餐券配置
+            this.breakfastStemFrom = configData.breakfast_stem_from;
+            //可选房数量
+            this.maxAllowRoomcount = configData.max_allow_roomcount;
+            //PMS同步频率
+            this.syncSpaceTime = configData.sync_space_time;
+            //自动预付款确认
+            this.prepayKeyword = configData.prepay_keyword;
+            this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
+            this.postpayKeyword = configData.postpay_keyword;
+            this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
+            this.freeDepositKeyword = configData.free_deposit_keyword;
+            this.needDepositKeyword = configData.need_deposit_keyword;
+            //脏房配置
+            this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+            //酒店标签配置
+            if (tool.isNotBlank(configData.room_tags)) {
+              this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+            }
+          }
+      },
       pmsData() {
         if(tool.isNotBlank(this.pmsData)) {
           //PMS信息
