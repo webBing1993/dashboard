@@ -1,6 +1,12 @@
 @btnPrimaryBg: #39C240;
 @btnPrimaryHover: #179B16;
 
+// input
+@inputColor: #000000;
+@inputBg: #FBFBFB;
+@inputBorderColor: #D0D0D0;
+@inputPlaceholderColor: #9B9B9B;
+
 .button-mixin(@width) {
   width: @width;
   line-height: 42px;
@@ -25,73 +31,43 @@
   }
 }
 
-._button {
-  font-family: 'Open Sans', sans-serif;
-  line-height: 40px;
-  width: 140px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 300;
+// input
+.el-input {
   outline: none;
-  background-color: @btnPrimaryBg;
-  color: #ffffff;
-  border-radius: 2px;
-  //box-shadow: inset rgba(255, 254, 255, 0.6) 0 0.3em .3em, inset rgba(0, 0, 0, 0.15) 0 -0.1em .3em,
-  //  /* inner shadow */ #424242 0 .1em 3px, #424242 0 .3em 1px,
-  //  /* color border */ rgba(0, 0, 0, 0.2) 0 .5em 5px;
-  &:hover {
-    background-color: @btnPrimaryHover;
-  }
-}
-
-._header {
-  display: flex;
-  align-items: center;
-  line-height: 50px;
-  padding: 0 20px;
-  border-bottom: 1px solid #ECECEC;
-  span {
-    display: block;
-    width: 22px;
-    height: 22px;
-    background-color: #C8C8CD;
-    border-radius: 50%;
-    margin-right: 8px;
-    position: relative;
-    cursor: pointer;
-    &:before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      display: block;
-      border-left: solid 1px #ffffff;
-      border-bottom: solid 1px #ffffff;
-      position: absolute;
-      left: 9px;
-      top: 7px;
-      transform: rotate(45deg);
-    }
-  }
-  h3 {
-    font-size: 18px;
-    font-weight: 400;
-    color: #0D0D0D;
-  }
-}
-
-.el-right {
-  //width: 56%;
   padding: 0;
   .el-input__inner {
-    background-color: #FBFBFB;
-    border: solid 1px #D0D0D0;
+    background-color: @inputBg;
+    border: solid 1px @inputBorderColor;
     border-radius: 0;
     font-size: 14px;
-    color: #000000;
+    color: @inputColor;
     height: 40px;
+    align-content: center;
+    align-items: center;
   }
-  input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
-    color: #9B9B9B;
+  input::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder {
+    font-size: 12px;
+    color: @inputPlaceholderColor;
   }
+  //chrome,safari
+  input:-ms-input-placeholder, textarea:-ms-input-placeholder, select:-ms-input-placeholder {
+    font-size: 12px;
+    color: @inputPlaceholderColor;
+  }
+  //ie10
+  input::-webkit-input-placeholder, textarea::-webkit-input-placeholder, select::-webkit-input-placeholder {
+    font-size: 12px;
+    color: @inputPlaceholderColor;
+  }
+}
+
+// button
+.el-button--success {
+  //width: 100%;
+  height: 40px;
+  padding: 0;
+  background-color: #39C240;
+  border-color: #39C240;
+  border-radius: 0;
+  color: #ffffff;
 }

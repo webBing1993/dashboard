@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <h3 class="title">账户管理（共{{total}}家企业）</h3>
+      <h3>企业管理（共{{total}}家企业）</h3>
       <div class="search-bar">
-        <el-input v-model="searchVal" placeholder="请输入企业的名称或账户编码"></el-input>
-        <el-button type="success" @click.native="getList">查询</el-button>
+        <el-input class="el-right" v-model="searchVal" placeholder="输入企业名称或账户编码"></el-input>
+        <el-button type="success" @click.native="getList">搜索</el-button>
         <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
       </div>
       <h3>最近操作的企业账户</h3>
-      <div class="content">
+      <div class="content_table">
         <table-group :list="list" @detail="goDetail" @hotel="goHotelList" @edit="goEdit"
-                          @config="goConfig"></table-group>
+                     @config="goConfig"></table-group>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -111,6 +111,44 @@
 </script>
 
 <style lang="less">
-  @import "./index.less";
+  .module-wrapper {
+    position: relative;
+    overflow-y: auto;
+    h3 {
+      font-size: 16px;
+      color: #4A4A4A;
+      padding: 0 23px 16px 25px;
+      &:nth-child(1) {
+        line-height: 68px;
+        padding-bottom: 0;
+        border-bottom: 1px solid #ECECEC;
+        font-size: 16px;
+        color: #4A4A4A;
+      }
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 16px 23px 15px 25px;
+      box-sizing: border-box;
+      .el-input {
+        width: 68%;
+      }
+      .el-button {
+        margin-left: 17px;
+        background-color: #39C240;
+        min-width: 173px;
+        line-height: 18px;
+        font-size: 14px;
+        border-radius: 0;
+      }
+    }
+
+    .content_table {
+      padding: 0 23px 0 25px;
+      overflow-y: auto;
+    }
+  }
 </style>
 

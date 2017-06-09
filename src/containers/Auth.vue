@@ -137,13 +137,12 @@
         align-items: center;
         margin-top: 30px;
         margin-bottom: 13px;
-
         .el-input {
           width: 287px;
           margin-bottom: 10px;
           .el-input__inner {
             width: 100%;
-            line-height: 40px;
+            height: 40px;
             font-size: 14px;
             text-indent: 1em;
             outline: none;
@@ -151,7 +150,6 @@
             border: solid 1px #D0D0D0;
             border-radius: 0;
             color: #000;
-            height: 40px;
           }
         }
         input::-webkit-input-placeholder {

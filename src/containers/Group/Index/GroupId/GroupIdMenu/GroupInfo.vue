@@ -229,18 +229,11 @@
               text-align: right;
               margin-right: 21px;
             }
-
             .el-right {
-              outline: none;
               width: 68%;
-
               .el-input__inner {
-                border-radius: 0;
-                background-color: #FBFBFB;
-                border: solid 1px #D0D0D0;
-                font-size: 14px;
-                color: #000;
-                height: 40px;
+                /*background-color: #FBFBFB;*/
+                /*border: solid 1px #D0D0D0;*/
               }
             }
           }
