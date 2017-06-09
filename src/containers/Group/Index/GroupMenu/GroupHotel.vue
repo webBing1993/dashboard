@@ -237,7 +237,7 @@
     .content {
       //height: 100%;
       padding: 0 23px 0 25px;
-      overflow-y: auto;
+      overflow-y: hidden;
     }
     .dialog-content {
       span {
