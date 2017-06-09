@@ -157,8 +157,22 @@
 </script>
 
 <style scoped lang="less">
+  .module-wrapper{
+    .search-bar{
+      h3 {
 
-  .module-wrapper {
+        font-size: 16px;
+        font-weight: normal;
+        color: #4A4A4A;
+        width: 380px;
+        line-height: 24px;
+        background-color: red;
+      }
+    }
+  }
+
+
+  .module-wrappers {
     padding: 19px 24px 0;
     .search-bar {
       display: flex;
@@ -169,6 +183,7 @@
         font-weight: normal;
         color: #4A4A4A;
         width: 380px;
+        background-color: red;
       }
       .el-input {
         font-size: 14px;

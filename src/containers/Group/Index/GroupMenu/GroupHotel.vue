@@ -38,7 +38,9 @@
               </el-option>
             </el-select>
           </div>
-          <el-button type="success" :disabled="groupBrandList.length == 0" @click.native="chooseGroup">确定</el-button>
+          <div class="group_btn">
+            <el-button type="success" :disabled="groupBrandList.length == 0" @click.native="chooseGroup">确定</el-button>
+          </div>
         </div>
       </el-dialog>
     </div>
@@ -238,15 +240,25 @@
       overflow-y: auto;
     }
     .dialog-content {
+      span {
+        font-size: 16px;
+        color: #4A4A4A;
+      }
       .el-select {
         min-width: 300px;
         margin-left: 20px;
       }
-      .el-button {
-        margin: 20px 0;
-
-        min-width: 200px;
-        float: right;
+      .group_btn {
+        width: 100%;
+        margin: 40px auto 0;
+        text-align: center;
+        .el-button {
+          width: 246px;
+          line-height: 18px;
+          background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
+        }
       }
     }
   }
