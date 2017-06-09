@@ -1796,20 +1796,10 @@
       },
     },
     mounted() {
-      if (tool.isBlank(this.configData)) {
-        this.getConfigs();
-      }
-      // if (tool.isBlank(this.pmsData)) {
-      //   this.getPms();
-      // }
-      // if (tool.isBlank(this.lvyeData)) {
-      //   this.getLvyes();
-      // }
+      this.getConfigs();
       this.getPms();
       this.getLvyes();
-      // if (tool.isBlank(this.wechatAppData)) {
-      //   this.getWechatApps();
-      // }
+      this.getWechatApps();
     }
   }
 </script>
