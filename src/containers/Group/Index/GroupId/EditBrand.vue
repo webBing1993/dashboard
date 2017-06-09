@@ -212,7 +212,7 @@
           margin-bottom: 26px;
           .el-button {
             width: 246px;
-            line-height: 18px;
+            line-height: 24px;
             background-color: #39C240;
             border-color: #39C240;
             border-radius: 0;

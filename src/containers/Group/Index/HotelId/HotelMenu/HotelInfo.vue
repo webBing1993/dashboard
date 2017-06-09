@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content">
+      <div class="content_hotelinfo">
         <div class="store-info">
           <p>门店信息<a @click="editInfo">修改</a></p>
           <div class="info-content">
@@ -240,7 +240,7 @@
       },
       editContact() {
         this.isEditContact = true;
-        
+
       },
       modify() {
         if (this.submitDisabled) return;
@@ -380,7 +380,7 @@
 <style scoped lang="less">
   .module-wrapper {
     padding: 23px 36px 28px 24px;
-    .content {
+    .content_hotelinfo {
       .store-info {
         overflow: hidden;
         border: 1px solid #ECECEC;
@@ -404,6 +404,7 @@
           .content-item {
             flex: 1px;
             &:nth-child(1) {
+              flex: 1.2;
               margin-right: 33px;
             }
             .item {

@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="content_devicelist">
-        <div class="header">
+        <div class="devicelist_title">
           <h3>设备管理</h3>
           <el-button type="success" @click.native="add">添加设备</el-button>
         </div>
@@ -81,7 +81,7 @@
 <style lang="less">
   .content_devicelist {
     padding: 20px 25px 0 24px;
-    .header {
+    .devicelist_title {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -90,6 +90,7 @@
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
+        padding: 0;
       }
       .el-button {
         min-width: 173px;

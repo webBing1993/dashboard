@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content">
+      <div class="content_addhotel">
         <div class="store-info">
           <p>门店信息</p>
           <div class="info-content">
@@ -85,7 +85,7 @@
           </div>
         </div>
         <div class="button-box">
-          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
+          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">确认添加</el-button>
         </div>
       </div>
     </div>
@@ -275,10 +275,11 @@
     }
   }
 </script>
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
-    padding: 23px 37px 28px 39px;
-    .content {
+    .content_addhotel {
+      padding: 23px 37px 28px 39px;
+
       .store-info {
         border: 1px solid #ECECEC;
         font-size: 16px;
@@ -297,6 +298,7 @@
             flex: 1px;
             &:nth-child(1) {
               margin-right: 23px;
+              flex: 1.2;
             }
             .item {
               display: flex;
@@ -306,10 +308,14 @@
                 width: 64px;
                 display: block;
                 margin-right: 20px;
+                font-size: 15px;
               }
               .el-select, .el-input {
                 width: 80%;
                 outline: none;
+                .el-input {
+                  width: 100%;
+                }
               }
             }
             .content-address {
@@ -317,21 +323,33 @@
               align-items: center;
               line-height: 46px;
               span {
-                margin-right: 16px;
+                margin-right: 14px;
                 width: 66px;
                 display: block;
+                font-size: 15px;
               }
               .el-select {
-                width: 27%;
+                width: 26%;
                 outline: none;
-                margin-left: 4px;
+                margin-left: 5px;
               }
             }
             .content-add {
               margin-left: 84px;
               line-height: 46px;
               .el-input {
-                width: 100%;
+                width: 98%;
+                .el-input__inner {
+                  background-color: #FBFBFB;
+                  border: solid 1px #D0D0D0;
+                  border-radius: 0;
+                  font-size: 14px;
+                  color: #000000;
+                  height: 40px;
+                }
+              }
+              input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+                color: #9B9B9B;
               }
             }
             #mapContainer {
