@@ -18,18 +18,13 @@
                 </el-select>
               </div>
               <div class="item">
-                <span>账户编码</span>
-                <el-input class="el-right" v-model="hotelCode" placeholder="请输入账户编码"></el-input>
-              </div>
-              <div class="item">
                 <span>门店名称</span>
                 <el-input class="el-right" v-model="storeName" placeholder="请输入门店名称"></el-input>
               </div>
               <div class="item">
-                <span>前台电话</span>
-                <el-input class="el-right" v-model="storePhone" placeholder="请输入前台电话"></el-input>
+                <span>门店编码</span>
+                <el-input class="el-right" v-model="hotelCode" placeholder="请输入账户编码"></el-input>
               </div>
-
               <div class="content-address">
                 <span>门店地址</span>
                 <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择">
@@ -57,8 +52,13 @@
                   </el-option>
                 </el-select>
               </div>
-              <div class="content-add">
-                <el-input v-model="address" placeholder="地址（详细到门牌号）"></el-input>
+              <div class="item">
+                <span>详细地址</span>
+                <el-input class="el-right" v-model="address" placeholder="地址（详细到门牌号）"></el-input>
+              </div>
+              <div class="item">
+                <span>前台电话</span>
+                <el-input class="el-right" v-model="storePhone" placeholder="请输入前台电话"></el-input>
               </div>
             </div>
             <div class="content-item">
@@ -255,6 +255,7 @@
         let state = this.cityList.find(v => v.code == this.cityCode);
         if (!state || !citylocation) return;
         citylocation.searchCityByName(state.name);
+        map.zoomTo(10);
       }
     },
     mounted() {
