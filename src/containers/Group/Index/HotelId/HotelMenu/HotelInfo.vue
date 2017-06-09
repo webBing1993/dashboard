@@ -68,7 +68,7 @@
           </div>
           <div class="button-box" v-show="isEditInfo">
             <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-            <el-button @click.native="cancel">取消</el-button>
+            <el-button @click.native="cancelInfo">取消</el-button>
           </div>
         </div>
         <div class="store-info">
@@ -92,7 +92,7 @@
           </div>
           <div class="button-box" v-show="isEditContact">
             <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-            <el-button @click.native="cancel">取消</el-button>
+            <el-button @click.native="cancelContact">取消</el-button>
           </div>
         </div>
       </div>
@@ -208,42 +208,7 @@
           onsuccess: body => {
             if (body.data) {
               this.hotel = body.data;
-              this.groupId = this.hotel.group_id;
-              // this.brandId = this.hotel.brand_id;
-              this.code = this.hotel.code;
-              this.name = this.hotel.name;
-              this.tel = this.hotel.tel;
-              this.province = this.hotel.province;
-              this.city = this.hotel.city;
-              this.area = this.hotel.area;
-              this.address = this.hotel.address;
-              this.longitude = this.hotel.longitude;
-              this.latitude = this.hotel.latitude;
-              this.contactName = this.hotel.contact_name;
-              this.contactPhone = this.hotel.contact_phone;
-              this.contactPosition = this.hotel.contact_position;
-
-              let region = this.provinceList.find(v => v.name == this.province);
-              if (region !== undefined) {
-                this.provinceCode = region.code;
-              } else {
-                this.provinceCode = this.provinceList[0].code;
-              }
-
-              let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
-              if (obj === undefined) {
-                regionObj = areaData[0].region;
-              } else {
-                regionObj = obj.region;
-              }
-              let stateObj = regionObj.state.find(v => v.name == this.city);
-              if (stateObj === undefined) stateObj = this.cityList[0];
-              this.cityCode = stateObj.code;
-
-              let cityObj = stateObj.city.find(v => v.name == this.area);
-              if (cityObj === undefined) cityObj = this.areaList[0];
-              this.areaCode = cityObj.code;
-              this.initMap();
+              this.dealData();
             } else {
               this.showtoast({text: '数据不存在', type: 'warning'})
             }
@@ -258,15 +223,24 @@
           }
         })
       },
-      cancel() {
+      cancelInfo() {
         this.isEditInfo = false;
+
+        this.dealData();
+      },
+      cancelContact() {
         this.isEditContact = false;
+
+        this.contactName = this.hotel.contact_name;
+        this.contactPhone = this.hotel.contact_phone;
+        this.contactPosition = this.hotel.contact_position;
       },
       editInfo() {
         this.isEditInfo = true;
       },
       editContact() {
         this.isEditContact = true;
+        
       },
       modify() {
         if (this.submitDisabled) return;
@@ -293,50 +267,55 @@
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           onsuccess: body => {
-            this.cancel();
+            this.isEditInfo = false;
+            this.isEditContact = false;
             if (body.data) {
               this.hotel = body.data;
-              this.groupId = this.hotel.group_id;
-              // this.brandId = this.hotel.brand_id;
-              this.code = this.hotel.code;
-              this.name = this.hotel.name;
-              this.tel = this.hotel.tel;
-              this.province = this.hotel.province;
-              this.city = this.hotel.city;
-              this.area = this.hotel.area;
-              this.address = this.hotel.address;
-              this.longitude = this.hotel.longitude;
-              this.latitude = this.hotel.latitude;
-              this.contactName = this.hotel.contact_name;
-              this.contactPhone = this.hotel.contact_phone;
-              this.contactPosition = this.hotel.contact_position;
-
-              let region = this.provinceList.find(v => v.name == this.province);
-              if (region !== undefined) {
-                this.provinceCode = region.code;
-              } else {
-                this.provinceCode = this.provinceList[0].code;
-              }
-
-              let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
-              if (obj === undefined) {
-                regionObj = areaData[0].region;
-              } else {
-                regionObj = obj.region;
-              }
-              let stateObj = regionObj.state.find(v => v.name == this.city);
-              if (stateObj === undefined) stateObj = this.cityList[0];
-              this.cityCode = stateObj.code;
-
-              let cityObj = stateObj.city.find(v => v.name == this.area);
-              if (cityObj === undefined) cityObj = this.areaList[0];
-              this.areaCode = cityObj.code;
-              this.initMap();
+              this.dealData();
             } else {
               this.showtoast({text: '数据不存在', type: 'warning'})
             }
           }
         })
+      },
+      dealData() {
+        this.hotel = body.data;
+        this.groupId = this.hotel.group_id;
+        // this.brandId = this.hotel.brand_id;
+        this.code = this.hotel.code;
+        this.name = this.hotel.name;
+        this.tel = this.hotel.tel;
+        this.province = this.hotel.province;
+        this.city = this.hotel.city;
+        this.area = this.hotel.area;
+        this.address = this.hotel.address;
+        this.longitude = this.hotel.longitude;
+        this.latitude = this.hotel.latitude;
+        this.contactName = this.hotel.contact_name;
+        this.contactPhone = this.hotel.contact_phone;
+        this.contactPosition = this.hotel.contact_position;
+
+        let region = this.provinceList.find(v => v.name == this.province);
+        if (region !== undefined) {
+          this.provinceCode = region.code;
+        } else {
+          this.provinceCode = this.provinceList[0].code;
+        }
+
+        let regionObj, obj = areaData.find(v => v.region.code == this.provinceCode);
+        if (obj === undefined) {
+          regionObj = areaData[0].region;
+        } else {
+          regionObj = obj.region;
+        }
+        let stateObj = regionObj.state.find(v => v.name == this.city);
+        if (stateObj === undefined) stateObj = this.cityList[0];
+        this.cityCode = stateObj.code;
+
+        let cityObj = stateObj.city.find(v => v.name == this.area);
+        if (cityObj === undefined) cityObj = this.areaList[0];
+        this.areaCode = cityObj.code;
+        this.initMap();
       },
       initMap() {
 

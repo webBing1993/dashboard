@@ -41,7 +41,7 @@
             </div>
             <div class="button-box" v-show="isEditInfo">
               <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-              <el-button @click.native="cancel">取消</el-button>
+              <el-button @click.native="cancelInfo">取消</el-button>
             </div>
           </div>
         </div>
@@ -51,22 +51,22 @@
           <div class="info-content">
             <div class="content-msg">
               <span>联系人姓名</span>
-              <el-input class="el-right" v-model="groupName" placeholder="选填，请输入联系人姓名"
+              <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名"
                         :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系人职务</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="选填，请输入联系人职务"
+              <el-input class="el-right" v-model="contactPosition" placeholder="选填，请输入联系人职务"
                         :disabled="!isEditContact"></el-input>
             </div>
             <div class="content-msg">
               <span>联系电话</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="选填，请输入联系电话"
+              <el-input class="el-right" v-model="contactPhone" placeholder="选填，请输入联系电话"
                         :disabled="!isEditContact"></el-input>
             </div>
             <div class="button-box" v-show="isEditContact">
               <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-              <el-button @click.native="cancel">取消</el-button>
+              <el-button @click.native="cancelContact">取消</el-button>
             </div>
           </div>
         </div>
@@ -136,11 +136,12 @@
           code: this.groupCode,
           memo: this.groupDesc,
           website: this.groupWeb,
-          contact_name: this.groupName,
+          contact_name: this.contactName,
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           onsuccess: body => {
-            this.cancel();
+            this.isEditInfo = false;
+            this.isEditContact = false;
 
             this.group = body.data;
 
@@ -154,10 +155,20 @@
           }
         })
       },
-      cancel() {
+      cancelInfo() {
         this.isEditInfo = false;
+
+        this.contactName = this.group.contact_name;
+        this.contactPhone = this.group.contact_phone;
+        this.contactPosition = this.group.contact_position;
+      },
+      cancelContact() {
         this.isEditContact = false;
-      }
+
+        this.contactName = this.group.contact_name;
+        this.contactPhone = this.group.contact_phone;
+        this.contactPosition = this.group.contact_position;
+      },
     },
     mounted() {
       this.getInfo();
