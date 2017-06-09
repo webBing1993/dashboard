@@ -184,6 +184,7 @@ module.exports = {
         } else if (error.status === 500) {
           ctx.dispatch('showtoast', {text: 'Internal Server Error', type: 'error'});
         } else {
+          console.log(error)
           ctx.dispatch('showtoast', {text: 'Request Error', type: 'error'});
         }
         if (param.url.match(/getInfo/) && param.onFail) {
