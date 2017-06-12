@@ -4,6 +4,7 @@
       <thead>
       <tr>
         <th>序号</th>
+        <th>品牌代码</th>
         <th>品牌名称</th>
         <th>品牌LOGO</th>
         <th>操作</th>
@@ -12,6 +13,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index }}</td>
+        <td>{{ obj.id }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.logo_url ? '已上传' : '未上传' }}</td>
         <td>
