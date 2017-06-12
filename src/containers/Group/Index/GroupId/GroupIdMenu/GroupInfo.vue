@@ -51,7 +51,7 @@
             </div>
             <div class="button-box" v-show="isEditContact">
               <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
-              <el-button @click.native="cancelInfo">取消</el-button>
+              <el-button @click.native="cancelContact">取消</el-button>
             </div>
           </div>
         </div>
@@ -148,9 +148,10 @@
       cancelInfo() {
         this.isEditInfo = false;
 
-        this.contactName = this.group.contact_name;
-        this.contactPhone = this.group.contact_phone;
-        this.contactPosition = this.group.contact_position;
+        this.groupName = this.group.name;
+        this.groupCode = this.group.code;
+        this.groupDesc = this.group.memo;
+        this.groupWeb = this.group.website;
       },
       cancelContact() {
         this.isEditContact = false;

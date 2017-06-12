@@ -1280,6 +1280,12 @@
           this.policeType = this.lvyeData.police_type;
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
         }
+      },
+      faceinPassValue(val) {
+        val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
+      },
+      faceinRejectValue(val) {
+        val > this.faceinPassValue ? this.faceinPassValue = this.faceinRejectValue : null;
       }
     },
     methods: {
