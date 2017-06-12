@@ -1,46 +1,31 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <!--<div class="top-content">
-        <h3>企业账户</h3>
-        <p class="edit" @click="edit">编辑</p>
-      </div>
-      <div class="content">
-        <div class="content-msg">
-          <label for="groupCode">企业账户编码</label>
-          <input disabled="disabled" type="text" id="groupCode" v-model="group.code"/>
-        </div>
-        <div class="content-msg">
-          <label for="groupName">企业名称</label>
-          <input disabled="disabled" type="text" id="groupName" v-model="group.name"/>
-        </div>
-        <div class="content-msg">
-          <label for="groupDesc">企业简介</label>
-          <input disabled="disabled" type="text" id="groupDesc" v-model="group.memo"/>
-        </div>
-      </div>-->
       <div class="content_groupinfo">
         <div class="enterprise-info">
           <p>企业信息<a @click="editInfo">修改</a></p>
           <div class="info-content">
             <div class="content-msg">
-              <span>企业名称</span>
-              <el-input class="el-right" v-model="groupName" placeholder="请输入企业名称" :disabled="!isEditInfo"></el-input>
+              <span>账户名称</span>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupName" name="groupName" v-validate="'required'" :class="{'is-danger': errors.has('groupName') }" placeholder="请输入企业名称"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupName')">企业名称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="请输入账户编码" :disabled="!isEditInfo"></el-input>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupCode" name="groupCode" v-validate="'required'" :class="{'is-danger': errors.has('groupCode') }" placeholder="请输入账户编码"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupCode')">账户编码不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="请输入企业简称" :disabled="!isEditInfo"></el-input>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupDesc" name="groupDesc" v-validate="'required'" :class="{'is-danger': errors.has('groupDesc') }" placeholder="请输入企业简称"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupDesc')">企业简称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业官网</span>
               <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网" :disabled="!isEditInfo"></el-input>
             </div>
             <div class="button-box" v-show="isEditInfo">
-              <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+              <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
               <el-button @click.native="cancelInfo">取消</el-button>
             </div>
           </div>
@@ -65,8 +50,8 @@
                         :disabled="!isEditContact"></el-input>
             </div>
             <div class="button-box" v-show="isEditContact">
-              <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
-              <el-button @click.native="cancelContact">取消</el-button>
+              <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
+              <el-button @click.native="cancelInfo">取消</el-button>
             </div>
           </div>
         </div>
@@ -94,13 +79,13 @@
         isEditContact: false
       }
     },
-    computed: {
-      submitDisabled() {
-        if (!this.group.id || this.groupName == '' || this.groupCode == '' || this.groupDesc == '')
-          return true;
-        return false;
-      }
-    },
+    // computed: {
+    //   submitDisabled() {
+    //     if (!this.group.id || this.groupName == '' || this.groupCode == '' || this.groupDesc == '')
+    //       return true;
+    //     return false;
+    //   }
+    // },
     methods: {
       ...mapActions([
         'getGroup',
@@ -128,6 +113,11 @@
       },
       editContact() {
         this.isEditContact = true;
+      },
+      nextStep() {
+        this.$validator.validateAll().then(() => {
+          this.modify();
+        }).catch(() => {});
       },
       modify() {
         this.modifyGroup({
@@ -257,6 +247,27 @@
         }
       }
     }
+  }
+
+  .is-danger .el-input__inner {
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:focus {
+    outline: 0;
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:hover {
+    border-color: #ff3860;
+  }
+
+  .help {
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  .help.is-danger {
+    color: #ff3860;
   }
 
 </style>

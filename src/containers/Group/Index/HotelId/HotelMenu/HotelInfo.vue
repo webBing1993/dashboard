@@ -8,7 +8,7 @@
             <div class="content-item">
               <div class="item">
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌" :disabled="!isEditInfo">
+                <el-select class="el-right" :disabled="!isEditInfo" v-model="brandId" name="brandId" v-validate="'required'" :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -16,23 +16,21 @@
                     :value="obj.id">
                   </el-option>
                 </el-select>
-              </div>
-              <div class="item">
-                <span>账户编码</span>
-                <el-input class="el-right" v-model="code" placeholder="请输入账户编码" :disabled="!isEditInfo"></el-input>
+                <span class="help is-danger" v-show="errors.has('brandId')">请选择所属品牌!</span>
               </div>
               <div class="item">
                 <span>门店名称</span>
-                <el-input class="el-right" v-model="name" placeholder="请输入门店名称" :disabled="!isEditInfo"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="name" name="name" v-validate="'required'" :class="{'is-danger': errors.has('name') }" placeholder="请输入门店名称"></el-input>
+                <span class="help is-danger" v-show="errors.has('name')">门店名称不能为空!</span>
               </div>
               <div class="item">
-                <span>前台电话</span>
-                <el-input class="el-right" v-model="tel" placeholder="请输入前台电话" :disabled="!isEditInfo"></el-input>
+                <span>门店编码</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="code" name="code" v-validate="'required'" :class="{'is-danger': errors.has('code') }" placeholder="请输入账户编码"></el-input>
+                <span class="help is-danger" v-show="errors.has('code')">账户编码不能为空!</span>
               </div>
-
               <div class="content-address">
                 <span>门店地址</span>
-                <el-select class="el-right-address" v-model="provinceCode" placeholder="请选择" :disabled="!isEditInfo">
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="provinceCode" name="provinceCode" v-validate="'required'" :class="{'is-danger': errors.has('provinceCode') }" placeholder="请选择省份">
                   <el-option
                     v-for="(obj, index) of provinceList"
                     :key="index"
@@ -40,7 +38,8 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="cityCode" placeholder="请选择" :disabled="!isEditInfo">
+                <span class="help is-danger" v-show="errors.has('provinceCode')">请选择省份!</span>
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="cityCode" name="cityCode" v-validate="'required'" :class="{'is-danger': errors.has('cityCode') }" placeholder="请选择城市">
                   <el-option
                     v-for="(obj, index) of cityList"
                     :key="index"
@@ -48,7 +47,8 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
-                <el-select class="el-right-address" v-model="areaCode" placeholder="请选择" :disabled="!isEditInfo">
+                <span class="help is-danger" v-show="errors.has('cityCode')">请选择城市!</span>
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="areaCode"  name="areaCode" v-validate="'required'" :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
                   <el-option
                     v-for="(obj, index) of areaList"
                     :key="index"
@@ -56,18 +56,27 @@
                     :value="obj.code">
                   </el-option>
                 </el-select>
+                <span class="help is-danger" v-show="errors.has('areaCode')">请选择地区!</span>
               </div>
-              <div class="content-add">
-                <el-input v-model="address" placeholder="地址（详细到门牌号）" :disabled="!isEditInfo"></el-input>
+              <div class="item">
+                <span>详细地址</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="address" name="address" v-validate="'required'" :class="{'is-danger': errors.has('address') }" placeholder="地址（详细到门牌号）"></el-input>
+                <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
+              </div>
+              <div class="item">
+                <span>前台电话</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="tel" name="tel" v-validate="'required'" :class="{'is-danger': errors.has('tel') }" placeholder="请输入前台电话"></el-input>
+                <span class="help is-danger" v-show="errors.has('tel')">前台电话不能为空!</span>
               </div>
             </div>
             <div class="content-item">
-              <div id="mapContainer"/>
-              <span class="item-text">拖动坐标可以修改地理位置 <p>lat：{{latitude}} &nbsp lng: {{longitude}}</p></span>
+              <div id="mapContainer"></div>
+              <span class="map-text">请点击地图确认坐标 lat: {{latitude}} lng: {{longitude}}</span>
+              <span class="help is-danger" v-show="!isChooseLocation">请选择坐标!</span>
             </div>
           </div>
           <div class="button-box" v-show="isEditInfo">
-            <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+            <el-button type="success" @click.native="nextStep">确认修改</el-button>
             <el-button @click.native="cancelInfo">取消</el-button>
           </div>
         </div>
@@ -91,7 +100,7 @@
             </div>
           </div>
           <div class="button-box" v-show="isEditContact">
-            <el-button type="success" :disabled="submitDisabled" @click.native="modify">确认修改</el-button>
+            <el-button type="success" @click.native="nextStep">确认修改</el-button>
             <el-button @click.native="cancelContact">取消</el-button>
           </div>
         </div>
@@ -128,7 +137,8 @@
         contactPhone: '',
         contactPosition: '',
         isEditInfo: false,
-        isEditContact: false
+        isEditContact: false,
+        isChooseLocation: true
       }
     },
     computed: {
@@ -153,11 +163,11 @@
           return [];
         return cityObj.city;
       },
-      submitDisabled() {
-        if (this.groupId == '' || this.brandId == '' || this.code == '' || this.name == '' || this.tel == '' || this.address == '' || this.latitude == '' || this.longitude == '')
-          return true;
-        return false;
-      }
+      // submitDisabled() {
+      //   if (this.groupId == '' || this.brandId == '' || this.code == '' || this.name == '' || this.tel == '' || this.address == '' || this.latitude == '' || this.longitude == '')
+      //     return true;
+      //   return false;
+      // }
     },
     watch: {
       groupId() {
@@ -176,6 +186,20 @@
           this.changeMapCenter();
         }
       },
+      latitude() {
+        if (this.latitude != '' && this.longitude != '') {
+          this.isChooseLocation = true;
+        } else {
+          this.isChooseLocation = false;
+        }
+      },
+      longitude() {
+        if (this.latitude != '' && this.longitude != '') {
+          this.isChooseLocation = true;
+        } else {
+          this.isChooseLocation = false;
+        }
+      }
     },
     methods: {
       ...mapActions([
@@ -242,8 +266,15 @@
         this.isEditContact = true;
 
       },
+      nextStep() {
+        if (this.latitude == '' || this.longitude == '') {
+          this.isChooseLocation = false;
+        }
+        this.$validator.validateAll().then(() => {
+          this.regist();
+        }).catch(() => {});
+      },
       modify() {
-        if (this.submitDisabled) return;
         let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) return;
         let state = obj.region.state.find(v => v.code == this.cityCode);
@@ -538,6 +569,27 @@
       margin-top: 20px;
     }
 
+  }
+
+  .is-danger .el-input__inner {
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:focus {
+    outline: 0;
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:hover {
+    border-color: #ff3860;
+  }
+
+  .help {
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  .help.is-danger {
+    color: #ff3860;
   }
 
 </style>

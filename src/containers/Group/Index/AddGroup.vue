@@ -7,15 +7,18 @@
           <div class="info-content">
             <div class="content-msg">
               <span>企业名称</span>
-              <el-input class="el-right" v-model="groupName" placeholder="请输入企业名称"></el-input>
+              <el-input class="el-right" v-model="groupName" name="groupName" v-validate="'required'" :class="{'is-danger': errors.has('groupName') }" placeholder="请输入企业名称"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupName')">企业名称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" v-model="groupCode" placeholder="请输入账户编码"></el-input>
+              <el-input class="el-right" v-model="groupCode" name="groupCode" v-validate="'required'" :class="{'is-danger': errors.has('groupCode') }" placeholder="请输入账户编码"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupCode')">账户编码不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" v-model="groupDesc" placeholder="请输入企业简称"></el-input>
+              <el-input class="el-right" v-model="groupDesc" name="groupDesc" v-validate="'required'" :class="{'is-danger': errors.has('groupDesc') }" placeholder="请输入企业简称"></el-input>
+              <span class="help is-danger" v-show="errors.has('groupDesc')">企业简称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业官网</span>
@@ -41,7 +44,7 @@
           </div>
         </div>
         <div class="button-box">
-          <el-button class="el-btn" type="success" :disabled="submitDisabled" @click.native="regist">注册</el-button>
+          <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
         </div>
       </div>
     </div>
@@ -63,13 +66,13 @@
         brandList: []
       }
     },
-    computed: {
-      submitDisabled() {
-        if (this.groupName == '' || this.groupCode == '' || this.groupDesc == '')
-          return true;
-        return false;
-      }
-    },
+    // computed: {
+    //   submitDisabled() {
+    //     if (this.groupName == '' || this.groupCode == '' || this.groupDesc == '')
+    //       return true;
+    //     return false;
+    //   }
+    // },
     methods: {
       ...mapActions([
         'getBrandList',
@@ -86,8 +89,12 @@
           onsuccess: body => console.log(body.data)
         })
       },
+      nextStep() {
+        this.$validator.validateAll().then(() => {
+          this.regist();
+        }).catch(() => {});
+      },
       regist() {
-        if (this.submitDisabled) return;
 
         this.addGroup({
           name: this.groupName,
@@ -175,6 +182,27 @@
   .error-info {
     color: red;
     font-size: 12px;
+  }
+
+  .is-danger .el-input__inner {
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:focus {
+    outline: 0;
+    border-color: #ff3860;
+  }
+  .is-danger .el-input__inner:hover {
+    border-color: #ff3860;
+  }
+
+  .help {
+    display: block;
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  .help.is-danger {
+    color: #ff3860;
   }
 
 </style>
