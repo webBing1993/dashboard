@@ -28,7 +28,7 @@
         </div>
         <div class="configsummary_item">
           <h3>旅业系统配置</h3>
-          <p>旅业系统类型: {{lvyeData.lvye_report_type}}</p>
+          <p>旅业系统类型: {{lvyeData.lvye_report_type | filterLvyeReportType}}</p>
           <p>酒店公安ID: {{lvyeData.hotel_ga_id}}</p>
           <p>公安类型: {{lvyeData.police_type}}</p>
           <p>公安参数: {{lvyeData.police_param}}</p>
@@ -101,7 +101,7 @@
         </div>
         <div class="configsummary_item">
           <h3>押金配置</h3>
-          <p>押金类型: {{configData.cash_pledge_config.cash_pledge_type}}</p>
+          <p>押金类型: {{configData.cash_pledge_config.cash_pledge_type | filterCashPledgeType}}</p>
           <p>固定押金金额: {{configData.cash_pledge_config.fixed_cash_pledge}}</p>
           <p>放大系数: {{configData.cash_pledge_config.multiple_of_cash_pledge}}</p>
           <p>是否向上取整: {{configData.cash_pledge_config.round_up_to_integer}}</p>
@@ -110,7 +110,7 @@
         </div>
         <div class="configsummary_item">
           <h3>早餐券配置</h3>
-          <p>早餐券规则: {{configData.breakfast_stem_from}}</p>
+          <p>早餐券规则: {{configData.breakfast_stem_from | filterBreakfastStemFrom}}</p>
         </div>
         <div class="configsummary_item">
           <h3>最大房间数量配置</h3>
@@ -118,7 +118,7 @@
         </div>
         <div class="configsummary_item">
           <h3>PMS同步频率配置</h3>
-          <p>PMS同步频率: {{configData.sync_space_time}}</p>
+          <p>PMS同步频率: {{configData.sync_space_time}}分钟</p>
         </div>
         <div class="configsummary_item">
           <h3>自动确认预付款配置</h3>
@@ -131,7 +131,7 @@
         </div>
         <div class="configsummary_item">
           <h3>脏房配置</h3>
-          <p>是否支持分脏房: {{configData.is_support_vd}}</p>
+          <p>是否支持分脏房: {{configData.is_support_vd | filterIsSupportVd}}</p>
         </div>
         <div class="configsummary_item">
           <h3>房间标签配置</h3>
@@ -158,6 +158,42 @@
         'lvyeData',
         'wechatAppData'
       ]),
+    },
+    filters: {
+      filterLvyeReportType(v) {
+        if (v == 'LOCAL')
+          return '本地';
+        if (v == 'CLOUD')
+          return '云端';
+        return v;
+      },
+      filterCashPledgeType(v) {
+        if (v == 'fixed_cash_pledge')
+          return '无押金';
+        if (v == 'fixed_cash_pledge')
+          return '固定押金';
+        if (v == 'multiple_of_cash_pledge')
+          return '放大系数';
+        if (v == 'first_day_of_room_price')
+          return '首晚房费';
+        return v;
+      },
+      filterBreakfastStemFrom(v) {
+        if (v == 'NONE')
+          return '无早';
+        if (v == 'PMS')
+          return '同步PMS早餐券';
+        if (v == 'MANKE')
+          return '漫客平台定义';
+        return v;
+      },
+      filterIsSupportVd(v) {
+        if (v == '1')
+          return '支持';
+        else if (v == '0')
+          return '不支持'
+        return v;
+      }
     },
     methods: {
       ...mapActions([
