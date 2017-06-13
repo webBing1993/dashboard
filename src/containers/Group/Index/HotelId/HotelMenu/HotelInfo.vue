@@ -569,6 +569,9 @@
               font-size: 16px;
               font-weight: normal;
             }
+            input::placeholder {
+              color: transparent;
+            }
           }
         }
       }

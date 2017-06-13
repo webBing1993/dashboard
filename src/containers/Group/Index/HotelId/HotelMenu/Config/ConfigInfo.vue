@@ -686,7 +686,7 @@
           </div>
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
-              <span style="width: 240px; ">请输入选房列表最大展示房间数量</span>
+              <span style="min-width: 250px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
           </div>
