@@ -271,8 +271,8 @@
           this.isChooseLocation = false;
         }
         this.$validator.validateAll().then(() => {
-          this.regist();
-        }).catch(() => {});
+          this.modify();
+        }).catch(e => {alert(e)});
       },
       modify() {
         let obj = areaData.find(v => v.region.code == this.provinceCode);

@@ -25,7 +25,7 @@
               <el-input class="el-right" v-model="groupWeb" placeholder="选填，请输入企业官网" :disabled="!isEditInfo"></el-input>
             </div>
             <div class="button-box" v-show="isEditInfo">
-              <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
+              <el-button class="el-btn" type="success" @click.native="nextStep">确认修改</el-button>
               <el-button @click.native="cancelInfo">取消</el-button>
             </div>
           </div>
@@ -50,7 +50,7 @@
                         :disabled="!isEditContact"></el-input>
             </div>
             <div class="button-box" v-show="isEditContact">
-              <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
+              <el-button class="el-btn" type="success" @click.native="nextStep">确认修改</el-button>
               <el-button @click.native="cancelContact">取消</el-button>
             </div>
           </div>

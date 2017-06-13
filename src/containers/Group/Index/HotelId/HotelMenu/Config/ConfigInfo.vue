@@ -1201,7 +1201,7 @@
             //电话取消订单  暂无
             //发票配置
             this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-            if (tool.isNotBlank(configData.invoice_name)) {
+            if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
               this.invoiceName = [...configData.invoice_name];
             }
             //预登记短信配置
