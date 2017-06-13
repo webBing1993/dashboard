@@ -8,7 +8,8 @@
             <div class="content-item">
               <div class="item">
                 <span>所属品牌</span>
-                <el-select class="el-right" :disabled="!isEditInfo" v-model="brandId" name="brandId" v-validate="'required'" :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
+                <el-select class="el-right" :disabled="!isEditInfo" v-model="brandId" name="brandId"
+                           v-validate="'required'" :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -20,17 +21,21 @@
               </div>
               <div class="item">
                 <span>门店名称</span>
-                <el-input class="el-right" :disabled="!isEditInfo" v-model="name" name="name" v-validate="'required'" :class="{'is-danger': errors.has('name') }" placeholder="请输入门店名称"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="name" name="name" v-validate="'required'"
+                          :class="{'is-danger': errors.has('name') }" placeholder="请输入门店名称"></el-input>
                 <span class="help is-danger" v-show="errors.has('name')">门店名称不能为空!</span>
               </div>
               <div class="item">
                 <span>门店编码</span>
-                <el-input class="el-right" :disabled="!isEditInfo" v-model="code" name="code" v-validate="'required'" :class="{'is-danger': errors.has('code') }" placeholder="请输入账户编码"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="code" name="code" v-validate="'required'"
+                          :class="{'is-danger': errors.has('code') }" placeholder="请输入账户编码"></el-input>
                 <span class="help is-danger" v-show="errors.has('code')">账户编码不能为空!</span>
               </div>
               <div class="content-address">
                 <span>门店地址</span>
-                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="provinceCode" name="provinceCode" v-validate="'required'" :class="{'is-danger': errors.has('provinceCode') }" placeholder="请选择省份">
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="provinceCode" name="provinceCode"
+                           v-validate="'required'" :class="{'is-danger': errors.has('provinceCode') }"
+                           placeholder="请选择省份">
                   <el-option
                     v-for="(obj, index) of provinceList"
                     :key="index"
@@ -39,7 +44,8 @@
                   </el-option>
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('provinceCode')">请选择省份!</span>
-                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="cityCode" name="cityCode" v-validate="'required'" :class="{'is-danger': errors.has('cityCode') }" placeholder="请选择城市">
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="cityCode" name="cityCode"
+                           v-validate="'required'" :class="{'is-danger': errors.has('cityCode') }" placeholder="请选择城市">
                   <el-option
                     v-for="(obj, index) of cityList"
                     :key="index"
@@ -48,7 +54,8 @@
                   </el-option>
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('cityCode')">请选择城市!</span>
-                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="areaCode"  name="areaCode" v-validate="'required'" :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
+                <el-select class="el-right-address" :disabled="!isEditInfo" v-model="areaCode" name="areaCode"
+                           v-validate="'required'" :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
                   <el-option
                     v-for="(obj, index) of areaList"
                     :key="index"
@@ -60,18 +67,21 @@
               </div>
               <div class="item">
                 <span>详细地址</span>
-                <el-input class="el-right" :disabled="!isEditInfo" v-model="address" name="address" v-validate="'required'" :class="{'is-danger': errors.has('address') }" placeholder="地址（详细到门牌号）"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="address" name="address"
+                          v-validate="'required'" :class="{'is-danger': errors.has('address') }"
+                          placeholder="地址（详细到门牌号）"></el-input>
                 <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
               </div>
               <div class="item">
                 <span>前台电话</span>
-                <el-input class="el-right" :disabled="!isEditInfo" v-model="tel" name="tel" v-validate="'required'" :class="{'is-danger': errors.has('tel') }" placeholder="请输入前台电话"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="tel" name="tel" v-validate="'required'"
+                          :class="{'is-danger': errors.has('tel') }" placeholder="请输入前台电话"></el-input>
                 <span class="help is-danger" v-show="errors.has('tel')">前台电话不能为空!</span>
               </div>
             </div>
             <div class="content-item">
               <div id="mapContainer"></div>
-              <span class="map-text">请点击地图确认坐标 lat: {{latitude}} lng: {{longitude}}</span>
+              <span class="item-text">请点击地图确认坐标<p>lat: {{latitude}} &nbsp lng: {{longitude}}</p></span>
               <span class="help is-danger" v-show="!isChooseLocation">请选择坐标!</span>
             </div>
           </div>
@@ -264,7 +274,6 @@
       },
       editContact() {
         this.isEditContact = true;
-
       },
       nextStep() {
         if (this.latitude == '' || this.longitude == '') {
@@ -272,7 +281,9 @@
         }
         this.$validator.validateAll().then(() => {
           this.modify();
-        }).catch(e => {alert(e)});
+        }).catch(e => {
+          alert(e)
+        });
       },
       modify() {
         let obj = areaData.find(v => v.region.code == this.provinceCode);
@@ -456,29 +467,29 @@
                 }
               }
             }
-
             .content-address {
               display: flex;
               align-items: center;
               width: 100%;
               height: 40px;
+              margin-bottom: 10px;
               span {
                 width: 60px;
                 display: block;
                 margin-right: 16px;
               }
-              .el-select{
+              .el-select {
                 width: 26%;
                 background-color: #ffffff;
                 outline: none;
                 margin-left: 4px;
-                .el-input{
+                .el-input {
                   font-size: 12px;
-                  .el-input__inner{
+                  .el-input__inner {
                     height: 40px;
                     border-radius: 0;
                   }
-                  .el-input__icon{
+                  .el-input__icon {
                     width: 26px;
                   }
                 }
@@ -497,9 +508,10 @@
                 }
               }
             }
+
             #mapContainer {
               width: 100%;
-              min-height: 220px;
+              min-height: 260px;
             }
             .item-text {
               font-size: 14px;
@@ -529,6 +541,7 @@
             border-color: #39C240;
           }
         }
+
         .info-msg {
           padding: 21px 34px;
           .item {
@@ -541,12 +554,23 @@
               width: 72px;
               display: block;
               margin-right: 14px;
+              text-align: end;
             }
             .el-select {
               width: 100%;
             }
             .el-input {
               width: 60%;
+            }
+            input:disabled {
+              background-color: transparent;
+              border-color: transparent;
+              color: #9B9B9B;
+              font-size: 16px;
+              font-weight: normal;
+            }
+            input::placeholder {
+              color: transparent;
             }
           }
         }
@@ -574,10 +598,12 @@
   .is-danger .el-input__inner {
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:focus {
     outline: 0;
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:hover {
     border-color: #ff3860;
   }

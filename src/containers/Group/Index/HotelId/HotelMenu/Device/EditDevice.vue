@@ -156,8 +156,11 @@
         border-color: #39C240;
         border-radius: 0;
         color: #ffffff;
+        &:nth-child(2) {
+          background-color: #D0011B;
+          border-color: #D0011B;
+        }
       }
     }
   }
-
 </style>

@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content_devicelist">
         <div class="devicelist_title">
-          <h3>设备管理</h3>
+          <span>设备管理</span>
           <el-button type="success" @click.native="add">添加设备</el-button>
         </div>
         <table-device :list="list" @edit="edit"></table-device>
@@ -86,11 +86,12 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 7px;
-      h3 {
+      span {
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
         padding: 0;
+        border-bottom: 0;
       }
       .el-button {
         min-width: 173px;
@@ -98,6 +99,11 @@
         background-color: #39C240;
         border-color: #39C240;
         border-radius: 0;
+        padding: 0;
+        span {
+          font-size: 14px;
+          color: #ffffff;
+        }
       }
     }
   }

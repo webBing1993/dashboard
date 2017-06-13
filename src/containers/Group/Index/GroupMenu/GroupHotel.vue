@@ -8,7 +8,7 @@
         <el-button type="success" @click.native="regist">+ 添加企业门店</el-button>
       </div>
       <h3>最近操作的门店</h3>
-      <div class="content">
+      <div class="content_grouphotel">
         <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
                      @device="device"></table-hotel>
         <el-pagination
@@ -203,39 +203,16 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    position: relative;
-    overflow-y: auto;
     h3 {
-      font-size: 16px;
-      color: #4A4A4A;
       padding: 15px 25px;
       &:nth-child(1) {
-        border-bottom: 1px solid #ECECEC;
+        padding: 0 25px;
       }
     }
     .search-bar {
-      display: flex;
-      align-items: center;
-      width: 100%;
       padding: 15px 23px 0 26px;
-      box-sizing: border-box;
-      .el-input {
-        el-input__inner {
-          background-color: #FBFBFB;
-        }
-      }
-      .el-button {
-        margin-left: 17px;
-        border-radius: 0;
-        font-size: 14px;
-        min-width: 173px;
-        line-height: 18px;
-        background-color: #39C240;
-        border-color: #39C240;
-      }
     }
-    .content {
-      //height: 100%;
+    .content_grouphotel {
       padding: 0 23px 0 25px;
       overflow-y: hidden;
     }

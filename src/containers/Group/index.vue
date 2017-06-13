@@ -104,7 +104,7 @@
     display: flex;
     align-items: center;
     font-size: 16px;
-    color: #4A4A4A;
+    color: #39C240;
     width: 100%;
     box-sizing: border-box;
     line-height: 39px;
@@ -114,6 +114,9 @@
     span {
       display: flex;
       align-items: center;
+      &:last-child {
+        color: #4A4A4A;
+      }
       &:not(:first-child):before {
         content: "";
         display: block;

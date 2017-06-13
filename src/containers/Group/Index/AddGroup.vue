@@ -7,17 +7,20 @@
           <div class="info-content">
             <div class="content-msg">
               <span>企业名称</span>
-              <el-input class="el-right" v-model="groupName" name="groupName" v-validate="'required'" :class="{'is-danger': errors.has('groupName') }" placeholder="请输入企业名称"></el-input>
+              <el-input class="el-right" v-model="groupName" name="groupName" v-validate="'required'"
+                        :class="{'is-danger': errors.has('groupName') }" placeholder="请输入企业名称"></el-input>
               <span class="help is-danger" v-show="errors.has('groupName')">企业名称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" v-model="groupCode" name="groupCode" v-validate="'required'" :class="{'is-danger': errors.has('groupCode') }" placeholder="请输入账户编码"></el-input>
+              <el-input class="el-right" v-model="groupCode" name="groupCode" v-validate="'required'"
+                        :class="{'is-danger': errors.has('groupCode') }" placeholder="请输入账户编码"></el-input>
               <span class="help is-danger" v-show="errors.has('groupCode')">账户编码不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" v-model="groupDesc" name="groupDesc" v-validate="'required'" :class="{'is-danger': errors.has('groupDesc') }" placeholder="请输入企业简称"></el-input>
+              <el-input class="el-right" v-model="groupDesc" name="groupDesc" v-validate="'required'"
+                        :class="{'is-danger': errors.has('groupDesc') }" placeholder="请输入企业简称"></el-input>
               <span class="help is-danger" v-show="errors.has('groupDesc')">企业简称不能为空!</span>
             </div>
             <div class="content-msg">
@@ -92,7 +95,8 @@
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.regist();
-        }).catch(() => {});
+        }).catch(() => {
+        });
       },
       regist() {
 
@@ -151,6 +155,22 @@
                 color: #000000;
               }
             }
+            .help {
+              position: relative;
+              min-width: 120px;
+              line-height: 40px;
+              text-align: left;
+              font-size: 13px;
+              margin: 0 0 0 18px;
+              color: #D0011B;
+              &:before {
+                content: '*';
+                position: absolute;
+                top: 3px;
+                left: -10px;
+                font-size: 22px;
+              }
+            }
           }
         }
       }
@@ -187,10 +207,12 @@
   .is-danger .el-input__inner {
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:focus {
     outline: 0;
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:hover {
     border-color: #ff3860;
   }
