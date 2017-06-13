@@ -348,20 +348,24 @@
             </div>
             <div v-show="pmsName == '绿云'">
               <div class="item-form">
+                <span>hotelGroupCode</span>
+                <el-input class="el-right" v-model="hotelGroupCode" placeholder="请输入hotelGroupCode"></el-input>
+              </div>
+              <div class="item-form">
                 <span>appKey</span>
-                <el-input class="el-right" v-model="lvyun_appKey" placeholder="请输入appkey"></el-input>
+                <el-input class="el-right" v-model="appKey" placeholder="请输入appkey"></el-input>
               </div>
               <div class="item-form">
                 <span>appSecret</span>
-                <el-input class="el-right" v-model="lvyun_appSecret" placeholder="请输入appSecret"></el-input>
+                <el-input class="el-right" v-model="PMSAppSecret" placeholder="请输入appSecret"></el-input>
               </div>
               <div class="item-form">
                 <span>用户名</span>
-                <el-input class="el-right" v-model="lvyun_userName" placeholder="请输入用户名"></el-input>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入用户名"></el-input>
               </div>
               <div class="item-form">
                 <span>密码</span>
-                <el-input class="el-right" v-model="lvyun_password" placeholder="请输入密码"></el-input>
+                <el-input class="el-right" v-model="password" placeholder="请输入密码"></el-input>
               </div>
             </div>
             <div v-show="pmsName == '别样红'">
@@ -858,10 +862,11 @@
         hotelPmsCode: '',
         hotelServiceUrl: '',
         //绿云
-        lvyun_appKey: '',
-        lvyun_appSecret: '',
-        lvyun_userName: '',
-        lvyun_password: '',
+        hotelGroupCode: '',
+        appKey: '',
+        PMSAppSecret: '',
+        userCode: '',
+        password: '',
         //别样红
         billServiceUrl: '',
         crmServiceUrl: '',
@@ -989,7 +994,7 @@
           if (this.pmsName == '捷信达') {
             return true;
           } else if (this.pmsName == '绿云') {
-            return tool.isNotBlank(this.lvyun_appKey) && tool.isNotBlank(this.lvyun_appSecret) && tool.isNotBlank(this.lvyun_userName) && tool.isNotBlank(this.lvyun_password)
+            return tool.isNotBlank(this.hotelGroupCode) && tool.isNotBlank(this.appKey) && tool.isNotBlank(this.PMSAppSecret) && tool.isNotBlank(this.userCode) && tool.isNotBlank(this.password)
           } else if (this.pmsName == '别样红') {
             return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
           } else if (this.pmsName == '住哲') {
@@ -1263,10 +1268,11 @@
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
           //绿云
-          this.lvyun_appKey = this.pmsData.lvyun_appKey;
-          this.lvyun_appSecret = this.pmsData.lvyun_appSecret;
-          this.lvyun_userName = this.pmsData.lvyun_userName;
-          this.lvyun_password = this.pmsData.lvyun_password;
+          this.hotelGroupCode = this.pmsData.hotel_group_code;
+          this.appKey = this.pmsData.app_key;
+          this.PMSAppSecret = this.pmsData.app_secret;
+          this.userCode = this.pmsData.usercode;
+          this.password = this.pmsData.password;
           //别样红
           this.billServiceUrl = this.pmsData.bill_service_url;
           this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1349,10 +1355,11 @@
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
             //绿云
-            this.lvyun_appKey = this.pmsData.lvyun_appKey;
-            this.lvyun_appSecret = this.pmsData.lvyun_appSecret;
-            this.lvyun_userName = this.pmsData.lvyun_userName;
-            this.lvyun_password = this.pmsData.lvyun_password;
+            this.hotelGroupCode = this.pmsData.hotel_group_code;
+            this.appKey = this.pmsData.app_key;
+            this.PMSAppSecret = this.pmsData.app_secret;
+            this.userCode = this.pmsData.usercode;
+            this.password = this.pmsData.password;
             //别样红
             this.billServiceUrl = this.pmsData.bill_service_url;
             this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1477,10 +1484,11 @@
             } else if (this.pmsName == '绿云') {
               data = {
                 ...paramData,
-                lvyun_appKey: this.lvyun_appKey,
-                lvyun_appSecret: this.lvyun_appSecret,
-                lvyun_userName: this.lvyun_userName,
-                lvyun_password: this.lvyun_password
+                hotel_group_code: this.hotelGroupCode,
+                app_key: this.appKey,
+                app_secret: this.PMSAppSecret,
+                usercode: this.userCode,
+                password: this.password
               }
             } else if (this.pmsName == '别样红') {
               data = {
