@@ -14,18 +14,9 @@ body,
   flex-direction: column;
   height: 100%;
   background-color: #EAEDF0;
-  .login-banner {
-    padding-left: 100px;
-    padding-right: 100px;
-    color: #ffffff;
-    line-height: 30px;
-    text-align: right;
-    background-color: #424242;
-  }
   .nav-banner {
     position: relative;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 0 100px;
     height: 60px;
     background-color: #ffffff;
     .logo {
@@ -50,6 +41,22 @@ body,
         &.router-link-active {
           color: #424242;
           border-bottom-color: #424242;
+        }
+      }
+      .login-banner {
+        position: absolute;
+        right: 80px;
+        font-size: 14px;
+        color: #4A4A4A;
+        line-height: 30px;
+        text-align: right;
+        padding: 0;
+        a {
+          color: #4A4A4A;
+          font-size: 14px;
+          margin-left: 2px;
+          margin-right: 10px;
+          padding: 0 10px;
         }
       }
     }

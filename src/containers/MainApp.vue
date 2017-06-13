@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="login-banner">
-      <span>{{userInfo.name}},</span>
-      <a @click="logoutAction">退出</a>
-    </div>
     <div class="nav-banner">
       <span class="logo">生态酒店总控平台</span>
       <nav>
         <router-link to="/home">首页</router-link>
         <router-link to="/group">企业账户</router-link>
+        <div class="login-banner">
+          <span>您好,{{userInfo.name}}</span>
+          <a @click="logoutAction">退出</a>
+        </div>
       </nav>
     </div>
     <router-view class="second-router"/>
@@ -44,14 +44,3 @@
     }
   }
 </script>
-
-<style scoped lang="less">
-  .login-banner {
-    font-size: 15px;
-    line-height: 45px;
-    a {
-      padding-left: 20px;
-      cursor: pointer;
-    }
-  }
-</style>
