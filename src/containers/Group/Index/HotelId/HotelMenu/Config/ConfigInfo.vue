@@ -1181,75 +1181,75 @@
     watch: {
       configData() {
         let configData = this.configData;
-          if (tool.isNotBlank(configData)) {
-            //门锁配置，暂无
-            //人脸识别配置
-            this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
-            this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
-            //微信支付配置
-            if (tool.isNotBlank(configData.miniapp_config)) {
-              this.wechatPayAppId = configData.miniapp_config.app_id;
-              this.mchId = configData.miniapp_config.mch_id;
-              this.mchApiKey = configData.miniapp_config.mch_api_key;
-            }
-            this.payCode = configData.pay_code;
-            this.refundCode = configData.refund_code;
-            //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
-            //电子签名
-            this.enabledSign = configData.enabled_sign == 'true' ? true : false;
-            //电话取消订单  暂无
-            //发票配置
-            this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-            if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
-              this.invoiceName = [...configData.invoice_name];
-            }
-            //预登记短信配置
-            this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
-            //到店支付配置
-            this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
-            //自动退房
-            this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
-            //自动退款
-            this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
-            //无证入住
-            this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
-            //门卡配置
-            this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
-            //押金配置
-            if (tool.isNotBlank(configData.cash_pledge_config)) {
-              this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
-              this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
-              this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
-              this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
-              ;
-              this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
-              ;
-              this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
-            }
-            //早餐券配置
-            this.breakfastStemFrom = configData.breakfast_stem_from;
-            //可选房数量
-            this.maxAllowRoomcount = configData.max_allow_roomcount;
-            //PMS同步频率
-            this.syncSpaceTime = configData.sync_space_time;
-            //自动预付款确认
-            this.prepayKeyword = configData.prepay_keyword;
-            this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
-            this.postpayKeyword = configData.postpay_keyword;
-            this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
-            this.freeDepositKeyword = configData.free_deposit_keyword;
-            this.needDepositKeyword = configData.need_deposit_keyword;
-            //脏房配置
-            this.isSupportVd = configData.is_support_vd == '1' ? true : false;
-            //酒店标签配置
-            if (tool.isNotBlank(configData.room_tags)) {
-              this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
-            }
+        if (tool.isNotBlank(configData)) {
+          //门锁配置，暂无
+          //人脸识别配置
+          this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
+          this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
+          //微信支付配置
+          if (tool.isNotBlank(configData.miniapp_config)) {
+            this.wechatPayAppId = configData.miniapp_config.app_id;
+            this.mchId = configData.miniapp_config.mch_id;
+            this.mchApiKey = configData.miniapp_config.mch_api_key;
           }
+          this.payCode = configData.pay_code;
+          this.refundCode = configData.refund_code;
+          //微信生态酒店配置
+          this.wxHotelId = configData.wx_hotel_id;
+          //电子签名
+          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+          //电话取消订单  暂无
+          //发票配置
+          this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
+          if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
+            this.invoiceName = [...configData.invoice_name];
+          }
+          //预登记短信配置
+          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
+          //到店支付配置
+          this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
+          //自动退房
+          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
+          //自动退款
+          this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
+          //无证入住
+          this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
+          //门卡配置
+          this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
+          //押金配置
+          if (tool.isNotBlank(configData.cash_pledge_config)) {
+            this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
+            this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
+            ;
+            this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
+            ;
+            this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+          }
+          //早餐券配置
+          this.breakfastStemFrom = configData.breakfast_stem_from;
+          //可选房数量
+          this.maxAllowRoomcount = configData.max_allow_roomcount;
+          //PMS同步频率
+          this.syncSpaceTime = configData.sync_space_time;
+          //自动预付款确认
+          this.prepayKeyword = configData.prepay_keyword;
+          this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
+          this.postpayKeyword = configData.postpay_keyword;
+          this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
+          this.freeDepositKeyword = configData.free_deposit_keyword;
+          this.needDepositKeyword = configData.need_deposit_keyword;
+          //脏房配置
+          this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+          //酒店标签配置
+          if (tool.isNotBlank(configData.room_tags)) {
+            this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+          }
+        }
       },
       pmsData() {
-        if(tool.isNotBlank(this.pmsData)) {
+        if (tool.isNotBlank(this.pmsData)) {
           //PMS信息
           //绿云,捷信达
           this.pmsId = this.pmsData.pms_id;
@@ -1274,7 +1274,7 @@
       },
       lvyeData() {
         // 旅业配置
-        if(tool.isNotBlank(this.lvyeData)) {
+        if (tool.isNotBlank(this.lvyeData)) {
           this.lvyeType = this.lvyeData.lvye_report_type;
           this.policeId = this.lvyeData.hotel_ga_id;
           this.policeType = this.lvyeData.police_type;
@@ -1930,22 +1930,20 @@
         text-align: center;
         .el-button {
           width: 246px;
-          /*display: inline-block;*/
-          /*white-space: nowrap;*/
-          /*cursor: pointer;*/
-          /*background: #fff;*/
-          /*line-height: 18px;*/
-          /*border: 1px solid #979797;*/
-          /*color: #4A4A4A;*/
-          /*border-radius: 0;*/
-          /*margin: 0;*/
-          /*padding: 10px 15px;*/
-          /*&:nth-child(1) {*/
-            /*background-color: #39C240;*/
-            /*border-color: #39C240;*/
-            /*color: #ffffff;*/
-            /*margin-right: 23px;*/
-          /*}*/
+          border-radius: 0;
+          line-height: 18px;
+          margin: 0;
+          &:nth-child(1) {
+            background-color: #39C240;
+            border-color: #39C240;
+            color: #ffffff;
+            margin-right: 22px;
+          }
+        }
+        .el-button--primary {
+          background-color: transparent;
+          border: solid 1px #979797;
+          color: #4A4A4A;
         }
       }
     }

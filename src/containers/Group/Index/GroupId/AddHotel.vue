@@ -8,7 +8,8 @@
             <div class="content-item">
               <div class="item">
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" name="brandId" v-validate="'required'" :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
+                <el-select class="el-right" v-model="brandId" name="brandId" v-validate="'required'"
+                           :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -20,17 +21,20 @@
               </div>
               <div class="item">
                 <span>门店名称</span>
-                <el-input class="el-right" v-model="storeName" name="storeName" v-validate="'required'" :class="{'is-danger': errors.has('storeName') }" placeholder="请输入门店名称"></el-input>
+                <el-input class="el-right" v-model="storeName" name="storeName" v-validate="'required'"
+                          :class="{'is-danger': errors.has('storeName') }" placeholder="请输入门店名称"></el-input>
                 <span class="help is-danger" v-show="errors.has('storeName')">门店名称不能为空!</span>
               </div>
               <div class="item">
                 <span>门店编码</span>
-                <el-input class="el-right" v-model="hotelCode" name="hotelCode" v-validate="'required'" :class="{'is-danger': errors.has('hotelCode') }" placeholder="请输入账户编码"></el-input>
+                <el-input class="el-right" v-model="hotelCode" name="hotelCode" v-validate="'required'"
+                          :class="{'is-danger': errors.has('hotelCode') }" placeholder="请输入账户编码"></el-input>
                 <span class="help is-danger" v-show="errors.has('hotelCode')">账户编码不能为空!</span>
               </div>
               <div class="content-address">
                 <span>门店地址</span>
-                <el-select class="el-right-address" v-model="provinceCode" name="provinceCode" v-validate="'required'" :class="{'is-danger': errors.has('provinceCode') }" placeholder="请选择省份">
+                <el-select class="el-right-address" v-model="provinceCode" name="provinceCode" v-validate="'required'"
+                           :class="{'is-danger': errors.has('provinceCode') }" placeholder="请选择省份">
                   <el-option
                     v-for="(obj, index) of provinceList"
                     :key="index"
@@ -39,7 +43,8 @@
                   </el-option>
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('provinceCode')">请选择省份!</span>
-                <el-select class="el-right-address" v-model="cityCode" name="cityCode" v-validate="'required'" :class="{'is-danger': errors.has('cityCode') }" placeholder="请选择城市">
+                <el-select class="el-right-address" v-model="cityCode" name="cityCode" v-validate="'required'"
+                           :class="{'is-danger': errors.has('cityCode') }" placeholder="请选择城市">
                   <el-option
                     v-for="(obj, index) of cityList"
                     :key="index"
@@ -48,7 +53,8 @@
                   </el-option>
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('cityCode')">请选择城市!</span>
-                <el-select class="el-right-address" v-model="areaCode"  name="areaCode" v-validate="'required'" :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
+                <el-select class="el-right-address" v-model="areaCode" name="areaCode" v-validate="'required'"
+                           :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
                   <el-option
                     v-for="(obj, index) of areaList"
                     :key="index"
@@ -60,12 +66,14 @@
               </div>
               <div class="item">
                 <span>详细地址</span>
-                <el-input class="el-right" v-model="address" name="address" v-validate="'required'" :class="{'is-danger': errors.has('address') }" placeholder="地址（详细到门牌号）"></el-input>
+                <el-input class="el-right" v-model="address" name="address" v-validate="'required'"
+                          :class="{'is-danger': errors.has('address') }" placeholder="地址（详细到门牌号）"></el-input>
                 <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
               </div>
               <div class="item">
                 <span>前台电话</span>
-                <el-input class="el-right" v-model="storePhone" name="storePhone" v-validate="'required'" :class="{'is-danger': errors.has('storePhone') }" placeholder="请输入前台电话"></el-input>
+                <el-input class="el-right" v-model="storePhone" name="storePhone" v-validate="'required'"
+                          :class="{'is-danger': errors.has('storePhone') }" placeholder="请输入前台电话"></el-input>
                 <span class="help is-danger" v-show="errors.has('storePhone')">前台电话不能为空!</span>
               </div>
             </div>
@@ -208,7 +216,8 @@
         }
         this.$validator.validateAll().then(() => {
           this.regist();
-        }).catch(() => {});
+        }).catch(() => {
+        });
       },
       regist() {
 
@@ -311,7 +320,6 @@
   .module-wrapper {
     .content_addhotel {
       padding: 23px 37px 28px 39px;
-
       .store-info {
         border: 1px solid #ECECEC;
         font-size: 16px;
@@ -386,7 +394,7 @@
             }
             #mapContainer {
               width: 100%;
-              min-height: 400px;
+              min-height: 260px;
             }
             .map-text {
               width: 100%;
@@ -458,10 +466,12 @@
   .is-danger .el-input__inner {
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:focus {
     outline: 0;
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:hover {
     border-color: #ff3860;
   }
