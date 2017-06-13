@@ -1694,7 +1694,7 @@
             break;
           case enumShowType.roomTags:
             data = {
-              room_tags: this.roomTagsList
+              room_tags: Array.from(new Set(this.roomTagsList))
             }
             break;
           default:
