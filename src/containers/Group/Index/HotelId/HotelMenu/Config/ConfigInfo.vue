@@ -346,6 +346,24 @@
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
+            <div v-show="pmsName == '绿云'">
+              <div class="item-form">
+                <span>appKey</span>
+                <el-input class="el-right" v-model="lvyun_appKey" placeholder="请输入appkey"></el-input>
+              </div>
+              <div class="item-form">
+                <span>appSecret</span>
+                <el-input class="el-right" v-model="lvyun_appSecret" placeholder="请输入appSecret"></el-input>
+              </div>
+              <div class="item-form">
+                <span>用户名</span>
+                <el-input class="el-right" v-model="lvyun_userName" placeholder="请输入用户名"></el-input>
+              </div>
+              <div class="item-form">
+                <span>密码</span>
+                <el-input class="el-right" v-model="lvyun_password" placeholder="请输入密码"></el-input>
+              </div>
+            </div>
             <div v-show="pmsName == '别样红'">
               <div class="item-form">
                 <span>账单服务地址</span>
@@ -834,11 +852,16 @@
         showDialog: false,
         //PMS配置
         PMSBrandList: [],
-        //绿云,捷信达
+        //捷信达
         pmsId: '',
         // pmsName: '', //放在计算属性
         hotelPmsCode: '',
         hotelServiceUrl: '',
+        //绿云
+        lvyun_appKey: '',
+        lvyun_appSecret: '',
+        lvyun_userName: '',
+        lvyun_password: '',
         //别样红
         billServiceUrl: '',
         crmServiceUrl: '',
@@ -963,20 +986,14 @@
       //无数个validate
       validatePMS() {
         if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsName) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
-          if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+          if (this.pmsName == '捷信达') {
             return true;
+          } else if (this.pmsName == '绿云') {
+            return tool.isNotBlank(this.lvyun_appKey) && tool.isNotBlank(this.lvyun_appSecret) && tool.isNotBlank(this.lvyun_userName) && tool.isNotBlank(this.lvyun_password)
           } else if (this.pmsName == '别样红') {
-            if (tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)) {
-              return true;
-            } else {
-              return false;
-            }
+            return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
           } else if (this.pmsName == '住哲') {
-            if (tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey) && tool.isNotBlank(this.adminName) && tool.isNotBlank(this.adminPassword) && tool.isNotBlank(this.brandId)) {
-              return true;
-            } else {
-              return false;
-            }
+            return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey) && tool.isNotBlank(this.adminName) && tool.isNotBlank(this.adminPassword) && tool.isNotBlank(this.brandId)
           } else {
             return false;
           }
@@ -995,7 +1012,6 @@
             } catch (e) {
               flag = false;
             }
-
             return flag;
           }
           return false;
@@ -1055,25 +1071,19 @@
           if (tool.isBlank(this.fixedCashPledge) || isNaN(+this.fixedCashPledge))
             return false;
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals))
-              return false;
-            return true;
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
           }
           return true;
         } else if (this.cashPledgeType == 'first_day_of_room_price') {
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals))
-              return false;
-            return true;
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
           }
           return true;
         } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
           if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1)
             return false;
           if (this.hasDayOfIncidentals) {
-            if (tool.isBlank(this.dayOfIncidentals) || isNaN(+this.dayOfIncidentals))
-              return false;
-            return true;
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
           }
           return true;
         }
@@ -1082,17 +1092,13 @@
         return true;
       },
       validatemaxAllowRoomcount() {
-        if (tool.isBlank(this.maxAllowRoomcount) || isNaN(+this.maxAllowRoomcount))
-          return false;
-        return true;
+        return tool.isNotBlank(this.maxAllowRoomcount) && !isNaN(+this.maxAllowRoomcount)
       },
       validatesyncSpaceTime() {
         return true;
       },
       validateautoConfirmPrePay() {
-        if (tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword))
-          return true;
-        return false;
+        return tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword)
       },
       validatesupportVd() {
         return true;
@@ -1251,11 +1257,16 @@
       pmsData() {
         if(tool.isNotBlank(this.pmsData)) {
           //PMS信息
-          //绿云,捷信达
+          //捷信达
           this.pmsId = this.pmsData.pms_id;
           // this.pmsName = this.pmsData.pms_name; //放在计算属性
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
+          //绿云
+          this.lvyun_appKey = this.pmsData.lvyun_appKey;
+          this.lvyun_appSecret = this.pmsData.lvyun_appSecret;
+          this.lvyun_userName = this.pmsData.lvyun_userName;
+          this.lvyun_password = this.pmsData.lvyun_password;
           //别样红
           this.billServiceUrl = this.pmsData.bill_service_url;
           this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1332,11 +1343,16 @@
         this.showDialog = false;
         switch (this.showType) {
           case enumShowType.PMS:
-            //绿云,捷信达
+            //捷信达
             this.pmsId = this.pmsData.pms_id;
             // this.pmsName = this.pmsData.pms_name; //放在计算属性
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
+            //绿云
+            this.lvyun_appKey = this.pmsData.lvyun_appKey;
+            this.lvyun_appSecret = this.pmsData.lvyun_appSecret;
+            this.lvyun_userName = this.pmsData.lvyun_userName;
+            this.lvyun_password = this.pmsData.lvyun_password;
             //别样红
             this.billServiceUrl = this.pmsData.bill_service_url;
             this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1454,9 +1470,17 @@
               hotel_pmscode: this.hotelPmsCode,
               hotel_service_url: this.hotelServiceUrl
             }
-            if (this.pmsName == '绿云' || this.pmsName == '捷信达') {
+            if (this.pmsName == '捷信达') {
               data = {
                 ...paramData
+              }
+            } else if (this.pmsName == '绿云') {
+              data = {
+                ...paramData,
+                lvyun_appKey: this.lvyun_appKey,
+                lvyun_appSecret: this.lvyun_appSecret,
+                lvyun_userName: this.lvyun_userName,
+                lvyun_password: this.lvyun_password
               }
             } else if (this.pmsName == '别样红') {
               data = {
