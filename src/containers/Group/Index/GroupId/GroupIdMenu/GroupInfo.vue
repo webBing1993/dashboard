@@ -7,17 +7,23 @@
           <div class="info-content">
             <div class="content-msg">
               <span>账户名称</span>
-              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupName" name="groupName" v-validate="'required'" :class="{'is-danger': errors.has('groupName') }" placeholder="请输入企业名称"></el-input>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupName" name="groupName"
+                        v-validate="'required'" :class="{'is-danger': errors.has('groupName') }"
+                        placeholder="请输入企业名称"></el-input>
               <span class="help is-danger" v-show="errors.has('groupName')">企业名称不能为空!</span>
             </div>
             <div class="content-msg">
               <span>账户编码</span>
-              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupCode" name="groupCode" v-validate="'required'" :class="{'is-danger': errors.has('groupCode') }" placeholder="请输入账户编码"></el-input>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupCode" name="groupCode"
+                        v-validate="'required'" :class="{'is-danger': errors.has('groupCode') }"
+                        placeholder="请输入账户编码"></el-input>
               <span class="help is-danger" v-show="errors.has('groupCode')">账户编码不能为空!</span>
             </div>
             <div class="content-msg">
               <span>企业简称</span>
-              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupDesc" name="groupDesc" v-validate="'required'" :class="{'is-danger': errors.has('groupDesc') }" placeholder="请输入企业简称"></el-input>
+              <el-input class="el-right" :disabled="!isEditInfo" v-model="groupDesc" name="groupDesc"
+                        v-validate="'required'" :class="{'is-danger': errors.has('groupDesc') }"
+                        placeholder="请输入企业简称"></el-input>
               <span class="help is-danger" v-show="errors.has('groupDesc')">企业简称不能为空!</span>
             </div>
             <div class="content-msg">
@@ -117,7 +123,8 @@
       nextStep() {
         this.$validator.validateAll().then(() => {
           this.modify();
-        }).catch(() => {});
+        }).catch(() => {
+        });
       },
       modify() {
         this.modifyGroup({
@@ -221,11 +228,32 @@
               margin-right: 21px;
             }
             .el-right {
-              width: 68%;
+              width: 66%;
               .el-input__inner {
                 /*background-color: #FBFBFB;*/
                 /*border: solid 1px #D0D0D0;*/
               }
+            }
+
+            .help {
+              display: block;
+              position: relative;
+              min-width: 110px;
+              line-height: 40px;
+              text-align: left;
+              font-size: 13px;
+              margin: 0 0 0 18px;
+              color: #D0011B;
+              &:before {
+                content: '*';
+                position: absolute;
+                top: 3px;
+                left: -10px;
+                font-size: 22px;
+              }
+            }
+            .help.is-danger {
+              color: #ff3860;
             }
           }
           .button-box {
@@ -253,22 +281,14 @@
   .is-danger .el-input__inner {
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:focus {
     outline: 0;
     border-color: #ff3860;
   }
+
   .is-danger .el-input__inner:hover {
     border-color: #ff3860;
-  }
-
-  .help {
-    display: block;
-    font-size: 11px;
-    margin-top: 5px;
-  }
-
-  .help.is-danger {
-    color: #ff3860;
   }
 
 </style>

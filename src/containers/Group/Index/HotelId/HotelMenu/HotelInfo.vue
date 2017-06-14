@@ -17,20 +17,23 @@
                     :value="obj.id">
                   </el-option>
                 </el-select>
-                <span class="help is-danger" v-show="errors.has('brandId')">请选择所属品牌!</span>
               </div>
+              <span class="help is-danger" v-show="errors.has('brandId')">请选择所属品牌!</span>
+
               <div class="item">
                 <span>门店名称</span>
                 <el-input class="el-right" :disabled="!isEditInfo" v-model="name" name="name" v-validate="'required'"
                           :class="{'is-danger': errors.has('name') }" placeholder="请输入门店名称"></el-input>
-                <span class="help is-danger" v-show="errors.has('name')">门店名称不能为空!</span>
               </div>
+              <span class="help is-danger" v-show="errors.has('name')">门店名称不能为空!</span>
+
               <div class="item">
                 <span>门店编码</span>
                 <el-input class="el-right" :disabled="!isEditInfo" v-model="code" name="code" v-validate="'required'"
                           :class="{'is-danger': errors.has('code') }" placeholder="请输入账户编码"></el-input>
-                <span class="help is-danger" v-show="errors.has('code')">账户编码不能为空!</span>
               </div>
+              <span class="help is-danger" v-show="errors.has('code')">账户编码不能为空!</span>
+
               <div class="content-address">
                 <span>门店地址</span>
                 <el-select class="el-right-address" :disabled="!isEditInfo" v-model="provinceCode" name="provinceCode"
@@ -65,19 +68,22 @@
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('areaCode')">请选择地区!</span>
               </div>
+
               <div class="item">
                 <span>详细地址</span>
                 <el-input class="el-right" :disabled="!isEditInfo" v-model="address" name="address"
                           v-validate="'required'" :class="{'is-danger': errors.has('address') }"
                           placeholder="地址（详细到门牌号）"></el-input>
-                <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
               </div>
+              <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
+
               <div class="item">
                 <span>前台电话</span>
                 <el-input class="el-right" :disabled="!isEditInfo" v-model="tel" name="tel" v-validate="'required'"
                           :class="{'is-danger': errors.has('tel') }" placeholder="请输入前台电话"></el-input>
-                <span class="help is-danger" v-show="errors.has('tel')">前台电话不能为空!</span>
               </div>
+              <span class="help is-danger" v-show="errors.has('tel')">前台电话不能为空!</span>
+
             </div>
             <div class="content-item">
               <div id="mapContainer"></div>
@@ -467,6 +473,28 @@
                 }
               }
             }
+            .help {
+              display: block;
+              position: relative;
+              /*min-width: 110px;*/
+              line-height: 40px;
+              text-align: left;
+              font-size: 14px;
+              margin: -10px 0 0 80px;
+              color: #D0011B;
+              &:before {
+                content: '*';
+                position: absolute;
+                top: 4px;
+                left: -14px;
+                font-size: 22px;
+              }
+            }
+
+            .help.is-danger {
+              color: #ff3860;
+            }
+
             .content-address {
               display: flex;
               align-items: center;
@@ -575,7 +603,6 @@
           }
         }
       }
-
     }
 
     .error-info {
@@ -592,7 +619,6 @@
       border: 1px solid #757575;
       margin-top: 20px;
     }
-
   }
 
   .is-danger .el-input__inner {
@@ -608,14 +634,5 @@
     border-color: #ff3860;
   }
 
-  .help {
-    display: block;
-    font-size: 11px;
-    margin-top: 5px;
-  }
-
-  .help.is-danger {
-    color: #ff3860;
-  }
 
 </style>

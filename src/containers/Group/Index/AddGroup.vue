@@ -47,7 +47,7 @@
           </div>
         </div>
         <div class="button-box">
-          <el-button class="el-btn" type="success" @click.native="nextStep">注册</el-button>
+          <el-button class="el-btn" type="success" @click.native="nextStep">确认添加</el-button>
         </div>
       </div>
     </div>
