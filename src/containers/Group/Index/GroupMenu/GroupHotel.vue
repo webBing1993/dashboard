@@ -4,8 +4,8 @@
       <h3>门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
         <el-input v-model="searchVal" placeholder="请输入门店的名称或子账户编码"></el-input>
-        <el-button type="success" @click.native="getList">查询</el-button>
-        <el-button type="success" @click.native="regist">+ 添加企业门店</el-button>
+        <el-button type="success" @click.native="getList">搜索</el-button>
+        <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">

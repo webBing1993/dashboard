@@ -6,7 +6,7 @@
         <th>序号</th>
         <th>企业账户编码</th>
         <th>企业名称</th>
-        <th>门店</th>
+        <th>门店数量</th>
         <th>操作</th>
       </tr>
       </thead>

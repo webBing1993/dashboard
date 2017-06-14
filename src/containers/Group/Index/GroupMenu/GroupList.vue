@@ -5,7 +5,7 @@
       <div class="search-bar">
         <el-input class="el-right" v-model="searchVal" placeholder="输入企业名称或账户编码"></el-input>
         <el-button type="success" @click.native="getList">搜索</el-button>
-        <el-button type="success" @click.native="regist">+ 注册企业账户</el-button>
+        <el-button type="success" @click.native="regist">+ 添加企业</el-button>
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content_table">
