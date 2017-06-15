@@ -4,7 +4,7 @@
       <div class="content_room">
         <span>数据源</span>
         <div class="data_title">
-          <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：{{updateTime}} 。</span>
+          <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：{{new Date(updateTime).toLocaleDateString()}} 。</span>
           <div class="header-btn">
             <el-button type="success" @click.native="syncPMS">PMS同步数据</el-button>
             <!--<el-button type="success">添加房间(非对接PMS)</el-button>-->
