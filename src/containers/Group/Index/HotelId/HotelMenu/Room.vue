@@ -10,7 +10,7 @@
             <!--<el-button type="success">添加房间(非对接PMS)</el-button>-->
           </div>
         </div>
-        <table-room :list="list" @edit="edit"></table-room>
+        <table-room :list="list" :page="page" :size="size" @edit="edit"></table-room>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -151,6 +151,7 @@
       }
     },
     mounted() {
+      this.getList();
       //为了获取roomTags
       if (tool.isBlank(this.configData)) {
         this.getConfigs();

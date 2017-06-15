@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td>{{ ++index }}</td>
+        <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
@@ -45,6 +45,14 @@
         type: Array,
         default: []
       },
+      page: {
+        type: Number,
+        default: 1
+      },
+      size: {
+        type: Number,
+        default: 10
+      }
     },
     filters: {
       status(v) {

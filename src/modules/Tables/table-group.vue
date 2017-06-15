@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td class="v-item">{{ ++index }}</td>
+        <td class="v-item">{{ ++index + (page - 1) * size }}</td>
         <td class="v-item">{{ obj.code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="hotel(obj)">{{ obj.hotelNum }}家</td>
@@ -35,6 +35,14 @@
         type: Array,
         default: []
       },
+      page: {
+        type: Number,
+        default: 1
+      },
+      size: {
+        type: Number,
+        default: 10
+      }
     },
     methods: {
       detail(obj) {

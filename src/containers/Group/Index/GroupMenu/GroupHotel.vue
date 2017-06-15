@@ -9,7 +9,7 @@
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">
-        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
+        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail" @config="config"
                      @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"

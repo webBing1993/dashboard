@@ -8,7 +8,7 @@
         <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
       <div class="content_grouphotellist">
-        <table-hotel :list="list" @detail="detail" @group="group" @edit="detail" @config="config"
+        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail" @config="config"
                      @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"

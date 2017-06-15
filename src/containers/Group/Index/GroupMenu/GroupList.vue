@@ -9,7 +9,7 @@
       </div>
       <h3>最近操作的企业账户</h3>
       <div class="content_table">
-        <table-group :list="list" @detail="goDetail" @hotel="goHotelList" @edit="goEdit"
+        <table-group :list="list" :page="page" :size="size" @detail="goDetail" @hotel="goHotelList" @edit="goEdit"
                      @config="goConfig"></table-group>
         <el-pagination
           v-show="total > size"

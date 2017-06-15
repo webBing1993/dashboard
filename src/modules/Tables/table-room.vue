@@ -14,7 +14,7 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td>{{ ++index }}</td>
+        <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.building_name }}</td>
         <td>{{ obj.floor_name }}</td>
         <td>{{ obj.room_num }}</td>
@@ -38,6 +38,14 @@
         type: Array,
         default: []
       },
+      page: {
+        type: Number,
+        default: 1
+      },
+      size: {
+        type: Number,
+        default: 10
+      }
     },
     methods: {
       edit(obj) {

@@ -12,7 +12,7 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td>{{ ++index }}</td>
+        <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.device_type | deviceType }}</td>
         <td>{{ obj.device_id }}</td>
         <td><span
@@ -36,6 +36,14 @@
         type: Array,
         default: []
       },
+      page: {
+        type: Number,
+        default: 1
+      },
+      size: {
+        type: Number,
+        default: 10
+      }
     },
     filters: {
       deviceType(v) {

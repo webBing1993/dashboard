@@ -6,7 +6,7 @@
           <span>设备管理</span>
           <el-button type="success" @click.native="add">添加设备</el-button>
         </div>
-        <table-device :list="list" @edit="edit"></table-device>
+        <table-device :list="list" :page="page" :size="size" @edit="edit"></table-device>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
