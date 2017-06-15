@@ -86,8 +86,8 @@
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            this.deviceId = body.data.device_name;
-            this.deviceName = body.data.device_id;
+            this.deviceId = body.data.device_id;
+            this.deviceName = body.data.device_name;
             this.deviceType = body.data.device_type;
             this.enabled = body.data.enabled == 1 ? true : false;
           }
