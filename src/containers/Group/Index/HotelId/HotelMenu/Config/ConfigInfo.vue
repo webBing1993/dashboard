@@ -1530,9 +1530,9 @@
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
               }
-              this.modifyLvyes(data);
-              return;
             }
+            this.modifyLvyes(data);
+            return;
           }
           // break;
           case enumShowType.doorLock_unknown:
