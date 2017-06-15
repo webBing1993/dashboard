@@ -6,6 +6,7 @@ module.exports = {
       body: {
         group_id: param.group_id,
         name: param.name,
+        code: param.code,
         logo_url: param.logo_url
       },
       onSuccess: body => {
@@ -29,7 +30,8 @@ module.exports = {
       body: {
         group_id: param.group_id,
         logo_url: param.logo_url,
-        name: param.name
+        name: param.name,
+        code: param.code
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '修改成功', type:'success'});

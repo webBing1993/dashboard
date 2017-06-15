@@ -15,7 +15,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index }}</td>
-        <td>{{ obj.code }}</td>
+        <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
         <td>{{ obj.brand_name }}</td>

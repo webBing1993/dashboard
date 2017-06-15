@@ -7,7 +7,15 @@
           <div class="info-content">
             <div class="content-item">
               <span>品牌名称</span>
-              <el-input class="el-right" v-model="name" placeholder="请输入品牌名称"></el-input>
+              <el-input class="el-right" v-model="name" name="name" v-validate="'required'"
+                        :class="{'is-danger': errors.has('name') }" placeholder="请输入品牌名称"></el-input>
+              <span class="help is-danger" v-show="errors.has('name')">品牌名称不能为空!</span>
+            </div>
+            <div class="content-item">
+              <span>品牌编码</span>
+              <el-input class="el-right" v-model="code" name="code" v-validate="'required'"
+                        :class="{'is-danger': errors.has('code') }"  placeholder="请输入品牌编码"></el-input>
+              <span class="help is-danger" v-show="errors.has('code')">品牌编码不能为空!</span>
             </div>
             <div class="content-logo">
               <label for="logo">上传LOGO</label>
@@ -18,10 +26,10 @@
           </div>
           <div class="edit_btn" v-if="brandid != undefined">
             <el-button type="success" size="small" @click.native="remove">删除</el-button>
-            <el-button type="success" size="small" :disabled="submitDisabled" @click.native="modify">修改</el-button>
+            <el-button type="success" size="small" @click.native="nextStep">修改</el-button>
           </div>
           <div v-if="brandid == undefined" class="edit_btn">
-            <el-button type="success" :disabled="submitDisabled" @click.native="regist">添加</el-button>
+            <el-button type="success" @click.native="nextStep">添加</el-button>
           </div>
         </div>
       </div>
@@ -37,15 +45,9 @@
       return {
         brand: {},
         name: '',
+        code: '',
         logoUrl: '',
         brandid: this.$route.query.brandid
-      }
-    },
-    computed: {
-      submitDisabled() {
-        if (!this.$route.params.id || this.name == '')
-          return true;
-        return false;
       }
     },
     methods: {
@@ -59,15 +61,17 @@
         'showtoast',
         'CosCloudAssign'
       ]),
+      nextStep() {
+        this.$validator.validateAll().then(() => {
+          this.brandid ? this.modify() : this.regist()
+        }).catch(() => {
+        });
+      },
       regist() {
-        if (this.brandName == '') return;
-
-        //没有选择的时候给个默认值
-        // if (this.enterprise == '' && this.enterpriseList[0]) this.enterprise = this.enterpriseList[0].id;
         this.addBrand({
           name: this.name,
+          code: this.code,
           logo_url: this.logoUrl,
-          // group_id: this.enterprise,
           group_id: this.$route.params.id,
           onsuccess: body => this.goto(-1)
         })
@@ -76,6 +80,7 @@
         this.modifyBrand({
           id: this.brandid,
           name: this.name,
+          code: this.code,
           group_id: this.$route.params.id,
           logo_url: this.logoUrl ? this.logoUrl : this.brand.logo_url,
           onsuccess: body => {
@@ -96,6 +101,7 @@
             if (body.data) {
               this.brand = body.data;
               this.name = this.brand.name;
+              this.code = this.brand.code;
               this.brandid = this.brand.id;
               this.logoUrl = this.brand.logo_url;
             }

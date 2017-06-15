@@ -118,4 +118,25 @@ module.exports = {
       }
     })
   },
+  syncPMSData(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/pms',
+      method:'POST',
+      body: {
+        hotel_id: param.hotel_id
+      },
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  syncPMSTime(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/synpms/${param.hotel_id}`,
+      method:'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  }
 }

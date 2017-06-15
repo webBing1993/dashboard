@@ -29,10 +29,10 @@
 
               <div class="item">
                 <span>门店编码</span>
-                <el-input class="el-right" :disabled="!isEditInfo" v-model="code" name="code" v-validate="'required'"
-                          :class="{'is-danger': errors.has('code') }" placeholder="请输入账户编码"></el-input>
+                <el-input class="el-right" :disabled="!isEditInfo" :maxlength="10" v-model="code" name="code" v-validate="'required'"
+                          :class="{'is-danger': errors.has('code') }" placeholder="请输入门店编码"></el-input>
               </div>
-              <span class="help is-danger" v-show="errors.has('code')">账户编码不能为空!</span>
+              <span class="help is-danger" v-show="errors.has('code')">门店编码不能为空!</span>
 
               <div class="content-address">
                 <span>门店地址</span>
@@ -76,6 +76,13 @@
                           placeholder="地址（详细到门牌号）"></el-input>
               </div>
               <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
+
+              <div class="item">
+                <span>地址编码</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="addressCode" name="addressCode" v-validate="'required'"
+                          :class="{'is-danger': errors.has('addressCode') }" placeholder="请输入账户编码"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('addressCode')">地址编码不能为空!</span>
 
               <div class="item">
                 <span>前台电话</span>
@@ -144,6 +151,7 @@
         city: '',
         area: '',
         address: '',
+        addressCode: '',
         latitude: '',
         longitude: '',
         provinceCode: '',
@@ -179,11 +187,6 @@
           return [];
         return cityObj.city;
       },
-      // submitDisabled() {
-      //   if (this.groupId == '' || this.brandId == '' || this.code == '' || this.name == '' || this.tel == '' || this.address == '' || this.latitude == '' || this.longitude == '')
-      //     return true;
-      //   return false;
-      // }
     },
     watch: {
       groupId() {
@@ -309,6 +312,7 @@
           city: state.name,
           area: city.name,
           address: this.address,
+          address_code: this.addressCode,
           longitude: this.longitude,
           latitude: this.latitude,
           contact_name: this.contactName,
@@ -336,6 +340,7 @@
         this.city = this.hotel.city;
         this.area = this.hotel.area;
         this.address = this.hotel.address;
+        this.addressCode = this.hotel.address_code;
         this.longitude = this.hotel.longitude;
         this.latitude = this.hotel.latitude;
         this.contactName = this.hotel.contact_name;

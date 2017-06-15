@@ -13,7 +13,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index }}</td>
-        <td>{{ obj.id }}</td>
+        <td>{{ obj.code }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.logo_url ? '已上传' : '未上传' }}</td>
         <td>

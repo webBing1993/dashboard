@@ -4,9 +4,9 @@
       <div class="content_room">
         <span>数据源</span>
         <div class="data_title">
-          <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：2017/06/01 23:33 。</span>
+          <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：{{updateTime}} 。</span>
           <div class="header-btn">
-            <el-button type="success">PMS同步数据</el-button>
+            <el-button type="success" @click.native="syncPMS">PMS同步数据</el-button>
             <!--<el-button type="success">添加房间(非对接PMS)</el-button>-->
           </div>
         </div>
@@ -52,6 +52,7 @@
       return {
         showDialog: false,
         tempObj: '',
+        updateTime: '',
         list: [],
         page: 1,
         size: 20,
@@ -71,7 +72,9 @@
       ...mapActions([
         'getRoomList',
         'modifyRoom',
-        'getConfig'
+        'getConfig',
+        'syncPMSData',
+        'syncPMSTime'
       ]),
       edit(obj) {
         this.tempObj = obj;
@@ -125,10 +128,30 @@
 
           }
         })
+      },
+      getSyncPMSData() {
+        return this.syncPMSData({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {}
+        })
+      },
+      getSyncPMSTime() {
+        this.syncPMSTime({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.updateTime = body.data.updateroom_time;
+          }
+        })
+      },
+      syncPMS() {
+        this.getSyncPMSData().then(() => {
+          this.getSyncPMSTime();
+          this.getList();
+        })
       }
     },
     mounted() {
-      this.getList();
+      //为了获取roomTags
       if (tool.isBlank(this.configData)) {
         this.getConfigs();
       }

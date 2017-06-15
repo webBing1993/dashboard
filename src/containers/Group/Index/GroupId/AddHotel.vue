@@ -29,10 +29,10 @@
 
               <div class="item">
                 <span>门店编码</span>
-                <el-input class="el-right" v-model="hotelCode" name="hotelCode" v-validate="'required'"
-                          :class="{'is-danger': errors.has('hotelCode') }" placeholder="请输入账户编码"></el-input>
+                <el-input class="el-right" v-model="hotelCode" :maxlength="10" name="hotelCode" v-validate="'required'"
+                          :class="{'is-danger': errors.has('hotelCode') }" placeholder="请输入门店编码"></el-input>
               </div>
-              <span class="help is-danger" v-show="errors.has('hotelCode')">账户编码不能为空!</span>
+              <span class="help is-danger" v-show="errors.has('hotelCode')">门店编码不能为空!</span>
 
               <div class="content-address">
                 <span>门店地址</span>
@@ -74,6 +74,13 @@
                           :class="{'is-danger': errors.has('address') }" placeholder="地址（详细到门牌号）"></el-input>
               </div>
               <span class="help is-danger" v-show="errors.has('address')">详细地址不能为空!</span>
+
+              <div class="item">
+                <span>地址编码</span>
+                <el-input class="el-right" v-model="addressCode" name="addressCode" v-validate="'required'"
+                          :class="{'is-danger': errors.has('addressCode') }" placeholder="请输入地址编码"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('addressCode')">地址编码不能为空!</span>
 
               <div class="item">
                 <span>前台电话</span>
@@ -118,6 +125,7 @@
   import areaData from '@/assets/source/areadata'
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   let map, center, citylocation, marker;
+  import tool from '@/assets/tools/tool.js'
   export default {
     name: 'AddHotel',
     data () {
@@ -132,6 +140,7 @@
         cityCode: '',
         areaCode: '',
         address: '',
+        addressCode: '',
         lat: '',
         lng: '',
         contactName: '',
@@ -163,11 +172,6 @@
           return [];
         return cityObj.city;
       },
-      // submitDisabled() {
-      //   if (this.hotelCode == '' || this.storeName == '' || this.storePhone == '' || this.address == '' || this.lat == '' || this.lng == '' || this.brandId == '')
-      //     return true;
-      //   return false;
-      // }
     },
     watch: {
       groupId(val) {
@@ -217,8 +221,9 @@
         })
       },
       nextStep() {
-        if (this.lat == '' || this.lng == '') {
+        if (tool.isBlank(this.lat) || tool.isBlank(this.lng)) {
           this.isChooseLocation = false;
+          return;
         }
         this.$validator.validateAll().then(() => {
           this.regist();
@@ -226,7 +231,7 @@
         });
       },
       regist() {
-
+        
         let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) obj = areaData[0];
         let state = obj.region.state.find(v => v.code == this.cityCode);
@@ -244,6 +249,7 @@
           city: state.name,
           area: city.name,
           address: this.address,
+          address_code: this.addressCode,
           longitude: this.lng,
           latitude: this.lat,
           contact_name: this.contactName,
