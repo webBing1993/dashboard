@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content-item">
         <span>设备类型</span>
-        <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
+        <el-select class="el-right" :disabled="!isAdd" v-model="deviceType" placeholder="请选择设备类型">
           <el-option
             v-for="(obj, index) of deviceTypeList"
             :key="obj.id"
@@ -14,11 +14,11 @@
       </div>
       <div class="content-item">
         <span>设备ID</span>
-        <el-input class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
+        <el-input class="el-right" :disabled="!isAdd" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
       </div>
       <div class="content-item">
         <span>设备名称</span>
-        <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
+        <el-input class="el-right" :disabled="!isAdd" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
       <div class="content-item">
         <span>是否开启</span>
