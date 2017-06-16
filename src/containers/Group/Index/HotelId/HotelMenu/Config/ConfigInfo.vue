@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="module-wrapper">
+  <div class="module-wrapper">
+    <div class="content-configinfo">
       <div class="content-title">
         <span>系统配置</span>
         <a @click="goSummary">查看配置汇总</a>
@@ -490,23 +490,23 @@
             </article>
           </div>
           <div v-if="showType === enumShowType.wechatPay">
-            <div class="item_small">
+            <div class="item_large">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="wechatPayAppId" placeholder="请输入小程序app_id"></el-input>
             </div>
-            <div class="item_small">
+            <div class="item_large">
               <span>小程序对应的商户号</span>
               <el-input class="el-right" v-model="mchId" placeholder="请输入小程序对应的商户号"></el-input>
             </div>
-            <div class="item_small">
+            <div class="item_large">
               <span>小程序对应的商户号api密钥</span>
               <el-input class="el-right" v-model="mchApiKey" placeholder="请输入小程序对应的商户号api密钥"></el-input>
             </div>
-            <div class="item_small">
+            <div class="item_large">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
             </div>
-            <div class="item_small">
+            <div class="item_large">
               <span>酒店微信账务退款代码</span>
               <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
             </div>
@@ -579,16 +579,16 @@
             </div>
             <div v-show="enabledInvoice">
               <div class="item-tag">
-                <span>发票类型</span>
+                <span style="min-width: 102px;">发票类型</span>
                 <div class="tag-input">
                   <div v-for="(obj, index) of invoiceName">
                     <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
                   </div>
                   <div class="tag-btn">
-                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
                     <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
                             @click="subtractInvoiceName">-
                     </button>
+                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
                   </div>
                 </div>
               </div>
@@ -712,7 +712,7 @@
           </div>
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
-              <span style="min-width: 250px; ">请输入选房列表最大展示房间数量</span>
+              <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
           </div>
@@ -769,14 +769,14 @@
             <div class="item-tag">
               <span>房间标签</span>
               <div class="tag-input">
-                <div v-for="(obj, index) of roomTags">
+                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) of roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
                 </div>
                 <div class="tag-btn">
-                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
                   <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
                           @click="subtractRoomTags">-
                   </button>
+                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
                 </div>
               </div>
             </div>
@@ -1800,190 +1800,216 @@
     }
   }
 </script>
-<style scoped lang="less">
+<style lang="less">
   .module-wrapper {
-    padding: 24px 20px 0 8px;
-    .content-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 16px;
-      margin-bottom: 18px;
-      padding: 0 0 0 12px;
-      i {
-        font-size: 12px;
-        font-style: normal;
+    .content-configinfo {
+      padding: 24px 20px 0 8px;
+      .content-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 16px;
+        margin-bottom: 18px;
+        padding: 0 0 0 12px;
+        i {
+          font-size: 12px;
+          font-style: normal;
+        }
+        a {
+          color: #39C240;
+          cursor: pointer;
+        }
       }
-      a {
-        color: #39C240;
-        cursor: pointer;
-      }
-    }
-    .el-row {
-      padding-right: 20px;
-      .el-col-8 {
-        margin-bottom: 20px;
-        button {
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          background-color: #ffffff;
-          border: solid 1px #E5E5E5;
-          outline: none;
-          color: #4A4A4A;
-          padding: 12px 6px;
-          position: relative;
-          height: 110px;
-          .item_img {
-            width: 42px;
-            height: 42px;
-            text-align: center;
-            border: solid 1px #E5E5E5;
-            background-color: #FBFBFB;
-            border-radius: 50%;
-            padding: 10px;
+      .el-row {
+        padding-right: 20px;
+        .el-col-8 {
+          margin-bottom: 20px;
+          button {
             display: flex;
             align-items: center;
-            -webkit-align-items: center;
-            img {
-              width: 38px;
-              height: 38px;
+            justify-content: flex-start;
+            background-color: #ffffff;
+            border: solid 1px #E5E5E5;
+            outline: none;
+            color: #4A4A4A;
+            padding: 12px 6px;
+            position: relative;
+            height: 110px;
+            .item_img {
+              width: 42px;
+              height: 42px;
+              text-align: center;
+              border: solid 1px #E5E5E5;
+              background-color: #FBFBFB;
+              border-radius: 50%;
+              padding: 10px;
+              display: flex;
+              align-items: center;
+              -webkit-align-items: center;
+              img {
+                width: 38px;
+                height: 38px;
+              }
             }
-          }
-          .item-text {
-            text-align: start;
-            margin-left: 10px;
-            span {
+            .item-text {
+              text-align: start;
+              margin-left: 10px;
+              span {
+                font-size: 16px;
+              }
+              p {
+                font-size: 12px;
+                margin-top: 5px;
+              }
+            }
+            .tag_text {
+              position: absolute;
+              top: 5px;
+              right: 5px;
               font-size: 16px;
             }
-            p {
-              font-size: 12px;
-              margin-top: 5px;
+            .tag_text_red {
+              color: #D0011B;
+            }
+            .tag_text_green {
+              color: #39C240;
+            }
+            .tag_text_gray {
+              color: #9B9B9B;
             }
           }
-          .tag_text {
-            position: absolute;
-            top: 5px;
-            right: 5px;
+        }
+        button {
+          width: 100%;
+          height: 90px;
+        }
+      }
+      .el-right {
+        width: 300px;
+        margin-left: 16px;
+      }
+      .el-dialog {
+        width: 68%;
+        .el-dialog__header {
+          padding: 0 20px;
+          border-bottom: solid 1px #979797;
+          .el-dialog__title {
+            line-height: 43px;
             font-size: 16px;
-          }
-          .tag_text_red {
-            color: #D0011B;
-          }
-          .tag_text_green {
-            color: #39C240;
-          }
-          .tag_text_gray {
-            color: #9B9B9B;
+            font-weight: 400;
+            color: #4A4A4A;
           }
         }
-      }
-      button {
-        width: 100%;
-        height: 90px;
-      }
-    }
-    .el-right {
-      width: 300px;
-      margin-left: 16px;
-    }
-    .el-dialog {
-      .dialog-content {
-        .item-form {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-          span {
-            min-width: 90px;
-            text-align: end;
-          }
-          .el-select {
-            width: 70%;
-          }
-          .el-input {
-            width: 70%;
-          }
-          .el-switch {
-            margin-left: 16px;
-          }
-        }
-        article {
-          ul {
+        .el-dialog__body {
+          padding: 22px 20px 33px;
+          .dialog-content {
             font-size: 14px;
-            color: #9B9B9B;
-            margin-left: 20px;
-            line-height: 22px;
-            li {
-              margin-left: 20px;
+            font-weight: 400;
+            color: #4A4A4A;
+            .item-form {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              & > span {
+                display: inline-block;
+                min-width: 110px;
+                text-align: end;
+              }
+              .el-select {
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                }
+              }
+              .el-input {
+                width: 70%;
+              }
+
+              .el-switch {
+                margin-left: 16px;
+              }
             }
-          }
-        }
-        .item_small {
-          display: flex;
-          align-items: center;
-          margin-bottom: 10px;
-          span {
-            width: 174px;
-            text-align: end;
-          }
-          .el-input {
-            width: 60%;
-          }
-        }
-        .item-tag {
-          display: flex;
-          align-items: flex-start;
-          span {
-            width: 60px;
-            text-align: end;
-            margin-right: 14px;
-            padding-top: 12px;
-          }
-          .tag-input {
-            position: relative;
-            line-height: 45px;
-            width: 70%;
-            .el-input {
-              width: 100%;
+            article {
+              ul {
+                font-size: 14px;
+                color: #9B9B9B;
+                margin-left: 41px;
+                line-height: 22px;
+                li {
+                  margin-left: 20px;
+                }
+              }
             }
-            .tag-btn {
-              position: absolute;
-              margin-left: 10px;
-              bottom: 0;
-              right: -72px;
-              button {
-                border-radius: 50px;
-                outline: none;
-                border: solid 1px;
-                margin-left: 5px;
-                padding-bottom: 2px;
-                background-color: #ffffff;
-                height: 20px;
-                width: 20px;
+            .item_large {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              span {
+                min-width: 194px;
+                text-align: end;
+              }
+              .el-input {
+                width: 60%;
+              }
+            }
+            .item-tag {
+              display: flex;
+              align-items: flex-start;
+              padding-left: 20px;
+              span {
+                width: 60px;
+                text-align: end;
+                line-height: 40px;
+              }
+              .tag-input {
+                position: relative;
+                margin-left: 16px;
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                  margin: 0 0 12px 0;
+                }
+                .tag-btn {
+                  position: absolute;
+                  bottom: 20px;
+                  right: -62px;
+                  button {
+                    border-radius: 50px;
+                    outline: none;
+                    border: solid 1px;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #ffffff;
+                    height: 20px;
+                    width: 20px;
+                  }
+                }
               }
             }
           }
         }
-      }
-      .dialog-footer {
-        margin-top: -10px;
-        text-align: center;
-        .el-button {
-          width: 246px;
-          border-radius: 0;
-          line-height: 18px;
-          margin: 0;
-          &:nth-child(1) {
-            background-color: #39C240;
-            border-color: #39C240;
-            color: #ffffff;
-            margin-right: 22px;
+        .el-dialog__footer {
+          padding-top: 0;
+          .dialog-footer {
+            text-align: center;
+            .el-button {
+              width: 246px;
+              border-radius: 0;
+              line-height: 18px;
+              margin: 0;
+              &:nth-child(1) {
+                background-color: #39C240;
+                border-color: #39C240;
+                color: #ffffff;
+                margin-right: 22px;
+              }
+            }
+            .el-button--primary {
+              background-color: transparent;
+              border: solid 1px #979797;
+              color: #4A4A4A;
+            }
           }
-        }
-        .el-button--primary {
-          background-color: transparent;
-          border: solid 1px #979797;
-          color: #4A4A4A;
         }
       }
     }
