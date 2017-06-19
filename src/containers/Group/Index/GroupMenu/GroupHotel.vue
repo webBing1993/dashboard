@@ -9,7 +9,8 @@
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">
-        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail" @config="config"
+        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
+                     @config="config"
                      @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"
@@ -213,8 +214,10 @@
       padding: 15px 23px 0 26px;
     }
     .content_grouphotel {
-      padding: 0 23px 0 25px;
-      overflow-y: hidden;
+      padding: 0 23px 10px 25px;
+      .el-pagination {
+        text-align: center;
+      }
     }
     .dialog-content {
       span {

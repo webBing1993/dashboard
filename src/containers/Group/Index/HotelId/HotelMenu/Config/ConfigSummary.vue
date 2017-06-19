@@ -249,18 +249,23 @@
     padding: 23px 45px;
     h1 {
       font-size: 18px;
+      font-weight: 500;
       color: #4A4A4A;
     }
     .configsummary_item {
-      padding: 0px 24px 17px;
+      /*padding: 0px 24px 17px;*/
       color: #9B9B9B;
       h3 {
         font-size: 16px;
+        font-weight: normal;
         border-bottom: 0;
+        color: #9B9B9B;
+        line-height: 40px;
+        padding: 0 0 0 23px;
       }
       p {
         font-size: 14px;
-        padding-left: 48px;
+        padding-left: 51px;
       }
     }
   }

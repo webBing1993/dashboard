@@ -14,7 +14,7 @@
             <div class="content-item">
               <span>品牌编码</span>
               <el-input class="el-right" v-model="code" name="code" v-validate="'required'"
-                        :class="{'is-danger': errors.has('code') }"  placeholder="请输入品牌编码"></el-input>
+                        :class="{'is-danger': errors.has('code') }" placeholder="请输入品牌编码"></el-input>
               <span class="help is-danger" v-show="errors.has('code')">品牌编码不能为空!</span>
             </div>
             <div class="content-logo">
@@ -177,14 +177,30 @@
           padding: 0 20px;
         }
         .info-content {
-          padding: 22px 40px 44px;
+          padding: 22px 40px 40px;
           line-height: 35px;
           .content-item {
             display: flex;
             align-items: center;
+            margin-bottom: 10px;
             span {
+              line-height: 40px;
               font-size: 14px;
               width: 86px;
+              &:nth-child(3) {
+                display: block;
+                position: relative;
+                min-width: 120px;
+                margin: 0 0 0 24px;
+                color: #D0011B;
+                &:before {
+                  content: '*';
+                  position: absolute;
+                  top: 4px;
+                  left: -14px;
+                  font-size: 22px;
+                }
+              }
             }
             .el-input {
               width: 50%;
@@ -195,7 +211,7 @@
           .content-logo {
             display: flex;
             align-items: center;
-            line-height: 65px;
+            margin-bottom: 10px;
             label {
               font-size: 14px;
               margin-right: 18px;
