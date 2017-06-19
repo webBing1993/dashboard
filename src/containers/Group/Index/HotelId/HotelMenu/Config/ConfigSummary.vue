@@ -44,9 +44,9 @@
         </div>
         <div class="configsummary_item">
           <h3>微信支付配置</h3>
-          <p>小程序app_id: {{configData.miniapp_config.app_id}}</p>
-          <p>小程序对应的商户号: {{configData.miniapp_config.mch_id}}</p>
-          <p>小程序对应的商户号api密钥: {{configData.miniapp_config.mch_api_key}}</p>
+          <p>小程序app_id: {{configData.miniapp_config ? configData.miniapp_config.app_id : ''}}</p>
+          <p>小程序对应的商户号: {{configData.miniapp_config ? configData.miniapp_config.mch_id : ''}}</p>
+          <p>小程序对应的商户号api密钥: {{configData.miniapp_config ? configData.miniapp_config.mch_api_key : ''}}</p>
           <p>酒店微信账务收款代码: {{configData.pay_code}}</p>
           <p>酒店微信账务退款代码: {{configData.refund_code}}</p>
         </div>
@@ -101,12 +101,12 @@
         </div>
         <div class="configsummary_item">
           <h3>押金配置</h3>
-          <p>押金类型: {{configData.cash_pledge_config.cash_pledge_type | filterCashPledgeType}}</p>
-          <p>固定押金金额: {{configData.cash_pledge_config.fixed_cash_pledge}}</p>
-          <p>放大系数: {{configData.cash_pledge_config.multiple_of_cash_pledge}}</p>
-          <p>是否向上取整: {{configData.cash_pledge_config.round_up_to_integer}}</p>
-          <p>是否有日杂费: {{configData.cash_pledge_config.has_day_of_incidentals}}</p>
-          <p>日杂费金额: {{configData.cash_pledge_config.day_of_incidentals}}</p>
+          <p>押金类型: {{configData.cash_pledge_config ? configData.cash_pledge_config.cash_pledge_type | filterCashPledgeType : ''}}</p>
+          <p>固定押金金额: {{configData.cash_pledge_config ? configData.cash_pledge_config.fixed_cash_pledge : ''}}</p>
+          <p>放大系数: {{configData.cash_pledge_config ? configData.cash_pledge_config.multiple_of_cash_pledge : ''}}</p>
+          <p>是否向上取整: {{configData.cash_pledge_config ? configData.cash_pledge_config.round_up_to_integer : ''}}</p>
+          <p>是否有日杂费: {{configData.cash_pledge_config ? configData.cash_pledge_config.has_day_of_incidentals : ''}}</p>
+          <p>日杂费金额: {{configData.cash_pledge_config ? configData.cash_pledge_config.day_of_incidentals : ''}}</p>
         </div>
         <div class="configsummary_item">
           <h3>早餐券配置</h3>
