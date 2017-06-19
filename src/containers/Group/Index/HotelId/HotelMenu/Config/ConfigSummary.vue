@@ -101,7 +101,7 @@
         </div>
         <div class="configsummary_item">
           <h3>押金配置</h3>
-          <p>押金类型: {{configData.cash_pledge_config ? configData.cash_pledge_config.cash_pledge_type | filterCashPledgeType : ''}}</p>
+          <p>押金类型: {{configData.cash_pledge_config | filterCashPledgeType}}</p>
           <p>固定押金金额: {{configData.cash_pledge_config ? configData.cash_pledge_config.fixed_cash_pledge : ''}}</p>
           <p>放大系数: {{configData.cash_pledge_config ? configData.cash_pledge_config.multiple_of_cash_pledge : ''}}</p>
           <p>是否向上取整: {{configData.cash_pledge_config ? configData.cash_pledge_config.round_up_to_integer : ''}}</p>
@@ -167,7 +167,11 @@
           return '云端';
         return v;
       },
-      filterCashPledgeType(v) {
+      filterCashPledgeType(val) {
+        if (val ===undefined) 
+          return '';
+
+        let v = val.cash_pledge_type;
         if (v == 'fixed_cash_pledge')
           return '无押金';
         if (v == 'fixed_cash_pledge')
