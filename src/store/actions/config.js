@@ -36,7 +36,7 @@ module.exports = {
       url: `/hotel/${param.hotel_id}/pms`,
       method:'GET',
       onSuccess: body => {
-        ctx.commit('PMSDATA', body.data)
+        ctx.commit('PMSDATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -74,7 +74,7 @@ module.exports = {
       url: `/hotel/${param.hotel_id}/lvye`,
       method:'GET',
       onSuccess: body => {
-        ctx.commit('LVYEATA', body.data)
+        ctx.commit('LVYEATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -99,7 +99,7 @@ module.exports = {
       url: `/hotel/wechatapp`,
       method:'GET',
       onSuccess: body => {
-        ctx.commit('WECHATAPPDATA', body.data)
+        ctx.commit('WECHATAPPDATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
