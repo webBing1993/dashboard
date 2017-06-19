@@ -232,16 +232,16 @@
       }
     },
     mounted() {
-      if (tool.isBlank(this.configData)) {
+      if (tool.isEmptyObject(this.configData)) {
         this.getConfigs();
       }
-      if (tool.isBlank(this.pmsData)) {
+      if (tool.isEmptyObject(this.pmsData)) {
         this.getPms();
       }
-      if (tool.isBlank(this.lvyeData)) {
+      if (tool.isEmptyObject(this.lvyeData)) {
         this.getLvyes();
       }
-      // if (tool.isBlank(this.wechatAppData)) {
+      // if (tool.isEmptyObject(this.wechatAppData)) {
       //   this.getWechatApps();
       // }
     }

@@ -155,7 +155,7 @@
       this.getSyncPMSTime();
       this.getList();
       //为了获取roomTags
-      if (tool.isBlank(this.configData)) {
+      if (tool.isBlank(this.configData) || tool.isEmptyObject(this.configData)) {
         this.getConfigs();
       }
     }
