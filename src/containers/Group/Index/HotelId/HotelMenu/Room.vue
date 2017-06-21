@@ -6,7 +6,7 @@
         <div class="data_title">
           <span>当前门店楼宇房间信息来自PMS系统，上次同步时间：{{updateTime?new Date(updateTime).toLocaleDateString():'暂无'}} 。</span>
           <div class="header-btn">
-            <el-button type="success" @click.native="syncPMS">PMS同步数据</el-button>
+            <el-button type="success" :disabled="!canSyncData" @click.native="syncPMS">PMS同步数据</el-button>
             <!--<el-button type="success">添加房间(非对接PMS)</el-button>-->
           </div>
         </div>
@@ -57,7 +57,8 @@
         page: 1,
         size: 20,
         total: 0,
-        roomfeatureDesc: []
+        roomfeatureDesc: [],
+        canSyncData: true
       }
     },
     computed: {
@@ -130,9 +131,17 @@
         })
       },
       getSyncPMSData() {
-        return this.syncPMSData({
+        this.syncPMSData({
           hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {}
+          onsuccess: body => {
+            this.canSyncData = true;
+            this.getSyncPMSTime();
+            this.page = 1;
+            this.getList();
+          },
+          onfail: body => {
+            this.canSyncData = true;
+          }
         })
       },
       getSyncPMSTime() {
@@ -144,11 +153,8 @@
         })
       },
       syncPMS() {
-        this.getSyncPMSData().then(() => {
-          this.getSyncPMSTime();
-          this.page = 1;
-          this.getList();
-        })
+        this.canSyncData = false;
+        this.getSyncPMSData();
       }
     },
     mounted() {

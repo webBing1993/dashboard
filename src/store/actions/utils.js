@@ -167,6 +167,7 @@ module.exports = {
         } else {
           //ctx.dispatch('showtoast', 'errcode:' + response.body.errcode + ';\n errmsg:' + response.body.errmsg);
           ctx.dispatch('showtoast', {text: response.body.errmsg, type:'warning'});
+          param.onFail ? param.onFail(response) : null
         }
       }
     ).catch(
