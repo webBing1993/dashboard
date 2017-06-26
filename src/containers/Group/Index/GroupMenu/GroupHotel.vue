@@ -214,7 +214,10 @@
       padding: 15px 23px 0 26px;
     }
     .content_grouphotel {
+      position: relative;
       padding: 0 23px 10px 25px;
+      height: 70%;
+      /*overflow-y: auto;*/
       .el-pagination {
         text-align: center;
       }

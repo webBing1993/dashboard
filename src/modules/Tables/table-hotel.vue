@@ -90,13 +90,18 @@
 <style scoped lang="less">
   .v-table {
     clear: both;
-    padding: 0 0 30px 0;
+    /*padding: 0 23px 30px 25px;*/
+    /*margin: 0 23px 30px 25px;*/
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
   }
 
   .v-table table {
     margin: 0;
     width: 100%;
     border-spacing: 0;
+    position: absolute;
   }
 
   .v-table td,
