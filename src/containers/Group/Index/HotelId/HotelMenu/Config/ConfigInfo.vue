@@ -783,8 +783,8 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
+          <el-button @click="hideDialog">取 消</el-button>
         </div>
       </el-dialog>
     </div>

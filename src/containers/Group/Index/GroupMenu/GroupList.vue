@@ -112,8 +112,8 @@
 
 <style lang="less">
   .module-wrapper {
-    position: relative;
-    overflow-y: auto;
+    /*position: relative;*/
+    /*overflow-y: auto;*/
     h3 {
       font-size: 16px;
       color: #4A4A4A;
