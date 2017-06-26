@@ -99,7 +99,7 @@ module.exports = {
       url: `/hotel/wechatapp`,
       method:'GET',
       onSuccess: body => {
-        ctx.commit('WECHATAPPDATA', body.data ? body.data : {})
+        ctx.commit('WECHATAPPDATA', body.data ? body.data : [])
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

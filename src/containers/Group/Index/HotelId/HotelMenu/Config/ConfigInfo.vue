@@ -117,7 +117,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.phoneCancel_unknown)">
+          <button @click="dialogConfig(enumShowType.enabledCancelTime)">
             <div class="item_img">
               <img src="../../../../../../assets/images/cancel.png" alt="a">
             </div>
@@ -125,7 +125,8 @@
               <span>电话取消订单</span>
               <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
             </div>
-            <span class="tag_text">暂无</span>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !isEnabledCancelTime, 'tag_text_green': isEnabledCancelTime}">{{isEnabledCancelTime ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -492,7 +493,14 @@
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
               <span>小程序app_id</span>
-              <el-input class="el-right" v-model="wechatPayAppId" placeholder="请输入小程序app_id"></el-input>
+              <el-select class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id">
+                <el-option
+                  v-for="(obj, index) of wechatAppData"
+                  :key="obj.id"
+                  :label="obj.id"
+                  :value="obj.id">
+                </el-option>
+              </el-select>
             </div>
             <div class="item_large">
               <span>小程序对应的商户号</span>
@@ -518,8 +526,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <h1>暂无</h1>
-            <!--<div class="item-form">
+            <div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
@@ -534,7 +541,7 @@
             <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
-            </div>-->
+            </div>
           </div>
           <div v-if="showType === enumShowType.sign">
             <div class="item-form">
@@ -546,27 +553,26 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.phoneCancel_unknown">
-            <h1>暂无</h1>
-            <!--<div>
+          <div v-if="showType === enumShowType.enabledCancelTime">
+            <div>
               <span>是否支持电话取消订单？</span>
               <el-switch
-                v-model="phoneCancel_unknown"
+                v-model="isEnabledCancelTime"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </div>
-            <div v-show="phoneCancel_unknown">
+            <div v-show="isEnabledCancelTime">
               <span>允许最晚取消时间</span>
-              <el-select class="el-right" v-model="phoneCancelTime_unknown">
+              <el-select class="el-right" v-model="enabledCancelTime">
                 <el-option
-                  v-for="(obj, index) of phoneCancelTimeList_unknown"
+                  v-for="(obj, index) of enabledCancelTimeList"
                   :key="index"
                   :label="obj"
                   :value="obj">
                 </el-option>
               </el-select>
-            </div>-->
+            </div>
           </div>
           <div v-if="showType === enumShowType.invoice">
             <div class="item-form">
@@ -804,7 +810,7 @@
     wxHotel: 6,  //微信生态酒店配置
     miniApp: 7,  //小程序配置
     sign: 8, //电子签名配置
-    phoneCancel_unknown: 9, //电话取消订单配置
+    enabledCancelTime: 9, //电话取消订单配置
     invoice: 10,  //发票配置
     preCheckinSms: 11,  //预登记短信配置
     delayedPayment: 12, //到店支付配置
@@ -911,10 +917,10 @@
         appName: '',
         //电子签名
         enabledSign: false,
-        //电话取消订单  暂无
-        phoneCancel_unknown: false,
-        phoneCancelTime_unknown: false,
-        phoneCancelTimeList_unknown: ['12:00', '12:30', '13:00',
+        //电话取消订单
+        isEnabledCancelTime: false,
+        enabledCancelTime: '18:00',
+        enabledCancelTimeList: ['12:00', '12:30', '13:00',
           '13:30', '14:00', '14:30', '15:00', '15:30',
           '16:00', '16:30', '17:00', '17:30', '18:00',
           '18:30', '19:00', '19:30', '20:00', '20:30',
@@ -1047,8 +1053,8 @@
       validatesign() {
         return true;
       },
-      validatephoneCancel_unknown() {
-
+      validateenabledCancelTime() {
+        return true;
       },
       validateinvoice() {
         if (this.enabledInvoice) {
@@ -1143,8 +1149,8 @@
           case enumShowType.sign:
             result = this.validatesign;
             break;
-          case enumShowType.phoneCancel_unknown:
-            result = this.validatephoneCancel_unknown;
+          case enumShowType.enabledCancelTime:
+            result = this.validateenabledCancelTime;
             break;
           case enumShowType.invoice:
             result = this.validateinvoice;
@@ -1214,7 +1220,9 @@
           this.wxHotelId = configData.wx_hotel_id;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
-          //电话取消订单  暂无
+          //电话取消订单
+          this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
+          tool.isNotBlank(configData.enabled_cancel_time) ? this.enabledCancelTime = configData.enabled_cancel_time : null;
           //发票配置
           this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
           if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
@@ -1335,6 +1343,11 @@
         this.showDialog = true;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
+        } else if (type === enumShowType.dialogConfig && (!this.wechatAppData.length || this.wechatAppData.length == 0)) {
+          this.showtoast({
+            text: '请先配置小程序',
+            type: 'warning'
+          })
         }
       },
       addInvoiceName() {
@@ -1414,8 +1427,9 @@
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
             break;
-          case enumShowType.phoneCancel_unknown:
-
+          case enumShowType.enabledCancelTime:
+            this.isEnabledCancelTime = tool.isNotBlank(this.configData.enabled_cancel_time);
+            tool.isNotBlank(this.configData.enabled_cancel_time) ? this.enabledCancelTime = configData.enabled_cancel_time : null;
             break;
           case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
@@ -1583,8 +1597,17 @@
               enabled_sign: this.enabledSign.toString()
             }
             break;
-          case enumShowType.phoneCancel_unknown:
-
+          case enumShowType.enabledCancelTime:
+            if (this.isEnabledCancelTime) {
+              let date = `${new Date().toLocaleDateString} ${this.enabledCancelTime}`
+              data = {
+                enabled_cancel_time: new Date(date).getTime()
+              }
+            } else {
+              data = {
+                enabled_cancel_time: ''
+              }
+            }
             break;
           case enumShowType.invoice:
             data = {
@@ -1778,7 +1801,7 @@
       },
       getWechatApps() {
         this.getWechatApp({
-          hotel_id: this.$route.params.hotelid
+          // hotel_id: this.$route.params.hotelid
         })
       },
       modifyWechatApps(data) {
