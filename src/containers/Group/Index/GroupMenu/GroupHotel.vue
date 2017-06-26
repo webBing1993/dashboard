@@ -216,7 +216,7 @@
     .content_grouphotel {
       position: relative;
       padding: 0 23px 10px 25px;
-      height: 70%;
+      height: 72%;
       /*overflow-y: auto;*/
       .el-pagination {
         text-align: center;

@@ -91,10 +91,11 @@
   .v-table {
     clear: both;
     /*padding: 0 23px 30px 25px;*/
-    /*margin: 0 23px 30px 25px;*/
     position: relative;
-    height: 100%;
+    height: 76%;
+    min-height: 200px;
     overflow-y: auto;
+    margin-bottom: 16px;
   }
 
   .v-table table {
