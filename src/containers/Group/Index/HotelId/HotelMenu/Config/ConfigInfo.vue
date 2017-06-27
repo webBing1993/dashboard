@@ -1222,7 +1222,10 @@
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
           //电话取消订单
           this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
-          tool.isNotBlank(configData.enabled_cancel_time) ? this.enabledCancelTime = configData.enabled_cancel_time : null;
+          if (this.isEnabledCancelTime) {
+            let date = new Date(parseInt(configData.enabled_cancel_time));
+            this.enabledCancelTime = `${date.getHours()}:${date.getMinutes()}`;
+          }
           //发票配置
           this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
           if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
@@ -1429,7 +1432,10 @@
             break;
           case enumShowType.enabledCancelTime:
             this.isEnabledCancelTime = tool.isNotBlank(this.configData.enabled_cancel_time);
-            tool.isNotBlank(this.configData.enabled_cancel_time) ? this.enabledCancelTime = configData.enabled_cancel_time : null;
+            if (this.isEnabledCancelTime) {
+              let date = new Date(parseInt(this.configData.enabled_cancel_time));
+              this.enabledCancelTime = `${date.getHours()}:${date.getMinutes()}`;
+            }
             break;
           case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
@@ -1599,7 +1605,7 @@
             break;
           case enumShowType.enabledCancelTime:
             if (this.isEnabledCancelTime) {
-              let date = `${new Date().toLocaleDateString} ${this.enabledCancelTime}`
+              let date = `${new Date().toLocaleDateString()} ${this.enabledCancelTime}`
               data = {
                 enabled_cancel_time: new Date(date).getTime()
               }
@@ -1608,6 +1614,12 @@
                 enabled_cancel_time: ''
               }
             }
+            let date = `${new Date().toLocaleDateString()} ${this.enabledCancelTime}`
+            let temp = new Date(date).getTime()
+            console.info(date)
+            console.info(temp)
+            console.log(new Date(temp).getHours())
+            console.log(new Date(temp).getMinutes())
             break;
           case enumShowType.invoice:
             data = {
