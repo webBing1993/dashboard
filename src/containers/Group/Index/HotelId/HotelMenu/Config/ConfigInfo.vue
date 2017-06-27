@@ -493,14 +493,15 @@
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
               <span>小程序app_id</span>
-              <el-select class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id">
+              <el-input class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id"></el-input>
+              <!--<el-select class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id">
                 <el-option
                   v-for="(obj, index) of wechatAppData"
-                  :key="obj.id"
-                  :label="obj.id"
-                  :value="obj.id">
+                  :key="obj.app_id"
+                  :label="obj.app_id"
+                  :value="obj.app_id">
                 </el-option>
-              </el-select>
+              </el-select>-->
             </div>
             <div class="item_large">
               <span>小程序对应的商户号</span>
@@ -526,7 +527,8 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <div class="item-form">
+            <h3>暂无</h3>
+            <!--<div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
             </div>
@@ -541,7 +543,7 @@
             <div class="item-form">
               <span>小程序原始ID</span>
               <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
-            </div>
+            </div>-->
           </div>
           <div v-if="showType === enumShowType.sign">
             <div class="item-form">
@@ -1334,6 +1336,7 @@
         'getWechatApp',
         'modifyWechatApp',
         'showtoast',
+        'showalert',
         'goto'
       ]),
       goSummary() {
@@ -1346,12 +1349,13 @@
         this.showDialog = true;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
-        } else if (type === enumShowType.dialogConfig && (!this.wechatAppData.length || this.wechatAppData.length == 0)) {
-          this.showtoast({
-            text: '请先配置小程序',
-            type: 'warning'
-          })
         }
+        // else if (type === enumShowType.wechatPay && (!this.wechatAppData.length || this.wechatAppData.length == 0)) {
+        //   this.showalert({
+        //     code: 0,
+        //     content: '请先配置小程序!'
+        //   });
+        // }
       },
       addInvoiceName() {
         this.invoiceName.push('');
@@ -1831,7 +1835,7 @@
       this.getConfigs();
       this.getPms();
       this.getLvyes();
-      this.getWechatApps();
+      // this.getWechatApps();
     }
   }
 </script>
