@@ -12,17 +12,18 @@
         <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
                      @config="config"
                      @device="device"></table-hotel>
-        <el-pagination
-          v-show="total > size"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 30]"
-          :page-size="size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
+
       </div>
+      <el-pagination
+        v-show="total > size"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30]"
+        :page-size="size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
       <el-dialog
         title="选择企业"
         :visible.sync="showDialog"
@@ -204,6 +205,9 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
+    /*overflow-y: hidden;*/
+    height: 100%;
+
     h3 {
       padding: 15px 25px;
       &:nth-child(1) {
@@ -216,11 +220,14 @@
     .content_grouphotel {
       position: relative;
       padding: 0 23px 10px 25px;
-      height: 72%;
-      /*overflow-y: auto;*/
-      .el-pagination {
-        text-align: center;
-      }
+      /*height: 80%;*/
+    }
+    .el-pagination {
+      text-align: center;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 100px;
     }
     .dialog-content {
       span {

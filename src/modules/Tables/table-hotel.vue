@@ -92,8 +92,8 @@
     clear: both;
     /*padding: 0 23px 30px 25px;*/
     position: relative;
-    height: 76%;
-    min-height: 200px;
+    /*height: 100%;*/
+    min-height: 300px;
     overflow-y: auto;
     margin-bottom: 16px;
   }
