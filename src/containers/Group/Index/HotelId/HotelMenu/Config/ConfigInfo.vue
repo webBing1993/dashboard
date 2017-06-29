@@ -93,9 +93,8 @@
               <span>小程序配置</span>
               <p>关联小程序配置。</p>
             </div>
-            <span class="tag_text">暂无</span>
-            <!--<span class="tag_text"
-                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>-->
+            <span class="tag_text"
+                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -425,6 +424,14 @@
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
+            <div class="item-form">
+              <span>是否对接退房接口</span>
+              <el-switch
+                v-model="isJionCheckOut"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
             <div class="item-form">
@@ -492,16 +499,12 @@
           </div>
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
+              <span>支付子商户号</span>
+              <el-input class="el-right" v-model="payChildCount" placeholder="选填"></el-input>
+            </div>
+            <!--<div class="item_large">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id"></el-input>
-              <!--<el-select class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id">
-                <el-option
-                  v-for="(obj, index) of wechatAppData"
-                  :key="obj.app_id"
-                  :label="obj.app_id"
-                  :value="obj.app_id">
-                </el-option>
-              </el-select>-->
             </div>
             <div class="item_large">
               <span>小程序对应的商户号</span>
@@ -510,7 +513,7 @@
             <div class="item_large">
               <span>小程序对应的商户号api密钥</span>
               <el-input class="el-right" v-model="mchApiKey" placeholder="请输入小程序对应的商户号api密钥"></el-input>
-            </div>
+            </div>-->
             <div class="item_large">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
@@ -527,7 +530,19 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
-            <h3>暂无</h3>
+            <div class="item-form">
+              <span>请选择小程序</span>
+              <el-select class="el-right" v-model="appId" placeholder="请选择小程序">
+                <el-option
+                  v-for="(obj, index) of miniAppList"
+                  :key="obj.id"
+                  :label="obj.name"
+                  :value="obj.id">
+                </el-option>
+              </el-select>
+            </div>
+
+
             <!--<div class="item-form">
               <span>小程序app_id</span>
               <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
@@ -868,6 +883,7 @@
         showDialog: false,
         //PMS配置
         PMSBrandList: [],
+        isJionCheckOut: true,
         //捷信达
         pmsId: '',
         // pmsName: '', //放在计算属性
@@ -905,18 +921,21 @@
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
-        wechatPayAppId: '',
-        mchId: '',
-        mchApiKey: '',
+        payChildCount: '',
+        // wechatPayAppId: '',
+        // mchId: '',
+        // mchApiKey: '',
         payCode: '',
         refundCode: '',
         //微信生态酒店配置
         wxHotelId: '',
         //小程序配置
+        // appId: '',
+        // appSecret: '',
+        // originalId: '',
+        // appName: '',
+        miniAppList: [],
         appId: '',
-        appSecret: '',
-        originalId: '',
-        appName: '',
         //电子签名
         enabledSign: false,
         //电话取消订单
@@ -1044,13 +1063,13 @@
         return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
       },
       validatewechatPay() {
-        return tool.isNotBlank(this.wechatPayAppId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.mchApiKey) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
+        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
       },
       validatewxHotel() {
         return tool.isNotBlank(this.wxHotelId);
       },
       validateminiApp() {
-        return tool.isNotBlank(this.appId) && tool.isNotBlank(this.appSecret) && tool.isNotBlank(this.originalId) && tool.isNotBlank(this.appName);
+        return tool.isNotBlank(this.appId);
       },
       validatesign() {
         return true;

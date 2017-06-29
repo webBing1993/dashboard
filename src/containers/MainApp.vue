@@ -5,6 +5,7 @@
       <nav>
         <router-link to="/home">首页</router-link>
         <router-link to="/group">企业账户</router-link>
+        <router-link to="/system">系统设置</router-link>
         <div class="login-banner">
           <span>您好,{{userInfo.name}}</span>
           <a @click="logoutAction">退出</a>

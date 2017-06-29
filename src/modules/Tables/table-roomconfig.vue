@@ -4,27 +4,20 @@
       <thead>
       <tr>
         <th>序号</th>
-        <th>楼宇</th>
-        <th>楼层</th>
-        <th>房间号码</th>
         <th>房型</th>
-        <th>门锁</th>
-        <th>标签</th>
+        <th>房间数量</th>
+        <th>可住人数</th>
         <th>操作</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.building_name }}</td>
-        <td>{{ obj.floor_name }}</td>
-        <td>{{ obj.room_num }}</td>
-        <td>{{ obj.room_type_name }}</td>
-        <td>{{ obj.lock }}</td>
-        <td>{{ obj.roomfeature_desc }}</td>
+        <td>{{ obj.type }}</td>
+        <td>{{ obj.count }}</td>
+        <td>{{ obj.num }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
-          <a class="v-options pointer" @click="config(obj)">配置</a>
         </td>
       </tr>
       </tbody>
@@ -53,9 +46,6 @@
     methods: {
       edit(obj) {
         this.$emit('edit', obj);
-      },
-      config(obj) {
-        this.$emit('config', obj);
       }
     }
   }

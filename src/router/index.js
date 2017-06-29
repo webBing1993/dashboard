@@ -7,11 +7,15 @@ import MainApp from '@/containers/MainApp'
 // 2级路由
 import Home from '@/containers/Home'
 import Group from '@/containers/Group'
+import System from '@/containers/System'
 // 3级路由
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
 import GroupId from '@/containers/Group/Index/GroupId.vue'
 import HotelId from '@/containers/Group/Index/HotelId.vue'
+import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
+import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
+import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 // 4级路由
 import GroupList from '@/containers/Group/Index/GroupMenu/GroupList.vue'
 import GroupHotel from '@/containers/Group/Index/GroupMenu/GroupHotel.vue'
@@ -19,6 +23,8 @@ import EditBrand from '@/containers/Group/Index/GroupId/EditBrand.vue'
 import GroupIdMenu from '@/containers/Group/Index/GroupId/GroupIdMenu.vue'
 import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
 import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
+import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
+import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -27,7 +33,9 @@ import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHo
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
+import RoomConfig from '@/containers/Group/Index/HotelId/HotelMenu/RoomConfig.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
+import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
 
 // 6级路由
 import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/DeviceList.vue'
@@ -57,7 +65,6 @@ const main = [
           children: [{
               path: 'add',
               name: 'AddGroup',
-          
               component: AddGroup,
             },{
               path: '/',
@@ -133,6 +140,11 @@ const main = [
                           name: 'Room',
                           component: Room
                         },{
+                          path: 'roomconfig',
+                          name: 'RoomConfig',
+                          component: RoomConfig
+                        },
+                        {
                           path: 'config',
                           component: Config,
                           children: [
@@ -146,7 +158,11 @@ const main = [
                               component: ConfigSummary
                             },
                           ]
-                        }
+                        },{
+                          path: 'onlinestatus',
+                          name: 'OnlineStatus',
+                          component: OnlineStatus
+                        },
                       ]
                     }
                   ]
@@ -154,8 +170,33 @@ const main = [
               ]
             }
           ]
-        }
-        ,{
+        },{
+          path: 'system',
+          component: System,
+          children: [{
+            path: 'addminiapp',
+            name: 'AddMiniApp',
+            component: AddMiniApp,
+          },{
+            path: 'addwechatpay',
+            name: 'AddWechatpay',
+            component: AddWechatpay,
+          },{
+            path: '/',
+            component: SystemMenu,
+            children: [
+              {
+                path: '/',
+                name: 'MiniAppList',
+                component: MiniAppList
+              },{
+                path: 'wechatpay',
+                name: 'WechatPayList',
+                component: WechatPayList      
+              }
+            ]
+          }]
+        },{
           path: '*',
           redirect: '/auth'
         }

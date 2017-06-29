@@ -10,7 +10,7 @@
             <!--<el-button type="success">添加房间(非对接PMS)</el-button>-->
           </div>
         </div>
-        <table-room :list="list" :page="page" :size="size" @edit="edit"></table-room>
+        <table-room :list="list" :page="page" :size="size" @edit="edit" @config="config"></table-room>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -23,20 +23,28 @@
         </el-pagination>
       </div>
       <el-dialog
-        title="房间标签配置"
+        :title="typeTitles[showType]"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="false"
       >
         <div class="dialog-content">
-          <el-checkbox-group v-model="roomfeatureDesc">
-            <el-checkbox v-for="(obj, index) of roomTags" :label="obj" :key="index"></el-checkbox>
-          </el-checkbox-group>
+          <div v-if="showType === enumShowType.edit">
+            <el-checkbox-group v-model="roomfeatureDesc">
+              <el-checkbox v-for="(obj, index) of roomTags" :label="obj" :key="index"></el-checkbox>
+            </el-checkbox-group>
+          </div>
+          <div v-if="showType === enumShowType.config">
+            <div class="item-form">
+              <span>门锁序列号</span>
+              <el-input class="el-right" v-model="lockNumber" placeholder="请输入门锁序列号"></el-input>
+            </div>
+          </div>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
-          <el-button type="primary" @click="modify">确 定</el-button>
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -46,11 +54,28 @@
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   import tool from '@/assets/tools/tool.js';
+
+  const enumShowType = {
+    init: 0,
+    edit: 1, //编辑
+    config: 2,  //配置
+  }
+
+  const typeTitles = [' ',
+    '房间标签配置',
+    '门锁配置'
+  ];
+
+
   export default {
     name: 'Room',
     data() {
       return {
+        enumShowType: enumShowType,
+        typeTitles: typeTitles,
+        showType: '',
         showDialog: false,
+        showType: '',
         tempObj: '',
         updateTime: '',
         list: [],
@@ -58,7 +83,8 @@
         size: 20,
         total: 0,
         roomfeatureDesc: [],
-        canSyncData: true
+        canSyncData: true,
+        lockNumber: ''
       }
     },
     computed: {
@@ -80,10 +106,36 @@
       edit(obj) {
         this.tempObj = obj;
         this.roomfeatureDesc = tool.isNotBlank(obj.roomfeature_desc) ? obj.roomfeature_desc.split(',') : [];
+
+        this.showType = this.enumShowType.edit;
+        this.showDialog = true;
+      },
+      config(obj) {
+        this.showType = this.enumShowType.config;
         this.showDialog = true;
       },
       hideDialog() {
         this.showDialog = false;
+        switch (this.showType) {
+          case enumShowType.edit:
+
+            break;
+          case enumShowType.config:
+            break;
+            
+          default:
+        }
+      },
+      submitDialog() {
+        switch (this.showType) {
+          case enumShowType.edit:
+            this.modify();
+            break;
+          case enumShowType.config:
+            break;
+            
+          default:
+        }
       },
       handleSizeChange(val) {
         this.size = val;
@@ -207,6 +259,29 @@
       .el-dialog__header {
         border-bottom: solid 1px red;
       }
+      .item-form {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              & > span {
+                display: inline-block;
+                min-width: 110px;
+                text-align: end;
+              }
+              .el-select {
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                }
+              }
+              .el-input {
+                width: 70%;
+              }
+
+              .el-switch {
+                margin-left: 16px;
+              }
+            }
     }
   }
 
