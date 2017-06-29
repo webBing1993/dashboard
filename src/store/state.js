@@ -22,5 +22,5 @@ module.exports = {
   configData: {},
   pmsData: {},
   lvyeData: {},
-  wechatAppData: {}
+  wechatAppData: []
 }

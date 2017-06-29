@@ -96,17 +96,17 @@ module.exports = {
   //小程序
   getWechatApp(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotel/wechatapp`,
+      url: `/wechatapp`,
       method:'GET',
       onSuccess: body => {
-        ctx.commit('WECHATAPPDATA', body.data ? body.data : {})
+        ctx.commit('WECHATAPPDATA', body.data ? body.data : [])
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
   modifyWechatApp(ctx, param){
     ctx.dispatch('resource', {
-      url: `/hotel/wechatapp`,
+      url: `/wechatapp`,
       method:'PUT',
       body: {
         ...param.data
