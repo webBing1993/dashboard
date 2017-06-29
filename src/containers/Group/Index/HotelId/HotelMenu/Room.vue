@@ -62,9 +62,9 @@
       }
     },
     computed: {
-      ...mapState([
-        'configData'
-      ]),
+      ...mapState({
+        configData: state => state.enterprise.configData
+      }),
       roomTags() {
         return this.configData.room_tags;
       }

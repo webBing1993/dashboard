@@ -9,9 +9,9 @@
   export default {
     name: 'app',
     computed: {
-      ...mapState([
-        'Interface'
-      ]),
+      ...mapState({
+        Interface: state => state.utils.Interface,
+      }),
     },
     watch: {
       'Interface.alert.show'(v) {
@@ -26,7 +26,7 @@
       },
       'Interface.toast.show'(v) {
         if (v) {
-          this.$store.state.Interface.toast.show = false;
+          this.$store.state.utils.Interface.toast.show = false;
           this.$message({
             showClose: true,
             message: this.Interface.toast.text,

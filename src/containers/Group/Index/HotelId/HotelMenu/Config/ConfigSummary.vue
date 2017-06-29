@@ -152,12 +152,12 @@
       return {}
     },
     computed: {
-      ...mapState([
-        'configData',
-        'pmsData',
-        'lvyeData',
-        'wechatAppData'
-      ]),
+      ...mapState({
+        configData: state => state.enterprise.configData,
+        pmsData: state => state.enterprise.pmsData,
+        lvyeData: state => state.enterprise.lvyeData,
+        wechatAppData: state => state.enterprise.wechatAppData,
+      }),
     },
     filters: {
       filterLvyeReportType(v) {

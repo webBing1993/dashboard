@@ -24,9 +24,9 @@
   export default {
     name: 'MainApp',
     computed: {
-      userInfo() {
-        return this.$store.state.userInfo;
-      }
+      ...mapState({
+        userInfo: state => state.utils.userInfo
+      }),
     },
     methods: {
       ...mapActions([

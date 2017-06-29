@@ -983,12 +983,12 @@
       }
     },
     computed: {
-      ...mapState([
-        'configData',
-        'pmsData',
-        'lvyeData',
-        'wechatAppData'
-      ]),
+      ...mapState({
+        configData: state => state.enterprise.configData,
+        pmsData: state => state.enterprise.pmsData,
+        lvyeData: state => state.enterprise.lvyeData,
+        wechatAppData: state => state.enterprise.wechatAppData,
+      }),
       pmsName() {
         let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
         if (tool.isNotBlank(obj))
@@ -1618,12 +1618,6 @@
                 enabled_cancel_time: ''
               }
             }
-            let date = `${new Date().toLocaleDateString()} ${this.enabledCancelTime}`
-            let temp = new Date(date).getTime()
-            console.info(date)
-            console.info(temp)
-            console.log(new Date(temp).getHours())
-            console.log(new Date(temp).getMinutes())
             break;
           case enumShowType.invoice:
             data = {
@@ -1760,13 +1754,14 @@
           data: data,
           onsuccess: body => {
             this.showDialog = false;
-            let obj = {
-              ...this.configData
-            }
-            for (let key in body.data) {
-              obj[key] = body.data[key];
-            }
-            this.$store.state.configData = obj;
+            //下面这些在actions里面做
+            // let obj = {
+            //   ...this.configData
+            // }
+            // for (let key in body.data) {
+            //   obj[key] = body.data[key];
+            // }
+            // this.$store.state.enterprise.configData = obj;
             // this.getConfigs();
           }
         })

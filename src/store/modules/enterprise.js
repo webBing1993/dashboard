@@ -1,4 +1,13 @@
-module.exports = {
+
+const state = {
+  configData: {},
+  pmsData: {},
+  lvyeData: {},
+  wechatAppData: []
+}
+
+// mutations
+const mutations = {
   CONFIGDATA(state,payload) {
     state.configData = payload;
   },
@@ -10,5 +19,10 @@ module.exports = {
   },
   WECHATAPPDATA(state,payload) {
     state.wechatAppData = payload;
-  },
+  }
+}
+
+module.exports = {
+  state,
+  mutations
 }
