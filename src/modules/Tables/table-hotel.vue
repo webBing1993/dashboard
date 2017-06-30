@@ -92,15 +92,14 @@
     clear: both;
     /*padding: 0 23px 30px 25px;*/
     position: relative;
-    /*height: 100%;*/
     min-height: 300px;
-    overflow-y: auto;
     margin-bottom: 16px;
   }
 
   .v-table table {
     margin: 0;
     width: 100%;
+    height: 100%;
     border-spacing: 0;
     position: absolute;
   }
@@ -136,7 +135,6 @@
     padding-left: 10px;
     color: #757575;
     font-size: 12px;
-    /*border-bottom: solid 1px #e0e0e0;*/
     word-break: keep-all;
     white-space: nowrap;
     line-height: 44px;

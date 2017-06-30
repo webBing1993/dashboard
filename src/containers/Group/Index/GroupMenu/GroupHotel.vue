@@ -12,7 +12,6 @@
         <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
                      @config="config"
                      @device="device"></table-hotel>
-
       </div>
       <el-pagination
         v-show="total > size"
@@ -205,9 +204,9 @@
 </script>
 <style scoped lang="less">
   .module-wrapper {
-    /*overflow-y: hidden;*/
-    height: 100%;
-
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
     h3 {
       padding: 15px 25px;
       &:nth-child(1) {
@@ -218,16 +217,20 @@
       padding: 15px 23px 0 26px;
     }
     .content_grouphotel {
-      position: relative;
       padding: 0 23px 10px 25px;
-      /*height: 80%;*/
+      flex-grow: 1;
+      overflow: auto;
+      margin-bottom: 60px;
     }
     .el-pagination {
       text-align: center;
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 100px;
+      bottom: 0;
+      box-sizing: border-box;
+      width: 100%;
+      line-height: 50px;
     }
     .dialog-content {
       span {
