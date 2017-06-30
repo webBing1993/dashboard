@@ -24,7 +24,7 @@ import tableHotel from '@/modules/Tables/table-hotel.vue'
 import tableBrand from '@/modules/Tables/table-brand.vue'
 import tableDevice from '@/modules/Tables/table-device.vue'
 import tableRoom from '@/modules/Tables/table-room.vue'
-import tableRoomConfig from '@/modules/Tables/table-roomconfig.vue'
+import tableRoomType from '@/modules/Tables/table-roomtype.vue'
 import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
 import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
 
@@ -33,7 +33,7 @@ Vue.component('table-hotel', tableHotel)
 Vue.component('table-brand', tableBrand)
 Vue.component('table-device', tableDevice)
 Vue.component('table-room', tableRoom)
-Vue.component('table-roomconfig', tableRoomConfig)
+Vue.component('table-roomtype', tableRoomType)
 Vue.component('table-miniapp', tableMiniApp)
 Vue.component('table-wechatpay', tableWechatpay)
 

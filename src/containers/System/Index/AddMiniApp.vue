@@ -12,33 +12,33 @@
             </div>
             <div class="content-msg">
               <span>小程序ID</span>
-              <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序ID"></el-input>
-              <span class="help is-danger" v-show="errors.has('appName')">小程序ID不能为空!</span>
+              <el-input class="el-right" v-model="appId" name="appId" v-validate="'required'"
+                        :class="{'is-danger': errors.has('appId') }" placeholder="请输入小程序ID"></el-input>
+              <span class="help is-danger" v-show="errors.has('appId')">小程序ID不能为空!</span>
             </div>
             <div class="content-msg">
               <span>小程序密钥</span>
-              <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序密钥"></el-input>
-              <span class="help is-danger" v-show="errors.has('appName')">小程序密钥不能为空!</span>
+              <el-input class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
+                        :class="{'is-danger': errors.has('appSecret') }" placeholder="请输入小程序密钥"></el-input>
+              <span class="help is-danger" v-show="errors.has('appSecret')">小程序密钥不能为空!</span>
             </div>
             <div class="content-msg">
               <span>小程序原始ID</span>
-              <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序原始ID"></el-input>
-              <span class="help is-danger" v-show="errors.has('appName')">小程序原始ID不能为空!</span>
+              <el-input class="el-right" v-model="originalId" name="originalId" v-validate="'required'"
+                        :class="{'is-danger': errors.has('originalId') }" placeholder="请输入小程序原始ID"></el-input>
+              <span class="help is-danger" v-show="errors.has('originalId')">小程序原始ID不能为空!</span>
             </div>
             <div class="content-msg">
               <span>绑定人</span>
-              <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序绑定人"></el-input>
-              <span class="help is-danger" v-show="errors.has('appName')">绑定人不能为空!</span>
+              <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
+                        :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+              <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
             </div>
             <div class="content-msg">
               <span>手机号</span>
-              <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序绑定人手机号码"></el-input>
-              <span class="help is-danger" v-show="errors.has('appName')">手机号不能为空!</span>
+              <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
+                        :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
+              <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
             </div>
             <div class="content-msg">
               <span>请选择支付商户</span>
@@ -77,6 +77,7 @@
     },
     methods: {
       ...mapActions([
+        'addMiniApp',
         'goto'
       ]),
       nextStep() {
@@ -86,7 +87,16 @@
         });
       },
       regist() {
-
+        this.addMiniApp({
+          app_id: this.appId,
+          app_secret: this.appSecret,
+          original_id: this.originalId,
+          app_name: this.appName,
+          contact_name: this.contactName,
+          contact_phone: this.contactPhone,
+          wechat_pay_config_id: this.wechatPayConfigId,
+          onsuccess: body => this.goto(-1)
+        })
       },
     },
     mounted() {

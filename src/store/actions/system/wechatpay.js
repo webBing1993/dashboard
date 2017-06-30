@@ -1,26 +1,32 @@
 module.exports = {
-  getRoom(ctx, param) {
+  addWechatpay(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotel_id}/rooms/${param.roomId}`,
-      method:'GET',
+      url: '/wechatpay',
+      method:'POST',
+      body: {
+        id: param.id,
+        mch_id: param.mch_id,
+        mch_api_key: param.mch_api_key,
+        mch_name: param.mch_name,
+        contact_name: param.contact_name,
+        contact_phone: param.contact_phone
+      },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  modifyRoom(ctx, param) {
+  modifyWechatpay(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotel_id}/rooms/${param.room_id}`,
+      url: `/wechatpay/${param.id}`,
       method:'PUT',
       body: {
-        hotel_id: param.hotel_id,
-        room_id: param.room_id,
-        building_name: param.building_name,
-        floor_name: param.floor_name,
-        room_num: param.room_num,
-        room_type_name: param.room_type_name,
-        roomfeature_desc: param.roomfeature_desc,
-        room_lock_sn: param.room_lock_sn
+        id: param.id,
+        mch_id: param.mch_id,
+        mch_api_key: param.mch_api_key,
+        mch_name: param.mch_name,
+        contact_name: param.contact_name,
+        contact_phone: param.contact_phone
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '修改成功', type:'success'});
@@ -28,9 +34,9 @@ module.exports = {
       }
     })
   },
-  getRoomList(ctx, param){
+  getWechatpayList(ctx, param){
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotel_id}/rooms`,
+      url: '/wechatpay',
       method:'GET',
       headers: {
         'X-Current-Page': param.page || '1',

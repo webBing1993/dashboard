@@ -20,14 +20,65 @@
             </el-pagination>
         </div>
         <el-dialog
-            title="哈哈哈"
+            title="修改小程序"
             :visible.sync="showDialog"
             :close-on-click-modal="false"
             :close-on-press-escape="false"
             :show-close="false"
         >
             <div class="dialog-content">
-
+              <div class="content-msg">
+                <span>小程序名称</span>
+                <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
+                          :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序名称"></el-input>
+                <span class="help is-danger" v-show="errors.has('appName')">小程序名称不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>小程序ID</span>
+                <el-input class="el-right" v-model="appId" name="appId" v-validate="'required'"
+                          :class="{'is-danger': errors.has('appId') }" placeholder="请输入小程序ID"></el-input>
+                <span class="help is-danger" v-show="errors.has('appId')">小程序ID不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>小程序密钥</span>
+                <el-input class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
+                          :class="{'is-danger': errors.has('appSecret') }" placeholder="请输入小程序密钥"></el-input>
+                <span class="help is-danger" v-show="errors.has('appSecret')">小程序密钥不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>小程序原始ID</span>
+                <el-input class="el-right" v-model="originalId" name="originalId" v-validate="'required'"
+                          :class="{'is-danger': errors.has('originalId') }" placeholder="请输入小程序原始ID"></el-input>
+                <span class="help is-danger" v-show="errors.has('originalId')">小程序原始ID不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>绑定人</span>
+                <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
+                          :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+                <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>手机号</span>
+                <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
+                          :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
+                <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
+              </div>
+              <div class="content-msg">
+                <span>请选择支付商户</span>
+                <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'" :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
+                  <el-option
+                      v-for="(obj, index) of merchantsList"
+                      :key="obj.id"
+                      :label="obj.name"
+                      :value="obj.id">
+                  </el-option>
+                </el-select>
+                <span class="help is-danger" v-show="errors.has('merchantsId')">请选择支付商户!</span>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="hideDialog">取 消</el-button>
+              <el-button type="primary" @click="submitDialog">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -49,11 +100,22 @@
         }],
         page: 1,
         size: 20,
-        total: 0
+        total: 0,
+        mchList: [],
+        appId: '',
+        appSecret: '',
+        originalId: '',
+        appName: '',
+        contactName: '',
+        contactPhone: '',
+        wechatPayConfigId: ''
       }
     },
     methods: {
       ...mapActions([
+        'getMiniAppList',
+        'modifyMiniApp',
+        'getWechatpayList',
         'goto'
       ]),
       addMiniApp() {
@@ -68,13 +130,51 @@
         this.showDialog = false;
       },
       submitDialog() {
-
+        this.$validator.validateAll().then(() => {
+          this.modify();
+        }).catch(() => {
+        });
       },
       handleSizeChange(val) {
         this.size = val;
       },
       handleCurrentChange(val) {
         this.page = val;
+      },
+      modify() {
+        this.modifyMiniApp({
+          app_id: this.appId,
+          app_secret: this.appSecret,
+          original_id: this.originalId,
+          app_name: this.appName,
+          contact_name: this.contactName,
+          contact_phone: this.contactPhone,
+          wechat_pay_config_id: this.wechatPayConfigId,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.getList();
+          }
+        })
+      },
+      getList() {
+        this.getMiniAppList({
+          page: this.page.toString(),
+          size: this.size.toString(),
+          onsuccess: (body, headers) => {
+            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+            this.list = body.data;
+          }
+        })
+      },
+      getMchList() {
+        this.getWechatpayList({
+          onsuccess: (body, headers) => {
+            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+            this.mchList = body.data;
+          }
+        })
       },
     },
     mounted() {

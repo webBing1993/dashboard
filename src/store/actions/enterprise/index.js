@@ -5,4 +5,6 @@ module.exports = {
   ...require('./config'),
   ...require('./device'),
   ...require('./room'),
+  ...require('./online'),
+  ...require('./roomtype'),
 }

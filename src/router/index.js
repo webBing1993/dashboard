@@ -33,7 +33,7 @@ import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHo
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
-import RoomConfig from '@/containers/Group/Index/HotelId/HotelMenu/RoomConfig.vue'
+import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
 
@@ -140,9 +140,9 @@ const main = [
                           name: 'Room',
                           component: Room
                         },{
-                          path: 'roomconfig',
-                          name: 'RoomConfig',
-                          component: RoomConfig
+                          path: 'roomtype',
+                          name: 'RoomType',
+                          component: RoomType
                         },
                         {
                           path: 'config',

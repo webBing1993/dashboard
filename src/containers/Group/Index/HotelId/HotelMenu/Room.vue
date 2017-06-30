@@ -38,7 +38,7 @@
           <div v-if="showType === enumShowType.config">
             <div class="item-form">
               <span>门锁序列号</span>
-              <el-input class="el-right" v-model="lockNumber" placeholder="请输入门锁序列号"></el-input>
+              <el-input class="el-right" v-model="roomLockSn" placeholder="请输入门锁序列号"></el-input>
             </div>
           </div>
         </div>
@@ -83,8 +83,8 @@
         size: 20,
         total: 0,
         roomfeatureDesc: [],
-        canSyncData: true,
-        lockNumber: ''
+        roomLockSn: '',
+        canSyncData: true
       }
     },
     computed: {
@@ -111,6 +111,9 @@
         this.showDialog = true;
       },
       config(obj) {
+        this.tempObj = obj;
+        this.roomLockSn = obj.room_lock_sn;
+
         this.showType = this.enumShowType.config;
         this.showDialog = true;
       },
@@ -158,8 +161,6 @@
         })
       },
       modify() {
-        this.showDialog = false;
-
         this.modifyRoom({
           hotel_id: this.$route.params.hotelid,
           room_id: this.tempObj.room_id,
@@ -168,6 +169,7 @@
           room_num: this.tempObj.room_num,
           room_type_name: this.tempObj.room_type_name,
           roomfeature_desc: this.roomfeatureDesc.join(),
+          room_lock_sn: this.roomLockSn,
           onsuccess: body => {
             this.showDialog = false;
             this.getList();

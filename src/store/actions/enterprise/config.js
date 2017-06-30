@@ -93,31 +93,7 @@ module.exports = {
       }
     })
   },
-  //小程序
-  getWechatApp(ctx, param) {
-    ctx.dispatch('resource', {
-      url: `/wechatapp`,
-      method:'GET',
-      onSuccess: body => {
-        ctx.commit('WECHATAPPDATA', body.data ? body.data : [])
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
-  },
-  modifyWechatApp(ctx, param){
-    ctx.dispatch('resource', {
-      url: `/wechatapp`,
-      method:'PUT',
-      body: {
-        ...param.data
-      },
-      onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        ctx.commit('WECHATAPPDATA', body.data)
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
-  },
+  //同步房间
   syncPMSData(ctx, param) {
     ctx.dispatch('resource', {
       url: '/pms',

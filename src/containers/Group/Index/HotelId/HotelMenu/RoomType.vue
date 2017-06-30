@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
         <div class="content_room">
-            <table-roomconfig :list="list" :page="page" :size="size" @edit="edit"></table-roomconfig>
+            <table-roomtype :list="list" :page="page" :size="size" @edit="edit"></table-roomtype>
             <el-pagination
             v-show="total > size"
             @size-change="handleSizeChange"
@@ -24,7 +24,7 @@
             <div class="dialog-content">
                 <div class="item-form">
                     <span>可住人数</span>
-                    <el-select class="el-right" v-model="allowCustomerNum" placeholder="请选择可住人数">
+                    <el-select class="el-right" v-model="maxGuestCount" placeholder="请选择可住人数">
                         <el-option
                             v-for="num of 10"
                             :key="num"
@@ -44,8 +44,11 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import tool from '@/assets/tools/tool.js';
+
   export default {
-    name: 'RoomConfig',
+    name: 'RoomType',
     data() {
       return {
         showDialog: false,
@@ -57,12 +60,17 @@
             count: 3,
             num: 2
         }],
-        allowCustomerNum: ''
+        maxGuestCount: ''
       }
     },
     methods: {
+      ...mapActions([
+        'patchRoomType',
+        'getRoomTypeList'
+      ]),
       edit(obj) {
-        this.showDialog = true;;
+        this.maxGuestCount = obj.max_guest_count;
+        this.showDialog = true;
       },
       handleSizeChange(val) {
         this.size = val;
@@ -74,7 +82,30 @@
         this.showDialog = false;
       },
       modify() {
-        this.showDialog = false;
+        let data = {
+          max_guest_count: this.maxGuestCount
+        }
+
+        this.patchRoomType({
+          data,
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.getList();
+          }
+        })
+      },
+      getList() {
+        this.getRoomTypeList({
+          page: this.page.toString(),
+          size: this.size.toString(),
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: (body, headers) => {
+            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+            this.list = body.data;
+          }
+        })
       },
     },
     mounted() {
