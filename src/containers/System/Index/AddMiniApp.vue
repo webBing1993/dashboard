@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content_addgroup">
+      <div class="content_addMiniApp">
         <div class="enterprise-info">
           <div class="info-content">
             <div class="content-msg">
@@ -42,12 +42,13 @@
             </div>
             <div class="content-msg">
               <span>请选择支付商户</span>
-              <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'" :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
+              <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'"
+                         :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
                 <el-option
-                    v-for="(obj, index) of merchantsList"
-                    :key="obj.id"
-                    :label="obj.name"
-                    :value="obj.id">
+                  v-for="(obj, index) of merchantsList"
+                  :key="obj.id"
+                  :label="obj.name"
+                  :value="obj.id">
                 </el-option>
               </el-select>
               <span class="help is-danger" v-show="errors.has('merchantsId')">请选择支付商户!</span>
@@ -70,8 +71,8 @@
         appName: '',
         merchantsId: '',
         merchantsList: [{
-            id: 1,
-            name: '漫客'
+          id: 1,
+          name: '漫客'
         }]
       }
     },
@@ -94,10 +95,9 @@
     }
   }
 </script>
-<style lang="less">
+<style scoped lang="less">
   .module-wrapper {
-    /*padding: 19px 39px;*/
-    .content_addgroup {
+    .content_addMiniApp {
       .enterprise-info {
         border: 1px solid #EAEDF0;
         margin: 20px 37px 17px 39px;
@@ -117,9 +117,12 @@
             display: flex;
             align-items: center;
             span {
-              width: 82px;
-              text-align: right;
-              margin-right: 20px;
+              &:nth-child(1) {
+                width: 110px;
+                font-size: 15px;
+                text-align: right;
+                margin-right: 20px;
+              }
             }
             .el-right {
               width: 56%;
@@ -146,9 +149,10 @@
           }
         }
       }
+
       .button-box {
         width: 246px;
-        margin: 10px auto;
+        margin: 50px auto;
         .el-btn {
           width: 100%;
           height: 40px;

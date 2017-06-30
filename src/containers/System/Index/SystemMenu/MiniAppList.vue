@@ -1,11 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
-        <div class="content_room">
+        <div class="content_miniAppList">
             <div class="data_title">
-                <div class="header-btn">
-                    <el-button type="success" @click.native="addMiniApp">+添加小程序</el-button>
-                </div>
+              <el-button type="success" @click.native="addMiniApp">+添加小程序</el-button>
             </div>
             <table-miniapp :list="list" :page="page" :size="size" @edit="edit"></table-miniapp>
             <el-pagination
@@ -78,42 +76,28 @@
       },
     },
     mounted() {
-      
+
     }
   }
 </script>
 
 <style scoped lang="less">
-    .content_room {
+    .content_miniAppList {
       font-size: 16px;
       color: #4A4A4A;
       font-weight: normal;
-      padding: 9px 25px 0 24px;
+      padding: 16px 25px 0 24px;
       .data_title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 20px;
-        span {
-          flex: 1;
-          font-size: 14px;
-          color: #4A4A4A;
-        }
-        .header-btn {
-          display: flex;
-          /*margin-right: 6px;*/
-          .el-button {
-            line-height: 18px;
-            min-width: 173px;
-            font-size: 13px;
-            background-color: #39C240;
-            border-color: #39C240;
-            border-radius: 0;
-            margin: 0;
-            &:nth-child(1) {
-              margin-right: 59px;
-            }
-          }
+        text-align: end;
+        margin-bottom: 10px;
+        .el-button {
+          line-height: 18px;
+          min-width: 173px;
+          font-size: 13px;
+          background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
+          margin: 0;
         }
       }
     }

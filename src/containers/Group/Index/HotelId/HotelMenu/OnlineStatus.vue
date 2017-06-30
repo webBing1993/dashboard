@@ -13,13 +13,14 @@
             </el-option>
           </el-select>
         </div>
-        <div>上线阻碍:</div>
+        <div id="content_title">上线阻碍:</div>
         <div class="item-label">
           <div class="label-input">
-            <div class="label-input_items" v-for="(obj, index) of blockContents">
-              <el-input class="el-right" v-model="blockContents[index]" placeholder="请填写上线阻碍内容或JIRA链接"></el-input>
-              <button class="tag-minus" v-if="(index+1) < blockContents.length" @click="subtractBlockContents(index)">
-                -
+            <div class="label-input_items" v-for="(obj, index) in blockContents">
+              <el-input class="el-right" v-model="blockContents[index]" placeholder="请填写上线阻碍内容或JIRA链接"
+                        :disabled="(index+1) === blockContents.length ? !isEditContact : isEditContact "></el-input>
+              <button class="tag-minus" v-if="(index+1) < blockContents.length"
+                      @click="subtractBlockContents(index)">-
               </button>
               <button class="tag-add" v-if="(index+1) === blockContents.length"
                       style="border-color: #39C240; color: #39C240" @click="addBlockContents">+
@@ -50,7 +51,8 @@
             name: '阻碍中'
           }
         ],
-        blockContents: ['']
+        blockContents: [''],
+        isEditContact: true
       }
     },
     methods: {
@@ -68,7 +70,7 @@
   }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
   .content_onlineStatus {
     display: flex;
     flex-direction: column;
@@ -84,23 +86,31 @@
         width: 60px;
         display: block;
         margin-right: 20px;
+        color: #0D0D0D;
+        font-weight: 600;
+        font-size: 14px;
       }
       .el-select, .el-input {
-        width: 70%;
+        width: 460px;
         outline: none;
         .el-input {
           width: 100%;
         }
       }
     }
+    #content_title {
+      color: #0D0D0D;
+      font-weight: 600;
+      font-size: 14px;
+    }
     .item-label {
       display: flex;
       align-items: flex-start;
-      margin-left: 78px;
-      margin-top: -20px;
+      /*margin-left: 78px;*/
+      margin-top: 20px;
       .label-input {
         position: relative;
-        width: 78%;
+        width: 540px;
         .label-input_items {
           position: relative;
           .el-input {
@@ -120,6 +130,14 @@
             background-color: #ffffff;
             height: 20px;
             width: 20px;
+          }
+
+          input:disabled {
+            background-color: transparent;
+            border-color: transparent;
+            color: #9B9B9B;
+            font-size: 14px;
+            font-weight: normal;
           }
         }
         .tag-add {

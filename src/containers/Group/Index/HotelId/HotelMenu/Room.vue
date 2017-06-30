@@ -122,7 +122,7 @@
             break;
           case enumShowType.config:
             break;
-            
+
           default:
         }
       },
@@ -133,7 +133,7 @@
             break;
           case enumShowType.config:
             break;
-            
+
           default:
         }
       },
@@ -249,7 +249,7 @@
             border-radius: 0;
             margin: 0;
             &:nth-child(1) {
-              margin-right: 59px;
+              /*margin-right: 59px;*/
             }
           }
         }

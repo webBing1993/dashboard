@@ -571,7 +571,7 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.enabledCancelTime">
-            <div>
+            <div class="item-form">
               <span>是否支持电话取消订单？</span>
               <el-switch
                 v-model="isEnabledCancelTime"
@@ -2042,7 +2042,7 @@
           }
         }
         .el-dialog__footer {
-          padding-top: 0;
+          padding: 10px 20px 28px;
           .dialog-footer {
             text-align: center;
             .el-button {

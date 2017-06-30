@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content_addgroup">
+      <div class="content_addWechatpay">
         <div class="enterprise-info">
           <div class="info-content">
             <div class="content-msg">
@@ -74,7 +74,7 @@
 <style lang="less">
   .module-wrapper {
     /*padding: 19px 39px;*/
-    .content_addgroup {
+    .content_addWechatpay {
       .enterprise-info {
         border: 1px solid #EAEDF0;
         margin: 20px 37px 17px 39px;
@@ -94,9 +94,12 @@
             display: flex;
             align-items: center;
             span {
-              width: 82px;
-              text-align: right;
-              margin-right: 20px;
+              &:nth-child(1) {
+                width: 110px;
+                font-size: 15px;
+                text-align: right;
+                margin-right: 20px;
+              }
             }
             .el-right {
               width: 56%;
@@ -125,7 +128,7 @@
       }
       .button-box {
         width: 246px;
-        margin: 10px auto;
+        margin: 50px auto;
         .el-btn {
           width: 100%;
           height: 40px;
