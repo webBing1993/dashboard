@@ -106,7 +106,8 @@
         appName: '',
         contactName: '',
         contactPhone: '',
-        wechatPayConfigId: ''
+        merchantsId: '',
+        merchantsList: []
       }
     },
     methods: {
@@ -147,7 +148,7 @@
           app_name: this.appName,
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
-          wechat_pay_config_id: this.wechatPayConfigId,
+          wechat_pay_config_id: this.merchantsId,
           onsuccess: body => {
             this.showDialog = false;
             this.getList();
@@ -159,19 +160,19 @@
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
-            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+            // headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            // headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+
+            headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
+            headers['x-total'] ? this.total = +headers['x-total'] : null;
+
             this.list = body.data;
           }
         })
       },
       getMchList() {
         this.getWechatpayList({
-          onsuccess: (body, headers) => {
-            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
-            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
-            this.mchList = body.data;
-          }
+          onsuccess: (body, headers) => this.mchList = body.data
         })
       },
     },

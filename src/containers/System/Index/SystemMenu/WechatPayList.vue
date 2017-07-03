@@ -5,7 +5,6 @@
         <div class="data_title">
           <el-button type="success" @click.native="addWechatpay">+添加微信支付</el-button>
         </div>
-<<<<<<< HEAD
         <table-wechatpay :list="list" :page="page" :size="size" @edit="edit"></table-wechatpay>
         <el-pagination
           v-show="total > size"
@@ -29,19 +28,6 @@
 
         </div>
       </el-dialog>
-=======
-        <el-dialog
-            title="哈哈哈"
-            :visible.sync="showDialog"
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
-            :show-close="false"
-        >
-            <div class="dialog-content">
-              
-            </div>
-        </el-dialog>
->>>>>>> wayshon
     </div>
   </div>
 </template>

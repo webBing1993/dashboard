@@ -66,8 +66,12 @@
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
-            headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+            // headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            // headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+
+            headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
+            headers['x-total'] ? this.total = +headers['x-total'] : null;
+            
             this.list = body.data;
           }
         })
