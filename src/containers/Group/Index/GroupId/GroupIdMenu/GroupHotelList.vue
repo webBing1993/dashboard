@@ -8,7 +8,8 @@
         <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
       <div class="content_grouphotellist">
-        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail" @config="config"
+        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
+                     @config="config"
                      @device="device"></table-hotel>
         <el-pagination
           v-show="total > size"
@@ -159,7 +160,7 @@
   }
 </script>
 
-<style lang="less">
+<style scoped lang="less">
   .module-wrapper {
     .content_title {
       display: flex;
@@ -169,7 +170,7 @@
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
-        width: 260px;
+        min-width: 120px;
       }
       .el-input {
         font-size: 13px;

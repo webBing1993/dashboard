@@ -16,13 +16,13 @@
         <div v-show="status === 1">
           <div id="content_title">上线阻碍:</div>
           <div class="item-label">
-            <div class="tag-input">
-              <div class="label-input_items" v-for="(obj, index) of memo">
+            <div class="label-input">
+              <div class="label-input_items" v-for="(obj, index) in memo">
                 <el-input class="el-right" v-model="memo[index]" placeholder="请填写上线阻碍内容或JIRA链接"></el-input>
-                <button class="tag-minus" v-show="memo.length > 1" @click="subtractMemo(index)">---</button>
-              </div>
-              <div class="tag-btn">
-                <button class="tag-add" style="border-color: #39C240; color: #39C240" @click="addMemo">+</button>
+                <button class="tag-minus" v-if="(index+1) < memo.length " @click="subtractMemo(index)">-</button>
+                <button class="tag-add" v-if="(index+1) === memo.length" style="border-color: #39C240; color: #39C240"
+                        @click="addMemo">+
+                </button>
               </div>
             </div>
           </div>
@@ -45,19 +45,19 @@
       return {
         status: 1,
         statusList: [
-            {
-                id: 1,
-                name: '未上线'
-            },{
-                id: 2,
-                name: '已上线'
-            },{
-                id: 3,
-                name: '已下线'
-            },{
-                id: 4,
-                name: '阻碍中'
-            }
+          {
+            id: 1,
+            name: '未上线'
+          }, {
+            id: 2,
+            name: '已上线'
+          }, {
+            id: 3,
+            name: '已下线'
+          }, {
+            id: 4,
+            name: '阻碍中'
+          }
         ],
         memo: ['']
       }
@@ -116,31 +116,23 @@
         width: 60px;
         display: block;
         margin-right: 20px;
-        color: #0D0D0D;
-        font-weight: 600;
-        font-size: 14px;
       }
       .el-select, .el-input {
-        width: 460px;
+        width: 70%;
         outline: none;
         .el-input {
           width: 100%;
         }
       }
     }
-    #content_title {
-      color: #0D0D0D;
-      font-weight: 600;
-      font-size: 14px;
-    }
     .item-label {
       display: flex;
       align-items: flex-start;
-      /*margin-left: 78px;*/
-      margin-top: 20px;
+      margin-left: 78px;
+      margin-top: -20px;
       .label-input {
         position: relative;
-        width: 540px;
+        width: 80%;
         .label-input_items {
           position: relative;
           .el-input {
@@ -161,14 +153,6 @@
             height: 20px;
             width: 20px;
           }
-
-          input:disabled {
-            background-color: transparent;
-            border-color: transparent;
-            color: #9B9B9B;
-            font-size: 14px;
-            font-weight: normal;
-          }
         }
         .tag-add {
           position: absolute;
@@ -182,6 +166,21 @@
           background-color: #ffffff;
           height: 20px;
           width: 20px;
+        }
+
+      }
+    }
+    .button-box {
+      text-align: center;
+      .el-button {
+        width: 246px;
+        background-color: #39C240;
+        border-color: #39C240;
+        border-radius: 0;
+        margin-top: 45px;
+        span {
+          font-size: 14px;
+          color: #ffffff;
         }
       }
     }
