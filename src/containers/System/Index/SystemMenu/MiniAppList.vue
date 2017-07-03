@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="content_miniAppList">
+      <div class="content_system">
         <div class="data_title">
           <el-button type="success" @click.native="addMiniApp">+添加小程序</el-button>
         </div>
@@ -17,6 +17,7 @@
           :total="total">
         </el-pagination>
       </div>
+
       <el-dialog
         title="修改小程序"
         :visible.sync="showDialog"
@@ -24,7 +25,7 @@
         :close-on-press-escape="false"
         :show-close="false"
       >
-        <div class="miniApp-dialog-content">
+        <div class="system-dialog">
           <div class="dialog_item">
             <span>小程序名称</span>
             <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
@@ -93,6 +94,8 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import '../../../../assets/styles/system/index.less';
+
   export default {
     name: 'MiniAppList',
     data() {
@@ -201,85 +204,3 @@
     }
   }
 </script>
-
-<style scoped lang="less">
-  .content_miniAppList {
-    font-size: 16px;
-    color: #4A4A4A;
-    font-weight: normal;
-    padding: 16px 25px 0 24px;
-    .data_title {
-      text-align: end;
-      margin-bottom: 10px;
-      .el-button {
-        line-height: 18px;
-        min-width: 173px;
-        font-size: 13px;
-        background-color: #39C240;
-        border-color: #39C240;
-        border-radius: 0;
-        margin: 0;
-      }
-    }
-  }
-
-  .miniApp-dialog-content {
-    .dialog_item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      .el-right {
-        width: 76%;
-        .el-input {
-          width: 100%;
-
-        }
-      }
-      span {
-        min-width: 100px;
-        font-size: 14px;
-        text-align: end;
-        margin-right: 5px;
-      }
-    }
-    .help {
-      display: block;
-      position: relative;
-      line-height: 40px;
-      text-align: left;
-      font-size: 14px;
-      margin: -8px 0 0 103px;
-      color: #D0011B;
-      &:before {
-        content: '*';
-        position: absolute;
-        top: 4px;
-        left: -14px;
-        font-size: 22px;
-      }
-    }
-  }
-
-  .dialog-footers {
-    text-align: center;
-    margin-top: -20px;
-    .el-button {
-      width: 246px;
-      border-radius: 0;
-      line-height: 18px;
-      margin: 0;
-      &:nth-child(1) {
-        background-color: #39C240;
-        border-color: #39C240;
-        color: #ffffff;
-        margin-right: 22px;
-      }
-    }
-    .el-button--primary {
-      background-color: transparent;
-      border: solid 1px #979797;
-      color: #4A4A4A;
-    }
-  }
-
-</style>
