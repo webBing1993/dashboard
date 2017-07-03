@@ -67,7 +67,7 @@
               <p>配置微信支付信息。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !wechatPayAppId, 'tag_text_green': wechatPayAppId}">{{wechatPayAppId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -427,7 +427,7 @@
             <div class="item-form">
               <span>是否对接退房接口</span>
               <el-switch
-                v-model="isJionCheckOut"
+                v-model="checkout"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -500,20 +500,8 @@
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
               <span>支付子商户号</span>
-              <el-input class="el-right" v-model="payChildCount" placeholder="选填"></el-input>
+              <el-input class="el-right" v-model="childMchId" placeholder="选填"></el-input>
             </div>
-            <!--<div class="item_large">
-              <span>小程序app_id</span>
-              <el-input class="el-right" v-model="wechatPayAppId" placeholder="请选择小程序app_id"></el-input>
-            </div>
-            <div class="item_large">
-              <span>小程序对应的商户号</span>
-              <el-input class="el-right" v-model="mchId" placeholder="请输入小程序对应的商户号"></el-input>
-            </div>
-            <div class="item_large">
-              <span>小程序对应的商户号api密钥</span>
-              <el-input class="el-right" v-model="mchApiKey" placeholder="请输入小程序对应的商户号api密钥"></el-input>
-            </div>-->
             <div class="item_large">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
@@ -541,24 +529,6 @@
                 </el-option>
               </el-select>
             </div>
-
-
-            <!--<div class="item-form">
-              <span>小程序app_id</span>
-              <el-input class="el-right" v-model="appId" placeholder="请输入小程序app_id"></el-input>
-            </div>
-            <div class="item-form">
-              <span>小程序名称</span>
-              <el-input class="el-right" v-model="appSecret" placeholder="请输入小程序名称"></el-input>
-            </div>
-            <div class="item-form">
-              <span>小程序密钥</span>
-              <el-input class="el-right" v-model="originalId" placeholder="请输入小程序密钥(app_secr)"></el-input>
-            </div>
-            <div class="item-form">
-              <span>小程序原始ID</span>
-              <el-input class="el-right" v-model="appName" placeholder="请输入小程序原始ID(original_id)"></el-input>
-            </div>-->
           </div>
           <div v-if="showType === enumShowType.sign">
             <div class="item-form">
@@ -883,7 +853,7 @@
         showDialog: false,
         //PMS配置
         PMSBrandList: [],
-        isJionCheckOut: true,
+        checkout: true,
         //捷信达
         pmsId: '',
         // pmsName: '', //放在计算属性
@@ -921,19 +891,12 @@
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
-        payChildCount: '',
-        // wechatPayAppId: '',
-        // mchId: '',
-        // mchApiKey: '',
+        childMchId: '',
         payCode: '',
         refundCode: '',
         //微信生态酒店配置
         wxHotelId: '',
         //小程序配置
-        // appId: '',
-        // appSecret: '',
-        // originalId: '',
-        // appName: '',
         miniAppList: [],
         appId: '',
         //电子签名
@@ -1230,15 +1193,13 @@
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           //微信支付配置
-          if (tool.isNotBlank(configData.miniapp_config)) {
-            this.wechatPayAppId = configData.miniapp_config.app_id;
-            this.mchId = configData.miniapp_config.mch_id;
-            this.mchApiKey = configData.miniapp_config.mch_api_key;
-          }
+          this.childMchId = configData.child_mch_id;
           this.payCode = configData.pay_code;
           this.refundCode = configData.refund_code;
           //微信生态酒店配置
           this.wxHotelId = configData.wx_hotel_id;
+          //小程序配置
+          this.appId = configData.app_id;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
           //电话取消订单
@@ -1301,6 +1262,7 @@
           //PMS信息
           //捷信达
           this.pmsId = this.pmsData.pms_id;
+          this.checkout = this.pmsData.checkout;
           // this.pmsName = this.pmsData.pms_name; //放在计算属性
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1352,8 +1314,6 @@
         'getPMSBrandList',
         'getLvye',
         'modifyLvye',
-        'getWechatApp',
-        'modifyWechatApp',
         'showtoast',
         'showalert',
         'goto'
@@ -1396,6 +1356,7 @@
           case enumShowType.PMS:
             //捷信达
             this.pmsId = this.pmsData.pms_id;
+            this.checkout = this.pmsData.checkout;
             // this.pmsName = this.pmsData.pms_name; //放在计算属性
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1435,9 +1396,7 @@
             this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
             break;
           case enumShowType.wechatPay:
-            this.wechatPayAppId = this.configData.miniapp_config.app_id;
-            this.mchId = this.configData.miniapp_config.mch_id;
-            this.mchApiKey = this.configData.miniapp_config.mch_api_key;
+            this.childMchId = this.configData.child_mch_id;
             this.payCode = this.configData.pay_code;
             this.refundCode = this.configData.refund_code;
             break;
@@ -1446,9 +1405,6 @@
             break;
           case enumShowType.miniApp:
             this.appId = this.wechatAppData.app_id;
-            this.appSecret = this.wechatAppData.app_secret;
-            this.originalId = this.wechatAppData.original_id;
-            this.appName = this.wechatAppData.app_name;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -1523,6 +1479,7 @@
           case enumShowType.PMS: {
             let paramData = {
               pms_id: this.pmsId,
+              checkout: this.checkout,
               pms_name: this.pmsName,
               hotel_pmscode: this.hotelPmsCode,
               hotel_service_url: this.hotelServiceUrl
@@ -1597,11 +1554,7 @@
             break;
           case enumShowType.wechatPay:
             data = {
-              miniapp_config: {
-                app_id: this.wechatPayAppId,
-                mch_id: this.mchId,
-                mch_api_key: this.mchApiKey
-              },
+              child_mch_id: this.childMchId,
               pay_code: this.payCode,
               refund_code: this.refundCode
             }
@@ -1613,14 +1566,9 @@
             break;
           case enumShowType.miniApp:
             data = {
-              app_id: this.appId,
-              app_secret: this.appSecret,
-              original_id: this.originalId,
-              app_name: this.appName
+              app_id: this.appId
             }
-            this.modifyWechatApps(data);
-            return;
-          // break;
+            break;
           case enumShowType.sign:
             data = {
               enabled_sign: this.enabledSign.toString()
@@ -1828,28 +1776,12 @@
             // this.getConfigs();
           }
         })
-      },
-      getWechatApps() {
-        this.getWechatApp({
-          // hotel_id: this.$route.params.hotelid
-        })
-      },
-      modifyWechatApps(data) {
-        this.modifyWechatApp({
-          hotel_id: this.$route.params.hotelid,
-          data: data,
-          onsuccess: body => {
-            this.showDialog = false;
-            // this.getConfigs();
-          }
-        })
-      },
+      }
     },
     mounted() {
       this.getConfigs();
       this.getPms();
       this.getLvyes();
-      // this.getWechatApps();
     }
   }
 </script>

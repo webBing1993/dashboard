@@ -37,7 +37,7 @@ App - Auth
                                         - HotelMenu    - HotelInfo
                                                        - Device           - EditDevice
                                                        - Room
-                                                       - RoomConfig
+                                                       - RoomType
                                                        - Config           - ConfigInfo
                                                                           - ConfigSummary
                                                        - OnlineStatus

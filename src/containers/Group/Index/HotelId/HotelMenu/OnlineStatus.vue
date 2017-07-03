@@ -13,20 +13,22 @@
             </el-option>
           </el-select>
         </div>
-        <div id="content_title">上线阻碍:</div>
-        <div class="item-label">
-          <div class="label-input">
-            <div class="label-input_items" v-for="(obj, index) in blockContents">
-              <el-input class="el-right" v-model="blockContents[index]" placeholder="请填写上线阻碍内容或JIRA链接"
-                        :disabled="(index+1) === blockContents.length ? !isEditContact : isEditContact "></el-input>
-              <button class="tag-minus" v-if="(index+1) < blockContents.length"
-                      @click="subtractBlockContents(index)">-
-              </button>
-              <button class="tag-add" v-if="(index+1) === blockContents.length"
-                      style="border-color: #39C240; color: #39C240" @click="addBlockContents">+
-              </button>
+        <div v-show="status === 1">
+          <div id="content_title">上线阻碍:</div>
+          <div class="item-label">
+            <div class="tag-input">
+              <div class="label-input_items" v-for="(obj, index) of memo">
+                <el-input class="el-right" v-model="memo[index]" placeholder="请填写上线阻碍内容或JIRA链接"></el-input>
+                <button class="tag-minus" v-show="memo.length > 1" @click="subtractMemo(index)">---</button>
+              </div>
+              <div class="tag-btn">
+                <button class="tag-add" style="border-color: #39C240; color: #39C240" @click="addMemo">+</button>
+              </div>
             </div>
           </div>
+        </div>
+        <div class="button-box">
+          <el-button class="el-btn" type="success" @click.native="modify">提交</el-button>
         </div>
       </div>
     </div>
@@ -34,35 +36,63 @@
 </template>
 
 <script>
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import tool from '@/assets/tools/tool.js';
+
   export default {
     name: 'OnlineStatus',
     data() {
       return {
         status: 1,
         statusList: [
-          {
-            id: 1,
-            name: '上线'
-          }, {
-            id: 2,
-            name: '下线'
-          }, {
-            id: 3,
-            name: '阻碍中'
-          }
+            {
+                id: 1,
+                name: '未上线'
+            },{
+                id: 2,
+                name: '已上线'
+            },{
+                id: 3,
+                name: '已下线'
+            },{
+                id: 4,
+                name: '阻碍中'
+            }
         ],
-        blockContents: [''],
-        isEditContact: true
+        memo: ['']
       }
     },
     methods: {
-      subtractBlockContents(index) {
-        if (this.blockContents.length == 1) return;
-        this.blockContents.splice(index, 1);
+      ...mapActions([
+        'getStatus',
+        'modifyStatus'
+      ]),
+      subtractMemo(index) {
+        if (this.memo.length == 1) return;
+        this.memo.splice(index, 1);
       },
-      addBlockContents() {
-        this.blockContents.push('');
+      addMemo() {
+        this.memo.push('');
       },
+      getDetail() {
+        this.getStatus({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.status = body.status;
+            this.memo = body.memo;
+          }
+        })
+      },
+      modify() {
+        this.modifyStatus({
+          hotel_id: this.$route.params.hotelid,
+          status: this.status,
+          memo: this.memo,
+          onsuccess: body => {
+
+          }
+        })
+      }
     },
     mounted() {
 
