@@ -112,7 +112,7 @@
     display: flex;
     flex-direction: column;
     font-size: 14px;
-    padding: 24px 15px 19px 21px;
+    padding: 44px 15px 19px 21px;
     .content-item {
       display: flex;
       align-items: center;
