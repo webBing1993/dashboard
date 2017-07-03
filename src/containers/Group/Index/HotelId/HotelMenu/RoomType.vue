@@ -56,9 +56,10 @@
         size: 20,
         total: 0,
         list: [{
-          type: '哈哈',
-          count: 3,
-          num: 2
+          "room_type_id":"c6aaecf6273511e780ad5cb9018d9b5c",
+          "name":"房型",           //房型名称
+          "room_num":"30",        //房间数量
+          "max_guest_count":"10", //可住人数
         }],
         maxGuestCount: ''
       }
