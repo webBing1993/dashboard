@@ -19,13 +19,15 @@ module.exports = {
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+
         let obj = {
-          ...ctx.state.configData
+          ...ctx.state.enterprise.configData
         }
         for(let key in body.data) {
           obj[key] = body.data[key];
         }
         ctx.commit('CONFIGDATA', obj)
+
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

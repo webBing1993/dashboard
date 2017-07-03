@@ -65,9 +65,9 @@
                 <span>请选择支付商户</span>
                 <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'" :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
                   <el-option
-                      v-for="(obj, index) of merchantsList"
+                      v-for="(obj, index) of mchList"
                       :key="obj.id"
-                      :label="obj.name"
+                      :label="obj.mch_name"
                       :value="obj.id">
                   </el-option>
                 </el-select>
@@ -90,15 +90,7 @@
     data() {
       return {
         showDialog: false,
-        list: [{
-          "app_id":"xxxxxx",
-          "app_secret":"应用密钥",
-          "original_id":"应用原始ID",
-          "app_name":"xxx",
-          "contact_name":"绑定人",
-          "contact_phone":"手机号",
-          "wechat_pay_config_id":"商户号",
-        }],
+        list: [],
         page: 1,
         size: 20,
         total: 0,
@@ -110,7 +102,7 @@
         contactName: '',
         contactPhone: '',
         merchantsId: '',
-        merchantsList: []
+        mchList: []
       }
     },
     methods: {
@@ -183,12 +175,21 @@
       },
       getMchList() {
         this.getWechatpayList({
-          onsuccess: (body, headers) => this.mchList = body.data
+          onsuccess: (body, headers) => {
+            this.mchList = body.data;
+            if (this.mchList.length === 0) {
+              this.showalert({
+                code: 0,
+                content: '支付商户为空，请先配置微信支付!'
+              });
+            }
+          }
         })
       },
     },
     mounted() {
-
+      this.getList();
+      this.getMchList();
     }
   }
 </script>

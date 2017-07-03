@@ -523,9 +523,9 @@
               <el-select class="el-right" v-model="appId" placeholder="请选择小程序">
                 <el-option
                   v-for="(obj, index) of miniAppList"
-                  :key="obj.id"
-                  :label="obj.name"
-                  :value="obj.id">
+                  :key="obj.app_id"
+                  :label="obj.app_name"
+                  :value="obj.app_id">
                 </el-option>
               </el-select>
             </div>
@@ -1262,7 +1262,7 @@
           //PMS信息
           //捷信达
           this.pmsId = this.pmsData.pms_id;
-          this.checkout = this.pmsData.checkout;
+          this.checkout = this.pmsData.checkout == 'true' ? true : false;
           // this.pmsName = this.pmsData.pms_name; //放在计算属性
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1314,6 +1314,7 @@
         'getPMSBrandList',
         'getLvye',
         'modifyLvye',
+        'getMiniAppList',
         'showtoast',
         'showalert',
         'goto'
@@ -1325,16 +1326,20 @@
       },
       dialogConfig(type) {
         this.showType = type;
-        this.showDialog = true;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
+        } else if (type === enumShowType.miniApp) {
+          this.getMiniAppLists()
+        } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
+          console.log(45678976545678)
+          this.showalert({
+            code: 0,
+            content: '小程序尚未配置,请先配置小程序!'
+          });
+          return;
         }
-        // else if (type === enumShowType.wechatPay && (!this.wechatAppData.length || this.wechatAppData.length == 0)) {
-        //   this.showalert({
-        //     code: 0,
-        //     content: '请先配置小程序!'
-        //   });
-        // }
+
+        this.showDialog = true;
       },
       addInvoiceName() {
         this.invoiceName.push('');
@@ -1356,7 +1361,7 @@
           case enumShowType.PMS:
             //捷信达
             this.pmsId = this.pmsData.pms_id;
-            this.checkout = this.pmsData.checkout;
+            this.checkout = this.pmsData.checkout == 'true' ? true : false;
             // this.pmsName = this.pmsData.pms_name; //放在计算属性
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1404,7 +1409,7 @@
             this.wxHotelId = this.configData.wx_hotel_id;
             break;
           case enumShowType.miniApp:
-            this.appId = this.wechatAppData.app_id;
+            this.appId = this.configData.app_id;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -1479,7 +1484,7 @@
           case enumShowType.PMS: {
             let paramData = {
               pms_id: this.pmsId,
-              checkout: this.checkout,
+              checkout: this.checkout.toString(),
               pms_name: this.pmsName,
               hotel_pmscode: this.hotelPmsCode,
               hotel_service_url: this.hotelServiceUrl
@@ -1729,6 +1734,7 @@
             //   obj[key] = body.data[key];
             // }
             // this.$store.state.enterprise.configData = obj;
+            
             // this.getConfigs();
           }
         })
@@ -1776,7 +1782,20 @@
             // this.getConfigs();
           }
         })
-      }
+      },
+      getMiniAppLists() {
+        this.getMiniAppList({
+          onsuccess: (body, headers) => {
+            this.miniAppList = body.data;
+            if (this.miniAppList.length === 0) {
+              this.showalert({
+                code: 0,
+                content: '小程序列表为空，请先添加小程序!'
+              });
+            }
+          }
+        })
+      },
     },
     mounted() {
       this.getConfigs();

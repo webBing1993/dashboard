@@ -78,14 +78,7 @@
     data() {
       return {
         showDialog: false,
-        list: [{
-          "id":"xxxxxx",
-          "mch_id":"商户号",
-          "mch_api_key":"商户号API秘钥",
-          "mch_name":"商户名称",
-          "contact_name":"绑定人",
-          "contact_phone":"手机号"
-        }],
+        list: [],
         page: 1,
         size: 20,
         total: 0,
@@ -134,7 +127,7 @@
         this.page = val;
       },
       modify() {
-        this.modifyMiniApp({
+        this.modifyWechatpay({
           id: this.wechatpayId,
           mch_id: this.mchId,
           mch_api_key: this.mchApiKey,
@@ -148,7 +141,7 @@
         })
       },
       getList() {
-        this.getMiniAppList({
+        this.getWechatpayList({
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
@@ -164,7 +157,7 @@
       },
     },
     mounted() {
-
+      this.getList();
     }
   }
 </script>

@@ -45,9 +45,9 @@
               <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'"
                          :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
                 <el-option
-                  v-for="(obj, index) of merchantsList"
+                  v-for="(obj, index) of mchList"
                   :key="obj.id"
-                  :label="obj.name"
+                  :label="obj.mch_name"
                   :value="obj.id">
                 </el-option>
               </el-select>
@@ -68,18 +68,22 @@
     name: 'AddMiniApp',
     data () {
       return {
+        appId: '',
+        appSecret: '',
+        originalId: '',
         appName: '',
+        contactName: '',
+        contactPhone: '',
         merchantsId: '',
-        merchantsList: [{
-          id: 1,
-          name: '漫客'
-        }]
+        mchList: []
       }
     },
     methods: {
       ...mapActions([
         'addMiniApp',
-        'goto'
+        'getWechatpayList',
+        'goto',
+        'showalert'
       ]),
       nextStep() {
         this.$validator.validateAll().then(() => {
@@ -95,13 +99,26 @@
           app_name: this.appName,
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
-          wechat_pay_config_id: this.wechatPayConfigId,
+          wechat_pay_config_id: this.merchantsId,
           onsuccess: body => this.goto(-1)
         })
       },
+      getMchList() {
+        this.getWechatpayList({
+          onsuccess: (body, headers) => {
+            this.mchList = body.data;
+            if (this.mchList.length === 0) {
+              this.showalert({
+                code: 0,
+                content: '支付商户为空，请先配置微信支付!'
+              });
+            }
+          }
+        })
+      }
     },
     mounted() {
-
+      this.getMchList();
     }
   }
 </script>

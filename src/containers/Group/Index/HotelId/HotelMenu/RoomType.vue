@@ -55,13 +55,9 @@
         page: 1,
         size: 20,
         total: 0,
-        list: [{
-          "room_type_id":"c6aaecf6273511e780ad5cb9018d9b5c",
-          "name":"房型",           //房型名称
-          "room_num":"30",        //房间数量
-          "max_guest_count":"10", //可住人数
-        }],
-        maxGuestCount: ''
+        list: [],
+        roomTypeId: '',
+        maxGuestCount: '',
       }
     },
     methods: {
@@ -70,6 +66,7 @@
         'getRoomTypeList'
       ]),
       edit(obj) {
+        this.roomTypeId = obj.room_type_id;
         this.maxGuestCount = obj.max_guest_count;
         this.showDialog = true;
       },
@@ -89,7 +86,7 @@
 
         this.patchRoomType({
           data,
-          hotel_id: this.$route.params.hotelid,
+          room_type_id: this.roomTypeId,
           onsuccess: body => {
             this.showDialog = false;
             this.getList();
@@ -114,7 +111,7 @@
       },
     },
     mounted() {
-
+      this.getList();
     }
   }
 </script>
