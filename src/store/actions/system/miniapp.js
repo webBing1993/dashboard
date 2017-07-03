@@ -4,7 +4,6 @@ module.exports = {
       url: '/wechatapp',
       method:'POST',
       body: {
-        app_id: param.app_id,
         app_secret: param.app_secret,
         original_id: param.original_id,
         app_name: param.app_name,

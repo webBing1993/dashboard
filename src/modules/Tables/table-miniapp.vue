@@ -14,10 +14,10 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.name }}</td>
-        <td>{{ obj.id }}</td>
-        <td>{{ obj.user }}</td>
-        <td>{{ obj.tel }}</td>
+        <td>{{ obj.app_name }}</td>
+        <td>{{ obj.app_id }}</td>
+        <td>{{ obj.contact_name }}</td>
+        <td>{{ obj.contact_phone }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>

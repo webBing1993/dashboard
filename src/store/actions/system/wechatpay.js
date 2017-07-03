@@ -4,7 +4,6 @@ module.exports = {
       url: '/wechatpay',
       method:'POST',
       body: {
-        id: param.id,
         mch_id: param.mch_id,
         mch_api_key: param.mch_api_key,
         mch_name: param.mch_name,

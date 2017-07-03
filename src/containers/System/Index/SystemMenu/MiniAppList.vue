@@ -91,10 +91,13 @@
       return {
         showDialog: false,
         list: [{
-            id: 666666666,
-            name: '曼克+',
-            user: '哈哈',
-            tel: '13333333333'
+          "app_id":"xxxxxx",
+          "app_secret":"应用密钥",
+          "original_id":"应用原始ID",
+          "app_name":"xxx",
+          "contact_name":"绑定人",
+          "contact_phone":"手机号",
+          "wechat_pay_config_id":"商户号",
         }],
         page: 1,
         size: 20,
@@ -124,6 +127,14 @@
       },
       edit(obj) {
         this.showDialog = true;
+
+        this.appId = obj.app_id;
+        this.appSecret = obj.app_secret;
+        this.originalId = obj.original_id;
+        this.appName = obj.app_name;
+        this.contactName = obj.contact_name;
+        this.contactPhone = obj.contact_phone;
+        this.merchantsId = obj.wechat_pay_config_id;
       },
       hideDialog() {
         this.showDialog = false;

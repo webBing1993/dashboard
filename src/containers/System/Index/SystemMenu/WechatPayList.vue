@@ -18,14 +18,53 @@
         </el-pagination>
       </div>
       <el-dialog
-        title="哈哈哈"
+        title="修改微信支付"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="false"
       >
         <div class="dialog-content">
-
+          <div class="content-msg">
+            <span>ID</span>
+            <el-input class="el-right" v-model="wechatpayId" name="wechatpayId" v-validate="'required'"
+                      :class="{'is-danger': errors.has('wechatpayId') }" placeholder="请输入微信支付ID"></el-input>
+            <span class="help is-danger" v-show="errors.has('wechatpayId')">ID不能为空!</span>
+          </div>
+          <div class="content-msg">
+            <span>商户名称</span>
+            <el-input class="el-right" v-model="mchName" name="mchName" v-validate="'required'"
+                      :class="{'is-danger': errors.has('mchName') }" placeholder="请输入微信支付商户名称"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchName')">商户名称不能为空!</span>
+          </div>
+          <div class="content-msg">
+            <span>商户号</span>
+            <el-input class="el-right" v-model="mchId" name="mchId" v-validate="'required'"
+                      :class="{'is-danger': errors.has('mchId') }" placeholder="请输入微信支付商户号"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchId')">商户号不能为空!</span>
+          </div>
+          <div class="content-msg">
+            <span>商户号API密钥</span>
+            <el-input class="el-right" v-model="mchApiKey" name="mchApiKey" v-validate="'required'"
+                      :class="{'is-danger': errors.has('mchApiKey') }" placeholder="请输入微信支付商户号API密钥"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchApiKey')">商户号API密钥不能为空!</span>
+          </div>
+          <div class="content-msg">
+            <span>绑定人</span>
+            <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
+                      :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+            <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
+          </div>
+          <div class="content-msg">
+            <span>手机号</span>
+            <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
+                      :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
+            <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -40,18 +79,28 @@
       return {
         showDialog: false,
         list: [{
-          id: 666666666,
-          name: '曼克+',
-          user: '哈哈',
-          tel: '13333333333'
+          "id":"xxxxxx",
+          "mch_id":"商户号",
+          "mch_api_key":"商户号API秘钥",
+          "mch_name":"商户名称",
+          "contact_name":"绑定人",
+          "contact_phone":"手机号"
         }],
         page: 1,
         size: 20,
-        total: 0
+        total: 0,
+        wechatpayId: '',
+        mchName: '',
+        mchId: '',
+        mchApiKey: '',
+        contactName: '',
+        contactPhone: '',
       }
     },
     methods: {
       ...mapActions([
+        'getWechatpayList',
+        'modifyWechatpay',
         'goto'
       ]),
       addWechatpay() {
@@ -61,18 +110,57 @@
       },
       edit(obj) {
         this.showDialog = true;
+
+        this.wechatpayId = obj.id;
+        this.mchName = obj.mch_name;
+        this.mchId = obj.mch_id;
+        this.mchApiKey = obj.mch_api_key;
+        this.contactName = obj.contact_name;
+        this.contactPhone = obj.contact_phone;
       },
       hideDialog() {
         this.showDialog = false;
       },
       submitDialog() {
-
+        this.$validator.validateAll().then(() => {
+          this.modify();
+        }).catch(() => {
+        });
       },
       handleSizeChange(val) {
         this.size = val;
       },
       handleCurrentChange(val) {
         this.page = val;
+      },
+      modify() {
+        this.modifyMiniApp({
+          id: this.wechatpayId,
+          mch_id: this.mchId,
+          mch_api_key: this.mchApiKey,
+          mch_name: this.mchName,
+          contact_name: this.contactName,
+          contact_phone: this.contactPhone,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.getList();
+          }
+        })
+      },
+      getList() {
+        this.getMiniAppList({
+          page: this.page.toString(),
+          size: this.size.toString(),
+          onsuccess: (body, headers) => {
+            // headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
+            // headers.get('x-total') ? this.total = +headers.get('x-total') : null;
+
+            headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
+            headers['x-total'] ? this.total = +headers['x-total'] : null;
+
+            this.list = body.data;
+          }
+        })
       },
     },
     mounted() {
