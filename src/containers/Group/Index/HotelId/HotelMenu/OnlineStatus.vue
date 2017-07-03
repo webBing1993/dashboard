@@ -13,7 +13,7 @@
             </el-option>
           </el-select>
         </div>
-        <div v-show="status === 1">
+        <div v-show="status === '4'">
           <div id="content_title">上线阻碍:</div>
           <div class="item-label">
             <div class="label-input">
@@ -43,24 +43,29 @@
     name: 'OnlineStatus',
     data() {
       return {
-        status: 1,
+        status: '',
         statusList: [
           {
-            id: 1,
+            id: '1',
             name: '未上线'
           }, {
-            id: 2,
+            id: '2',
             name: '已上线'
           }, {
-            id: 3,
+            id: '3',
             name: '已下线'
           }, {
-            id: 4,
+            id: '4',
             name: '阻碍中'
           }
         ],
         memo: ['']
       }
+    },
+    computed: {
+      memoList() {
+        return this.memo.filter(v => v != '');
+      },
     },
     methods: {
       ...mapActions([
@@ -78,8 +83,10 @@
         this.getStatus({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            this.status = body.status;
-            this.memo = body.memo;
+            this.status = body.data.status;
+            if (tool.isNotBlank(body.data.memo)) {
+              this.memo = body.data.memo.length > 0 ? [...body.data.memo] : [''];
+            }
           }
         })
       },
@@ -87,7 +94,7 @@
         this.modifyStatus({
           hotel_id: this.$route.params.hotelid,
           status: this.status,
-          memo: this.memo,
+          memo: this.memoList,
           onsuccess: body => {
 
           }
@@ -95,7 +102,7 @@
       }
     },
     mounted() {
-
+      this.getDetail();
     }
   }
 </script>
