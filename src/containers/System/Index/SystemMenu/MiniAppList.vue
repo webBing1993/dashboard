@@ -1,84 +1,92 @@
 <template>
   <div>
     <div class="module-wrapper">
-        <div class="content_miniAppList">
-            <div class="data_title">
-              <el-button type="success" @click.native="addMiniApp">+添加小程序</el-button>
-            </div>
-            <table-miniapp :list="list" :page="page" :size="size" @edit="edit"></table-miniapp>
-            <el-pagination
-                v-show="total > size"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page="page"
-                :page-sizes="[10, 20, 30]"
-                :page-size="size"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="total">
-            </el-pagination>
+      <div class="content_miniAppList">
+        <div class="data_title">
+          <el-button type="success" @click.native="addMiniApp">+添加小程序</el-button>
         </div>
-        <el-dialog
-            title="修改小程序"
-            :visible.sync="showDialog"
-            :close-on-click-modal="false"
-            :close-on-press-escape="false"
-            :show-close="false"
-        >
-            <div class="dialog-content">
-              <div class="content-msg">
-                <span>小程序名称</span>
-                <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
-                          :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序名称"></el-input>
-                <span class="help is-danger" v-show="errors.has('appName')">小程序名称不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>小程序ID</span>
-                <el-input class="el-right" v-model="appId" name="appId" v-validate="'required'"
-                          :class="{'is-danger': errors.has('appId') }" placeholder="请输入小程序ID"></el-input>
-                <span class="help is-danger" v-show="errors.has('appId')">小程序ID不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>小程序密钥</span>
-                <el-input class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
-                          :class="{'is-danger': errors.has('appSecret') }" placeholder="请输入小程序密钥"></el-input>
-                <span class="help is-danger" v-show="errors.has('appSecret')">小程序密钥不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>小程序原始ID</span>
-                <el-input class="el-right" v-model="originalId" name="originalId" v-validate="'required'"
-                          :class="{'is-danger': errors.has('originalId') }" placeholder="请输入小程序原始ID"></el-input>
-                <span class="help is-danger" v-show="errors.has('originalId')">小程序原始ID不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>绑定人</span>
-                <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
-                          :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
-                <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>手机号</span>
-                <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
-                          :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
-                <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
-              </div>
-              <div class="content-msg">
-                <span>请选择支付商户</span>
-                <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'" :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
-                  <el-option
-                      v-for="(obj, index) of merchantsList"
-                      :key="obj.id"
-                      :label="obj.name"
-                      :value="obj.id">
-                  </el-option>
-                </el-select>
-                <span class="help is-danger" v-show="errors.has('merchantsId')">请选择支付商户!</span>
-              </div>
-            </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="hideDialog">取 消</el-button>
-              <el-button type="primary" @click="submitDialog">确 定</el-button>
-            </div>
-        </el-dialog>
+        <table-miniapp :list="list" :page="page" :size="size" @edit="edit"></table-miniapp>
+        <el-pagination
+          v-show="total > size"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="page"
+          :page-sizes="[10, 20, 30]"
+          :page-size="size"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
+      <el-dialog
+        title="修改小程序"
+        :visible.sync="showDialog"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+      >
+        <div class="miniApp-dialog-content">
+          <div class="dialog_item">
+            <span>小程序名称</span>
+            <el-input class="el-right" v-model="appName" name="appName" v-validate="'required'"
+                      :class="{'is-danger': errors.has('appName') }" placeholder="请输入小程序名称"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('appName')">小程序名称不能为空!</span>
+
+          <div class="dialog_item">
+            <span>小程序ID</span>
+            <el-input class="el-right" v-model="appId" name="appId" v-validate="'required'"
+                      :class="{'is-danger': errors.has('appId') }" placeholder="请输入小程序ID"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('appId')">小程序ID不能为空!</span>
+
+          <div class="dialog_item">
+            <span>小程序密钥</span>
+            <el-input class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
+                      :class="{'is-danger': errors.has('appSecret') }" placeholder="请输入小程序密钥"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('appSecret')">小程序密钥不能为空!</span>
+
+          <div class="dialog_item">
+            <span>小程序原始ID</span>
+            <el-input class="el-right" v-model="originalId" name="originalId" v-validate="'required'"
+                      :class="{'is-danger': errors.has('originalId') }" placeholder="请输入小程序原始ID"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('originalId')">小程序原始ID不能为空!</span>
+
+          <div class="dialog_item">
+            <span>绑定人</span>
+            <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
+                      :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
+
+          <div class="dialog_item">
+            <span>手机号</span>
+            <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
+                      :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
+          </div>
+          <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
+
+          <div class="dialog_item">
+            <span>请选择支付商户</span>
+            <el-select class="el-right" v-model="merchantsId" name="merchantsId" v-validate="'required'"
+                       :class="{'is-danger': errors.has('merchantsId') }" placeholder="请选择支付商户">
+              <el-option
+                v-for="(obj, index) of merchantsList"
+                :key="obj.id"
+                :label="obj.name"
+                :value="obj.id">
+              </el-option>
+            </el-select>
+          </div>
+          <span class="help is-danger" v-show="errors.has('merchantsId')">请选择支付商户!</span>
+
+        </div>
+        <div slot="footer" class="dialog-footers">
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
+          <el-button @click="hideDialog">取 消</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -91,13 +99,13 @@
       return {
         showDialog: false,
         list: [{
-          "app_id":"xxxxxx",
-          "app_secret":"应用密钥",
-          "original_id":"应用原始ID",
-          "app_name":"xxx",
-          "contact_name":"绑定人",
-          "contact_phone":"手机号",
-          "wechat_pay_config_id":"商户号",
+          "app_id": "xxxxxx",
+          "app_secret": "应用密钥",
+          "original_id": "应用原始ID",
+          "app_name": "xxx",
+          "contact_name": "绑定人",
+          "contact_phone": "手机号",
+          "wechat_pay_config_id": "商户号",
         }],
         page: 1,
         size: 20,
@@ -194,23 +202,82 @@
 </script>
 
 <style scoped lang="less">
-    .content_miniAppList {
-      font-size: 16px;
-      color: #4A4A4A;
-      font-weight: normal;
-      padding: 16px 25px 0 24px;
-      .data_title {
-        text-align: end;
-        margin-bottom: 10px;
-        .el-button {
-          line-height: 18px;
-          min-width: 173px;
-          font-size: 13px;
-          background-color: #39C240;
-          border-color: #39C240;
-          border-radius: 0;
-          margin: 0;
-        }
+  .content_miniAppList {
+    font-size: 16px;
+    color: #4A4A4A;
+    font-weight: normal;
+    padding: 16px 25px 0 24px;
+    .data_title {
+      text-align: end;
+      margin-bottom: 10px;
+      .el-button {
+        line-height: 18px;
+        min-width: 173px;
+        font-size: 13px;
+        background-color: #39C240;
+        border-color: #39C240;
+        border-radius: 0;
+        margin: 0;
       }
     }
+  }
+
+  .miniApp-dialog-content {
+    .dialog_item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+      .el-right {
+        width: 76%;
+        .el-input {
+          width: 100%;
+
+        }
+      }
+      span {
+        min-width: 100px;
+        font-size: 14px;
+        text-align: end;
+        margin-right: 5px;
+      }
+    }
+    .help {
+      display: block;
+      position: relative;
+      line-height: 40px;
+      text-align: left;
+      font-size: 14px;
+      margin: -8px 0 0 103px;
+      color: #D0011B;
+      &:before {
+        content: '*';
+        position: absolute;
+        top: 4px;
+        left: -14px;
+        font-size: 22px;
+      }
+    }
+  }
+
+  .dialog-footers {
+    text-align: center;
+    margin-top: -20px;
+    .el-button {
+      width: 246px;
+      border-radius: 0;
+      line-height: 18px;
+      margin: 0;
+      &:nth-child(1) {
+        background-color: #39C240;
+        border-color: #39C240;
+        color: #ffffff;
+        margin-right: 22px;
+      }
+    }
+    .el-button--primary {
+      background-color: transparent;
+      border: solid 1px #979797;
+      color: #4A4A4A;
+    }
+  }
 </style>
