@@ -14,7 +14,7 @@ module.exports = {
   },
   getRoomTypeList(ctx, param){
     ctx.dispatch('resource', {
-      url: `/hotels/${param.hotel_id}/roomtype`,
+      url: `/hotel/${param.hotel_id}/roomtype`,
       method:'GET',
       headers: {
         'X-Current-Page': param.page || '1',

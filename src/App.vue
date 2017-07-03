@@ -19,6 +19,7 @@
           this.$alert(this.Interface.alert.content, this.Interface.alert.title, {
             confirmButtonText: '确定',
             callback: action => {
+              this.$store.state.utils.Interface.alert.show = false;
               if (this.Interface.alert.code == 401) this.goto({path: '/auth'})
             }
           });

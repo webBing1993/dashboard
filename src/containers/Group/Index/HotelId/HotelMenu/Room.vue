@@ -130,15 +130,24 @@
         }
       },
       submitDialog() {
+        let data = {}
         switch (this.showType) {
           case enumShowType.edit:
-            this.modify();
+            data = {
+              roomfeature_desc: this.roomfeatureDesc.join(),
+              room_lock_sn: this.tempObj.room_lock_sn,
+            }
             break;
           case enumShowType.config:
+            data = {
+              roomfeature_desc: this.tempObj.roomfeature_desc,
+              room_lock_sn: this.roomLockSn,
+            }
             break;
 
           default:
         }
+        this.modify(data);
       },
       handleSizeChange(val) {
         this.size = val;
@@ -164,16 +173,16 @@
           }
         })
       },
-      modify() {
+      modify(data) {
+        console.log(data)
         this.modifyRoom({
+          ...data,
           hotel_id: this.$route.params.hotelid,
           room_id: this.tempObj.room_id,
           building_name: this.tempObj.building_name,
           floor_name: this.tempObj.floor_name,
           room_num: this.tempObj.room_num,
           room_type_name: this.tempObj.room_type_name,
-          roomfeature_desc: this.roomfeatureDesc.join(),
-          room_lock_sn: this.roomLockSn,
           onsuccess: body => {
             this.showDialog = false;
             this.getList();

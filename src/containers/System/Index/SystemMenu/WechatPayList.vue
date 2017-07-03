@@ -24,53 +24,47 @@
         :close-on-press-escape="false"
         :show-close="false"
       >
-        <div class="wechatPay-dialog-content">
-          <div class="dialog_item">
+        <div class="dialog-content">
+          <div class="content-msg">
             <span>ID</span>
             <el-input class="el-right" v-model="wechatpayId" name="wechatpayId" v-validate="'required'"
                       :class="{'is-danger': errors.has('wechatpayId') }" placeholder="请输入微信支付ID"></el-input>
+            <span class="help is-danger" v-show="errors.has('wechatpayId')">ID不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('wechatpayId')">ID不能为空!</span>
-
-          <div class="dialog_item">
+          <div class="content-msg">
             <span>商户名称</span>
             <el-input class="el-right" v-model="mchName" name="mchName" v-validate="'required'"
                       :class="{'is-danger': errors.has('mchName') }" placeholder="请输入微信支付商户名称"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchName')">商户名称不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('mchName')">商户名称不能为空!</span>
-
-          <div class="dialog_item">
+          <div class="content-msg">
             <span>商户号</span>
             <el-input class="el-right" v-model="mchId" name="mchId" v-validate="'required'"
                       :class="{'is-danger': errors.has('mchId') }" placeholder="请输入微信支付商户号"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchId')">商户号不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('mchId')">商户号不能为空!</span>
-
-          <div class="dialog_item">
+          <div class="content-msg">
             <span>商户号API密钥</span>
             <el-input class="el-right" v-model="mchApiKey" name="mchApiKey" v-validate="'required'"
                       :class="{'is-danger': errors.has('mchApiKey') }" placeholder="请输入微信支付商户号API密钥"></el-input>
+            <span class="help is-danger" v-show="errors.has('mchApiKey')">商户号API密钥不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('mchApiKey')">商户号API密钥不能为空!</span>
-
-          <div class="dialog_item">
+          <div class="content-msg">
             <span>绑定人</span>
             <el-input class="el-right" v-model="contactName" name="contactName" v-validate="'required'"
                       :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+            <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('contactName')">绑定人不能为空!</span>
-
-          <div class="dialog_item">
+          <div class="content-msg">
             <span>手机号</span>
             <el-input class="el-right" v-model="contactPhone" name="contactPhone" v-validate="'required'"
                       :class="{'is-danger': errors.has('contactPhone') }" placeholder="请输入小程序绑定人手机号码"></el-input>
+            <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
           </div>
-          <span class="help is-danger" v-show="errors.has('contactPhone')">手机号不能为空!</span>
-
         </div>
-        <div slot="footer" class="dialog-footers">
-          <el-button type="primary" @click="submitDialog">确 定</el-button>
+        <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -84,14 +78,7 @@
     data() {
       return {
         showDialog: false,
-        list: [{
-          "id": "xxxxxx",
-          "mch_id": "商户号",
-          "mch_api_key": "商户号API秘钥",
-          "mch_name": "商户名称",
-          "contact_name": "绑定人",
-          "contact_phone": "手机号"
-        }],
+        list: [],
         page: 1,
         size: 20,
         total: 0,
@@ -140,7 +127,7 @@
         this.page = val;
       },
       modify() {
-        this.modifyMiniApp({
+        this.modifyWechatpay({
           id: this.wechatpayId,
           mch_id: this.mchId,
           mch_api_key: this.mchApiKey,
@@ -154,7 +141,7 @@
         })
       },
       getList() {
-        this.getMiniAppList({
+        this.getWechatpayList({
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
@@ -170,7 +157,7 @@
       },
     },
     mounted() {
-
+      this.getList();
     }
   }
 </script>
@@ -193,65 +180,6 @@
         border-radius: 0;
         margin: 0;
       }
-    }
-  }
-
-  .wechatPay-dialog-content {
-    .dialog_item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-      .el-right {
-        width: 76%;
-        .el-input {
-          width: 100%;
-
-        }
-      }
-      span {
-        min-width: 100px;
-        font-size: 14px;
-        text-align: end;
-        margin-right: 5px;
-      }
-    }
-    .help {
-      display: block;
-      position: relative;
-      line-height: 40px;
-      text-align: left;
-      font-size: 14px;
-      margin: -8px 0 0 103px;
-      color: #D0011B;
-      &:before {
-        content: '*';
-        position: absolute;
-        top: 4px;
-        left: -14px;
-        font-size: 22px;
-      }
-    }
-  }
-
-  .dialog-footers {
-    text-align: center;
-    margin-top: -20px;
-    .el-button {
-      width: 246px;
-      border-radius: 0;
-      line-height: 18px;
-      margin: 0;
-      &:nth-child(1) {
-        background-color: #39C240;
-        border-color: #39C240;
-        color: #ffffff;
-        margin-right: 22px;
-      }
-    }
-    .el-button--primary {
-      background-color: transparent;
-      border: solid 1px #979797;
-      color: #4A4A4A;
     }
   }
 </style>
