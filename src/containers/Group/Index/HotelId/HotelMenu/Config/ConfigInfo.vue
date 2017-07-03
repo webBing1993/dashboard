@@ -776,8 +776,8 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
           <el-button @click="hideDialog">取 消</el-button>
+          <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -2002,10 +2002,12 @@
               line-height: 18px;
               margin: 0;
               &:nth-child(1) {
+                margin-right: 22px;
+              }
+              &:nth-child(2) {
                 background-color: #39C240;
                 border-color: #39C240;
                 color: #ffffff;
-                margin-right: 22px;
               }
             }
             .el-button--primary {
