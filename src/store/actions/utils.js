@@ -230,18 +230,21 @@ module.exports = {
       }
     ).catch(
       error => {
+        // let status = error.status;
+        let status = error.response.status;
+
         ctx.commit('LOADING')
         //ErrorCallback
-        if (error.status === 401) {
+        if (status === 401) {
           ctx.dispatch('showalert', {
-            code: error.status,
+            code: status,
             content: '登录失效!'
           });
-        } else if (error.status === 400) {
+        } else if (status === 400) {
           ctx.dispatch('showtoast', {text: 'Bad Request', type: 'error'});
-        } else if (error.status === 404) {
+        } else if (status === 404) {
           ctx.dispatch('showtoast', {text: 'Not Found', type: 'error'});
-        } else if (error.status === 500) {
+        } else if (status === 500) {
           ctx.dispatch('showtoast', {text: 'Internal Server Error', type: 'error'});
         } else {
           // console.log(error)
