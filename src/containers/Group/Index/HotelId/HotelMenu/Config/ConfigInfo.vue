@@ -1206,7 +1206,10 @@
           this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
           if (this.isEnabledCancelTime) {
             let date = new Date(parseInt(configData.enabled_cancel_time));
-            this.enabledCancelTime = `${date.getHours()}:${date.getMinutes()}`;
+            let hours = date.getHours();
+            let min = date.getMinutes();
+            let minStr = min > 9 ? min : `0${min}`;
+            this.enabledCancelTime = `${hours}:${minStr}`;
           }
           //发票配置
           this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
@@ -1418,7 +1421,10 @@
             this.isEnabledCancelTime = tool.isNotBlank(this.configData.enabled_cancel_time);
             if (this.isEnabledCancelTime) {
               let date = new Date(parseInt(this.configData.enabled_cancel_time));
-              this.enabledCancelTime = `${date.getHours()}:${date.getMinutes()}`;
+              let hours = date.getHours();
+              let min = date.getMinutes();
+              let minStr = min > 9 ? min : `0${min}`;
+              this.enabledCancelTime = `${hours}:${minStr}`;
             }
             break;
           case enumShowType.invoice:
