@@ -930,7 +930,7 @@
         cashPledgeTypeList: [
           {name: '无押金', value: 'none_cash_pledge'},
           {name: '固定押金', value: 'fixed_cash_pledge'},
-          {name: '首晚房费', value: 'first_day_of_room_price'},
+          // {name: '首晚房费', value: 'first_day_of_room_price'},
           {name: '最大系数', value: 'multiple_of_cash_pledge'}],
         fixedCashPledge: '',
         multipleOfCashPledge: '',
