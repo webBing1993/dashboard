@@ -44,9 +44,10 @@
         </div>
         <div class="configsummary_item">
           <h3>微信支付配置</h3>
-          <p>小程序app_id: {{configData.miniapp_config ? configData.miniapp_config.app_id : ''}}</p>
-          <p>小程序对应的商户号: {{configData.miniapp_config ? configData.miniapp_config.mch_id : ''}}</p>
-          <p>小程序对应的商户号api密钥: {{configData.miniapp_config ? configData.miniapp_config.mch_api_key : ''}}</p>
+          <!--<p>小程序app_id: {{configData.miniapp_config ? configData.miniapp_config.app_id : ''}}</p>-->
+          <p>小程序app_id: {{configData.miniapp_config ? configData.app_id : ''}}</p>
+          <!--<p>小程序对应的商户号: {{configData.miniapp_config ? configData.miniapp_config.mch_id : ''}}</p>-->
+          <!--<p>小程序对应的商户号api密钥: {{configData.miniapp_config ? configData.miniapp_config.mch_api_key : ''}}</p>-->
           <p>酒店微信账务收款代码: {{configData.pay_code}}</p>
           <p>酒店微信账务退款代码: {{configData.refund_code}}</p>
         </div>
@@ -56,10 +57,10 @@
         </div>
         <div class="configsummary_item">
           <h3>小程序配置</h3>
-          <p>小程序app_id: {{wechatAppData.app_id}}</p>
-          <p>小程序名称: {{wechatAppData.app_secret}}</p>
-          <p>小程序密钥: {{wechatAppData.original_id}}</p>
-          <p>小程序原始ID: {{wechatAppData.app_name}}</p>
+          <p>小程序app_id: {{configData.app_id}}</p>
+          <!--<p>小程序名称: {{wechatAppData.app_secret}}</p>-->
+          <!--<p>小程序密钥: {{wechatAppData.original_id}}</p>-->
+          <!--<p>小程序原始ID: {{wechatAppData.app_name}}</p>-->
         </div>
         <div class="configsummary_item">
           <h3>电子签名配置</h3>
@@ -67,7 +68,9 @@
         </div>
         <div class="configsummary_item">
           <h3>电话取消订单配置</h3>
-          <p>暂未设计</p>
+          <!--<p>暂未设计</p>-->
+          <p>是否支持电话取消订单：{{configData.enabled_cancel}}</p>
+          <p>允许最晚取消时间：{{enabledCancelTime(configData.enabled_cancel_time)}}</p>
         </div>
         <div class="configsummary_item">
           <h3>发票配置</h3>
@@ -168,7 +171,7 @@
         return v;
       },
       filterCashPledgeType(val) {
-        if (val ===undefined) 
+        if (val === undefined)
           return '';
 
         let v = val.cash_pledge_type;
@@ -207,6 +210,10 @@
         'getWechatApp',
         'showtoast'
       ]),
+      enabledCancelTime(time) {
+        let tempTime = new Date(+time);
+        return tempTime.getHours() + ':' + tempTime.getMinutes()
+      },
       isEmptyConfigData() {
         return tool.isBlank(this.configData) || tool.isEmptyObject(this.configData)
       },
