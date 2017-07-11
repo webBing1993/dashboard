@@ -174,7 +174,6 @@
         })
       },
       modify(data) {
-        console.log(data)
         this.modifyRoom({
           ...data,
           hotel_id: this.$route.params.hotelid,

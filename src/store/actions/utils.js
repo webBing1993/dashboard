@@ -230,10 +230,20 @@ module.exports = {
       }
     ).catch(
       error => {
-        // let status = error.status;
+        ctx.commit('LOADING')
+        // console.log(error)
+
+        for(let key in error) {
+          console.log(key,error[key])
+        }
+
+        if (!error.response && error.code === 'ECONNABORTED') {
+          ctx.dispatch('showtoast', {text: '请求超时', type: 'error'});
+          return;
+        }
+
         let status = error.response.status;
 
-        ctx.commit('LOADING')
         //ErrorCallback
         if (status === 401) {
           ctx.dispatch('showalert', {

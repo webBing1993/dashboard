@@ -105,7 +105,7 @@
           code: this.groupCode,
           memo: this.groupDesc,
           website: this.groupWeb,
-          contact_name: this.groupName,
+          contact_name: this.contactName,
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           onsuccess: body => this.goto(-1)

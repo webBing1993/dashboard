@@ -204,6 +204,19 @@ const main = [
     }
   ]
 
-export default new Router({
+const router = new Router({
   routes: [...main]
 })
+
+import tool from '@/assets/tools/tool.js';
+
+router.beforeEach((to, from, next) => {
+  let sessionId = sessionStorage.getItem('session_id');
+  if (to.name === 'Auth' || tool.isNotBlank(sessionId)) {
+    next();
+  } else {
+    next('/')
+  }
+})
+
+export default router

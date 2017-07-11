@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="login_content">
+    <div class="login_content" @keyup.13="loginAction" tabindex="0" v-focus>
       <div class="header-icon">
         <img src="../assets/images/LOGO.png"/>
       </div>
@@ -97,7 +97,7 @@
       },
     },
     mounted() {
-
+      
     }
   }
 </script>
