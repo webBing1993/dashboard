@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of list">
+      <tr v-for="(obj, index) of list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
@@ -175,12 +175,12 @@
 
   .circle-green, .circle-red, .circle-yellow {
     position: relative;
-    top: 2px;
+    top: 1px;
     left: -4px;
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 5px;
+    border-radius: 50%;
   }
 
   .circle-green {

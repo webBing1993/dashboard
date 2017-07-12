@@ -11,7 +11,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of list">
+      <tr v-for="(obj, index) of list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.device_type | deviceType }}</td>
         <td>{{ obj.device_id }}</td>
@@ -150,7 +150,7 @@
     display: inline-block;
     width: 10px;
     height: 10px;
-    border-radius: 5px;
+    border-radius: 50%;
   }
 
   .circle-green {
