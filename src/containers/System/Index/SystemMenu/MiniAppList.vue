@@ -143,6 +143,7 @@
         this.showDialog = false;
       },
       submitDialog() {
+        alert(11111111)
         this.$validator.validateAll().then(() => {
           this.modify();
         }).catch(() => {
@@ -155,6 +156,7 @@
         this.page = val;
       },
       modify() {
+        alert(2222222)
         this.modifyMiniApp({
           app_id: this.appId,
           app_secret: this.appSecret,
