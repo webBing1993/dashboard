@@ -1023,7 +1023,8 @@
 
       },
       validatefacein() {
-        return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
+        // return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
+        return (typeof this.faceinPassValue === 'number') && (typeof this.faceinRejectValue === 'number');
       },
       validatewechatPay() {
         return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
