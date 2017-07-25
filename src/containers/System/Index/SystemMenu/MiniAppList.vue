@@ -144,9 +144,12 @@
       },
       submitDialog() {
         alert(11111111)
+        console.log(this.$validator)
         this.$validator.validateAll().then(() => {
           this.modify();
-        }).catch(() => {
+        }).catch((e) => {
+            console.log('------------------')
+            console.log(e)
         });
       },
       handleSizeChange(val) {
