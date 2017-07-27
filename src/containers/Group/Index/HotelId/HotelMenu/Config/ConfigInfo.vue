@@ -662,7 +662,7 @@
             <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
               <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
                 <span>固定押金金额</span>
-                <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
+                <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>(分)
               </div>
               <div class="item-form" v-show="cashPledgeType == 'multiple_of_cash_pledge'">
                 <span>放大系数</span>

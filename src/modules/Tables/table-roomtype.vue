@@ -4,6 +4,7 @@
       <thead>
       <tr>
         <th>序号</th>
+        <th>房型编号</th>
         <th>房型</th>
         <th>房间数量</th>
         <th>可住人数</th>
@@ -13,6 +14,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
+        <td>{{ obj.room_type_id }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.room_num }}</td>
         <td>{{ obj.max_guest_count }}</td>
