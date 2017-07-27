@@ -143,13 +143,8 @@
         this.showDialog = false;
       },
       submitDialog() {
-        alert(11111111)
-        console.log(this.$validator)
-        this.$validator.validateAll().then(() => {
-          this.modify();
-        }).catch((e) => {
-            console.log('------------------')
-            console.log(e)
+        this.$validator.validateAll().then(result => {
+          result && this.modify();
         });
       },
       handleSizeChange(val) {
@@ -159,7 +154,6 @@
         this.page = val;
       },
       modify() {
-        alert(2222222)
         this.modifyMiniApp({
           app_id: this.appId,
           app_secret: this.appSecret,

@@ -785,7 +785,7 @@
 </template>
 
 <script>
-  import ElRow from "element-ui/packages/row/src/row";
+  // import ElRow from "element-ui/packages/row/src/row";
 
   const enumShowType = {
     init: 0,
@@ -843,7 +843,7 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tool from '@/assets/tools/tool.js'
   export default {
-    components: {ElRow},
+    // components: {ElRow},
     name: 'ConfigInfo',
     data() {
       return {

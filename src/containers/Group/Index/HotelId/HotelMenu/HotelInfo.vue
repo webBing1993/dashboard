@@ -288,10 +288,8 @@
         if (this.latitude == '' || this.longitude == '') {
           this.isChooseLocation = false;
         }
-        this.$validator.validateAll().then(() => {
-          this.modify();
-        }).catch(e => {
-          alert(e)
+        this.$validator.validateAll().then(result => {
+          result && this.modify();
         });
       },
       modify() {

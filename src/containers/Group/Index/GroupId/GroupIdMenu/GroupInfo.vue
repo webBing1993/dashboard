@@ -121,9 +121,8 @@
         this.isEditContact = true;
       },
       nextStep() {
-        this.$validator.validateAll().then(() => {
-          this.modify();
-        }).catch(() => {
+        this.$validator.validateAll().then(result => {
+          result && this.modify();
         });
       },
       modify() {

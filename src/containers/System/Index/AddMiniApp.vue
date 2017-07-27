@@ -88,9 +88,8 @@
         'showalert'
       ]),
       nextStep() {
-        this.$validator.validateAll().then(() => {
-          this.regist();
-        }).catch(() => {
+        this.$validator.validateAll().then(result => {
+          result && this.regist();
         });
       },
       regist() {

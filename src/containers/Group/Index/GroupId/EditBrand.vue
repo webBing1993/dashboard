@@ -62,9 +62,10 @@
         'CosCloudAssign'
       ]),
       nextStep() {
-        this.$validator.validateAll().then(() => {
-          this.brandid ? this.modify() : this.regist()
-        }).catch(() => {
+        this.$validator.validateAll().then(result => {
+          if (result) {
+            this.brandid ? this.modify() : this.regist()
+          }
         });
       },
       regist() {

@@ -124,9 +124,8 @@
         this.showDialog = false;
       },
       submitDialog() {
-        this.$validator.validateAll().then(() => {
-          this.modify();
-        }).catch(() => {
+        this.$validator.validateAll().then(result => {
+          result && this.modify();
         });
       },
       handleSizeChange(val) {
