@@ -8,8 +8,7 @@
             <div class="content-item">
               <div class="item">
                 <span>所属品牌</span>
-                <el-select class="el-right" v-model="brandId" name="brandId" v-validate="'required'"
-                           :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
+                <el-select class="el-right" v-model="brandId" placeholder="请选择所属品牌">
                   <el-option
                     v-for="(obj, index) of brandList"
                     :key="obj.id"
@@ -18,7 +17,6 @@
                   </el-option>
                 </el-select>
               </div>
-              <span class="help is-danger" v-show="errors.has('brandId')">请选择所属品牌!</span>
 
               <div class="item">
                 <span>门店名称</span>

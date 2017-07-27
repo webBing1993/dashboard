@@ -40,7 +40,7 @@
             </el-select>
           </div>
           <div class="group_btn">
-            <el-button type="success" :disabled="groupBrandList.length == 0" @click.native="chooseGroup">确定</el-button>
+            <el-button type="success" @click.native="chooseGroup">确定</el-button>
           </div>
         </div>
       </el-dialog>
@@ -92,11 +92,6 @@
 
           return hotel;
         });
-      }
-    },
-    watch: {
-      groupId() {
-        this.getBrand();
       }
     },
     methods: {
