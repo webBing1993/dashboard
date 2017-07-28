@@ -117,7 +117,7 @@
         this.goto({
           name: 'HotelInfo',
           params: {
-            id: obj.group_id,
+            id: obj.group_id || undefined,
             hotelid: obj.id
           }
         })
