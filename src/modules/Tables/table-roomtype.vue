@@ -14,7 +14,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.room_type_id }}</td>
+        <td>{{ obj.pms_code }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.room_num }}</td>
         <td>{{ obj.max_guest_count }}</td>

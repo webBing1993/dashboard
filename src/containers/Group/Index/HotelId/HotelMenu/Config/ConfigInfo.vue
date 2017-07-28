@@ -345,6 +345,10 @@
                 <span>酒店服务地址</span>
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
+              <div class="item-form">
+                <span>备注</span>
+                <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
+              </div>
             </div>
             <div v-show="pmsName == '绿云'">
               <div class="item-form">
@@ -859,6 +863,7 @@
         // pmsName: '', //放在计算属性
         hotelPmsCode: '',
         hotelServiceUrl: '',
+        remark: '',
         //绿云
         crsURL: '',
         hotelGroupCode: '',
@@ -1269,6 +1274,7 @@
           this.checkout = this.pmsData.checkout == 'true' ? true : false;
           // this.pmsName = this.pmsData.pms_name; //放在计算属性
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
+          this.remark = this.pmsData.remark;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
           //绿云
           this.crsURL = this.pmsData.crs_url;
@@ -1368,6 +1374,7 @@
             this.checkout = this.pmsData.checkout == 'true' ? true : false;
             // this.pmsName = this.pmsData.pms_name; //放在计算属性
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
+            this.remark = this.pmsData.remark;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
             //绿云
             this.crsURL = this.pmsData.crs_url;
@@ -1494,6 +1501,7 @@
               checkout: this.checkout.toString(),
               pms_name: this.pmsName,
               hotel_pmscode: this.hotelPmsCode,
+              remark: this.remark,
               hotel_service_url: this.hotelServiceUrl
             }
             if (this.pmsName == '捷信达') {
