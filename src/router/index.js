@@ -196,9 +196,6 @@ const main = [
               }
             ]
           }]
-        },{
-          path: '*',
-          redirect: '/auth'
         }
       ]
     }
@@ -215,7 +212,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Auth' || tool.isNotBlank(sessionId)) {
     next();
   } else {
-    next('/')
+    next('/auth')
   }
 })
 
