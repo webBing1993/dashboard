@@ -20,7 +20,7 @@
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
         <td>{{ obj.brand_name }}</td>
         <td class="pointer-icon"><span
-          :class="{'circle-green': obj.status == 1, 'circle-red': obj.status == 2, 'circle-yellow': obj.status == 3}"></span>{{ obj.status | status
+          :class="{'circle-red': obj.status == 1, 'circle-green': obj.status == 2, 'circle-yellow': obj.status == 3,'circle-gray': obj.status == 4}"></span>{{ obj.status | status
           }}
         </td>
         <td>
@@ -173,7 +173,7 @@
     color: #39C240 !important;
   }
 
-  .circle-green, .circle-red, .circle-yellow {
+  .circle-green, .circle-red, .circle-yellow, .circle-gray {
     position: relative;
     top: 1px;
     left: -4px;
@@ -196,6 +196,11 @@
   .circle-yellow {
     border: 1px solid #F6A623;
     background-color: #F6A623;
+  }
+
+  .circle-gray {
+    border: 1px solid #4A4A4A;
+    background-color: #4A4A4A;
   }
 </style>
 
