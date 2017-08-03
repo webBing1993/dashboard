@@ -99,8 +99,8 @@
             </div>
           </div>
           <div class="button-box" v-show="isEditInfo">
-            <el-button type="success" @click.native="nextStep">确认修改</el-button>
             <el-button @click.native="cancelInfo">取消</el-button>
+            <el-button type="success" @click.native="nextStep">确认修改</el-button>
           </div>
         </div>
         <div class="store-info">

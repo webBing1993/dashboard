@@ -35,8 +35,8 @@
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="modify">确 定</el-button>
           <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="modify">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -162,23 +162,27 @@
       }
     }
     .dialog-footer {
-      width: 100%;
-      margin: 40px auto 10px;
-      text-align: center;
-      .el-button {
-        width: 220px;
-        line-height: 18px;
-        background-color: #39C240;
-        border-color: #39C240;
-        border-radius: 0;
-        &:nth-child(2) {
-          /*margin-right: 59px;*/
-          margin-left: 20px;
-          background-color: #ffffff;
-          border-color: #8f8f8f;
-        }
-      }
-    }
+            text-align: center;
+            .el-button {
+              width: 246px;
+              border-radius: 0;
+              line-height: 18px;
+              margin: 0;
+              &:nth-child(1) {
+                margin-right: 22px;
+              }
+              &:nth-child(2) {
+                background-color: #39C240;
+                border-color: #39C240;
+                color: #ffffff;
+              }
+            }
+            .el-button--primary {
+              background-color: transparent;
+              border: solid 1px #979797;
+              color: #4A4A4A;
+            }
+          }
   }
 
 </style>

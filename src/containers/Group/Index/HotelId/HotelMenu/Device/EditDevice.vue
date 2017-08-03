@@ -32,8 +32,8 @@
         <el-button type="success" :disabled="submitDisabled" @click.native="addDevices">确认添加</el-button>
       </div>
       <div v-else class="content-btn">
-        <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevices">确认修改</el-button>
         <el-button type="danger" @click.native="removeDevices">删除设备</el-button>
+        <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevices">确认修改</el-button>
       </div>
     </div>
   </div>
@@ -156,7 +156,7 @@
         border-color: #39C240;
         border-radius: 0;
         color: #ffffff;
-        &:nth-child(2) {
+        &:nth-child(1) {
           background-color: #D0011B;
           border-color: #D0011B;
         }

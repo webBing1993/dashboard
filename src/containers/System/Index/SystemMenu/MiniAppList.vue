@@ -83,9 +83,9 @@
           <span class="help is-danger" v-show="errors.has('merchantsId')">请选择支付商户!</span>
 
         </div>
-        <div slot="footer" class="dialog-footers">
-          <el-button type="primary" @click="submitDialog">确 定</el-button>
+        <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -203,3 +203,30 @@
     }
   }
 </script>
+<style scoped lang="less">
+.el-dialog__footer {
+          padding: 10px 20px 28px;
+          .dialog-footer {
+            text-align: center;
+            .el-button {
+              width: 246px;
+              border-radius: 0;
+              line-height: 18px;
+              margin: 0;
+              &:nth-child(1) {
+                margin-right: 22px;
+              }
+              &:nth-child(2) {
+                background-color: #39C240;
+                border-color: #39C240;
+                color: #ffffff;
+              }
+            }
+            .el-button--primary {
+              background-color: transparent;
+              border: solid 1px #979797;
+              color: #4A4A4A;
+            }
+          }
+        }
+</style>
