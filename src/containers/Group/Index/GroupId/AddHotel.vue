@@ -54,7 +54,7 @@
                   </el-option>
                 </el-select>
                 <span class="help is-danger" v-show="errors.has('cityCode')">请选择城市!</span>
-                <el-select class="el-right-address" v-model="areaCode" name="areaCode" v-validate="'required'"
+                <el-select v-if="showAreaSelect" class="el-right-address" v-model="areaCode" name="areaCode" v-validate="'required'"
                            :class="{'is-danger': errors.has('areaCode') }" placeholder="请选择地区">
                   <el-option
                     v-for="(obj, index) of areaList"
@@ -144,7 +144,8 @@
         contactName: '',
         contactPhone: '',
         contactPosition: '',
-        isChooseLocation: true
+        isChooseLocation: true,
+        showAreaSelect: true
       }
     },
     computed: {
@@ -155,6 +156,11 @@
         return arr;
       },
       cityList() {
+        this.showAreaSelect = false
+        this.$nextTick(function () {
+          this.showAreaSelect = true
+        })
+
         if (this.provinceCode == '' && this.provinceList[0]) this.provinceCode = this.provinceList[0].code;
         let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined)
