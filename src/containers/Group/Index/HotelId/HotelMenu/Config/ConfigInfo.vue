@@ -744,11 +744,11 @@
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span>现付</span>
+              <span style="width: 126px">现付</span>
               <el-input class="el-right" v-model="nowpayKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span>现付例外</span>
+              <span style="width: 126px">现付例外</span>
               <el-input class="el-right" v-model="nowpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
@@ -1761,7 +1761,7 @@
             //   obj[key] = body.data[key];
             // }
             // this.$store.state.enterprise.configData = obj;
-            
+
             // this.getConfigs();
           }
         })
