@@ -13,15 +13,16 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of list" v-bind:key="index">
+      <tr v-for="(obj, index) in list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
         <td>{{ obj.brand_name }}</td>
-        <td class="pointer-icon"><span
-          :class="{'circle-red': obj.status == 1, 'circle-green': obj.status == 2, 'circle-yellow': obj.status == 3,'circle-gray': obj.status == 4}"></span>{{ obj.status | status
-          }}
+        <td class="pointer-icon">
+          <span
+            :class="{'circle-red': obj.status == 1, 'circle-green': obj.status == 2, 'circle-yellow': obj.status == 3,'circle-gray': obj.status == 4}"></span>
+          {{ obj.status | status }}
         </td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
