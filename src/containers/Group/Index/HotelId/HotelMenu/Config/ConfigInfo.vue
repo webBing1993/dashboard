@@ -1487,8 +1487,8 @@
             this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
             this.postpayKeyword = this.configData.postpay_keyword;
             this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
-            this.nowpayKeyword = configData.nowpay_keyword;
-            this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
+            this.nowpayKeyword = this.configData.nowpay_keyword;
+            this.nowpayExclusionKeyword = this.configData.nowpay_exclusion_keyword;
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
             break;
