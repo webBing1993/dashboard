@@ -991,16 +991,12 @@
       //无数个validate
       validatePMS() {
         if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsName) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
-          if (this.pmsName == '捷信达') {
-            return true;
-          } else if (this.pmsName == '绿云') {
-            return true;
-          } else if (this.pmsName == '别样红') {
+          if (this.pmsName == '别样红') {
             return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
           } else if (this.pmsName == '住哲') {
             return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey) && tool.isNotBlank(this.adminName) && tool.isNotBlank(this.adminPassword) && tool.isNotBlank(this.brandId)
           } else {
-            return false;
+            return true;
           }
         } else {
           return false;
