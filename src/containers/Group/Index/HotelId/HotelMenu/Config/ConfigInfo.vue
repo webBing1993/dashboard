@@ -1514,11 +1514,7 @@
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl
             }
-            if (this.pmsName == '捷信达') {
-              data = {
-                ...paramData
-              }
-            } else if (this.pmsName == '绿云') {
+            if (this.pmsName == '绿云') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
@@ -1547,6 +1543,10 @@
                 admin_name: this.adminName,
                 admin_password: this.adminPassword,
                 brand_id: this.brandId,
+              }
+            } else {
+              data = {
+                ...paramData
               }
             }
             this.modifyPms(data);
