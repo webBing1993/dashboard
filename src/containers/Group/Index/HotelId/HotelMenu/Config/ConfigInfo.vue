@@ -744,6 +744,14 @@
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
+              <span>现付</span>
+              <el-input class="el-right" v-model="nowpayKeyword" placeholder="现付"></el-input>
+            </div>
+            <div class="item-form">
+              <span>现付例外</span>
+              <el-input class="el-right" v-model="nowpayExclusionKeyword" placeholder="现付"></el-input>
+            </div>
+            <div class="item-form">
               <span>自动确认免押关键字 </span>
               <el-input class="el-right" v-model="freeDepositKeyword" placeholder="免押金|免押"></el-input>
             </div>
@@ -961,6 +969,8 @@
         prepayExclusionKeyword: '',
         postpayKeyword: '',
         postpayExclusionKeyword: '',
+        nowpayKeyword: '',
+        nowpayExclusionKeyword: '',
         freeDepositKeyword: '',
         needDepositKeyword: '',
         //脏房配置
@@ -1252,6 +1262,8 @@
           this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
           this.postpayKeyword = configData.postpay_keyword;
           this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
+          this.nowpayKeyword = configData.nowpay_keyword;
+          this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
           this.freeDepositKeyword = configData.free_deposit_keyword;
           this.needDepositKeyword = configData.need_deposit_keyword;
           //脏房配置
@@ -1475,6 +1487,8 @@
             this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
             this.postpayKeyword = this.configData.postpay_keyword;
             this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
+            this.nowpayKeyword = configData.nowpay_keyword;
+            this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
             break;
@@ -1707,6 +1721,8 @@
               prepay_exclusion_keyword: this.prepayExclusionKeyword,
               postpay_keyword: this.postpayKeyword,
               postpay_exclusion_keyword: this.postpayExclusionKeyword,
+              nowpay_keyword: this.nowpayKeyword,
+              nowpay_exclusion_keyword: this.nowpayExclusionKeyword,
               free_deposit_keyword: this.freeDepositKeyword,
               need_deposit_keyword: this.needDepositKeyword
             }
