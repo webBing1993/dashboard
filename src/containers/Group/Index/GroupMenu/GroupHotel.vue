@@ -9,9 +9,8 @@
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">
-        <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
-                     @config="config"
-                     @device="device"></table-hotel>
+        <table-hotel :list="list" :page="page" :size="size"
+                     @detail="detail" @group="group" @edit="detail" @config="config" @device="device"></table-hotel>
       </div>
       <el-pagination
         v-show="total > size"
@@ -23,16 +22,13 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
-      <el-dialog
-        title="选择企业"
-        :visible.sync="showDialog"
-      >
+      <el-dialog title="选择企业" :visible.sync="showDialog">
         <div class="dialog-content">
           <div>
             <span>所属企业</span>
             <el-select class="el-right" v-model="groupId" placeholder="请选择所属企业">
               <el-option
-                v-for="(obj, index) of groupList"
+                v-for="(obj, index) in groupList"
                 :key="obj.id"
                 :label="obj.name"
                 :value="obj.id">
@@ -173,7 +169,7 @@
 
             headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
             headers['x-total'] ? this.total = +headers['x-total'] : null;
-            
+
             this.hotelList = body.data;
           }
         })

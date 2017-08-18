@@ -13,15 +13,15 @@
                      @device="device"></table-hotel>
       </div>
       <el-pagination
-          v-show="total > size"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="page"
-          :page-sizes="[10, 20, 30]"
-          :page-size="size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total">
-        </el-pagination>
+        v-show="total > size"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page"
+        :page-sizes="[10, 20, 30]"
+        :page-size="size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -191,10 +191,10 @@
       }
     }
     .content_grouphotellist {
-      padding: 19px 20px;
+      padding: 19px 20px 0;
       flex-grow: 1;
-      // overflow: auto;
-      margin-bottom: 60px;      
+      overflow: auto;
+      margin-bottom: 60px;
     }
 
     .el-pagination {
@@ -205,7 +205,7 @@
       bottom: 0;
       box-sizing: border-box;
       width: 100%;
-      line-height: 50px;
+      line-height: 44px;
     }
   }
 </style>
