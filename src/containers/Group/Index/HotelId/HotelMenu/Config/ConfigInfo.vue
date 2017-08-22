@@ -503,8 +503,13 @@
           </div>
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
-              <span>支付子商户号</span>
-              <el-input class="el-right" v-model="childMchId" placeholder="选填"></el-input>
+              <span>商户号</span>
+              <el-autocomplete
+                v-model="mchId"
+                :fetch-suggestions="querySearchMchId"
+                placeholder="请输入商户号"
+                @select="handleSelectMchId"
+              ></el-autocomplete>
             </div>
             <div class="item_large">
               <span>酒店微信账务收款代码</span>
@@ -904,7 +909,7 @@
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
-        childMchId: '',
+        mchId: '',
         payCode: '',
         refundCode: '',
         //微信生态酒店配置
@@ -1038,7 +1043,7 @@
         return (typeof this.faceinPassValue === 'number') && (typeof this.faceinRejectValue === 'number');
       },
       validatewechatPay() {
-        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
+        return tool.isNotBlank(this.mchId) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
       },
       validatewxHotel() {
         return tool.isNotBlank(this.wxHotelId);
@@ -1205,7 +1210,7 @@
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           //微信支付配置
-          this.childMchId = configData.child_mch_id;
+          this.mchId = configData.child_mch_id;
           this.payCode = configData.pay_code;
           this.refundCode = configData.refund_code;
           //微信生态酒店配置
@@ -1333,6 +1338,7 @@
         'getLvye',
         'modifyLvye',
         'getMiniAppList',
+        'getWechatpayList',
         'showtoast',
         'showalert',
         'goto'
@@ -1420,7 +1426,7 @@
             this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
             break;
           case enumShowType.wechatPay:
-            this.childMchId = this.configData.child_mch_id;
+            this.mchId = this.configData.mch_id;
             this.payCode = this.configData.pay_code;
             this.refundCode = this.configData.refund_code;
             break;
@@ -1584,7 +1590,7 @@
             break;
           case enumShowType.wechatPay:
             data = {
-              child_mch_id: this.childMchId,
+              mch_id: this.mchId,
               pay_code: this.payCode,
               refund_code: this.refundCode
             }
@@ -1823,6 +1829,25 @@
           }
         })
       },
+      querySearchMchId(queryString, cb) {
+        this.getWechatpayList({
+          keyword: queryString,
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              let list = body.data.map(v => {
+                let obj = {
+                  value: v.mch_id
+                }
+                return obj;
+              })
+              cb(list);
+            }
+          }
+        })
+      },
+      handleSelectMchId(item) {
+        this.mchId = item.value;
+      }
     },
     mounted() {
       this.getConfigs();
@@ -2046,6 +2071,14 @@
         }
       }
     }
+  }
+
+  .el-autocomplete {
+    width: 60%;
+    margin-left: 16px;
+  }
+  .el-autocomplete .el-input {
+    width: 100%!important;
   }
 
 </style>

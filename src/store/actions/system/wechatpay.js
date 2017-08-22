@@ -41,6 +41,9 @@ module.exports = {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
       },
+      params: {
+        keyword: param.keyword || ''
+      },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }

@@ -17,10 +17,30 @@
               <span class="help is-danger" v-show="errors.has('mchId')">商户号不能为空!</span>
             </div>
             <div class="content-msg">
-              <span>商户号API密钥</span>
-              <el-input class="el-right" v-model="mchApiKey" name="mchApiKey" v-validate="'required'"
-                        :class="{'is-danger': errors.has('mchApiKey') }" placeholder="请输入微信支付商户号API密钥"></el-input>
-              <span class="help is-danger" v-show="errors.has('mchApiKey')">商户号API密钥不能为空!</span>
+              <span>商户号密钥</span>
+              <el-input class="el-right" v-model="mchKey" name="mchKey" v-validate="'required'"
+                        :class="{'is-danger': errors.has('mchKey') }" placeholder="请输入微信支付商户号密钥"></el-input>
+              <span class="help is-danger" v-show="errors.has('mchKey')">商户号密钥不能为空!</span>
+            </div>
+            <p>{{errors}}</p>
+            <div class="content-msg">
+              <span>商户类型类型</span>
+              <el-select class="el-right" v-model="mchType" name="mchType" v-validate="'required'"
+                         :class="{'is-danger': errors.has('mchType') }" placeholder="请选择商户类型">
+                <el-option
+                  v-for="(obj, index) of mchTypeList"
+                  :key="obj.id"
+                  :label="obj.name"
+                  :value="obj.id">
+                </el-option>
+              </el-select>
+              <span class="help is-danger" v-show="errors.has('mchType')">请选择商户类型!</span>
+            </div>
+            <div class="content-msg">
+              <span>服务商商户号</span>
+              <el-input class="el-right" v-model="providerMchId"  
+                        :class="{'is-danger': !validateProviderMchId}" placeholder="请输入服务商商户号"></el-input>
+              <span class="help is-danger" v-show="!validateProviderMchId">服务商商户号不能为空!</span>
             </div>
             <div class="content-msg">
               <span>绑定人</span>
@@ -53,9 +73,29 @@
       return {
         mchName: '',
         mchId: '',
-        mchApiKey: '',
+        mchKey: '',
+        mchType: '',
+        providerMchId: '',
         contactName: '',
         contactPhone: '',
+        mchTypeList: [{
+          id: 'PROVIDER',
+          name: '服务商'
+        },{
+          id: 'SPECIAL',
+          name: '特约商户'
+        },{
+          id: 'GENERAL',
+          name: '普通商户'
+        }]
+      }
+    },
+    computed: {
+      validateProviderMchId() {
+        if (this.mchType === 'SPECIAL') {
+          return !!this.providerMchId;
+        }
+        return true
       }
     },
     methods: {
@@ -64,6 +104,7 @@
         'goto'
       ]),
       nextStep() {
+        if (!this.validateProviderMchId) return;
         this.$validator.validateAll().then(result => {
           result && this.regist();
         });
@@ -71,8 +112,10 @@
       regist() {
         this.addWechatpay({
           mch_id: this.mchId,
-          mch_api_key: this.mchApiKey,
+          mch_key: this.mchKey,
           mch_name: this.mchName,
+          mch_type: this.mchType,
+          provider_mch_id: this.providerMchId,
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
           onsuccess: body => this.goto(-1)
@@ -80,7 +123,7 @@
       },
     },
     mounted() {
-
+      
     }
   }
 </script>
