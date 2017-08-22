@@ -981,7 +981,8 @@
         //脏房配置
         isSupportVd: true,
         //酒店标签配置
-        roomTags: ['']
+        roomTags: [''],
+        wechatpayList: []
       }
     },
     computed: {
@@ -1354,6 +1355,14 @@
           this.getPMSBrandLists();
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists()
+        } else if (type === enumShowType.wechatPay) {
+          this.getWechatpayList({
+            onsuccess: (body, headers) => {
+              if (body.data && Array.isArray(body.data)) {
+                this.wechatpayList = body.data;
+              }
+            }
+          })
         } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
           console.log(45678976545678)
           this.showalert({
@@ -1830,20 +1839,25 @@
         })
       },
       querySearchMchId(queryString, cb) {
-        this.getWechatpayList({
-          keyword: queryString,
-          onsuccess: (body, headers) => {
-            if (body.data && Array.isArray(body.data)) {
-              let list = body.data.map(v => {
-                let obj = {
-                  value: v.mch_id
-                }
-                return obj;
-              })
-              cb(list);
+        let list = [];
+        if (!queryString) {
+          this.wechatpayList.forEach(v => {
+            let obj = {
+              value: v.mch_id
             }
-          }
-        })
+            list.push(obj)
+          })
+        } else {
+          this.wechatpayList.forEach(v => {
+            if (v.mch_id.includes(queryString)) {
+              let obj = {
+                value: v.mch_id
+              }
+              list.push(obj)
+            }
+          })
+        }
+        cb(list);        
       },
       handleSelectMchId(item) {
         this.mchId = item.value;
