@@ -93,6 +93,7 @@
         });
       },
       regist() {
+        
         this.addMiniApp({
           app_id: this.appId,
           app_secret: this.appSecret,

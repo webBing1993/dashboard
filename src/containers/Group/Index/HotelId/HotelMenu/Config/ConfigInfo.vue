@@ -1809,6 +1809,7 @@
       },
     },
     mounted() {
+      
       this.getConfigs();
       this.getPms();
       this.getLvyes();

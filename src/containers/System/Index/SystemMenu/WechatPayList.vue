@@ -96,7 +96,7 @@
         mchId: '',
         mchApiKey: '',
         contactName: '',
-        contactPhone: '',
+        contactPhone: ''
       }
     },
     methods: {
