@@ -110,6 +110,7 @@
         });
       },
       regist() {
+        
         this.addWechatpay({
           mch_id: this.mchId,
           mch_key: this.mchKey,
