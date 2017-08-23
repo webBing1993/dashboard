@@ -48,7 +48,8 @@
     filters: {
       deviceType(v) {
         if (v === "31") return "底座";
-        if (v === "32") return "台式魔镜";
+        if (v === "32") return "魔镜";
+        if (v === "51") return "发票插件";
       },
       status(v) {
         if (v === 1) return "可用";
