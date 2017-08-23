@@ -50,7 +50,7 @@
         deviceName: '',
         deviceType: '',
         enabled: true,
-        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: '台式魔镜'}]
+        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: '魔镜'}, {id: '51', name: '发票插件'}]
       }
     },
     computed: {
