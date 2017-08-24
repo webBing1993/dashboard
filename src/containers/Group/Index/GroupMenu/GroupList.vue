@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <h3>企业管理（共{{total}}家企业）</h3>
       <div class="search-bar">
-        <el-input class="el-right" v-model="searchVal" placeholder="输入企业名称或账户编码"></el-input>
+        <el-input class="el-right" v-model="searchVal" @keyup.13.native="getList" placeholder="输入企业名称或账户编码"></el-input>
         <el-button type="success" @click.native="getList">搜索</el-button>
         <el-button type="success" @click.native="regist">+ 添加企业</el-button>
       </div>

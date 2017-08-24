@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <h3>门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
-        <el-input v-model="searchVal" placeholder="请输入门店的名称或子账户编码"></el-input>
+        <el-input v-model="searchVal" @keyup.13.native="getList" placeholder="请输入门店的名称或子账户编码"></el-input>
         <el-button type="success" @click.native="getList">搜索</el-button>
         <el-button type="success" @click.native="regist">+ 添加门店</el-button>
       </div>
