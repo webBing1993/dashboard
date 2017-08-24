@@ -26,12 +26,12 @@
         :show-close="false"
       >
         <div class="system-dialog">
-          <div class="dialog_item">
+          <!-- <div class="dialog_item">
             <span>ID</span>
             <el-input class="el-right" v-model="wechatpayId" name="wechatpayId" v-validate="'required'"
                       :class="{'is-danger': errors.has('wechatpayId') }" placeholder="请输入微信支付ID"></el-input>
           </div>
-          <span class="help is-danger" v-show="errors.has('wechatpayId')">ID不能为空!</span>
+          <span class="help is-danger" v-show="errors.has('wechatpayId')">ID不能为空!</span> -->
 
           <div class="dialog_item">
             <span>商户名称</span>

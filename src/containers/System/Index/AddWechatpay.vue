@@ -22,7 +22,6 @@
                         :class="{'is-danger': errors.has('mchKey') }" placeholder="请输入微信支付商户号密钥"></el-input>
               <span class="help is-danger" v-show="errors.has('mchKey')">商户号密钥不能为空!</span>
             </div>
-            <p>{{errors}}</p>
             <div class="content-msg">
               <span>商户类型类型</span>
               <el-select class="el-right" v-model="mchType" name="mchType" v-validate="'required'"
