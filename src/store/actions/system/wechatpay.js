@@ -5,7 +5,8 @@ module.exports = {
       method:'POST',
       body: {
         mch_id: param.mch_id,
-        mch_api_key: param.mch_api_key,
+        mch_key: param.mch_key,
+        mch_type: param.mch_type,
         mch_name: param.mch_name,
         contact_name: param.contact_name,
         contact_phone: param.contact_phone
@@ -22,7 +23,8 @@ module.exports = {
       body: {
         id: param.id,
         mch_id: param.mch_id,
-        mch_api_key: param.mch_api_key,
+        mch_key: param.mch_key,
+        mch_type: param.mch_type,
         mch_name: param.mch_name,
         contact_name: param.contact_name,
         contact_phone: param.contact_phone
@@ -40,6 +42,22 @@ module.exports = {
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
+      },
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  getWechatpayProvider(ctx, param){
+    ctx.dispatch('resource', {
+      url: '/wechatpay/provider',
+      method:'GET',
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
+      },
+      params: {
+        provider: param.provider || '0'
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

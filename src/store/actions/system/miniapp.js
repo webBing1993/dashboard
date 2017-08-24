@@ -6,6 +6,7 @@ module.exports = {
       body: {
         app_id: param.app_id,
         app_secret: param.app_secret,
+        app_type: param.app_type,
         original_id: param.original_id,
         app_name: param.app_name,
         contact_name: param.contact_name,
@@ -25,6 +26,7 @@ module.exports = {
         app_id: param.app_id,
         app_secret: param.app_secret,
         original_id: param.original_id,
+        app_type: param.app_type,
         app_name: param.app_name,
         contact_name: param.contact_name,
         contact_phone: param.contact_phone,

@@ -167,7 +167,7 @@
           app_name: this.appName,
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
-          app_type: this.merchantsId,
+          app_type: this.appType,
           onsuccess: body => {
             this.showDialog = false;
             this.getList();

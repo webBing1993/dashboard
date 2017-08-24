@@ -63,8 +63,8 @@
               <img src="../../../../../../assets/images/微信支付.png" alt="a">
             </div>
             <div class="item-text">
-              <span>微信支付配置</span>
-              <p>配置微信支付信息。</p>
+              <span>PMS支付配置</span>
+              <p>配置PMS支付信息。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
@@ -94,7 +94,7 @@
               <p>关联小程序配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !appId, 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !(appId && mchId), 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -503,15 +503,6 @@
           </div>
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
-              <span>商户号</span>
-              <el-autocomplete
-                v-model="mchId"
-                :fetch-suggestions="querySearchMchId"
-                placeholder="请输入商户号"
-                @select="handleSelectMchId"
-              ></el-autocomplete>
-            </div>
-            <div class="item_large">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
             </div>
@@ -528,15 +519,58 @@
           </div>
           <div v-if="showType === enumShowType.miniApp">
             <div class="item-form">
-              <span>请选择小程序</span>
-              <el-select class="el-right" v-model="appId" placeholder="请选择小程序">
+              <span>服务商模式</span>
+              <el-switch
+                v-model="provider"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>小程序app_id</span>
+              <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
                 <el-option
                   v-for="(obj, index) of miniAppList"
                   :key="obj.app_id"
-                  :label="obj.app_name"
-                  :value="obj.app_id">
+                  :label="`${obj.app_id} | ${obj.app_name}`"
+                  :value="`${obj.app_id} | ${obj.app_name}`">
                 </el-option>
               </el-select>
+            </div>
+            <div class="item-form">
+              <span>商户mch_id</span>
+              <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
+                <el-option
+                  v-for="(obj, index) of mchIdList"
+                  :key="obj.value"
+                  :label="obj.value"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div v-show="provider">
+              <div class="item-form">
+                <span>服务商app_id</span>
+                <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+                  <el-option
+                    v-for="(obj, index) of miniAppList"
+                    :key="obj.app_id"
+                    :label="`${obj.app_id} | ${obj.app_name}`"
+                    :value="`${obj.app_id} | ${obj.app_name}`">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="item-form">
+                <span>服务商mch_id</span>
+                <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+                  <el-option
+                    v-for="(obj, index) of providerMchIdList"
+                    :key="obj.value"
+                    :label="obj.value"
+                    :value="obj.value">
+                  </el-option>
+                </el-select>
+              </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.sign">
@@ -909,14 +943,21 @@
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
-        mchId: '',
         payCode: '',
         refundCode: '',
         //微信生态酒店配置
         wxHotelId: '',
         //小程序配置
         miniAppList: [],
-        appId: '',
+        provider: false,
+        appIdTemp: '',
+        // appId: '',
+        // mchId: '',
+        mchIdTemp: '',
+        providerAppIdTemp: '',
+        // providerAppId: '',
+        providerMchIdTemp: '',
+        // providerMchId: '',
         //电子签名
         enabledSign: false,
         //电话取消订单
@@ -982,7 +1023,9 @@
         isSupportVd: true,
         //酒店标签配置
         roomTags: [''],
-        wechatpayList: []
+        wechatpayList: [],
+        providerList: [],
+        unProviderList: [],
       }
     },
     computed: {
@@ -992,6 +1035,74 @@
         lvyeData: state => state.enterprise.lvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
       }),
+      providerMchIdList() {
+        return this.providerList.map(v => {
+          let obj = {
+            value: `${v.mch_id} | ${v.mch_name}`
+          }
+          return obj
+        })
+      },
+      mchIdList() {
+        return this.unProviderList.map(v => {
+          let obj = {
+            value: `${v.mch_id} | ${v.mch_name}`
+          }
+          return obj
+        })
+      },
+      appName() {
+        if (!this.appIdTemp) return '';
+        return this.appIdTemp.split(' | ')[1];
+      },
+      appId: {
+        get() {
+          if (!this.appIdTemp) return '';
+          return this.appIdTemp.split(' | ')[0];
+        },
+        set(val) {
+          val.app_id ? this.appIdTemp = `${val.app_id} | ${val.app_name}` : this.appIdTemp = '';
+        }
+      },
+      mchName() {
+        if (!this.mchIdTemp) return '';
+        return this.mchIdTemp.split(' | ')[1];
+      },
+      mchId: {
+        get() {
+          if (!this.mchIdTemp) return '';
+          return this.mchIdTemp.split(' | ')[0];
+        },
+        set(val) {
+          val.mch_id ? this.mchIdTemp = `${val.mch_id} | ${val.mch_name}` : this.mchIdTemp = '';
+        }
+      },
+      providerAppName() {
+        if (!this.providerAppIdTemp) return '';
+        return this.providerAppIdTemp.split(' | ')[1];
+      },
+      providerAppId: {
+        get() {
+          if (!this.providerAppIdTemp) return '';
+          return this.providerAppIdTemp.split(' | ')[0];
+        },
+        set(val) {
+          val.provider_app_id ? this.providerAppIdTemp = `${val.provider_app_id} | ${val.provider_app_name}` : this.providerAppIdTemp = '';
+        }
+      },
+      providerMchName() {
+        if (!this.providerMchIdTemp) return '';
+        return this.providerMchIdTemp.split(' | ')[1];
+      },
+      providerMchId: {
+        get() {
+          if (!this.providerMchIdTemp) return '';
+          return this.providerMchIdTemp.split(' | ')[0];
+        },
+        set(val) {
+          val.provider_app_id ? this.providerMchIdTemp = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTemp = '';
+        }
+      },
       pmsName() {
         let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
         if (tool.isNotBlank(obj))
@@ -1050,7 +1161,10 @@
         return tool.isNotBlank(this.wxHotelId);
       },
       validateminiApp() {
-        return tool.isNotBlank(this.appId);
+        if (!this.provider) {
+          return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId);
+        }
+        return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.providerAppId) && tool.isNotBlank(this.providerMchId);
       },
       validatesign() {
         return true;
@@ -1211,13 +1325,17 @@
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           //微信支付配置
-          this.mchId = configData.child_mch_id;
+          this.mchId = configData;
+          // this.mchId = configData.child_mch_id;
           this.payCode = configData.pay_code;
           this.refundCode = configData.refund_code;
           //微信生态酒店配置
           this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
-          this.appId = configData.app_id;
+          this.appId = configData;
+          this.providerAppId = configData;
+          this.providerMchId = configData;
+          this.provider = configData.provider ? true : false;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
           //电话取消订单
@@ -1340,6 +1458,7 @@
         'modifyLvye',
         'getMiniAppList',
         'getWechatpayList',
+        'getWechatpayProvider',
         'showtoast',
         'showalert',
         'goto'
@@ -1354,17 +1473,9 @@
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
         } else if (type === enumShowType.miniApp) {
-          this.getMiniAppLists()
-        } else if (type === enumShowType.wechatPay) {
-          this.getWechatpayList({
-            onsuccess: (body, headers) => {
-              if (body.data && Array.isArray(body.data)) {
-                this.wechatpayList = body.data;
-              }
-            }
-          })
+          this.getMiniAppLists();
+          this.wechatList();
         } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
-          console.log(45678976545678)
           this.showalert({
             code: 0,
             content: '小程序尚未配置,请先配置小程序!'
@@ -1373,6 +1484,32 @@
         }
 
         this.showDialog = true;
+      },
+      wechatList() {
+        this.getWechatpayList({
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              this.wechatpayList = body.data;
+            }
+          }
+        })
+        this.getWechatpayProvider({
+          provider: '0',
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              this.unProviderList = body.data;
+            }
+          }
+        })
+        this.getWechatpayProvider({
+          provider: '1',
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              this.providerList = body.data;
+            }
+          }
+        })
+          
       },
       addInvoiceName() {
         this.invoiceName.push('');
@@ -1435,7 +1572,6 @@
             this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
             break;
           case enumShowType.wechatPay:
-            this.mchId = this.configData.mch_id;
             this.payCode = this.configData.pay_code;
             this.refundCode = this.configData.refund_code;
             break;
@@ -1443,7 +1579,11 @@
             this.wxHotelId = this.configData.wx_hotel_id;
             break;
           case enumShowType.miniApp:
-            this.appId = this.configData.app_id;
+            this.appId = this.configData;
+            this.mchId = this.configData;
+            this.providerAppId = this.configData;
+            this.providerMchId = this.configData;
+            this.provider = this.configData.provider ? true : false;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -1599,7 +1739,6 @@
             break;
           case enumShowType.wechatPay:
             data = {
-              mch_id: this.mchId,
               pay_code: this.payCode,
               refund_code: this.refundCode
             }
@@ -1610,9 +1749,29 @@
             }
             break;
           case enumShowType.miniApp:
-            data = {
-              app_id: this.appId
+          {
+            if (this.provider) {
+              data = {
+                app_id: this.appId,
+                mch_id: this.mchId,
+                provider: this.provider,
+                provider_app_id: this.providerAppId,
+                provider_mch_id: this.providerMchId,
+                app_name: this.appName,
+                mch_name: this.mchName,
+                provider_app_name: this.providerAppName,
+                provider_mch_name: this.providerMchName
+              }
+            } else {
+              data = {
+                app_id: this.appId,
+                mch_id: this.mchId,
+                provider: this.provider,
+                app_name: this.appName,
+                mch_name: this.mchName
+              }
             }
+          }
             break;
           case enumShowType.sign:
             data = {
@@ -1837,37 +1996,14 @@
             }
           }
         })
-      },
-      querySearchMchId(queryString, cb) {
-        let list = [];
-        if (!queryString) {
-          this.wechatpayList.forEach(v => {
-            let obj = {
-              value: v.mch_id
-            }
-            list.push(obj)
-          })
-        } else {
-          this.wechatpayList.forEach(v => {
-            if (v.mch_id.includes(queryString)) {
-              let obj = {
-                value: v.mch_id
-              }
-              list.push(obj)
-            }
-          })
-        }
-        cb(list);        
-      },
-      handleSelectMchId(item) {
-        this.mchId = item.value;
       }
     },
     mounted() {
-      
       this.getConfigs();
       this.getPms();
       this.getLvyes();
+
+      this.wechatList();
     }
   }
 </script>
