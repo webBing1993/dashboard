@@ -1,0 +1,78 @@
+.content_system {
+  font-size: 16px;
+  color: #4A4A4A;
+  font-weight: normal;
+  padding: 16px 25px 0 24px;
+  .data_title {
+    text-align: end;
+    margin-bottom: 10px;
+    .el-button {
+      line-height: 18px;
+      min-width: 173px;
+      font-size: 13px;
+      background-color: #39C240;
+      border-color: #39C240;
+      border-radius: 0;
+      margin: 0;
+    }
+  }
+}
+
+.system-dialog {
+  .dialog_item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    .el-right {
+      width: 76%;
+      .el-input {
+        width: 100%;
+
+      }
+    }
+    span {
+      min-width: 100px;
+      font-size: 14px;
+      text-align: end;
+      margin-right: 5px;
+    }
+  }
+  .help {
+    display: block;
+    position: relative;
+    line-height: 40px;
+    text-align: left;
+    font-size: 14px;
+    margin: -8px 0 0 103px;
+    color: #D0011B;
+    &:before {
+      content: '*';
+      position: absolute;
+      top: 4px;
+      left: -14px;
+      font-size: 22px;
+    }
+  }
+}
+
+.dialog-footers {
+  text-align: center;
+  margin-top: -20px;
+  .el-button {
+    width: 246px;
+    border-radius: 0;
+    line-height: 18px;
+    margin: 0;
+    &:nth-child(1) {
+      background-color: #39C240;
+      border-color: #39C240;
+      color: #ffffff;
+      margin-right: 22px;
+    }
+  }
+  .el-button--primary {
+    background-color: transparent;
+    border: solid 1px #979797;
+    color: #4A4A4A;
+  }
+}

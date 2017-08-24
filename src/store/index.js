@@ -3,8 +3,11 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: require('./state'),
   getters: require('./getters'),
   actions: require('./actions'),
-  mutations: require('./mutations'),
+  modules: {
+    utils: require('./modules/utils'),
+    enterprise: require('./modules/enterprise'),
+    system: require('./modules/system')
+  },
 })

@@ -1,17 +1,18 @@
 <template>
   <div>
-    <div class="login-banner">
-      <span>{{userInfo.name}},</span>
-      <a @click="logoutAction">退出</a>
-    </div>
     <div class="nav-banner">
       <span class="logo">生态酒店总控平台</span>
       <nav>
         <router-link to="/home">首页</router-link>
-        <router-link to="/enterprise">企业账户</router-link>
+        <router-link to="/group">企业账户</router-link>
+        <router-link to="/system">系统设置</router-link>
+        <div class="login-banner">
+          <span>您好,{{userInfo.name}}</span>
+          <a @click="logoutAction">退出</a>
+        </div>
       </nav>
     </div>
-    <router-view class="second-router"/>
+    <router-view class="second-router"></router-view>
     <footer class="copy-right">
       <span>Powered By Fortrun.</span>
       <span>Copyright©2016-2017  All Rights Reserved.</span>
@@ -24,9 +25,9 @@
   export default {
     name: 'MainApp',
     computed: {
-      userInfo() {
-        return this.$store.state.userInfo;
-      }
+      ...mapState({
+        userInfo: state => state.utils.userInfo
+      }),
     },
     methods: {
       ...mapActions([
@@ -44,14 +45,3 @@
     }
   }
 </script>
-
-<style scoped lang="less">
-  .login-banner {
-    font-size: 15px;
-    line-height: 45px;
-    a {
-      padding-left: 20px;
-      cursor: pointer;
-    }
-  }
-</style>

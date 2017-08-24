@@ -24,20 +24,24 @@ RouterMap:
 
 App - Auth
     - MainApp - Home
-              - Enterprise - SearchGroup
-                           - SearchHotel
-                           - Add
-                           - AddHotel
-                           - GroupMenu - Group
-                                       - Hotel
+              - Group   - AddGroup
+                        - GroupMenu     - GroupList
+                                        - GroupHotel
                                        
-                           - Id        - Brand
-                                       - EditBrand
-                                       - AddBrand
-                                       - AddHotel
-                                       - Edit
-                                       - IdMenu - Index
-                                                - Hotel
-                                                - Config
-                           - Hotel     - EditHotel
-                                       - HotelMenu - Index
+                        - GroupId       - EditBrand
+                                        - AddHotel
+                                        - GroupIdMenu  - GroupInfo
+                                                       - Brand
+                                                       - GroupHotelList
+
+                                        - HotelMenu    - HotelInfo
+                                                       - Device           - EditDevice
+                                                       - Room
+                                                       - RoomType
+                                                       - Config           - ConfigInfo
+                                                                          - ConfigSummary
+                                                       - OnlineStatus
+              - System  - AddMiniApp
+                        - AddWechatpay
+                        - SystemMenu    - MiniAppList
+                                        - WechatPayList

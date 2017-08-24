@@ -1,15 +1,18 @@
 <template>
   <div>
-    <div class="login_content">
-      <div class="header-icon"></div>
+    <div class="login_content" @keyup.13="loginAction" tabindex="0" v-focus>
+      <div class="header-icon">
+        <img src="../assets/images/LOGO.png"/>
+      </div>
       <div class="content">
         <h3>微信生态酒店总控平台</h3>
         <div class="content-item">
-          <input type="text" v-model="logUserName" placeholder="用户名">
-          <input type="password" v-model="logPassword" placeholder="密码">
+          <el-input v-model="logUserName" placeholder="请输入用户名"></el-input>
+          <el-input type="password" v-model="logPassword" placeholder="请输入密码"></el-input>
+          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
         </div>
         <div class="button-box">
-          <el-button class="el-btn" :disabled="btnDesabled" type="success" @click.native="loginAction">登录</el-button>
+
         </div>
       </div>
       <footer class="foot">
@@ -77,7 +80,7 @@
           userName: this.logUserName,
           password: this.logPassword,
           onsuccess: body => {
-            this.goto('/enterprise');
+            this.goto({name: 'GroupList'})
             this.getInfo();
           }
         })
@@ -94,7 +97,7 @@
       },
     },
     mounted() {
-
+      
     }
   }
 </script>
@@ -106,10 +109,14 @@
     background-color: #ffffff;
     height: 100%;
     position: relative;
+
     .header-icon {
       width: 100%;
-      line-height: 39px;
-      margin: 50px 0 184px 0;
+      margin: 50px 0 184px 51px;
+      img {
+        width: 133px;
+        height: 39px;
+      }
     }
     .content {
       width: 100%;
@@ -123,34 +130,40 @@
         background-color: transparent;
         color: #4A4A4A;
       }
+
       .content-item {
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-top: 30px;
         margin-bottom: 13px;
-        input {
+        .el-input {
           width: 287px;
-          line-height: 40px;
-          font-size: 14px;
-          text-indent: 1em;
-          outline: none;
-          margin-top: 10px;
-          color: #000000;
+          margin-bottom: 10px;
+          .el-input__inner {
+            width: 100%;
+            height: 40px;
+            font-size: 14px;
+            text-indent: 1em;
+            outline: none;
+            background-color: #FBFBFB;
+            border: solid 1px #D0D0D0;
+            border-radius: 0;
+            color: #000;
+          }
         }
         input::-webkit-input-placeholder {
           color: #9B9B9B;
         }
-      }
-      .button-box {
-        width: 293px;
-        line-height: 40px;
-        margin: 10px auto;
-        .el-btn {
-          width: 100%;
+        .el-button {
+          width: 287px;
+          height: 40px;
+          padding: 0;
           background-color: #39C240;
+          border-color: #39C240;
+          border-radius: 0;
           color: #ffffff;
-          height: 42px;
+          margin-top: 3px;
         }
       }
     }
@@ -164,13 +177,6 @@
       font-size: 12px;
       text-align: center;
     }
-
   }
-
-  .copy-right {
-    bottom: 25px;
-    width: 100%;
-  }
-
 
 </style>

@@ -9,9 +9,9 @@
   export default {
     name: 'app',
     computed: {
-      ...mapState([
-        'Interface',
-      ]),
+      ...mapState({
+        Interface: state => state.utils.Interface,
+      }),
     },
     watch: {
       'Interface.alert.show'(v) {
@@ -19,14 +19,15 @@
           this.$alert(this.Interface.alert.content, this.Interface.alert.title, {
             confirmButtonText: '确定',
             callback: action => {
-              if (this.Interface.alert.code == 401) this.goto('/auth')
+              this.$store.state.utils.Interface.alert.show = false;
+              if (this.Interface.alert.code == 401) this.goto({path: '/auth'})
             }
           });
         }
       },
       'Interface.toast.show'(v) {
         if (v) {
-          this.$store.state.Interface.toast.show = false;
+          this.$store.state.utils.Interface.toast.show = false;
           this.$message({
             showClose: true,
             message: this.Interface.toast.text,
