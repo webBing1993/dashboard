@@ -165,6 +165,7 @@
           mch_id: this.mchId,
           mch_name: this.mchName,
           mch_type: this.mchType,
+          mch_key: this.mchKey,
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
           onsuccess: body => {
