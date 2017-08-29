@@ -44,10 +44,6 @@
         </div>
         <div class="configsummary_item">
           <h3>微信支付配置</h3>
-          <!--<p>小程序app_id: {{configData.miniapp_config ? configData.miniapp_config.app_id : ''}}</p>-->
-          <p>小程序app_id: {{configData.miniapp_config ? configData.app_id : ''}}</p>
-          <!--<p>小程序对应的商户号: {{configData.miniapp_config ? configData.miniapp_config.mch_id : ''}}</p>-->
-          <!--<p>小程序对应的商户号api密钥: {{configData.miniapp_config ? configData.miniapp_config.mch_api_key : ''}}</p>-->
           <p>酒店微信账务收款代码: {{configData.pay_code}}</p>
           <p>酒店微信账务退款代码: {{configData.refund_code}}</p>
         </div>
@@ -57,10 +53,11 @@
         </div>
         <div class="configsummary_item">
           <h3>小程序配置</h3>
+          <p>服务商模式: {{configData.provider}}</p>
           <p>小程序app_id: {{configData.app_id}}</p>
-          <!--<p>小程序名称: {{wechatAppData.app_secret}}</p>-->
-          <!--<p>小程序密钥: {{wechatAppData.original_id}}</p>-->
-          <!--<p>小程序原始ID: {{wechatAppData.app_name}}</p>-->
+          <p>小程序app_id: {{configData.mch_id}}</p>
+          <p>小程序app_id: {{configData.provider_app_id}}</p>
+          <p>小程序app_id: {{configData.provider_mch_id}}</p>
         </div>
         <div class="configsummary_item">
           <h3>电子签名配置</h3>
