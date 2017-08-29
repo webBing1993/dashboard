@@ -350,7 +350,7 @@
                 <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
               </div>
             </div>
-            <div v-show="pmsName == '绿云'">
+            <div v-show="pmsName == '绿云' || pmsName == '西软'">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -911,7 +911,7 @@
         hotelPmsCode: '',
         hotelServiceUrl: '',
         remark: '',
-        //绿云
+        //绿云,西软
         crsURL: '',
         hotelGroupCode: '',
         appKey: '',
@@ -1408,7 +1408,7 @@
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.remark = this.pmsData.remark;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
-          //绿云
+          //绿云,西软
           this.crsURL = this.pmsData.crs_url;
           this.hotelGroupCode = this.pmsData.hotel_group_code;
           this.appKey = this.pmsData.app_key;
@@ -1536,7 +1536,7 @@
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.remark = this.pmsData.remark;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
-            //绿云
+            //绿云,西软
             this.crsURL = this.pmsData.crs_url;
             this.hotelGroupCode = this.pmsData.hotel_group_code;
             this.appKey = this.pmsData.app_key;
@@ -1669,7 +1669,7 @@
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl
             }
-            if (this.pmsName == '绿云') {
+            if (this.pmsName == '绿云' || this.pmsName == '西软') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
