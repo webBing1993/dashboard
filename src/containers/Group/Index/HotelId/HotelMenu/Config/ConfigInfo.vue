@@ -134,11 +134,24 @@
               <img src="../../../../../../assets/images/发票.png" alt="a">
             </div>
             <div class="item-text">
-              <span>发票申请</span>
+              <span>发票配置</span>
               <p>配置客人是否可以申请发票。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.fastInvoice)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/发票.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>闪开发票配置</span>
+              <p>配置客人是否可以申请闪开发票。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledSpeedInvoice, 'tag_text_green': enabledSpeedInvoice}">{{enabledSpeedInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -314,6 +327,19 @@
                   :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.fastCard)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>极速领卡配置</span>
+              <p>配置极速领卡</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.enabledSpeedCard, 'tag_text_green': configData.enabledSpeedCard}">{{configData.enabledSpeedCard ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <el-dialog
@@ -439,6 +465,14 @@
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
             <div class="item-form">
+              <span>是否自动上传配置项?</span>
+              <el-switch
+                v-model="lvyeAutoReport"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
               <span>旅业系统类型</span>
               <el-select class="el-right" v-model="lvyeType" placeholder="请选择旅业系统类型">
                 <el-option
@@ -449,7 +483,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL'">
+            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'">
               <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -628,6 +662,41 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.fastInvoice">
+            <div class="item-form">
+              <span>是否开启闪开发票？</span>
+              <el-switch
+                v-model="enabledSpeedInvoice"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>发票类型 </span>
+              <el-checkbox-group class="el-right" v-model="invoiceType">
+                <el-checkbox v-for="item in invoicesList" :label="item.value" :key="item.value">{{item.name}}</el-checkbox>
+              </el-checkbox-group>
+            </div>
+            <div class="item-tag">
+              <span style="min-width: 102px;">code</span>
+              <div class="tag-input">
+                <div style="display: flex" v-for="(obj, index) of invoiceCode">
+                  <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
+                  <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码</el-button>
+                </div>
+                <div class="tag-btn">
+                  <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceCode.length > 1"
+                          @click="subtractInvoiceCode">-
+                  </button>
+                  <button style="border-color: #39C240; color: #39C240" @click="addInvoiceCode">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="item-form">
+              <span>发票插件ID配置</span>
+              <el-input class="el-right" v-model="plugCode" placeholder="请输入发票插件ID"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.preCheckinSms">
@@ -825,10 +894,32 @@
               </div>
             </div>
           </div>
+          <div v-if="showType === enumShowType.fastCard">
+            <div class="item-form">
+              <span>极速领卡配置</span>
+              <el-switch
+                v-model="enabledSpeedCard"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog
+        title="点击下载二维码"
+        :visible.sync="showQrImgContent"
+      >
+        <div class="qrcode-img">
+          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}" :src="qrImgUrl" />
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-radio class="radio" v-model="isBigQrImg" :label="true">大图 280</el-radio>
+          <el-radio class="radio" v-model="isBigQrImg" :label="false">小图 140</el-radio>
         </div>
       </el-dialog>
     </div>
@@ -837,7 +928,7 @@
 
 <script>
   // import ElRow from "element-ui/packages/row/src/row";
-
+  var QRCode = require('qrcode')
   const enumShowType = {
     init: 0,
     PMS: 1, //PMS信息
@@ -850,19 +941,21 @@
     sign: 8, //电子签名配置
     enabledCancelTime: 9, //电话取消订单配置
     invoice: 10,  //发票配置
-    preCheckinSms: 11,  //预登记短信配置
-    delayedPayment: 12, //到店支付配置
-    autoCheckout: 13, //自动退房配置
-    autoRefund: 14, //自动退款配置
-    preCheckin: 15, //无证入住配置
-    roomCard: 16, //门卡配置
-    cashPledge: 17, //押金配置
-    breakfastStemFrom: 18,  //早餐券配置
-    maxAllowRoomcount: 19,  //最大房间数量配置
-    syncSpaceTime: 20,  //PMS同步频率配置
-    autoConfirmPrePay: 21,  //自动确认预付款配置
-    supportVd: 22,  //脏房配置
-    roomTags: 23,  //房间标签配置
+    fastInvoice: 11,  //发票配置
+    preCheckinSms: 12,  //预登记短信配置
+    delayedPayment: 13, //到店支付配置
+    autoCheckout: 14, //自动退房配置
+    autoRefund: 15, //自动退款配置
+    preCheckin: 16, //无证入住配置
+    roomCard: 17, //门卡配置
+    cashPledge: 18, //押金配置
+    breakfastStemFrom: 19,  //早餐券配置
+    maxAllowRoomcount: 20,  //最大房间数量配置
+    syncSpaceTime: 21,  //PMS同步频率配置
+    autoConfirmPrePay: 22,  //自动确认预付款配置
+    supportVd: 23,  //脏房配置
+    roomTags: 24,  //房间标签配置
+    fastCard: 25,  //极速领卡配置
   }
 
   const typeTitles = [' ',
@@ -876,6 +969,7 @@
     '电子签名配置',
     '电话取消订单配置',
     '发票配置',
+    '闪开发票配置',
     '预登记短信配置',
     '到店支付配置',
     '自动退房配置',
@@ -889,6 +983,7 @@
     '自动确认预付款配置',
     '脏房配置',
     '房间标签配置',
+    '极速领卡配置',
   ];
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -933,7 +1028,8 @@
         adminPassword: '',
         brandId: '',
         // 旅业配置
-        lvyeTypeList: [{id: 'LOCAL', name: '本地'}, {id: 'CLOUD', name: '云端'}],
+        lvyeTypeList: [{id:'NONE',name:'无'},{id: 'LOCAL',name:'深圳'},{id: 'WUHAN',name:'武汉'},{id:'CLOUD',name:'微信通道'}],
+        lvyeAutoReport: false,
         lvyeType: '',
         policeId: '',
         policeType: '',
@@ -972,6 +1068,16 @@
         //发票配置
         enabledInvoice: true,
         invoiceName: [''],
+        //闪开发票配置
+        enabledSpeedInvoice: false,
+        invoiceType: [],
+        invoicesList: [{name:'普通发票',value:'1'},{name:'专用发票',value:'2'},{name:'个人发票',value:'3'}],
+        invoiceCode: [''],
+        qrImgUrl: '',
+        tempCode: '',
+        isBigQrImg: true,
+        showQrImgContent: false,
+        plugCode: '',
         //预登记短信配置
         enabledPreCheckinSms: false,
         //到店支付配置
@@ -1026,6 +1132,8 @@
         wechatpayList: [],
         providerList: [],
         unProviderList: [],
+        //极速领卡配置
+        enabledSpeedCard: false
       }
     },
     computed: {
@@ -1034,6 +1142,7 @@
         pmsData: state => state.enterprise.pmsData,
         lvyeData: state => state.enterprise.lvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
+        hotelName: state => state.enterprise.tempHotelName,
       }),
       providerMchIdList() {
         return this.providerList.map(v => {
@@ -1112,6 +1221,9 @@
       invoiceNameList() {
         return this.invoiceName.filter(v => v != '');
       },
+      invoiceCodeList() {
+        return this.invoiceCode.filter(v => v != '');
+      },
       roomTagsList() {
         return this.roomTags.filter(v => v != '');
       },
@@ -1130,7 +1242,7 @@
         }
       },
       validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD') {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.lvyeType == 'LOCAL') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
@@ -1175,6 +1287,12 @@
       validateinvoice() {
         if (this.enabledInvoice) {
           return (this.invoiceNameList.length > 0);
+        }
+        return true;
+      },
+      validatefastinvoice() {
+        if (this.enabledSpeedInvoice) {
+          return (this.invoiceCodeList.length > 0) && tool.isNotBlank(this.invoiceType) && tool.isNotBlank(this.plugCode)
         }
         return true;
       },
@@ -1238,6 +1356,9 @@
       validateroomTags() {
         return true;
       },
+      validateisfastcard() {
+        return true;
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1270,6 +1391,9 @@
             break;
           case enumShowType.invoice:
             result = this.validateinvoice;
+            break;
+          case enumShowType.fastInvoice:
+            result = this.validatefastinvoice;
             break;
           case enumShowType.preCheckinSms:
             result = this.validatepreCheckinSms;
@@ -1309,6 +1433,9 @@
             break;
           case enumShowType.roomTags:
             result = this.validateroomTags;
+            break;
+          case enumShowType.fastCard:
+            result = this.validateisfastcard;
             break;
           default:
             result = false;
@@ -1352,6 +1479,15 @@
           if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
             this.invoiceName = [...configData.invoice_name];
           }
+          //极速开票配置
+          this.enabledSpeedInvoice = configData.enabled_speed_invoice ? true : false;
+          if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
+            this.invoiceType = [...configData.invoice_type];
+          }
+          if (tool.isNotBlank(configData.code) && configData.code.length > 0) {
+            this.invoiceCode = [...configData.code];
+          }
+          this.plugCode = configData.plug_code;
           //预登记短信配置
           this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
           //到店支付配置
@@ -1396,6 +1532,7 @@
           if (tool.isNotBlank(configData.room_tags)) {
             this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
           }
+          this.enabledSpeedCard = configData.enabled_speed_card;
         }
       },
       pmsData() {
@@ -1434,6 +1571,7 @@
       lvyeData() {
         // 旅业配置
         if (tool.isNotBlank(this.lvyeData)) {
+          this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
           this.lvyeType = this.lvyeData.lvye_report_type;
           this.policeId = this.lvyeData.hotel_ga_id;
           this.policeType = this.lvyeData.police_type;
@@ -1559,6 +1697,7 @@
             this.brandId = this.pmsData.brand_id;
             break;
           case enumShowType.lvyeReportType:
+            this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
             this.lvyeType = this.lvyeData.lvye_report_type;
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
@@ -1600,7 +1739,13 @@
             break;
           case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
-            this.invoiceName = [...this.configData.invoice_name];
+            this.configData.invoice_name ? this.invoiceName = [...this.configData.invoice_name] : null;
+            break;
+          case enumShowType.fastInvoice:
+            this.enabledSpeedInvoice = this.configData.enabled_fast_invoice ? true : false;
+            this.configData.invoice_type ? this.invoiceType = [...this.configData.invoice_type] : null;
+            this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
+            this.plugCode = configData.plug_code;
             break;
           case enumShowType.preCheckinSms:
             this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
@@ -1652,6 +1797,9 @@
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
+            break;
+          case enumShowType.fastCard:
+            this.enabledSpeedCard = this.configData.enabled_speed_card;
             break;
           default:
 
@@ -1710,11 +1858,12 @@
           // break;
           case enumShowType.lvyeReportType: {
             let tempData = {
+              lvye_auto_report: this.lvyeAutoReport,
               lvye_report_type: this.lvyeType,
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD') {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
               data = {
                 ...tempData
               }
@@ -1797,6 +1946,14 @@
             }
             if (this.enabledInvoice) {
               data.invoice_name = this.invoiceNameList;
+            }
+            break;
+          case enumShowType.fastInvoice:
+            data = {
+              enabled_fast_invoice: this.enabledInvoice.toString(),
+              invoice_type: this.invoiceType,
+              code: this.invoiceCodeList,
+              plug_code: this.plugCode
             }
             break;
           case enumShowType.preCheckinSms:
@@ -1911,6 +2068,11 @@
               room_tags: Array.from(new Set(this.roomTagsList))
             }
             break;
+          case enumShowType.fastCard:
+            data = {
+              enabled_speed_card: this.enabledSpeedCard
+            }
+            break;
           default:
             data = {};
         }
@@ -1996,7 +2158,34 @@
             }
           }
         })
-      }
+      },
+      addInvoiceCode() {
+        this.invoiceCode.push('');
+      },
+      subtractInvoiceCode() {
+        if (this.invoiceCode.length == 1) return;
+        this.invoiceCode.pop();
+      },
+      creatQrcode(code) {
+        if (!code) return;
+        this.tempCode = code;
+        QRCode.toDataURL(code, (err, url) => {
+          this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
+          this.showQrImgContent = true;
+        })
+      },
+      saveFile(data, filename) {
+        var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
+        save_link.href = data;
+        save_link.download = filename;
+
+        var event = document.createEvent('MouseEvents');
+        event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        save_link.dispatchEvent(event);
+      },
+      downloadImg() {
+        this.saveFile(this.qrImgUrl,`${this.hotelName}_${this.tempCode}.png`);
+      },
     },
     mounted() {
       this.getConfigs();
@@ -2230,6 +2419,11 @@
   }
   .el-autocomplete .el-input {
     width: 100%!important;
+  }
+
+  .qrcode-img {
+    display: flex;
+    justify-content: center;
   }
 
 </style>

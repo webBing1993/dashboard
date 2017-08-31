@@ -34,6 +34,11 @@
               </div>
               <span class="help is-danger" v-show="errors.has('code')">门店编码不能为空!</span>
 
+              <div class="item">
+                <span>企业微信id</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="corpId" placeholder="请输入企业微信id"></el-input>
+              </div>
+
               <div class="content-address">
                 <span>门店地址</span>
                 <el-select class="el-right-address" :disabled="!isEditInfo" v-model="provinceCode" name="provinceCode"
@@ -145,6 +150,7 @@
         groupId: '',
         brandId: '',
         code: '',
+        corpId: '',
         name: '',
         tel: '',
         province: '',
@@ -304,6 +310,7 @@
           group_id: this.hotel.group_id,
           brand_id: this.brandId,
           code: this.code,
+          corp_id: this.corpId,
           name: this.name,
           tel: this.tel,
           province: obj.region.name,
@@ -332,6 +339,7 @@
         this.groupId = this.hotel.group_id;
         // this.brandId = this.hotel.brand_id;
         this.code = this.hotel.code;
+        this.corpId = this.hotel.corp_id;
         this.name = this.hotel.name;
         this.tel = this.hotel.tel;
         this.province = this.hotel.province;

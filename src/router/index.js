@@ -25,6 +25,7 @@ import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
 import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
+import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -36,10 +37,13 @@ import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
+import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
+import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMiniAppMsg.vue'
 
 // 6级路由
 import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/DeviceList.vue'
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
+import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 
@@ -133,6 +137,10 @@ const main = [
                               path: 'editdevice',
                               name: 'EditDevice',
                               component: EditDevice
+                            },{
+                              path: 'relationvevice',
+                              name: 'RelationDevice',
+                              component: RelationDevice
                             }
                           ]
                         },{
@@ -193,6 +201,20 @@ const main = [
                 path: 'wechatpay',
                 name: 'WechatPayList',
                 component: WechatPayList      
+              },{
+                path: 'miniappmsg',
+                component: MiniAppMsg,
+                children: [
+                  {
+                    path: '/',
+                    name: 'MiniAppMsgList',
+                    component: MiniAppMsgList
+                  },{
+                    path: 'addminiappmsg',
+                    name: 'AddMiniAppMsg',
+                    component: AddMiniAppMsg
+                  }
+                ]
               }
             ]
           }]

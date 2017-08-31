@@ -21,6 +21,17 @@
         <el-input class="el-right" :disabled="!isAdd" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
       <div class="content-item">
+        <span>配对设备</span>
+        <el-select class="el-right" :disabled="!isAdd" v-model="partnerIdTemp" placeholder="请选择配对设备">
+          <el-option
+            v-for="(obj, index) of partnerIdListTemp"
+            :key="obj.value"
+            :label="obj.value"
+            :value="obj.value">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="content-item">
         <span>是否开启</span>
         <el-switch
           v-model="enabled"
@@ -50,7 +61,9 @@
         deviceName: '',
         deviceType: '',
         enabled: true,
-        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: '魔镜'}, {id: '51', name: '发票插件'}]
+        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'}],
+        partnerIdTemp: '',
+        partnerIdList: [{id: '1', name: '哈哈'},{id: '2', name: '呵呵'}]
       }
     },
     computed: {
@@ -58,6 +71,21 @@
         if (this.deviceId == '' || this.deviceName == '' || this.deviceType == '' || this.$route.params.id == '' || this.$route.params.hotelid == '')
           return true;
         return false;
+      },
+      partnerId() {
+        if (!this.partnerIdTemp) return '';
+        if (this.partnerIdTemp === '无') return '-1';
+        return this.partnerIdTemp.split(' | ')[1];
+      },
+      partnerIdListTemp() {
+        let list = this.partnerIdList.map(v => {
+          let obj = {
+            value: `${v.name} | ${v.id}`
+          }
+          return obj
+        })
+        list.unshift({value: '无'})
+        return list
       }
     },
     methods: {

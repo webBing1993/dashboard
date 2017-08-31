@@ -3,7 +3,9 @@ const state = {
   configData: {},
   pmsData: {},
   lvyeData: {},
-  wechatAppData: []
+  wechatAppData: [],
+  tempGroupName: '',
+  tempHotelName: ''
 }
 
 // mutations
@@ -19,6 +21,12 @@ const mutations = {
   },
   WECHATAPPDATA(state,payload) {
     state.wechatAppData = payload;
+  },
+  SETTEMPGROUPNAME(state,payload) {
+    state.tempGroupName = payload;
+  },
+  SETTEMPHOTELNAME(state,payload) {
+    state.tempHotelName = payload;
   }
 }
 

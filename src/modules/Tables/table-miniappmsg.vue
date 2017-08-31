@@ -4,24 +4,18 @@
       <thead>
       <tr>
         <th>序号</th>
-        <th>设备类型</th>
-        <th>设备名称</th>
-        <th>设备ID</th>
-        <th>状态</th>
-        <th>配对</th>
+        <th>appID</th>
+        <th>templateID</th>
+        <th>templateName</th>
         <th>操作</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of list" v-bind:key="index">
+      <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.device_type | deviceType }}</td>
-        <td>{{ obj.name }}</td>
-        <td>{{ obj.partner_name }}</td>
-        <td><span
-          :class="{'circle-green': obj.enabled == 1, 'circle-red': obj.enabled == 0}"></span>{{ obj.enabled | status }}
-        </td>
-        <td>{{ obj.device_name2 }}</td>
+        <td>{{ obj.app_id }}</td>
+        <td>{{ obj.template_id }}</td>
+        <td>{{ obj.template_name }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>
@@ -47,17 +41,6 @@
       size: {
         type: Number,
         default: 10
-      }
-    },
-    filters: {
-      deviceType(v) {
-        if (v === "31") return "底座";
-        if (v === "32") return "pad";
-        if (v === "51") return "发票插件";
-      },
-      status(v) {
-        if (v === 1) return "可用";
-        if (v === 0) return "禁用";
       }
     },
     methods: {
@@ -98,8 +81,7 @@
   .v-table th {
     padding-left: 10px;
     font-size: 14px;
-    font-weight: normal;
-    color: #ffffff;
+    color: #3e3e3e;
     background-color: #9B9B9B;
     word-break: keep-all;
     white-space: nowrap;
@@ -146,26 +128,6 @@
 
   .pointer {
     cursor: pointer;
-  }
-
-  .circle-green, .circle-red {
-    position: relative;
-    top: 1px;
-    left: -4px;
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-
-  .circle-green {
-    border: 1px solid #39C240;
-    background-color: #39C240;
-  }
-
-  .circle-red {
-    border: 1px solid #D0011B;
-    background-color: #D0011B;
   }
 </style>
 

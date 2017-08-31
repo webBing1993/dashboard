@@ -9,6 +9,7 @@ module.exports = {
         device_id: param.device_id,
         device_type: param.device_type,
         device_name: param.device_name,
+        partner_id: param.partner_id,
         enabled: param.enabled
       },
       onSuccess: body => {
@@ -31,10 +32,11 @@ module.exports = {
       method:'PUT',
       body: {
         hotel_id: param.hotel_id,
-        group_id: param.group_id,
-        device_id: param.device_id,
+        // group_id: param.group_id,
+        // device_id: param.device_id,
         device_type: param.device_type,
         device_name: param.device_name,
+        partner_id: param.partner_id,
         enabled: param.enabled
       },
       onSuccess: body => {
@@ -54,16 +56,46 @@ module.exports = {
       }
     })
   },
+  // getDeviceList(ctx, param){
+  //   ctx.dispatch('resource', {
+  //     url: '/devices',
+  //     method:'GET',
+  //     headers: {
+  //       'X-Current-Page': param.page || '1',
+  //       'X-Page-Size': param.size || '0'
+  //     },
+  //     params: {
+  //       hotel_id: param.hotel_id
+  //     },
+  //     onSuccess: (body, headers) => {
+  //       param.onsuccess ? param.onsuccess(body, headers) : null
+  //     }
+  //   })
+  // }
   getDeviceList(ctx, param){
     ctx.dispatch('resource', {
-      url: '/devices',
-      method:'GET',
+      url: '/devicesList',
+      method:'POST',
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
       },
-      params: {
+      body: {
         hotel_id: param.hotel_id
+      },
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  vagrantList(ctx, param){
+    ctx.dispatch('resource', {
+      url: '/devicesList',
+      method:'POST',
+      body: {
+        hotel_id: param.hotel_id,
+        hotel_id_null: param.hotel_id_null,
+        partner_id_null: param.partner_id_null
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

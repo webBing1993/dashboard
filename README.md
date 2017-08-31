@@ -36,6 +36,7 @@ App - Auth
 
                                         - HotelMenu    - HotelInfo
                                                        - Device           - EditDevice
+                                                                          - RelationDevice
                                                        - Room
                                                        - RoomType
                                                        - Config           - ConfigInfo

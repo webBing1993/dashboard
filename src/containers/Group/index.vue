@@ -83,6 +83,7 @@
           onsuccess: body => {
             if (body.data) {
               this.groupName = body.data.name;
+              this.$store.commit('SETTEMPGROUPNAME', this.groupName);
             }
           }
         })
@@ -93,6 +94,7 @@
           onsuccess: body => {
             if (body.data) {
               this.hotelName = body.data.name;
+              this.$store.commit('SETTEMPHOTELNAME', this.hotelName);
             }
           }
         })
