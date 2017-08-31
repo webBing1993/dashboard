@@ -350,7 +350,7 @@
                 <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
               </div>
             </div>
-            <div v-show="pmsName == '绿云' || pmsName == '西软'">
+            <div v-show="pmsType == '2' || pmsType == '7'">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -376,7 +376,7 @@
                 <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
               </div>
             </div>
-            <div v-show="pmsName == '别样红'">
+            <div v-show="pmsType == '1'">
               <div class="item-form">
                 <span>账单服务地址</span>
                 <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
@@ -402,7 +402,7 @@
                 <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
-            <div v-show="pmsName == '住哲'">
+            <div v-show="pmsType == '3'">
               <div class="item-form">
                 <span>调用ID</span>
                 <el-input class="el-right" v-model="cid" placeholder="请输入住哲分配的调用ID(cid)"></el-input>
@@ -907,7 +907,7 @@
         checkout: true,
         //捷信达
         pmsId: '',
-        // pmsName: '', //放在计算属性
+        // pmsType: '', //放在计算属性
         hotelPmsCode: '',
         hotelServiceUrl: '',
         remark: '',
@@ -1103,10 +1103,10 @@
           val.provider_app_id ? this.providerMchIdTemp = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTemp = '';
         }
       },
-      pmsName() {
+      pmsType() {
         let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
         if (tool.isNotBlank(obj))
-          return obj.name;
+          return obj.type;
         return '';
       },
       invoiceNameList() {
@@ -1117,10 +1117,10 @@
       },
       //无数个validate
       validatePMS() {
-        if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsName) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
-          if (this.pmsName == '别样红') {
+        if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsType) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
+          if (this.pmsType == '1') {
             return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
-          } else if (this.pmsName == '住哲') {
+          } else if (this.pmsType == '3') {
             return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey) && tool.isNotBlank(this.adminName) && tool.isNotBlank(this.adminPassword) && tool.isNotBlank(this.brandId)
           } else {
             return true;
@@ -1404,7 +1404,7 @@
           //捷信达
           this.pmsId = this.pmsData.pms_id;
           this.checkout = this.pmsData.checkout == 'true' ? true : false;
-          // this.pmsName = this.pmsData.pms_name; //放在计算属性
+          // this.pmsType = this.pmsData.pms_type; //放在计算属性
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.remark = this.pmsData.remark;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1532,7 +1532,7 @@
             //捷信达
             this.pmsId = this.pmsData.pms_id;
             this.checkout = this.pmsData.checkout == 'true' ? true : false;
-            // this.pmsName = this.pmsData.pms_name; //放在计算属性
+            // this.pmsType = this.pmsData.pms_type; //放在计算属性
             this.hotelPmsCode = this.pmsData.hotel_pmscode;
             this.remark = this.pmsData.remark;
             this.hotelServiceUrl = this.pmsData.hotel_service_url;
@@ -1664,12 +1664,12 @@
             let paramData = {
               pms_id: this.pmsId,
               checkout: this.checkout.toString(),
-              pms_name: this.pmsName,
+              pms_type: this.pmsType,
               hotel_pmscode: this.hotelPmsCode,
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl
             }
-            if (this.pmsName == '绿云' || this.pmsName == '西软') {
+            if (this.pmsType == '7' || this.pmsType == '2') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
@@ -1679,7 +1679,7 @@
                 usercode: this.userCode,
                 password: this.password
               }
-            } else if (this.pmsName == '别样红') {
+            } else if (this.pmsType == '1') {
               data = {
                 ...paramData,
                 bill_service_url: this.billServiceUrl,
@@ -1689,7 +1689,7 @@
                 user_name: this.userName,
                 user_pass: this.userPass,
               }
-            } else if (this.pmsName == '住哲') {
+            } else if (this.pmsType == '3') {
               data = {
                 ...paramData,
                 cid: this.cid,
