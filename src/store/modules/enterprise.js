@@ -5,7 +5,8 @@ const state = {
   lvyeData: {},
   wechatAppData: [],
   tempGroupName: '',
-  tempHotelName: ''
+  tempHotelName: '',
+  deviceList: []
 }
 
 // mutations
@@ -27,6 +28,9 @@ const mutations = {
   },
   SETTEMPHOTELNAME(state,payload) {
     state.tempHotelName = payload;
+  },
+  SETDEVICELIST(state,payload) {
+    state.deviceList = payload;
   }
 }
 

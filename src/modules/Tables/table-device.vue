@@ -15,13 +15,13 @@
       <tbody>
       <tr v-for="(obj, index) of list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.device_type | deviceType }}</td>
+        <td>{{ obj.type | deviceType }}</td>
         <td>{{ obj.name }}</td>
-        <td>{{ obj.partner_name }}</td>
+        <td>{{ obj.id }}</td>
         <td><span
           :class="{'circle-green': obj.enabled == 1, 'circle-red': obj.enabled == 0}"></span>{{ obj.enabled | status }}
         </td>
-        <td>{{ obj.device_name2 }}</td>
+        <td>{{ obj.partner_name }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>

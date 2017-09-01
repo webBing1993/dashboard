@@ -3,9 +3,9 @@
     <div class="module-wrapper">
       <div class="content-item">
         <span>游离设备</span>
-        <el-select class="el-right" v-model="deviceType" placeholder="请选择设备">
+        <el-select class="el-right" v-model="device" placeholder="请选择设备">
           <el-option
-            v-for="(obj, index) of deviceTypeList"
+            v-for="(obj, index) of list"
             :key="obj.id"
             :label="obj.name"
             :value="obj.id">
@@ -13,8 +13,7 @@
         </el-select>
       </div>
       <div class="content-btn">
-        <el-button @click.native="cancel">取消</el-button>
-        <el-button @click.native="submit">添加</el-button>
+        <el-button :disabled="!device" @click.native="submit">添加</el-button>
       </div>
     </div>
   </div>
@@ -26,19 +25,33 @@
     name: 'RelationDevice',
     data() {
       return {
-        deviceType: '',
-        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: '魔镜'}, {id: '51', name: '发票插件'}]
+        device: '',
+        list: []
       }
     },
     methods: {
       ...mapActions([
+        'vagrantList',
+        'modifyDevice',
         'goto'
       ]),
-      cancel() {
-
+      getList() {
+        this.vagrantList({
+          onsuccess: (body, headers) => {
+            this.list = body.data || [];
+          }
+        })
       },
       submit() {
-
+        this.modifyDevice({
+          hotel_id: this.$route.params.hotelid,
+          device_id: this.device.device_id,
+          device_type: this.device.device_type,
+          device_name: this.device.device_name,
+          partner_id: this.device.partner_id,
+          enabled: this.device.enabled,
+          onsuccess: body => this.goto(-1)
+        })
       }
     },
     mounted() {
