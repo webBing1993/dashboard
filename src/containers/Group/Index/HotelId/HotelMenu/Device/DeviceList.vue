@@ -72,7 +72,7 @@
 
             headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
             headers['x-total'] ? this.total = +headers['x-total'] : null;
-            
+            console.log(body)
             this.list = body.data;
           }
         })
