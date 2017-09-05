@@ -1647,7 +1647,7 @@
             }
           }
         })
-          
+
       },
       addInvoiceName() {
         this.invoiceName.push('');
@@ -2070,7 +2070,7 @@
             break;
           case enumShowType.fastCard:
             data = {
-              enabled_speed_card: this.enabledSpeedCard
+              enabled_speed_card: typeof this.enabledSpeedCard !== 'undefined' && this.enabledSpeedCard.toString()
             }
             break;
           default:
