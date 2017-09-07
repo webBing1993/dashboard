@@ -135,7 +135,7 @@ module.exports = {
         'X-Page-Size': param.size || '0'
       },
       body: {
-        hotel_id: param.hotel_id
+        hotel_id: param.hotel_id,
       },
       onSuccess: (body, headers) => {
         ctx.commit('SETDEVICELIST', body.data || [])
@@ -145,7 +145,7 @@ module.exports = {
   },
   vagrantList(ctx, param){
     ctx.dispatch('resource', {
-      url: '/device/vagrant',
+      url: '/devices/vagrant',
       method:'GET',
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null

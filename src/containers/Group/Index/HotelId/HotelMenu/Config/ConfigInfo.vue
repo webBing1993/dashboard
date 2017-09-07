@@ -337,7 +337,7 @@
               <p>配置极速领卡</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.enabledSpeedCard, 'tag_text_green': configData.enabledSpeedCard}">{{configData.enabledSpeedCard ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !enabledSpeedCard, 'tag_text_green': enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -676,7 +676,8 @@
             <div class="item-form">
               <span>发票类型 </span>
               <el-checkbox-group class="el-right" v-model="invoiceType">
-                <el-checkbox v-for="item in invoicesList" :label="item.value" :key="item.value">{{item.name}}</el-checkbox>
+                <el-checkbox v-for="item in invoicesList" :label="item.value" :key="item.value">{{item.name}}
+                </el-checkbox>
               </el-checkbox-group>
             </div>
             <div class="item-tag">
@@ -684,7 +685,8 @@
               <div class="tag-input">
                 <div style="display: flex" v-for="(obj, index) of invoiceCode">
                   <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
-                  <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码</el-button>
+                  <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码
+                  </el-button>
                 </div>
                 <div class="tag-btn">
                   <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceCode.length > 1"
@@ -774,7 +776,8 @@
             <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
               <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
                 <span>固定押金金额</span>
-                <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>(分)
+                <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
+                (分)
               </div>
               <div class="item-form" v-show="cashPledgeType == 'multiple_of_cash_pledge'">
                 <span>放大系数</span>
@@ -915,7 +918,8 @@
         :visible.sync="showQrImgContent"
       >
         <div class="qrcode-img">
-          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}" :src="qrImgUrl" />
+          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"
+               :src="qrImgUrl"/>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-radio class="radio" v-model="isBigQrImg" :label="true">大图 280</el-radio>
@@ -1028,7 +1032,10 @@
         adminPassword: '',
         brandId: '',
         // 旅业配置
-        lvyeTypeList: [{id:'NONE',name:'无'},{id: 'LOCAL',name:'深圳'},{id: 'WUHAN',name:'武汉'},{id:'CLOUD',name:'微信通道'}],
+        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '深圳'}, {id: 'WUHAN', name: '武汉'}, {
+          id: 'CLOUD',
+          name: '微信通道'
+        }],
         lvyeAutoReport: false,
         lvyeType: '',
         policeId: '',
@@ -1071,7 +1078,7 @@
         //闪开发票配置
         enabledSpeedInvoice: false,
         invoiceType: [],
-        invoicesList: [{name:'普通发票',value:'1'},{name:'专用发票',value:'2'},{name:'个人发票',value:'3'}],
+        invoicesList: [{name: '普通发票', value: '1'}, {name: '专用发票', value: '2'}, {name: '个人发票', value: '3'}],
         invoiceCode: [''],
         qrImgUrl: '',
         tempCode: '',
@@ -1255,6 +1262,8 @@
             return flag;
           }
           return false;
+        } else if (this.lvyeType == 'NONE') {
+          return true;
         } else {
           return false;
         }
@@ -1480,7 +1489,7 @@
             this.invoiceName = [...configData.invoice_name];
           }
           //极速开票配置
-          this.enabledSpeedInvoice = configData.enabled_speed_invoice ? true : false;
+          this.enabledSpeedInvoice = configData.enabled_speed_invoice;
           if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
             this.invoiceType = [...configData.invoice_type];
           }
@@ -1532,7 +1541,7 @@
           if (tool.isNotBlank(configData.room_tags)) {
             this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
           }
-          this.enabledSpeedCard = configData.enabled_speed_card;
+          this.enabledSpeedCard = configData.enabled_speed_card == 'true' ? true : false;
         }
       },
       pmsData() {
@@ -1742,7 +1751,7 @@
             this.configData.invoice_name ? this.invoiceName = [...this.configData.invoice_name] : null;
             break;
           case enumShowType.fastInvoice:
-            this.enabledSpeedInvoice = this.configData.enabled_fast_invoice ? true : false;
+            this.enabledSpeedInvoice = this.configData.enabled_speed_invoice;
             this.configData.invoice_type ? this.invoiceType = [...this.configData.invoice_type] : null;
             this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
             this.plugCode = configData.plug_code;
@@ -1799,7 +1808,7 @@
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           case enumShowType.fastCard:
-            this.enabledSpeedCard = this.configData.enabled_speed_card;
+            this.enabledSpeedCard = this.configData.enabled_speed_card == 'true' ? true : false;
             break;
           default:
 
@@ -1863,7 +1872,7 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE') {
               data = {
                 ...tempData
               }
@@ -1897,8 +1906,7 @@
               wx_hotel_id: this.wxHotelId
             }
             break;
-          case enumShowType.miniApp:
-          {
+          case enumShowType.miniApp: {
             if (this.provider) {
               data = {
                 app_id: this.appId,
@@ -1950,7 +1958,7 @@
             break;
           case enumShowType.fastInvoice:
             data = {
-              enabled_fast_invoice: this.enabledInvoice.toString(),
+              enabled_speed_invoice: this.enabledSpeedInvoice,
               invoice_type: this.invoiceType,
               code: this.invoiceCodeList,
               plug_code: this.plugCode
@@ -2070,7 +2078,7 @@
             break;
           case enumShowType.fastCard:
             data = {
-              enabled_speed_card: typeof this.enabledSpeedCard !== 'undefined' && this.enabledSpeedCard.toString()
+              enabled_speed_card: this.enabledSpeedCard.toString()
             }
             break;
           default:
@@ -2184,7 +2192,7 @@
         save_link.dispatchEvent(event);
       },
       downloadImg() {
-        this.saveFile(this.qrImgUrl,`${this.hotelName}_${this.tempCode}.png`);
+        this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
       },
     },
     mounted() {
@@ -2417,8 +2425,9 @@
     width: 60%;
     margin-left: 16px;
   }
+
   .el-autocomplete .el-input {
-    width: 100%!important;
+    width: 100% !important;
   }
 
   .qrcode-img {

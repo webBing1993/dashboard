@@ -43,19 +43,21 @@
         })
       },
       submit() {
+        let tempDevice = this.list.filter(item => item.id == this.device);
+        console.log(tempDevice)
         this.modifyDevice({
           hotel_id: this.$route.params.hotelid,
-          device_id: this.device.device_id,
-          device_type: this.device.device_type,
-          device_name: this.device.device_name,
-          partner_id: this.device.partner_id,
-          enabled: this.device.enabled,
+          device_id: tempDevice[0].id,
+          device_type: tempDevice[0].type,
+          device_name: tempDevice[0].name,
+          partner_id: tempDevice[0].partner_id,
+          enabled: tempDevice[0].enabled,
           onsuccess: body => this.goto(-1)
         })
       }
     },
     mounted() {
-      
+      this.getList();
     }
   }
 </script>

@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content-item">
         <span>设备类型</span>
-        <el-select class="el-right" :disabled="!isAdd" v-model="deviceType" placeholder="请选择设备类型">
+        <el-select class="el-right"  v-model="deviceType" placeholder="请选择设备类型">
           <el-option
             v-for="(obj, index) of deviceTypeList"
             :key="obj.id"
@@ -14,15 +14,15 @@
       </div>
       <div class="content-item">
         <span>设备ID</span>
-        <el-input class="el-right" :disabled="!isAdd" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
+        <el-input class="el-right"  v-model="deviceId" placeholder="请输入该设备ID"></el-input>
       </div>
       <div class="content-item">
         <span>设备名称</span>
-        <el-input class="el-right" :disabled="!isAdd" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
+        <el-input class="el-right"  v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
       <div class="content-item">
         <span>配对设备</span>
-        <el-select class="el-right" :disabled="!isAdd" v-model="partnerIdTemp" placeholder="请选择配对设备">
+        <el-select class="el-right"  v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
             v-for="(obj, index) of partnerIdListTemp"
             :key="obj.value"
@@ -94,7 +94,7 @@
           return this.partnerIdTemp.split(' | ')[1];
         },
         set(val) {
-          this.partnerIdTemp = `${this.deviceName} | ${val}`;
+            if(this.partnerId) this.partnerIdTemp = `${this.deviceName} | ${val}`;
         }
       },
       baseList() {
@@ -143,6 +143,7 @@
           enabled: this.enabled ? 1 : 0,
           onsuccess: body => {
             this.showDialog = false;
+            this.goto(-1)
           }
         })
       },
@@ -164,9 +165,9 @@
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            this.deviceId = body.data.device_id;
-            this.deviceType = body.data.device_type;
-            this.deviceName = body.data.device_name;
+            this.deviceId = body.data.id;
+            this.deviceType = body.data.type;
+            this.deviceName = body.data.name;
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
 
