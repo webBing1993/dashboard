@@ -2185,6 +2185,7 @@
         }if (process.env.NODE_ENV === 'production') {
           this.tempCode = `http://jskp.fortrun.cn/index.html?code=${code}`;
         }
+        console.log(this.tempCode );
         QRCode.toDataURL(this.tempCode, (err, url) => {
             console.log(url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
