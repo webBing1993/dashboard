@@ -1754,7 +1754,7 @@
             this.enabledSpeedInvoice = this.configData.enabled_speed_invoice;
             this.configData.invoice_type ? this.invoiceType = [...this.configData.invoice_type] : null;
             this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
-            this.plugCode = configData.plug_code;
+            this.plugCode = this.configData.plug_code;
             break;
           case enumShowType.preCheckinSms:
             this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
