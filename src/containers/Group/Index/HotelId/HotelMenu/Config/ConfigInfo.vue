@@ -2176,8 +2176,17 @@
       },
       creatQrcode(code) {
         if (!code) return;
-        this.tempCode = code;
-        QRCode.toDataURL(code, (err, url) => {
+        if (process.env.NODE_ENV === 'intg') {
+          this.tempCode = `http://jskp.intg.fortrun.cn/index.html?code=${code}`;
+        } else if (process.env.NODE_ENV === 'test') {
+          this.tempCode = `http://jskp.qa.fortrun.cn/index.html?code=${code}`;
+        }if (process.env.NODE_ENV === 'stg') {
+          this.tempCode = `http://jskp.stg.fortrun.cn/index.html?code=${code}`;
+        }if (process.env.NODE_ENV === 'production') {
+          this.tempCode = `http://jskp.fortrun.cn/index.html?code=${code}`;
+        }
+        QRCode.toDataURL(this.tempCode, (err, url) => {
+            console.log(url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })
