@@ -45,7 +45,7 @@
       </div>
       <div v-else class="content-btn">
         <el-button type="success" :disabled="submitDisabled" @click.native="unlink">解除酒店关联</el-button>
-        <el-button type="danger" @click.native="removeDevices">删除设备</el-button>
+        <el-button type="danger" @click.native="showDeleteDialog = true">删除设备</el-button>
         <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevices">确认修改</el-button>
       </div>
       <el-dialog
@@ -56,6 +56,17 @@
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button type="primary" @click="submitDialog">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <el-dialog
+        title="提示"
+        :visible.sync="showDeleteDialog"
+      >
+        <h1>确定删除设备？</h1>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="showDeleteDialog = false">取 消</el-button>
+          <el-button type="primary" @click="removeDevices">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -69,6 +80,7 @@
     data() {
       return {
         showDialog: false,
+        showDeleteDialog:false,
         isAdd: true,
         deviceId: '',
         deviceName: '',
