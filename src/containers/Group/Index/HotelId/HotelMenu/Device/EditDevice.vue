@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="content-item">
         <span>设备类型</span>
-        <el-select class="el-right"  v-model="deviceType" placeholder="请选择设备类型">
+        <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
           <el-option
             v-for="(obj, index) of deviceTypeList"
             :key="obj.id"
@@ -14,15 +14,15 @@
       </div>
       <div class="content-item">
         <span>设备ID</span>
-        <el-input class="el-right"  v-model="deviceId" placeholder="请输入该设备ID"></el-input>
+        <el-input class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
       </div>
       <div class="content-item">
         <span>设备名称</span>
-        <el-input class="el-right"  v-model="deviceName" placeholder="请输入该设备名称"></el-input>
+        <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
       <div class="content-item">
         <span>配对设备</span>
-        <el-select class="el-right"  v-model="partnerIdTemp" placeholder="请选择配对设备">
+        <el-select class="el-right" v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
             v-for="(obj, index) of partnerIdListTemp"
             :key="obj.value"
@@ -80,14 +80,15 @@
     data() {
       return {
         showDialog: false,
-        showDeleteDialog:false,
+        showDeleteDialog: false,
         isAdd: true,
         deviceId: '',
         deviceName: '',
         deviceType: '',
         enabled: true,
         deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'}],
-        partnerIdTemp: ''
+        partnerIdTemp: '',
+        partnerName: ''
       }
     },
     computed: {
@@ -106,7 +107,7 @@
           return this.partnerIdTemp.split(' | ')[1];
         },
         set(val) {
-            if(this.partnerId) this.partnerIdTemp = `${this.deviceName} | ${val}`;
+          val && (this.partnerIdTemp = `${this.partnerName} | ${val}`);
         }
       },
       baseList() {
@@ -180,6 +181,7 @@
             this.deviceId = body.data.id;
             this.deviceType = body.data.type;
             this.deviceName = body.data.name;
+            this.partnerName = body.data.partner_name;
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
 
@@ -271,28 +273,28 @@
   }
 
   .el-dialog__footer {
-          padding: 10px 20px 28px;
-          .dialog-footer {
-            text-align: center;
-            .el-button {
-              width: 246px;
-              border-radius: 0;
-              line-height: 18px;
-              margin: 0;
-              &:nth-child(1) {
-                margin-right: 22px;
-              }
-              &:nth-child(2) {
-                background-color: #39C240;
-                border-color: #39C240;
-                color: #ffffff;
-              }
-            }
-            .el-button--primary {
-              background-color: transparent;
-              border: solid 1px #979797;
-              color: #4A4A4A;
-            }
-          }
+    padding: 10px 20px 28px;
+    .dialog-footer {
+      text-align: center;
+      .el-button {
+        width: 246px;
+        border-radius: 0;
+        line-height: 18px;
+        margin: 0;
+        &:nth-child(1) {
+          margin-right: 22px;
         }
+        &:nth-child(2) {
+          background-color: #39C240;
+          border-color: #39C240;
+          color: #ffffff;
+        }
+      }
+      .el-button--primary {
+        background-color: transparent;
+        border: solid 1px #979797;
+        color: #4A4A4A;
+      }
+    }
+  }
 </style>
