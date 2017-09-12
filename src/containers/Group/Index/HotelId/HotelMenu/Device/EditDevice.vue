@@ -40,7 +40,7 @@
         </el-switch>
       </div>
       <div v-if="isAdd" class="content-btn">
-        <el-button type="success" :disabled="submitDisabled" @click.native="unlink">解除酒店关联</el-button>
+        <el-button type="success" :disabled="submitDisabled" @click.native="goto(-1)">取消</el-button>
         <el-button type="success" :disabled="submitDisabled" @click.native="addDevices">确认添加</el-button>
       </div>
       <div v-else class="content-btn">
