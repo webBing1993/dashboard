@@ -7,7 +7,6 @@
         </div>
         <table-miniappmsg :list="list" :page="page" :size="size" @edit="edit"></table-miniappmsg>
         <el-pagination
-          v-show="total > size"
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="page"
