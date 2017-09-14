@@ -648,7 +648,7 @@
               </el-switch>
             </div>
             <div v-show="enabledInvoice">
-              <div class="item-tag">
+              <div class="item-tag2">
                 <span style="min-width: 102px;">发票类型</span>
                 <div class="tag-input">
                   <div v-for="(obj, index) of invoiceName">
@@ -680,8 +680,8 @@
                 </el-checkbox>
               </el-checkbox-group>
             </div>
-            <div class="item-tag">
-              <span style="min-width: 102px;">code</span>
+            <div class="item-tag2">
+              <span>code</span>
               <div class="tag-input">
                 <div style="display: flex" v-for="(obj, index) of invoiceCode">
                   <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
@@ -2366,6 +2366,66 @@
                 width: 60%;
               }
             }
+
+            // .item-form {
+            //   display: flex;
+            //   align-items: center;
+            //   margin-bottom: 10px;
+            //   & > span {
+            //     display: inline-block;
+            //     min-width: 110px;
+            //     text-align: end;
+            //   }
+            //   .el-select {
+            //     width: 70%;
+            //     .el-input {
+            //       width: 100%;
+            //     }
+            //   }
+            //   .el-input {
+            //     width: 70%;
+            //   }
+
+            //   .el-switch {
+            //     margin-left: 16px;
+            //   }
+            // }
+
+            .item-tag2 {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              & > span {
+                display: inline-block;
+                min-width: 110px;
+                text-align: end;
+              }
+              .tag-input {
+                position: relative;
+                margin-left: 16px;
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                  margin: 0 0 12px 0;
+                }
+                .tag-btn {
+                  position: absolute;
+                  bottom: 20px;
+                  right: -62px;
+                  button {
+                    border-radius: 50px;
+                    outline: none;
+                    border: solid 1px;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #ffffff;
+                    height: 20px;
+                    width: 20px;
+                  }
+                }
+              }
+            }
+
             .item-tag {
               display: flex;
               align-items: flex-start;

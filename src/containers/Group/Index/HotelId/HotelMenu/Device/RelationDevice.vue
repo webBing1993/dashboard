@@ -95,10 +95,6 @@
         border-color: #39C240;
         border-radius: 0;
         color: #ffffff;
-        &:nth-child(1) {
-          background-color: #D0011B;
-          border-color: #D0011B;
-        }
       }
     }
   }

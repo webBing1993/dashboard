@@ -40,13 +40,13 @@
         </el-switch>
       </div>
       <div v-if="isAdd" class="content-btn">
-        <el-button type="success" :disabled="submitDisabled" @click.native="goto(-1)">取消</el-button>
-        <el-button type="success" :disabled="submitDisabled" @click.native="addDevices">确认添加</el-button>
+        <el-button class="btn-red" :disabled="submitDisabled" @click.native="goto(-1)">取消</el-button>
+        <el-button class="btn-green" :disabled="submitDisabled" @click.native="addDevices">确认添加</el-button>
       </div>
       <div v-else class="content-btn">
-        <el-button type="success" :disabled="submitDisabled" @click.native="unlink">解除酒店关联</el-button>
-        <el-button type="danger" @click.native="showDeleteDialog = true">删除设备</el-button>
-        <el-button type="success" :disabled="submitDisabled" @click.native="modifyDevices">确认修改</el-button>
+        <el-button class="btn-red" @click.native="showDeleteDialog = true">删除设备</el-button>
+        <el-button class="btn-yellow" :disabled="submitDisabled" @click.native="unlink">解除酒店关联</el-button>
+        <el-button class="btn-green" :disabled="submitDisabled" @click.native="modifyDevices">确认修改</el-button>
       </div>
       <el-dialog
         title="提示"
@@ -260,14 +260,8 @@
       .el-button {
         width: 173px;
         line-height: 18px;
-        background-color: #39C240;
-        border-color: #39C240;
         border-radius: 0;
         color: #ffffff;
-        &:nth-child(1) {
-          background-color: #D0011B;
-          border-color: #D0011B;
-        }
       }
     }
   }
@@ -296,5 +290,32 @@
         color: #4A4A4A;
       }
     }
+  }
+
+  .btn-green {
+    width: 173px;
+    line-height: 18px;
+    background-color: #39C240;
+    border-color: #39C240;
+    border-radius: 0;
+    color: #ffffff;
+  }
+
+  .btn-red {
+    width: 173px;
+    line-height: 18px;
+    background-color: #D0011B;
+    border-color: #D0011B;
+    border-radius: 0;
+    color: #ffffff;
+  }
+
+  .btn-yellow {
+    width: 173px;
+    line-height: 18px;
+    background-color: orange;
+    border-color: orange;
+    border-radius: 0;
+    color: #ffffff;
   }
 </style>

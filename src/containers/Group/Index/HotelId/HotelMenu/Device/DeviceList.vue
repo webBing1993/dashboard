@@ -4,8 +4,10 @@
       <div class="content_devicelist">
         <div class="devicelist_title">
           <span>设备管理</span>
-          <el-button type="success" @click.native="addOther">关联游离设备</el-button>
-          <el-button type="success" @click.native="add">添加新设备</el-button>
+          <div>
+            <el-button type="success" @click.native="addOther">关联游离设备</el-button>
+            <el-button type="success" @click.native="add">添加新设备</el-button>
+          </div>
         </div>
         <table-device :list="list" :page="page" :size="size" @edit="edit"></table-device>
         <el-pagination
