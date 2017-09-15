@@ -14,7 +14,7 @@
       </div>
       <div class="content-item">
         <span>设备ID</span>
-        <el-input class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
+        <el-input :disabled="!isAdd" class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
       </div>
       <div class="content-item">
         <span>设备名称</span>
