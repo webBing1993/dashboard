@@ -46,6 +46,7 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="danger" @click="remove">删 除</el-button>
           <el-button type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
@@ -76,6 +77,7 @@
       ...mapActions([
         'getMiniAppMsgList',
         'modifyMiniAppMsg',
+        'removeMiniAppMsg',
         'goto'
       ]),
       addMiniAppMsg() {
@@ -119,6 +121,15 @@
           }
         })
       },
+      remove() {
+        this.removeMiniAppMsg({
+          id: this.id,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.getList();
+          }
+        })
+      },
       getList() {
         this.getMiniAppMsgList({
           page: this.page.toString(),
@@ -143,14 +154,20 @@
           .dialog-footer {
             text-align: center;
             .el-button {
-              width: 246px;
+              width: 25%;
               border-radius: 0;
               line-height: 18px;
               margin: 0;
               &:nth-child(1) {
-                margin-right: 22px;
+                margin-right: 5%;
               }
               &:nth-child(2) {
+                margin-right: 5%;
+                background-color: #D0011B;
+                border-color: #D0011B;
+                color: #ffffff;
+              }
+              &:nth-child(3) {
                 background-color: #39C240;
                 border-color: #39C240;
                 color: #ffffff;
