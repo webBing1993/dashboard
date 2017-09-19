@@ -2177,13 +2177,13 @@
       creatQrcode(code) {
         if (!code) return;
         if (process.env.NODE_ENV === 'intg') {
-          this.tempCode = `http://jskp.intg.fortrun.cn/index.html?code=${code}`;
+          this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
         } else if (process.env.NODE_ENV === 'test') {
-          this.tempCode = `http://jskp.qa.fortrun.cn/index.html?code=${code}`;
+          this.tempCode = `https://jskp.qa.fortrun.cn/index.html?code=${code}`;
         }if (process.env.NODE_ENV === 'stg') {
-          this.tempCode = `http://jskp.stg.fortrun.cn/index.html?code=${code}`;
+          this.tempCode = `https://jskp.stg.fortrun.cn/index.html?code=${code}`;
         }if (process.env.NODE_ENV === 'production') {
-          this.tempCode = `http://jskp.fortrun.cn/index.html?code=${code}`;
+          this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
         console.log(this.tempCode );
         QRCode.toDataURL(this.tempCode, (err, url) => {
