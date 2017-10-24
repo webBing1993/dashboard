@@ -48,6 +48,15 @@ module.exports = {
       },
     })
   },
+  getlvyeTypeList(ctx, param){//获取旅业系统配置
+    ctx.dispatch('resource', {
+      url: `/hotel/lvyetypes`,
+      method:'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      },
+    })
+  },
   patchConfig(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,

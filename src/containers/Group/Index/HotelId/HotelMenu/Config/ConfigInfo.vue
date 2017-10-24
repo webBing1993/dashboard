@@ -476,14 +476,14 @@
               <span>旅业系统类型</span>
               <el-select class="el-right" v-model="lvyeType" placeholder="请选择旅业系统类型">
                 <el-option
-                  v-for="(obj, index) of lvyeTypeList"
-                  :key="obj.id"
-                  :label="obj.name"
-                  :value="obj.id">
+                  v-for="(obj, index) of rendLvyeTypeList"
+                  :key="obj.index"
+                  :label="obj.lvye_report_type_name"
+                  :value="obj.lvye_report_type">
                 </el-option>
               </el-select>
             </div>
-            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'">
+            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'">
               <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -1072,10 +1072,11 @@
         adminPassword: '',
         brandId: '',
         // 旅业配置
-        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '深圳'}, {id: 'WUHAN', name: '武汉'}, {
-          id: 'CLOUD',
-          name: '微信通道'
-        }],
+//        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '深圳'}, {id: 'WUHAN', name: '武汉'}, {
+//          id: 'CLOUD',
+//          name: '微信通道'
+//        }],
+        lvyeTypeList: [],
         lvyeAutoReport: false,
         lvyeType: '',
         policeId: '',
@@ -1198,12 +1199,12 @@
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
       }),
+      rendLvyeTypeList(){
+        return this.lvyeTypeList;
+      },
       renderList(){
         return this.wxhotelCityserList;
       },
-//      renderRegistersList(){
-//        return this.wxHotelRegistersList
-//      },
       providerMchIdList() {
         return this.providerList.map(v => {
           let obj = {
@@ -1301,8 +1302,8 @@
           return false;
         }
       },
-      validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
+    validatelvyeReportType() {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'CHENGDU' ||this.lvyeType == 'GUANGDONG') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.lvyeType == 'LOCAL') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
@@ -1662,6 +1663,7 @@
         'getWxhotelCityser',
         'WxhotelRegister',
         'deleteWxHotel',
+        'getlvyeTypeList',
         'getFaceEqu',
         'patchConfig',
         'getPMS',
@@ -1691,8 +1693,7 @@
           this.hideDialog;
           this.WxhotelRegisters()
           this.delName = 'open';
-        }
-        else if (type === enumShowType.miniApp) {
+        }else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
         } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
@@ -2200,6 +2201,11 @@
         })
         this.hideDialog();
       },
+      getlvyeTypeLists(){
+        this.getlvyeTypeList({
+          onsuccess: body => (this.lvyeTypeList = [...body.data])
+        })
+      },
       patchConfigData(data) {
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
@@ -2320,6 +2326,7 @@
     mounted() {
       this.getConfigs();
       this.getWxhotelCitysers();
+      this.getlvyeTypeLists()
       this.getPms();
       this.getLvyes();
       this.wechatList();
