@@ -566,7 +566,7 @@
               </el-select>
             </div>
             <div slot="footer" class="dialog-footer" v-if="switchName === 'open'">
-              <el-button class="reg" :disabled="!validateAll" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
+              <el-button class="reg" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
               </el-button>
             </div>
           </div>
@@ -576,7 +576,7 @@
                 <label>{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常'}}</label></p>
               <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
               <div>
-                <div v-if="RegistersWxHotelId">
+                <div v-if="RegistersWxHotelId && delName==='open'">
                   <el-button style="width: 200px;margin-top: 30px" @click="deleteWxHotels()">删除</el-button>
                 </div>
               </div>
@@ -939,7 +939,8 @@
             </div>
           </div>
         </div>
-        <div slot="footer" class="dialog-footer" v-if="switchName === 'close'">
+        <!--v-if="switchName === 'close'-->
+        <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
@@ -1035,6 +1036,7 @@
       return {
         optionvalue: '',//微信生态酒店配置列表初始化
         switchName: 'close',//微信生态酒店配置按钮
+        delName: 'close',
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -1687,8 +1689,8 @@
           this.switchName = 'open';
         } else if (type === enumShowType.WxHotelRegister) {
           this.hideDialog;
-          this.switchName = '';
           this.WxhotelRegisters()
+          this.delName = 'open';
         }
         else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
@@ -2175,6 +2177,7 @@
 //          onsuccess: body => (this.wxHotelRegistersList = [...body.data])
           onsuccess: body => (this.RegistersWxHotelId = body.data.wx_hotel_id)
         })
+        this.switchName = 'close';
         this.showtoast({
           text: '注册成功',
           type: 'success'
@@ -2183,6 +2186,7 @@
       },
 //      删除微信生态酒店配置
       deleteWxHotels(){
+        this.delName = 'close';
         this.deleteWxHotel({
           hotel_id: this.$route.params.hotelid,
           wx_hotel_id: this.RegistersWxHotelId,
