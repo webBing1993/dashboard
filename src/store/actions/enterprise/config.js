@@ -9,6 +9,45 @@ module.exports = {
       }
     })
   },
+  getWxhotelCityser(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotels/wxhotelcityservice`,
+      method:'GET',
+      onSuccess: body => {
+        // ctx.commit('WXHOTELCITYSER', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: () => null
+    })
+  },
+  WxhotelRegister(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/config`,
+      method:'PATCH',
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
+      },
+      body: {
+        hotel_id: param.hotel_id,
+        route_code:param.route_code
+      },
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+        // ctx.dispatch('showtoast', {text: '注册成功', type:'success'});
+
+      }
+    })
+  },
+  deleteWxHotel(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotels/${param.hotel_id}/wxhotel/${param.wx_hotel_id}`,
+      method:'DELETE',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      },
+    })
+  },
   patchConfig(ctx, param){
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,

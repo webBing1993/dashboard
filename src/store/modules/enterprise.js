@@ -6,11 +6,19 @@ const state = {
   wechatAppData: [],
   tempGroupName: '',
   tempHotelName: '',
-  deviceList: []
+  deviceList: [],
+  // faceIdentify:{}
+  // wxhotelCityser:{}
 }
 
 // mutations
 const mutations = {
+  // FACEIDENTIFY(state,payload){
+  //   state.faceIdentify=payload;
+  // },
+  // WXHOTELCITYSER(state,payload) {
+  //   state.wxhotelCityser = payload;
+  // },
   CONFIGDATA(state,payload) {
     state.configData = payload;
   },

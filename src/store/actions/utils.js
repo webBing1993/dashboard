@@ -82,7 +82,7 @@ module.exports = {
   //   let url = new URL(`${window.location.protocol}//${window.location.host}${urlStr}`);
   //   // let url = new URL(param.url == '/cos/get_sign' ? '/libra' + param.url : '/virgo' + param.url);
   //   if (param.params) {
-  //     Object.keys(param.params).forEach(key => url.searchParams.append(key, param.params[key])) 
+  //     Object.keys(param.params).forEach(key => url.searchParams.append(key, param.params[key]))
   //   }
 
   //   let body;
@@ -93,7 +93,7 @@ module.exports = {
   //   } else if (param.body) {
   //     body = JSON.stringify(param.body) || null;
   //   }
-    
+
   //   let requestParam = {
   //     method: param.method || "GET",
   //     headers: headers,
@@ -201,7 +201,7 @@ module.exports = {
   //     }
   //   )
   // }
-  
+
   resource: (ctx, param) => {
     let headers = param.headers || {};
     if (!param.url.match(/register/) && !param.url.match(/login/) ) {
@@ -219,6 +219,7 @@ module.exports = {
       timeout: param.timeout || 5000,
     }).then(
       response => {
+        // console.log(response.status)
         ctx.commit('LOADING')
         if (+response.data.errcode === 0 || +response.status == 204) {
           param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null

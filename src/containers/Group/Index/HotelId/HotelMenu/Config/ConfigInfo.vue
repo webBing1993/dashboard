@@ -347,7 +347,7 @@
         :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
-        :show-close="false"
+        :show-close="true"
       >
         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
@@ -505,6 +505,11 @@
           </div>
           <div v-if="showType === enumShowType.facein">
             <div class="item-form">
+              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸设备:</span></span>
+              <el-radio class="radio" v-model="faceEqu" label='true'>是</el-radio>
+              <el-radio class="radio" v-model="faceEqu" label=false>否</el-radio>
+            </div>
+            <div class="item-form">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
                 <el-option
@@ -546,9 +551,35 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.wxHotel">
+            <!--<div class="item-form">-->
+            <!--<span>微信酒店ID</span>-->
+            <!--<el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>-->
+            <!--</div>-->
             <div class="item-form">
-              <span>微信酒店ID</span>
-              <el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>
+              <el-select class="el-right" v-model="optionvalue" placeholder="城市服务">
+                <el-option
+                  v-for="(obj, index) of renderList"
+                  :key="index"
+                  :label="obj.route_name"
+                  :value="obj.route_code">
+                </el-option>
+              </el-select>
+            </div>
+            <div slot="footer" class="dialog-footer" v-if="switchName === 'open'">
+              <el-button class="reg" :disabled="!validateAll" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
+              </el-button>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.WxHotelRegister">
+            <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
+              <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
+                <label>{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常'}}</label></p>
+              <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
+              <div>
+                <div v-if="RegistersWxHotelId">
+                  <el-button style="width: 200px;margin-top: 30px" @click="deleteWxHotels()">删除</el-button>
+                </div>
+              </div>
             </div>
           </div>
           <div v-if="showType === enumShowType.miniApp">
@@ -908,10 +939,13 @@
             </div>
           </div>
         </div>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="dialog-footer" v-if="switchName === 'close'">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
+        <!--<div slot="footer" class="dialog-footer" v-if="switchName === 'open'">-->
+        <!--<el-button @click="dialogConfig(enumShowType.WxHotelRegister)">注册</el-button>-->
+        <!--</div>-->
       </el-dialog>
       <el-dialog
         title="点击下载二维码"
@@ -960,6 +994,7 @@
     supportVd: 23,  //脏房配置
     roomTags: 24,  //房间标签配置
     fastCard: 25,  //极速领卡配置
+    WxHotelRegister: 26,//微信生态酒店——城市服务注册
   }
 
   const typeTitles = [' ',
@@ -988,6 +1023,7 @@
     '脏房配置',
     '房间标签配置',
     '极速领卡配置',
+    '微信生态酒店配置',
   ];
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -997,6 +1033,8 @@
     name: 'ConfigInfo',
     data() {
       return {
+        optionvalue: '',//微信生态酒店配置列表初始化
+        switchName: 'close',//微信生态酒店配置按钮
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -1043,6 +1081,7 @@
         policeParam: '',
         //门锁配置，暂无
         //人脸识别配置
+        faceEqu: null,
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
@@ -1050,6 +1089,10 @@
         refundCode: '',
         //微信生态酒店配置
         wxHotelId: '',
+        wxhotelCityserList: [],
+//        wxHotelRegistersList: '',
+        RegistersWxHotelId: '',//注册返回的微信酒店id
+        deleteList: '',//删除微信酒店后返回
         //小程序配置
         miniAppList: [],
         provider: false,
@@ -1145,12 +1188,20 @@
     },
     computed: {
       ...mapState({
+//        faceIdentify: state => state.enterprise.faceIdentify,
+//        wxhotelCityser: state => state.enterprise.wxhotelCityser,
         configData: state => state.enterprise.configData,
         pmsData: state => state.enterprise.pmsData,
         lvyeData: state => state.enterprise.lvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
       }),
+      renderList(){
+        return this.wxhotelCityserList;
+      },
+//      renderRegistersList(){
+//        return this.wxHotelRegistersList
+//      },
       providerMchIdList() {
         return this.providerList.map(v => {
           let obj = {
@@ -1281,6 +1332,10 @@
       validatewxHotel() {
         return tool.isNotBlank(this.wxHotelId);
       },
+      validatewxHotelReg() {
+//        return tool.isNotBlank(this.wxHotelId);
+        this.optionvalue && this.optionvalue.length > 0 ? true : false;
+      },
       validateminiApp() {
         if (!this.provider) {
           return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId);
@@ -1389,6 +1444,9 @@
           case enumShowType.wxHotel:
             result = this.validatewxHotel;
             break;
+          case enumShowType.WxHotelRegister:
+            result = this.validatewxHotelReg;
+            break;
           case enumShowType.miniApp:
             result = this.validateminiApp;
             break;
@@ -1453,11 +1511,13 @@
       }
     },
     watch: {
+
       configData() {
         let configData = this.configData;
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
+          this.faceEqu = configData.support_face_in === true ? "true" : "false"
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           //微信支付配置
@@ -1597,6 +1657,10 @@
     methods: {
       ...mapActions([
         'getConfig',
+        'getWxhotelCityser',
+        'WxhotelRegister',
+        'deleteWxHotel',
+        'getFaceEqu',
         'patchConfig',
         'getPMS',
         'modifyPMS',
@@ -1619,7 +1683,14 @@
         this.showType = type;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
-        } else if (type === enumShowType.miniApp) {
+        } else if (type === enumShowType.wxHotel) {
+          this.switchName = 'open';
+        } else if (type === enumShowType.WxHotelRegister) {
+          this.hideDialog;
+          this.switchName = '';
+          this.WxhotelRegisters()
+        }
+        else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
         } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
@@ -1892,7 +1963,8 @@
           case enumShowType.facein:
             data = {
               facein_pass_value: this.faceinPassValue.toString(),
-              facein_reject_value: this.faceinRejectValue.toString()
+              facein_reject_value: this.faceinRejectValue.toString(),
+              support_face_in: this.faceEqu
             }
             break;
           case enumShowType.wechatPay:
@@ -2091,6 +2163,39 @@
           hotel_id: this.$route.params.hotelid
         })
       },
+      getWxhotelCitysers(){
+        this.getWxhotelCityser({
+          onsuccess: body => (this.wxhotelCityserList = [...body.data])
+        })
+      },
+      WxhotelRegisters(){
+        this.WxhotelRegister({
+          hotel_id: this.$route.params.hotelid,
+          route_code: this.optionvalue,
+//          onsuccess: body => (this.wxHotelRegistersList = [...body.data])
+          onsuccess: body => (this.RegistersWxHotelId = body.data.wx_hotel_id)
+        })
+        this.showtoast({
+          text: '注册成功',
+          type: 'success'
+        })
+
+      },
+//      删除微信生态酒店配置
+      deleteWxHotels(){
+        this.deleteWxHotel({
+          hotel_id: this.$route.params.hotelid,
+          wx_hotel_id: this.RegistersWxHotelId,
+          onsuccess: (body, header) => {
+            console.log(body)
+            this.showtoast({
+              text: '删除成功',
+              type: 'success'
+            })
+          }
+        })
+        this.hideDialog();
+      },
       patchConfigData(data) {
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
@@ -2180,14 +2285,16 @@
           this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
         } else if (process.env.NODE_ENV === 'test') {
           this.tempCode = `https://jskp.qa.fortrun.cn/index.html?code=${code}`;
-        }if (process.env.NODE_ENV === 'stg') {
+        }
+        if (process.env.NODE_ENV === 'stg') {
           this.tempCode = `https://jskp.stg.fortrun.cn/index.html?code=${code}`;
-        }if (process.env.NODE_ENV === 'production') {
+        }
+        if (process.env.NODE_ENV === 'production') {
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
-        console.log(this.tempCode );
+        console.log(this.tempCode);
         QRCode.toDataURL(this.tempCode, (err, url) => {
-            console.log(url)
+          console.log(url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })
@@ -2198,6 +2305,7 @@
         save_link.download = filename;
 
         var event = document.createEvent('MouseEvents');
+
         event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
         save_link.dispatchEvent(event);
       },
@@ -2207,10 +2315,11 @@
     },
     mounted() {
       this.getConfigs();
+      this.getWxhotelCitysers();
       this.getPms();
       this.getLvyes();
-
       this.wechatList();
+      this.WxhotelRegisters()
     }
   }
 </script>
@@ -2505,4 +2614,15 @@
     justify-content: center;
   }
 
+  //我的
+  .el-dialog__headerbtn {
+    padding-top: 12px;
+  }
+
+  .reg {
+    display: block;
+    width: 200px;
+    margin-top: 25px;
+    margin-left: 35px;
+  }
 </style>
