@@ -348,6 +348,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="true"
+        @close="handleClose"
       >
         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
@@ -1690,9 +1691,10 @@
         } else if (type === enumShowType.wxHotel) {
           this.switchName = 'open';
         } else if (type === enumShowType.WxHotelRegister) {
-          this.hideDialog;
           this.WxhotelRegisters()
           this.delName = 'open';
+          this.switchName = 'open';
+          this.hideDialog;
         }else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
@@ -1745,6 +1747,10 @@
       subtractRoomTags() {
         if (this.roomTags.length == 1) return;
         this.roomTags.pop();
+      },
+      handleClose(){
+        this.delName = 'close';
+        this.switchName = 'close';
       },
       hideDialog() {
         this.showDialog = false;
@@ -2188,6 +2194,7 @@
 //      删除微信生态酒店配置
       deleteWxHotels(){
         this.delName = 'close';
+        this.switchName = 'close';
         this.deleteWxHotel({
           hotel_id: this.$route.params.hotelid,
           wx_hotel_id: this.RegistersWxHotelId,
