@@ -71,7 +71,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.wxHotel)">
+          <button @click="depswitch()">
             <div class="item_img">
               <img src="../../../../../../assets/images/酒店.png" alt="a">
             </div>
@@ -551,7 +551,7 @@
               <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
             </div>
           </div>
-          <div v-if="showType === enumShowType.wxHotel">
+          <div v-if="showType === enumShowType.wxHotel && RegisterOk">
             <!--<div class="item-form">-->
             <!--<span>微信酒店ID</span>-->
             <!--<el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>-->
@@ -574,10 +574,12 @@
           <div v-if="showType === enumShowType.WxHotelRegister">
             <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
               <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
-                <label>{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常'}}</label></p>
+                <label v-if="RegistersWxHotelId">{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常1'}}</label>
+                <label v-if="wxHotelId">{{wxHotelId ?wxHotelId : '系统异常2'}}</label>
+              </p>
               <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
               <div>
-                <div v-if="RegistersWxHotelId && delName==='open'">
+                <div v-if="1">
                   <el-button style="width: 200px;margin-top: 30px" @click="deleteWxHotels()">删除</el-button>
                 </div>
               </div>
@@ -1038,6 +1040,7 @@
         optionvalue: '',//微信生态酒店配置列表初始化
         switchName: 'close',//微信生态酒店配置按钮
         delName: 'close',
+        RegisterOk:true,
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -1684,16 +1687,24 @@
           name: 'ConfigSummary'
         })
       },
+      depswitch(){
+         if(this.wxHotelId){
+           this.delName='open';
+           this.dialogConfig(enumShowType.WxHotelRegister)
+         }else {
+           this.delName='open';
+           this.switchName='open';
+           this.dialogConfig(enumShowType.wxHotel)
+         }
+      },
       dialogConfig(type) {
         this.showType = type;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
         } else if (type === enumShowType.wxHotel) {
-          this.switchName = 'open';
+//          this.WxhotelRegisters()
         } else if (type === enumShowType.WxHotelRegister) {
           this.WxhotelRegisters()
-          this.delName = 'open';
-          this.switchName = 'open';
           this.hideDialog;
         }else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
@@ -2243,7 +2254,6 @@
           data: data,
           onsuccess: body => {
             this.showDialog = false;
-            // this.getConfigs();
           }
         })
       },
@@ -2272,7 +2282,6 @@
           data: data,
           onsuccess: body => {
             this.showDialog = false;
-            // this.getConfigs();
           }
         })
       },
