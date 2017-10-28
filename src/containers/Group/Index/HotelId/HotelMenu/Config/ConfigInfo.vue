@@ -340,6 +340,19 @@
                   :class="{'tag_text_red': !enabledSpeedCard, 'tag_text_green': enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.CustomerOperate)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>订单操作配置</span>
+              <p>酒店是否允许顾客操作</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !curstomDeploy, 'tag_text_green': curstomDeploy}">{{curstomDeploy ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <el-dialog
@@ -484,7 +497,8 @@
                 </el-option>
               </el-select>
             </div>
-            <div v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'">
+            <div
+              v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'">
               <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -509,8 +523,37 @@
               <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸设备:</span></span>
               <el-radio class="radio" v-model="faceEqu" label='true'>是</el-radio>
               <el-radio class="radio" v-model="faceEqu" label=false>否</el-radio>
+              <!--<el-switch-->
+                <!--v-model="faceEqu"-->
+                <!--on-color="#13ce66"-->
+                <!--off-color="#ff4949">-->
+              <!--</el-switch>-->
             </div>
             <div class="item-form">
+              <span>人脸识别通道</span>
+              <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
+                <el-option
+                  v-for="(obj, index) of [{name:'深圳优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
+                  :key="index"
+                  :label="obj.name"
+                  :value="obj.name">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form" v-if="faceTongdao!=='深圳优图' && faceTongdao==='厦门身份宝'">
+              <span style="margin-right: 18px">身份宝账号:</span>
+              <el-input placeholder="请输入内容" v-model="identityAccount"></el-input>
+              <span></span>
+            </div>
+            <div class="item-form" v-if="faceTongdao!=='深圳优图' && faceTongdao==='厦门身份宝'">
+              <span style="margin-right: 18px">身份宝拒绝是否人工参与:</span>
+              <el-switch
+                v-model="shenfenbaoRejectManual"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
                 <el-option
@@ -521,7 +564,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
               <span>自动拒绝值</span>
               <el-select class="el-right" v-model="faceinRejectValue" placeholder="请选择自动拒绝值">
                 <el-option
@@ -532,7 +575,7 @@
                 </el-option>
               </el-select>
             </div>
-            <article>
+            <article v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
               <ul>
                 帮助：
                 <li>大于自动通过值则自动通过公安验证。</li>
@@ -549,6 +592,18 @@
             <div class="item_large">
               <span>酒店微信账务退款代码</span>
               <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+            </div>
+            <div class="item_large">
+              <span>酒店房租房费关键词</span>
+              <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+            </div>
+            <div class="item_large">
+              <span>酒店微信支付项目名</span>
+              <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+            </div>
+            <div class="item_large">
+              <span>酒店微信退款项目名</span>
+              <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
             </div>
           </div>
           <div v-if="showType === enumShowType.wxHotel && RegisterOk">
@@ -575,7 +630,7 @@
             <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
               <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
                 <label v-if="RegistersWxHotelId">{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常1'}}</label>
-                <label v-if="wxHotelId">{{wxHotelId ?wxHotelId : '系统异常2'}}</label>
+                <label v-if="wxHotelId">{{wxHotelId ? wxHotelId : '系统异常2'}}</label>
               </p>
               <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
               <div>
@@ -870,6 +925,14 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form">
+              <span>是否需要自动同步？</span>
+              <el-switch
+                v-model="scheduledSure"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.autoConfirmPrePay">
             <div class="item-form">
@@ -941,6 +1004,15 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.CustomerOperate">
+            <div class="item-form">
+              <span>禁止顾客操作订单</span>
+              <el-switch v-model="curstomDeploy"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
         </div>
         <!--v-if="switchName === 'close'-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -999,6 +1071,7 @@
     roomTags: 24,  //房间标签配置
     fastCard: 25,  //极速领卡配置
     WxHotelRegister: 26,//微信生态酒店——城市服务注册
+    CustomerOperate:27,
   }
 
   const typeTitles = [' ',
@@ -1028,6 +1101,7 @@
     '房间标签配置',
     '极速领卡配置',
     '微信生态酒店配置',
+    '订单操作配置'
   ];
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1040,7 +1114,7 @@
         optionvalue: '',//微信生态酒店配置列表初始化
         switchName: 'close',//微信生态酒店配置按钮
         delName: 'close',
-        RegisterOk:true,
+        RegisterOk: true,
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
@@ -1088,12 +1162,19 @@
         policeParam: '',
         //门锁配置，暂无
         //人脸识别配置
-        faceEqu: null,
+        faceEqu: true,
+        faceTongdao: '深圳优图',//configData.identity_check_channel==='YOUTU'?'深圳优图':'厦门身份宝',
+        identityAccount: null,
+        shenfenbaoRejectManual: "false",
+//        faceTongdao:[{name:'深圳优图',val:'YOUTO'},{name:"厦门身份宝",val:"SHENFENBAO"}],
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
         payCode: '',
         refundCode: '',
+        dayrentName: '',
+        payName: '',
+        refundName: '',
         //微信生态酒店配置
         wxHotelId: '',
         wxhotelCityserList: [],
@@ -1169,6 +1250,7 @@
         maxAllowRoomcount: '10',
         //PMS同步频率
         syncSpaceTime: '30',
+        scheduledSure: true,
         syncSpaceTimeList: [
           {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
           {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
@@ -1190,7 +1272,9 @@
         providerList: [],
         unProviderList: [],
         //极速领卡配置
-        enabledSpeedCard: false
+        enabledSpeedCard: false,
+        //顾客自行操作配置
+        curstomDeploy:false
       }
     },
     computed: {
@@ -1203,6 +1287,9 @@
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
       }),
+      retuenConfigData(){
+        return this.configData
+      },
       rendLvyeTypeList(){
         return this.lvyeTypeList;
       },
@@ -1306,8 +1393,8 @@
           return false;
         }
       },
-    validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'CHENGDU' ||this.lvyeType == 'GUANGDONG') {
+      validatelvyeReportType() {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'GUANGDONG') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.lvyeType == 'LOCAL') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
@@ -1334,7 +1421,8 @@
         return (typeof this.faceinPassValue === 'number') && (typeof this.faceinRejectValue === 'number');
       },
       validatewechatPay() {
-        return tool.isNotBlank(this.mchId) && tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode);
+        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName);
+//                tool.isNotBlank(this.mchId) &&
       },
       validatewxHotel() {
         return tool.isNotBlank(this.wxHotelId);
@@ -1430,6 +1518,10 @@
       validateisfastcard() {
         return true;
       },
+      validateCustomerOperate(){
+          return true;
+      },
+
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1511,6 +1603,9 @@
           case enumShowType.fastCard:
             result = this.validateisfastcard;
             break;
+          case enumShowType.CustomerOperate:
+              result=this. validateCustomerOperate;
+              break;
           default:
             result = false;
         }
@@ -1527,13 +1622,19 @@
           this.faceEqu = configData.support_face_in === true ? "true" : "false"
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
+          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '深圳优图' : '厦门身份宝';
+          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
+          this.identityAccount = configData.shenfenbao_hotel_account
           //微信支付配置
           this.mchId = configData;
           // this.mchId = configData.child_mch_id;
           this.payCode = configData.pay_code;
           this.refundCode = configData.refund_code;
-          //微信生态酒店配置
-          this.wxHotelId = configData.wx_hotel_id;
+          this.dayrentName = configData.dayrent_name,
+          this.payName = configData.pay_name,
+          this.refundName = configData.refund_name,
+            //微信生态酒店配置
+            this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -1593,6 +1694,9 @@
           this.maxAllowRoomcount = configData.max_allow_roomcount;
           //PMS同步频率
           this.syncSpaceTime = configData.sync_space_time;
+          this.scheduledSure=configData.scheduled;
+          //顾客配置
+          this.curstomDeploy=configData.user_disable_order== 'true' ? true : false;
           //自动预付款确认
           this.prepayKeyword = configData.prepay_keyword;
           this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
@@ -1604,6 +1708,7 @@
           this.needDepositKeyword = configData.need_deposit_keyword;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
             this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
@@ -1688,14 +1793,14 @@
         })
       },
       depswitch(){
-         if(this.wxHotelId){
-           this.delName='open';
-           this.dialogConfig(enumShowType.WxHotelRegister)
-         }else {
-           this.delName='open';
-           this.switchName='open';
-           this.dialogConfig(enumShowType.wxHotel)
-         }
+        if (this.wxHotelId) {
+          this.delName = 'open';
+          this.dialogConfig(enumShowType.WxHotelRegister)
+        } else {
+          this.delName = 'open';
+          this.switchName = 'open';
+          this.dialogConfig(enumShowType.wxHotel)
+        }
       },
       dialogConfig(type) {
         this.showType = type;
@@ -1706,16 +1811,17 @@
         } else if (type === enumShowType.WxHotelRegister) {
           this.WxhotelRegisters()
           this.hideDialog;
-        }else if (type === enumShowType.miniApp) {
+        } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
-        } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
-          this.showalert({
-            code: 0,
-            content: '小程序尚未配置,请先配置小程序!'
-          });
-          return;
         }
+        /*else if (type === enumShowType.wechatPay && !this.configData.app_id) {
+         this.showalert({
+         code: 0,
+         content: '小程序尚未配置,请先配置小程序!'
+         });
+         return;
+         }*/
 
         this.showDialog = true;
       },
@@ -1981,16 +2087,24 @@
 
             break;
           case enumShowType.facein:
+            if (this.faceTongdao === '深圳优图') this.identity_check_channel = 'YOUTO'
+            if (this.faceTongdao === '厦门身份宝') this.identity_check_channel = 'SHENFENBAO'
             data = {
-              facein_pass_value: this.faceinPassValue.toString(),
-              facein_reject_value: this.faceinRejectValue.toString(),
-              support_face_in: this.faceEqu
+              facein_pass_value: this.faceinPassValue.toString(),//自动通过值
+              facein_reject_value: this.faceinRejectValue.toString(),//自动拒绝值
+              support_face_in: this.faceEqu,//是否支持人脸识别
+              identity_check_channel: this.faceTongdao === '深圳优图' ? 'YOUTO' : 'SHENFENBAO',
+              shenfenbao_hotel_account: this.identityAccount,
+              shenfenbao_reject_manual: this.shenfenbaoRejectManual//身份宝拒绝是否人工参与
             }
             break;
           case enumShowType.wechatPay:
             data = {
               pay_code: this.payCode,
-              refund_code: this.refundCode
+              refund_code: this.refundCode,
+              dayrent_name: this.dayrentName,
+              pay_name: this.payName,
+              refund_name: this.refundName
             }
             break;
           case enumShowType.wxHotel:
@@ -2143,7 +2257,8 @@
             break;
           case enumShowType.syncSpaceTime:
             data = {
-              sync_space_time: this.syncSpaceTime
+              sync_space_time: this.syncSpaceTime,
+              scheduled:this.scheduledSure
             }
             break;
           case enumShowType.autoConfirmPrePay:
@@ -2173,6 +2288,11 @@
               enabled_speed_card: this.enabledSpeedCard.toString()
             }
             break;
+          case enumShowType.CustomerOperate:
+              data={
+                user_disable_order:this.curstomDeploy
+              }
+              break;
           default:
             data = {};
         }
