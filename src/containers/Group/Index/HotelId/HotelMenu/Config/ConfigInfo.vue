@@ -521,13 +521,11 @@
           <div v-if="showType === enumShowType.facein">
             <div class="item-form">
               <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸设备:</span></span>
-              <el-radio class="radio" v-model="faceEqu" label='true'>是</el-radio>
-              <el-radio class="radio" v-model="faceEqu" label=false>否</el-radio>
-              <!--<el-switch-->
-                <!--v-model="faceEqu"-->
-                <!--on-color="#13ce66"-->
-                <!--off-color="#ff4949">-->
-              <!--</el-switch>-->
+              <el-switch
+                v-model="faceEqu"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
             <div class="item-form">
               <span>人脸识别通道</span>
@@ -1619,7 +1617,7 @@
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
-          this.faceEqu = configData.support_face_in === true ? "true" : "false"
+          this.faceEqu = configData.support_face_in ;
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '深圳优图' : '厦门身份宝';
@@ -2087,13 +2085,13 @@
 
             break;
           case enumShowType.facein:
-            if (this.faceTongdao === '深圳优图') this.identity_check_channel = 'YOUTO'
+            if (this.faceTongdao === '深圳优图') this.identity_check_channel = 'YOUTU'
             if (this.faceTongdao === '厦门身份宝') this.identity_check_channel = 'SHENFENBAO'
             data = {
               facein_pass_value: this.faceinPassValue.toString(),//自动通过值
               facein_reject_value: this.faceinRejectValue.toString(),//自动拒绝值
               support_face_in: this.faceEqu,//是否支持人脸识别
-              identity_check_channel: this.faceTongdao === '深圳优图' ? 'YOUTO' : 'SHENFENBAO',
+              identity_check_channel: this.faceTongdao === '深圳优图' ? 'YOUTU' : 'SHENFENBAO',
               shenfenbao_hotel_account: this.identityAccount,
               shenfenbao_reject_manual: this.shenfenbaoRejectManual//身份宝拒绝是否人工参与
             }
