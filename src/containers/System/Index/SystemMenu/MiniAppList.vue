@@ -154,12 +154,14 @@
       },
       handleSizeChange(val) {
         this.size = val;
+        this.getList();
       },
       handleCurrentChange(val) {
         this.page = val;
+        this.getList();
       },
       modify() {
-        
+
         this.modifyMiniApp({
           app_id: this.appId,
           app_secret: this.appSecret,

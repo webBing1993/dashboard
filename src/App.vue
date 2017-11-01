@@ -14,20 +14,21 @@
       }),
     },
     watch: {
-      'Interface.alert.show'(v) {
-        if (v) {
-          this.$alert(this.Interface.alert.content, this.Interface.alert.title, {
-            confirmButtonText: '确定',
-            callback: action => {
-              this.$store.state.utils.Interface.alert.show = false;
-              if (this.Interface.alert.code == 401) this.goto({path: '/auth'})
-            }
-          });
-        }
-      },
+//      'Interface.alert.show'(v) {
+//        if (v) {
+//          this.$alert(this.Interface.alert.content, this.Interface.alert.title, {
+//            confirmButtonText: '确定',
+//            callback: action => {
+//              this.$store.state.utils.Interface.alert.show = false;
+//              if (this.Interface.alert.code == 401) this.goto({path: '/auth'})
+//            }
+//          });
+//        }
+//      },
       'Interface.toast.show'(v) {
         if (v) {
-          this.$store.state.utils.Interface.toast.show = false;
+          this.Interface.toast.show = false;
+          console.log("哈哈哈哈");
           this.$message({
             showClose: true,
             message: this.Interface.toast.text,
@@ -42,7 +43,7 @@
       ]),
     },
     mounted() {
-      
+
     }
   }
 </script>

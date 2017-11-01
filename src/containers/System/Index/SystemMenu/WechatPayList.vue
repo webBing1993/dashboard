@@ -155,9 +155,11 @@
       },
       handleSizeChange(val) {
         this.size = val;
+        this.getList();
       },
       handleCurrentChange(val) {
         this.page = val;
+        this.getList();
       },
       modify() {
         this.modifyWechatpay({
@@ -184,6 +186,7 @@
 
             headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
             headers['x-total'] ? this.total = +headers['x-total'] : null;
+
 
             this.list = body.data;
           }
