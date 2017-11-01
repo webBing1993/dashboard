@@ -3,7 +3,7 @@
     <div class="nav-banner">
       <span class="logo">生态酒店总控平台</span>
       <nav>
-        <router-link to="/home">首页</router-link>
+        <!--<router-link to="/home">首页</router-link>-->
         <router-link to="/group">企业账户</router-link>
         <router-link to="/system">系统设置</router-link>
         <div class="login-banner">
