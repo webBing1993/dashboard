@@ -28,7 +28,6 @@
       'Interface.toast.show'(v) {
         if (v) {
           this.Interface.toast.show = false;
-          console.log("哈哈哈哈");
           this.$message({
             showClose: true,
             message: this.Interface.toast.text,
