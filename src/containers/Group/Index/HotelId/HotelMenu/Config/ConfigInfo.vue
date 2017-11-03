@@ -498,7 +498,7 @@
               </el-select>
             </div>
             <div
-              v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'">
+              v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'|| lvyeType == 'HEFEI' ">
               <div class="item-form">
                 <span>酒店公安ID</span>
                 <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -508,7 +508,7 @@
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
             </div>
-            <div v-if="lvyeType == 'LOCAL'">
+            <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' ">
               <div class="item-form">
                 <span>公安参数</span>
                 <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
@@ -1394,7 +1394,7 @@
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'GUANGDONG') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL') {
+        } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -1750,6 +1750,7 @@
       lvyeData() {
         // 旅业配置
         if (tool.isNotBlank(this.lvyeData)) {
+
           this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
           this.lvyeType = this.lvyeData.lvye_report_type;
           this.policeId = this.lvyeData.hotel_ga_id;
@@ -2067,11 +2068,11 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE') {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE' || this.lvyeType == 'CHENGDU'|| this.lvyeType == 'GUANGDONG' ) {
               data = {
                 ...tempData
               }
-            } else if (this.lvyeType == 'LOCAL') {
+            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI') {
               data = {
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
@@ -2328,7 +2329,6 @@
           hotel_id: this.$route.params.hotelid,
           wx_hotel_id: this.RegistersWxHotelId,
           onsuccess: (body, header) => {
-            console.log(body)
             this.showtoast({
               text: '删除成功',
               type: 'success'
@@ -2436,9 +2436,9 @@
         if (process.env.NODE_ENV === 'production') {
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
-        console.log(this.tempCode);
+//        console.log(this.tempCode);
         QRCode.toDataURL(this.tempCode, (err, url) => {
-          console.log(url)
+//          console.log(url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })

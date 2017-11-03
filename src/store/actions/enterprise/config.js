@@ -137,6 +137,7 @@ module.exports = {
         ...param.data
       },
       onSuccess: body => {
+        // console.log(param)
         ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
         ctx.commit('LVYEATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
