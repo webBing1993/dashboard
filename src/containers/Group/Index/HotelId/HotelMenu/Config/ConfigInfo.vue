@@ -508,7 +508,7 @@
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
             </div>
-            <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' ">
+            <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' || lvyeType == 'CHENGDU'">
               <div class="item-form">
                 <span>公安参数</span>
                 <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
@@ -1392,9 +1392,9 @@
         }
       },
       validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'GUANGDONG') {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'|| this.lvyeType == 'GUANGDONG') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI') {
+        } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI'||this.lvyeType == 'CHENGDU') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -2068,11 +2068,11 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE' || this.lvyeType == 'CHENGDU'|| this.lvyeType == 'GUANGDONG' ) {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE'|| this.lvyeType == 'GUANGDONG' ) {
               data = {
                 ...tempData
               }
-            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI') {
+            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI'||this.lvyeType == 'CHENGDU') {
               data = {
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
