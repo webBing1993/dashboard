@@ -1,3 +1,4 @@
+<!--门店配置页-->
 <template>
   <div class="module-wrapper">
     <div class="content-configinfo">
@@ -216,6 +217,20 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.mobileCheckin)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>启用移动端办理入住</span>
+              <p>启用后可在微前台小程序中进行选房、登记入住人信息、支付等操作
+              </p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledMobileCheckin, 'tag_text_green': enabledMobileCheckin}">{{enabledMobileCheckin ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -838,6 +853,16 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.mobileCheckin">
+            <div class="item-form">
+              <span>是否支持手机入住？</span>
+              <el-switch
+                v-model="enabledMobileCheckin"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <div v-if="showType === enumShowType.roomCard">
             <div class="item-form">
               <span>是否支持吞吐门卡？</span>
@@ -1070,6 +1095,7 @@
     fastCard: 25,  //极速领卡配置
     WxHotelRegister: 26,//微信生态酒店——城市服务注册
     CustomerOperate:27,
+    mobileCheckin:28//启用移动端办理入住
   }
 
   const typeTitles = [' ',
@@ -1224,6 +1250,8 @@
         enabledAutoRefund: true,
         //无证入住
         enabledPreCheckin: true,
+        //是否指出手机入住
+        enabledMobileCheckin: false,
         //门卡配置
         supportRoomCard: true,
         //押金配置
@@ -1468,6 +1496,9 @@
       validatepreCheckin() {
         return true;
       },
+      validatemobileCheckin() {
+        return true;
+      },
       validateroomCard() {
         return true;
       },
@@ -1574,6 +1605,9 @@
           case enumShowType.preCheckin:
             result = this.validatepreCheckin;
             break;
+          case enumShowType.mobileCheckin:
+            result = this.validatemobileCheckin;
+            break;
           case enumShowType.roomCard:
             result = this.validateroomCard;
             break;
@@ -1673,6 +1707,8 @@
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
           //无证入住
           this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
+          //是否支持手机入住
+          this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           //押金配置
@@ -1967,6 +2003,9 @@
           case enumShowType.preCheckin:
             this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
             break;
+          case enumShowType.mobileCheckin:
+            this.enabledMobileCheckin = this.configData.enabled_mobile_checkin == 'true' ? true : false;
+            break;
           case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             break;
@@ -2192,6 +2231,11 @@
           case enumShowType.preCheckin:
             data = {
               enabled_pre_checkin: this.enabledPreCheckin.toString()
+            }
+            break;
+          case enumShowType.mobileCheckin:
+            data = {
+              enabled_mobile_checkin: this.enabledMobileCheckin.toString()
             }
             break;
           case enumShowType.roomCard:
