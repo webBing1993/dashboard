@@ -2444,6 +2444,7 @@
             data = {
               enabled_ticket_print:this.enabledTicketPrint.toString()
           }
+          break;
           case enumShowType.advancedCheckout:
             data = {
               advanced_checkout:this.enabledAdvancedCheckout.toString()
