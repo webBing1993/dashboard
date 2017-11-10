@@ -352,7 +352,8 @@
               <p>配置极速领卡</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSpeedCard, 'tag_text_green': enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !enabledSpeedCard, 'tag_text_green': enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}
+            </span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -365,7 +366,50 @@
               <p>酒店是否允许顾客操作</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !curstomDeploy, 'tag_text_green': curstomDeploy}">{{curstomDeploy ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !curstomDeploy, 'tag_text_green': curstomDeploy}">{{curstomDeploy ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.ticketPrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>是否打印小票配置</span>
+              <p>是否打印小票</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledTicketPrint, 'tag_text_green': enabledTicketPrint}">{{enabledTicketPrint ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.advancedCheckout)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>是否允许提前退房</span>
+              <p>是否允许提前退房</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledAdvancedCheckout, 'tag_text_green': enabledAdvancedCheckout}">{{enabledAdvancedCheckout ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.hotelAreaCode)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店行政区划代码配置</span>
+              <p>酒店行政区划代码</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !hotelAreaCodeVal, 'tag_text_green': hotelAreaCodeVal}">{{hotelAreaCodeVal ? '已配置' : '未配置'}}
+            </span>
           </button>
         </el-col>
       </el-row>
@@ -1027,6 +1071,7 @@
               </el-switch>
             </div>
           </div>
+
           <div v-if="showType === enumShowType.CustomerOperate">
             <div class="item-form">
               <span>禁止顾客操作订单</span>
@@ -1034,6 +1079,32 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.ticketPrint">
+            <div class="item-form">
+              <span>是否打印小票配置</span>
+              <el-switch
+                v-model="enabledTicketPrint"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.advancedCheckout">
+            <div class="item-form">
+              <span>是否允许提前退房</span>
+              <el-switch
+                v-model="enabledAdvancedCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.hotelAreaCode">
+            <div class="item-form">
+              <span style="min-width: 210px; ">酒店行政区划代码</span>
+              <el-input class="el-right" v-model="hotelAreaCodeVal" placeholder="请输入酒店行政区划代码"></el-input>
             </div>
           </div>
         </div>
@@ -1095,7 +1166,10 @@
     fastCard: 25,  //极速领卡配置
     WxHotelRegister: 26,//微信生态酒店——城市服务注册
     CustomerOperate:27,
-    mobileCheckin:28//启用移动端办理入住
+    mobileCheckin:28,//启用移动端办理入住
+    ticketPrint:29,//是否启用小票打印
+    advancedCheckout:30,//是否允许提前退房
+    hotelAreaCode:31//酒店行政区划代码
   }
 
   const typeTitles = [' ',
@@ -1300,7 +1374,10 @@
         //极速领卡配置
         enabledSpeedCard: false,
         //顾客自行操作配置
-        curstomDeploy:false
+        curstomDeploy:false,
+        enabledTicketPrint:false,//是否打印小票配置
+        enabledAdvancedCheckout:false,//是否允许提前退房
+        hotelAreaCodeVal:''//酒店行政区划代码
       }
     },
     computed: {
@@ -1550,7 +1627,15 @@
       validateCustomerOperate(){
           return true;
       },
-
+      validateTicketPrint(){
+         return true;
+      },
+      validateAdvancedCheckout(){
+          return true;
+      },
+      validateHotelAreaCode(){
+          return tool.isNotBlank(this.hotelAreaCodeVal) && !isNaN(+this.hotelAreaCodeVal);
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1636,8 +1721,17 @@
             result = this.validateisfastcard;
             break;
           case enumShowType.CustomerOperate:
-              result=this. validateCustomerOperate;
+              result=this.validateCustomerOperate;
               break;
+          case enumShowType.ticketPrint:
+              result=this.validateTicketPrint;
+              break;
+          case enumShowType.advancedCheckout:
+              result=this.validateAdvancedCheckout;
+              break;
+          case enumShowType.hotelAreaCode:
+              result=this.validateHotelAreaCode;
+              break
           default:
             result = false;
         }
@@ -1711,6 +1805,8 @@
           this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
+          //
+          this.enabledTicketPrint = configData.enabled_ticket_print == 'true' ? true : false;
           //押金配置
           if (tool.isNotBlank(configData.cash_pledge_config)) {
             this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
@@ -1748,6 +1844,10 @@
             this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
           }
           this.enabledSpeedCard = configData.enabled_speed_card == 'true' ? true : false;
+          //是否允许提前退房配置
+          this.enabledAdvancedCheckout=configData.advanced_checkout == 'true' ? true : false;
+          //酒店行政区划代码配置
+          this.hotelAreaCodeVal = this.configData.hotel_area_code;
         }
       },
       pmsData() {
@@ -2045,6 +2145,15 @@
           case enumShowType.fastCard:
             this.enabledSpeedCard = this.configData.enabled_speed_card == 'true' ? true : false;
             break;
+          case enumShowType.ticketPrint:
+            this.enabledTicketPrint = this.configData.enabled_ticket_print == 'true' ? true : false;
+            break;
+          case enumShowType.advancedCheckout:
+            this.enabledAdvancedCheckout=this.configData.advanced_checkout == 'true' ? true : false;
+            break;
+          case enumShowType.hotelAreaCode:
+            this.hotelAreaCodeVal = this.configData.hotel_area_code;
+            break;
           default:
 
         }
@@ -2331,11 +2440,25 @@
               enabled_speed_card: this.enabledSpeedCard.toString()
             }
             break;
+          case enumShowType.ticketPrint:
+            data = {
+              enabled_ticket_print:this.enabledTicketPrint.toString()
+          }
+          case enumShowType.advancedCheckout:
+            data = {
+              advanced_checkout:this.enabledAdvancedCheckout.toString()
+            }
+            break;
           case enumShowType.CustomerOperate:
               data={
-                user_disable_order:this.curstomDeploy
+                user_disable_order:this.curstomDeploy.toString()
               }
-              break;
+            break;
+          case enumShowType.hotelAreaCode:
+              data={
+                hotel_area_code:this.hotelAreaCodeVal
+              }
+            break;
           default:
             data = {};
         }
@@ -2365,7 +2488,7 @@
         })
 
       },
-//      删除微信生态酒店配置
+      //删除微信生态酒店配置
       deleteWxHotels(){
         this.delName = 'close';
         this.switchName = 'close';
@@ -2386,6 +2509,7 @@
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
       },
+      //拿取服务端数据
       patchConfigData(data) {
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
