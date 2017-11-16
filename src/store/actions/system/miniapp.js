@@ -1,3 +1,6 @@
+/**
+ * 小程序action
+ */
 module.exports = {
   addMiniApp(ctx, param) {
     ctx.dispatch('resource', {

@@ -1,4 +1,6 @@
-
+/**
+* 工具modules
+*/
 const state = {
   AppParams: {
     session: ''

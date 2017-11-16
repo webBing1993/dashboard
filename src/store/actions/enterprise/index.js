@@ -1,3 +1,6 @@
+/*
+* 企业账户action出口
+* */
 module.exports = {
   ...require('./group'),
   ...require('./hotel'),

@@ -1,3 +1,6 @@
+/**
+ *企业账户管理action
+ */
 module.exports = {
   addGroup(ctx, param) {
     ctx.dispatch('resource', {

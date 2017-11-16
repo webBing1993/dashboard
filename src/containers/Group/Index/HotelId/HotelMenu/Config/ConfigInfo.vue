@@ -1103,19 +1103,15 @@
           </div>
           <div v-if="showType === enumShowType.hotelAreaCode">
             <div class="item-form">
-              <span style="min-width: 210px; ">酒店行政区划代码</span>
+              <span>酒店行政区划代码</span>
               <el-input class="el-right" v-model="hotelAreaCodeVal" placeholder="请输入酒店行政区划代码"></el-input>
             </div>
           </div>
         </div>
-        <!--v-if="switchName === 'close'-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
-        <!--<div slot="footer" class="dialog-footer" v-if="switchName === 'open'">-->
-        <!--<el-button @click="dialogConfig(enumShowType.WxHotelRegister)">注册</el-button>-->
-        <!--</div>-->
       </el-dialog>
       <el-dialog
         title="点击下载二维码"
@@ -1135,8 +1131,8 @@
 </template>
 
 <script>
-  // import ElRow from "element-ui/packages/row/src/row";
   var QRCode = require('qrcode')
+  //弹框类型
   const enumShowType = {
     init: 0,
     PMS: 1, //PMS信息
@@ -1165,13 +1161,14 @@
     roomTags: 24,  //房间标签配置
     fastCard: 25,  //极速领卡配置
     WxHotelRegister: 26,//微信生态酒店——城市服务注册
-    CustomerOperate:27,
+    CustomerOperate:27,//禁止顾客操作订单
     mobileCheckin:28,//启用移动端办理入住
     ticketPrint:29,//是否启用小票打印
     advancedCheckout:30,//是否允许提前退房
     hotelAreaCode:31//酒店行政区划代码
   }
 
+  //弹框标题类型
   const typeTitles = [' ',
     'PMS信息',
     '旅业系统配置',
@@ -1199,13 +1196,16 @@
     '房间标签配置',
     '极速领卡配置',
     '微信生态酒店配置',
-    '订单操作配置'
-  ];
+    '禁止顾客操作订单配置',
+    '订单操作配置',
+    '是否打印小票配置',
+    '是否允许提前退房配置',
+    '酒店行政区划代码配置',
+  ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import tool from '@/assets/tools/tool.js'
   export default {
-    // components: {ElRow},
     name: 'ConfigInfo',
     data() {
       return {
@@ -1380,19 +1380,23 @@
         hotelAreaCodeVal:''//酒店行政区划代码
       }
     },
+    mounted() {
+      this.getConfigs();
+      this.getWxhotelCitysers();
+      this.getlvyeTypeLists()
+      this.getPms();
+      this.getLvyes();
+      this.wechatList();
+      this.WxhotelRegisters()
+    },
     computed: {
       ...mapState({
-//        faceIdentify: state => state.enterprise.faceIdentify,
-//        wxhotelCityser: state => state.enterprise.wxhotelCityser,
         configData: state => state.enterprise.configData,
         pmsData: state => state.enterprise.pmsData,
         lvyeData: state => state.enterprise.lvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
       }),
-      retuenConfigData(){
-        return this.configData
-      },
       rendLvyeTypeList(){
         return this.lvyeTypeList;
       },
@@ -1516,9 +1520,6 @@
           return false;
         }
       },
-      validatedoorLock_unknown() {
-
-      },
       validatefacein() {
         // return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
         return (typeof this.faceinPassValue === 'number') && (typeof this.faceinRejectValue === 'number');
@@ -1634,7 +1635,7 @@
           return true;
       },
       validateHotelAreaCode(){
-          return tool.isNotBlank(this.hotelAreaCodeVal) && !isNaN(+this.hotelAreaCodeVal);
+          return true;
       },
       validateAll() {
         let result = false;
@@ -2044,9 +2045,6 @@
             this.policeType = this.lvyeData.police_type;
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
             break;
-          case enumShowType.doorLock_unknown:
-
-            break;
           case enumShowType.facein:
             this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
             this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
@@ -2169,7 +2167,7 @@
               hotel_pmscode: this.hotelPmsCode,
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl
-            }
+            };
             if (this.pmsType == '7' || this.pmsType == '2') {
               data = {
                 ...paramData,
@@ -2200,7 +2198,8 @@
                 admin_password: this.adminPassword,
                 brand_id: this.brandId,
               }
-            } else {
+            }
+            else {
               data = {
                 ...paramData
               }
@@ -2479,7 +2478,6 @@
         this.WxhotelRegister({
           hotel_id: this.$route.params.hotelid,
           route_code: this.optionvalue,
-//          onsuccess: body => (this.wxHotelRegistersList = [...body.data])
           onsuccess: body => (this.RegistersWxHotelId = body.data.wx_hotel_id)
         })
         this.switchName = 'close';
@@ -2517,16 +2515,6 @@
           data: data,
           onsuccess: body => {
             this.showDialog = false;
-            //下面这些在actions里面做
-            // let obj = {
-            //   ...this.configData
-            // }
-            // for (let key in body.data) {
-            //   obj[key] = body.data[key];
-            // }
-            // this.$store.state.enterprise.configData = obj;
-
-            // this.getConfigs();
           }
         })
       },
@@ -2535,6 +2523,7 @@
           hotel_id: this.$route.params.hotelid
         })
       },
+      // 修改PMS
       modifyPms(data) {
         this.modifyPMS({
           hotel_id: this.$route.params.hotelid,
@@ -2625,15 +2614,6 @@
       downloadImg() {
         this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
       },
-    },
-    mounted() {
-      this.getConfigs();
-      this.getWxhotelCitysers();
-      this.getlvyeTypeLists()
-      this.getPms();
-      this.getLvyes();
-      this.wechatList();
-      this.WxhotelRegisters()
     }
   }
 </script>

@@ -1,3 +1,7 @@
+/**
+ * 企业楼宇房间管理action
+ */
+
 module.exports = {
   getRoom(ctx, param) {
     ctx.dispatch('resource', {

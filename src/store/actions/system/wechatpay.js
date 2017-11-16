@@ -1,3 +1,6 @@
+/**
+ * 微信支付action
+ */
 module.exports = {
   addWechatpay(ctx, param) {
     ctx.dispatch('resource', {

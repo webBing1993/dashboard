@@ -1,3 +1,6 @@
+/**
+ * 登陆／注册 权限action
+ */
 module.exports = {
   regist(ctx, param){
     ctx.dispatch('resource', {

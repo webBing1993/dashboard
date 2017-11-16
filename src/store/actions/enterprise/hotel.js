@@ -1,3 +1,6 @@
+/**
+ * 企业酒店管理action
+ */
 module.exports = {
   addHotel(ctx, param) {
     ctx.dispatch('resource', {

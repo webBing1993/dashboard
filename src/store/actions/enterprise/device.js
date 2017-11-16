@@ -1,3 +1,6 @@
+/**
+ * 企业设备管理action
+ */
 module.exports = {
   // addDevice(ctx, param) {
   //   ctx.dispatch('resource', {

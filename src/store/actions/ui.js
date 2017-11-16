@@ -1,3 +1,6 @@
+/**
+ * 提示弹框action
+ */
 module.exports = {
   showtoast(ctx, param){
     param = param ? param : {}

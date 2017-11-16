@@ -1,3 +1,6 @@
+/*
+* 企业门店配置管理action
+* */
 module.exports = {
   getConfig(ctx, param) {
     ctx.dispatch('resource', {
@@ -92,8 +95,25 @@ module.exports = {
     })
   },
   modifyPMS(ctx, param){
+    let urlQuery=``;
+    if(param.data.pms_type==1)
+    {
+      urlQuery=`/hotel/${param.hotel_id}/pmsBYH`;
+    }else if(param.data.pms_type==2||param.data.pms_type==7)
+    {
+      urlQuery=`/hotel/${param.hotel_id}/pmsLyXr`;
+    }
+    else if(param.data.pms_type==3)
+    {
+      urlQuery=`/hotel/${param.hotel_id}/pmsZhuZhe`;
+    }
+    else
+    {
+      urlQuery=`/hotel/${param.hotel_id}/pmsJxdQlmYst`;
+    };
+
     ctx.dispatch('resource', {
-      url: `/hotel/${param.hotel_id}/pms`,
+      url: urlQuery,
       method:'PUT',
       body: {
         ...param.data

@@ -1,3 +1,7 @@
+/**
+ * 企业上线状态管理action
+ */
+
 module.exports = {
   getStatus(ctx, param) {
     ctx.dispatch('resource', {

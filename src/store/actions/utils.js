@@ -2,11 +2,15 @@ import Vue from 'vue'
 // import VueResource from 'vue-resource'
 // Vue.use(VueResource)
 
+/**
+ * 工具action
+ */
 import axios from 'axios'
 
 import router from '../../router'
 
 module.exports = {
+  //路由跳转
   goto: (ctx, param) => {
       if (typeof param === 'number') {
         router.go(param)
@@ -59,6 +63,7 @@ module.exports = {
         })
       }
   },
+  //地址请求
   urlquery(ctx) {
     let o = {}
     decodeURIComponent(window.location.search).split('&').forEach(i => i ? o[i.split(/=/)[0].replace(/\?/, '')] = i.split(/=/)[1] : null)
@@ -202,6 +207,9 @@ module.exports = {
   //   )
   // }
 
+  /*
+   * 请求数据交互
+   */
   resource: (ctx, param) => {
     let headers = param.headers || {};
     if (!param.url.match(/register/) && !param.url.match(/login/) ) {

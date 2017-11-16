@@ -1,4 +1,6 @@
-
+/*
+*  企业账号modules
+* */
 const state = {
   configData: {},
   pmsData: {},

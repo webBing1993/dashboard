@@ -1,3 +1,6 @@
+/**
+* 企业品牌管理action
+*/
 module.exports = {
   addBrand(ctx, param) {
     ctx.dispatch('resource', {

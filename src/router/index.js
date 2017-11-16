@@ -54,7 +54,8 @@ const main = [
       path: '/auth',
       name: 'Auth',
       component: Auth
-    },{
+    },
+    {
       path: '/',
       name: 'MainApp',
       component: MainApp,
@@ -63,14 +64,17 @@ const main = [
           path: 'home',
           name: 'Home',
           component: Home
-        },{
+        },
+        {
           path: 'group',
           component: Group,
-          children: [{
+          children: [
+            {
               path: 'add',
               name: 'AddGroup',
               component: AddGroup,
-            },{
+            },
+            {
               path: '/',
               component: GroupMenu,
               children: [
@@ -78,20 +82,24 @@ const main = [
                   path: '/',
                   name: 'GroupList',
                   component: GroupList
-                },{
+                },
+                {
                   path: 'hotel',
                   name: 'GroupHotel',
-                  component: GroupHotel      
+                  component: GroupHotel
                 }
               ]
-            },{
+            },
+            {
               path: ':id',
               component: GroupId,
-              children: [{
+              children: [
+                {
                   path: 'editbrand',
                   name: 'EditBrand',
                   component: EditBrand,
-                },{
+                },
+                {
                   path: '/',
                   component: GroupIdMenu,
                   children: [
@@ -99,17 +107,20 @@ const main = [
                       path: '/',
                       name: 'GroupInfo',
                       component: GroupInfo
-                    },{
+                    },
+                    {
                       path: 'brand',
                       name: 'Brand',
                       component: Brand
-                    },{
+                    },
+                    {
                       path: 'hotel',
                       name: 'GroupHotelList',
                       component: GroupHotelList
                     }
                   ]
-                },{
+                },
+                {
                   path: 'hotel',
                   component: HotelId,
                   children: [
@@ -117,7 +128,8 @@ const main = [
                       path: 'add',
                       name: 'AddHotel',
                       component: AddHotel,
-                    },{
+                    },
+                    {
                       path: ':hotelid',
                       component: HotelMenu,
                       children: [
@@ -125,7 +137,8 @@ const main = [
                           path: '/',
                           name: 'HotelInfo',
                           component: HotelInfo
-                        },{
+                        },
+                        {
                           path: 'device',
                           component: Device,
                           children: [
@@ -133,21 +146,25 @@ const main = [
                               path: '/',
                               name: 'DeviceList',
                               component: DeviceList
-                            },{
+                            },
+                            {
                               path: 'editdevice',
                               name: 'EditDevice',
                               component: EditDevice
-                            },{
+                            },
+                            {
                               path: 'relationvevice',
                               name: 'RelationDevice',
                               component: RelationDevice
                             }
                           ]
-                        },{
+                        },
+                        {
                           path: 'room',
                           name: 'Room',
                           component: Room
-                        },{
+                        },
+                        {
                           path: 'roomtype',
                           name: 'RoomType',
                           component: RoomType
@@ -160,13 +177,15 @@ const main = [
                               path: '/',
                               name: 'ConfigInfo',
                               component: ConfigInfo
-                            },{
+                            },
+                            {
                               path: 'configsummary',
                               name: 'ConfigSummary',
                               component: ConfigSummary
                             },
                           ]
-                        },{
+                        },
+                        {
                           path: 'onlinestatus',
                           name: 'OnlineStatus',
                           component: OnlineStatus
@@ -185,11 +204,13 @@ const main = [
             path: 'addminiapp',
             name: 'AddMiniApp',
             component: AddMiniApp,
-          },{
+          },
+          {
             path: 'addwechatpay',
             name: 'AddWechatpay',
             component: AddWechatpay,
-          },{
+          },
+          {
             path: '/',
             component: SystemMenu,
             children: [
@@ -197,11 +218,13 @@ const main = [
                 path: '/',
                 name: 'MiniAppList',
                 component: MiniAppList
-              },{
+              },
+              {
                 path: 'wechatpay',
                 name: 'WechatPayList',
-                component: WechatPayList      
-              },{
+                component: WechatPayList
+              },
+              {
                 path: 'miniappmsg',
                 component: MiniAppMsg,
                 children: [
@@ -209,7 +232,8 @@ const main = [
                     path: '/',
                     name: 'MiniAppMsgList',
                     component: MiniAppMsgList
-                  },{
+                  },
+                  {
                     path: 'addminiappmsg',
                     name: 'AddMiniAppMsg',
                     component: AddMiniAppMsg

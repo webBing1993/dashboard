@@ -1,3 +1,6 @@
+/**
+ * 小程序消息模板action
+ */
 module.exports = {
     modifyMiniAppMsg(ctx, param) {
       ctx.dispatch('resource', {
@@ -60,4 +63,3 @@ module.exports = {
       })
     },
   }
-  

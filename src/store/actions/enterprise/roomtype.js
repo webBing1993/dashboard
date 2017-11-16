@@ -1,3 +1,7 @@
+/**
+ * 企业房型配置管理action
+ */
+
 module.exports = {
   patchRoomType(ctx, param){
     ctx.dispatch('resource', {
