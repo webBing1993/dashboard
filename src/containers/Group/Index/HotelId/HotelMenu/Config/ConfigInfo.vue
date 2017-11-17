@@ -664,10 +664,6 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.wxHotel && RegisterOk">
-            <!--<div class="item-form">-->
-            <!--<span>微信酒店ID</span>-->
-            <!--<el-input class="el-right" v-model="wxHotelId" placeholder="请输入微信酒店ID"></el-input>-->
-            <!--</div>-->
             <div class="item-form">
               <el-select class="el-right" v-model="optionvalue" placeholder="城市服务">
                 <el-option
@@ -692,7 +688,7 @@
               <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
               <div>
                 <div v-if="1">
-                  <el-button style="width: 200px;margin-top: 30px" @click="deleteWxHotels()">删除</el-button>
+                  <el-button style="width: 200px;margin-top: 30px" @click="isDelete()">删除</el-button>
                 </div>
               </div>
             </div>
@@ -1108,6 +1104,7 @@
             </div>
           </div>
         </div>
+
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
@@ -1126,6 +1123,24 @@
           <el-radio class="radio" v-model="isBigQrImg" :label="false">小图 140</el-radio>
         </div>
       </el-dialog>
+      <el-dialog
+        :title="typeTitles[showType]"
+        :visible.sync="queryDel"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="true"
+        @close="handleClose"
+      >
+        <div class="dialog-content">
+            <div class="item-form">
+              <span>是否删除</span>
+              <div slot="footer" class="dialog-footer">
+                <el-button @click="deleteWxHotels(false)">取 消</el-button>
+                <el-button type="primary" @click="deleteWxHotels(true)">确 定</el-button>
+              </div>
+            </div>
+        </div>
+        </el-dialog>
     </div>
   </div>
 </template>
@@ -1134,7 +1149,7 @@
   var QRCode = require('qrcode')
   //弹框类型
   const enumShowType = {
-    init: 0,
+    checkDel:0,
     PMS: 1, //PMS信息
     lvyeReportType: 2,  //旅业系统配置
     doorLock_unknown: 3, //门锁配置
@@ -1169,7 +1184,7 @@
   }
 
   //弹框标题类型
-  const typeTitles = [' ',
+  const typeTitles = ['是否删除',
     'PMS信息',
     '旅业系统配置',
     '门锁配置',
@@ -1276,7 +1291,6 @@
         //微信生态酒店配置
         wxHotelId: '',
         wxhotelCityserList: [],
-//        wxHotelRegistersList: '',
         RegistersWxHotelId: '',//注册返回的微信酒店id
         deleteList: '',//删除微信酒店后返回
         //小程序配置
@@ -1377,7 +1391,9 @@
         curstomDeploy:false,
         enabledTicketPrint:false,//是否打印小票配置
         enabledAdvancedCheckout:false,//是否允许提前退房
-        hotelAreaCodeVal:''//酒店行政区划代码
+        hotelAreaCodeVal:'',//酒店行政区划代码
+        queryDel:false
+
       }
     },
     mounted() {
@@ -1751,7 +1767,7 @@
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '深圳优图' : '厦门身份宝';
           this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
-          this.identityAccount = configData.shenfenbao_hotel_account
+          this.identityAccount = configData.shenfenbao_hotel_account;
           //微信支付配置
           this.mchId = configData;
           // this.mchId = configData.child_mch_id;
@@ -1761,7 +1777,7 @@
           this.payName = configData.pay_name,
           this.refundName = configData.refund_name,
             //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
+          this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -2488,9 +2504,13 @@
 
       },
       //删除微信生态酒店配置
-      deleteWxHotels(){
+      isDelete(){
+        this.queryDel=true;
         this.delName = 'close';
         this.switchName = 'close';
+      },
+      deleteWxHotels(flag){
+        if(flag){
         this.deleteWxHotel({
           hotel_id: this.$route.params.hotelid,
           wx_hotel_id: this.RegistersWxHotelId,
@@ -2500,9 +2520,12 @@
               type: 'success'
             })
           }
-        })
-        this.hideDialog();
-      },
+        });
+      }
+      console.log(7777)
+    this.queryDel=false;
+  this.hideDialog();
+  },
       getlvyeTypeLists(){
         this.getlvyeTypeList({
           onsuccess: body => (this.lvyeTypeList = [...body.data])
