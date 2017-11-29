@@ -12,11 +12,11 @@ import System from '@/containers/System'
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
 import GroupId from '@/containers/Group/Index/GroupId.vue'
-import HotelId from '@/containers/Group/Index/HotelId.vue'
 import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 // 4级路由
+import HotelId from '@/containers/Group/Index/HotelId.vue'
 import GroupList from '@/containers/Group/Index/GroupMenu/GroupList.vue'
 import GroupHotel from '@/containers/Group/Index/GroupMenu/GroupHotel.vue'
 import EditBrand from '@/containers/Group/Index/GroupId/EditBrand.vue'
@@ -197,7 +197,8 @@ const main = [
               ]
             }
           ]
-        },{
+        },
+        {
           path: 'system',
           component: System,
           children: [{

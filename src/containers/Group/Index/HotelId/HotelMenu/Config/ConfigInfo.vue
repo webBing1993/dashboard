@@ -399,7 +399,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.hotelAreaCode)">
+          <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
@@ -409,6 +409,20 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !hotelAreaCodeVal, 'tag_text_green': hotelAreaCodeVal}">{{hotelAreaCodeVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoGiveRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>自动分房配置 </span>
+              <p>自动分房 </p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !autoGiveRoomVal, 'tag_text_green': autoGiveRoomVal}">{{ autoGiveRoomVal? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -527,6 +541,7 @@
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
+
             <div class="item-form">
               <span>是否对接退房接口</span>
               <el-switch
@@ -1101,6 +1116,16 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.autoGiveRoom">
+            <div class="item-form">
+              <span>是否允许自动分房</span>
+              <el-switch
+                v-model="autoGiveRoomVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <div v-if="showType === enumShowType.hotelAreaCode">
             <div class="item-form">
               <span>酒店行政区划代码</span>
@@ -1165,7 +1190,8 @@
     mobileCheckin:28,//启用移动端办理入住
     ticketPrint:29,//是否启用小票打印
     advancedCheckout:30,//是否允许提前退房
-    hotelAreaCode:31//酒店行政区划代码
+    hotelAreaCode:31,//酒店行政区划代码
+    autoGiveRoom:32//自动分房
   }
 
   //弹框标题类型
@@ -1201,6 +1227,7 @@
     '是否打印小票配置',
     '是否允许提前退房配置',
     '酒店行政区划代码配置',
+    '自动分房'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1377,7 +1404,8 @@
         curstomDeploy:false,
         enabledTicketPrint:false,//是否打印小票配置
         enabledAdvancedCheckout:false,//是否允许提前退房
-        hotelAreaCodeVal:''//酒店行政区划代码
+        hotelAreaCodeVal:'',//酒店行政区划代码
+        autoGiveRoomVal:true
       }
     },
     mounted() {
@@ -1637,6 +1665,9 @@
       validateHotelAreaCode(){
           return true;
       },
+      validateGiveRoom(){
+          return true;
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1732,7 +1763,10 @@
               break;
           case enumShowType.hotelAreaCode:
               result=this.validateHotelAreaCode;
-              break
+              break;
+          case enumShowType.autoGiveRoom:
+            result=this.validateGiveRoom;
+            break;
           default:
             result = false;
         }
@@ -1754,7 +1788,6 @@
           this.identityAccount = configData.shenfenbao_hotel_account
           //微信支付配置
           this.mchId = configData;
-          // this.mchId = configData.child_mch_id;
           this.payCode = configData.pay_code;
           this.refundCode = configData.refund_code;
           this.dayrentName = configData.dayrent_name,
@@ -1849,6 +1882,8 @@
           this.enabledAdvancedCheckout=configData.advanced_checkout == 'true' ? true : false;
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = this.configData.hotel_area_code;
+          //是否允许自动分房
+          this.autoGiveRoomVal=this.configData.auto_giveroom == 'true' ? true : false;
         }
       },
       pmsData() {
@@ -1950,14 +1985,12 @@
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
-        }
-        /*else if (type === enumShowType.wechatPay && !this.configData.app_id) {
-         this.showalert({
-         code: 0,
-         content: '小程序尚未配置,请先配置小程序!'
-         });
-         return;
-         }*/
+        } else if (type === enumShowType.wechatPay && !this.configData.app_id) {
+           this.showalert({
+           code: 0,
+           content: '小程序尚未配置,请先配置小程序!'
+           });
+         }
 
         this.showDialog = true;
       },
@@ -2151,6 +2184,9 @@
             break;
           case enumShowType.hotelAreaCode:
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
+            break;
+          case enumShowType.autoGiveRoom:
+            this.autoGiveRoomVal = this.configData.auto_giveroom;
             break;
           default:
 
@@ -2458,6 +2494,11 @@
               data={
                 hotel_area_code:this.hotelAreaCodeVal
               }
+            break;
+          case enumShowType.autoGiveRoom:
+              data={
+                auto_giveroom:this.autoGiveRoomVal
+            }
             break;
           default:
             data = {};
