@@ -12,7 +12,8 @@
         </div>
       </nav>
     </div>
-    <router-view class="second-router"></router-view>
+    <router-view class="second-router">
+    </router-view>
     <footer class="copy-right">
       <span>Powered By Fortrun.</span>
       <span>Copyright©2016-2017  All Rights Reserved.</span>
