@@ -1392,8 +1392,13 @@
         enabledTicketPrint:false,//是否打印小票配置
         enabledAdvancedCheckout:false,//是否允许提前退房
         hotelAreaCodeVal:'',//酒店行政区划代码
+<<<<<<< Updated upstream
         queryDel:false
 
+=======
+        queryDel:false,
+        autoGiveRoomVal:true
+>>>>>>> Stashed changes
       }
     },
     mounted() {
