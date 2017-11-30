@@ -590,19 +590,19 @@
               <span>人脸识别通道</span>
               <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
                 <el-option
-                  v-for="(obj, index) of [{name:'深圳优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
+                  v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
                   :key="index"
                   :label="obj.name"
                   :value="obj.name">
                 </el-option>
               </el-select>
             </div>
-            <div class="item-form" v-if="faceTongdao!=='深圳优图' && faceTongdao==='厦门身份宝'">
+            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
               <span style="margin-right: 18px">身份宝账号:</span>
               <el-input placeholder="请输入内容" v-model="identityAccount"></el-input>
               <span></span>
             </div>
-            <div class="item-form" v-if="faceTongdao!=='深圳优图' && faceTongdao==='厦门身份宝'">
+            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
               <span style="margin-right: 18px">身份宝拒绝是否人工参与:</span>
               <el-switch
                 v-model="shenfenbaoRejectManual"
@@ -610,7 +610,7 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
-            <div class="item-form" v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
+            <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
                 <el-option
@@ -621,7 +621,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="item-form" v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
+            <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <span>自动拒绝值</span>
               <el-select class="el-right" v-model="faceinRejectValue" placeholder="请选择自动拒绝值">
                 <el-option
@@ -632,7 +632,7 @@
                 </el-option>
               </el-select>
             </div>
-            <article v-if="faceTongdao==='深圳优图' && faceTongdao!=='厦门身份宝'">
+            <article v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <ul>
                 帮助：
                 <li>大于自动通过值则自动通过公安验证。</li>
@@ -1263,7 +1263,7 @@
         adminPassword: '',
         brandId: '',
         // 旅业配置
-//        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '深圳'}, {id: 'WUHAN', name: '武汉'}, {
+//        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '腾讯'}, {id: 'WUHAN', name: '武汉'}, {
 //          id: 'CLOUD',
 //          name: '微信通道'
 //        }],
@@ -1276,10 +1276,10 @@
         //门锁配置，暂无
         //人脸识别配置
         faceEqu: true,
-        faceTongdao: '深圳优图',//configData.identity_check_channel==='YOUTU'?'深圳优图':'厦门身份宝',
+        faceTongdao: '腾讯优图',//configData.identity_check_channel==='YOUTU'?'腾讯优图':'厦门身份宝',
         identityAccount: null,
         shenfenbaoRejectManual: "false",
-//        faceTongdao:[{name:'深圳优图',val:'YOUTO'},{name:"厦门身份宝",val:"SHENFENBAO"}],
+//        faceTongdao:[{name:'腾讯优图',val:'YOUTO'},{name:"厦门身份宝",val:"SHENFENBAO"}],
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
@@ -1765,7 +1765,7 @@
           this.faceEqu = configData.support_face_in ;
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
-          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '深圳优图' : '厦门身份宝';
+          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
           this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
           this.identityAccount = configData.shenfenbao_hotel_account;
           //微信支付配置
@@ -2249,13 +2249,13 @@
 
             break;
           case enumShowType.facein:
-            if (this.faceTongdao === '深圳优图') this.identity_check_channel = 'YOUTU'
+            if (this.faceTongdao === '腾讯优图') this.identity_check_channel = 'YOUTU'
             if (this.faceTongdao === '厦门身份宝') this.identity_check_channel = 'SHENFENBAO'
             data = {
               facein_pass_value: this.faceinPassValue.toString(),//自动通过值
               facein_reject_value: this.faceinRejectValue.toString(),//自动拒绝值
               support_face_in: this.faceEqu,//是否支持人脸识别
-              identity_check_channel: this.faceTongdao === '深圳优图' ? 'YOUTU' : 'SHENFENBAO',
+              identity_check_channel: this.faceTongdao === '腾讯优图' ? 'YOUTU' : 'SHENFENBAO',
               shenfenbao_hotel_account: this.identityAccount,
               shenfenbao_reject_manual: this.shenfenbaoRejectManual//身份宝拒绝是否人工参与
             }
