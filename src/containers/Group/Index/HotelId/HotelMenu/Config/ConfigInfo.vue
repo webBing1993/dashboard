@@ -401,7 +401,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.hotelAreaCode)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="/assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店行政区划代码配置</span>
@@ -1514,7 +1514,6 @@
         enabledAdvancedCheckout:false,//是否允许提前退房
         hotelAreaCodeVal:'',//酒店行政区划代码
         queryDel:false,
-        autoGiveRoomVal:true,
         //酒店二维码配置
         QR_CodeVal:false,
         serviceTypeList:[
@@ -1524,7 +1523,8 @@
         serviceType:'',
         qrCode:'',
         qrName:'',
-        autoIdentityCheckVal:false,
+        autoGiveRoomVal:'true',
+        autoIdentityCheckVal:'false',
         issuedCardRuleList:[
           {name:'一房一卡',value:'OTO'},
           {name:'一房多卡',value:'OTM'}
@@ -2024,13 +2024,13 @@
           //是否允许提前退房配置
           this.enabledAdvancedCheckout=configData.advanced_checkout == 'true' ? true : false;
           //酒店行政区划代码配置
-          this.hotelAreaCodeVal = this.configData.hotel_area_code;
+          this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
-          this.autoGiveRoom=this.configData.enabled_auto_give_room;
+          this.autoGiveRoom=configData.enabled_auto_give_room;
           //发房卡规则配置
-          this.issuedCardRuleVal=this.configData.issued_card_rule;
+          this.issuedCardRuleVal=configData.issued_card_rule;
           //自动人脸核验配置
-          this.autoIdentityCheck=this.configData.enabled_auto_identity_check;
+          this.autoIdentityCheck=configData.enabled_auto_identity_check;
         }
       },
       pmsData() {
@@ -2325,6 +2325,15 @@
             break;
           case enumShowType.hotelAreaCode:
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
+            break;
+          case enumShowType.autoGiveRoom:
+            this.autoGiveRoom=this.configData.enabled_auto_give_room == 'true' ? true : false;
+            break;
+          case enumShowType.autoIdentityCheck:
+            this.autoGiveRoom=this.configData.enabled_auto_identity_check == 'true' ? true : false;
+            break;
+          case enumShowType.issuedCardRule:
+            this.autoGiveRoom=this.configData.issued_card_rule;
             break;
           default:
 
@@ -2641,10 +2650,10 @@
             }
             break;
           case enumShowType.autoGiveRoom:
-            data={'enabled_auto_give_room':this.autoGiveRoomVal};
+            data={'enabled_auto_give_room':this.autoGiveRoomVal.toString()};
             break;
           case enumShowType.autoIdentityCheck:
-            data={'enabled_auto_identity_check':this.autoIdentityCheckVal};
+            data={'enabled_auto_identity_check':this.autoIdentityCheckVal.toString()};
             break;
           case enumShowType.issuedCardRule:
             data={'issued_card_rule':this.issuedCardRuleVal};
