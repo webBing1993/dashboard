@@ -401,7 +401,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.hotelAreaCode)">
             <div class="item_img">
-              <img src="/assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店行政区划代码配置</span>
@@ -436,7 +436,7 @@
               <p>是否自动分房</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !autoGiveRoomVal, 'tag_text_green': autoGiveRoomVal}">{{autoGiveRoomVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !configData.autoGiveRoomVal, 'tag_text_green': !configData.autoGiveRoomVal}">{{!configData.autoGiveRoomVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -464,7 +464,7 @@
               <p>是否调用人脸识别接口进行身份验证</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !autoIdentityCheckVal, 'tag_text_green': autoIdentityCheckVal}">{{autoIdentityCheckVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !configData.autoIdentityCheckVal, 'tag_text_green': !configData.autoIdentityCheckVal}">{{!configData.autoIdentityCheckVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -1523,8 +1523,8 @@
         serviceType:'',
         qrCode:'',
         qrName:'',
-        autoGiveRoomVal:'true',
-        autoIdentityCheckVal:'false',
+        autoGiveRoomVal:true,
+        autoIdentityCheckVal:false,
         issuedCardRuleList:[
           {name:'一房一卡',value:'OTO'},
           {name:'一房多卡',value:'OTM'}
@@ -2026,11 +2026,11 @@
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
-          this.autoGiveRoom=configData.enabled_auto_give_room;
+          this.autoGiveRoomVal=configData.enabled_auto_give_room == 'true' ? true : false ;
           //发房卡规则配置
-          this.issuedCardRuleVal=configData.issued_card_rule;
+          this.issuedCardRuleVal=configData.issued_card_rule ;
           //自动人脸核验配置
-          this.autoIdentityCheck=configData.enabled_auto_identity_check;
+          this.autoIdentityCheckVal=configData.enabled_auto_identity_check == 'true' ? true : false;
         }
       },
       pmsData() {
@@ -2327,13 +2327,13 @@
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
             break;
           case enumShowType.autoGiveRoom:
-            this.autoGiveRoom=this.configData.enabled_auto_give_room == 'true' ? true : false;
+            this.autoGiveRoomVal=this.configData.enabled_auto_give_room == 'true' ? true : false;
             break;
           case enumShowType.autoIdentityCheck:
-            this.autoGiveRoom=this.configData.enabled_auto_identity_check == 'true' ? true : false;
+            this.autoIdentityCheckVal=this.configData.enabled_auto_identity_check == 'true' ? true : false;
             break;
           case enumShowType.issuedCardRule:
-            this.autoGiveRoom=this.configData.issued_card_rule;
+            this.issuedCardRuleVal=this.configData.issued_card_rule;
             break;
           default:
 
