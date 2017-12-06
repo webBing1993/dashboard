@@ -415,7 +415,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.qrCodeCreate)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店二维码配置</span>
@@ -429,7 +429,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>分房配置</span>
@@ -443,7 +443,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.issuedCardRule)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>发房卡规则配置</span>
@@ -457,7 +457,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoIdentityCheck)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
               <span>自动人脸核验配置</span>
