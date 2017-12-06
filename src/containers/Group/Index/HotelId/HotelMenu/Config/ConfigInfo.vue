@@ -412,7 +412,65 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.qrCodeCreate)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店二维码配置</span>
+              <p>完善线下业务使用，当前可配置发票与mobile-checkin</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !QR_CodeVal, 'tag_text_green': QR_CodeVal}">{{QR_CodeVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoGiveRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>分房配置</span>
+              <p>是否自动分房</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !autoGiveRoomVal, 'tag_text_green': autoGiveRoomVal}">{{autoGiveRoomVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.issuedCardRule)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>发房卡规则配置</span>
+              <p>一房一卡或一房多卡</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !issuedCardRuleVal, 'tag_text_green': issuedCardRuleVal}">{{issuedCardRuleVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoIdentityCheck)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/QR_Code.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>自动人脸核验配置</span>
+              <p>是否调用人脸识别接口进行身份验证</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !autoIdentityCheckVal, 'tag_text_green': autoIdentityCheckVal}">{{autoIdentityCheckVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
+
+<!--/弹框页-->
 
       <el-dialog
         :title="typeTitles[showType]"
@@ -422,7 +480,7 @@
         :show-close="true"
         @close="handleClose"
       >
-        <div class="dialog-content">
+         <div class="dialog-content">
           <div v-if="showType === enumShowType.PMS">
             <div class="item-form">
               <span>PMS品牌</span>
@@ -943,7 +1001,7 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div class="item-form">
+              <div class="item-form">t
                 <span>是否有日杂费</span>
                 <el-switch
                   v-model="hasDayOfIncidentals"
@@ -1067,7 +1125,6 @@
               </el-switch>
             </div>
           </div>
-
           <div v-if="showType === enumShowType.CustomerOperate">
             <div class="item-form">
               <span>禁止顾客操作订单</span>
@@ -1103,8 +1160,68 @@
               <el-input class="el-right" v-model="hotelAreaCodeVal" placeholder="请输入酒店行政区划代码"></el-input>
             </div>
           </div>
-        </div>
-
+          <div v-if="showType === enumShowType.qrCodeCreate">
+            <div class="item-form">
+              <span>选择业务类型</span>
+              <el-select class="el-right" v-model="serviceType">
+                <el-option
+                  v-for="(item, index) of serviceTypeList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>二维码名称</span>
+              <el-input class="el-right" v-model="qrName" placeholder="请填写二维码名称"></el-input>
+            </div>
+            <div class="item-form">
+              <span>二维码code</span>
+              <el-input class="el-right" v-model="qrCode" style="display:block"></el-input>
+            </div>
+            <div class="item-form" style="margin-left: 9rem;margin-top: -0.5rem">
+              <p style="color: #868686;">运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
+            </div>
+            <div class="item-form">
+              <span>备注</span>
+              <el-input class="el-right" v-model="remark" ></el-input>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.autoGiveRoom">
+            <div class="item-form">
+              <span>是否自动分房</span>
+              <el-switch
+                v-model="autoGiveRoomVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+           </div>
+          <div v-if="showType === enumShowType.autoIdentityCheck">
+            <div class="item-form">
+              <span>是否自动调用人脸识别接口</span>
+              <el-switch
+                v-model="autoIdentityCheckVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+           </div>
+           <div v-if="showType === enumShowType.issuedCardRule">
+             <div class="item-form">
+               <span>选择分房卡类型</span>
+               <el-select class="el-right" v-model="issuedCardRuleVal">
+                 <el-option
+                   v-for="(item, index) of issuedCardRuleList"
+                   :key="index"
+                   :label="item.name"
+                   :value="item.value">
+                 </el-option>
+               </el-select>
+             </div>
+           </div>
+         </div>
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <el-button @click="hideDialog">取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
@@ -1180,7 +1297,11 @@
     mobileCheckin:28,//启用移动端办理入住
     ticketPrint:29,//是否启用小票打印
     advancedCheckout:30,//是否允许提前退房
-    hotelAreaCode:31//酒店行政区划代码
+    hotelAreaCode:31,//酒店行政区划代码
+    qrCodeCreate:32,//酒店二维码配置
+    autoGiveRoom:33,//自动分房
+    autoIdentityCheck:34,//自动调用人脸识别接口
+    issuedCardRule:35//发房卡规则
   }
 
   //弹框标题类型
@@ -1216,6 +1337,10 @@
     '是否打印小票配置',
     '是否允许提前退房配置',
     '酒店行政区划代码配置',
+    '酒店二维码配置',
+    '分房配置',
+    '自动人脸核验配置',
+    '发房卡规则配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1263,10 +1388,6 @@
         adminPassword: '',
         brandId: '',
         // 旅业配置
-//        lvyeTypeList: [{id: 'NONE', name: '无'}, {id: 'LOCAL', name: '腾讯'}, {id: 'WUHAN', name: '武汉'}, {
-//          id: 'CLOUD',
-//          name: '微信通道'
-//        }],
         lvyeTypeList: [],
         lvyeAutoReport: false,
         lvyeType: '',
@@ -1276,10 +1397,10 @@
         //门锁配置，暂无
         //人脸识别配置
         faceEqu: true,
-        faceTongdao: '腾讯优图',//configData.identity_check_channel==='YOUTU'?'腾讯优图':'厦门身份宝',
+        faceTongdao: '腾讯优图',
         identityAccount: null,
         shenfenbaoRejectManual: "false",
-//        faceTongdao:[{name:'腾讯优图',val:'YOUTO'},{name:"厦门身份宝",val:"SHENFENBAO"}],
+
         faceinPassValue: 70,
         faceinRejectValue: 70,
         //微信支付配置
@@ -1393,7 +1514,22 @@
         enabledAdvancedCheckout:false,//是否允许提前退房
         hotelAreaCodeVal:'',//酒店行政区划代码
         queryDel:false,
-        autoGiveRoomVal:true
+        autoGiveRoomVal:true,
+        //酒店二维码配置
+        QR_CodeVal:false,
+        serviceTypeList:[
+          {name:'发票',value:'invoice'},
+          {name:'mobile-checkin二维码',value:'mobileCheckin'}
+        ],
+        serviceType:'',
+        qrCode:'',
+        qrName:'',
+        autoIdentityCheckVal:false,
+        issuedCardRuleList:[
+          {name:'一房一卡',value:'OTO'},
+          {name:'一房多卡',value:'OTM'}
+        ],
+        issuedCardRuleVal:''
       }
     },
     mounted() {
@@ -1653,6 +1789,18 @@
       validateHotelAreaCode(){
           return true;
       },
+      validateQrcodeCreate(){
+          return (tool.isNotBlank(this.serviceType) && tool.isNotBlank(this.qrName) && tool.isNotBlank(this.qrCode))
+      },
+      validateAutoGiveRoom(){
+          return true;
+      },
+      validateAutoIdentityCheck(){
+          return true;
+      },
+      validateIssuedCardRule(){
+          return (tool.isNotBlank(this.issuedCardRuleVal));
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1748,7 +1896,19 @@
               break;
           case enumShowType.hotelAreaCode:
               result=this.validateHotelAreaCode;
-              break
+              break;
+          case enumShowType.qrCodeCreate:
+              result=this.validateQrcodeCreate;
+              break;
+          case enumShowType.autoGiveRoom:
+            result=this.validateAutoGiveRoom;
+            break;
+          case enumShowType.autoIdentityCheck:
+            result=this.validateAutoIdentityCheck;
+            break;
+          case enumShowType.issuedCardRule:
+            result=this.validateIssuedCardRule;
+            break;
           default:
             result = false;
         }
@@ -1865,6 +2025,12 @@
           this.enabledAdvancedCheckout=configData.advanced_checkout == 'true' ? true : false;
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = this.configData.hotel_area_code;
+          //是否自动分房配置
+          this.autoGiveRoom=this.configData.enabled_auto_give_room;
+          //发房卡规则配置
+          this.issuedCardRuleVal=this.configData.issued_card_rule;
+          //自动人脸核验配置
+          this.autoIdentityCheck=this.configData.enabled_auto_identity_check;
         }
       },
       pmsData() {
@@ -1967,14 +2133,6 @@
           this.getMiniAppLists();
           this.wechatList();
         }
-        /*else if (type === enumShowType.wechatPay && !this.configData.app_id) {
-         this.showalert({
-         code: 0,
-         content: '小程序尚未配置,请先配置小程序!'
-         });
-         return;
-         }*/
-
         this.showDialog = true;
       },
       wechatList() {
@@ -2406,7 +2564,6 @@
                 cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
               }
             }
-
             data = {
               cash_pledge_config
             }
@@ -2475,8 +2632,25 @@
                 hotel_area_code:this.hotelAreaCodeVal
               }
             break;
+          case enumShowType.qrCodeCreate:
+            data={
+//                qrcode:this.serviceType,
+//                qrcode:this.qrcode,
+//                qrcode:this.qrName,
+//                qrcode:this.remark
+            }
+            break;
+          case enumShowType.autoGiveRoom:
+            data={'enabled_auto_give_room':this.autoGiveRoomVal};
+            break;
+          case enumShowType.autoIdentityCheck:
+            data={'enabled_auto_identity_check':this.autoIdentityCheckVal};
+            break;
+          case enumShowType.issuedCardRule:
+            data={'issued_card_rule':this.issuedCardRuleVal};
+            break;
           default:
-            data = {};
+            data =null
         }
         this.patchConfigData(data);
       },
@@ -2521,8 +2695,7 @@
             })
           }
         });
-      }
-      console.log(7777)
+      };
     this.queryDel=false;
   this.hideDialog();
   },

@@ -26,6 +26,7 @@ import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
+import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_create.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -240,6 +241,11 @@ const main = [
                     component: AddMiniAppMsg
                   }
                 ]
+              },
+              {
+                path: 'qrcodecreate',
+                name: 'QR_Code_create',
+                component: QR_Code_create
               }
             ]
           }]

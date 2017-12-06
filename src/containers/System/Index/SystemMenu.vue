@@ -5,6 +5,7 @@
       <router-link to="/system" class="">小程序</router-link>
       <router-link to="/system/wechatpay">微信支付</router-link>
       <router-link to="/system/miniappmsg">小程序消息模板</router-link>
+      <router-link to="/system/qrcodecreate">二维码生成</router-link>
     </aside>
     <router-view class="fourth-router"/>
   </div>
