@@ -10,7 +10,9 @@
       <div class="content_grouphotellist">
         <table-hotel :list="list" :page="page" :size="size" @detail="detail" @group="group" @edit="detail"
                      @config="config"
-                     @device="device"></table-hotel>
+                     @device="device">
+
+        </table-hotel>
       </div>
       <el-pagination
         v-show="total > size"

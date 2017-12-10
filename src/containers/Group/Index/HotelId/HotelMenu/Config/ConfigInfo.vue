@@ -30,7 +30,7 @@
               <p>必须开通该配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -68,7 +68,7 @@
               <p>配置PMS支付信息。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -82,7 +82,7 @@
                 等接口需要用到。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !wxHotelId, 'tag_text_green': wxHotelId}">{{wxHotelId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!configData.wxHotelId, 'tag_text_green': configData.wxHotelId}">{{configData.wxHotelId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -95,7 +95,7 @@
               <p>关联小程序配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !(appId && mchId), 'tag_text_green': appId}">{{appId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -261,7 +261,7 @@
               <p>配置酒店押金规则</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !cashPledgeType, 'tag_text_green': cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !cashPledgeType, 'tag_text_green':cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -274,7 +274,7 @@
               <p>配置早餐券规则</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !breakfastStemFrom, 'tag_text_green': breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -287,7 +287,7 @@
               <p>展示给用户看的最大房间数量</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green': maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -313,7 +313,7 @@
               <p>配置预付款确认关键字</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -326,7 +326,7 @@
               <p>配置酒店对脏房的态度</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -352,7 +352,7 @@
               <p>配置极速领卡</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSpeedCard, 'tag_text_green': enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!enabledSpeedCard, 'tag_text_green':enabledSpeedCard}">{{enabledSpeedCard ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -366,7 +366,7 @@
               <p>酒店是否允许顾客操作</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !curstomDeploy, 'tag_text_green': curstomDeploy}">{{curstomDeploy ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!curstomDeploy, 'tag_text_green':curstomDeploy}">{{curstomDeploy ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -380,7 +380,7 @@
               <p>是否打印小票</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledTicketPrint, 'tag_text_green': enabledTicketPrint}">{{enabledTicketPrint ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!enabledTicketPrint, 'tag_text_green': enabledTicketPrint}">{{enabledTicketPrint ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -394,7 +394,7 @@
               <p>是否允许提前退房</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledAdvancedCheckout, 'tag_text_green': enabledAdvancedCheckout}">{{enabledAdvancedCheckout ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!enabledAdvancedCheckout, 'tag_text_green':enabledAdvancedCheckout}">{{enabledAdvancedCheckout ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -408,7 +408,7 @@
               <p>酒店行政区划代码</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !hotelAreaCodeVal, 'tag_text_green': hotelAreaCodeVal}">{{hotelAreaCodeVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !hotelAreaCodeVal, 'tag_text_green':hotelAreaCodeVal}">{{hotelAreaCodeVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -422,7 +422,7 @@
               <p>完善线下业务使用，当前可配置发票与mobile-checkin</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !QR_CodeVal, 'tag_text_green': QR_CodeVal}">{{QR_CodeVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!configData.QR_CodeVal, 'tag_text_green':configData.QR_CodeVal}">{{configData.QR_CodeVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -436,7 +436,7 @@
               <p>是否自动分房</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.autoGiveRoomVal, 'tag_text_green': !configData.autoGiveRoomVal}">{{!configData.autoGiveRoomVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!configData.autoGiveRoomVal, 'tag_text_green':configData.autoGiveRoomVal}">{{configData.autoGiveRoomVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -450,7 +450,7 @@
               <p>一房一卡或一房多卡</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !issuedCardRuleVal, 'tag_text_green': issuedCardRuleVal}">{{issuedCardRuleVal ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !configData.issuedCardRuleVal, 'tag_text_green':configData.issuedCardRuleVal}">{{configData.issuedCardRuleVal ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -583,6 +583,13 @@
               <div class="item-form">
                 <span>品牌ID</span>
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
+              </div>
+            </div>
+
+            <div v-show="pmsType == '8'">
+              <div class="item-form">
+                <span>密钥</span>
+                <el-input class="el-right" v-model="dcKey" placeholder="请输入东呈分配的密钥(key)"></el-input>
               </div>
             </div>
             <div class="item-form">
@@ -1001,7 +1008,7 @@
                   off-color="#ff4949">
                 </el-switch>
               </div>
-              <div class="item-form">t
+              <div class="item-form">
                 <span>是否有日杂费</span>
                 <el-switch
                   v-model="hasDayOfIncidentals"
@@ -1223,7 +1230,7 @@
            </div>
          </div>
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
-          <el-button @click="hideDialog">取 消</el-button>
+          <el-button @click="hideDialog" >取 消</el-button>
           <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
       </el-dialog>
@@ -1247,16 +1254,12 @@
         :close-on-press-escape="false"
         :show-close="true"
         @close="handleClose"
-      >
-        <div class="dialog-content">
-            <div class="item-form">
-              <span>是否删除</span>
-              <div slot="footer" class="dialog-footer">
-                <el-button @click="deleteWxHotels(false)">取 消</el-button>
-                <el-button type="primary" @click="deleteWxHotels(true)">确 定</el-button>
-              </div>
-            </div>
-        </div>
+        center>
+          <span>是否删除</span>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="deleteWxHotels(false)">取 消</el-button>
+            <el-button type="primary" @click="deleteWxHotels(true)">确 定</el-button>
+          </div>
         </el-dialog>
     </div>
   </div>
@@ -1387,6 +1390,8 @@
         adminName: '',
         adminPassword: '',
         brandId: '',
+        //东呈
+        dcKey:'',
         // 旅业配置
         lvyeTypeList: [],
         lvyeAutoReport: false,
@@ -1645,7 +1650,10 @@
             return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
           } else if (this.pmsType == '3') {
             return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey)
-          } else {
+          } else if (this.pmsType == '8'){
+            return tool.isNotBlank(this.dcKey)
+          }
+          else {
             return true;
           }
         } else {
@@ -2064,6 +2072,8 @@
           this.adminName = this.pmsData.admin_name;
           this.adminPassword = this.pmsData.admin_password;
           this.brandId = this.pmsData.brand_id;
+          //东呈
+          this.dcKey=this.pmsData.key;
         }
       },
       lvyeData() {
@@ -2211,6 +2221,8 @@
             this.adminName = this.pmsData.admin_name;
             this.adminPassword = this.pmsData.admin_password;
             this.brandId = this.pmsData.brand_id;
+            //东呈
+            this.dcKey = this.pmsData.key;
             break;
           case enumShowType.lvyeReportType:
             this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
@@ -2381,6 +2393,11 @@
                 admin_password: this.adminPassword,
                 brand_id: this.brandId,
               }
+            } else if(this.pmsType=='8'){
+              data = {
+                ...paramData,
+                key:this.dcKey
+              }
             }
             else {
               data = {
@@ -2390,7 +2407,7 @@
             this.modifyPms(data);
             return;
           }
-          // break;
+           break;
           case enumShowType.lvyeReportType: {
             let tempData = {
               lvye_auto_report: this.lvyeAutoReport,
@@ -2411,7 +2428,7 @@
             this.modifyLvyes(data);
             return;
           }
-          // break;
+           break;
           case enumShowType.doorLock_unknown:
 
             break;
@@ -2688,6 +2705,7 @@
       },
       //删除微信生态酒店配置
       isDelete(){
+        this.showDialog=false;
         this.queryDel=true;
         this.delName = 'close';
         this.switchName = 'close';
@@ -2706,7 +2724,7 @@
         });
       };
     this.queryDel=false;
-  this.hideDialog();
+    this.hideDialog();
   },
       getlvyeTypeLists(){
         this.getlvyeTypeList({

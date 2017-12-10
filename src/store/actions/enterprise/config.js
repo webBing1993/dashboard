@@ -107,6 +107,10 @@ module.exports = {
     {
       urlQuery=`/hotel/${param.hotel_id}/pmsZhuZhe`;
     }
+    else if(param.data.pms_type==8)
+    {
+      urlQuery=`/hotel/${param.hotel_id}/pmsdc`;
+    }
     else
     {
       urlQuery=`/hotel/${param.hotel_id}/pmsJxdQlmYst`;
