@@ -250,7 +250,9 @@ module.exports = {
           ctx.dispatch('showtoast', {text: '请求超时', type: 'error'});
           return;
         }
-
+        if(!error.response){
+          return;
+        }
         let status = error.response.status;
 
         //ErrorCallback

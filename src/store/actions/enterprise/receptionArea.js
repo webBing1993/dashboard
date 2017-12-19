@@ -7,7 +7,7 @@ module.exports = {
       url: `/receptionArea/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-        console.log("getRecpetion:" + JSON.stringify(body.data));
+        // console.log("getRecpetion:" + JSON.stringify(body.data));
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -34,7 +34,7 @@ module.exports = {
       url: `/roomtype/${param.hotel_id}?area_id=${param.areaId}`,
       method: 'GET',
       onSuccess: body => {
-        console.log("searchRoomType:" + JSON.stringify(body))
+        // console.log("searchRoomType:" + JSON.stringify(body))
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -44,7 +44,7 @@ module.exports = {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-        console.log("searchLvye:" + JSON.stringify(body))
+        // console.log("searchLvye:" + JSON.stringify(body))
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

@@ -3,7 +3,9 @@
   <div>
     <div class="module-wrapper">
       <div class="content_reception">
-        <div class="top">接待区<el-button type="success" @click.native="addReception" class="button">添 加</el-button></div>
+        <div class="top">接待区
+          <el-button type="success" @click.native="addReception" class="button">添 加</el-button>
+        </div>
         <table-receptionArea :list="list" :page="page" :size="size" @edit="goEdit"></table-receptionArea>
         <el-dialog title="添加接待区"
                    :visible.sync="showAddContent"
@@ -33,7 +35,8 @@
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
               <el-checkbox-group v-model="roomType">
-                <el-checkbox v-for="room in roomTypeList" :key="room.id" :label="room.name" :disabled=!room.abled></el-checkbox>
+                <el-checkbox v-for="room in roomTypeList" :key="room.id" :label="room.name"
+                             :disabled=!room.abled></el-checkbox>
               </el-checkbox-group>
             </div>
             <div class="item-form">
@@ -42,7 +45,7 @@
                 <el-option
                   v-for="(item,index) in lvyeList"
                   :key="index"
-                  :value="item.value"
+                  :value="item.id"
                   :label="item.name">
                 </el-option>
               </el-select>
@@ -60,30 +63,29 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+
   export default {
     name: 'receptionArea',
-    data(){
-      return{
+    data() {
+      return {
         list: [],
         showDialog: false,
         page: 1,
         size: 20,
         total: 0,
-        showAddContent:false,
-        id:'',
-        name:'',
-        address:'',
-        tel:'',
-        roomType:[],
-        roomTypeList:[],
-        lvyeVal:'',
-        lvyeList:[],
+        showAddContent: false,
+        id: '',
+        name: '',
+        address: '',
+        tel: '',
+        roomType: [],
+        roomTypeList: [],
+        lvyeVal: '',
+        lvyeList: []
       }
     },
-    computed: {
-
-    },
-    methods:{
+    computed: {},
+    methods: {
       ...mapActions([
         'getRecpetion',
         'saveRecpetion',
@@ -93,26 +95,26 @@
         'showtoast'
       ]),
       //获取接待区列表
-      getList(){
-       this.getRecpetion({
-         hotel_id: this.$route.params.hotelid,
-         onsuccess:body=>{
-           this.list=body.data;
-         }
-       })
+      getList() {
+        this.getRecpetion({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.list = body.data;
+          }
+        })
       },
       //保存接待区
-      save(){
-        console.log('房型：'+this.roomType)
+      save() {
+        console.log('房型：' + this.roomType)
         this.saveRecpetion({
-          hotel_id:this.$route.params.hotelid,
-          id:this.id,
-          name:this.name,
-          tel:this.tel,
-          address:this.address,
-          room_type:this.roomType,
-          lvyeConfigId:this.lvyeVal,
-          onsuccess:body => {
+          hotel_id: this.$route.params.hotelid,
+          id: this.id,
+          name: this.name,
+          tel: this.tel,
+          address: this.address,
+          room_type: this.roomType,
+          lvyeConfigId: this.lvyeVal,
+          onsuccess: body => {
             this.showtoast({
               text: '保存成功',
               type: 'success'
@@ -123,88 +125,81 @@
         });
       },
       //添加接待区
-      addReception(){
-        this.showAddContent=true;
+      addReception() {
+        this.showAddContent = true;
         this.reset();
         this.searchRoomType({
-          hotel_id:this.$route.params.hotelid,
-          areaId:"",
-          onsuccess:body => {
-            this.roomTypeList=body.data;
-            console.log('房型：'+JSON.stringify(this.roomTypeList))
+          hotel_id: this.$route.params.hotelid,
+          areaId: "",
+          onsuccess: body => {
+            this.roomTypeList = body.data;
+            console.log('房型：' + JSON.stringify(this.roomTypeList))
           }
         });
         this.searchLvye({
           hotel_id: this.$route.params.hotelid,
-          onsuccess:body => {
-            body.forEach(function (item) {
-              let lvyeObj={value:'',name:''};
-              lvyeObj.value=item.id;
-              lvyeObj.name=item.lvye_name;
-              this.lvyeList.push(lvyeObj);
-            });
-            console.log('查询旅业：'+JSON.stringify(body.data))
+          onsuccess: body => {
+            this.lvyeList = body.data;
           }
         });
       },
       //编辑接待区
-      goEdit(obj){
-        this.showAddContent=true;
+      goEdit(obj) {
+        this.showAddContent = true;
         this.searchRoomType({
-          hotel_id:this.$route.params.hotelid,
-          areaId:obj.id,
-          onsuccess:body => {
-            this.roomTypeList=body.data;
+          hotel_id: this.$route.params.hotelid,
+          areaId: obj.id,
+          onsuccess: body => {
+            this.roomTypeList = body.data;
           }
         });
         this.searchLvye({
           hotel_id: this.$route.params.hotelid,
-          onsuccess:body => {
-            body.forEach(function (item) {
-              let lvyeObj={value:'',name:''};
-              lvyeObj.value=item.id;
-              lvyeObj.name=item.lvye_name;
-              if(item.id===obj.lvye_config_id){
-                 this.lvyeVal=item.id;
+          onsuccess: body => {
+            this.lvyeList = body.data;
+            this.lvyeList.forEach((item) => {
+              if (item.id === obj.lvye_config_id) {
+                this.lvyeVal = item.id;
               }
             });
           }
         });
         this.id = obj.id;
-        this.name=obj.name;
-        this.tel=obj.tel;
-        this.address=obj.address;
-        this.roomType=obj.room_type;
+        this.name = obj.name;
+        this.tel = obj.tel;
+        this.address = obj.address;
+        this.roomType = obj.room_type;
       },
-      reset(){
-        this.name="";
-        this.tel="";
-        this.address="";
-        this.roomType=[];
+      reset() {
+        this.name = "";
+        this.tel = "";
+        this.address = "";
+        this.roomType = [];
+        this.lvyeList = [];
       },
-      handleClose(){
-        this.showAddContent=false;
+      handleClose() {
+        this.showAddContent = false;
       },
 
     },
-    mounted(){
+    mounted() {
       this.getList();
     }
   }
 </script>
 <style lang="less">
-  .module-wrapper{
+  .module-wrapper {
     padding: 1rem;
-    .content_reception{
-      .top{
-         font-weight: bold;
+    .content_reception {
+      .top {
+        font-weight: bold;
         font-size: 16px;
-         height:3rem;
-         margin-bottom: 1rem;
-         line-height:3rem;
+        height: 3rem;
+        margin-bottom: 1rem;
+        line-height: 3rem;
         .button {
           float: right;
-          left:500px;
+          left: 500px;
           line-height: 18px;
           min-width: 173px;
           font-size: 13px;
@@ -212,149 +207,149 @@
           border-color: #39C240;
           border-radius: 0;
           margin: 0;
-         }
+        }
       }
       .el-dialog {
         width: 65%;
         .el-dialog__header {
           padding: 0 20px;
-          border-bottom:solid 1px #979797;
+          border-bottom: solid 1px #979797;
           .el-dialog__title {
             line-height: 43px;
             font-size: 16px;
             font-weight: 400;
             color: #4A4A4A;
           }
-          .el-dialog__headerbtn{
+          .el-dialog__headerbtn {
             padding-top: 12px;
           }
         }
         .el-dialog__body {
           padding: 0 20px 33px;
-        .rec {
-          padding: 1rem 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: #4A4A4A;
-          .item-form {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-             .itemTitle {
-              display: inline-block;
-              min-width: 75px;
-            }
-            .el-select {
-              width: 80%;
-              .el-option {
+          .rec {
+            padding: 1rem 0;
+            font-size: 14px;
+            font-weight: 400;
+            color: #4A4A4A;
+            .item-form {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              .itemTitle {
+                display: inline-block;
+                min-width: 75px;
+              }
+              .el-select {
+                width: 80%;
+                .el-option {
+                  width: 80%;
+                }
+              }
+              .el-input {
+                width: 100%;
+              }
+              .el-switch {
+                margin-left: 16px;
+              }
+              .el-checkbox-group {
+                .el-checkbox__inner {
+                  display: inline-block;
+                  min-width: 0.2rem;
+                  min-height: 0.2rem;
+                }
+              }
+              .input {
                 width: 80%;
               }
             }
-            .el-input {
-              width: 100%;
-            }
-            .el-switch {
-              margin-left: 16px;
-            }
-            .el-checkbox-group{
-              .el-checkbox__inner{
-                display: inline-block;
-                min-width:0.2rem;
-                min-height: 0.2rem;
+            article {
+              ul {
+                font-size: 14px;
+                color: #9B9B9B;
+                margin-left: 41px;
+                line-height: 22px;
+                li {
+                  margin-left: 20px;
+                }
               }
             }
-            .input{
-              width: 80%;
-            }
-          }
-          article {
-            ul {
-              font-size: 14px;
-              color: #9B9B9B;
-              margin-left: 41px;
-              line-height: 22px;
-              li {
-                margin-left: 20px;
+            .item_large {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              span {
+                min-width: 194px;
+                text-align: end;
               }
-            }
-          }
-          .item_large {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            span {
-              min-width: 194px;
-              text-align: end;
-            }
-            .el-input {
-              width: 60%;
-            }
-          }
-          .item-tag2 {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            & > span {
-              display: inline-block;
-              min-width: 110px;
-              text-align: end;
-            }
-            .tag-input {
-              position: relative;
-              margin-left: 16px;
-              width: 70%;
               .el-input {
-                width: 100%;
-                margin: 0 0 12px 0;
+                width: 60%;
               }
-              .tag-btn {
-                position: absolute;
-                bottom: 20px;
-                right: -62px;
-                button {
-                  border-radius: 50px;
-                  outline: none;
-                  border: solid 1px;
-                  margin-left: 5px;
-                  padding-bottom: 2px;
-                  background-color: #ffffff;
-                  height: 20px;
-                  width: 20px;
+            }
+            .item-tag2 {
+              display: flex;
+              align-items: center;
+              margin-bottom: 10px;
+              & > span {
+                display: inline-block;
+                min-width: 110px;
+                text-align: end;
+              }
+              .tag-input {
+                position: relative;
+                margin-left: 16px;
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                  margin: 0 0 12px 0;
+                }
+                .tag-btn {
+                  position: absolute;
+                  bottom: 20px;
+                  right: -62px;
+                  button {
+                    border-radius: 50px;
+                    outline: none;
+                    border: solid 1px;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #ffffff;
+                    height: 20px;
+                    width: 20px;
+                  }
                 }
               }
             }
           }
+          .rec:not(:last-child) {
+            border-bottom: solid 1px #979797;;
+          }
         }
-        .rec:not(:last-child){
-          border-bottom: solid 1px #979797;;
-        }
-      }
         .el-dialog__footer {
-        padding: 10px 20px 28px;
-        .dialog-footer {
-          text-align: center;
-          .el-button {
-            width: 246px;
-            border-radius: 0;
-            line-height: 18px;
-            margin: 0;
-            &:nth-child(1) {
-              margin-right: 22px;
+          padding: 10px 20px 28px;
+          .dialog-footer {
+            text-align: center;
+            .el-button {
+              width: 246px;
+              border-radius: 0;
+              line-height: 18px;
+              margin: 0;
+              &:nth-child(1) {
+                margin-right: 22px;
+              }
+              &:nth-child(2) {
+                background-color: #39C240;
+                border-color: #39C240;
+                color: #ffffff;
+              }
             }
-            &:nth-child(2) {
-              background-color: #39C240;
-              border-color: #39C240;
-              color: #ffffff;
+            .el-button--primary {
+              background-color: transparent;
+              border: solid 1px #979797;
+              color: #4A4A4A;
             }
-          }
-          .el-button--primary {
-            background-color: transparent;
-            border: solid 1px #979797;
-            color: #4A4A4A;
           }
         }
       }
-      }
-   }
+    }
   }
 </style>
