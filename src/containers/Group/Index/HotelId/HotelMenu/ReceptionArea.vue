@@ -33,7 +33,7 @@
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
               <el-checkbox-group v-model="roomType">
-                <el-checkbox v-for="(rooms, key) in roomTypeList" label=rooms.name :disabled=!rooms.abled></el-checkbox>
+                <el-checkbox v-for="room in roomTypeList" :key="room.id" :label="room.name" :disabled=!room.abled></el-checkbox>
               </el-checkbox-group>
             </div>
             <div class="item-form">
@@ -70,6 +70,7 @@
         size: 20,
         total: 0,
         showAddContent:false,
+        id:'',
         name:'',
         address:'',
         tel:'',
@@ -102,19 +103,22 @@
       },
       //保存接待区
       save(){
+        console.log('房型：'+this.roomType)
         this.saveRecpetion({
-          hotel_id: this.$route.params.hotelid,
+          hotel_id:this.$route.params.hotelid,
+          id:this.id,
           name:this.name,
           tel:this.tel,
           address:this.address,
-          roomTypeList:this.roomTypeList,
+          room_type:this.roomType,
           lvyeConfigId:this.lvyeVal,
           onsuccess:body => {
             this.showtoast({
               text: '保存成功',
               type: 'success'
             })
-            this.showDialog = false;
+            this.handleClose();
+            this.getList()
           }
         });
       },
@@ -123,9 +127,11 @@
         this.showAddContent=true;
         this.reset();
         this.searchRoomType({
+          hotel_id:this.$route.params.hotelid,
           areaId:"",
           onsuccess:body => {
-            this.roomTypeList=body;
+            this.roomTypeList=body.data;
+            console.log('房型：'+JSON.stringify(this.roomTypeList))
           }
         });
         this.searchLvye({
@@ -137,6 +143,7 @@
               lvyeObj.name=item.lvye_name;
               this.lvyeList.push(lvyeObj);
             });
+            console.log('查询旅业：'+JSON.stringify(body.data))
           }
         });
       },
@@ -144,9 +151,10 @@
       goEdit(obj){
         this.showAddContent=true;
         this.searchRoomType({
+          hotel_id:this.$route.params.hotelid,
           areaId:obj.id,
           onsuccess:body => {
-            this.roomTypeList=body;
+            this.roomTypeList=body.data;
           }
         });
         this.searchLvye({
@@ -162,6 +170,7 @@
             });
           }
         });
+        this.id = obj.id;
         this.name=obj.name;
         this.tel=obj.tel;
         this.address=obj.address;
@@ -171,7 +180,7 @@
         this.name="";
         this.tel="";
         this.address="";
-        this.roomTypeList="";
+        this.roomType=[];
       },
       handleClose(){
         this.showAddContent=false;
@@ -179,7 +188,7 @@
 
     },
     mounted(){
-//      this.getList();
+      this.getList();
     }
   }
 </script>

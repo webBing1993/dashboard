@@ -22,7 +22,7 @@
                 <span>门店类型</span>
                 <el-select class="el-right" :disabled="!isEditInfo" v-model="hotelType" placeholder="请选择门店类型">
                   <el-option
-                    v-for="(obj, index) of hotelTypeList"
+                    v-for="(obj, index) in hotelTypeList"
                     :key="obj.id"
                     :label="obj.name"
                     :value="obj.id">

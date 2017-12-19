@@ -19,7 +19,7 @@
         <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
-        <td class="pointer">{{obj.type}}</td>
+        <td class="pointer">{{obj.type==='UNION'?'联体酒店':'普通酒店'}}</td>
         <td>{{ obj.brand_name }}</td>
         <td class="pointer-icon">
           <span

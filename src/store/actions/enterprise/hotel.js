@@ -22,7 +22,8 @@ module.exports = {
         latitude: param.latitude,
         contact_name: param.contact_name,
         contact_phone: param.contact_phone,
-        contact_position: param.contact_position
+        contact_position: param.contact_position,
+        type:param.type
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -58,7 +59,8 @@ module.exports = {
         latitude: param.latitude,
         contact_name: param.contact_name,
         contact_phone: param.contact_phone,
-        contact_position: param.contact_position
+        contact_position: param.contact_position,
+        type:param.type
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '修改成功', type:'success'});

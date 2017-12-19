@@ -145,7 +145,6 @@
       return {
         groupId: '',
         brandList: [],
-
         hotelType:'',
         hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         brandId: '',
@@ -280,7 +279,10 @@
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           type:this.hotelType,
-          onsuccess: body => this.goto(-1)
+          onsuccess: body => {
+            console.log("hhhhhhhh")
+//            this.goto(-1);
+          }
         })
       },
       initMap() {

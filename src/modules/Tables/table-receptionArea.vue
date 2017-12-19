@@ -13,7 +13,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of list">
+      <tr v-for="(obj, index) in list">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.tel }}</td>
