@@ -9,7 +9,8 @@ const state = {
   tempGroupName: '',
   tempHotelName: '',
   deviceList: [],
-  showReception:true
+  showReception:true,
+  moreLvyeData:[] ,
 }
 
 // mutations

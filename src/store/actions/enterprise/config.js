@@ -5,17 +5,17 @@ module.exports = {
   getConfig(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  getWxhotelCityser(ctx, param){
+  getWxhotelCityser(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/wxhotelcityservice`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         // ctx.commit('WXHOTELCITYSER', body.data)
         param.onsuccess ? param.onsuccess(body) : null
@@ -23,17 +23,17 @@ module.exports = {
       onFail: () => null
     })
   },
-  WxhotelRegister(ctx, param){
+  WxhotelRegister(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
-      method:'PATCH',
+      method: 'PATCH',
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
       },
       body: {
         hotel_id: param.hotel_id,
-        route_code:param.route_code
+        route_code: param.route_code
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -42,39 +42,39 @@ module.exports = {
       }
     })
   },
-  deleteWxHotel(ctx, param){
+  deleteWxHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.hotel_id}/wxhotel/${param.wx_hotel_id}`,
-      method:'DELETE',
+      method: 'DELETE',
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       },
     })
   },
-  getlvyeTypeList(ctx, param){//获取旅业系统配置
+  getlvyeTypeList(ctx, param) {//获取旅业系统配置
     ctx.dispatch('resource', {
       url: `/hotel/lvyetypes`,
-      method:'GET',
+      method: 'GET',
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       },
     })
   },
-  patchConfig(ctx, param){
+  patchConfig(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
-      method:'PATCH',
+      method: 'PATCH',
       body: {
         hotel_id: param.hotel_id,
         ...param.data
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
 
         let obj = {
           ...ctx.state.enterprise.configData
         }
-        for(let key in body.data) {
+        for (let key in body.data) {
           obj[key] = body.data[key];
         }
         ctx.commit('CONFIGDATA', obj)
@@ -87,52 +87,48 @@ module.exports = {
   getPMS(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/pms`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         ctx.commit('PMSDATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  modifyPMS(ctx, param){
-    let urlQuery=``;
-    if(param.data.pms_type==1)
-    {
-      urlQuery=`/hotel/${param.hotel_id}/pmsBYH`;
-    }else if(param.data.pms_type==2||param.data.pms_type==7)
-    {
-      urlQuery=`/hotel/${param.hotel_id}/pmsLyXr`;
+  modifyPMS(ctx, param) {
+    let urlQuery = ``;
+    if (param.data.pms_type == 1) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsBYH`;
+    } else if (param.data.pms_type == 2 || param.data.pms_type == 7) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }
-    else if(param.data.pms_type==3)
-    {
-      urlQuery=`/hotel/${param.hotel_id}/pmsZhuZhe`;
+    else if (param.data.pms_type == 3) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsZhuZhe`;
     }
-    else if(param.data.pms_type==8)
-    {
-      urlQuery=`/hotel/${param.hotel_id}/pmsdc`;
+    else if (param.data.pms_type == 8) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsdc`;
     }
-    else
-    {
-      urlQuery=`/hotel/${param.hotel_id}/pmsJxdQlmYst`;
-    };
+    else {
+      urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;
+    }
+    ;
 
     ctx.dispatch('resource', {
       url: urlQuery,
-      method:'PUT',
+      method: 'PUT',
       body: {
         ...param.data
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
         ctx.commit('PMSDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  getPMSBrandList(ctx, param){
+  getPMSBrandList(ctx, param) {
     ctx.dispatch('resource', {
       url: '/pmsbrand',
-      method:'GET',
+      method: 'GET',
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
@@ -146,49 +142,84 @@ module.exports = {
   getLvye(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/lvye`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         ctx.commit('LVYEATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  modifyLvye(ctx, param){
+  getMoreLvye(ctx, param) {
+    console.log('zsj:' + param.hotel_id)
+    ctx.dispatch('resource', {
+      url: `/morelvye/${param.hotel_id}`,
+      method: 'GET',
+      onSuccess: body => {
+        console.log("iiiiiiiiiiiiii")
+        if (body.data) {
+          let tempData = [];
+          console.log("数据:" + JSON.stringify(body.data));
+          body.data.forEach(function (item, index) {
+            let obj = {
+              id: item.id,
+              lvyeName: item.name,
+              reportChannel: item.report_channel,
+              reportType: item.report_type,
+              lvyeId: item.lvye_id,
+              transitParam: item.transit_param,
+              descrption: item.descrption,
+              autoReport: item.auto_report === 1 ? true : false,
+              enabledReport: item.enabled_report === 1 ? true : false
+            }
+            tempData.push(obj);
+          });
+          console.log("数据:" + JSON.stringify(tempData));
+          ctx.commit('MORELVYEATA', tempData)
+        }
+        else {
+          ctx.commit('MORELVYEATA', [])
+        }
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  modifyLvye(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/lvye`,
-      method:'PUT',
+      method: 'PUT',
       body: {
         ...param.data
       },
       onSuccess: body => {
         // console.log(param)
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
         ctx.commit('LVYEATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  modifyMoreLvye(ctx, param){
+  modifyMoreLvye(ctx, param) {
+    let obj = {lvye: param.data};
     ctx.dispatch('resource', {
-      url: ` /morelvye/${param.hotel_id}`,
-      method:'POST',
-      body: param.data,
+      url: `/morelvye/${param.hotel_id}`,
+      method: 'POST',
+      body: obj,
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        ctx.commit('MORELVYEATA', body.data)
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
+        ctx.commit('MORELVYEATA', param.data);
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
 
-  deleteMoreLvye(ctx, param){
+  deleteMoreLvye(ctx, param) {
     ctx.dispatch('resource', {
-      url: ` /morelvye/${param.id}`,
-      method:'POST',
+      url: `/morelvye/${param.areaId}`,
+      method: 'DELETE',
       body: param.data,
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-        ctx.commit('MORELVYEATA', body.data)
+        ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
+        //ctx.commit('MORELVYEATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -197,7 +228,7 @@ module.exports = {
   syncPMSData(ctx, param) {
     ctx.dispatch('resource', {
       url: '/pms',
-      method:'POST',
+      method: 'POST',
       body: {
         hotel_id: param.hotel_id
       },
@@ -212,7 +243,7 @@ module.exports = {
   syncPMSTime(ctx, param) {
     ctx.dispatch('resource', {
       url: `/synpms/${param.hotel_id}`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
