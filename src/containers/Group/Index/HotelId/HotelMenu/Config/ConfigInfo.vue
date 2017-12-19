@@ -644,7 +644,7 @@
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
 
-            <div class="lvyeItem" v-for="(obj, index) in moreLvyeList">
+            <div class="lvyeItem">
               <div class="item-form">
                 <span>是否自动上传配置项?</span>
                 <el-switch
@@ -1313,16 +1313,16 @@
                </el-switch>
              </div>
            </div>
-           <div v-if="showType ===enumShowType.moreLvyeReportType">
-             <div class="lvyeItem">
+           <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item, index) in moreLvyeList">
+             <div class="lvyeItem" style="margin-top: 2rem">
                <div class="item-form">
                  <span>旅业名称</span>
-                 <el-input class="el-right" v-model="policeId" placeholder="请输入旅业名称"></el-input>
+                 <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称"></el-input>
                  <span class="delLv" @click="">删除</span>
                </div>
                <div class="item-form">
                  <span>上传通道</span>
-                 <el-select class="el-right" v-model="lvyeType" placeholder="请选择上传通道">
+                 <el-select class="el-right" v-model="item.reportChannel" placeholder="请选择上传通道">
                    <el-option
                      v-for="(obj, index) in rendLvyeTypeList"
                      :key="obj.index"
@@ -1333,7 +1333,7 @@
                </div>
                <div class="item-form">
                  <span>上传类型</span>
-                 <el-select class="el-right" v-model="moreLyReportTypeValue" placeholder="请选择上传类型">
+                 <el-select class="el-right" v-model="item.reportType" placeholder="请选择上传类型">
                    <el-option
                      v-for="(obj, index) in moreLyReportTypeList"
                      :key="obj.index"
@@ -1343,26 +1343,26 @@
                  </el-select>
                </div>
                <div
-                 v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL'|| lvyeType == 'HANGZHOU' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'|| lvyeType == 'HEFEI' ">
+                 v-if="item.reportChannel == 'CLOUD' || item.reportChannel == 'LOCAL'|| item.reportChannel == 'HANGZHOU' || item.reportChannel == 'WUHAN'||item.reportChannel=='CHENGDU' ||item.reportChannel=='GUANGDONG'|| item.reportChannel == 'HEFEI' ">
                  <div class="item-form">
                    <span>酒店公安ID</span>
-                   <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
+                   <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID"></el-input>
                  </div>
                </div>
-               <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' || lvyeType == 'CHENGDU'||lvyeType == 'HANGZHOU'">
+               <div v-if="item.reportChannel == 'LOCAL'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU'||item.reportChannel == 'HANGZHOU'">
                  <div class="item-form">
                    <span>公安参数</span>
-                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
+                   <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                  </div>
                </div>
                <div class="item-form">
                  <span>说明</span>
-                 <el-input class="el-right" v-model="policeParam" placeholder="本旅业的相应描述"></el-input>
+                 <el-input class="el-right" v-model="item.descrption" placeholder="本旅业的相应描述"></el-input>
                </div>
                <div class="item-form">
                  <span>自动上传配置项</span>
                  <el-switch
-                   v-model="moreLvyeAutoReport"
+                   v-model="autoReport"
                    on-color="#13ce66"
                    off-color="#ff4949">
                  </el-switch>
@@ -1370,7 +1370,7 @@
                <div class="item-form">
                  <span>是否开启</span>
                  <el-switch
-                   v-model="moreLvyeOpen"
+                   v-model="enabledReport"
                    on-color="#13ce66"
                    off-color="#ff4949">
                  </el-switch>
@@ -1518,7 +1518,17 @@
         isMoreLvye:false,
         moreLvyeOpen:'',
         moreLvyeAutoReport:'',
-        moreLvyeList:[],
+        moreLvyeList:[{
+          id:'',
+          lvyeName:'',
+          reportChannel:'',
+          reportType:'',
+          lvyeId:'',
+          transitParam:'',
+          descrption:'',
+          autoReport:'',
+          enabledReport:''
+        }],
         optionvalue: '',//微信生态酒店配置列表初始化
         switchName: 'close',//微信生态酒店配置按钮
         delName: 'close',
@@ -1726,6 +1736,7 @@
         configData: state => state.enterprise.configData,
         pmsData: state => state.enterprise.pmsData,
         lvyeData: state => state.enterprise.lvyeData,
+        moreLvyeData:state => state.enterprise.moreLvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
       }),
@@ -1854,6 +1865,9 @@
         } else {
           return false;
         }
+      },
+      validateMoreLvye(){
+        return true;
       },
       validatefacein() {
         // return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
@@ -2104,6 +2118,9 @@
           case enumShowType.rcPrint:
             result=this.validateRcPrint;
             break;
+          case enumShowType.moreLvyeReportType:
+            result=this.validateMoreLvye;
+            break;
           default:
             result = false;
         }
@@ -2276,6 +2293,10 @@
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
         }
       },
+      moreLvyeData() {
+        if (tool.isNotBlank(this.moreLvyeData))
+          this.moreLvyeList=moreLvyeData;
+      },
       faceinPassValue(val) {
         val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
       },
@@ -2297,15 +2318,38 @@
         'getPMSBrandList',
         'getLvye',
         'modifyLvye',
+        'modifyMoreLvye',
+        'deleteMoreLvye',
         'getMiniAppList',
         'getWechatpayList',
         'getWechatpayProvider',
         'showtoast',
         'showalert',
-        'goto'
+        'goto',
+        'deleteMoreLvye',
       ]),
+      deleteMoreLvyes(item){
+          this.deleteMoreLvye({
+            areaId:item.id,
+            onsuccess: body => {
+
+              this.moreLvyeList.splice()
+            }
+          })
+      },
       addNewLv(){
-         this.moreLvyeList.length++;
+        let obj={
+          id:'',
+          lvyeName:'',
+          reportChannel:'',
+          reportType:'',
+          lvyeId:'',
+          transitParam:'',
+          descrption:'',
+          autoReport:'',
+          enabledReport:''
+        };
+        this.moreLvyeList.push(obj)
       },
       goSummary() {
         this.goto({
@@ -2422,6 +2466,9 @@
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
+            break;
+          case enumShowType.moreLvyeReportType:
+            this.moreLvyeList.this.moreLvyeData;
             break;
           case enumShowType.facein:
             this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
@@ -2623,6 +2670,35 @@
             return;
           }
            break;
+          case enumShowType.moreLvyeReportType:{
+            let moreLvyeListData=[];
+            this.moreLvyeList.forEach(function (item,index) {
+              let dataItem={};
+              let tempData = {
+                lvye_id:index,
+                lvye_name: item.lvyeName,
+                report_channel: item.reportChannel,
+                report_type:item.reportType,
+                descrption: item.descrption,
+                auto_report:item.autoReport===true?1:0,
+                enabled_report:item.enabledReport===true?1:0
+              }
+              if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'NONE'|| item.reportChannel == 'GUANGDONG' ) {
+                dataItem = {
+                  ...tempData
+                }
+              } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI'||item.reportChannel == 'CHENGDU'||item.reportChannel == 'HANGZHOU') {
+                dataItem = {
+                  ...tempData,
+                  police_param: JSON.parse(item.transitParam)
+                }
+              }
+              moreLvyeListData.push(dataItem);
+            })
+            data=moreLvyeListData;
+          }
+            this.modifyMoreLvyes(data);
+            return;
           case enumShowType.doorLock_unknown:
             break;
           case enumShowType.facein:
@@ -2977,6 +3053,15 @@
       },
       modifyLvyes(data) {
         this.modifyLvye({
+          hotel_id: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => {
+            this.showDialog = false;
+          }
+        })
+      },
+      modifyMoreLvyes(data) {
+        this.modifyMoreLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {

@@ -168,6 +168,31 @@ module.exports = {
       }
     })
   },
+  modifyMoreLvye(ctx, param){
+    ctx.dispatch('resource', {
+      url: ` /morelvye/${param.hotel_id}`,
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.commit('MORELVYEATA', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  deleteMoreLvye(ctx, param){
+    ctx.dispatch('resource', {
+      url: ` /morelvye/${param.id}`,
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+        ctx.commit('MORELVYEATA', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   //同步房间
   syncPMSData(ctx, param) {
     ctx.dispatch('resource', {

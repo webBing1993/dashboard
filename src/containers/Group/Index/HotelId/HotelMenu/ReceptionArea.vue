@@ -33,14 +33,15 @@
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
               <el-checkbox-group v-model="roomType">
-                <el-checkbox v-for="(room, key) in roomTypeList" label=room.name :disabled=!room.abled></el-checkbox>
+                <el-checkbox v-for="(rooms, key) in roomTypeList" label=rooms.name :disabled=!rooms.abled></el-checkbox>
               </el-checkbox-group>
             </div>
             <div class="item-form">
               <span class="itemTitle">选择旅业</span>
               <el-select v-model="lvyeVal" placeholder="请选择">
                 <el-option
-                  v-for="item in lvyeList"
+                  v-for="(item,index) in lvyeList"
+                  :key="index"
                   :value="item.value"
                   :label="item.name">
                 </el-option>

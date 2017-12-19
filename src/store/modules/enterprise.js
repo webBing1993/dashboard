@@ -29,6 +29,9 @@ const mutations = {
   LVYEATA(state,payload) {
     state.lvyeData = payload;
   },
+  MORELVYEATA(state,payload){
+    state.moreLvyeData = payload;
+  },
   WECHATAPPDATA(state,payload) {
     state.wechatAppData = payload;
   },
