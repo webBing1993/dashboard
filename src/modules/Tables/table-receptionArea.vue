@@ -8,7 +8,6 @@
         <th>联系电话</th>
         <th>地址</th>
         <th>关联房型</th>
-        <th>更新时间</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -19,7 +18,6 @@
         <td>{{ obj.tel }}</td>
         <td>{{ obj.address }}</td>
         <td>{{ obj.room_type|arr }}</td>
-        <td>{{ obj.updatetime }}</td>
         <td>
           <span class="v-options pointer" @click="edit(obj)">编辑</span>
         </td>

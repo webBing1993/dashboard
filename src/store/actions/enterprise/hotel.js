@@ -5,7 +5,7 @@ module.exports = {
   addHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: '/hotels',
-      method:'POST',
+      method: 'POST',
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
@@ -23,7 +23,7 @@ module.exports = {
         contact_name: param.contact_name,
         contact_phone: param.contact_phone,
         contact_position: param.contact_position,
-        type:param.type
+        type: param.type
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -33,8 +33,13 @@ module.exports = {
   getHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.id}`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
+        if (body.data && body.data.type === "UNION") {
+          ctx.commit('SHOWRECEPTION', true);
+        } else {
+          ctx.commit('SHOWRECEPTION', false);
+        }
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -42,7 +47,7 @@ module.exports = {
   modifyHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.id}`,
-      method:'PUT',
+      method: 'PUT',
       body: {
         group_id: param.group_id,
         brand_id: param.brand_id,
@@ -60,28 +65,33 @@ module.exports = {
         contact_name: param.contact_name,
         contact_phone: param.contact_phone,
         contact_position: param.contact_position,
-        type:param.type
+        type: param.type
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '修改成功', type:'success'});
-        param.onsuccess ? param.onsuccess(body) : null
+        ctx.dispatch('showtoast', {text: '修改成功', type: 'success'});
+        param.onsuccess ? param.onsuccess(body) : null;
+        if (param.type === "UNION") {
+          ctx.commit('SHOWRECEPTION', true);
+        } else {
+          ctx.commit('SHOWRECEPTION', false);
+        }
       }
     })
   },
   removeHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.id}`,
-      method:'DELETE',
+      method: 'DELETE',
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '删除成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-  getHotelList(ctx, param){
+  getHotelList(ctx, param) {
     ctx.dispatch('resource', {
       url: '/hotels',
-      method:'GET',
+      method: 'GET',
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'

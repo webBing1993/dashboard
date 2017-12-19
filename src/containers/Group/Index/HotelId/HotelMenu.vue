@@ -33,12 +33,10 @@
       }
     },
     methods:{
-      aaa(){
-        console.log(this.showReception)
-      }
+
     },
     mounted(){
-       this.aaa()
+
     }
   }
 </script>

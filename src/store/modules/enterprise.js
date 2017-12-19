@@ -9,7 +9,7 @@ const state = {
   tempGroupName: '',
   tempHotelName: '',
   deviceList: [],
-  showReception:true,
+  showReception:false,
   moreLvyeData:[] ,
 }
 

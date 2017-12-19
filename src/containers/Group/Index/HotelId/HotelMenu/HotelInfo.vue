@@ -22,7 +22,7 @@
                 <span>门店类型</span>
                 <el-select class="el-right" :disabled="!isEditInfo" v-model="hotelType" placeholder="请选择门店类型">
                   <el-option
-                    v-for="(obj, index) in hotelTypeList"
+                    v-for="(obj, index) of hotelTypeList"
                     :key="obj.id"
                     :label="obj.name"
                     :value="obj.id">
@@ -185,6 +185,9 @@
       }
     },
     computed: {
+      ...mapState({
+        showRecep: state => state.enterprise.showReception,
+      }),
       provinceList() {
         let arr = areaData.map(v => {
           return {code: v.region.code, name: v.region.name}
@@ -337,6 +340,7 @@
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           type:this.hotelType,
+          showRec:this.hotelType==='GENERAL'?false:true,
           onsuccess: body => {
             this.isEditInfo = false;
             this.isEditContact = false;
@@ -345,7 +349,7 @@
               this.dealData();
             } else {
               this.showtoast({text: '数据不存在', type: 'warning'})
-            }
+            };
           }
         })
       },
