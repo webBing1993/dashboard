@@ -28,6 +28,7 @@ import tableRoomType from '@/modules/Tables/table-roomtype.vue'
 import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
 import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
 import tableMiniappmsg from '@/modules/Tables/table-miniappmsg.vue'
+import tableReceptionArea from '@/modules/Tables/table-receptionArea.vue'
 
 Vue.component('table-group', tableGroup)
 Vue.component('table-hotel', tableHotel)
@@ -38,6 +39,7 @@ Vue.component('table-roomtype', tableRoomType)
 Vue.component('table-miniapp', tableMiniApp)
 Vue.component('table-wechatpay', tableWechatpay)
 Vue.component('table-miniappmsg', tableMiniappmsg)
+Vue.component('table-receptionArea',tableReceptionArea)
 
 // 注册一个全局自定义指令 v-focus
 Vue.directive('focus', {

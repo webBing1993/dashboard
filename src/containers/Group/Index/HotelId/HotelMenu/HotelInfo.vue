@@ -18,6 +18,17 @@
                   </el-option>
                 </el-select>
               </div>
+              <div class="item">
+                <span>门店类型</span>
+                <el-select class="el-right" :disabled="!isEditInfo" v-model="hotelType" placeholder="请选择门店类型">
+                  <el-option
+                    v-for="(obj, index) of hotelTypeList"
+                    :key="obj.id"
+                    :label="obj.name"
+                    :value="obj.id">
+                  </el-option>
+                </el-select>
+              </div>
               <span class="help is-danger" v-show="errors.has('brandId')">请选择所属品牌!</span>
 
               <div class="item">
@@ -146,6 +157,8 @@
     data () {
       return {
         brandList: [],
+        hotelType:'',
+        hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         hotel: {},
         groupId: '',
         brandId: '',
@@ -323,6 +336,7 @@
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
+          type:this.hotelType,
           onsuccess: body => {
             this.isEditInfo = false;
             this.isEditContact = false;
@@ -352,6 +366,7 @@
         this.contactName = this.hotel.contact_name;
         this.contactPhone = this.hotel.contact_phone;
         this.contactPosition = this.hotel.contact_position;
+        this.hotelType=this.hotel.type
 
         let region = this.provinceList.find(v => v.name == this.province);
         if (region !== undefined) {

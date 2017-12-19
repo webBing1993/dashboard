@@ -10,4 +10,5 @@ module.exports = {
   ...require('./room'),
   ...require('./online'),
   ...require('./roomtype'),
+  ...require('./receptionArea'),
 }

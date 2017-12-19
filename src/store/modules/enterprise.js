@@ -9,8 +9,7 @@ const state = {
   tempGroupName: '',
   tempHotelName: '',
   deviceList: [],
-  // faceIdentify:{}
-  // wxhotelCityser:{}
+  showReception:true
 }
 
 // mutations
@@ -41,6 +40,9 @@ const mutations = {
   },
   SETDEVICELIST(state,payload) {
     state.deviceList = payload;
+  },
+  SHOWRECEPTION(state,payload){
+    state.showReception=payload;
   }
 }
 

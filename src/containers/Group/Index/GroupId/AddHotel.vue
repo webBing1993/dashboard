@@ -17,7 +17,17 @@
                   </el-option>
                 </el-select>
               </div>
-
+              <div class="item">
+                <span>门店类型</span>
+                <el-select class="el-right" v-model="hotelType" placeholder="请选择门店类型">
+                  <el-option
+                    v-for="(obj, index) of hotelTypeList"
+                    :key="obj.id"
+                    :label="obj.name"
+                    :value="obj.id">
+                  </el-option>
+                </el-select>
+              </div>
               <div class="item">
                 <span>门店名称</span>
                 <el-input class="el-right" v-model="storeName" name="storeName" v-validate="'required'"
@@ -135,6 +145,9 @@
       return {
         groupId: '',
         brandList: [],
+
+        hotelType:'',
+        hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         brandId: '',
         hotelCode: '',
         corpId: '',
@@ -241,7 +254,7 @@
         });
       },
       regist() {
-        
+
         let obj = areaData.find(v => v.region.code == this.provinceCode);
         if (obj === undefined) obj = areaData[0];
         let state = obj.region.state.find(v => v.code == this.cityCode);
@@ -266,6 +279,7 @@
           contact_name: this.contactName,
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
+          type:this.hotelType,
           onsuccess: body => this.goto(-1)
         })
       },

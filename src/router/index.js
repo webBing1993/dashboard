@@ -36,6 +36,7 @@ import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
+import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionArea.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
 import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
@@ -169,6 +170,11 @@ const main = [
                           path: 'roomtype',
                           name: 'RoomType',
                           component: RoomType
+                        },
+                        {
+                          path: 'receptionArea',
+                          name: 'ReceptionArea',
+                          component: ReceptionArea
                         },
                         {
                           path: 'config',

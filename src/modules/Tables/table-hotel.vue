@@ -7,6 +7,7 @@
         <th>门店子编码</th>
         <th>门店名称</th>
         <th>企业名称</th>
+        <th>门店类型</th>
         <th>品牌</th>
         <th>状态</th>
         <th>操作</th>
@@ -18,6 +19,7 @@
         <td>{{ obj.assemble_code }}</td>
         <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
+        <td class="pointer">{{obj.type}}</td>
         <td>{{ obj.brand_name }}</td>
         <td class="pointer-icon">
           <span

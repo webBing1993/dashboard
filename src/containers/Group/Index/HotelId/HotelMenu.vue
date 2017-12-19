@@ -5,6 +5,7 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId">基本信息</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/room'">楼宇房间</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/roomtype'">房型配置</router-link>
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/receptionArea'" v-if="showReception">接待区</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">配置管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'">门店配置</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">门店设备</a>
@@ -17,15 +18,27 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex';
   export default {
     name: 'Menu',
     computed: {
+      ...mapState({
+        'showReception':state => state.enterprise.showReception
+      }),
       groupId(){
         return this.$route.params.id
       },
       hotelId(){
         return this.$route.params.hotelid
       }
+    },
+    methods:{
+      aaa(){
+        console.log(this.showReception)
+      }
+    },
+    mounted(){
+       this.aaa()
     }
   }
 </script>
