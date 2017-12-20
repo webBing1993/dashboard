@@ -2,6 +2,49 @@
 * 企业门店配置管理action
 * */
 module.exports = {
+  setRCconfig(ctx, param) {
+    // ctx.dispatch('resource', {
+    //   url: "/rcConfig",
+    //   method:'post',
+    //   headers:{"Content-Type":"application/json;charset=UTF-8"},
+    //   // Content-Type:application/json;charset=UTF-8
+    //   onSuccess: body => {
+    //     // ctx.commit('CONFIGDATA', body.data)
+    //     param.onsuccess ? param.onsuccess(body) : null
+    //   }
+    // })
+    ctx.dispatch('resource', {
+      url: "/rcConfig",
+      method:'post',
+      body: {
+        // hotel_id: param.hotel_id,
+        ...param.data
+      },
+      onSuccess: body => {
+        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+
+        let obj = {
+          ...ctx.state.enterprise.configData
+        }
+        for(let key in body.data) {
+          obj[key] = body.data[key];
+        }
+        ctx.commit('CONFIGDATA', obj)
+
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  getRCconfig(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/fileUpload/${param.hotel_id}`,
+      method:'post',
+      onSuccess: body => {
+        // ctx.commit('CONFIGDATA', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   getConfig(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
