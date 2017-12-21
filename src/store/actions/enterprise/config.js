@@ -3,16 +3,15 @@
 * */
 module.exports = {
   setRCconfig(ctx, param) {
-    // ctx.dispatch('resource', {
-    //   url: "/rcConfig",
-    //   method:'post',
-    //   headers:{"Content-Type":"application/json;charset=UTF-8"},
-    //   // Content-Type:application/json;charset=UTF-8
-    //   onSuccess: body => {
-    //     // ctx.commit('CONFIGDATA', body.data)
-    //     param.onsuccess ? param.onsuccess(body) : null
-    //   }
-    // })
+    ctx.dispatch('resource', {
+      url: "/rcConfig",
+      method:'post',
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      onSuccess: body => {
+        ctx.commit('CONFIGDATA', body.data);
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
     ctx.dispatch('resource', {
       url: "/rcConfig",
       method:'post',
@@ -35,12 +34,12 @@ module.exports = {
       }
     })
   },
-  getRCconfig(ctx, param) {
+  getRCConfiged(ctx, param) {
     ctx.dispatch('resource', {
       url: `/fileUpload/${param.hotel_id}`,
       method:'post',
       onSuccess: body => {
-        // ctx.commit('CONFIGDATA', body.data)
+        ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -246,6 +245,7 @@ module.exports = {
       body: obj,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
+        console.log('修改：',param.data)
         ctx.commit('MORELVYEATA', param.data);
         param.onsuccess ? param.onsuccess(body) : null
       }

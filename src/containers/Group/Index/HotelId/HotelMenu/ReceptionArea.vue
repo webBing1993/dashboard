@@ -7,7 +7,7 @@
           <el-button type="success" @click.native="addReception" class="button">添 加</el-button>
         </div>
         <table-receptionArea :list="list" :page="page" :size="size" @edit="goEdit"></table-receptionArea>
-        <el-dialog title="添加接待区"
+        <el-dialog title="添加／编辑 接待区"
                    :visible.sync="showAddContent"
                    :close-on-click-modal="false"
                    :close-on-press-escape="false"
@@ -52,8 +52,8 @@
             </div>
           </div>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="save">保 存</el-button>
-            <el-button type="primary" @click="showAddContent=false">取 消</el-button>
+            <el-button @click="showAddContent=false">取 消</el-button>
+            <el-button type="primary" @click="save">保 存</el-button>
           </div>
         </el-dialog>
       </div>
@@ -100,12 +100,13 @@
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
             this.list = body.data;
+            console.log('现在的列表：',body.data)
           }
         })
       },
       //保存接待区
-      save() {
-        console.log('房型：' + this.roomType)
+      save(){
+        console.log(1111)
         this.saveRecpetion({
           hotel_id: this.$route.params.hotelid,
           id: this.id,
@@ -116,13 +117,15 @@
           lvyeConfigId: this.lvyeVal,
           onsuccess: body => {
             this.showtoast({
-              text: '保存成功',
+              text: '保tttttttttt成功',
               type: 'success'
             })
             this.handleClose();
-            this.getList()
+            this.getList();
+            console.log(2222)
           }
         });
+
       },
       //添加接待区
       addReception() {
@@ -151,6 +154,8 @@
           areaId: obj.id,
           onsuccess: body => {
             this.roomTypeList = body.data;
+            this.room_type=obj.report_type;
+            console.log('罗列所有房型：' + JSON.stringify(body.data))
           }
         });
         this.searchLvye({

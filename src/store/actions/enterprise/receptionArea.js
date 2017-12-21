@@ -25,6 +25,7 @@ module.exports = {
         lvye_config_id: param.lvyeConfigId
       },
       onSuccess: body => {
+        console.log('已经选的房型：'+param.room_type)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

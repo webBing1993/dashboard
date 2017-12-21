@@ -1526,20 +1526,10 @@
       return {
         //多旅业列表
         moreLyReportTypeValue: '',
-        moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {name: "文件交换", value: "FILE_EXCHANGE"}],
+        moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {name: "文件交换", value: "FILE_EXCHANGE"},{name: "云端上传", value: "CLOUD"}],
         moreLvyeOpen: '',
         moreLvyeAutoReport: '',
-        moreLvyeList: [{
-          id: '',
-          lvyeName: '',
-          reportChannel: '',
-          reportType: '',
-          lvyeId: '',
-          transitParam: '',
-          descrption: '',
-          autoReport: '',
-          enabledReport: ''
-        }],
+        moreLvyeList: [],
         optionvalue: '',//微信生态酒店配置列表初始化
         switchName: 'close',//微信生态酒店配置按钮
         delName: 'close',
@@ -1750,7 +1740,6 @@
       this.wechatList();
       this.WxhotelRegisters();
       this.getRCConfigeds();
-      this.showLvyeModule()
     },
     computed: {
       ...mapState({
@@ -2168,6 +2157,9 @@
       }
     },
     watch: {
+//      renderMoreLvyeList() {
+//        this.renderMoreLvyeList=this.moreLvyeData
+//      },
       configData() {
         let configData = this.configData;
         if (tool.isNotBlank(configData)) {
@@ -2334,9 +2326,10 @@
         }
       },
       moreLvyeData() {
-        if (tool.isNotBlank(this.moreLvyeData))
-          this.moreLvyeList = [...this.moreLvyeData];
-        if(this.moreLvyeList.length>0){
+        console.log('仓库变动：',this.moreLvyeData);
+        this.moreLvyeList= this.moreLvyeData;
+        console.log('renderMoreLvyeList：',this.renderMoreLvyeList);
+        if(this.renderMoreLvyeList.length>0){
           this.hasSetMoreLvye=true;
         }
         else{
@@ -2382,9 +2375,7 @@
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log('00000',body)
-            console.log(this.UploadResponData,this.perRoom,this.autoPrintVal)
-
+            console.log("hhahhhhh:"+this.UploadResponData,this.perRoom,this.autoPrintVal)
             if(body.data){
               this.UploadResponData=body.data.hotel_id
               this.perRoom=body.data.electron_sign
@@ -2562,9 +2553,6 @@
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
-            break;
-          case enumShowType.moreLvyeReportType:
-            this.moreLvyeList = this.moreLvyeData;
             break;
           case enumShowType.facein:
             this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
@@ -2782,10 +2770,8 @@
               }
               moreLvyeListData.push(tempData);
             });
-//            console.log("renderMoreLvyeList:" + JSON.stringify(this.renderMoreLvyeList))
-            console.log("moreLvyeListData:" + JSON.stringify(moreLvyeListData))
             this.modifyMoreLvyes(moreLvyeListData);
-            break;
+            return;
           }
           case enumShowType.doorLock_unknown:
             break;
@@ -3039,12 +3025,10 @@
             console.log(this.UploadResponData,this.perRoom,this.autoPrintVal)
             data={
               "id":this.UploadResponData,
-//               "id":"1",
               "electron_sign":parseInt(this.perRoom),
               "auto_print":this.autoPrintVal?1:0
             }
             this.mySetRCconfig(data)
-
             break;
           default:
             data = null
@@ -3111,7 +3095,6 @@
             body.errmsg=='ok'?this.enabledRCPrint=true:this.enabledRCPrint=false
           }
         })
-        return false
       },
       //修改服务端数据
       patchConfigData(data) {
