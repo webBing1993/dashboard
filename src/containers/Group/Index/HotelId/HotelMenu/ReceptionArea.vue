@@ -50,6 +50,10 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form" v-if="hasLvye">
+              <span class="itemTitle"></span>
+              此门店暂未配置旅业，
+              <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业</router-link></div>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
@@ -81,10 +85,18 @@
         roomType: [],
         roomTypeList: [],
         lvyeVal: '',
-        lvyeList: []
+        lvyeList: [],
+        hasLvye:false
       }
     },
-    computed: {},
+    computed: {
+      groupId(){
+        return this.$route.params.id
+      },
+      hotelId(){
+        return this.$route.params.hotelid
+      }
+    },
     methods: {
       ...mapActions([
         'getRecpetion',
@@ -106,7 +118,6 @@
       },
       //保存接待区
       save(){
-        console.log(1111)
         this.saveRecpetion({
           hotel_id: this.$route.params.hotelid,
           id: this.id,
@@ -117,7 +128,7 @@
           lvyeConfigId: this.lvyeVal,
           onsuccess: body => {
             this.showtoast({
-              text: '保tttttttttt成功',
+              text: '保存成功',
               type: 'success'
             })
             this.handleClose();
@@ -143,6 +154,11 @@
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
             this.lvyeList = body.data;
+            if(this.lvyeList.length==0){
+              this.hasLvye=true;
+            }else {
+              this.hasLvye=false;
+            }
           }
         });
       },
@@ -167,6 +183,12 @@
                 this.lvyeVal = item.id;
               }
             });
+            if(this.lvyeList.length==0){
+              console.log(2345678)
+              this.hasLvye=true;
+            }else {
+              this.hasLvye=false;
+            }
           }
         });
         this.id = obj.id;
@@ -185,7 +207,6 @@
       handleClose() {
         this.showAddContent = false;
       },
-
     },
     mounted() {
       this.getList();
