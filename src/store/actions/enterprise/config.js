@@ -198,10 +198,8 @@ module.exports = {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-        console.log("iiiiiiiiiiiiii")
         if (body.data) {
           let tempData = [];
-          console.log("数据:" + JSON.stringify(body.data));
           body.data.forEach(function (item, index) {
             let obj = {
               id: item.id,
@@ -213,10 +211,9 @@ module.exports = {
               descrption: item.descrption,
               autoReport: item.auto_report === 1 ? true : false,
               enabledReport: item.enabled_report === 1 ? true : false
-            }
+            };
             tempData.push(obj);
           });
-          console.log("数据:" + JSON.stringify(tempData));
           ctx.commit('MORELVYEATA', tempData)
         }
         else {

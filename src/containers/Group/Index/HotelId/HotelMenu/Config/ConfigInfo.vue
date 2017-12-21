@@ -20,7 +20,7 @@
                   :class="{'tag_text_red': !pmsId, 'tag_text_green': pmsId}">{{pmsId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8" v-if="!isMoreLvye">
+        <el-col :span="8" v-if="!showReception">
           <button @click="dialogConfig(enumShowType.lvyeReportType)">
             <div class="item_img">
               <img src="../../../../../../assets/images/公安.png" alt="a">
@@ -98,7 +98,7 @@
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-if="showReception">
           <button @click="dialogConfig(enumShowType.moreLvyeReportType)">
             <div class="item_img">
               <img src="../../../../../../assets/images/公安.png" alt="a">
@@ -108,7 +108,7 @@
               <p>多旅业配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': moreLvyeReportVal, 'tag_text_green':moreLvyeReportVal}">{{moreLvyeReportVal ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !hasSetMoreLvye, 'tag_text_green':hasSetMoreLvye}">{{hasSetMoreLvye ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -257,7 +257,7 @@
               </p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledRCPrint, 'tag_text_green': enabledRCPrint}">{{enabledRCPrint ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red': !enabledMobileCheckin, 'tag_text_green': enabledMobileCheckin}">{{enabledMobileCheckin ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -652,7 +652,6 @@
                   on-color="#13ce66"
                   off-color="#ff4949">
                 </el-switch>
-                <span class="delLv" @click="">删除</span>
               </div>
               <div class="item-form">
                 <span>旅业系统类型</span>
@@ -935,7 +934,7 @@
             <div class="item-tag2">
               <span>code</span>
               <div class="tag-input">
-                <div style="display: flex" v-for="(obj, index) of invoiceCode">
+                <div style="display: flex" v-for="(obj, index) in invoiceCode">
                   <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
                   <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码
                   </el-button>
@@ -1072,7 +1071,7 @@
               <span>早餐券规则</span>
               <el-select class="el-right" v-model="breakfastStemFrom" placeholder="请选择早餐券规则">
                 <el-option
-                  v-for="(obj, index) of breakfastStemFromList"
+                  v-for="(obj, index) in breakfastStemFromList"
                   :key="index"
                   :label="obj.name"
                   :value="obj.value">
@@ -1091,7 +1090,7 @@
               <span>PMS同步频率</span>
               <el-select class="el-right" v-model="syncSpaceTime" placeholder="请选择PMS同步频率">
                 <el-option
-                  v-for="(obj, index) of syncSpaceTimeList"
+                  v-for="(obj, index) in syncSpaceTimeList"
                   :key="index"
                   :label="obj.name"
                   :value="obj.value">
@@ -1155,7 +1154,7 @@
             <div class="item-tag">
               <span>房间标签</span>
               <div class="tag-input">
-                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) of roomTags">
+                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
                 </div>
                 <div class="tag-btn">
@@ -1217,7 +1216,7 @@
               <span>选择业务类型</span>
               <el-select class="el-right" v-model="serviceType">
                 <el-option
-                  v-for="(item, index) of serviceTypeList"
+                  v-for="(item, index) in serviceTypeList"
                   :key="index"
                   :label="item.name"
                   :value="item.value">
@@ -1265,7 +1264,7 @@
               <span>选择分房卡类型</span>
               <el-select class="el-right" v-model="issuedCardRuleVal">
                 <el-option
-                  v-for="(item, index) of issuedCardRuleList"
+                  v-for="(item, index) in issuedCardRuleList"
                   :key="index"
                   :label="item.name"
                   :value="item.value">
@@ -1277,17 +1276,6 @@
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
               <span>模版名称</span>
-              <!--<el-input></el-input>-->
-              <!--<form action="" @submit="getRCconfigs" target="nm_iframe" label-width="80px" enctype="multipart/form-data">-->
-              <!--<input type="file" name="roncooFile">-->
-              <!--<button type="submit">提交</button>-->
-              <!--</form>-->
-              <!--<iframe id="id_iframe" name="nm_iframe" style="display:none;"></iframe>-->
-
-
-              <!--:headers="setHeader"
-               :action="rcgethotelid"
-              -->
               <el-form enctype="multipart/form-data">
                 <el-upload
                   ref="upload"
@@ -1331,12 +1319,13 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item, index) in moreLvyeList">
+          <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList">
             <div class="lvyeItem" style="margin-top: 2rem">
               <div class="item-form">
                 <span>旅业名称</span>
+                <el-input class="el-right" v-model="item.id" v-show=false></el-input>
                 <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称"></el-input>
-                <span class="delLv" @click="">删除</span>
+                <span class="delLv" @click="deleteMoreLvyes(item)">删除</span>
               </div>
               <div class="item-form">
                 <span>上传通道</span>
@@ -1381,7 +1370,7 @@
               <div class="item-form">
                 <span>自动上传配置项</span>
                 <el-switch
-                  v-model="autoReport"
+                  v-model="item.autoReport"
                   on-color="#13ce66"
                   off-color="#ff4949">
                 </el-switch>
@@ -1389,7 +1378,7 @@
               <div class="item-form">
                 <span>是否开启</span>
                 <el-switch
-                  v-model="enabledReport"
+                  v-model="item.enabledReport"
                   on-color="#13ce66"
                   off-color="#ff4949">
                 </el-switch>
@@ -1529,6 +1518,7 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
   import tool from '@/assets/tools/tool.js'
+
   export default {
     components: {ElInput},
     name: 'ConfigInfo',
@@ -1537,7 +1527,6 @@
         //多旅业列表
         moreLyReportTypeValue: '',
         moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {name: "文件交换", value: "FILE_EXCHANGE"}],
-        isMoreLvye: false,
         moreLvyeOpen: '',
         moreLvyeAutoReport: '',
         moreLvyeList: [{
@@ -1747,8 +1736,8 @@
 //        http://intg.fortrun.cn/fileUpload/1486553a8edc4b088539d05aa99221e2
         actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData:'',
-        rcConfig:false
-//        hotel_id: this.$route.params.hotelid
+        rcConfig:false,
+        hasSetMoreLvye:false
       }
     },
     mounted() {
@@ -1756,10 +1745,12 @@
       this.getWxhotelCitysers();
       this.getPms();
       this.getLvyes();
-      this.getlvyeTypeLists()
+      this.getMoreLvyes();
+      this.getlvyeTypeLists();
       this.wechatList();
       this.WxhotelRegisters();
-      this.getRCConfigeds()
+      this.getRCConfigeds();
+      this.showLvyeModule()
     },
     computed: {
       ...mapState({
@@ -1769,6 +1760,7 @@
         moreLvyeData: state => state.enterprise.moreLvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
+        showReception:state => state.enterprise.showReception
       }),
       rcgethotelid(){
         return "http://localhost:8080/virgo/fileUpload/" + this.$route.params.hotelid
@@ -1782,11 +1774,14 @@
 //           Access-Control-Allow-Origin: *
         }
       },
-      rendLvyeTypeList(){
+      rendLvyeTypeList() {
         return this.lvyeTypeList;
       },
-      renderList(){
+      renderList() {
         return this.wxhotelCityserList;
+      },
+      renderMoreLvyeList() {
+        return this.moreLvyeList;
       },
       providerMchIdList() {
         return this.providerList.map(v => {
@@ -1908,7 +1903,7 @@
           return false;
         }
       },
-      validateMoreLvye(){
+      validateMoreLvye() {
         return true;
       },
       validatefacein() {
@@ -2016,34 +2011,34 @@
       validateisfastcard() {
         return true;
       },
-      validateCustomerOperate(){
+      validateCustomerOperate() {
         return true;
       },
-      validateTicketPrint(){
+      validateTicketPrint() {
         return true;
       },
-      validateAdvancedCheckout(){
+      validateAdvancedCheckout() {
         return true;
       },
-      validateHotelAreaCode(){
+      validateHotelAreaCode() {
         return true;
       },
-      validateQrcodeCreate(){
+      validateQrcodeCreate() {
         return (tool.isNotBlank(this.serviceType) && tool.isNotBlank(this.qrName) && tool.isNotBlank(this.qrCode))
       },
-      validateAutoGiveRoom(){
+      validateAutoGiveRoom() {
         return true;
       },
-      validateAutoIdentityCheck(){
+      validateAutoIdentityCheck() {
         return true;
       },
-      validateIssuedCardRule(){
+      validateIssuedCardRule() {
         return (tool.isNotBlank(this.issuedCardRuleVal));
       },
-      validateRcPrint(){
+      validateRcPrint() {
         return (tool.isNotBlank(this.rcTemplateVal) && (tool.isNotBlank(this.perRoom) && tool.isNotBlank(this.perGuest) && tool.isNotBlank(this.autoPrintVal)))
       },
-      validateIdentityCheck(){
+      validateIdentityCheck() {
         return true;
       },
       validateRCPrintCheck(){
@@ -2166,9 +2161,6 @@
           case enumShowType.moreLvyeReportType:
             result = this.validateMoreLvye;
             break;
-//          case enumShowType.rcPrint:
-//            result = this.validateRCPrintCheck;
-//            break
           default:
             result = false;
         }
@@ -2178,7 +2170,6 @@
     watch: {
       configData() {
         let configData = this.configData;
-        console.log('this.configData=',this.configData)
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -2344,7 +2335,13 @@
       },
       moreLvyeData() {
         if (tool.isNotBlank(this.moreLvyeData))
-          this.moreLvyeList = moreLvyeData;
+          this.moreLvyeList = [...this.moreLvyeData];
+        if(this.moreLvyeList.length>0){
+          this.hasSetMoreLvye=true;
+        }
+        else{
+          this.hasSetMoreLvye=false;
+        }
       },
       faceinPassValue(val) {
         val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
@@ -2376,6 +2373,7 @@
         'showalert',
         'goto',
         'deleteMoreLvye',
+        'getMoreLvye',
         'getRCconfig',
         "setRCconfig",
         "getRCConfiged"
@@ -2427,35 +2425,34 @@
         })
 
       },
-      deleteMoreLvyes(item){
+      deleteMoreLvyes(param) {
         this.deleteMoreLvye({
-          areaId: item.id,
+          areaId: param.id,
           onsuccess: body => {
-
-            this.moreLvyeList.splice()
+            this.renderMoreLvyeList.splice(param.id, 1);
           }
         })
       },
-      addNewLv(){
+      addNewLv() {
         let obj = {
-          id: '',
-          lvyeName: '',
-          reportChannel: '',
-          reportType: '',
-          lvyeId: '',
-          transitParam: '',
-          descrption: '',
-          autoReport: '',
-          enabledReport: ''
+          id: "",
+          lvyeName: "",
+          reportChannel: "",
+          reportType: "",
+          lvyeId: "",
+          transitParam: "",
+          descrption: "",
+          autoReport: "",
+          enabledReport: ""
         };
-        this.moreLvyeList.push(obj)
+        this.renderMoreLvyeList.push(obj)
       },
       goSummary() {
         this.goto({
           name: 'ConfigSummary'
         })
       },
-      depswitch(){
+      depswitch() {
         if (this.wxHotelId) {
           this.delName = 'open';
           this.dialogConfig(enumShowType.WxHotelRegister)
@@ -2520,7 +2517,7 @@
         if (this.roomTags.length == 1) return;
         this.roomTags.pop();
       },
-      handleClose(){
+      handleClose() {
         this.delName = 'close';
         this.switchName = 'close';
       },
@@ -2567,7 +2564,7 @@
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
             break;
           case enumShowType.moreLvyeReportType:
-            this.moreLvyeList.this.moreLvyeData;
+            this.moreLvyeList = this.moreLvyeData;
             break;
           case enumShowType.facein:
             this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
@@ -2771,33 +2768,25 @@
             break;
           case enumShowType.moreLvyeReportType: {
             let moreLvyeListData = [];
-            this.moreLvyeList.forEach(function (item, index) {
-              let dataItem = {};
+            this.renderMoreLvyeList.forEach(function (item, index) {
               let tempData = {
-                lvye_id: index,
+                id: item.id,
+                lvye_id: item.lvyeId,
                 lvye_name: item.lvyeName,
                 report_channel: item.reportChannel,
                 report_type: item.reportType,
                 descrption: item.descrption,
                 auto_report: item.autoReport === true ? 1 : 0,
-                enabled_report: item.enabledReport === true ? 1 : 0
+                enabled_report: item.enabledReport === true ? 1 : 0,
+                transit_param:item.transitParam
               }
-              if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'NONE' || item.reportChannel == 'GUANGDONG') {
-                dataItem = {
-                  ...tempData
-                }
-              } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
-                dataItem = {
-                  ...tempData,
-                  police_param: JSON.parse(item.transitParam)
-                }
-              }
-              moreLvyeListData.push(dataItem);
-            })
-            data = moreLvyeListData;
+              moreLvyeListData.push(tempData);
+            });
+//            console.log("renderMoreLvyeList:" + JSON.stringify(this.renderMoreLvyeList))
+            console.log("moreLvyeListData:" + JSON.stringify(moreLvyeListData))
+            this.modifyMoreLvyes(moreLvyeListData);
+            break;
           }
-            this.modifyMoreLvyes(data);
-            return;
           case enumShowType.doorLock_unknown:
             break;
           case enumShowType.facein:
@@ -3043,9 +3032,6 @@
           case enumShowType.issuedCardRule:
             data = {'issued_card_rule': this.issuedCardRuleVal};
             break;
-//          case enumShowType.rcPrint:
-//            data = {};
-//            break;
           case enumShowType.identityCheck:
             data = {'enabled_identity_check': this.identityCheckVal.toString()};
             break;
@@ -3063,11 +3049,6 @@
           default:
             data = null
         }
-//        if(this.rcConfig){
-//          this.mySetRCconfig(data)
-//          this.rcConfig=false
-//          return false
-//        }
         this.patchConfigData(data);
       },
       getConfigs() {
@@ -3075,7 +3056,7 @@
           hotel_id: this.$route.params.hotelid
         })
       },
-      getWxhotelCitysers(){
+      getWxhotelCitysers() {
         this.getWxhotelCityser({
           onsuccess: body => (this.wxhotelCityserList = [...body.data])
         })
@@ -3095,13 +3076,13 @@
         })
       },
       //删除微信生态酒店配置
-      isDelete(){
+      isDelete() {
         this.showDialog = false;
         this.queryDel = true;
         this.delName = 'close';
         this.switchName = 'close';
       },
-      deleteWxHotels(flag){
+      deleteWxHotels(flag) {
         if (flag) {
           this.deleteWxHotel({
             hotel_id: this.$route.params.hotelid,
@@ -3118,13 +3099,12 @@
         this.queryDel = false;
         this.hideDialog();
       },
-      getlvyeTypeLists(){
+      getlvyeTypeLists() {
         this.getlvyeTypeList({
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
       },
       mySetRCconfig(data){
-        console.log('qqqqq')
         this.setRCconfig({
           data: data,
           onsuccess: body => {
@@ -3177,6 +3157,11 @@
           hotel_id: this.$route.params.hotelid
         })
       },
+      getMoreLvyes() {
+        this.getMoreLvye({
+          hotel_id: this.$route.params.hotelid,
+        })
+      },
       modifyLvyes(data) {
         this.modifyLvye({
           hotel_id: this.$route.params.hotelid,
@@ -3192,6 +3177,7 @@
           data: data,
           onsuccess: body => {
             this.showDialog = false;
+            this.hasSetMoreLvye=true;
           }
         })
       },
