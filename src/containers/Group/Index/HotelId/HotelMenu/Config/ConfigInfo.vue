@@ -2378,8 +2378,8 @@
             console.log("hhahhhhh:",this.UploadResponData,this.perRoom,this.autoPrintVal)
             if(body.data){
               this.hasSetRc=true;
-              this.UploadResponData=body.data.hotel_id
-              this.perRoom=body.data.electron_sign==1?true:false
+              this.UploadResponData=body.data.hotel_id;
+              this.perRoom=body.data.electron_sign.toString();
               this.autoPrintVal=body.data.auto_print==1?true:false
             }
           }

@@ -57,7 +57,7 @@ module.exports = {
   //拉已配置的RC数据
   getRCConfiged(ctx, param) {
     ctx.dispatch('resource', {
-      url: ` /rcConfig/${param.hotel_id}`,
+      url:`/rcConfig/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
         // ctx.commit('CONFIGDATA', body.data)
