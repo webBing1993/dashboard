@@ -2,39 +2,49 @@
 * 企业门店配置管理action
 * */
 module.exports = {
+  getConfig(ctx, param) {
+    ctx.dispatch('resource', {
+    url: `/hotel/${param.hotel_id}/config`,
+    method: 'GET',
+    onSuccess: body => {
+      ctx.commit('CONFIGDATA', body.data)
+      param.onsuccess ? param.onsuccess(body) : null
+    }
+  })
+},
   setRCconfig(ctx, param) {
     ctx.dispatch('resource', {
       url: "/rcConfig",
       method:'post',
+      body:param.data,
       headers:{"Content-Type":"application/json;charset=UTF-8"},
       onSuccess: body => {
-        ctx.commit('CONFIGDATA', body.data);
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
-    ctx.dispatch('resource', {
-      url: "/rcConfig",
-      method:'post',
-      body: {
-        // hotel_id: param.hotel_id,
-        ...param.data
-      },
-      onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
-
-        let obj = {
-          ...ctx.state.enterprise.configData
-        }
-        for(let key in body.data) {
-          obj[key] = body.data[key];
-        }
-        ctx.commit('CONFIGDATA', obj)
-
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
+    // ctx.dispatch('resource', {
+    //   url: "/rcConfig",
+    //   method:'post',
+    //   body: {
+    //     // hotel_id: param.hotel_id,
+    //     ...param.data
+    //   },
+    //   onSuccess: body => {
+    //     ctx.dispatch('showtoast', {text: '配置成功', type:'success'});
+    //
+    //     let obj = {
+    //       ...ctx.state.enterprise.configData
+    //     }
+    //     for(let key in body.data) {
+    //       obj[key] = body.data[key];
+    //     }
+    //     ctx.commit('CONFIGDATA', obj)
+    //
+    //     param.onsuccess ? param.onsuccess(body) : null
+    //   }
+    // })
   },
-  getRCConfiged(ctx, param) {
+  RCconfig(ctx, param) {
     ctx.dispatch('resource', {
       url: `/fileUpload/${param.hotel_id}`,
       method:'post',
@@ -44,12 +54,13 @@ module.exports = {
       }
     })
   },
-  getConfig(ctx, param) {
+  //拉已配置的RC数据
+  getRCConfiged(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/hotel/${param.hotel_id}/config`,
+      url: ` /rcConfig/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-        ctx.commit('CONFIGDATA', body.data)
+        // ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -245,8 +256,8 @@ module.exports = {
       body: obj,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
-        console.log('修改：',param.data)
-        ctx.commit('MORELVYEATA', param.data);
+        console.log('修改：',param.config)
+        ctx.commit('MORELVYEATA', param.config);
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

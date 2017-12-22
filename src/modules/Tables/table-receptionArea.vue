@@ -20,6 +20,7 @@
         <td>{{ obj.room_type|arr }}</td>
         <td>
           <span class="v-options pointer" @click="edit(obj)">编辑</span>
+          <span class="v-options pointer" @click="del(obj)">删除</span>
         </td>
       </tr>
       </tbody>
@@ -55,6 +56,9 @@
     methods: {
       edit(obj) {
         this.$emit('edit', obj);
+      },
+      del(obj) {
+        this.$emit('del', obj);
       }
     }
   }
@@ -127,14 +131,15 @@
   }
 
   .v-options {
-    color: #39C240;
     padding-left: 10px;
   }
 
   .v-options:first-child {
-    padding-left: 0;
+    color: #39C240;
   }
-
+  .v-options:nth-child(2) {
+    color: #c20b1a;
+  }
   .pointer {
     cursor: pointer;
   }

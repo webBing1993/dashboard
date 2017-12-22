@@ -257,7 +257,7 @@
               </p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledMobileCheckin, 'tag_text_green': enabledMobileCheckin}">{{enabledMobileCheckin ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -1325,7 +1325,7 @@
                 <span>旅业名称</span>
                 <el-input class="el-right" v-model="item.id" v-show=false></el-input>
                 <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称"></el-input>
-                <span class="delLv" @click="deleteMoreLvyes(item)">删除</span>
+                <span class="delLv" @click="deleteMoreLvyes(item,index)">删除</span>
               </div>
               <div class="item-form">
                 <span>上传通道</span>
@@ -1727,7 +1727,8 @@
         actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData:'',
         rcConfig:false,
-        hasSetMoreLvye:false
+        hasSetMoreLvye:false,
+        hasSetRc:false
       }
     },
     mounted() {
@@ -2157,9 +2158,6 @@
       }
     },
     watch: {
-//      renderMoreLvyeList() {
-//        this.renderMoreLvyeList=this.moreLvyeData
-//      },
       configData() {
         let configData = this.configData;
         if (tool.isNotBlank(configData)) {
@@ -2277,6 +2275,8 @@
           //身份核验功能配置
           this.identityCheckVal = configData.enabled_identity_check == 'true' ? true : false;
           //RC单打印
+//          this.autoPrintVal=configData.auto_print==1?true:false;
+//          this.perRoom=configData.electron_sign==1?true:false;
         }
       },
       pmsData() {
@@ -2328,7 +2328,6 @@
       moreLvyeData() {
         console.log('仓库变动：',this.moreLvyeData);
         this.moreLvyeList= this.moreLvyeData;
-        console.log('renderMoreLvyeList：',this.renderMoreLvyeList);
         if(this.renderMoreLvyeList.length>0){
           this.hasSetMoreLvye=true;
         }
@@ -2367,19 +2366,21 @@
         'goto',
         'deleteMoreLvye',
         'getMoreLvye',
-        'getRCconfig',
+        'RCconfig',
         "setRCconfig",
         "getRCConfiged"
       ]),
+      //拉已配置的RC数据
       getRCConfigeds(){
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log("hhahhhhh:"+this.UploadResponData,this.perRoom,this.autoPrintVal)
+            console.log("hhahhhhh:",this.UploadResponData,this.perRoom,this.autoPrintVal)
             if(body.data){
+              this.hasSetRc=true;
               this.UploadResponData=body.data.hotel_id
-              this.perRoom=body.data.electron_sign
-              this.autoPrintVal=body.data.auto_print=1?true:false
+              this.perRoom=body.data.electron_sign==1?true:false
+              this.autoPrintVal=body.data.auto_print==1?true:false
             }
           }
         })
@@ -2394,7 +2395,7 @@
       },
       _upload(){
         console.log('qwertyuio')
-        this.getRCconfig({
+        this.RCconfig({
           hotel_id: this.$route.params.hotelid
         })
       },
@@ -2406,9 +2407,9 @@
       },
 
 
-      getRCconfigs(pre){
+      RCconfigs(pre){
         console.log(111)
-        this.getRCconfig({
+        this.RCconfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
             console.log('aaaaaaa', body)
@@ -2416,11 +2417,15 @@
         })
 
       },
-      deleteMoreLvyes(param) {
+      deleteMoreLvyes(param,index) {
+        if(!param.id){
+          this.renderMoreLvyeList.splice(index, 1);
+          return;
+        }
         this.deleteMoreLvye({
           areaId: param.id,
           onsuccess: body => {
-            this.renderMoreLvyeList.splice(param.id, 1);
+            this.renderMoreLvyeList.splice(index, 1);
           }
         })
       },
@@ -2436,7 +2441,7 @@
           autoReport: "",
           enabledReport: ""
         };
-        this.renderMoreLvyeList.push(obj)
+        this.moreLvyeList.push(obj)
       },
       goSummary() {
         this.goto({
@@ -2770,7 +2775,7 @@
               }
               moreLvyeListData.push(tempData);
             });
-            this.modifyMoreLvyes(moreLvyeListData);
+            this.modifyMoreLvyes(moreLvyeListData,this.renderMoreLvyeList);
             return;
           }
           case enumShowType.doorLock_unknown:
@@ -3029,6 +3034,7 @@
               "auto_print":this.autoPrintVal?1:0
             }
             this.mySetRCconfig(data)
+//            return false
             break;
           default:
             data = null
@@ -3039,6 +3045,7 @@
         this.getConfig({
           hotel_id: this.$route.params.hotelid
         })
+        console.log(234567)
       },
       getWxhotelCitysers() {
         this.getWxhotelCityser({
@@ -3088,11 +3095,12 @@
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
       },
+      //上传已配置数据
       mySetRCconfig(data){
         this.setRCconfig({
           data: data,
           onsuccess: body => {
-            body.errmsg=='ok'?this.enabledRCPrint=true:this.enabledRCPrint=false
+            body.errmsg=='ok'?this.hasSetRc=true:this.hasSetRc=false
           }
         })
       },
@@ -3154,10 +3162,11 @@
           }
         })
       },
-      modifyMoreLvyes(data) {
+      modifyMoreLvyes(data,list) {
         this.modifyMoreLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
+          config:list,
           onsuccess: body => {
             this.showDialog = false;
             this.hasSetMoreLvye=true;

@@ -6,7 +6,7 @@
         <div class="top">接待区
           <el-button type="success" @click.native="addReception" class="button">添 加</el-button>
         </div>
-        <table-receptionArea :list="list" :page="page" :size="size" @edit="goEdit"></table-receptionArea>
+        <table-receptionArea :list="list" :page="page" :size="size" @edit="goEdit" @del="goDel"></table-receptionArea>
         <el-dialog title="添加／编辑 接待区"
                    :visible.sync="showAddContent"
                    :close-on-click-modal="false"
@@ -53,7 +53,15 @@
             <div class="item-form" v-if="hasLvye">
               <span class="itemTitle"></span>
               此门店暂未配置旅业，
-              <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业</router-link></div>
+              <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业</router-link>
+            </div>
+            <div class="item-form">
+              <span class="itemTitle">选择设备</span>
+              <el-checkbox-group v-model=deviceType>
+                <el-checkbox v-for="device in deviceTypeList" :key="device.device_id" :label="device.device_id"
+                             :disabled=!device.abled>{{device.device_name}}</el-checkbox>
+              </el-checkbox-group>
+            </div>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
@@ -86,7 +94,10 @@
         roomTypeList: [],
         lvyeVal: '',
         lvyeList: [],
-        hasLvye:false
+        hasLvye:false,
+        deviceTypeList:[],
+        deviceType:[],
+        deviceIdlist:[]
       }
     },
     computed: {
@@ -104,8 +115,22 @@
         'searchRoomType',
         'searchLvye',
         'goto',
-        'showtoast'
+        'showtoast',
+        'delRecpetion',
+        'searchDevice'
       ]),
+      //设备名称
+      packDeviceId(){
+        console.log(this.deviceType);
+        this.deviceType.forEach((item1) =>{
+            this.deviceTypeList.forEach((item2)=>{
+              if(item1===item2.device_name){
+                this.deviceIdlist.push(item2.device_id)
+              }
+            })
+        })
+        console.log('设备ID列表：'+this.deviceIdlist)
+      },
       //获取接待区列表
       getList() {
         this.getRecpetion({
@@ -118,6 +143,7 @@
       },
       //保存接待区
       save(){
+        this.deviceIdlist=[];
         this.saveRecpetion({
           hotel_id: this.$route.params.hotelid,
           id: this.id,
@@ -126,6 +152,7 @@
           address: this.address,
           room_type: this.roomType,
           lvyeConfigId: this.lvyeVal,
+          device_ids:this.deviceType,
           onsuccess: body => {
             this.showtoast({
               text: '保存成功',
@@ -133,10 +160,22 @@
             })
             this.handleClose();
             this.getList();
-            console.log(2222)
           }
         });
-
+      },
+      goDel(obj){
+         this.delRecpetion({
+           area_id: obj.id,
+           onsuccess: body => {
+             this.showtoast({
+               text: '删除成功',
+               type: 'success'
+             })
+             this.handleClose();
+             this.getList();
+             console.log(3333)
+           }
+         })
       },
       //添加接待区
       addReception() {
@@ -147,7 +186,7 @@
           areaId: "",
           onsuccess: body => {
             this.roomTypeList = body.data;
-            console.log('房型：' + JSON.stringify(this.roomTypeList))
+            console.log('罗列房型：' + JSON.stringify(this.roomTypeList))
           }
         });
         this.searchLvye({
@@ -161,6 +200,14 @@
             }
           }
         });
+      　this.searchDevice({
+         hotel_id: this.$route.params.hotelid,
+         areaId: "",
+         onsuccess: body => {
+           this.deviceTypeList=body.data;
+           console.log('罗列设备：' + JSON.stringify(this.deviceTypeList))
+         }
+       })
       },
       //编辑接待区
       goEdit(obj) {
@@ -170,7 +217,7 @@
           areaId: obj.id,
           onsuccess: body => {
             this.roomTypeList = body.data;
-            this.room_type=obj.report_type;
+            this.roomType=obj.room_type;
             console.log('罗列所有房型：' + JSON.stringify(body.data))
           }
         });
@@ -184,13 +231,27 @@
               }
             });
             if(this.lvyeList.length==0){
-              console.log(2345678)
               this.hasLvye=true;
             }else {
               this.hasLvye=false;
             }
           }
         });
+        this.searchDevice({
+          hotel_id: this.$route.params.hotelid,
+          areaId: obj.id,
+          onsuccess: body => {
+            this.deviceTypeList=body.data;
+            this.deviceTypeList.forEach((item)=>{
+              obj.device_ids.forEach((deviceId)=>{
+                if(deviceId===item.device_id){
+                  this.deviceType.push(deviceId);
+                }
+              })
+            })
+            console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
+          }
+        })
         this.id = obj.id;
         this.name = obj.name;
         this.tel = obj.tel;
@@ -202,7 +263,9 @@
         this.tel = "";
         this.address = "";
         this.roomType = [];
-        this.lvyeList = [];
+        this.lvyeVal='';
+        this.deviceType=[];
+        this.id='';
       },
       handleClose() {
         this.showAddContent = false;

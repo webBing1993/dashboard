@@ -22,10 +22,20 @@ module.exports = {
         address: param.address,
         tel: param.tel,
         room_type: param.room_type,
-        lvye_config_id: param.lvyeConfigId
+        lvye_config_id: param.lvyeConfigId,
+        device_ids:param.device_ids
       },
       onSuccess: body => {
         console.log('已经选的房型：'+param.room_type)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  delRecpetion(ctx,param) {
+    ctx.dispatch('resource', {
+      url: `/receptionArea/${param.area_id}`,
+      method: 'DELETE',
+      onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -46,6 +56,15 @@ module.exports = {
       method: 'GET',
       onSuccess: body => {
         // console.log("searchLvye:" + JSON.stringify(body))
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  searchDevice(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/device/${param.hotel_id}?area_id=${param.areaId}`,
+      method: 'GET',
+      onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
