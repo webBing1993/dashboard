@@ -1276,18 +1276,16 @@
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
               <span>模版名称</span>
-              <el-form enctype="multipart/form-data">
-                <el-upload
-                  ref="upload"
-                  class="upload-demo"
-                  :headers="setHeader"
-                  :action="rcgethotelid"
-                  :on-success="getUploadData"
-                  :auto-upload="false">
-                  <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                  <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
-                </el-upload>
-              </el-form>
+              <el-upload
+                ref="upload"
+                class="upload-demo"
+                :headers="setHeader"
+                :action="rcgethotelid"
+                :on-success="getUploadData"
+                :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
+              </el-upload>
             </div>
             <div class="item-form">
               <span>电子签名</span>
@@ -1308,7 +1306,6 @@
             </div>
           </div>
           <!-----------RC单打印--------->
-
           <div v-if="showType === enumShowType.identityCheck">
             <div class="item-form">
               <span>是否自动调用人脸识别接口</span>
@@ -1429,6 +1426,8 @@
 </template>
 
 <script>
+  import ElDialog from "../../../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+
   var QRCode = require('qrcode')
   //弹框类型
   const enumShowType = {
@@ -1520,13 +1519,19 @@
   import tool from '@/assets/tools/tool.js'
 
   export default {
-    components: {ElInput},
+    components: {
+      ElDialog,
+      ElInput
+    },
     name: 'ConfigInfo',
     data() {
       return {
         //多旅业列表
         moreLyReportTypeValue: '',
-        moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {name: "文件交换", value: "FILE_EXCHANGE"},{name: "云端上传", value: "CLOUD"}],
+        moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {
+          name: "文件交换",
+          value: "FILE_EXCHANGE"
+        }, {name: "云端上传", value: "CLOUD"}],
         moreLvyeOpen: '',
         moreLvyeAutoReport: '',
         moreLvyeList: [],
@@ -1644,7 +1649,7 @@
         enabledPreCheckin: true,
         //是否指出手机入住
         enabledMobileCheckin: false,
-        enabledRCPrint:false,
+        enabledRCPrint: false,
         //门卡配置
         supportRoomCard: true,
         //押金配置
@@ -1725,10 +1730,10 @@
 //        RC单
 //        http://intg.fortrun.cn/fileUpload/1486553a8edc4b088539d05aa99221e2
         actionUrl: 'http://localhost:8080/virgo/fileUpload',
-        UploadResponData:'',
-        rcConfig:false,
-        hasSetMoreLvye:false,
-        hasSetRc:false
+        UploadResponData: '',
+        rcConfig: false,
+        hasSetMoreLvye: false,
+        hasSetRc: false
       }
     },
     mounted() {
@@ -1750,17 +1755,17 @@
         moreLvyeData: state => state.enterprise.moreLvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
-        showReception:state => state.enterprise.showReception
+        showReception: state => state.enterprise.showReception
       }),
-      rcgethotelid(){
+      rcgethotelid() {
         return "http://localhost:8080/virgo/fileUpload/" + this.$route.params.hotelid
       },
-      setHeader(){
+      setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
 //         return "Session:"+sessionStorage.getItem('session_id');
         return {
           Session: sessionStorage.getItem('session_id'),
-          enctype:"multipart/form-data"
+          enctype: "multipart/form-data"
 //           Access-Control-Allow-Origin: *
         }
       },
@@ -2031,7 +2036,7 @@
       validateIdentityCheck() {
         return true;
       },
-      validateRCPrintCheck(){
+      validateRCPrintCheck() {
         return true;
       },
       validateAll() {
@@ -2326,13 +2331,13 @@
         }
       },
       moreLvyeData() {
-        console.log('仓库变动：',this.moreLvyeData);
-        this.moreLvyeList= this.moreLvyeData;
-        if(this.renderMoreLvyeList.length>0){
-          this.hasSetMoreLvye=true;
+        console.log('仓库变动：', this.moreLvyeData);
+        this.moreLvyeList = this.moreLvyeData;
+        if (this.renderMoreLvyeList.length > 0) {
+          this.hasSetMoreLvye = true;
         }
-        else{
-          this.hasSetMoreLvye=false;
+        else {
+          this.hasSetMoreLvye = false;
         }
       },
       faceinPassValue(val) {
@@ -2371,29 +2376,29 @@
         "getRCConfiged"
       ]),
       //拉已配置的RC数据
-      getRCConfigeds(){
+      getRCConfigeds() {
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log("hhahhhhh:",this.UploadResponData,this.perRoom,this.autoPrintVal)
-            if(body.data){
-              this.hasSetRc=true;
-              this.UploadResponData=body.data.hotel_id;
-              this.perRoom=body.data.electron_sign.toString();
-              this.autoPrintVal=body.data.auto_print==1?true:false
+            console.log("hhahhhhh:", this.UploadResponData, this.perRoom, this.autoPrintVal)
+            if (body.data) {
+              this.hasSetRc = true;
+              this.UploadResponData = body.data.hotel_id;
+              this.perRoom = body.data.electron_sign.toString();
+              this.autoPrintVal = body.data.auto_print == 1 ? true : false
             }
           }
         })
       },
-      customRequest(p1){
+      customRequest(p1) {
         console.log("Wills:", p1);
         p1.headers = {ssss: "dddd"}
       },
-      getUploadData(res){
-        this.UploadResponData=res.data
-        console.log('---->',this.UploadResponData)
+      getUploadData(res) {
+        this.UploadResponData = res.data
+        console.log('---->', this.UploadResponData)
       },
-      _upload(){
+      _upload() {
         console.log('qwertyuio')
         this.RCconfig({
           hotel_id: this.$route.params.hotelid
@@ -2407,7 +2412,7 @@
       },
 
 
-      RCconfigs(pre){
+      RCconfigs(pre) {
         console.log(111)
         this.RCconfig({
           hotel_id: this.$route.params.hotelid,
@@ -2417,8 +2422,8 @@
         })
 
       },
-      deleteMoreLvyes(param,index) {
-        if(!param.id){
+      deleteMoreLvyes(param, index) {
+        if (!param.id) {
           this.renderMoreLvyeList.splice(index, 1);
           return;
         }
@@ -2771,11 +2776,11 @@
                 descrption: item.descrption,
                 auto_report: item.autoReport === true ? 1 : 0,
                 enabled_report: item.enabledReport === true ? 1 : 0,
-                transit_param:item.transitParam
+                transit_param: item.transitParam
               }
               moreLvyeListData.push(tempData);
             });
-            this.modifyMoreLvyes(moreLvyeListData,this.renderMoreLvyeList);
+            this.modifyMoreLvyes(moreLvyeListData, this.renderMoreLvyeList);
             return;
           }
           case enumShowType.doorLock_unknown:
@@ -3027,15 +3032,13 @@
             data = {'enabled_identity_check': this.identityCheckVal.toString()};
             break;
           case enumShowType.rcPrint:
-            console.log(this.UploadResponData,this.perRoom,this.autoPrintVal)
-            data={
-              "id":this.UploadResponData,
-              "electron_sign":parseInt(this.perRoom),
-              "auto_print":this.autoPrintVal?1:0
+            data = {
+              "id": this.$route.params.hotelid,
+              "electron_sign": parseInt(this.perRoom),
+              "auto_print": this.autoPrintVal ? 1 : 0
             }
-            this.mySetRCconfig(data)
-//            return false
-            break;
+            this.mySetRCconfig(data);
+            return;
           default:
             data = null
         }
@@ -3096,11 +3099,12 @@
         })
       },
       //上传已配置数据
-      mySetRCconfig(data){
+      mySetRCconfig(data) {
         this.setRCconfig({
           data: data,
           onsuccess: body => {
-            body.errmsg=='ok'?this.hasSetRc=true:this.hasSetRc=false
+            body.errmsg == 'ok' ? this.hasSetRc = true : this.hasSetRc = false
+            this.showDialog = false;
           }
         })
       },
@@ -3162,14 +3166,14 @@
           }
         })
       },
-      modifyMoreLvyes(data,list) {
+      modifyMoreLvyes(data, list) {
         this.modifyMoreLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
-          config:list,
+          config: list,
           onsuccess: body => {
             this.showDialog = false;
-            this.hasSetMoreLvye=true;
+            this.hasSetMoreLvye = true;
           }
         })
       },
