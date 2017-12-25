@@ -1323,12 +1323,12 @@
               <div class="item-form">
                 <span>旅业名称</span>
                 <el-input class="el-right" v-model="item.id" v-show=false></el-input>
-                <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称"></el-input>
+                <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称" :disabled="!item.enabledReport"></el-input>
                 <span class="delLv" @click="deleteMoreLvyes(item,index)">删除</span>
               </div>
               <div class="item-form">
                 <span>上传通道</span>
-                <el-select class="el-right" v-model="item.reportChannel" placeholder="请选择上传通道">
+                <el-select class="el-right" v-model="item.reportChannel" placeholder="请选择上传通道" :disabled="!item.enabledReport">
                   <el-option
                     v-for="(obj, index) in rendLvyeTypeList"
                     :key="obj.index"
@@ -1339,7 +1339,7 @@
               </div>
               <div class="item-form">
                 <span>上传类型</span>
-                <el-select class="el-right" v-model="item.reportType" placeholder="请选择上传类型">
+                <el-select class="el-right" v-model="item.reportType" placeholder="请选择上传类型" :disabled="!item.enabledReport">
                   <el-option
                     v-for="(obj, index) in moreLyReportTypeList"
                     :key="obj.index"
@@ -1352,34 +1352,35 @@
                 v-if="item.reportChannel == 'CLOUD' || item.reportChannel == 'LOCAL'|| item.reportChannel == 'HANGZHOU' || item.reportChannel == 'WUHAN'||item.reportChannel=='CHENGDU' ||item.reportChannel=='GUANGDONG'|| item.reportChannel == 'HEFEI' ">
                 <div class="item-form">
                   <span>酒店公安ID</span>
-                  <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID"></el-input>
+                  <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID" :disabled="!item.enabledReport"></el-input>
                 </div>
               </div>
               <div
-                v-if="item.reportChannel == 'LOCAL'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU'||item.reportChannel == 'HANGZHOU'">
+                v-if="item.reportChannel == 'LOCAL'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU'||!item.reportChannel == 'HANGZHOU'">
                 <div class="item-form">
                   <span>公安参数</span>
-                  <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
+                  <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
                 </div>
               </div>
               <div class="item-form">
                 <span>说明</span>
-                <el-input class="el-right" v-model="item.descrption" placeholder="本旅业的相应描述"></el-input>
+                <el-input class="el-right" v-model="item.descrption" placeholder="本旅业的相应描述" :disabled="!item.enabledReport"></el-input>
               </div>
               <div class="item-form">
                 <span>自动上传配置项</span>
                 <el-switch
                   v-model="item.autoReport"
                   on-color="#13ce66"
-                  off-color="#ff4949">
-                </el-switch>
+                  off-color="#ff4949" :disabled="!item.enabledReport">
+                </el-switch >
               </div>
               <div class="item-form">
                 <span>是否开启</span>
                 <el-switch
                   v-model="item.enabledReport"
                   on-color="#13ce66"
-                  off-color="#ff4949">
+                  off-color="#ff4949"
+                >
                 </el-switch>
               </div>
             </div>
@@ -1533,6 +1534,7 @@
     data() {
       return {
         //多旅业列表
+        disItem:null,
         setTip:false,
         moreLyReportTypeValue: '',
         moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {
@@ -1764,6 +1766,9 @@
         hotelName: state => state.enterprise.tempHotelName,
         showReception: state => state.enterprise.showReception
       }),
+      rcgethotelid() {
+        return "http://localhost:8080/virgo/fileUpload/" + this.$route.params.hotelid
+      },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
 //         return "Session:"+sessionStorage.getItem('session_id');
@@ -1772,9 +1777,6 @@
           enctype: "multipart/form-data"
 //           Access-Control-Allow-Origin: *
         }
-      },
-      rcgethotelid() {
-        return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
       rendLvyeTypeList() {
         return this.lvyeTypeList;
@@ -2380,6 +2382,7 @@
         "setRCconfig",
         "getRCConfiged"
       ]),
+
       //拉已配置的RC数据
       getRCConfigeds() {
         this.getRCConfiged({
@@ -2411,7 +2414,10 @@
       submitUpload() {
         this.$refs.upload.submit();
       },
+
+
       RCconfigs(pre) {
+        console.log(111)
         this.RCconfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
@@ -3041,7 +3047,7 @@
           if(item.reportChannel){
             console.log('有')
             if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'GUANGDONG') {
-              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
+              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)){
                 return true;
               }
               else {
@@ -3049,7 +3055,7 @@
               }
             } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
               if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)) {
-                return true;
+                return tru
               }
               else {
                 return false;
@@ -3252,9 +3258,9 @@
         })
       },
       deleteMoreLvyes(param, index) {
+        param.enabledReport=true;
         if (!param.id) {
           this.moreLvyeList.splice(index, 1);
-          console.log(66666)
           return;
         };
         this.deleteMoreLvye({
@@ -3262,7 +3268,7 @@
           onsuccess: body => {
             this.getMoreLvyes();
           }
-        })
+        });
       },
       addNewLv() {
         let obj = {
@@ -3276,7 +3282,7 @@
           autoReport: false,
           enabledReport: true
         };
-        this.moreLvyeList.push(obj)
+        this.moreLvyeList.push(obj);
       },
     }
   }
