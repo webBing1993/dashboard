@@ -30,8 +30,6 @@
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
           <a class="v-options pointer" @click="config(obj)">配置</a>
           <a class="v-options pointer" @click="device(obj)">设备</a>
-          <!--<a class="v-options pointer" @click="source(obj)">数据</a>
-          <a class="v-options pointer" @click="log(obj)">日志</a>-->
         </td>
       </tr>
       </tbody>

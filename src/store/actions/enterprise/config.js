@@ -202,13 +202,29 @@ module.exports = {
       }
     })
   },
+  modifyLvye(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/lvye`,
+      method: 'PUT',
+      body: {
+        ...param.data
+      },
+      onSuccess: body => {
+        // console.log(param)
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
+        ctx.commit('LVYEATA', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  //获取多旅业数据
   getMoreLvye(ctx, param) {
-    console.log('zsj:' + param.hotel_id)
     ctx.dispatch('resource', {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
         if (body.data) {
+          console.log('获取了多旅业数据:' + JSON.stringify(body.data))
           let tempData = [];
           body.data.forEach(function (item, index) {
             let obj = {
@@ -233,21 +249,7 @@ module.exports = {
       }
     })
   },
-  modifyLvye(ctx, param) {
-    ctx.dispatch('resource', {
-      url: `/hotel/${param.hotel_id}/lvye`,
-      method: 'PUT',
-      body: {
-        ...param.data
-      },
-      onSuccess: body => {
-        // console.log(param)
-        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
-        ctx.commit('LVYEATA', body.data)
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
-  },
+  //保存多旅业数据
   modifyMoreLvye(ctx, param) {
     let obj = {lvye: param.data};
     ctx.dispatch('resource', {
@@ -256,13 +258,12 @@ module.exports = {
       body: obj,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
-        console.log('修改：',param.config)
-        ctx.commit('MORELVYEATA', param.config);
+      // ctx.commit('MORELVYEATA', param.config);
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
   },
-
+  //删除多旅业数据
   deleteMoreLvye(ctx, param) {
     ctx.dispatch('resource', {
       url: `/morelvye/${param.areaId}`,
@@ -270,7 +271,6 @@ module.exports = {
       body: param.data,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
-        //ctx.commit('MORELVYEATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

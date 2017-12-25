@@ -1316,8 +1316,12 @@
               </el-switch>
             </div>
           </div>
+          <!-----------多旅业配置--------->
           <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList">
             <div class="lvyeItem" style="margin-top: 2rem">
+              <div class="item-form">
+                <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
+              </div>
               <div class="item-form">
                 <span>旅业名称</span>
                 <el-input class="el-right" v-model="item.id" v-show=false></el-input>
@@ -1382,7 +1386,10 @@
               </div>
             </div>
           </div>
+
         </div>
+
+        <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <div v-if="showType ===enumShowType.moreLvyeReportType">
             <el-button @click="addNewLv" style="margin-bottom: 2rem;border: 1px solid #3639FF;color:#60A6FF ">添加一个新旅业
@@ -1393,6 +1400,7 @@
             <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
           </div>
         </div>
+        <!--footer-->
       </el-dialog>
       <el-dialog
         title="点击下载二维码"
@@ -1527,6 +1535,7 @@
     data() {
       return {
         //多旅业列表
+        setTip:false,
         moreLyReportTypeValue: '',
         moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {
           name: "文件交换",
@@ -1741,11 +1750,11 @@
       this.getWxhotelCitysers();
       this.getPms();
       this.getLvyes();
-      this.getMoreLvyes();
       this.getlvyeTypeLists();
       this.wechatList();
       this.WxhotelRegisters();
       this.getRCConfigeds();
+      this.getMoreLvyes();
     },
     computed: {
       ...mapState({
@@ -1898,7 +1907,7 @@
           return false;
         }
       },
-      validateMoreLvye() {
+      validateMore() {
         return true;
       },
       validatefacein() {
@@ -2154,7 +2163,7 @@
             result = true;
             break;
           case enumShowType.moreLvyeReportType:
-            result = this.validateMoreLvye;
+            result = this.validateMore;
             break;
           default:
             result = false;
@@ -2163,8 +2172,9 @@
       }
     },
     watch: {
-      configData() {
-        let configData = this.configData;
+      configData()
+      {
+        let configData = this.configData
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -2279,10 +2289,7 @@
           this.autoIdentityCheckVal = configData.enabled_auto_identity_check == 'true' ? true : false;
           //身份核验功能配置
           this.identityCheckVal = configData.enabled_identity_check == 'true' ? true : false;
-          //RC单打印
-//          this.autoPrintVal=configData.auto_print==1?true:false;
-//          this.perRoom=configData.electron_sign==1?true:false;
-        }
+        };
       },
       pmsData() {
         if (tool.isNotBlank(this.pmsData)) {
@@ -2422,32 +2429,6 @@
         })
 
       },
-      deleteMoreLvyes(param, index) {
-        if (!param.id) {
-          this.renderMoreLvyeList.splice(index, 1);
-          return;
-        }
-        this.deleteMoreLvye({
-          areaId: param.id,
-          onsuccess: body => {
-            this.renderMoreLvyeList.splice(index, 1);
-          }
-        })
-      },
-      addNewLv() {
-        let obj = {
-          id: "",
-          lvyeName: "",
-          reportChannel: "",
-          reportType: "",
-          lvyeId: "",
-          transitParam: "",
-          descrption: "",
-          autoReport: "",
-          enabledReport: ""
-        };
-        this.moreLvyeList.push(obj)
-      },
       goSummary() {
         this.goto({
           name: 'ConfigSummary'
@@ -2475,7 +2456,11 @@
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
-        }
+        };
+//        if(type === enumShowType.moreLvyeReportType&&this.renderMoreLvyeList.length==0){
+//          console.log('没有旅业');
+//          this.addNewLv();
+//        };
         this.showDialog = true;
       },
       wechatList() {
@@ -2764,25 +2749,6 @@
             return;
           }
             break;
-          case enumShowType.moreLvyeReportType: {
-            let moreLvyeListData = [];
-            this.renderMoreLvyeList.forEach(function (item, index) {
-              let tempData = {
-                id: item.id,
-                lvye_id: item.lvyeId,
-                lvye_name: item.lvyeName,
-                report_channel: item.reportChannel,
-                report_type: item.reportType,
-                descrption: item.descrption,
-                auto_report: item.autoReport === true ? 1 : 0,
-                enabled_report: item.enabledReport === true ? 1 : 0,
-                transit_param: item.transitParam
-              }
-              moreLvyeListData.push(tempData);
-            });
-            this.modifyMoreLvyes(moreLvyeListData, this.renderMoreLvyeList);
-            return;
-          }
           case enumShowType.doorLock_unknown:
             break;
           case enumShowType.facein:
@@ -3039,10 +3005,64 @@
             }
             this.mySetRCconfig(data);
             return;
+          case enumShowType.moreLvyeReportType: {
+            if(this.renderMoreLvyeList.length>0){
+              let result=this.validateMoreLvye();
+              if(result==true){
+                this.setTip=false;
+                let moreLvyeListData = [];
+                this.renderMoreLvyeList.forEach(function (item, index) {
+                  let tempData = {
+                    id: item.id,
+                    lvye_id: item.lvyeId,
+                    lvye_name: item.lvyeName,
+                    report_channel: item.reportChannel,
+                    report_type: item.reportType,
+                    descrption: item.descrption,
+                    auto_report: item.autoReport === true ? 1 : 0,
+                    enabled_report: item.enabledReport === true ? 1 : 0,
+                    transit_param: item.transitParam
+                  }
+                  moreLvyeListData.push(tempData);
+                });
+                this.modifyMoreLvyes(moreLvyeListData);
+              }
+              else{
+                this.setTip=true;
+              }
+            }
+            return;
+          }
           default:
             data = null
         }
         this.patchConfigData(data);
+      },
+      validateMoreLvye(){
+        let result;
+        result= this.renderMoreLvyeList.every(function (item, index){
+          if(item.lvyeType){
+            if (item.lvyeType == 'CLOUD' || item.lvyeType == 'WUHAN' || item.lvyeType == 'GUANGDONG') {
+              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
+                return true;
+              }
+              else {
+                return false;
+              }
+            } else if (item.lvyeType == 'LOCAL' || item.lvyeType == 'HEFEI' || item.lvyeType == 'CHENGDU' || item.lvyeType == 'HANGZHOU') {
+              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)) {
+                return true;
+              }
+              else {
+                return false;
+              }
+            };
+          }
+          else {
+            return false;
+          }
+        });
+        return result;
       },
       getConfigs() {
         this.getConfig({
@@ -3152,28 +3172,12 @@
           hotel_id: this.$route.params.hotelid
         })
       },
-      getMoreLvyes() {
-        this.getMoreLvye({
-          hotel_id: this.$route.params.hotelid,
-        })
-      },
       modifyLvyes(data) {
         this.modifyLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
             this.showDialog = false;
-          }
-        })
-      },
-      modifyMoreLvyes(data, list) {
-        this.modifyMoreLvye({
-          hotel_id: this.$route.params.hotelid,
-          data: data,
-          config: list,
-          onsuccess: body => {
-            this.showDialog = false;
-            this.hasSetMoreLvye = true;
           }
         })
       },
@@ -3230,10 +3234,61 @@
       downloadImg() {
         this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
       },
+      // 多旅业数据处理
+      getMoreLvyes() {
+        this.getMoreLvye({
+          hotel_id: this.$route.params.hotelid,
+        })
+      },
+      modifyMoreLvyes(data) {
+        this.modifyMoreLvye({
+          hotel_id: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.getMoreLvyes();
+            if(this.moreLvyeList.length>0){
+              this.hasSetMoreLvye = true;
+            }
+          }
+        })
+      },
+      deleteMoreLvyes(param, index) {
+        if (!param.id) {
+          this.moreLvyeList.splice(index, 1);
+          console.log(66666)
+          return;
+        };
+        this.deleteMoreLvye({
+          areaId: param.id,
+          onsuccess: body => {
+            this.getMoreLvyes();
+          }
+        })
+      },
+      addNewLv() {
+        let obj = {
+          id: "",
+          lvyeName: "",
+          reportChannel: "",
+          reportType: "",
+          lvyeId: "",
+          transitParam: "",
+          descrption: "",
+          autoReport: "",
+          enabledReport: ""
+        };
+        this.moreLvyeList.push(obj)
+      },
     }
   }
 </script>
 <style lang="less">
+  .tip{
+    color: #ff2b1c;
+    font-size: 16px;
+    margin-left: 9rem;
+  }
   .module-wrapper {
     .content-configinfo {
       padding: 24px 20px 0 8px;
