@@ -313,6 +313,10 @@
             padding-top: 12px;
           }
         }
+        .el-checkbox{
+          margin-left: 0;
+          margin-right: 1.5rem;
+        }
         .el-dialog__body {
           padding: 0 20px 33px;
           .rec {

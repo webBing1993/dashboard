@@ -2385,7 +2385,7 @@
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log("hhahhhhh:", this.UploadResponData, this.perRoom, this.autoPrintVal)
+            console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
             if (body.data) {
               this.hasSetRc = true;
               this.UploadResponData = body.data.hotel_id;
@@ -2394,10 +2394,6 @@
             }
           }
         })
-      },
-      customRequest(p1) {
-        console.log("Wills:", p1);
-        p1.headers = {ssss: "dddd"}
       },
       getUploadData(res) {
         this.UploadResponData = res.data
@@ -2414,6 +2410,7 @@
       },
       submitUpload() {
         this.$refs.upload.submit();
+        this.RCconfigs();
       },
 
 
@@ -3280,8 +3277,8 @@
           lvyeId: "",
           transitParam: "",
           descrption: "",
-          autoReport: "",
-          enabledReport: ""
+          autoReport: false,
+          enabledReport: true
         };
         this.moreLvyeList.push(obj)
       },
