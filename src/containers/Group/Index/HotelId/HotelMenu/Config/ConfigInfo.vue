@@ -1764,9 +1764,6 @@
         hotelName: state => state.enterprise.tempHotelName,
         showReception: state => state.enterprise.showReception
       }),
-      rcgethotelid() {
-        return "http://localhost:8080/virgo/fileUpload/" + this.$route.params.hotelid
-      },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
 //         return "Session:"+sessionStorage.getItem('session_id');
@@ -1775,6 +1772,9 @@
           enctype: "multipart/form-data"
 //           Access-Control-Allow-Origin: *
         }
+      },
+      rcgethotelid() {
+        return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
       rendLvyeTypeList() {
         return this.lvyeTypeList;
@@ -2411,10 +2411,7 @@
       submitUpload() {
         this.$refs.upload.submit();
       },
-
-
       RCconfigs(pre) {
-        console.log(111)
         this.RCconfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
