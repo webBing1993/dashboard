@@ -3006,8 +3006,10 @@
             this.mySetRCconfig(data);
             return;
           case enumShowType.moreLvyeReportType: {
-            if(this.renderMoreLvyeList.length>0){
+            if(this.moreLvyeList.length>0){
+              console.log(11111)
               let result=this.validateMoreLvye();
+              console.log('result:'+result)
               if(result==true){
                 this.setTip=false;
                 let moreLvyeListData = [];
@@ -3039,17 +3041,19 @@
         this.patchConfigData(data);
       },
       validateMoreLvye(){
+        this.moreLvyeList=this.renderMoreLvyeList;
         let result;
-        result= this.renderMoreLvyeList.every(function (item, index){
-          if(item.lvyeType){
-            if (item.lvyeType == 'CLOUD' || item.lvyeType == 'WUHAN' || item.lvyeType == 'GUANGDONG') {
+        result= this.moreLvyeList.every(function (item, index){
+          if(item.reportChannel){
+            console.log('有')
+            if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'GUANGDONG') {
               if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
                 return true;
               }
               else {
                 return false;
               }
-            } else if (item.lvyeType == 'LOCAL' || item.lvyeType == 'HEFEI' || item.lvyeType == 'CHENGDU' || item.lvyeType == 'HANGZHOU') {
+            } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
               if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)) {
                 return true;
               }
