@@ -2410,7 +2410,6 @@
       },
       submitUpload() {
         this.$refs.upload.submit();
-        this.RCconfigs();
       },
 
 
