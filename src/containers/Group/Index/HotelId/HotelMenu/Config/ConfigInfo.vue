@@ -2504,6 +2504,8 @@
       handleClose() {
         this.delName = 'close';
         this.switchName = 'close';
+        this.getMoreLvyes();
+        this.setTip=false;
       },
       hideDialog() {
         this.showDialog = false;
@@ -3028,6 +3030,7 @@
                 this.modifyMoreLvyes(moreLvyeListData);
               }
               else{
+                this.hasSetMoreLvye=false;
                 this.setTip=true;
               }
             }
