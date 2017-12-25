@@ -522,6 +522,7 @@
         @close="handleClose"
       >
         <div class="dialog-content">
+          <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
           <div v-if="showType === enumShowType.PMS">
             <div class="item-form">
               <span>PMS品牌</span>
@@ -1319,9 +1320,6 @@
           <!-----------多旅业配置--------->
           <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList">
             <div class="lvyeItem" style="margin-top: 2rem">
-              <div class="item-form">
-                <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
-              </div>
               <div class="item-form">
                 <span>旅业名称</span>
                 <el-input class="el-right" v-model="item.id" v-show=false></el-input>
