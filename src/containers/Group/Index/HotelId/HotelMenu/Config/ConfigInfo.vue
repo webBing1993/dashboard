@@ -3047,15 +3047,15 @@
           if(item.reportChannel){
             console.log('有')
             if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'GUANGDONG') {
-              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)){
+              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
                 return true;
               }
               else {
                 return false;
               }
             } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
-              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel)&&tool.isNotBlank(item.transitParam)) {
-                return tru
+              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
+                return true;
               }
               else {
                 return false;
