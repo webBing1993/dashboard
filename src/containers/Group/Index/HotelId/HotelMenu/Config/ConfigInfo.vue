@@ -1252,7 +1252,7 @@
           </div>
           <div v-if="showType === enumShowType.autoIdentityCheck">
             <div class="item-form">
-              <span>是否自动调用人脸识别接口</span>
+              <span>是否开启墨镜身份核验</span>
               <el-switch
                 v-model="autoIdentityCheckVal"
                 on-color="#13ce66"
