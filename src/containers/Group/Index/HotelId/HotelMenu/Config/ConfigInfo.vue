@@ -676,7 +676,7 @@
                   <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
                 </div>
               </div>
-              <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' || lvyeType == 'CHENGDU'||lvyeType == 'HANGZHOU'">
+              <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' || lvyeType == 'CHENGDU'||lvyeType == 'HANGZHOU'||lvyeType == 'GUANGDONG'">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
@@ -2734,11 +2734,13 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE' || this.lvyeType == 'GUANGDONG') {
+//            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE' || this.lvyeType == 'GUANGDONG') {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE') {
               data = {
                 ...tempData
               }
-            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU') {
+//            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU') {
+            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU'|| this.lvyeType == 'GUANGDONG') {
               data = {
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
