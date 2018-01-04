@@ -1767,7 +1767,7 @@
         showReception: state => state.enterprise.showReception
       }),
       rcgethotelid() {
-        return "http://localhost:8080/virgo/fileUpload/" + this.$route.params.hotelid
+        return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
@@ -2403,7 +2403,6 @@
         console.log('---->', this.UploadResponData)
       },
       _upload() {
-        console.log('qwertyuio')
         this.RCconfig({
           hotel_id: this.$route.params.hotelid
         })
