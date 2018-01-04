@@ -34,12 +34,29 @@
             <div class="item-form" style="font-weight: bolder">配置</div>
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
+              <div class="recCheckbox">
               <el-checkbox-group v-model="roomType">
                 <el-checkbox v-for="room in roomTypeList" :key="room.id" :label="room.name"
-                             :disabled=!room.abled></el-checkbox>
+                     :disabled=!room.abled></el-checkbox>
               </el-checkbox-group>
+              </div>
             </div>
+              <div class="departLine"></div>
             <div class="item-form">
+              <span class="itemTitle">关联房号</span>
+              <el-transfer
+                :titles=roomList
+                filterable
+                :filter-method="filterMethod"
+                filter-placeholder="请输入房间号"
+                v-model="value2"
+                :data="data2"
+              >
+              </el-transfer>
+            </div>
+              <div class="departLine"></div>
+            <div class="item-form">
+
               <span class="itemTitle">选择旅业</span>
               <el-select v-model="lvyeVal" placeholder="请选择">
                 <el-option
@@ -55,13 +72,18 @@
               此门店暂未配置旅业，
               <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业</router-link>
             </div>
+              <div class="departLine"></div>
             <div class="item-form">
+
               <span class="itemTitle">选择设备</span>
+              <div class="recCheckbox">
               <el-checkbox-group v-model=deviceType>
-                <el-checkbox v-for="device in deviceTypeList" :key="device.device_id" :label="device.device_id"
+                <el-checkbox  v-for="device in deviceTypeList" :key="device.device_id" :label="device.device_id"
                              :disabled=!device.abled>{{device.device_name}}</el-checkbox>
               </el-checkbox-group>
-            </div>
+              </div>
+              </div>
+
           </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
@@ -75,10 +97,22 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
-
   export default {
     name: 'receptionArea',
     data() {
+        const generateData2 = _ => {
+            const data = [];
+            const cities = ['上海', '北京', '广州', '深圳', '南京', '西安', '成都'];
+            const pinyin = ['shanghai', 'beijing', 'guangzhou', 'shenzhen', 'nanjing', 'xian', 'chengdu'];
+            cities.forEach((city, index) => {
+                data.push({
+                    label: city,
+                    key: index,
+                    pinyin: pinyin[index]
+                });
+            });
+            return data;
+        };
       return {
         list: [],
         showDialog: false,
@@ -97,7 +131,13 @@
         hasLvye:false,
         deviceTypeList:[],
         deviceType:[],
-        deviceIdlist:[]
+        deviceIdlist:[],
+        roomList:['所有房号','已选房号'],
+        data2: generateData2(),
+        value2: [],
+        filterMethod(query, item) {
+            return item.pinyin.indexOf(query) > -1;
+        }
       }
     },
     computed: {
@@ -281,7 +321,6 @@
     padding: 1rem;
     .content_reception {
       .top {
-        font-weight: bold;
         font-size: 16px;
         height: 3rem;
         margin-bottom: 1rem;
@@ -298,8 +337,8 @@
           margin: 0;
         }
       }
-      .el-dialog {
-        width: 65%;
+      .el-dialog{
+         width: 65%;
         .el-dialog__header {
           padding: 0 20px;
           border-bottom: solid 1px #979797;
@@ -313,9 +352,33 @@
             padding-top: 12px;
           }
         }
-        .el-checkbox{
-          margin-left: 0;
-          margin-right: 1.5rem;
+        .recCheckbox{
+          .el-checkbox{
+            margin-left: 0;
+            margin-right: 1.5rem;
+          }
+        }
+
+        .el-icon-search{
+          height: 85%;
+        }
+
+        .el-transfer-panel__filter{
+          padding: 0.2rem 1rem 1.1rem 1rem ;
+          width: 100%;
+        }
+        .el-input__inner {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+          background-color: #fff;
+          background-image: none;
+          border-radius: 4px;
+          border: 1px solid #bfcbd9;
+          box-sizing: border-box;
+          color: #1f2d3d;
+          font-size: inherit;
+          height: 36px;
         }
         .el-dialog__body {
           padding: 0 20px 33px;
@@ -324,9 +387,14 @@
             font-size: 14px;
             font-weight: 400;
             color: #4A4A4A;
+              .departLine{
+                  margin: 1rem 10rem 2rem 5.5rem;
+                  border-top: 1px solid #dadada;
+              }
             .item-form {
               display: flex;
               align-items: center;
+              margin-top: 10px;
               margin-bottom: 10px;
               .itemTitle {
                 display: inline-block;

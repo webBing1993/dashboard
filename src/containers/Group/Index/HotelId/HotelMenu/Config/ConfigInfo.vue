@@ -82,7 +82,7 @@
                 等接口需要用到。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!configData.wxHotelId, 'tag_text_green': configData.wxHotelId}">{{configData.wxHotelId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!configData.wx_hotel_id, 'tag_text_green': configData.wx_hotel_id}">{{configData.wx_hotel_id ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -109,6 +109,19 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !hasSetMoreLvye, 'tag_text_green':hasSetMoreLvye}">{{hasSetMoreLvye ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8" v-if="showReception">
+          <button @click="dialogConfig(enumShowType.customization)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>定制化配置</span>
+              <p>酒店LOGO、酒店介绍</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -260,6 +273,19 @@
                   :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.enableRCstatus)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>RC单是否开启字段</span>
+              <p>RC单是否开启字段</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <div class="content-title">
         <span>酒店配置 <i>（需要配置以下所有项目）</i></span>
@@ -275,7 +301,7 @@
               <p>酒店是否支持写卡吐卡</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !supportRoomCard, 'tag_text_green': supportRoomCard}">{{supportRoomCard ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !supportRoomCard||issuedCardRuleVal, 'tag_text_green': supportRoomCard||issuedCardRuleVal}">{{supportRoomCard||issuedCardRuleVal ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -468,20 +494,6 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.issuedCardRule)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>发房卡规则配置</span>
-              <p>一房一卡或一房多卡</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !issuedCardRuleVal, 'tag_text_green':issuedCardRuleVal}">{{issuedCardRuleVal ? '已配置' : '未配置'}}
-            </span>
-          </button>
-        </el-col>
-        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoIdentityCheck)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
@@ -593,11 +605,11 @@
                 <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
               </div>
               <div class="item-form">
-                <span>用户名</span>
+                <span>渠道名称</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
               <div class="item-form">
-                <span>密码</span>
+                <span>渠道凭证</span>
                 <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
@@ -1022,6 +1034,17 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>选择分房卡类型</span>
+              <el-select class="el-right" v-model="issuedCardRuleVal">
+                <el-option
+                  v-for="(item, index) in issuedCardRuleList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
           </div>
           <div v-if="showType === enumShowType.cashPledge">
             <div class="item-form">
@@ -1260,20 +1283,7 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.issuedCardRule">
-            <div class="item-form">
-              <span>选择分房卡类型</span>
-              <el-select class="el-right" v-model="issuedCardRuleVal">
-                <el-option
-                  v-for="(item, index) in issuedCardRuleList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.value">
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-          <!-----------RC单打印--------->
+          <!-- RC单打印 -->
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
               <span>模版名称</span>
@@ -1306,7 +1316,16 @@
               </el-switch>
             </div>
           </div>
-          <!-----------RC单打印--------->
+          <div v-if="showType === enumShowType.enableRCstatus">
+            <div class="item-form">
+              <span>RC单是否开启字段</span>
+              <el-switch
+                v-model="rcStatus"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <div v-if="showType === enumShowType.identityCheck">
             <div class="item-form">
               <span>是否自动调用人脸识别接口</span>
@@ -1317,9 +1336,8 @@
               </el-switch>
             </div>
           </div>
-          <!-----------多旅业配置--------->
-          <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList">
-            <div class="lvyeItem" style="margin-top: 2rem">
+          <!-- 多旅业配置 -->
+          <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList" class="bottoomLine">
               <div class="item-form">
                 <span>旅业名称</span>
                 <el-input class="el-right" v-model="item.id" v-show=false></el-input>
@@ -1383,9 +1401,26 @@
                 >
                 </el-switch>
               </div>
+          </div>
+          <!-- 定制化配置 -->
+          <div v-if="showType === enumShowType.customization">
+            <div class="item-form">
+              <span>显示酒店品牌的logo</span>
+              <el-switch
+                v-model="mirrorIntro"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否显示酒店的介绍</span>
+              <el-switch
+                v-model="mirrorBrand"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
           </div>
-
         </div>
 
         <!--footer-->
@@ -1476,7 +1511,9 @@
     issuedCardRule: 35,//发房卡规则
     rcPrint: 36,
     identityCheck: 37,
-    moreLvyeReportType: 38
+    moreLvyeReportType: 38,
+    customization:39,
+    enableRCstatus :40
   }
 
   //弹框标题类型
@@ -1497,7 +1534,7 @@
     '自动退房配置',
     '自动退款配置',
     '无证入住配置',
-    '门卡配置',
+    '房卡配置',
     '押金配置',
     '早餐券配置',
     '最大房间数量配置',
@@ -1518,7 +1555,9 @@
     '发房卡规则配置',
     'RC单打印',
     '开启身份核验功能配置',
-    '酒店多旅业系统配置'
+    '酒店多旅业系统配置',
+    '定制化配置',
+    'RC单是否开启字段'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1742,7 +1781,10 @@
         UploadResponData: '',
         rcConfig: false,
         hasSetMoreLvye: false,
-        hasSetRc: false
+        hasSetRc: false,
+        mirrorIntro:false,
+        mirrorBrand:false,
+        rcStatus:false
       }
     },
     mounted() {
@@ -1755,6 +1797,7 @@
       this.WxhotelRegisters();
       this.getRCConfigeds();
       this.getMoreLvyes();
+      this.testData()
     },
     computed: {
       ...mapState({
@@ -1968,7 +2011,7 @@
         return true;
       },
       validateroomCard() {
-        return true;
+        return tool.isNotBlank(this.issuedCardRuleVal);
       },
       validatecashPledge() {
         if (this.cashPledgeType == 'none_cash_pledge') {
@@ -2046,6 +2089,12 @@
         return true;
       },
       validateRCPrintCheck() {
+        return true;
+      },
+      validateRCStatus() {
+          return true;
+      },
+      validateCustomization(){
         return true;
       },
       validateAll() {
@@ -2165,6 +2214,12 @@
           case enumShowType.moreLvyeReportType:
             result = this.validateMore;
             break;
+          case enumShowType.customization:
+            result = this.validateCustomization;
+            break;
+          case enumShowType.enableRCstatus:
+            result = this.validateRCStatus ;
+            break;
           default:
             result = false;
         }
@@ -2193,7 +2248,7 @@
             this.payName = configData.pay_name,
             this.refundName = configData.refund_name,
             //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
+          this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -2238,6 +2293,7 @@
           this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
+          this.issuedCardRuleVal = configData.issued_card_rule;
           //
           this.enabledTicketPrint = configData.enabled_ticket_print == 'true' ? true : false;
           //押金配置
@@ -2271,7 +2327,6 @@
           this.needDepositKeyword = configData.need_deposit_keyword;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
-
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
             this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
@@ -2283,12 +2338,16 @@
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
-          //发房卡规则配置
-          this.issuedCardRuleVal = configData.issued_card_rule;
+
+
           //自动人脸核验配置
           this.autoIdentityCheckVal = configData.enabled_auto_identity_check == 'true' ? true : false;
           //身份核验功能配置
           this.identityCheckVal = configData.enabled_identity_check == 'true' ? true : false;
+          //定制化配置
+          this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
+          this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
+          this.rcStatus=configData.rc_status=='true'?true:false;
         };
       },
       pmsData() {
@@ -2382,7 +2441,9 @@
         "setRCconfig",
         "getRCConfiged"
       ]),
-
+        testData(){
+          console.log('测试数据：'+this.rcStatus)
+        },
       //拉已配置的RC数据
       getRCConfigeds() {
         this.getRCConfiged({
@@ -2608,6 +2669,7 @@
             break;
           case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
+            this.issuedCardRuleVal = this.configData.issued_card_rule;
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
@@ -2665,6 +2727,13 @@
             break;
           case enumShowType.identityCheck:
             this.identityCheckVal = this.configData.enabled_identity_check == 'true' ? true : false;
+            break;
+          case enumShowType.customization:
+            this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
+            this.mirrorBrand=this.configData.enabled_mirror_brand=='true'?true:false;
+            break;
+          case enumShowType.enableRCstatus:
+            this.rcStatus=this.configData.rc_status=='true'?true:false;
             break;
           default:
         }
@@ -2865,7 +2934,8 @@
             break;
           case enumShowType.roomCard:
             data = {
-              support_room_card: this.supportRoomCard.toString()
+              support_room_card: this.supportRoomCard.toString(),
+                'issued_card_rule': this.issuedCardRuleVal
             }
             break;
           case enumShowType.cashPledge: {
@@ -2989,9 +3059,9 @@
           case enumShowType.autoIdentityCheck:
             data = {'enabled_auto_identity_check': this.autoIdentityCheckVal.toString()};
             break;
-          case enumShowType.issuedCardRule:
-            data = {'issued_card_rule': this.issuedCardRuleVal};
-            break;
+          // case enumShowType.issuedCardRule:
+          //   data = {'issued_card_rule': this.issuedCardRuleVal};
+          //   break;
           case enumShowType.identityCheck:
             data = {'enabled_identity_check': this.identityCheckVal.toString()};
             break;
@@ -3003,6 +3073,17 @@
             }
             this.mySetRCconfig(data);
             return;
+          case enumShowType.customization:
+              data = {
+                  "enabled_mirror_introduce": this.mirrorIntro,
+                  "enabled_mirror_brand": this.mirrorBrand
+              }
+              break;
+          case enumShowType.enableRCstatus:
+              data = {
+                  "rc_status": this.rcStatus
+              }
+              break;
           case enumShowType.moreLvyeReportType: {
             if(this.moreLvyeList.length>0){
               console.log(11111)
@@ -3581,5 +3662,9 @@
     width: 200px;
     margin-top: 25px;
     margin-left: 35px;
+  }
+  .bottoomLine{
+    padding-top: 2rem;
+    border-bottom: 1px solid #000000;
   }
 </style>

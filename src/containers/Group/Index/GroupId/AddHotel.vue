@@ -355,7 +355,7 @@
     }
   }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   .module-wrapper {
     .content_addhotel {
       padding: 23px 37px 28px 39px;
