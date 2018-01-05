@@ -14,6 +14,7 @@ import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
 import GroupId from '@/containers/Group/Index/GroupId.vue'
 import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
+import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 // 4级路由
 import HotelId from '@/containers/Group/Index/HotelId.vue'
@@ -27,6 +28,7 @@ import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
+import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -52,171 +54,176 @@ import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/Con
 Vue.use(Router)
 
 const main = [
-    {
-      path: '/auth',
-      name: 'Auth',
-      component: Auth
-    },
-    {
-      path: '/',
-      name: 'MainApp',
-      component: MainApp,
-      children: [
-        {
-          path: 'home',
-          name: 'Home',
-          component: Home
-        },
-        {
-          path: 'group',
-          component: Group,
-          children: [
-            {
-              path: 'add',
-              name: 'AddGroup',
-              component: AddGroup,
-            },
-            {
-              path: '/',
-              component: GroupMenu,
-              children: [
-                {
-                  path: '/',
-                  name: 'GroupList',
-                  component: GroupList
-                },
-                {
-                  path: 'hotel',
-                  name: 'GroupHotel',
-                  component: GroupHotel
-                }
-              ]
-            },
-            {
-              path: ':id',
-              component: GroupId,
-              children: [
-                {
-                  path: 'editbrand',
-                  name: 'EditBrand',
-                  component: EditBrand,
-                },
-                {
-                  path: '/',
-                  component: GroupIdMenu,
-                  children: [
-                    {
-                      path: '/',
-                      name: 'GroupInfo',
-                      component: GroupInfo
-                    },
-                    {
-                      path: 'brand',
-                      name: 'Brand',
-                      component: Brand
-                    },
-                    {
-                      path: 'hotel',
-                      name: 'GroupHotelList',
-                      component: GroupHotelList
-                    }
-                  ]
-                },
-                {
-                  path: 'hotel',
-                  component: HotelId,
-                  children: [
-                    {
-                      path: 'add',
-                      name: 'AddHotel',
-                      component: AddHotel,
-                    },
-                    {
-                      path: ':hotelid',
-                      component: HotelMenu,
-                      children: [
-                        {
-                          path: '/',
-                          name: 'HotelInfo',
-                          component: HotelInfo
-                        },
-                        {
-                          path: 'device',
-                          component: Device,
-                          children: [
-                            {
-                              path: '/',
-                              name: 'DeviceList',
-                              component: DeviceList
-                            },
-                            {
-                              path: 'editdevice',
-                              name: 'EditDevice',
-                              component: EditDevice
-                            },
-                            {
-                              path: 'relationvevice',
-                              name: 'RelationDevice',
-                              component: RelationDevice
-                            }
-                          ]
-                        },
-                        {
-                          path: 'room',
-                          name: 'Room',
-                          component: Room
-                        },
-                        {
-                          path: 'roomtype',
-                          name: 'RoomType',
-                          component: RoomType
-                        },
-                        {
-                          path: 'receptionArea',
-                          name: 'ReceptionArea',
-                          component: ReceptionArea
-                        },
-                        {
-                          path: 'config',
-                          component: Config,
-                          children: [
-                            {
-                              path: '/',
-                              name: 'ConfigInfo',
-                              component: ConfigInfo
-                            },
-                            {
-                              path: 'configsummary',
-                              name: 'ConfigSummary',
-                              component: ConfigSummary
-                            },
-                          ]
-                        },
-                        {
-                          path: 'onlinestatus',
-                          name: 'OnlineStatus',
-                          component: OnlineStatus
-                        },
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          path: 'system',
-          component: System,
-          children: [{
-            path: 'addminiapp',
-            name: 'AddMiniApp',
-            component: AddMiniApp,
+  {
+    path: '/auth',
+    name: 'Auth',
+    component: Auth
+  },
+  {
+    path: '/',
+    name: 'MainApp',
+    component: MainApp,
+    children: [
+      {
+        path: 'home',
+        name: 'Home',
+        component: Home
+      },
+      {
+        path: 'group',
+        component: Group,
+        children: [
+          {
+            path: 'add',
+            name: 'AddGroup',
+            component: AddGroup,
           },
+          {
+            path: '/',
+            component: GroupMenu,
+            children: [
+              {
+                path: '/',
+                name: 'GroupList',
+                component: GroupList
+              },
+              {
+                path: 'hotel',
+                name: 'GroupHotel',
+                component: GroupHotel
+              }
+            ]
+          },
+          {
+            path: ':id',
+            component: GroupId,
+            children: [
+              {
+                path: 'editbrand',
+                name: 'EditBrand',
+                component: EditBrand,
+              },
+              {
+                path: '/',
+                component: GroupIdMenu,
+                children: [
+                  {
+                    path: '/',
+                    name: 'GroupInfo',
+                    component: GroupInfo
+                  },
+                  {
+                    path: 'brand',
+                    name: 'Brand',
+                    component: Brand
+                  },
+                  {
+                    path: 'hotel',
+                    name: 'GroupHotelList',
+                    component: GroupHotelList
+                  }
+                ]
+              },
+              {
+                path: 'hotel',
+                component: HotelId,
+                children: [
+                  {
+                    path: 'add',
+                    name: 'AddHotel',
+                    component: AddHotel,
+                  },
+                  {
+                    path: ':hotelid',
+                    component: HotelMenu,
+                    children: [
+                      {
+                        path: '/',
+                        name: 'HotelInfo',
+                        component: HotelInfo
+                      },
+                      {
+                        path: 'device',
+                        component: Device,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'DeviceList',
+                            component: DeviceList
+                          },
+                          {
+                            path: 'editdevice',
+                            name: 'EditDevice',
+                            component: EditDevice
+                          },
+                          {
+                            path: 'relationvevice',
+                            name: 'RelationDevice',
+                            component: RelationDevice
+                          }
+                        ]
+                      },
+                      {
+                        path: 'room',
+                        name: 'Room',
+                        component: Room
+                      },
+                      {
+                        path: 'roomtype',
+                        name: 'RoomType',
+                        component: RoomType
+                      },
+                      {
+                        path: 'receptionArea',
+                        name: 'ReceptionArea',
+                        component: ReceptionArea
+                      },
+                      {
+                        path: 'config',
+                        component: Config,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigInfo',
+                            component: ConfigInfo
+                          },
+                          {
+                            path: 'configsummary',
+                            name: 'ConfigSummary',
+                            component: ConfigSummary
+                          },
+                        ]
+                      },
+                      {
+                        path: 'onlinestatus',
+                        name: 'OnlineStatus',
+                        component: OnlineStatus
+                      },
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: 'system',
+        component: System,
+        children: [{
+          path: 'addminiapp',
+          name: 'AddMiniApp',
+          component: AddMiniApp,
+        },
           {
             path: 'addwechatpay',
             name: 'AddWechatpay',
             component: AddWechatpay,
+          },
+          {
+            path: 'addServeMessage',
+            name: 'AddServeMessage',
+            component: AddServeMessage,
           },
           {
             path: '/',
@@ -252,13 +259,18 @@ const main = [
                 path: 'qrcodecreate',
                 name: 'QR_Code_create',
                 component: QR_Code_create
+              },
+              {
+                path: 'servemessage',
+                name: 'serve_message',
+                component: serve_message
               }
             ]
           }]
-        }
-      ]
-    }
-  ]
+      }
+    ]
+  }
+]
 
 const router = new Router({
   routes: [...main]
