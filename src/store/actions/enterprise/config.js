@@ -247,7 +247,8 @@ module.exports = {
               transitParam: item.transit_param,
               descrption: item.descrption,
               autoReport: item.auto_report === 1 ? true : false,
-              enabledReport: item.enabled_report === 1 ? true : false
+              enabledReport: item.enabled_report === 1 ? true : false,
+              device_id:item.device_id
             };
             tempData.push(obj);
           });

@@ -1035,6 +1035,14 @@
               </el-switch>
             </div>
             <div class="item-form">
+              <span>是否支持吞吐门卡？</span>
+              <el-switch
+                v-model="supportRoomCard"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
               <span>选择分房卡类型</span>
               <el-select class="el-right" v-model="issuedCardRuleVal">
                 <el-option
