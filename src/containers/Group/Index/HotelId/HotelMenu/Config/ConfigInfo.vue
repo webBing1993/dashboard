@@ -1381,6 +1381,17 @@
                 </div>
               </div>
               <div class="item-form">
+                <span>选择底座</span>
+                <el-select class="el-right" v-model="item.device_id" placeholder="请选择底座" :disabled="!item.enabledReport">
+                  <el-option
+                    v-for="(obj, index) in renderDeskList"
+                    :key="index"
+                    :label="obj.device_name"
+                    :value="obj.device_id">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="item-form">
                 <span>说明</span>
                 <el-input class="el-right" v-model="item.descrption" placeholder="本旅业的相应描述" :disabled="!item.enabledReport"></el-input>
               </div>
@@ -1401,6 +1412,7 @@
                 >
                 </el-switch>
               </div>
+
           </div>
           <!-- 定制化配置 -->
           <div v-if="showType === enumShowType.customization">
@@ -1573,6 +1585,7 @@
     data() {
       return {
         //多旅业列表
+        deskList:[],
         disItem:null,
         setTip:false,
         moreLyReportTypeValue: '',
@@ -1793,6 +1806,7 @@
       this.getPms();
       this.getLvyes();
       this.getlvyeTypeLists();
+      this.getDeskLists();
       this.wechatList();
       this.WxhotelRegisters();
       this.getRCConfigeds();
@@ -1823,6 +1837,9 @@
       },
       rendLvyeTypeList() {
         return this.lvyeTypeList;
+      },
+      renderDeskList(){
+        return this.deskList;
       },
       renderList() {
         return this.wxhotelCityserList;
@@ -2420,6 +2437,7 @@
         'WxhotelRegister',
         'deleteWxHotel',
         'getlvyeTypeList',
+        'getDeskList',
         'getFaceEqu',
         'patchConfig',
         'getPMS',
@@ -3102,7 +3120,8 @@
                     descrption: item.descrption,
                     auto_report: item.autoReport === true ? 1 : 0,
                     enabled_report: item.enabledReport === true ? 1 : 0,
-                    transit_param: item.transitParam
+                    transit_param: item.transitParam,
+                    device_id:item.device_id
                   }
                   moreLvyeListData.push(tempData);
                 });
@@ -3127,14 +3146,14 @@
           if(item.reportChannel){
             console.log('有')
             if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'GUANGDONG') {
-              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
+              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
                 return true;
               }
               else {
                 return false;
               }
             } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
-              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
+              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
                 return true;
               }
               else {
@@ -3201,6 +3220,15 @@
         this.getlvyeTypeList({
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
+      },
+      getDeskLists() {
+          this.getDeskList({
+              hotel_id: this.$route.params.hotelid,
+              onsuccess: body => {
+                  (this.deskList = [...body.data]);
+                  console.log('底座：',body.data);
+              }
+          })
       },
       //上传已配置数据
       mySetRCconfig(data) {
@@ -3356,6 +3384,7 @@
           lvyeName: "",
           reportChannel: "",
           reportType: "",
+          device_id:"",
           lvyeId: "",
           transitParam: "",
           descrption: "",

@@ -23,7 +23,8 @@ module.exports = {
         tel: param.tel,
         room_type: param.room_type,
         lvye_config_id: param.lvyeConfigId,
-        device_ids:param.device_ids
+        device_ids:param.device_ids,
+        room_no:param.room_no
       },
       onSuccess: body => {
         console.log('已经选的房型：'+param.room_type)
@@ -68,5 +69,15 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
+  },
+  searchRoomNo(ctx, param){
+      ctx.dispatch('resource', {
+          url: `/rooms/${param.hotel_id}`,
+          method: 'POST',
+          body:param.body,
+          onSuccess: body => {
+              param.onsuccess ? param.onsuccess(body) : null
+          }
+      })
   }
 }

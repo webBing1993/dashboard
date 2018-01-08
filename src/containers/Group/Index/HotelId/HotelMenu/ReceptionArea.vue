@@ -35,26 +35,22 @@
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
               <div class="recCheckbox">
-              <el-checkbox-group v-model="roomType">
-                <el-checkbox v-for="room in roomTypeList" :key="room.id" :label="room.name"
-                     :disabled=!room.abled></el-checkbox>
-              </el-checkbox-group>
+                <el-checkbox-group v-model="roomType">
+                  <el-checkbox v-for="room in roomTypeList" :key="room.pms_id" :label="room.name"></el-checkbox>
+                </el-checkbox-group>
               </div>
             </div>
-              <div class="departLine"></div>
+            <div class="departLine"></div>
             <div class="item-form">
               <span class="itemTitle">关联房号</span>
               <el-transfer
-                :titles=roomList
-                filterable
-                :filter-method="filterMethod"
+                :titles=transferListName
                 filter-placeholder="请输入房间号"
-                v-model="value2"
-                :data="data2"
-              >
+                v-model="filterRoomNo"
+                :data="roomNoList">
               </el-transfer>
             </div>
-              <div class="departLine"></div>
+            <div class="departLine"></div>
             <div class="item-form">
 
               <span class="itemTitle">选择旅业</span>
@@ -70,19 +66,21 @@
             <div class="item-form" v-if="hasLvye">
               <span class="itemTitle"></span>
               此门店暂未配置旅业，
-              <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业</router-link>
+              <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'" style="color: #3CC51F">添加旅业
+              </router-link>
             </div>
-              <div class="departLine"></div>
+            <div class="departLine"></div>
             <div class="item-form">
 
               <span class="itemTitle">选择设备</span>
               <div class="recCheckbox">
-              <el-checkbox-group v-model=deviceType>
-                <el-checkbox  v-for="device in deviceTypeList" :key="device.device_id" :label="device.device_id"
-                             :disabled=!device.abled>{{device.device_name}}</el-checkbox>
-              </el-checkbox-group>
+                <el-checkbox-group v-model=deviceType>
+                  <el-checkbox v-for="device in deviceTypeList" :key="device.device_id" :label="device.device_id">
+                    {{device.device_name}}
+                  </el-checkbox>
+                </el-checkbox-group>
               </div>
-              </div>
+            </div>
 
           </div>
           <div slot="footer" class="dialog-footer">
@@ -96,225 +94,251 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
-  export default {
-    name: 'receptionArea',
-    data() {
-        const generateData2 = _ => {
-            const data = [];
-            const cities = ['上海', '北京', '广州', '深圳', '南京', '西安', '成都'];
-            const pinyin = ['shanghai', 'beijing', 'guangzhou', 'shenzhen', 'nanjing', 'xian', 'chengdu'];
-            cities.forEach((city, index) => {
-                data.push({
-                    label: city,
-                    key: index,
-                    pinyin: pinyin[index]
-                });
-            });
-            return data;
-        };
-      return {
-        list: [],
-        showDialog: false,
-        page: 1,
-        size: 20,
-        total: 0,
-        showAddContent: false,
-        id: '',
-        name: '',
-        address: '',
-        tel: '',
-        roomType: [],
-        roomTypeList: [],
-        lvyeVal: '',
-        lvyeList: [],
-        hasLvye:false,
-        deviceTypeList:[],
-        deviceType:[],
-        deviceIdlist:[],
-        roomList:['所有房号','已选房号'],
-        data2: generateData2(),
-        value2: [],
-        filterMethod(query, item) {
-            return item.pinyin.indexOf(query) > -1;
-        }
-      }
-    },
-    computed: {
-      groupId(){
-        return this.$route.params.id
-      },
-      hotelId(){
-        return this.$route.params.hotelid
-      }
-    },
-    methods: {
-      ...mapActions([
-        'getRecpetion',
-        'saveRecpetion',
-        'searchRoomType',
-        'searchLvye',
-        'goto',
-        'showtoast',
-        'delRecpetion',
-        'searchDevice'
-      ]),
-      //设备名称
-      packDeviceId(){
-        console.log(this.deviceType);
-        this.deviceType.forEach((item1) =>{
-            this.deviceTypeList.forEach((item2)=>{
-              if(item1===item2.device_name){
-                this.deviceIdlist.push(item2.device_id)
-              }
-            })
-        })
-        console.log('设备ID列表：'+this.deviceIdlist)
-      },
-      //获取接待区列表
-      getList() {
-        this.getRecpetion({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-            this.list = body.data;
-            console.log('现在的列表：',body.data)
-          }
-        })
-      },
-      //保存接待区
-      save(){
-        this.deviceIdlist=[];
-        this.saveRecpetion({
-          hotel_id: this.$route.params.hotelid,
-          id: this.id,
-          name: this.name,
-          tel: this.tel,
-          address: this.address,
-          room_type: this.roomType,
-          lvyeConfigId: this.lvyeVal,
-          device_ids:this.deviceType,
-          onsuccess: body => {
-            this.showtoast({
-              text: '保存成功',
-              type: 'success'
-            })
-            this.handleClose();
-            this.getList();
-          }
-        });
-      },
-      goDel(obj){
-         this.delRecpetion({
-           area_id: obj.id,
-           onsuccess: body => {
-             this.showtoast({
-               text: '删除成功',
-               type: 'success'
-             })
-             this.handleClose();
-             this.getList();
-             console.log(3333)
-           }
-         })
-      },
-      //添加接待区
-      addReception() {
-        this.showAddContent = true;
-        this.reset();
-        this.searchRoomType({
-          hotel_id: this.$route.params.hotelid,
-          areaId: "",
-          onsuccess: body => {
-            this.roomTypeList = body.data;
-            console.log('罗列房型：' + JSON.stringify(this.roomTypeList))
-          }
-        });
-        this.searchLvye({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-            this.lvyeList = body.data;
-            if(this.lvyeList.length==0){
-              this.hasLvye=true;
-            }else {
-              this.hasLvye=false;
-            }
-          }
-        });
-      　this.searchDevice({
-         hotel_id: this.$route.params.hotelid,
-         areaId: "",
-         onsuccess: body => {
-           this.deviceTypeList=body.data;
-           console.log('罗列设备：' + JSON.stringify(this.deviceTypeList))
-         }
-       })
-      },
-      //编辑接待区
-      goEdit(obj) {
-        this.showAddContent = true;
-        this.searchRoomType({
-          hotel_id: this.$route.params.hotelid,
-          areaId: obj.id,
-          onsuccess: body => {
-            this.roomTypeList = body.data;
-            this.roomType=obj.room_type;
-            console.log('罗列所有房型：' + JSON.stringify(body.data))
-          }
-        });
-        this.searchLvye({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-            this.lvyeList = body.data;
-            this.lvyeList.forEach((item) => {
-              if (item.id === obj.lvye_config_id) {
-                this.lvyeVal = item.id;
-              }
-            });
-            if(this.lvyeList.length==0){
-              this.hasLvye=true;
-            }else {
-              this.hasLvye=false;
-            }
-          }
-        });
-        this.searchDevice({
-          hotel_id: this.$route.params.hotelid,
-          areaId: obj.id,
-          onsuccess: body => {
-            this.deviceTypeList=body.data;
-            this.deviceTypeList.forEach((item)=>{
-              obj.device_ids.forEach((deviceId)=>{
-                if(deviceId===item.device_id){
-                  this.deviceType.push(deviceId);
+    import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+
+    export default {
+        name: 'receptionArea',
+        data () {
+            return {
+                AreaId: "",
+                list: [],
+                showDialog: false,
+                page: 1,
+                size: 20,
+                total: 0,
+                showAddContent: false,
+                id: '',
+                name: '',
+                address: '',
+                tel: '',
+                roomType: [],
+                roomTypeList: [],
+                lvyeVal: '',
+                lvyeList: [],
+                hasLvye: false,
+                deviceTypeList: [],
+                deviceType: [],
+                deviceIdlist: [],
+                pmsIdList: [],
+                transferListName: ['所有房号', '已选房号'],
+                // roomNoList:[{label:'上海',key:0},{label:'杭州',key:1} ,{label:'北京',key:2},{label:'广州',key:3},{label:'深圳',key:4}, {label:'南京',key:5},{label:'西安',key:6}],
+                roomNoList: [],
+                filterRoomNo: [],
+                roomNoObj: {label: '', key: null, pms_id: ''},
+                filterMethod (query, item) {
+                    if (item.label == query) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
-              })
-            })
-            console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
-          }
-        })
-        this.id = obj.id;
-        this.name = obj.name;
-        this.tel = obj.tel;
-        this.address = obj.address;
-        this.roomType = obj.room_type;
-      },
-      reset() {
-        this.name = "";
-        this.tel = "";
-        this.address = "";
-        this.roomType = [];
-        this.lvyeVal='';
-        this.deviceType=[];
-        this.id='';
-      },
-      handleClose() {
-        this.showAddContent = false;
-      },
-    },
-    mounted() {
-      this.getList();
+            }
+        },
+        computed: {
+            groupId () {
+                return this.$route.params.id
+            },
+            hotelId () {
+                return this.$route.params.hotelid
+            }
+        },
+        watch: {
+            roomType (val) {
+                this.autoRoom ();
+            }
+        },
+        methods: {
+            ...mapActions ([
+                'getRecpetion',
+                'saveRecpetion',
+                'searchRoomType',
+                'searchLvye',
+                'goto',
+                'showtoast',
+                'delRecpetion',
+                'searchDevice',
+                'searchRoomNo'
+            ]),
+            //联动房间号
+            autoRoom () {
+                console.log ('联动2:' + this.roomType);
+                console.log ('联动3:' + this.roomTypeList);
+                this.pmsIdList = [];
+                this.roomType.forEach ((name) => {
+                    this.roomTypeList.forEach ((item) => {
+                        if (name == item.name) {
+                            this.pmsIdList.push (item.pms_id);
+                        }
+                    })
+                });
+                console.log ('联动id:' + this.pmsIdList);
+                this.getRoomNoList ();
+            },
+            getRoomNoList () {
+                this.roomNoList = [];
+                this.searchRoomNo ({
+                    hotel_id: this.$route.params.hotelid,
+                    body: {
+                        "area_id": this.AreaId,       //接待区id，新增传空字符串
+                        "room_type": this.pmsIdList
+                    },
+                    onsuccess: body => {
+                        if (body.data) {
+                            let list = body.data;
+                            list.forEach ((item, index) => {
+                                this.roomNoList.push ({label: item.number, key: item.pms_id});
+                            })
+                        };
+                        console.log ('房间号列表：', body.data);
+                        console.log ('供选择的房间号列表：', this.roomNoList);
+                    }
+                })
+            },
+            //获取接待区列表
+            getList () {
+                console.log ('测试', this.roomNoList)
+                this.getRecpetion ({
+                    hotel_id: this.$route.params.hotelid,
+                    onsuccess: body => {
+                        this.list = body.data;
+                        console.log ('现在的列表：', body.data)
+                    }
+                })
+            },
+            //保存/修改接待区
+            save () {
+                this.deviceIdlist = [];
+                this.saveRecpetion ({
+                    hotel_id: this.$route.params.hotelid,
+                    id: this.id,
+                    name: this.name,
+                    tel: this.tel,
+                    address: this.address,
+                    room_type: this.roomType,
+                    room_no: this.filterRoomNo,
+                    lvyeConfigId: this.lvyeVal,
+                    device_ids: this.deviceType,
+                    onsuccess: body => {
+                        this.showtoast ({
+                            text: '保存成功',
+                            type: 'success'
+                        })
+                        this.handleClose ();
+                        this.getList ();
+                    }
+                });
+            },
+            goDel (obj) {
+                this.delRecpetion ({
+                    area_id: obj.id,
+                    onsuccess: body => {
+                        this.showtoast ({
+                            text: '删除成功',
+                            type: 'success'
+                        })
+                        this.handleClose ();
+                        this.getList ();
+                        console.log (3333)
+                    }
+                })
+            },
+            //添加接待区
+            addReception () {
+                this.showAddContent = true;
+                this.reset ();
+                this.searchRoomType ({
+                    hotel_id: this.$route.params.hotelid,
+                    areaId: "",
+                    onsuccess: body => {
+                        this.roomTypeList = body.data;
+                        console.log ('罗列房型：' + JSON.stringify (this.roomTypeList))
+                    }
+                });
+                this.searchLvye ({
+                    hotel_id: this.$route.params.hotelid,
+                    onsuccess: body => {
+                        this.lvyeList = body.data;
+                        if (this.lvyeList.length == 0) {
+                            this.hasLvye = true;
+                        } else {
+                            this.hasLvye = false;
+                        }
+                    }
+                });
+                this.searchDevice ({
+                    hotel_id: this.$route.params.hotelid,
+                    areaId: "",
+                    onsuccess: body => {
+                        this.deviceTypeList = body.data;
+                        console.log ('罗列设备：' + JSON.stringify (this.deviceTypeList))
+                    }
+                })
+            },
+            //编辑接待区
+            goEdit (obj) {
+                this.showAddContent = true;
+                this.searchRoomType ({
+                    hotel_id: this.$route.params.hotelid,
+                    areaId: obj.id,
+                    onsuccess: body => {
+                        this.roomTypeList = body.data;
+                        this.roomType = obj.room_type;
+                        console.log ('罗列所有房型：' + JSON.stringify (this.roomTypeList))
+                    }
+                });
+                this.searchLvye ({
+                    hotel_id: this.$route.params.hotelid,
+                    onsuccess: body => {
+                        this.lvyeList = body.data;
+                        this.lvyeList.forEach ((item) => {
+                            if (item.id === obj.lvye_config_id) {
+                                this.lvyeVal = item.id;
+                            }
+                        });
+                        if (this.lvyeList.length == 0) {
+                            this.hasLvye = true;
+                        } else {
+                            this.hasLvye = false;
+                        }
+                    }
+                });
+                this.searchDevice ({
+                    hotel_id: this.$route.params.hotelid,
+                    areaId: obj.id,
+                    onsuccess: body => {
+                        this.deviceTypeList = body.data;
+                        this.deviceTypeList.forEach ((item) => {
+                            obj.device_ids.forEach ((deviceId) => {
+                                if (deviceId === item.device_id) {
+                                    this.deviceType.push (deviceId);
+                                }
+                            })
+                        })
+                        // console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
+                    }
+                })
+                this.id = obj.id;
+                this.name = obj.name;
+                this.tel = obj.tel;
+                this.address = obj.address;
+            },
+            reset () {
+                this.name = "";
+                this.tel = "";
+                this.address = "";
+                this.roomType = [];
+                this.lvyeVal = '';
+                this.deviceType = [];
+                this.id = '';
+            },
+            handleClose () {
+                this.showAddContent = false;
+            },
+        },
+        mounted () {
+            this.getList ();
+        }
     }
-  }
 </script>
 <style lang="less">
   .module-wrapper {
@@ -337,8 +361,8 @@
           margin: 0;
         }
       }
-      .el-dialog{
-         width: 65%;
+      .el-dialog {
+        width: 65%;
         .el-dialog__header {
           padding: 0 20px;
           border-bottom: solid 1px #979797;
@@ -352,19 +376,19 @@
             padding-top: 12px;
           }
         }
-        .recCheckbox{
-          .el-checkbox{
+        .recCheckbox {
+          .el-checkbox {
             margin-left: 0;
             margin-right: 1.5rem;
           }
         }
 
-        .el-icon-search{
+        .el-icon-search {
           height: 85%;
         }
 
-        .el-transfer-panel__filter{
-          padding: 0.2rem 1rem 1.1rem 1rem ;
+        .el-transfer-panel__filter {
+          padding: 0.2rem 1rem 1.1rem 1rem;
           width: 100%;
         }
         .el-input__inner {
@@ -387,10 +411,10 @@
             font-size: 14px;
             font-weight: 400;
             color: #4A4A4A;
-              .departLine{
-                  margin: 1rem 10rem 2rem 5.5rem;
-                  border-top: 1px solid #dadada;
-              }
+            .departLine {
+              margin: 1rem 10rem 2rem 5.5rem;
+              border-top: 1px solid #dadada;
+            }
             .item-form {
               display: flex;
               align-items: center;

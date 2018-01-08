@@ -104,7 +104,8 @@ module.exports = {
       },
     })
   },
-  getlvyeTypeList(ctx, param) {//获取旅业系统配置
+    //获取旅业系统配置
+  getlvyeTypeList(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/lvyetypes`,
       method: 'GET',
@@ -112,6 +113,16 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body, headers) : null
       },
     })
+  },
+    //获取底座配置
+  getDeskList(ctx, param) {
+      ctx.dispatch('resource', {
+          url: `/bottomdevice/${param.hotel_id}`,
+          method: 'GET',
+          onSuccess: (body, headers) => {
+              param.onsuccess ? param.onsuccess(body, headers) : null
+          },
+      })
   },
   patchConfig(ctx, param) {
     ctx.dispatch('resource', {
