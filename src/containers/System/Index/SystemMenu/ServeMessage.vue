@@ -186,6 +186,7 @@
         this.lines.splice(index, 1);
       },
       modify() {
+          console.log(this.tem_data)
         this.tem_data.push({"desc":this.templateJson.desc ,"key":this.templateJson.key,"value":this.templateJson.key,"color":this.templateJson.color})
         this.lines.map((item,index)=>{
           this.tem_data.push(item)
@@ -203,6 +204,8 @@
             this.getList();
           }
         })
+        this.lines=[]
+        this.tem_data=[]
       },
       getList() {
         this.getServMesTempList({
