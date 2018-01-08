@@ -298,7 +298,7 @@
             </div>
             <div class="item-text">
               <span>房卡配置</span>
-              <p>酒店是否支持写卡吐卡</p>
+              <p>酒店房卡,对接门锁配置</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !supportRoomCard||issuedCardRuleVal, 'tag_text_green': supportRoomCard||issuedCardRuleVal}">{{supportRoomCard||issuedCardRuleVal ? '已配置' : '未配置'}}</span>
@@ -1035,9 +1035,9 @@
               </el-switch>
             </div>
             <div class="item-form">
-              <span>是否支持吞吐门卡？</span>
+              <span>是否对接门锁</span>
               <el-switch
-                v-model="supportRoomCard"
+                v-model="inteRoomLock"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1805,7 +1805,8 @@
         hasSetRc: false,
         mirrorIntro:false,
         mirrorBrand:false,
-        rcStatus:false
+        rcStatus:false,
+        inteRoomLock:false
       }
     },
     mounted() {
@@ -2319,7 +2320,9 @@
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
-          //
+          this.inteRoomLock=configData.integration_room_lock == 'true' ? true : false;
+
+            //
           this.enabledTicketPrint = configData.enabled_ticket_print == 'true' ? true : false;
           //押金配置
           if (tool.isNotBlank(configData.cash_pledge_config)) {
@@ -2696,6 +2699,7 @@
           case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
+            this.inteRoomLock=this.configData.integration_room_lock== 'true' ? true : false;;
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
@@ -2961,8 +2965,9 @@
           case enumShowType.roomCard:
             data = {
               support_room_card: this.supportRoomCard.toString(),
-                'issued_card_rule': this.issuedCardRuleVal
-            }
+              issued_card_rule: this.issuedCardRuleVal,
+              integration_room_lock:this.inteRoomLock.toString()
+            };
             break;
           case enumShowType.cashPledge: {
             let cash_pledge_config = {};
