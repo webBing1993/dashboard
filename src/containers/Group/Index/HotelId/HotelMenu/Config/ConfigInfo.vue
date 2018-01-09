@@ -784,7 +784,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div slot="footer" class="dialog-footer" v-if="switchName === 'open'">
+            <div slot="footer" class="dialog-footer">
               <el-button class="reg" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
               </el-button>
             </div>
