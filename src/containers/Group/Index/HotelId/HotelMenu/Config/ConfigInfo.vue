@@ -796,7 +796,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div slot="footer" class="dialog-footer" v-if="switchName === 'open'">
+            <div slot="footer" class="dialog-footer">222222555777
               <el-button class="reg" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
               </el-button>
             </div>
@@ -2538,7 +2538,7 @@
           this.WxhotelRegisters()
         } else if (type === enumShowType.WxHotelRegister) {
           this.WxhotelRegisters()
-          this.hideDialog;
+          this.hideDialog();
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();

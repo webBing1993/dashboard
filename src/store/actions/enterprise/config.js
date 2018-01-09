@@ -65,6 +65,7 @@ module.exports = {
       }
     })
   },
+  //获取微信生态酒店城市列表
   getWxhotelCityser(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/wxhotelcityservice`,
@@ -76,6 +77,7 @@ module.exports = {
       onFail: () => null
     })
   },
+
   WxhotelRegister(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
