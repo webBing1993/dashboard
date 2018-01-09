@@ -796,7 +796,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div slot="footer" class="dialog-footer">222222555777
+            <div slot="footer" class="dialog-footer">
               <el-button class="reg" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
               </el-button>
             </div>
