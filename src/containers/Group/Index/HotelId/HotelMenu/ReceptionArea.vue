@@ -248,7 +248,7 @@
                 this.reset ();
                 this.searchRoomType ({
                     hotel_id: this.$route.params.hotelid,
-                    areaId: "",
+                    // areaId: "",
                     onsuccess: body => {
                         this.roomTypeList = body.data;
                         console.log ('罗列房型：' + JSON.stringify (this.roomTypeList))
@@ -267,7 +267,7 @@
                 });
                 this.searchDevice ({
                     hotel_id: this.$route.params.hotelid,
-                    areaId: "",
+                    // areaId: "",
                     onsuccess: body => {
                         this.deviceTypeList = body.data;
                         console.log ('罗列设备：' + JSON.stringify (this.deviceTypeList))
@@ -279,7 +279,7 @@
                 this.showAddContent = true;
                 this.searchRoomType ({
                     hotel_id: this.$route.params.hotelid,
-                    areaId: obj.id,
+                    // areaId: obj.id,
                     onsuccess: body => {
                         this.roomTypeList = body.data;
                         this.roomType = obj.room_type;
@@ -304,7 +304,7 @@
                 });
                 this.searchDevice ({
                     hotel_id: this.$route.params.hotelid,
-                    areaId: obj.id,
+                    // areaId: obj.id,
                     onsuccess: body => {
                         this.deviceTypeList = body.data;
                         this.deviceTypeList.forEach ((item) => {

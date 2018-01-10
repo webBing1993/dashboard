@@ -43,7 +43,7 @@ module.exports = {
   },
   searchRoomType(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/roomtype/${param.hotel_id}?area_id=${param.areaId}`,
+      url: `/roomtype/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
         // console.log("searchRoomType:" + JSON.stringify(body))
@@ -63,7 +63,7 @@ module.exports = {
   },
   searchDevice(ctx, param){
     ctx.dispatch('resource', {
-      url: `/device/${param.hotel_id}?area_id=${param.areaId}`,
+      url: `/device/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
