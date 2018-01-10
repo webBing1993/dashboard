@@ -807,7 +807,6 @@
                 <label v-if="RegistersWxHotelId">{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常1'}}</label>
                 <label v-if="wxHotelId">{{wxHotelId ? wxHotelId : '系统异常2'}}</label>
               </p>
-              <p style="margin-top: 30px"><span style="margin-right: 20px">说明：</span><label>XXXXXXXXX</label></p>
               <div>
                 <div v-if="1">
                   <el-button style="width: 200px;margin-top: 30px" @click="isDelete()">删除</el-button>
