@@ -3223,8 +3223,7 @@
               })
             }
           });
-        }
-        ;
+        };
         this.queryDel = false;
         this.hideDialog();
       },
