@@ -111,7 +111,7 @@
                   :class="{'tag_text_red': !hasSetMoreLvye, 'tag_text_green':hasSetMoreLvye}">{{hasSetMoreLvye ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8" v-if="showReception">
+        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.customization)">
             <div class="item_img">
               <img src="../../../../../../assets/images/公安.png" alt="a">
@@ -3223,8 +3223,7 @@
               })
             }
           });
-        }
-        ;
+        };
         this.queryDel = false;
         this.hideDialog();
       },
