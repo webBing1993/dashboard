@@ -1424,7 +1424,7 @@
           <!-- 定制化配置 -->
           <div v-if="showType === enumShowType.customization">
             <div class="item-form">
-              <span>显示酒店品牌的logo</span>
+              <span>是否显示酒店的介绍</span>
               <el-switch
                 v-model="mirrorIntro"
                 on-color="#13ce66"
@@ -1432,7 +1432,7 @@
               </el-switch>
             </div>
             <div class="item-form">
-              <span>是否显示酒店的介绍</span>
+              <span>显示酒店品牌的logo</span>
               <el-switch
                 v-model="mirrorBrand"
                 on-color="#13ce66"
@@ -3105,8 +3105,8 @@
             return;
           case enumShowType.customization:
               data = {
-                  "enabled_mirror_introduce": this.mirrorIntro,
-                  "enabled_mirror_brand": this.mirrorBrand
+                  "enabled_mirror_introduce": this.mirrorIntro.toString(),
+                  "enabled_mirror_brand": this.mirrorBrand.toString()
               }
               break;
           case enumShowType.enableRCstatus:
