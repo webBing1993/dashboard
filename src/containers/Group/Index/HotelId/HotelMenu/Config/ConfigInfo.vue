@@ -82,7 +82,7 @@
                 等接口需要用到。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!configData.wxHotelId, 'tag_text_green': configData.wxHotelId}">{{configData.wxHotelId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!configData.wx_hotel_id, 'tag_text_green': configData.wx_hotel_id}">{{configData.wx_hotel_id ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -3104,7 +3104,7 @@
         if (flag) {
           this.deleteWxHotel({
             hotel_id: this.$route.params.hotelid,
-            wx_hotel_id: this.RegistersWxHotelId,
+            wx_hotel_id: this.wxHotelId||this.RegistersWxHotelId,
             onsuccess: (body, header) => {
               this.showtoast({
                 text: '删除成功',
