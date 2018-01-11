@@ -125,7 +125,8 @@
         contactPhone: '',
         AppId: '',
         templateId: '',
-        templateTotalData:'',
+        templateTotalData:{},
+        showData:{},
 
       }
     },
@@ -152,15 +153,18 @@
         this.AppId = obj.app_id,
         this.templateId = obj.template_id;
         this.templateTitle = obj.template_name;
-        this.templateTotalData=JSON.parse(obj.template_data);
-        console.log(this.templateTotalData);
-        this.gotoUrl = this.templateTotalData.url;
-        this.templateJson=this.templateTotalData.tem_data[0];
-        this.templateTotalData.tem_data.map((item, index) => {
-          if (index != 0) {
-            this.lines.push(item)
-          }
-        })
+
+        console.log('obj.template_data',obj.template_data?JSON.parse(obj.template_data):"aaaa")
+        this.showData=obj.template_data?JSON.parse(obj.template_data):"";
+        if(this.showData.length>0){
+          this.gotoUrl = this.showData.url;
+          this.templateJson=this.showData.tem_data[0];
+          this.showData.tem_data.map((item, index) => {
+            if (index != 0) {
+              this.lines.push(item)
+            }
+          })
+        }
       },
       hideDialog() {
         this.lines=[]
@@ -188,11 +192,14 @@
         this.lines.splice(index, 1);
       },
       modify() {
-          console.log(this.tem_data)
-        this.tem_data.push({"desc":this.templateJson.desc ,"key":this.templateJson.key,"value":this.templateJson.key,"color":this.templateJson.color})
+        this.tem_data.push({"desc":this.templateJson.desc ,"key":this.templateJson.key,"value":this.templateJson.value,"color":this.templateJson.color})
         this.lines.map((item,index)=>{
           this.tem_data.push(item)
         })
+        console.log('this.templateTotalData',this.templateTotalData)
+        console.log('this.tem_data',this.tem_data)
+
+        this.templateTotalData["aaa"]=['aa','bb']
         this.templateTotalData['tem_data']=this.tem_data
         this.templateTotalData['url']=this.gotoUrl
         this.modifyServeMesTemp({
