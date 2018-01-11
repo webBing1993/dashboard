@@ -163,6 +163,8 @@
         })
       },
       hideDialog() {
+        this.lines=[]
+        this.tem_data=[]
         this.showDialog = false;
       },
       submitDialog() {
@@ -209,7 +211,8 @@
       },
       getList() {
         this.getServMesTempList({
-          page: this.page.toString(),
+//          page: this.page.toString(),
+          page: (this.page-1)*this.size.toString(),
           size: this.size.toString(),
           search_key:this.search_key,
           onsuccess: (body, headers) => {
