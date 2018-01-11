@@ -214,7 +214,7 @@
                     name: this.name,
                     tel: this.tel,
                     address: this.address,
-                    // room_type: this.roomType,
+                    room_type: this.roomType,
                     room_no: this.filterRoomNo,
                     lvyeConfigId: this.lvyeVal,
                     device_ids: this.deviceType,
