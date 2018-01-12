@@ -1954,7 +1954,7 @@
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG') {
+        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -3159,7 +3159,7 @@
               else {
                 return false;
               }
-            } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
+            } else if (item.reportChannel == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
               if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
                 return true;
               }

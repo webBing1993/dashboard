@@ -7,7 +7,6 @@
         <th>名称</th>
         <th>联系电话</th>
         <th>地址</th>
-        <th>关联房型</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -17,7 +16,6 @@
         <td>{{ obj.name }}</td>
         <td>{{ obj.tel }}</td>
         <td>{{ obj.address }}</td>
-        <td>{{ obj.room_type|arr }}</td>
         <td>
           <span class="v-options pointer" @click="edit(obj)">编辑</span>
           <span class="v-options pointer" @click="del(obj)">删除</span>

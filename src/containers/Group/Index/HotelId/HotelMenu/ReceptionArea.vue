@@ -139,9 +139,9 @@
             }
         },
         watch: {
-            roomType (val) {
-                this.packPmsIdList ();
-            }
+            // roomType (val) {
+            //     this.packPmsIdList ();
+            // }
         },
         methods: {
             ...mapActions ([
@@ -232,7 +232,10 @@
                         this.deviceTypeList = body.data;
                         console.log ('罗列设备：' + JSON.stringify (this.deviceTypeList))
                     }
-                })
+                });
+                //查询房间号
+                this.roomNoList = [];
+                this.getRoomNoList();
             },
             //编辑接待区
             goEdit (obj) {
@@ -243,7 +246,6 @@
                     onsuccess: body => {
                         //先查所有房型列表，再赋值已选房型，方便查房型的pmsId,pmsId用于监听联动查房间号
                         this.roomTypeList = body.data;
-                        this.roomType = obj.room_type;
                         this.filterRoomNo=obj.room_no;
                         console.log ('罗列已选房间号：' + JSON.stringify (this.filterRoomNo))
                     }
@@ -278,35 +280,14 @@
                         })
                         // console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
                     }
-                })
-                this.id = obj.id;
-                this.name = obj.name;
-                this.tel = obj.tel;
-                this.address = obj.address;
-            },
-            //联动筛选房型pmsId列表,为了查询房间号
-            packPmsIdList () {
-                console.log ('联动已选房型:' + this.roomType);
-                console.log ('联动3:' ,this.roomTypeList);
-                this.pmsIdList = [];
-                this.roomType.forEach ((name) => {
-                    this.roomTypeList.forEach ((item) => {
-                        if (name == item.name) {
-                            this.pmsIdList.push (item.pms_id);
-                        }
-                    })
                 });
-                console.log ('联动房型的pms_id:' + this.pmsIdList);
-                this.getRoomNoList ();
-            },
-            //查询房间号
-            getRoomNoList () {
+                //查询房间号
                 this.roomNoList = [];
                 this.searchRoomNo ({
                     hotel_id: this.$route.params.hotelid,
                     body: {
                         "area_id": this.id,       //接待区id，新增传空字符串
-                        "room_type": this.pmsIdList
+                        // "room_type": this.pmsIdList
                     },
                     onsuccess: body => {
                         if (body.data) {
@@ -316,6 +297,47 @@
                             })
                         };
                         console.log ('房间号列表：', body.data);
+                        console.log ('供选择的房间号列表：', this.roomNoList);
+                    }
+                });
+
+                this.id = obj.id;
+                this.name = obj.name;
+                this.tel = obj.tel;
+                this.address = obj.address;
+            },
+            //联动筛选房型pmsId列表,为了查询房间号
+            // packPmsIdList () {
+            //     console.log ('联动已选房型:' + this.roomType);
+            //     console.log ('联动3:' ,this.roomTypeList);
+            //     this.pmsIdList = [];
+            //     this.roomType.forEach ((name) => {
+            //         this.roomTypeList.forEach ((item) => {
+            //             if (name == item.name) {
+            //                 this.pmsIdList.push (item.pms_id);
+            //             }
+            //         })
+            //     });
+            //     console.log ('联动房型的pms_id:' + this.pmsIdList);
+            //     this.getRoomNoList ();
+            // },
+            //查询房间号
+            getRoomNoList () {
+                this.roomNoList = [];
+                this.searchRoomNo ({
+                    hotel_id: this.$route.params.hotelid,
+                    body: {
+                        "area_id": this.id,       //接待区id，新增传空字符串
+                        // "room_type": this.pmsIdList
+                    },
+                    onsuccess: body => {
+                        if (body.data) {
+                            let list = body.data;
+                            list.forEach ((item, index) => {
+                                this.roomNoList.push ({label: item.number, key: item.pms_id});
+                            })
+                        };
+                        console.log ('房间号列表：', body.data)
                         console.log ('供选择的房间号列表：', this.roomNoList);
                     }
                 })
