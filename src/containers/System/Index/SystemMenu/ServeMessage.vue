@@ -86,7 +86,7 @@
           <div class="dialog_item">
             <span>跳转URL</span>
             <el-input class="el-right" v-model="gotoUrl" name="contactName" v-validate="'required'"
-                      :class="{'is-danger': errors.has('contactName') }" placeholder="请输入小程序绑定人"></el-input>
+                      :class="{'is-danger': errors.has('contactName') }" placeholder="请输入跳转URL"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('contactName')">跳转URL不能为空!</span>
 
@@ -155,8 +155,9 @@
         this.templateTitle = obj.template_name;
 
         console.log('obj.template_data',obj.template_data?JSON.parse(obj.template_data):"aaaa")
-        this.showData=obj.template_data?JSON.parse(obj.template_data):"";
-        if(this.showData.length>0){
+        this.showData=obj.template_data?JSON.parse(obj.template_data):null;
+        let length=this.showData?this.showData.tem_data.length:0
+        if(length>0){
           this.gotoUrl = this.showData.url;
           this.templateJson=this.showData.tem_data[0];
           this.showData.tem_data.map((item, index) => {
