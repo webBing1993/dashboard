@@ -1352,7 +1352,7 @@
                   <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID" :disabled="!item.enabledReport"></el-input>
                 </div>
               </div>
-              <div v-if="!(item.lvyeType == 'WUHAN'|| item.lvyeType == 'CLOUD')">
+              <div v-if="!(item.reportChannel == 'WUHAN'|| item.reportChannel == 'CLOUD')">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
