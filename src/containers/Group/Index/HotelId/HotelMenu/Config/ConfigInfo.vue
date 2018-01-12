@@ -665,8 +665,7 @@
                   </el-option>
                 </el-select>
               </div>
-              <div
-                v-if="lvyeType == 'CLOUD' || lvyeType == 'LOCAL'|| lvyeType == 'HANGZHOU' || lvyeType == 'WUHAN'||lvyeType=='CHENGDU' ||lvyeType=='GUANGDONG'|| lvyeType == 'HEFEI' ">
+              <div>
                 <div class="item-form">
                   <span>酒店公安ID</span>
                   <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
@@ -676,7 +675,7 @@
                   <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
                 </div>
               </div>
-              <div v-if="lvyeType == 'LOCAL'|| lvyeType == 'HEFEI' || lvyeType == 'CHENGDU'||lvyeType == 'HANGZHOU'||lvyeType == 'GUANGDONG'">
+              <div v-if="!(lvyeType == 'WUHAN'|| lvyeType == 'CLOUD')">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
@@ -1347,15 +1346,13 @@
                   </el-option>
                 </el-select>
               </div>
-              <div
-                v-if="item.reportChannel == 'CLOUD' || item.reportChannel == 'LOCAL'|| item.reportChannel == 'HANGZHOU' || item.reportChannel == 'WUHAN'||item.reportChannel=='CHENGDU' ||item.reportChannel=='GUANGDONG'|| item.reportChannel == 'HEFEI' ">
+              <div>
                 <div class="item-form">
                   <span>酒店公安ID</span>
                   <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID" :disabled="!item.enabledReport"></el-input>
                 </div>
               </div>
-              <div
-                v-if="item.reportChannel == 'LOCAL'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU'||!item.reportChannel == 'HANGZHOU'">
+              <div v-if="!(item.lvyeType == 'WUHAN'|| item.lvyeType == 'CLOUD')">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
@@ -1887,9 +1884,9 @@
         }
       },
       validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'GUANGDONG') {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU') {
+        } else if (this.lvyeType == 'NONE'||this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU'|| this.lvyeType == 'GUANGDONG') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -1900,8 +1897,6 @@
             return flag;
           }
           return false;
-        } else if (this.lvyeType == 'NONE') {
-          return true;
         } else {
           return false;
         }
@@ -2732,12 +2727,10 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-//            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE' || this.lvyeType == 'GUANGDONG') {
             if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN' || this.lvyeType == 'NONE') {
               data = {
                 ...tempData
               }
-//            } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU') {
             } else if (this.lvyeType == 'LOCAL' || this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU'|| this.lvyeType == 'GUANGDONG') {
               data = {
                 ...tempData,
@@ -3006,7 +2999,6 @@
             return;
           case enumShowType.moreLvyeReportType: {
             if(this.moreLvyeList.length>0){
-              console.log(11111)
               let result=this.validateMoreLvye();
               console.log('result:'+result)
               if(result==true){
@@ -3045,15 +3037,14 @@
         let result;
         result= this.moreLvyeList.every(function (item, index){
           if(item.reportChannel){
-            console.log('有')
-            if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' || item.reportChannel == 'GUANGDONG') {
+            if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' ) {
               if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
                 return true;
               }
               else {
                 return false;
               }
-            } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU') {
+            } else if (item.reportChannel == 'LOCAL' || item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
               if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
                 return true;
               }
