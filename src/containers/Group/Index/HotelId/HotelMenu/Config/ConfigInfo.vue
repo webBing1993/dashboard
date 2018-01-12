@@ -1377,7 +1377,7 @@
                 </div>
               </div>
               <div
-                v-if="!(item.reportChannel == 'LOCAL'||lvyeType=='WUHAN')">
+                v-if="!(item.reportChannel == 'CLOUD'||item.reportChannel == 'WUHAN')">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
