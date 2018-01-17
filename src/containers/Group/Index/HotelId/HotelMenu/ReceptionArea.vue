@@ -246,8 +246,6 @@
                     onsuccess: body => {
                         //先查所有房型列表，再赋值已选房型，方便查房型的pmsId,pmsId用于监听联动查房间号
                         this.roomTypeList = body.data;
-                        this.filterRoomNo=obj.room_no;
-                        console.log ('罗列已选房间号：' + JSON.stringify (this.filterRoomNo))
                     }
                 });
                 this.searchLvye ({
@@ -294,6 +292,8 @@
                             let list = body.data;
                             list.forEach ((item, index) => {
                                 this.roomNoList.push ({label: item.number, key: item.pms_id});
+                                this.filterRoomNo=obj.room_no;
+                                console.log ('罗列已选房间号：' + JSON.stringify (this.filterRoomNo))
                             })
                         };
                         console.log ('房间号列表：', body.data);
