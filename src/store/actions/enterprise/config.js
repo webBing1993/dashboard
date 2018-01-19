@@ -236,29 +236,6 @@ module.exports = {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-        if (body.data) {
-          console.log('获取了多旅业数据:' + JSON.stringify(body.data))
-          let tempData = [];
-          body.data.forEach(function (item, index) {
-            let obj = {
-              id: item.id,
-              lvyeName: item.name,
-              reportChannel: item.report_channel,
-              reportType: item.report_type,
-              lvyeId: item.lvye_id,
-              transitParam: item.transit_param,
-              descrption: item.descrption,
-              autoReport: item.auto_report === 1 ? true : false,
-              enabledReport: item.enabled_report === 1 ? true : false,
-              device_id:item.device_id
-            };
-            tempData.push(obj);
-          });
-          ctx.commit('MORELVYEATA', tempData)
-        }
-        else {
-          ctx.commit('MORELVYEATA', [])
-        }
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -272,7 +249,6 @@ module.exports = {
       body: obj,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
-      // ctx.commit('MORELVYEATA', param.config);
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
