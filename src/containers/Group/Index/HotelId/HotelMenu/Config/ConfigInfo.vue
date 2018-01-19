@@ -531,7 +531,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="true"
-        @close="handleClose"
+        @close="closeMorelvye(showType)"
       >
         <div class="dialog-content">
           <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
@@ -1376,8 +1376,7 @@
                   <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID" :disabled="!item.enabledReport"></el-input>
                 </div>
               </div>
-              <div
-                v-if="!(item.reportChannel == 'CLOUD'||item.reportChannel == 'WUHAN')">
+              <div v-if="!(item.reportChannel == 'CLOUD'||item.reportChannel == 'WUHAN')">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
@@ -1393,6 +1392,19 @@
                     :value="obj.device_id">
                   </el-option>
                 </el-select>
+              </div>
+              <div class="item-form">
+                <span>选择房型</span>
+                <div class="el-right morelvyeCheckbox">
+                  <el-checkbox-group v-model="item.roomType" @change="changeRoomType(item)">
+                    <el-checkbox v-for="room in roomTypeList" :key="room.pms_id" :label="room.pms_id">{{room.name}}</el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
+              <div class="item-form transfer" >
+                <span style="margin-right: 1.2rem">关联房号</span>
+                <el-transfer filterable :titles=transferListName filter-placeholder="请输入房间号" v-model="item.filterRoomNo" :data="item.roomNoList">
+                </el-transfer>
               </div>
               <div class="item-form">
                 <span>说明</span>
@@ -1486,6 +1498,9 @@
   import ElDialog from "../../../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
   var QRCode = require('qrcode')
+  const empty={
+      emptyArr:[]
+  }
   //弹框类型
   const enumShowType = {
     checkDel: 0,
@@ -1588,6 +1603,11 @@
     data() {
       return {
         //多旅业列表
+        roomType:[],
+        roomTypeList:[],
+        roomNoList: [],
+        filterRoomNo: [],
+        transferListName: ['所有房号', '已选房号'],
         deskList:[],
         disItem:null,
         setTip:false,
@@ -1815,14 +1835,14 @@
       this.WxhotelRegisters();
       this.getRCConfigeds();
       this.getMoreLvyes();
-      this.testData()
+      this.testData();
+      this.getRoomTypeList();
     },
     computed: {
       ...mapState({
         configData: state => state.enterprise.configData,
         pmsData: state => state.enterprise.pmsData,
         lvyeData: state => state.enterprise.lvyeData,
-        moreLvyeData: state => state.enterprise.moreLvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
         showReception: state => state.enterprise.showReception
@@ -2419,21 +2439,19 @@
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
         }
       },
-      moreLvyeData() {
-        console.log('仓库变动：', this.moreLvyeData);
-        this.moreLvyeList = this.moreLvyeData;
-        if (this.renderMoreLvyeList.length > 0) {
-          this.hasSetMoreLvye = true;
-        }
-        else {
-          this.hasSetMoreLvye = false;
-        }
-      },
       faceinPassValue(val) {
         val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
       },
       faceinRejectValue(val) {
         val > this.faceinPassValue ? this.faceinPassValue = this.faceinRejectValue : null;
+      },
+      renderMoreLvyeList(val){
+          console.log('此时的renderMore:',val)
+          if(val.length>0){
+              this.hasSetMoreLvye = true;
+          } else {
+              this.hasSetMoreLvye = false;
+          };
       }
     },
     methods: {
@@ -2463,17 +2481,19 @@
         'getMoreLvye',
         'RCconfig',
         "setRCconfig",
-        "getRCConfiged"
+        "getRCConfiged",
+        "searchRoomType",
+        "searchRoomNo"
       ]),
         testData(){
-          console.log('测试数据：'+this.rcStatus)
+          // console.log('测试数据：'+this.rcStatus)
         },
       //拉已配置的RC数据
       getRCConfigeds() {
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
+            // console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
             if (body.data) {
               this.hasSetRc = true;
               this.UploadResponData = body.data.hotel_id;
@@ -2498,8 +2518,6 @@
       submitUpload() {
         this.$refs.upload.submit();
       },
-
-
       RCconfigs(pre) {
         console.log(111)
         this.RCconfig({
@@ -2587,8 +2605,13 @@
       handleClose() {
         this.delName = 'close';
         this.switchName = 'close';
-        this.getMoreLvyes();
-        this.setTip=false;
+      },
+      closeMorelvye(type){
+        if(type===enumShowType.moreLvyeReportType){
+            console.log("hhhhhhhhh")
+              this.getMoreLvyes();
+              this.setTip=false;
+          }
       },
       hideDialog() {
         this.showDialog = false;
@@ -3111,12 +3134,12 @@
               }
               break;
           case enumShowType.moreLvyeReportType: {
-            if(this.moreLvyeList.length>0){
+            if(this.renderMoreLvyeList.length>0){
               let result=this.validateMoreLvye();
               // console.log('多旅业验证result:'+result)
               if(result==true){
                 this.setTip=false;
-                let moreLvyeListData = [];
+                let moreLvyeListData = [];//封装模板上的多旅业数据，转化成接口字段数据
                 this.renderMoreLvyeList.forEach(function (item, index) {
                   let tempData = {
                     id: item.id,
@@ -3128,7 +3151,8 @@
                     auto_report: item.autoReport === true ? 1 : 0,
                     enabled_report: item.enabledReport === true ? 1 : 0,
                     transit_param: item.transitParam,
-                    device_id:item.device_id
+                    device_id:item.device_id,
+                    room_no:item.filterRoomNo,
                   }
                   moreLvyeListData.push(tempData);
                 });
@@ -3147,11 +3171,10 @@
         this.patchConfigData(data);
       },
       validateMoreLvye(){
-        this.moreLvyeList=this.renderMoreLvyeList;
+        // this.moreLvyeList=this.renderMoreLvyeList;
         let result;
-        result= this.moreLvyeList.every(function (item, index){
+        result= this.renderMoreLvyeList.every(function (item, index){
           if(item.reportChannel){
-            console.log('有')
             if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' ) {
               if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
                 return true;
@@ -3159,7 +3182,7 @@
               else {
                 return false;
               }
-            } else if (item.reportChannel == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
+            } else if (item.reportChannel == 'LOCAL' ||item.reportChannel == 'GUANGDONGOLD'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
               if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
                 return true;
               }
@@ -3178,7 +3201,6 @@
         this.getConfig({
           hotel_id: this.$route.params.hotelid
         })
-        console.log(234567)
       },
       getWxhotelCitysers() {
         this.getWxhotelCityser({
@@ -3222,20 +3244,34 @@
         this.queryDel = false;
         this.hideDialog();
       },
+
+        //查询旅业类型
       getlvyeTypeLists() {
         this.getlvyeTypeList({
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
       },
+        //查询旅业里的底座设备
       getDeskLists() {
           this.getDeskList({
               hotel_id: this.$route.params.hotelid,
               onsuccess: body => {
                   (this.deskList = [...body.data]);
-                  console.log('底座：',body.data);
+                  // console.log('底座：',body.data);
               }
           })
       },
+        //查询房型
+      getRoomTypeList() {
+         this.searchRoomType ({
+             hotel_id: this.$route.params.hotelid,
+             onsuccess: body => {
+                 //先查所有房型列表，再赋值已选房型，方便查房型的pmsId,pmsId用于监听联动查房间号
+                 this.roomTypeList = body.data;
+                 console.log ('罗列房型：' + JSON.stringify (this.roomTypeList))
+             }
+         });
+        },
       //上传已配置数据
       mySetRCconfig(data) {
         this.setRCconfig({
@@ -3352,12 +3388,90 @@
       downloadImg() {
         this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
       },
+      //选房型联动选房间
+      changeRoomType(item){
+          console.log('监听了')
+          item.roomNoList = [];
+          let roomTypePmsIdList=item.roomType;
+          let morelvyeId=item.id;
+          this.searchRoomNo ({
+              hotel_id: this.$route.params.hotelid,
+              body: {
+                  "lvye_config_id":morelvyeId ||'',       //多旅业id，新增传空字符串
+                  "room_type": roomTypePmsIdList||[]
+              },
+              onsuccess: body => {
+                  if(body.data==null){
+                      console.log("没有选房型");
+                  }
+                  if (body.data&&body.data!=null) {
+                      console.log(99999);
+                      body.data.forEach ((i, index) => {
+                          console.log(i+"进来了")
+                          item.roomNoList.push ({label: i, key: i});
+                      })
+                  };
+                  console.log ('联动查供选择的房间号列表：',item.roomNoList);
+              }
+          });
+      },
+
       // 多旅业数据处理
       getMoreLvyes() {
         this.getMoreLvye({
           hotel_id: this.$route.params.hotelid,
+          onsuccess:body=>{
+              this.moreLvyeList=[];
+              let listData=[];
+              if (body.data) {
+                  listData=body.data;
+                  console.log('获取了多旅业的数据:' + listData);
+                  listData.forEach((item,index) =>{
+                      console.log("有多旅业数据就执行，没有就不执行forEach，也就查不到所有房间号");
+                      this.getRoomNoList(item);
+                  });
+              };
+              console.log('多旅业列表：',this.moreLvyeList);
+          }
         })
       },
+        //查询房间列表
+        getRoomNoList(item){
+            let list=[];
+            this.searchRoomNo ({
+                hotel_id: this.$route.params.hotelid,
+                body: {
+                    "lvye_config_id":item.id ||'',       //多旅业id，新增传空字符串
+                    "room_type": item.room_type||[]
+                },
+                onsuccess: body => {
+                    console.log(9999999999999)
+                    if (body.data) {
+                        body.data.forEach ((i, index) => {
+                            list.push ({label: i, key: i});
+                        })
+                    };
+                    console.log ('供选择的房间号列表：', list);
+                    let obj = {
+                        id: item.id,
+                        lvyeName: item.name,
+                        reportChannel: item.report_channel,
+                        reportType: item.report_type,
+                        lvyeId: item.lvye_id,
+                        transitParam: item.transit_param,
+                        descrption: item.descrption,
+                        autoReport: item.auto_report === 1 ? true : false,
+                        enabledReport: item.enabled_report === 1 ? true : false,
+                        device_id:item.device_id,
+                        roomType: item.room_type,
+                        filterRoomNo:item.room_no,
+                        roomNoList:list
+                    };
+                    this.moreLvyeList.push(obj);
+                }
+            });
+        },
+        //修改多旅业数据（新增或保存）
       modifyMoreLvyes(data) {
         this.modifyMoreLvye({
           hotel_id: this.$route.params.hotelid,
@@ -3365,25 +3479,25 @@
           onsuccess: body => {
             this.showDialog = false;
             this.getMoreLvyes();
-            if(this.moreLvyeList.length>0){
-              this.hasSetMoreLvye = true;
-            }
           }
         })
       },
+        //删除多旅业项
       deleteMoreLvyes(param, index) {
         param.enabledReport=true;
         if (!param.id) {
           this.moreLvyeList.splice(index, 1);
           return;
-        };
-        this.deleteMoreLvye({
-          areaId: param.id,
-          onsuccess: body => {
-            this.getMoreLvyes();
-          }
-        });
+        }else {
+          this.deleteMoreLvye({
+            areaId: param.id,
+            onsuccess: body => {
+                this.getMoreLvyes();
+            }
+          });
+        }
       },
+        //新增一项多旅业， 此时没有操作morelvyeData
       addNewLv() {
         let obj = {
           id: "",
@@ -3395,7 +3509,10 @@
           transitParam: "",
           descrption: "",
           autoReport: false,
-          enabledReport: true
+          enabledReport: true,
+          filterRoomNo:[],
+          roomType:[],
+          roomNoList:[]
         };
         this.moreLvyeList.push(obj);
       },
@@ -3403,6 +3520,12 @@
   }
 </script>
 <style lang="less">
+  .morelvyeCheckbox {
+    .el-checkbox {
+      margin-left: 0;
+      margin-right: 1.5rem;
+    }
+  }
   .tip{
     color: #ff2b1c;
     font-size: 16px;
@@ -3527,13 +3650,18 @@
                 text-align: end;
               }
               .el-select {
-                width: 70%;
+                width: 100%;
                 .el-input {
-                  width: 100%;
+                  width: 69.5%;
                 }
               }
               .el-input {
-                width: 70%;
+                width: 60%;
+              }
+              .el-transfer{
+                .el-input{
+                  width: 100%;
+                }
               }
 
               .el-switch {
@@ -3701,5 +3829,9 @@
   .bottoomLine{
     padding-top: 2rem;
     border-bottom: 1px solid #000000;
+  }
+  .el-transfer-panel__filter {
+    padding: 0.2rem 1rem 1.1rem 1rem;
+    width: 100%;
   }
 </style>

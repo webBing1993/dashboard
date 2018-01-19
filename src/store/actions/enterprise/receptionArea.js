@@ -16,16 +16,7 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/receptionArea/${param.hotel_id}`,
       method: 'POST',
-      body: {
-        id: param.id,
-        name: param.name,
-        address: param.address,
-        tel: param.tel,
-        room_type: param.room_type,
-        lvye_config_id: param.lvyeConfigId,
-        device_ids:param.device_ids,
-        room_no:param.room_no
-      },
+      body:param.data,
       onSuccess: body => {
         console.log('已经选的房型：'+param.room_type)
         param.onsuccess ? param.onsuccess(body) : null
