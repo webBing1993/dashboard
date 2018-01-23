@@ -494,20 +494,6 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoIdentityCheck)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>自动人脸核验配置</span>
-              <p>是否调用人脸识别接口进行身份验证</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !autoIdentityCheckVal, 'tag_text_green': autoIdentityCheckVal}">{{autoIdentityCheckVal ? '已配置' : '未配置'}}
-            </span>
-          </button>
-        </el-col>
-        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.identityCheck)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
@@ -639,14 +625,35 @@
                 <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
               </div>
             </div>
-
             <div v-show="pmsType == '8'">
               <div class="item-form">
                 <span>密钥</span>
                 <el-input class="el-right" v-model="dcKey" placeholder="请输入东呈分配的密钥(key)"></el-input>
               </div>
             </div>
-            <div class="item-form">
+            <div v-show="pmsType == '12'">
+              <span>酒店ID</span>
+              <el-input class="el-right" v-model="xrbs_pmsCode" placeholder="请输入集团ID"></el-input>
+              <span>集团ID</span>
+              <el-input class="el-right" v-model="xrbs_groupId" placeholder="请输入集团ID"></el-input>
+              <span>平台appkey</span>
+              <el-input class="el-right" v-model="xrbs_appkey" placeholder="请输入集团ID"></el-input>
+              <span>平台授权码</span>
+              <el-input class="el-right" v-model="xrbs_authCode" placeholder="请输入集团ID"></el-input>
+              <span>返回语种信息</span>
+              <el-input class="el-right" v-model="xrbs_infoLanguage" placeholder="请输入集团ID"></el-input>
+              <span>服务方法版本</span>
+              <el-input class="el-right" v-model="xrbs_serviceVersion" placeholder="请输入集团ID"></el-input>
+              <span>渠道代码</span>
+              <el-input class="el-right" v-model="xrbs_CRM" placeholder="请输入集团ID"></el-input>
+              <span>站点ID</span>
+              <el-input class="el-right" v-model="xrbs_siteId" placeholder="请输入集团ID"></el-input>
+              <span>工号</span>
+              <el-input class="el-right" v-model="xrbs_employeeNum" placeholder="请输入集团ID"></el-input>
+              <span>模块号</span>
+              <el-input class="el-right" v-model="xrbs_moduleNum" placeholder="请输入集团ID"></el-input>
+            </div>
+            <div class="item-form" v-if="pmsType!=='12'">
               <span>是否对接退房接口</span>
               <el-switch
                 v-model="checkout"
@@ -698,9 +705,25 @@
           </div>
           <div v-if="showType === enumShowType.facein">
             <div class="item-form">
-              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸设备:</span></span>
+              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸识别:</span></span>
               <el-switch
                 v-model="faceEqu"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否自动人脸核验</span>
+              <el-switch
+                v-model="autoIdentityCheckVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否显示相似度对比值:</span></span>
+              <el-switch
+                v-model="similarity"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1277,16 +1300,6 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.autoIdentityCheck">
-            <div class="item-form">
-              <span>是否开启墨镜身份核验</span>
-              <el-switch
-                v-model="autoIdentityCheckVal"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
           <!-- RC单打印 -->
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
@@ -1602,6 +1615,7 @@
     name: 'ConfigInfo',
     data() {
       return {
+
         //多旅业列表
         roomType:[],
         roomTypeList:[],
@@ -1636,6 +1650,17 @@
         hotelPmsCode: '',
         hotelServiceUrl: '',
         remark: '',
+        //西软BS
+          xrbs_pmsCode:'',
+          xrbs_groupId:'',
+          xrbs_appkey:'',
+          xrbs_authCode:'',
+          xrbs_serviceVersion:'',
+          xrbs_infoLanguage:'',
+          xrbs_CRM:'',
+          xrbs_siteId:'',
+          xrbs_employeeNum:'',
+          xrbs_moduleNum:'',
         //绿云,西软
         crsURL: '',
         hotelGroupCode: '',
@@ -1669,6 +1694,7 @@
         //门锁配置，暂无
         //人脸识别配置
         faceEqu: true,
+        similarity:false,
         faceTongdao: '腾讯优图',
         identityAccount: null,
         shenfenbaoRejectManual: "false",
@@ -2270,7 +2296,7 @@
     watch: {
       configData()
       {
-        let configData = this.configData
+        let configData = this.configData;
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -2280,6 +2306,8 @@
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
           this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
           this.identityAccount = configData.shenfenbao_hotel_account;
+          this.similarity=configData.show_similarity;
+          this.autoIdentityCheckVal = configData.enabled_auto_identity_check == 'true' ? true : false;
           //微信支付配置
           this.mchId = configData;
           // this.mchId = configData.child_mch_id;
@@ -2381,10 +2409,6 @@
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
-
-
-          //自动人脸核验配置
-          this.autoIdentityCheckVal = configData.enabled_auto_identity_check == 'true' ? true : false;
           //身份核验功能配置
           this.identityCheckVal = configData.enabled_identity_check == 'true' ? true : false;
           //定制化配置
@@ -2426,6 +2450,8 @@
           this.brandId = this.pmsData.brand_id;
           //东呈
           this.dcKey = this.pmsData.key;
+          //西软BS
+
         }
       },
       lvyeData() {
@@ -2453,7 +2479,6 @@
               this.hasSetMoreLvye = false;
           };
       }
-
     },
     methods: {
       ...mapActions([
@@ -2609,11 +2634,11 @@
       },
       closeMorelvye(type){
         if(type===enumShowType.moreLvyeReportType){
-            console.log("hhhhhhhhh")
               this.getMoreLvyes();
               this.setTip=false;
           }
       },
+        //弹框取消按钮
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
@@ -2659,6 +2684,8 @@
           case enumShowType.facein:
             this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
             this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
+            this.similarity=this.configData.show_similarity== 'true' ? true : false;
+            this.autoIdentityCheckVal===this.configData.enabled_auto_identity_check ==='true' ? true : false;
             break;
           case enumShowType.wechatPay:
             this.payCode = this.configData.pay_code;
@@ -2768,9 +2795,6 @@
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
             break;
-          case enumShowType.autoIdentityCheck:
-            this.autoIdentityCheckVal = this.configData.enabled_auto_identity_check == 'true' ? true : false;
-            break;
           case enumShowType.issuedCardRule:
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             break;
@@ -2834,6 +2858,17 @@
                 ...paramData,
                 key: this.dcKey
               }
+            }else if (this.pmsType == '12'){
+              data = {
+                  appKey:this.xrbs_appkey,
+                  secret:this.xrbs_authCode,
+                  ver:this.xrbs_serviceVersion,
+                  loc:this.xrbs_infoLanguage,
+                  cmmcode:this.xrbs_CRM,
+                  pcid:this.xrbs_siteId,
+                  empno:this.xrbs_employeeNum,
+                  modu:this.xrbs_moduleNum
+              }
             }
             else {
               data = {
@@ -2876,7 +2911,9 @@
               support_face_in: this.faceEqu,//是否支持人脸识别
               identity_check_channel: this.faceTongdao === '腾讯优图' ? 'YOUTU' : 'SHENFENBAO',
               shenfenbao_hotel_account: this.identityAccount,
-              shenfenbao_reject_manual: this.shenfenbaoRejectManual//身份宝拒绝是否人工参与
+              shenfenbao_reject_manual: this.shenfenbaoRejectManual,//身份宝拒绝是否人工参与
+              show_similarity:this.similarity.toString() , //相似度
+              enabled_auto_identity_check: this.autoIdentityCheckVal.toString()
             }
             break;
           case enumShowType.wechatPay:
@@ -3106,12 +3143,7 @@
           case enumShowType.autoGiveRoom:
             data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
             break;
-          case enumShowType.autoIdentityCheck:
-            data = {'enabled_auto_identity_check': this.autoIdentityCheckVal.toString()};
-            break;
-          // case enumShowType.issuedCardRule:
-          //   data = {'issued_card_rule': this.issuedCardRuleVal};
-          //   break;
+
           case enumShowType.identityCheck:
             data = {'enabled_identity_check': this.identityCheckVal.toString()};
             break;
@@ -3208,6 +3240,7 @@
           onsuccess: body => (this.wxhotelCityserList = [...body.data])
         })
       },
+
       WxhotelRegisters() {
         this.WxhotelRegister({
           hotel_id: this.$route.params.hotelid,
