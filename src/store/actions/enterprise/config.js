@@ -164,7 +164,7 @@ module.exports = {
     let urlQuery = ``;
     if (param.data.pms_type == 1) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBYH`;
-    } else if (param.data.pms_type == 2 || param.data.pms_type == 7) {
+    } else if (param.data.pms_type == 2 || param.data.pms_type == 7|| param.data.pms_type == 11) {
       urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }
     else if (param.data.pms_type == 3) {
@@ -173,10 +173,12 @@ module.exports = {
     else if (param.data.pms_type == 8) {
       urlQuery = `/hotel/${param.hotel_id}/pmsdc`;
     }
+    else if (param.data.pms_type == 12){
+      urlQuery = `/hotel/${param.hotel_id}/pmsCloudXr`;
+    }
     else {
       urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;
-    }
-    ;
+    };
 
     ctx.dispatch('resource', {
       url: urlQuery,

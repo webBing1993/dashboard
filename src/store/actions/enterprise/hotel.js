@@ -44,6 +44,16 @@ module.exports = {
       }
     })
   },
+
+    getCorpids(ctx, param){
+        ctx.dispatch('resource', {
+            url: `/corpids`,
+            method: 'GET',
+            onSuccess: body => {
+                param.onsuccess ? param.onsuccess(body) : null
+            }
+        })
+    },
   modifyHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.id}`,

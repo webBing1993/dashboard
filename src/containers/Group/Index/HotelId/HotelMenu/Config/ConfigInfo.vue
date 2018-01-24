@@ -443,7 +443,7 @@
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
-              <span>是否允许提前退房</span>
+              <span>退离规则配置</span>
               <p>是否允许提前退房</p>
             </div>
             <span class="tag_text"
@@ -542,12 +542,8 @@
                 <span>酒店服务地址</span>
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
-              <div class="item-form">
-                <span>备注</span>
-                <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
-              </div>
             </div>
-            <div v-show="pmsType == '2' || pmsType == '7'">
+            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -631,29 +627,50 @@
                 <el-input class="el-right" v-model="dcKey" placeholder="请输入东呈分配的密钥(key)"></el-input>
               </div>
             </div>
+            <!--西软BS-->
             <div v-show="pmsType == '12'">
-              <span>酒店ID</span>
-              <el-input class="el-right" v-model="xrbs_pmsCode" placeholder="请输入集团ID"></el-input>
-              <span>集团ID</span>
-              <el-input class="el-right" v-model="xrbs_groupId" placeholder="请输入集团ID"></el-input>
-              <span>平台appkey</span>
-              <el-input class="el-right" v-model="xrbs_appkey" placeholder="请输入集团ID"></el-input>
-              <span>平台授权码</span>
-              <el-input class="el-right" v-model="xrbs_authCode" placeholder="请输入集团ID"></el-input>
-              <span>返回语种信息</span>
-              <el-input class="el-right" v-model="xrbs_infoLanguage" placeholder="请输入集团ID"></el-input>
-              <span>服务方法版本</span>
-              <el-input class="el-right" v-model="xrbs_serviceVersion" placeholder="请输入集团ID"></el-input>
-              <span>渠道代码</span>
-              <el-input class="el-right" v-model="xrbs_CRM" placeholder="请输入集团ID"></el-input>
-              <span>站点ID</span>
-              <el-input class="el-right" v-model="xrbs_siteId" placeholder="请输入集团ID"></el-input>
-              <span>工号</span>
-              <el-input class="el-right" v-model="xrbs_employeeNum" placeholder="请输入集团ID"></el-input>
-              <span>模块号</span>
-              <el-input class="el-right" v-model="xrbs_moduleNum" placeholder="请输入集团ID"></el-input>
+              <div class="item-form">
+                <span>集团ID</span>
+                <el-input class="el-right" v-model="xrbs_groupCode" placeholder="请输入集团ID"></el-input>
+              </div>
+              <div class="item-form">
+                <span>平台appkey</span>
+                <el-input class="el-right" v-model="xrbs_appkey" placeholder="请输入平台appkey"></el-input>
+              </div>
+              <div class="item-form">
+                <span>平台授权码</span>
+                <el-input class="el-right" v-model="xrbs_authCode" placeholder="请输入平台授权码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>返回语种信息</span>
+                <el-input class="el-right" v-model="xrbs_infoLanguage" placeholder="请输入返回语种信息"></el-input>
+              </div>
+              <div class="item-form">
+                <span>服务方法版本</span>
+                <el-input class="el-right" v-model="xrbs_serviceVersion" placeholder="请输入服务方法版本"></el-input>
+              </div>
+              <div class="item-form">
+                <span>渠道代码</span>
+                <el-input class="el-right" v-model="xrbs_CRM" placeholder="请输入渠道代码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>站点ID</span>
+                <el-input class="el-right" v-model="xrbs_siteId" placeholder="请输入站点ID"></el-input>
+              </div>
+              <div class="item-form">
+                <span>工号</span>
+                <el-input class="el-right" v-model="xrbs_employeeNum" placeholder="请输入工号"></el-input>
+              </div>
+              <div class="item-form">
+                <span>模块号</span>
+                <el-input class="el-right" v-model="xrbs_moduleNum" placeholder="请输入模块号"></el-input>
+              </div>
             </div>
-            <div class="item-form" v-if="pmsType!=='12'">
+            <div class="item-form">
+              <span>备注</span>
+              <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
+            </div>
+            <div class="item-form">
               <span>是否对接退房接口</span>
               <el-switch
                 v-model="checkout"
@@ -661,9 +678,18 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div v-show="pmsType == '5'||pmsType == '7'||pmsType == '9'">
+              <div class="item-form" v-for="(item,index) of urls">
+                <span>代理（备选网址）</span>
+                <el-input class="el-right" v-model="item.url"></el-input>
+                <img src="../../../../../../assets/images/减少.png" class="reduceImg" @click="reduceAlterUrl(index)">
+              </div>
+              <div style="margin-left: 9rem">
+                <el-button plain @click="addAlterUrl"> 添加一个备选网址</el-button>
+              </div>
+            </div>
           </div>
           <div v-if="showType === enumShowType.lvyeReportType">
-
             <div class="lvyeItem">
               <div class="item-form">
                 <span>是否自动上传配置项?</span>
@@ -692,7 +718,7 @@
                 <span>公安类型</span>
                 <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
               </div>
-              <div v-if="!(lvyeType =='CLOUD'|| lvyeType =='WUHAN')">
+              <div v-show="isPoliceParam">
                 <div class="item-form">
                   <span>公安参数</span>
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
@@ -705,30 +731,6 @@
           </div>
           <div v-if="showType === enumShowType.facein">
             <div class="item-form">
-              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否开启人脸识别:</span></span>
-              <el-switch
-                v-model="faceEqu"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否自动人脸核验</span>
-              <el-switch
-                v-model="autoIdentityCheckVal"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span style="margin-left: 35px;margin-right: 30px"><span style="">是否显示相似度对比值:</span></span>
-              <el-switch
-                v-model="similarity"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
               <span>人脸识别通道</span>
               <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
                 <el-option
@@ -740,17 +742,9 @@
               </el-select>
             </div>
             <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span style="margin-right: 18px">身份宝账号:</span>
-              <el-input placeholder="请输入内容" v-model="identityAccount"></el-input>
+              <span>身份宝账号</span>
+              <el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>
               <span></span>
-            </div>
-            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span style="margin-right: 18px">身份宝拒绝是否人工参与:</span>
-              <el-switch
-                v-model="shenfenbaoRejectManual"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
             </div>
             <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <span>自动通过值</span>
@@ -773,6 +767,38 @@
                   :value="obj">
                 </el-option>
               </el-select>
+            </div>
+            <div class="item-form">
+              <span>是否开启人脸识别</span>
+              <el-switch
+                v-model="faceEqu"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否自动人脸核验</span>
+              <el-switch
+                v-model="autoIdentityCheckVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否显示相似度对比值</span>
+              <el-switch
+                v-model="similarity"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
+              <span>身份宝拒绝是否人工参与</span>
+              <el-switch
+                v-model="shenfenbaoRejectManual"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
             <article v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <ul>
@@ -1016,6 +1042,17 @@
           </div>
           <div v-if="showType === enumShowType.autoRefund">
             <div class="item-form">
+              <span>退款方式</span>
+              <el-select class="el-right" v-model="refundVal" placeholder="退款方式">
+                <el-option
+                  v-for="(obj, index) of refundList"
+                  :key="obj.index"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
               <span>是否开通自动退款服务？</span>
               <el-switch
                 v-model="enabledAutoRefund"
@@ -1251,6 +1288,22 @@
               <span>是否允许提前退房</span>
               <el-switch
                 v-model="enabledAdvancedCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许PMS入住用户离店</span>
+              <el-switch
+                v-model="enabledPMScheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许当日抵离</span>
+              <el-switch
+                v-model="enabledSameDateIO"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1575,7 +1628,7 @@
     '预登记短信配置',
     '到店支付配置',
     '自动退房配置',
-    '自动退款配置',
+    '退款业务配置',
     '无证入住配置',
     '房卡配置',
     '押金配置',
@@ -1590,7 +1643,7 @@
     '禁止顾客操作订单配置',
     '订单操作配置',
     '是否打印小票配置',
-    '是否允许提前退房配置',
+    '退离规则配置',
     '酒店行政区划代码配置',
     '酒店二维码配置',
     '分房配置',
@@ -1615,7 +1668,6 @@
     name: 'ConfigInfo',
     data() {
       return {
-
         //多旅业列表
         roomType:[],
         roomTypeList:[],
@@ -1644,6 +1696,7 @@
         //PMS配置
         PMSBrandList: [],
         checkout: true,
+        urls: [],
         //捷信达
         pmsId: '',
         // pmsType: '', //放在计算属性
@@ -1651,8 +1704,7 @@
         hotelServiceUrl: '',
         remark: '',
         //西软BS
-          xrbs_pmsCode:'',
-          xrbs_groupId:'',
+          xrbs_groupCode:'',
           xrbs_appkey:'',
           xrbs_authCode:'',
           xrbs_serviceVersion:'',
@@ -1753,6 +1805,8 @@
         enabledDelayedPayment: true,
         //自动退房
         enableAutoCheckout: false,
+        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'}],
+        refundVal:'',
         //自动退款
         enabledAutoRefund: true,
         //无证入住
@@ -1810,7 +1864,10 @@
         //顾客自行操作配置
         curstomDeploy: false,
         enabledTicketPrint: false,//是否打印小票配置
-        enabledAdvancedCheckout: false,//是否允许提前退房
+          //是否允许提前退房
+        enabledAdvancedCheckout: false,
+        enabledPMScheckout:false,
+        enabledSameDateIO:false,
         hotelAreaCodeVal: '',//酒店行政区划代码
         queryDel: false,
         //酒店二维码配置
@@ -1847,7 +1904,8 @@
         mirrorIntro:false,
         mirrorBrand:false,
         rcStatus:false,
-        inteRoomLock:false
+        inteRoomLock:false,
+        isPoliceParam:false
       }
     },
     mounted() {
@@ -1861,7 +1919,6 @@
       this.WxhotelRegisters();
       this.getRCConfigeds();
       this.getMoreLvyes();
-      this.testData();
       this.getRoomTypeList();
     },
     computed: {
@@ -1998,9 +2055,9 @@
         }
       },
       validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
+        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'||this.lvyeType == 'SUZHOU') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG') {
+        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG'|| this.lvyeType == 'ZHUHAI') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -2300,14 +2357,15 @@
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
-          this.faceEqu = configData.support_face_in;
+
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
-          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
           this.identityAccount = configData.shenfenbao_hotel_account;
-          this.similarity=configData.show_similarity;
-          this.autoIdentityCheckVal = configData.enabled_auto_identity_check == 'true' ? true : false;
+          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
+          this.faceEqu = configData.support_face_in;
+          this.similarity=configData.show_similarity === 'true' ? true : false;
+          this.autoIdentityCheckVal = configData.enabled_auto_identity_check === 'true' ? true : false;
           //微信支付配置
           this.mchId = configData;
           // this.mchId = configData.child_mch_id;
@@ -2356,6 +2414,7 @@
           this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
           //自动退款
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
+           this.refundVal= configData.refund_amount_source;
           //无证入住
           this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
           //是否支持手机入住
@@ -2405,6 +2464,8 @@
           this.enabledSpeedCard = configData.enabled_speed_card == 'true' ? true : false;
           //是否允许提前退房配置
           this.enabledAdvancedCheckout = configData.advanced_checkout == 'true' ? true : false;
+          this.enabledPMScheckout=configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+          this.enabledSameDateIO=configData.enabled_same_date_io== 'true' ? true : false;
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
@@ -2421,6 +2482,7 @@
         if (tool.isNotBlank(this.pmsData)) {
           //PMS信息
           //捷信达
+          this.urls=this.pmsData.urls;
           this.pmsId = this.pmsData.pms_id;
           this.checkout = this.pmsData.checkout == 'true' ? true : false;
           // this.pmsType = this.pmsData.pms_type; //放在计算属性
@@ -2451,18 +2513,26 @@
           //东呈
           this.dcKey = this.pmsData.key;
           //西软BS
-
+          this.xrbs_groupCode=this.pmsData.hotelGroupCode;
+          this.xrbs_appkey=this.pmsData.appKey;
+          this.xrbs_authCode=this.pmsData.secret;
+          this.xrbs_serviceVersion=this.pmsData.ver;
+          this.xrbs_infoLanguage=this.pmsData.loc;
+          this.xrbs_CRM=this.pmsData.cmmcode;
+          this.xrbs_siteId=this.pmsData.pcid;
+          this.xrbs_employeeNum=this.pmsData.empno;
+          this.xrbs_moduleNum=this.pmsData.modu;
         }
       },
       lvyeData() {
         // 旅业配置
         if (tool.isNotBlank(this.lvyeData)) {
-
           this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
           this.lvyeType = this.lvyeData.lvye_report_type;
           this.policeId = this.lvyeData.hotel_ga_id;
           this.policeType = this.lvyeData.police_type;
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
+
         }
       },
       faceinPassValue(val) {
@@ -2478,7 +2548,15 @@
           } else {
               this.hasSetMoreLvye = false;
           };
-      }
+      },
+      lvyeType(val){
+          console.log(val)
+          this.rendLvyeTypeList.forEach(obj=>{
+              if(val===obj.lvye_report_type){
+                  this.isPoliceParam=obj.enable_police_param
+              };
+          })
+      },
     },
     methods: {
       ...mapActions([
@@ -2511,9 +2589,13 @@
         "searchRoomType",
         "searchRoomNo"
       ]),
-        testData(){
-          // console.log('测试数据：'+this.rcStatus)
-        },
+      addAlterUrl(){
+          console.log(typeof this.urls)
+        this.urls.push({url:''});
+      },
+      reduceAlterUrl(index){
+        this.urls.splice(index,1);
+      },
       //拉已配置的RC数据
       getRCConfigeds() {
         this.getRCConfiged({
@@ -2673,6 +2755,16 @@
             this.brandId = this.pmsData.brand_id;
             //东呈
             this.dcKey = this.pmsData.key;
+            //西软BS
+            this.xrbs_groupCode=this.pmsData.hotelGroupCode;
+            this.xrbs_appkey=this.pmsData.appKey;
+            this.xrbs_authCode=this.pmsData.secret;
+            this.xrbs_serviceVersion=this.pmsData.ver;
+            this.xrbs_infoLanguage=this.pmsData.loc;
+            this.xrbs_CRM=this.pmsData.cmmcode;
+            this.xrbs_siteId=this.pmsData.pcid;
+            this.xrbs_employeeNum=this.pmsData.empno;
+            this.xrbs_moduleNum=this.pmsData.modu;
             break;
           case enumShowType.lvyeReportType:
             this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
@@ -2735,6 +2827,7 @@
             break;
           case enumShowType.autoRefund:
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
+            this.refundVal=this.configData.refund_amount_source;
             break;
           case enumShowType.preCheckin:
             this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
@@ -2788,6 +2881,8 @@
             break;
           case enumShowType.advancedCheckout:
             this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
+              this.enabledPMScheckout=this.configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+              this.enabledSameDateIO=this.configData.enabled_same_date_io== 'true' ? true : false;
             break;
           case enumShowType.hotelAreaCode:
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
@@ -2821,9 +2916,10 @@
               pms_type: this.pmsType,
               hotel_pmscode: this.hotelPmsCode,
               remark: this.remark,
-              hotel_service_url: this.hotelServiceUrl
+              hotel_service_url: this.hotelServiceUrl,
+              urls:this.urls
             };
-            if (this.pmsType == '7' || this.pmsType == '2') {
+            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
@@ -2831,7 +2927,7 @@
                 app_key: this.appKey,
                 app_secret: this.PMSAppSecret,
                 usercode: this.userCode,
-                password: this.password
+                password: this.password,
               }
             } else if (this.pmsType == '1') {
               data = {
@@ -2860,6 +2956,8 @@
               }
             }else if (this.pmsType == '12'){
               data = {
+                  ...paramData,
+                  hotelGroupCode:this.xrbs_groupCode,
                   appKey:this.xrbs_appkey,
                   secret:this.xrbs_authCode,
                   ver:this.xrbs_serviceVersion,
@@ -2886,7 +2984,7 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN') {
+            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'|| this.lvyeType == 'SUZHOU') {
               data = {
                 ...tempData
               }
@@ -2903,16 +3001,20 @@
           case enumShowType.doorLock_unknown:
             break;
           case enumShowType.facein:
-            if (this.faceTongdao === '腾讯优图') this.identity_check_channel = 'YOUTU'
-            if (this.faceTongdao === '厦门身份宝') this.identity_check_channel = 'SHENFENBAO'
+            if (this.faceTongdao === '腾讯优图') {
+                this.identity_check_channel = 'YOUTU';
+            }
+            if (this.faceTongdao === '厦门身份宝') {
+                this.identity_check_channel = 'SHENFENBAO';
+            }
             data = {
-              facein_pass_value: this.faceinPassValue.toString(),//自动通过值
-              facein_reject_value: this.faceinRejectValue.toString(),//自动拒绝值
-              support_face_in: this.faceEqu,//是否支持人脸识别
+              facein_pass_value: this.faceinPassValue,//自动通过值
+              facein_reject_value: this.faceinRejectValue,//自动拒绝值
               identity_check_channel: this.faceTongdao === '腾讯优图' ? 'YOUTU' : 'SHENFENBAO',
               shenfenbao_hotel_account: this.identityAccount,
+              support_face_in: this.faceEqu,//是否支持人脸识别
               shenfenbao_reject_manual: this.shenfenbaoRejectManual,//身份宝拒绝是否人工参与
-              show_similarity:this.similarity.toString() , //相似度
+              show_similarity:this.similarity.toString(), //相似度
               enabled_auto_identity_check: this.autoIdentityCheckVal.toString()
             }
             break;
@@ -3005,12 +3107,14 @@
             break;
           case enumShowType.autoRefund:
             data = {
-              enabled_auto_refund: this.enabledAutoRefund.toString()
+              enabled_auto_refund: this.enabledAutoRefund.toString(),
+              refund_amount_source:this.refundVal
             }
             break;
           case enumShowType.preCheckin:
             data = {
-              enabled_pre_checkin: this.enabledPreCheckin.toString()
+              enabled_pre_checkin: this.enabledPreCheckin.toString(),
+
             }
             break;
           case enumShowType.mobileCheckin:
@@ -3119,7 +3223,9 @@
             break;
           case enumShowType.advancedCheckout:
             data = {
-              advanced_checkout: this.enabledAdvancedCheckout.toString()
+              advanced_checkout: this.enabledAdvancedCheckout.toString(),
+              enabled_pms_in_guest_checkout:this.enabledPMScheckout.toString(),
+              enabled_same_date_io:this.enabledSameDateIO.toString()
             }
             break;
           case enumShowType.CustomerOperate:
@@ -3867,5 +3973,11 @@
   .el-transfer-panel__filter {
     padding: 0.2rem 1rem 1.1rem 1rem;
     width: 100%;
+  }
+  .reduceImg{
+    display: inline-block;
+    width:2rem;
+    height: 2rem;
+    margin-left: 1rem;
   }
 </style>
