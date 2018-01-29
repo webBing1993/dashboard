@@ -124,6 +124,19 @@
                   :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.accessServiceType)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店开通业务类型配置</span>
+              <p>业务类型配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <div class="content-title">
         <span>业务配置 <i>（选择酒店开启业务）</i></span>
@@ -1514,6 +1527,47 @@
               </el-switch>
             </div>
           </div>
+          <!--开通酒店业务类型配置-->
+          <div v-if="showType === enumShowType.accessServiceType">
+            <div class="item-form">
+              <span>格式化脚本</span>
+              <el-input class="el-right" v-model="item.id" v-show=false></el-input>
+              <el-switch
+                v-model="formatScript"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>过滤脚本</span>
+              <el-upload
+                class="upload-demo"
+                action="scriptUpload"
+                :headers="setHeader"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <el-button size="small" type="primary">选择上传文件</el-button>
+              </el-upload>
+            </div>
+            <div class="item-form">
+              <span>是否开启</span>
+              <el-upload
+                class="upload-demo"
+                action="scriptUpload"
+                :headers="setHeader"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :before-remove="beforeRemove"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+              </el-upload>
+            </div>
+          </div>
         </div>
 
         <!--footer-->
@@ -1609,7 +1663,8 @@
     identityCheck: 37,
     moreLvyeReportType: 38,
     customization:39,
-    enableRCstatus :40
+    enableRCstatus :40,
+    accessServiceType:41
   }
 
   //弹框标题类型
@@ -1653,7 +1708,8 @@
     '开启身份核验功能配置',
     '酒店多旅业系统配置',
     '定制化配置',
-    'RC单是否开启字段'
+    'RC单是否开启字段',
+    '酒店开通业务类型配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1668,6 +1724,12 @@
     name: 'ConfigInfo',
     data() {
       return {
+        //开关设置
+        accessService:false,
+        //酒店开通业务类型配置
+        formatScript:"",
+        filterScript:"",
+        isAccessService:false,
         //多旅业列表
         roomType:[],
         roomTypeList:[],
@@ -1932,6 +1994,9 @@
       }),
       rcgethotelid() {
         return "/virgo/fileUpload/" + this.$route.params.hotelid
+      },
+      scriptUpload(){
+        return "/virgo/scriptupload/" + this.$route.params.hotelid
       },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
@@ -2550,7 +2615,6 @@
           };
       },
       lvyeType(val){
-          console.log(val)
           this.rendLvyeTypeList.forEach(obj=>{
               if(val===obj.lvye_report_type){
                   this.isPoliceParam=obj.enable_police_param
@@ -3585,7 +3649,6 @@
                     "room_type": item.room_type||[]
                 },
                 onsuccess: body => {
-                    console.log(9999999999999)
                     if (body.data) {
                         body.data.forEach ((i, index) => {
                             list.push ({label: i, key: i});
