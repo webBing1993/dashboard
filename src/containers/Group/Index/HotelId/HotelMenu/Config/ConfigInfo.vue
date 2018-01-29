@@ -2665,7 +2665,10 @@
       saveAccessServiceType(data){
          this.saveScriptUpload({
              hotel_id: this.$route.params.hotelid,
-             body:data
+             body:data,
+             onsuccess: body => {
+                 this.showDialog = false;
+             }
          });
       },
       beforeUploadformat(){
