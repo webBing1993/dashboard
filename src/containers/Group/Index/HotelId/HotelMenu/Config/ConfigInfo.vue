@@ -593,11 +593,11 @@
                 <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
               </div>
               <div class="item-form">
-                <span>用户名</span>
+                <span>渠道名称</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
               <div class="item-form">
-                <span>密码</span>
+                <span>渠道凭证</span>
                 <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
               </div>
             </div>
