@@ -1372,7 +1372,7 @@
               <span>模版名称</span>
               <el-upload
                 ref="upload"
-                class="upload-demo"
+                class="upload-demo el-right"
                 :headers="setHeader"
                 :action="rcgethotelid"
                 :on-success="getUploadData"
@@ -1531,41 +1531,41 @@
           <div v-if="showType === enumShowType.accessServiceType">
             <div class="item-form">
               <span>格式化脚本</span>
-              <el-input class="el-right" v-model="item.id" v-show=false></el-input>
-              <el-switch
-                v-model="formatScript"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
+              <el-input class="el-right" v-model="formatScript"></el-input>
+              <el-upload
+                class="upload-demo el-right"
+                :action="scriptUpload"
+                :headers="setHeader"
+                :data="{'script_type':'filter'}"
+                :on-success="formatScriptSuccess"
+                :before-upload='beforeUploadformat'
+                :show-file-list=false
+                :limit=1>
+                <el-button size="small" type="primary">{{formatScript?'重新上传':'选择上传文件'}}</el-button>
+              </el-upload>
             </div>
             <div class="item-form">
               <span>过滤脚本</span>
+              <el-input class="el-right" v-model="filterScript"></el-input>
               <el-upload
-                class="upload-demo"
-                action="scriptUpload"
+                class="upload-demo el-right"
+                :action="scriptUpload"
                 :headers="setHeader"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                :on-exceed="handleExceed"
-                :file-list="fileList">
-                <el-button size="small" type="primary">选择上传文件</el-button>
+                :data="{'script_type':'format'}"
+                :show-file-list=false
+                :before-upload='beforeUploadfilter'
+                :on-success="filterScriptSuccess"
+                :limit=1>
+                <el-button size="small" type="primary">{{filterScript?'重新上传':'选择上传文件'}}</el-button>
               </el-upload>
             </div>
             <div class="item-form">
               <span>是否开启</span>
-              <el-upload
-                class="upload-demo"
-                action="scriptUpload"
-                :headers="setHeader"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :before-remove="beforeRemove"
-                :on-exceed="handleExceed"
-                :file-list="fileList">
-                <el-button size="small" type="primary">点击上传</el-button>
-                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-              </el-upload>
+              <el-switch
+                v-model="enableAccessService"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
           </div>
         </div>
@@ -1727,9 +1727,11 @@
         //开关设置
         accessService:false,
         //酒店开通业务类型配置
+        filter:'',
+        format:'',
         formatScript:"",
         filterScript:"",
-        isAccessService:false,
+        enableAccessService:false,
         //多旅业列表
         roomType:[],
         roomTypeList:[],
@@ -1996,7 +1998,7 @@
         return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
       scriptUpload(){
-        return "/virgo/scriptupload/" + this.$route.params.hotelid
+        return "/virgo/scriptupload/"+ this.$route.params.hotelid
       },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
@@ -2286,6 +2288,9 @@
       validateCustomization(){
         return true;
       },
+      validateAccessService(){
+        return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2408,6 +2413,9 @@
             break;
           case enumShowType.enableRCstatus:
             result = this.validateRCStatus ;
+            break;
+          case enumShowType.accessServiceType:
+            result=this.validateAccessService;
             break;
           default:
             result = false;
@@ -2651,8 +2659,31 @@
         "setRCconfig",
         "getRCConfiged",
         "searchRoomType",
-        "searchRoomNo"
+        "searchRoomNo",
+        "saveScriptUpload"
       ]),
+      saveAccessServiceType(data){
+         this.saveScriptUpload({
+             hotel_id: this.$route.params.hotelid,
+             body:data
+         });
+      },
+      beforeUploadformat(){
+          this.fileList1=[]
+      },
+      beforeUploadfilter(){
+          this.fileList2=[]
+      },
+      filterScriptSuccess(res,file,list){
+        if(res.data) {
+            this.filterScript = res.data.script_name;
+        }
+      },
+      formatScriptSuccess(res,file,list){
+          if(res.data) {
+              this.formatScript = res.data.script_name;
+          }
+      },
       addAlterUrl(){
           console.log(typeof this.urls)
         this.urls.push({url:''});
@@ -3336,7 +3367,7 @@
                   "rc_status": this.rcStatus
               }
               break;
-          case enumShowType.moreLvyeReportType: {
+          case enumShowType.moreLvyeReportType:
             if(this.renderMoreLvyeList.length>0){
               let result=this.validateMoreLvye();
               // console.log('多旅业验证result:'+result)
@@ -3367,7 +3398,12 @@
               }
             }
             return;
-          }
+          case enumShowType.accessServiceType:
+              let data={
+                  enabled_script:this.enableAccessService
+              };
+              this.saveAccessServiceType(data);
+            return;
           default:
             data = null
         }
