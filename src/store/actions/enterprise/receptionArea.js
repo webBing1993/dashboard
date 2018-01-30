@@ -70,24 +70,5 @@ module.exports = {
               param.onsuccess ? param.onsuccess(body) : null
           }
       })
-  },
-    saveScriptUpload(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/script/${param.hotel_id}`,
-            method: 'POST',
-            body:param.body,
-            onSuccess: body => {
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-    getServiceTypeScript(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/script/${param.hotel_id}`,
-            method:'POST',
-            onSuccess: body => {
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    }
+  }
 }

@@ -1536,7 +1536,7 @@
                 class="upload-demo el-right"
                 :action="scriptUpload"
                 :headers="setHeader"
-                :data=aaa
+                :data="{'script_type':'format'}"
                 :on-success="formatScriptSuccess"
                 :before-upload='beforeUploadformat'
                 :show-file-list=false
@@ -1551,7 +1551,7 @@
                 class="upload-demo el-right"
                 :action="scriptUpload"
                 :headers="setHeader"
-                :data="{'script_type':'format'}"
+                :data="{'script_type':'filter'}"
                 :show-file-list=false
                 :before-upload='beforeUploadfilter'
                 :on-success="filterScriptSuccess"
@@ -2669,9 +2669,9 @@
           this.getServiceTypeScript({
               hotel_id: this.$route.params.hotelid,
               onsuccess: body => {
-                 this.filterScript=body.data.filter_script ;
-                 this.formatScript=body.data.format_script ;
-                 this.enableAccessService=body.data.enabled_script==='true'?true:false
+                 this.filterScript=body.data.format_script_name ;
+                 this.formatScript=body.data.filter_script_name ;
+                 this.enableAccessService=body.data.enabled_script;
                   if(this.filterScript||this.formatScript){
                       this.accessService=true;
                   }
@@ -3418,7 +3418,7 @@
               }
             }
             return;
-          case enumShowType.accessServiceType:
+            case enumShowType.accessServiceType:
               let data={
                   enabled_script:this.enableAccessService
               };
