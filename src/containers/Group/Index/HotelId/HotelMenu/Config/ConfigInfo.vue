@@ -1536,7 +1536,7 @@
                 class="upload-demo el-right"
                 :action="scriptUpload"
                 :headers="setHeader"
-                :data="{'script_type':'filter'}"
+                :data=aaa
                 :on-success="formatScriptSuccess"
                 :before-upload='beforeUploadformat'
                 :show-file-list=false
@@ -1725,6 +1725,7 @@
     data() {
       return {
         //开关设置
+        aaa:{script_type:'format'},
         accessService:false,
         //酒店开通业务类型配置
         filter:'',
@@ -1984,6 +1985,7 @@
       this.getRCConfigeds();
       this.getMoreLvyes();
       this.getRoomTypeList();
+      this.getAccessServiceType()
     },
     computed: {
       ...mapState({
@@ -2660,14 +2662,29 @@
         "getRCConfiged",
         "searchRoomType",
         "searchRoomNo",
-        "saveScriptUpload"
+        "saveScriptUpload",
+        "getServiceTypeScript"
       ]),
+      getAccessServiceType(){
+          this.getServiceTypeScript({
+              hotel_id: this.$route.params.hotelid,
+              onsuccess: body => {
+                 this.filterScript=body.data.filter_script ;
+                 this.formatScript=body.data.format_script ;
+                 this.enableAccessService=body.data.enabled_script==='true'?true:false
+                  if(this.filterScript||this.formatScript){
+                      this.accessService=true;
+                  }
+              }
+          })
+      },
       saveAccessServiceType(data){
          this.saveScriptUpload({
              hotel_id: this.$route.params.hotelid,
              body:data,
              onsuccess: body => {
                  this.showDialog = false;
+                 this.accessService=true;
              }
          });
       },
