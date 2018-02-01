@@ -1240,6 +1240,14 @@
               <span>自动确认免押冲突字 </span>
               <el-input class="el-right" v-model="needDepositKeyword" placeholder=""></el-input>
             </div>
+            <div class="item-form">
+              <span>是否开启</span>
+              <el-switch
+                v-model="isOpenAutoConfirmPrePay"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.supportVd">
             <div class="item-form">
@@ -1917,6 +1925,7 @@
         nowpayExclusionKeyword: '',
         freeDepositKeyword: '',
         needDepositKeyword: '',
+        isOpenAutoConfirmPrePay:false,
         //脏房配置
         isSupportVd: true,
         //酒店标签配置
@@ -2529,7 +2538,8 @@
           this.nowpayKeyword = configData.nowpay_keyword;
           this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
           this.freeDepositKeyword = configData.free_deposit_keyword;
-          this.needDepositKeyword = configData.need_deposit_keyword;
+          this.isOpenAutoConfirmPrePay = configData.enabled_autoprepay== 'true' ? true : false;
+          this.needDepositKeyword=configData.need_deposit_keyword;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
           //酒店标签配置
@@ -2981,6 +2991,7 @@
             this.nowpayExclusionKeyword = this.configData.nowpay_exclusion_keyword;
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
+            this.isOpenAutoConfirmPrePay = this.configData.enabled_autoprepay== 'true' ? true : false;
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
@@ -3112,7 +3123,6 @@
             this.modifyLvyes(data);
             return;
           }
-            break;
           case enumShowType.doorLock_unknown:
             break;
           case enumShowType.facein:
@@ -3313,7 +3323,8 @@
               nowpay_keyword: this.nowpayKeyword,
               nowpay_exclusion_keyword: this.nowpayExclusionKeyword,
               free_deposit_keyword: this.freeDepositKeyword,
-              need_deposit_keyword: this.needDepositKeyword
+              need_deposit_keyword: this.needDepositKeyword,
+              enabled_autoprepay: this.isOpenAutoConfirmPrePay.toString()
             }
             break;
           case enumShowType.supportVd:
@@ -3417,16 +3428,16 @@
                 this.setTip=true;
               }
             }
-            return;
+            break;
             case enumShowType.accessServiceType:
-              let data={
+              let tempData={
                   enabled_script:this.enableAccessService
               };
-              this.saveAccessServiceType(data);
-            return;
-          default:
+              this.saveAccessServiceType(tempData);
+              return;
+            default:
             data = null
-        }
+        };
         this.patchConfigData(data);
       },
       validateMoreLvye(){
@@ -3544,6 +3555,7 @@
       },
       //修改服务端数据
       patchConfigData(data) {
+          console.log('debug：',data)
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
           data: data,
