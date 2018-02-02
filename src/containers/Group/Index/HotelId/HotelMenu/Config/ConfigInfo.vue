@@ -2679,8 +2679,8 @@
           this.getServiceTypeScript({
               hotel_id: this.$route.params.hotelid,
               onsuccess: body => {
-                 this.filterScript=body.data.format_script_name ;
-                 this.formatScript=body.data.filter_script_name ;
+                 this.filterScript=body.data.filter_script_name ;
+                 this.formatScript=body.data.format_script_name ;
                  this.enableAccessService=body.data.enabled_script;
                   if(this.filterScript||this.formatScript){
                       this.accessService=true;
