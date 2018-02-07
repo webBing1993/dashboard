@@ -248,7 +248,7 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/morelvye/${param.hotel_id}`,
       method: 'POST',
-      body: obj,
+      body: param.data,
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
@@ -258,7 +258,7 @@ module.exports = {
   //删除多旅业数据
   deleteMoreLvye(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/morelvye/${param.areaId}`,
+      url: `/morelvye/${param.lvyeId}`,
       method: 'DELETE',
       body: param.data,
       onSuccess: body => {
@@ -306,6 +306,25 @@ module.exports = {
         ctx.dispatch('resource', {
             url: `/script/${param.hotel_id}`,
             method:'GET',
+            onSuccess: body => {
+                param.onsuccess ? param.onsuccess(body) : null
+            }
+        })
+    },
+    getPADMarkConfig(ctx, param){
+        ctx.dispatch('resource', {
+            url: `/hotel/gethotelitem/${param.hotel_id}`,
+            method:'GET',
+            onSuccess: body => {
+                param.onsuccess ? param.onsuccess(body) : null
+            }
+        })
+    },
+    savePADMarkConfig(ctx, param){
+        ctx.dispatch('resource', {
+            url: `/hotel/savehotelhint`,
+            method:'POST',
+            body:param.data,
             onSuccess: body => {
                 param.onsuccess ? param.onsuccess(body) : null
             }

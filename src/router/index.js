@@ -50,7 +50,8 @@ import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDe
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
-
+//7级路由
+import MoreLvyeConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/MoreLvyeConfig.vue'
 Vue.use(Router)
 
 const main = [
@@ -192,6 +193,11 @@ const main = [
                             name: 'ConfigSummary',
                             component: ConfigSummary
                           },
+                          {
+                            path: 'moreLvyeConfig',
+                            name: 'moreLvyeConfig',
+                            component: MoreLvyeConfig
+                          }
                         ]
                       },
                       {

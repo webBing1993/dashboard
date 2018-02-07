@@ -520,6 +520,34 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.PADshowContent)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>PAD界面内容显示配置</span>
+              <p>PAD界面内容显示配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !hotelMark, 'tag_text_green': hotelMark}">{{hotelMark ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.refundBusiness)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>自动退款配置</span>
+              <p>自动退款配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !hotelMark, 'tag_text_green': hotelMark}">{{hotelMark ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -690,6 +718,10 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+            <div class="item-form">
+              <span>微前台公号</span>
+              <el-input class="el-right" v-model="wqtPublicNo" placeholder="请输入微前台公号"></el-input>
             </div>
             <div v-show="pmsType == '5'||pmsType == '7'||pmsType == '9'">
               <div class="item-form" v-for="(item,index) of urls">
@@ -1427,95 +1459,6 @@
               </el-switch>
             </div>
           </div>
-          <!-- 多旅业配置 -->
-          <div v-if="showType ===enumShowType.moreLvyeReportType" v-for="(item,index) in renderMoreLvyeList" class="bottoomLine">
-              <div class="item-form">
-                <span>旅业名称</span>
-                <el-input class="el-right" v-model="item.id" v-show=false></el-input>
-                <el-input class="el-right" v-model="item.lvyeName" placeholder="请输入旅业名称" :disabled="!item.enabledReport"></el-input>
-                <span class="delLv" @click="deleteMoreLvyes(item,index)">删除</span>
-              </div>
-              <div class="item-form">
-                <span>上传通道</span>
-                <el-select class="el-right" v-model="item.reportChannel" placeholder="请选择上传通道" :disabled="!item.enabledReport">
-                  <el-option
-                    v-for="(obj, index) in rendLvyeTypeList"
-                    :key="obj.index"
-                    :label="obj.lvye_report_type_name"
-                    :value="obj.lvye_report_type">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="item-form">
-                <span>上传类型</span>
-                <el-select class="el-right" v-model="item.reportType" placeholder="请选择上传类型" :disabled="!item.enabledReport">
-                  <el-option
-                    v-for="(obj, index) in moreLyReportTypeList"
-                    :key="obj.index"
-                    :label="obj.name"
-                    :value="obj.value">
-                  </el-option>
-                </el-select>
-              </div>
-              <div>
-                <div class="item-form">
-                  <span>酒店公安ID</span>
-                  <el-input class="el-right" v-model="item.lvyeId" placeholder="请输入酒店公安ID" :disabled="!item.enabledReport"></el-input>
-                </div>
-              </div>
-              <div v-if="!(item.reportChannel == 'CLOUD'||item.reportChannel == 'WUHAN')">
-                <div class="item-form">
-                  <span>公安参数</span>
-                  <el-input class="el-right" v-model="item.transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!item.enabledReport"></el-input>
-                </div>
-              </div>
-              <div class="item-form">
-                <span>选择底座</span>
-                <el-select class="el-right" v-model="item.device_id" placeholder="请选择底座" :disabled="!item.enabledReport">
-                  <el-option
-                    v-for="(obj, index) in renderDeskList"
-                    :key="index"
-                    :label="obj.device_name"
-                    :value="obj.device_id">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="item-form">
-                <span>选择房型</span>
-                <div class="el-right morelvyeCheckbox">
-                  <el-checkbox-group v-model="item.roomType" @change="changeRoomType(item)">
-                    <el-checkbox v-for="room in roomTypeList" :key="room.pms_id" :label="room.pms_id">{{room.name}}</el-checkbox>
-                  </el-checkbox-group>
-                </div>
-              </div>
-              <div class="item-form transfer" >
-                <span style="margin-right: 1.2rem">关联房号</span>
-                <el-transfer filterable :titles=transferListName filter-placeholder="请输入房间号" v-model="item.filterRoomNo" :data="item.roomNoList">
-                </el-transfer>
-              </div>
-              <div class="item-form">
-                <span>说明</span>
-                <el-input class="el-right" v-model="item.descrption" placeholder="本旅业的相应描述" :disabled="!item.enabledReport"></el-input>
-              </div>
-              <div class="item-form">
-                <span>自动上传配置项</span>
-                <el-switch
-                  v-model="item.autoReport"
-                  on-color="#13ce66"
-                  off-color="#ff4949" :disabled="!item.enabledReport">
-                </el-switch >
-              </div>
-              <div class="item-form">
-                <span>是否开启</span>
-                <el-switch
-                  v-model="item.enabledReport"
-                  on-color="#13ce66"
-                  off-color="#ff4949"
-                >
-                </el-switch>
-              </div>
-
-          </div>
           <!-- 定制化配置 -->
           <div v-if="showType === enumShowType.customization">
             <div class="item-form">
@@ -1576,6 +1519,67 @@
               </el-switch>
             </div>
           </div>
+          <!--PAD界面显示-->
+          <div v-if="showType === enumShowType.PADshowContent">
+            <div class="item-form">
+              <span style="width: 155px">未查找到订单界面提示语</span>
+              <el-input class="el-right" v-model="notFoundMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">申请退房完成界面提示语</span>
+              <el-input class="el-right" v-model="checkOutMark" style="display:block;"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">非设备入住退房提示语</span>
+              <el-input class="el-right" v-model="noDeviceCheckInMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">退房失败以后提示语</span>
+              <el-input class="el-right" v-model="failedCheckOutMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">酒店客服电话</span>
+              <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
+            </div>
+          </div>
+          <!-- 退款业务配置 -->
+          <div v-if="showType === enumShowType.refundBusiness">
+            <div class="item-form">
+              <span>退款方式</span>
+              <el-select class="el-right" v-model="refundWay" placeholder="请选择退款方式">
+                <el-option
+                  v-for="(obj, index) of PMSrefundWayList"
+                  :key="obj.id"
+                  :label="obj.label"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>是否开通自动退款服务？</span>
+              <el-switch
+                v-model="isAccessAutoRefund"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否开通自动退房？</span>
+              <el-switch
+                v-model="isAccessAutoCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许营业员操作超出押金的退款？</span>
+              <el-switch
+                v-model="operateOverDeposit"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
         </div>
 
         <!--footer-->
@@ -1593,8 +1597,7 @@
       </el-dialog>
       <el-dialog
         title="点击下载二维码"
-        :visible.sync="showQrImgContent"
-      >
+        :visible.sync="showQrImgContent">
         <div class="qrcode-img">
           <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"
                :src="qrImgUrl"/>
@@ -1672,7 +1675,9 @@
     moreLvyeReportType: 38,
     customization:39,
     enableRCstatus :40,
-    accessServiceType:41
+    accessServiceType:41,
+    PADshowContent:42,
+    refundBusiness:43,
   }
 
   //弹框标题类型
@@ -1717,7 +1722,9 @@
     '酒店多旅业系统配置',
     '定制化配置',
     'RC单是否开启字段',
-    '酒店开通业务类型配置'
+    '酒店开通业务类型配置',
+    'PAD界面内容显示配置',
+    '自动退款配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1767,6 +1774,7 @@
         showType: '',
         showDialog: false,
         //PMS配置
+        wqtPublicNo:'',
         PMSBrandList: [],
         checkout: true,
         urls: [],
@@ -1979,7 +1987,18 @@
         mirrorBrand:false,
         rcStatus:false,
         inteRoomLock:false,
-        isPoliceParam:false
+        isPoliceParam:false,
+        notFoundMark:'',
+        checkOutMark:'',
+        noDeviceCheckInMark:'',
+        failedCheckOutMark:'',
+        hotelServiceTelMark:'',
+        hotelMark:false,
+        refundWay:'',
+        operateOverDeposit:false,
+        isAccessAutoCheckout:false,
+        isAccessAutoRefund:false,
+        PMSrefundWayList:[{label:'PMS挂账',value:'PMS'},{label:'退款入账',value:'ORDER_BILL'},{label:'手动退款',value:'MANUAL'}]
       }
     },
     mounted() {
@@ -1988,13 +2007,11 @@
       this.getPms();
       this.getLvyes();
       this.getlvyeTypeLists();
-      this.getDeskLists();
       this.wechatList();
       this.WxhotelRegisters();
       this.getRCConfigeds();
-      this.getMoreLvyes();
-      this.getRoomTypeList();
-      this.getAccessServiceType()
+      this.getAccessServiceType();
+      this.getPADMarkConfigs()
     },
     computed: {
       ...mapState({
@@ -2302,6 +2319,9 @@
       validateAccessService(){
         return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
       },
+      validatePADshowContent(){
+        return(tool.isNotBlank(this.notFoundMark)||tool.isNotBlank(this.checkOutMark)||tool.isNotBlank(this.noDeviceCheckInMark)||tool.isNotBlank(this.failedCheckOutMark)||tool.isNotBlank(this.hotelServiceTelMark));
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2428,6 +2448,9 @@
           case enumShowType.accessServiceType:
             result=this.validateAccessService;
             break;
+          case enumShowType.PADshowContent:
+            result=this.validatePADshowContent;
+            break;
           default:
             result = false;
         }
@@ -2441,7 +2464,6 @@
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
-
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
           this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
@@ -2567,6 +2589,7 @@
         if (tool.isNotBlank(this.pmsData)) {
           //PMS信息
           //捷信达
+          this.wqtPublicNo=this.pmsData.pms_worker_id;
           this.urls=this.pmsData.urls;
           this.pmsId = this.pmsData.pms_id;
           this.checkout = this.pmsData.checkout == 'true' ? true : false;
@@ -2649,7 +2672,6 @@
         'WxhotelRegister',
         'deleteWxHotel',
         'getlvyeTypeList',
-        'getDeskList',
         'getFaceEqu',
         'patchConfig',
         'getPMS',
@@ -2665,16 +2687,48 @@
         'showtoast',
         'showalert',
         'goto',
-        'deleteMoreLvye',
-        'getMoreLvye',
         'RCconfig',
         "setRCconfig",
         "getRCConfiged",
-        "searchRoomType",
-        "searchRoomNo",
         "saveScriptUpload",
-        "getServiceTypeScript"
+        "getServiceTypeScript",
+        "getPADMarkConfig",
+        "savePADMarkConfig"
       ]),
+        //获取酒店提示语配置
+      getPADMarkConfigs(){
+          this.getPADMarkConfig({
+              hotel_id: this.$route.params.hotelid,
+              onsuccess: body => {
+                  if(body.data){
+                      this.notFoundMark=body.data.order_hint_item;
+                      this.checkOutMark=body.data.apply_checkout_finish;
+                      this.noDeviceCheckInMark=body.data.non_equipment_checkin;
+                      this.failedCheckOutMark=body.data.checkout_failure;
+                      this.hotelServiceTelMark=body.data.customer_service_tel;
+                  }
+              }
+          })
+      },
+        //新增酒店提示语
+      savePADMarkConfigs(){
+          this.savePADMarkConfig({
+              data:{
+                  "hotel_id": this.$route.params.hotelid,
+                  "order_hint_item":this.notFoundMark+'#190158',
+                  "apply_checkout_finish":this.checkOutMark+'#190164',
+                  "non_equipment_checkin":this.failedCheckOutMark+'#190159',
+                  "checkout_failure":this.failedCheckOutMark+'#190163',
+                  "customer_service_tel":this.hotelServiceTelMark
+              },
+              onsuccess: body => {
+                  if(body.data!=null){
+                      this.hotelMark=body.data;
+                  }
+
+              }
+          })
+      },
       getAccessServiceType(){
           this.getServiceTypeScript({
               hotel_id: this.$route.params.hotelid,
@@ -2788,12 +2842,11 @@
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
-        };
-//        if(type === enumShowType.moreLvyeReportType&&this.renderMoreLvyeList.length==0){
-//          console.log('没有旅业');
-//          this.addNewLv();
-//        };
-        this.showDialog = true;
+        } else if (type === enumShowType.moreLvyeReportType){
+          this.goto({name: 'moreLvyeConfig'});
+          return;
+        }
+          this.showDialog = true;
       },
       wechatList() {
         this.getWechatpayList({
@@ -2850,6 +2903,7 @@
         this.showDialog = false;
         switch (this.showType) {
           case enumShowType.PMS:
+            this.wqtPublicNo=this.pmsData.pms_worker_id;
             //捷信达
             this.pmsId = this.pmsData.pms_id;
             this.checkout = this.pmsData.checkout == 'true' ? true : false;
@@ -3043,7 +3097,8 @@
               hotel_pmscode: this.hotelPmsCode,
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl,
-              urls:this.urls
+              urls:this.urls,
+              pms_worker_id:this.wqtPublicNo
             };
             if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11') {
               data = {
@@ -3435,6 +3490,9 @@
               };
               this.saveAccessServiceType(tempData);
               return;
+            case enumShowType.PADshowContent:
+              this.savePADMarkConfigs();
+              return;
             default:
             data = null
         };
@@ -3522,27 +3580,6 @@
           onsuccess: body => (this.lvyeTypeList = [...body.data])
         })
       },
-        //查询旅业里的底座设备
-      getDeskLists() {
-          this.getDeskList({
-              hotel_id: this.$route.params.hotelid,
-              onsuccess: body => {
-                  (this.deskList = [...body.data]);
-                  // console.log('底座：',body.data);
-              }
-          })
-      },
-        //查询房型
-      getRoomTypeList() {
-         this.searchRoomType ({
-             hotel_id: this.$route.params.hotelid,
-             onsuccess: body => {
-                 //先查所有房型列表，再赋值已选房型，方便查房型的pmsId,pmsId用于监听联动查房间号
-                 this.roomTypeList = body.data;
-                 console.log ('罗列房型：' + JSON.stringify (this.roomTypeList))
-             }
-         });
-        },
       //上传已配置数据
       mySetRCconfig(data) {
         this.setRCconfig({
@@ -3659,134 +3696,7 @@
       },
       downloadImg() {
         this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
-      },
-      //选房型联动选房间
-      changeRoomType(item){
-          console.log('监听了')
-          item.roomNoList = [];
-          let roomTypePmsIdList=item.roomType;
-          let morelvyeId=item.id;
-          this.searchRoomNo ({
-              hotel_id: this.$route.params.hotelid,
-              body: {
-                  "lvye_config_id":morelvyeId ||'',       //多旅业id，新增传空字符串
-                  "room_type": roomTypePmsIdList||[]
-              },
-              onsuccess: body => {
-                  if(body.data==null){
-                      console.log("没有选房型");
-                  }
-                  if (body.data&&body.data!=null) {
-                      console.log(99999);
-                      body.data.forEach ((i, index) => {
-                          console.log(i+"进来了")
-                          item.roomNoList.push ({label: i, key: i});
-                      })
-                  };
-                  console.log ('联动查供选择的房间号列表：',item.roomNoList);
-              }
-          });
-      },
-
-      // 多旅业数据处理
-      getMoreLvyes() {
-        this.getMoreLvye({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess:body=>{
-              this.moreLvyeList=[];
-              let listData=[];
-              if (body.data) {
-                  listData=body.data;
-                  console.log('获取了多旅业的数据:' + listData);
-                  listData.forEach((item,index) =>{
-                      console.log("有多旅业数据就执行，没有就不执行forEach，也就查不到所有房间号");
-                      this.getRoomNoList(item);
-                  });
-              };
-              console.log('多旅业列表：',this.moreLvyeList);
-          }
-        })
-      },
-        //查询房间列表
-        getRoomNoList(item){
-            let list=[];
-            this.searchRoomNo ({
-                hotel_id: this.$route.params.hotelid,
-                body: {
-                    "lvye_config_id":item.id ||'',       //多旅业id，新增传空字符串
-                    "room_type": item.room_type||[]
-                },
-                onsuccess: body => {
-                    if (body.data) {
-                        body.data.forEach ((i, index) => {
-                            list.push ({label: i, key: i});
-                        })
-                    };
-                    console.log ('供选择的房间号列表：', list);
-                    let obj = {
-                        id: item.id,
-                        lvyeName: item.name,
-                        reportChannel: item.report_channel,
-                        reportType: item.report_type,
-                        lvyeId: item.lvye_id,
-                        transitParam: item.transit_param,
-                        descrption: item.descrption,
-                        autoReport: item.auto_report === 1 ? true : false,
-                        enabledReport: item.enabled_report === 1 ? true : false,
-                        device_id:item.device_id,
-                        roomType: item.room_type,
-                        filterRoomNo:item.room_no,
-                        roomNoList:list
-                    };
-                    this.moreLvyeList.push(obj);
-                }
-            });
-        },
-        //修改多旅业数据（新增或保存）
-      modifyMoreLvyes(data) {
-        this.modifyMoreLvye({
-          hotel_id: this.$route.params.hotelid,
-          data: data,
-          onsuccess: body => {
-            this.showDialog = false;
-            this.getMoreLvyes();
-          }
-        })
-      },
-        //删除多旅业项
-      deleteMoreLvyes(param, index) {
-        param.enabledReport=true;
-        if (!param.id) {
-          this.moreLvyeList.splice(index, 1);
-          return;
-        }else {
-          this.deleteMoreLvye({
-            areaId: param.id,
-            onsuccess: body => {
-                this.getMoreLvyes();
-            }
-          });
-        }
-      },
-        //新增一项多旅业， 此时没有操作morelvyeData
-      addNewLv() {
-        let obj = {
-          id: "",
-          lvyeName: "",
-          reportChannel: "",
-          reportType: "",
-          device_id:"",
-          lvyeId: "",
-          transitParam: "",
-          descrption: "",
-          autoReport: false,
-          enabledReport: true,
-          filterRoomNo:[],
-          roomType:[],
-          roomNoList:[]
-        };
-        this.moreLvyeList.push(obj);
-      },
+      }
     }
   }
 </script>
