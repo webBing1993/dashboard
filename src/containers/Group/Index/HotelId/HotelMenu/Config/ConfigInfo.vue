@@ -241,8 +241,7 @@
               <span>自动退款</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
+            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -534,24 +533,8 @@
             </span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.refundBusiness)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>自动退款配置</span>
-              <p>自动退款配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !hotelMark, 'tag_text_green': hotelMark}">{{hotelMark ? '已配置' : '未配置'}}
-            </span>
-          </button>
-        </el-col>
       </el-row>
-
       <!--/弹框页-->
-
       <el-dialog
         :title="typeTitles[showType]"
         :visible.sync="showDialog"
@@ -1088,7 +1071,7 @@
           <div v-if="showType === enumShowType.autoRefund">
             <div class="item-form">
               <span>退款方式</span>
-              <el-select class="el-right" v-model="refundVal" placeholder="退款方式">
+              <el-select class="el-right" v-model="refundVal" placeholder="请选择退款方式">
                 <el-option
                   v-for="(obj, index) of refundList"
                   :key="obj.index"
@@ -1105,6 +1088,23 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>是否开通自动退房？</span>
+              <el-switch
+                v-model="isAccessAutoCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许营业员操作超出押金的退款？</span>
+              <el-switch
+                v-model="operateOverDeposit"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           </div>
           <div v-if="showType === enumShowType.preCheckin">
             <div class="item-form">
@@ -1542,46 +1542,6 @@
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
-          <!-- 退款业务配置 -->
-          <div v-if="showType === enumShowType.refundBusiness">
-            <div class="item-form">
-              <span>退款方式</span>
-              <el-select class="el-right" v-model="refundWay" placeholder="请选择退款方式">
-                <el-option
-                  v-for="(obj, index) of PMSrefundWayList"
-                  :key="obj.id"
-                  :label="obj.label"
-                  :value="obj.value">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form">
-              <span>是否开通自动退款服务？</span>
-              <el-switch
-                v-model="isAccessAutoRefund"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否开通自动退房？</span>
-              <el-switch
-                v-model="isAccessAutoCheckout"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否允许营业员操作超出押金的退款？</span>
-              <el-switch
-                v-model="operateOverDeposit"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-        </div>
-
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <div v-if="showType ===enumShowType.moreLvyeReportType">
@@ -1886,11 +1846,13 @@
         enabledDelayedPayment: true,
         //自动退房
         enableAutoCheckout: false,
-        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'}],
+        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'手动退款',value:'MANUAL'}],
         refundVal:'',
         //自动退款
         enabledAutoRefund: true,
-        //无证入住
+        operateOverDeposit:false,
+        isAccessAutoCheckout:false,
+        isAccessAutoRefund:false, //无证入住
         enabledPreCheckin: true,
         //是否指出手机入住
         enabledMobileCheckin: false,
@@ -1993,12 +1955,7 @@
         noDeviceCheckInMark:'',
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
-        hotelMark:false,
-        refundWay:'',
-        operateOverDeposit:false,
-        isAccessAutoCheckout:false,
-        isAccessAutoRefund:false,
-        PMSrefundWayList:[{label:'PMS挂账',value:'PMS'},{label:'退款入账',value:'ORDER_BILL'},{label:'手动退款',value:'MANUAL'}]
+        hotelMark:false
       }
     },
     mounted() {
@@ -2519,6 +2476,8 @@
           //自动退房
           this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
           //自动退款
+          this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
+          this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
            this.refundVal= configData.refund_amount_source;
           //无证入住
@@ -3005,6 +2964,8 @@
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             break;
           case enumShowType.autoRefund:
+            this.operateOverDeposit=this.configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
+            this.isAccessAutoCheckout=this.configData.enable_auto_checkout == 'true' ? true : false;
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
             this.refundVal=this.configData.refund_amount_source;
             break;
@@ -3287,8 +3248,10 @@
             break;
           case enumShowType.autoRefund:
             data = {
+              refund_amount_source:this.refundVal,
               enabled_auto_refund: this.enabledAutoRefund.toString(),
-              refund_amount_source:this.refundVal
+              enable_out_of_cash_pledge_refund:this.operateOverDeposit.toString(),
+              enable_auto_checkout:  this.isAccessAutoCheckout.toString()
             }
             break;
           case enumShowType.preCheckin:
