@@ -533,6 +533,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.informCoResident)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>同住人未到提醒配置</span>
+              <p>同住人未到提醒配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !timeStep, 'tag_text_green': timeStep}">{{timeStep ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -1478,6 +1492,20 @@
               </el-switch>
             </div>
           </div>
+        <!--通知同住人配置-->
+        <div v-if="showType === enumShowType.informCoResident">
+          <div class="item-form">
+            <span>酒店同住人未到时通知发送间隔</span>
+            <el-select class="el-right" v-model="timeStep">
+              <el-option
+                v-for="(item, index) in timeStepList"
+                :key="index"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
           <!--开通酒店业务类型配置-->
           <div v-if="showType === enumShowType.accessServiceType">
             <div class="item-form">
@@ -1638,6 +1666,7 @@
     accessServiceType:41,
     PADshowContent:42,
     refundBusiness:43,
+    informCoResident:44
   }
 
   //弹框标题类型
@@ -1684,7 +1713,8 @@
     'RC单是否开启字段',
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
-    '自动退款配置'
+    '自动退款配置',
+    '通知同住人配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1699,8 +1729,9 @@
     name: 'ConfigInfo',
     data() {
       return {
+        timeStepList:[{label:'2小时',value:'2'},{label:'3小时',value:"3"},{label:'4小时',value:"4"},{label:'5小时',value:"5"},{label:'6小时',value:"6"}],
+        timeStep:'',
         //开关设置
-        aaa:{script_type:'format'},
         accessService:false,
         //酒店开通业务类型配置
         filter:'',
@@ -1955,7 +1986,8 @@
         noDeviceCheckInMark:'',
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
-        hotelMark:false
+        hotelMark:false,
+
       }
     },
     mounted() {
@@ -2279,6 +2311,9 @@
       validatePADshowContent(){
         return(tool.isNotBlank(this.notFoundMark)||tool.isNotBlank(this.checkOutMark)||tool.isNotBlank(this.noDeviceCheckInMark)||tool.isNotBlank(this.failedCheckOutMark)||tool.isNotBlank(this.hotelServiceTelMark));
       },
+      validateInformCoResident(){
+        return (tool.isNotBlank(this.timeStep))
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2407,6 +2442,9 @@
             break;
           case enumShowType.PADshowContent:
             result=this.validatePADshowContent;
+            break;
+          case enumShowType.informCoResident:
+            result=this.validateInformCoResident;
             break;
           default:
             result = false;
@@ -2542,6 +2580,8 @@
           this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
           this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
           this.rcStatus=configData.rc_status=='true'?true:false;
+          //同住人通知配置
+          this.timeStep=configData.checkin_noshow_interval_time;
         };
       },
       pmsData() {
@@ -2684,7 +2724,6 @@
                   if(body.data!=null){
                       this.hotelMark=body.data;
                   }
-
               }
           })
       },
@@ -2769,7 +2808,6 @@
         this.RCconfig({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            console.log('aaaaaaa', body)
           }
         })
 
@@ -3044,6 +3082,8 @@
           case enumShowType.enableRCstatus:
             this.rcStatus=this.configData.rc_status=='true'?true:false;
             break;
+          case enumShowType.informCoResident:
+            this.timeStep=this.configData.checkin_noshow_interval_time;
           default:
         }
       },
@@ -3416,48 +3456,22 @@
                   "rc_status": this.rcStatus
               }
               break;
-          case enumShowType.moreLvyeReportType:
-            if(this.renderMoreLvyeList.length>0){
-              let result=this.validateMoreLvye();
-              // console.log('多旅业验证result:'+result)
-              if(result==true){
-                this.setTip=false;
-                let moreLvyeListData = [];//封装模板上的多旅业数据，转化成接口字段数据
-                this.renderMoreLvyeList.forEach(function (item, index) {
-                  let tempData = {
-                    id: item.id,
-                    lvye_id: item.lvyeId,
-                    lvye_name: item.lvyeName,
-                    report_channel: item.reportChannel,
-                    report_type: item.reportType,
-                    descrption: item.descrption,
-                    auto_report: item.autoReport === true ? 1 : 0,
-                    enabled_report: item.enabledReport === true ? 1 : 0,
-                    transit_param: item.transitParam,
-                    device_id:item.device_id,
-                    room_no:item.filterRoomNo,
-                  }
-                  moreLvyeListData.push(tempData);
-                });
-                this.modifyMoreLvyes(moreLvyeListData);
-              }
-              else{
-                this.hasSetMoreLvye=false;
-                this.setTip=true;
-              }
+          case enumShowType.informCoResident:
+            data = {
+                checkin_noshow_interval_time:this.timeStep
             }
             break;
-            case enumShowType.accessServiceType:
-              let tempData={
-                  enabled_script:this.enableAccessService
-              };
-              this.saveAccessServiceType(tempData);
-              return;
-            case enumShowType.PADshowContent:
-              this.savePADMarkConfigs();
-              return;
-            default:
-            data = null
+          case enumShowType.accessServiceType:
+            let tempData={
+                enabled_script:this.enableAccessService
+            };
+            this.saveAccessServiceType(tempData);
+            return;
+          case enumShowType.PADshowContent:
+            this.savePADMarkConfigs();
+            return;
+          default:
+          data = null
         };
         this.patchConfigData(data);
       },
