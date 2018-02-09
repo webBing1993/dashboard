@@ -7,6 +7,7 @@
       <!--<router-link to="/system/miniappmsg">小程序消息模板</router-link>-->
       <router-link to="/system/servemessage">服务消息模板管理</router-link>
       <router-link to="/system/qrcodecreate">二维码生成</router-link>
+      <router-link to="/system/prodVersion">产品版本</router-link>
     </aside>
     <router-view class="fourth-router"/>
   </div>

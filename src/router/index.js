@@ -28,6 +28,7 @@ import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
+import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 
 // 5级路由
@@ -265,6 +266,11 @@ const main = [
                 path: 'qrcodecreate',
                 name: 'QR_Code_create',
                 component: QR_Code_create
+              },
+              {
+                path: 'prodVersion',
+                name: 'prodVersion',
+                component: ProdVersion
               },
               {
                 path: 'servemessage',

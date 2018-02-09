@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <p class="side_title" v-show="list.length > 1"><span v-for="(obj, index) in list"
-                                                           @click="breadGo(obj.path)">{{obj.name}}</span></p>
+      <p class="side_title" v-show="list.length > 1">
+        <span v-for="(obj, index) in list" @click="breadGo(obj.path)">{{obj.name}}</span>
+      </p>
       <router-view class="third-router"/>
     </div>
   </div>

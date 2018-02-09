@@ -6,4 +6,5 @@ module.exports = {
     ...require('./wechatpay'),
     ...require('./miniappmsg'),
     ...require('./ServerMessage'),
+    ...require('./prodVersion')
 }
