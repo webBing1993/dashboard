@@ -43,6 +43,7 @@
         watch:{
             configData(val){
                 console.log('hehhe:',val)
+                this.versionVal=val.product_version;
             }
         },
         methods: {
