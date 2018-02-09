@@ -42,6 +42,7 @@ import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionArea.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
+import manageProdVersion from '@/containers/Group/Index/HotelId/HotelMenu/manageProdVersion.vue'
 import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
 import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMiniAppMsg.vue'
 
@@ -205,6 +206,11 @@ const main = [
                         path: 'onlinestatus',
                         name: 'OnlineStatus',
                         component: OnlineStatus
+                      },
+                      {
+                        path: 'manageProdVersion',
+                        name: 'manageProdVersion',
+                        component: manageProdVersion
                       },
                     ]
                   }

@@ -2714,7 +2714,7 @@
           this.savePADMarkConfig({
               data:{
                   "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark+'#190158',
+                  "order_hint_item":this.notFoundMark+'#190155',
                   "apply_checkout_finish":this.checkOutMark+'#190164',
                   "non_equipment_checkin":this.failedCheckOutMark+'#190159',
                   "checkout_failure":this.failedCheckOutMark+'#190163',
