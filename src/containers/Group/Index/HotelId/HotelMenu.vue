@@ -12,6 +12,8 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/device'">设备管理</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">上线管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/onlinestatus'">上线状态</router-link>
+      <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">产品版本管理</a>
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/manageProdVersion'">产品版本</router-link>
     </aside>
     <router-view class="fifth-router"/>
   </div>
