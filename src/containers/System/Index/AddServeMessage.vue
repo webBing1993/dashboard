@@ -52,7 +52,7 @@
             <div class="content-msg">
               <span>跳转URL</span>
               <el-input class="el-right" v-model="gotoUrl" name="appId" v-validate="'required'"
-                        :class="{'is-danger': errors.has('appId') }" placeholder="请输入标题"></el-input>
+                        :class="{'is-danger': errors.has('appId') }" placeholder="请输入跳转URL"></el-input>
               <span class="help is-danger" v-show="errors.has('appId')">跳转URL不可为空</span>
             </div>
           </div>
