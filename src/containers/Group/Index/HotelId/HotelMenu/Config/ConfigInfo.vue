@@ -1119,7 +1119,7 @@
               </el-switch>
             </div>
           </div>
-          </div>
+
           <div v-if="showType === enumShowType.preCheckin">
             <div class="item-form">
               <span>是否开通无证入住业务？</span>
@@ -1492,20 +1492,20 @@
               </el-switch>
             </div>
           </div>
-        <!--通知同住人配置-->
-        <div v-if="showType === enumShowType.informCoResident">
-          <div class="item-form">
-            <span>酒店同住人未到时通知发送间隔</span>
-            <el-select class="el-right" v-model="timeStep">
-              <el-option
-                v-for="(item, index) in timeStepList"
-                :key="index"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
+          <!--通知同住人配置-->
+          <div v-if="showType === enumShowType.informCoResident">
+            <div class="item-form">
+              <span>酒店同住人未到时通知发送间隔</span>
+              <el-select class="el-right" v-model="timeStep">
+                <el-option
+                  v-for="(item, index) in timeStepList"
+                  :key="index"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
           </div>
-        </div>
           <!--开通酒店业务类型配置-->
           <div v-if="showType === enumShowType.accessServiceType">
             <div class="item-form">
@@ -1570,6 +1570,7 @@
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
+        </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
           <div v-if="showType ===enumShowType.moreLvyeReportType">
@@ -1582,6 +1583,7 @@
           </div>
         </div>
         <!--footer-->
+
       </el-dialog>
       <el-dialog
         title="点击下载二维码"
