@@ -97,11 +97,12 @@
             off-color="#ff4949">
           </el-switch>
           </div>
+        </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showDialog=false">取 消</el-button>
             <el-button type="primary" @click="modifyMoreLvyes">保 存</el-button>
           </div>
-         </div>
+
         </el-dialog>
       </div>
     </div>
@@ -317,7 +318,7 @@
         }
     }
 </script>
-<style lang="less">
+<style lang="less" scoped>
   .module-wrapper {
     padding: 1rem;
     .content_moreLvye {
