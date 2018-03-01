@@ -100,7 +100,7 @@
         </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showDialog=false">取 消</el-button>
-            <el-button type="primary" @click="modifyMoreLvyes">保 存</el-button>
+            <el-button type="primary" @click="modifyMoreLvyes" :disabled="validateSaveBtn">保 存</el-button>
           </div>
         </el-dialog>
       </div>
@@ -110,6 +110,7 @@
 
 <script>
     import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+    import tool from '@/assets/tools/tool.js'
     export default {
         name: 'moreLvyeConfig',
         data () {
@@ -133,7 +134,7 @@
                 moreLvyeList: [],
                 id:'',
                 enabledReport:true,
-                autoReport:false,
+                autoReport:true,
                 descrption:'',
                 renderDeskList:[],
                 lvyeId:'',
@@ -142,7 +143,7 @@
                 lvyeName:'',
                 transitParam:'',
                 lvyeTypeList:[],
-                showDialog: false
+                showDialog: false,
             }
         },
         watch:{
@@ -160,6 +161,13 @@
             },
             hotelId () {
                 return this.$route.params.hotelid
+            },
+            validateSaveBtn(){
+                if(tool.isNotBlank(this.lvyeName)&&tool.isNotBlank(this.reportChannel)&&tool.isNotBlank(this.reportType)&&tool.isNotBlank(this.lvyeId)&&tool.isNotBlank(this.transitParam)&&tool.isNotBlank(this.filterRoomNo)&&tool.isNotBlank(this.deviceId)){
+                    return false
+                }else {
+                    return true
+                }
             }
         },
         methods: {
@@ -196,7 +204,7 @@
                 this.lvyeId= "",
                 this.transitParam= "",
                 this.descrption= "",
-                this.autoReport= false,
+                this.autoReport= true,
                 this.enabledReport= true,
                 this.filterRoomNo=[],
                 this.roomType=[],
