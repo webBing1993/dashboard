@@ -2707,6 +2707,7 @@
                       this.noDeviceCheckInMark=body.data.non_equipment_checkin;
                       this.failedCheckOutMark=body.data.checkout_failure;
                       this.hotelServiceTelMark=body.data.customer_service_tel;
+                      this.hotelMark=true;
                   }
               }
           })
@@ -2723,9 +2724,8 @@
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
-                  if(body.data!=null){
-                      this.hotelMark=body.data;
-                  }
+                  console.log(7777)
+                  this.hotelMark=true;
               }
           })
       },
