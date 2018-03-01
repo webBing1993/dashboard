@@ -108,7 +108,7 @@
               <p>多旅业配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !hasSetMoreLvye, 'tag_text_green':hasSetMoreLvye}">{{hasSetMoreLvye ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !showMoreLvyeConfig, 'tag_text_green':showMoreLvyeConfig}">{{showMoreLvyeConfig ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -238,7 +238,7 @@
               <img src="../../../../../../assets/images/退款.png" alt="a">
             </div>
             <div class="item-text">
-              <span>自动退款</span>
+              <span>退款业务配置</span>
               <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
             </div>
             <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
@@ -1095,7 +1095,7 @@
               </el-select>
             </div>
             <div class="item-form">
-              <span>是否开通自动退款服务？</span>
+              <span>是否开通退款业务配置服务？</span>
               <el-switch
                 v-model="enabledAutoRefund"
                 on-color="#13ce66"
@@ -1119,7 +1119,6 @@
               </el-switch>
             </div>
           </div>
-
           <div v-if="showType === enumShowType.preCheckin">
             <div class="item-form">
               <span>是否开通无证入住业务？</span>
@@ -1639,7 +1638,7 @@
     preCheckinSms: 12,  //预登记短信配置
     delayedPayment: 13, //到店支付配置
     autoCheckout: 14, //自动退房配置
-    autoRefund: 15, //自动退款配置
+    autoRefund: 15, //退款业务配置配置
     preCheckin: 16, //无证入住配置
     roomCard: 17, //门卡配置
     cashPledge: 18, //押金配置
@@ -1715,7 +1714,6 @@
     'RC单是否开启字段',
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
-    '自动退款配置',
     '通知同住人配置'
   ]
 
@@ -1881,7 +1879,7 @@
         enableAutoCheckout: false,
         refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'手动退款',value:'MANUAL'}],
         refundVal:'',
-        //自动退款
+        //退款业务配置
         enabledAutoRefund: true,
         operateOverDeposit:false,
         isAccessAutoCheckout:false,
@@ -1989,7 +1987,6 @@
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
         hotelMark:false,
-
       }
     },
     mounted() {
@@ -2002,7 +1999,8 @@
       this.WxhotelRegisters();
       this.getRCConfigeds();
       this.getAccessServiceType();
-      this.getPADMarkConfigs()
+      this.getPADMarkConfigs();
+      this.getMoreLvye({hotel_id: this.$route.params.hotelid})
     },
     computed: {
       ...mapState({
@@ -2011,7 +2009,8 @@
         lvyeData: state => state.enterprise.lvyeData,
         wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
-        showReception: state => state.enterprise.showReception
+        showReception: state => state.enterprise.showReception,
+        showMoreLvyeConfig:  state => state.enterprise.showMoreLvyeConfig
       }),
       rcgethotelid() {
         return "/virgo/fileUpload/" + this.$route.params.hotelid
@@ -2478,7 +2477,7 @@
             this.payName = configData.pay_name,
             this.refundName = configData.refund_name,
             //微信生态酒店配置
-          this.wxHotelId = configData.wx_hotel_id;
+            this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -2515,7 +2514,7 @@
           this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
           //自动退房
           this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
-          //自动退款
+          //退款业务配置
           this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
           this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
@@ -2694,7 +2693,8 @@
         "saveScriptUpload",
         "getServiceTypeScript",
         "getPADMarkConfig",
-        "savePADMarkConfig"
+        "savePADMarkConfig",
+          "getMoreLvye"
       ]),
         //获取酒店提示语配置
       getPADMarkConfigs(){
@@ -2707,6 +2707,7 @@
                       this.noDeviceCheckInMark=body.data.non_equipment_checkin;
                       this.failedCheckOutMark=body.data.checkout_failure;
                       this.hotelServiceTelMark=body.data.customer_service_tel;
+                      this.hotelMark=true;
                   }
               }
           })
@@ -2718,14 +2719,13 @@
                   "hotel_id": this.$route.params.hotelid,
                   "order_hint_item":this.notFoundMark+'#190155',
                   "apply_checkout_finish":this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.failedCheckOutMark+'#190159',
+                  "non_equipment_checkin":this.noDeviceCheckInMark+'#190159',
                   "checkout_failure":this.failedCheckOutMark+'#190163',
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
-                  if(body.data!=null){
-                      this.hotelMark=body.data;
-                  }
+                  console.log(7777)
+                  this.hotelMark=true;
               }
           })
       },
@@ -3540,7 +3540,7 @@
         if (flag) {
           this.deleteWxHotel({
             hotel_id: this.$route.params.hotelid,
-            wx_hotel_id: this.RegistersWxHotelId,
+            wx_hotel_id: this.wxHotelId||this.RegistersWxHotelId,
             onsuccess: (body, header) => {
               this.showtoast({
                 text: '删除成功',
