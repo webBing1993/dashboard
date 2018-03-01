@@ -238,6 +238,9 @@ module.exports = {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
+          if(body.data&&body.data.length>0){
+              ctx.commit('SHOWMORELVYE',true)
+          }
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

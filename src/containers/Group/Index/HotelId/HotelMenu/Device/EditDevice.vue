@@ -39,6 +39,14 @@
           off-color="#ff4949">
         </el-switch>
       </div>
+      <div class="content-item">
+        <span>是否在pad上显示设备名称</span>
+        <el-switch
+          v-model="isShowDeviceNameOnPad"
+          on-color="#13ce66"
+          off-color="#ff4949">
+        </el-switch>
+      </div>
       <div v-if="isAdd" class="content-btn">
         <el-button class="btn-red" :disabled="submitDisabled" @click.native="goto(-1)">取消</el-button>
         <el-button class="btn-green" :disabled="submitDisabled" @click.native="addDevices">确认添加</el-button>
@@ -88,13 +96,17 @@
         enabled: true,
         deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'}],
         partnerIdTemp: '',
-        partnerName: ''
+        partnerName: '',
+        isShowDeviceNameOnPad:false
       }
     },
     computed: {
       ...mapState({
-        deviceList: state => state.enterprise.deviceList
+        deviceList: state => state.enterprise.deviceList,
       }),
+      hotelId(){
+          return this.$route.params.hotelid
+      },
       submitDisabled() {
         if (this.deviceId == '' || this.deviceName == '' || this.deviceType == '' || this.$route.params.id == '' || this.$route.params.hotelid == '')
           return true;
@@ -141,7 +153,9 @@
         'getDevice',
         'modifyDevice',
         'removeDevice',
-        'goto'
+        'goto',
+        'saveIsShowPadName',
+        'getShowDeviceNameStatus'
       ]),
       hideDialog() {
         this.showDialog = false;
@@ -161,18 +175,25 @@
         })
       },
       addDevices() {
-        if (this.submitDisabled) return;
-        this.addDevice({
-          hotel_id: this.$route.params.hotelid,
-          device_id: this.deviceId,
-          device_type: this.deviceType,
-          device_name: this.deviceName,
-          partner_id: this.partnerId,
-          enabled: this.enabled ? 1 : 0,
-          onsuccess: body => {
-            this.goto(-1)
-          }
-        })
+          if (this.submitDisabled) return;
+          this.saveIsShowPadName ({
+              hotel_id: this.hotelId,
+              data: this.isShowDeviceNameOnPad,
+              onsuccess: body => {
+                  console.log (888)
+                  this.addDevice ({
+                      hotel_id: this.hotelId,
+                      device_id: this.deviceId,
+                      device_type: this.deviceType,
+                      device_name: this.deviceName,
+                      partner_id: this.partnerId,
+                      enabled: this.enabled ? 1 : 0,
+                      onsuccess: body => {
+                          this.goto (-1)
+                      }
+                  })
+              }
+          })
       },
       getDevices() {
         this.getDevice({
@@ -184,21 +205,27 @@
             this.partnerName = body.data.partner_name;
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
-
           }
         })
       },
       modifyDevices() {
         if (this.submitDisabled) return;
-        this.modifyDevice({
-          device_id: this.deviceId,
-          hotel_id: this.$route.params.hotelid,
-          device_type: this.deviceType,
-          device_name: this.deviceName,
-          partner_id: this.partnerId,
-          enabled: this.enabled ? 1 : 0,
-          onsuccess: body => this.goto(-1)
-        })
+          this.saveIsShowPadName ({
+              hotel_id: this.hotelId,
+              data: this.isShowDeviceNameOnPad,
+              onsuccess: body => {
+                  console.log (77)
+                  this.modifyDevice({
+                      device_id: this.deviceId,
+                      hotel_id: this.$route.params.hotelid,
+                      device_type: this.deviceType,
+                      device_name: this.deviceName,
+                      partner_id: this.partnerId,
+                      enabled: this.enabled ? 1 : 0,
+                      onsuccess: body => this.goto(-1)
+                  })
+              }
+          })
       },
       removeDevices() {
         this.removeDevice({
@@ -222,8 +249,15 @@
         this.isAdd = false;
         this.deviceId = this.$route.query.device_id;
         this.getDevices();
+        this.getShowDeviceNameStatus({
+            hotel_id:this.hotelId,
+            onsuccess : (body, headers) => {
+               if(body.data){
+                   this.isShowDeviceNameOnPad=body.data.enabled_mirror_show_device_name==='true'?true:false
+               }
+            }
+          });
       }
-
       if (!this.deviceList || this.deviceList.length === 0) {
         this.getList();
       }
@@ -291,7 +325,6 @@
       }
     }
   }
-
   .btn-green {
     width: 173px;
     line-height: 18px;
@@ -300,7 +333,6 @@
     border-radius: 0;
     color: #ffffff;
   }
-
   .btn-red {
     width: 173px;
     line-height: 18px;
@@ -309,7 +341,6 @@
     border-radius: 0;
     color: #ffffff;
   }
-
   .btn-yellow {
     width: 173px;
     line-height: 18px;

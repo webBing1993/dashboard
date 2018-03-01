@@ -16,10 +16,10 @@
       <tr v-for="(obj, index) in list">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.name }}</td>
-        <td>{{ obj.report_channel}}</td>
+        <td>{{ obj.report_channel|filterReportChannel}}</td>
         <td>{{ obj.auto_report==1?'是':'否' }}</td>
         <td>{{ obj.enabled_report==1?'是':'否'}}</td>
-        <td>{{ obj.device_id}}</td>
+        <td>{{ obj.device_name}}</td>
         <td>
           <span class="v-options pointer" @click="edit(obj)">编辑</span>
           <span class="v-options pointer" @click="del(obj)">删除</span>
@@ -46,28 +46,57 @@
             size: {
                 type: Number,
                 default: 10
+            },
+            filterDeskList:{
+                type: Array,
+                default: []
             }
         },
         filters: {
-            arr: function (val) {
-                if (val) {
-                    return val.join(',')
-                }
-            },
-            // filChannel:function (val) {
-            //     this.list2.forEach(obj=>{
-            //         if(val==obj.lvye_report_type){
-            //             return obj.lvye_report_type_name;
-            //         }
-            //     })
+            // filterDeskName: function (val,param) {
+                // return 55
+                // if (param && val){
+                    // for (let item=0;item<param.length;item++){
+                    // if(item.device_id==val){
+                    //     console.log('33')
+                    //         // return 66
+                    //     }
+                    // }
+                    // param.forEach(item=>{
+                    //     if(item.device_id==val){
+                    //         console.log('33')
+                    //         return item.device_name
+                    //         // return item.device_name;
+                    //     }
+                    // })
+                // }
             // },
-            // filDevice:function (val){
-            //     this.list3.forEach(obj=>{
-            //         if(val==obj.device_id){
-            //             return obj.device_name;
-            //         }
-            //     })
-            // }
+            filterReportChannel:function (val) {
+                switch (val){
+                    case "LOCAL":
+                        return "深圳";
+                    case "SUZHOU":
+                        return "苏州";
+                    case "ZHUHAI":
+                        return "珠海";
+                    case "CLOUD":
+                        return "微信通道";
+                    case "NONE":
+                        return "无";
+                    case "WUHAN":
+                        return "武汉";
+                    case "CHENGDU":
+                        return "成都";
+                    case "GUANGDONG":
+                        return "广东";
+                    case "HEFEI":
+                        return "合肥";
+                    case "HANGZHOU":
+                        return "杭州";
+                    case "GUANGDONGOLD":
+                        return "广东旧";
+                }
+            }
         },
         methods: {
             edit(obj) {

@@ -1,4 +1,4 @@
-<!--接待区页-->
+<!--多旅业页-->
 <template>
   <div>
     <div class="module-wrapper">
@@ -6,7 +6,7 @@
         <div class="top">多旅业配置
           <el-button type="success" @click.native="addMoreLvye" class="button">添 加</el-button>
         </div>
-        <table-moreLvyeConfig :list="moreLvyeList" :page="page" :size="size" @edit="goEdit" @del="goDel"></table-moreLvyeConfig>
+        <table-moreLvyeConfig :list="moreLvyeList" :page="page" :size="size" @edit="goEdit" @del="goDel" :filterDeskList="deskList"></table-moreLvyeConfig>
         <el-dialog title="添加／编辑 多旅业配置"
                    :visible.sync="showDialog"
                    :close-on-click-modal="false"
@@ -47,7 +47,7 @@
             <span class="itemTitle">酒店公安ID</span>
             <el-input class="" v-model="lvyeId" placeholder="请输入酒店公安ID" :disabled="!enabledReport"></el-input>
           </div>
-          <div v-if="!(reportChannel == 'CLOUD'||reportChannel == 'WUHAN')">
+          <div v-if="!(reportChannel == 'CLOUD'||reportChannel == 'WUHAN'||reportChannel == 'SUZHOU')">
             <div class="item-form">
               <span class="itemTitle">公安参数</span>
               <el-input class="" v-model="transitParam" placeholder="请输入公安参数,正确的JSON字符串" :disabled="!enabledReport"></el-input>
@@ -102,7 +102,6 @@
             <el-button @click="showDialog=false">取 消</el-button>
             <el-button type="primary" @click="modifyMoreLvyes">保 存</el-button>
           </div>
-
         </el-dialog>
       </div>
     </div>
@@ -392,7 +391,7 @@
               margin-bottom: 1rem;
               .itemTitle {
                 display: inline-block;
-                min-width: 10rem;
+                min-width: 6rem;
               }
               .el-select {
                 width: 100%;

@@ -10,6 +10,7 @@ const state = {
   tempHotelName: '',
   deviceList: [],
   showReception:false,
+  showMoreLvyeConfig:false,
   moreLvyeData:[] ,
 }
 
@@ -47,6 +48,9 @@ const mutations = {
   },
   SHOWRECEPTION(state,payload){
     state.showReception=payload;
+  },
+  SHOWMORELVYE(state,payload){
+    state.showMoreLvyeConfig=payload;
   }
 }
 

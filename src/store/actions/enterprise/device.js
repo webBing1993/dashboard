@@ -102,6 +102,27 @@ module.exports = {
       }
     })
   },
+  saveIsShowPadName(ctx, param){
+    ctx.dispatch('resource', {
+      url:`/hotel/${param.hotel_id}/setDeviceNameShow`,
+      body:{
+          "enabled_mirror_show_device_name":param.data.toString()
+      },
+      method:'PATCh',
+      onSuccess:body=>{
+          param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  getShowDeviceNameStatus(ctx, param){
+    ctx.dispatch('resource', {
+      url:`/hotel/getShowDeviceNameStatus/${param.hotel_id}`,
+      method:'GET',
+      onSuccess:body=>{
+      param.onsuccess ? param.onsuccess(body) : null
+      }
+   })
+  },
   modifyDevice(ctx, param) {
     ctx.dispatch('resource', {
       url: `/devices/${param.device_id}`,
