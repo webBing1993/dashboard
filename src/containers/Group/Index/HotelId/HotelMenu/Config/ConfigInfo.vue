@@ -1495,14 +1495,15 @@
           <div v-if="showType === enumShowType.informCoResident">
             <div class="item-form">
               <span>酒店同住人未到时通知发送间隔</span>
-              <el-select class="el-right" v-model="timeStep">
-                <el-option
-                  v-for="(item, index) in timeStepList"
-                  :key="index"
-                  :label="item.label"
-                  :value="item.value">
-                </el-option>
-              </el-select>
+              <!--<el-select class="el-right" v-model="timeStep">-->
+                <!--<el-option-->
+                  <!--v-for="(item, index) in timeStepList"-->
+                  <!--:key="index"-->
+                  <!--:label="item.label"-->
+                  <!--:value="item.value">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+              <el-input class="el-right" v-model="timeStep"></el-input>
             </div>
           </div>
           <!--开通酒店业务类型配置-->
