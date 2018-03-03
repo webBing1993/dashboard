@@ -18,7 +18,7 @@ module.exports = {
       method: 'POST',
       body:param.data,
       onSuccess: body => {
-        console.log('已经选的房型：'+param.room_type)
+        console.log('已经选的房型：'+param.data.room_type)
         param.onsuccess ? param.onsuccess(body) : null
       }
     })

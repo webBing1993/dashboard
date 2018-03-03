@@ -100,7 +100,7 @@
         </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showDialog=false">取 消</el-button>
-            <el-button type="primary" @click="modifyMoreLvyes" :disabled="validateSaveBtn">保 存</el-button>
+            <el-button type="primary" @click="modifyMoreLvyes" :disabled="!validateSaveBtn">保 存</el-button>
           </div>
         </el-dialog>
       </div>
@@ -163,12 +163,16 @@
                 return this.$route.params.hotelid
             },
             validateSaveBtn(){
-                if(tool.isNotBlank(this.lvyeName)&&tool.isNotBlank(this.reportChannel)&&tool.isNotBlank(this.reportType)&&tool.isNotBlank(this.lvyeId)&&tool.isNotBlank(this.transitParam)&&tool.isNotBlank(this.filterRoomNo)&&tool.isNotBlank(this.deviceId)){
-                    return false
+                if(tool.isNotBlank(this.lvyeName)&&tool.isNotBlank(this.reportChannel)&&tool.isNotBlank(this.reportType)&&tool.isNotBlank(this.lvyeId)&&tool.isNotBlank(this.filterRoomNo)&&tool.isNotBlank(this.deviceId)){
+                    if(!(this.reportChannel == 'CLOUD' || this.reportChannel == 'WUHAN'|| this.reportChannel == 'SUZHOU' ) ){
+                       return tool.isNotBlank(this.transitParam)
+                    }else {
+                        return true;
+                    }
                 }else {
-                    return true
+                    return false
                 }
-            }
+           }
         },
         methods: {
             ...mapActions ([

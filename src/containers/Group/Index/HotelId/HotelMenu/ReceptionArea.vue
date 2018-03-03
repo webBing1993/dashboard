@@ -189,14 +189,15 @@
                     // areaId: obj.id,
                     onsuccess: body => {
                         this.deviceTypeList = body.data;
-                        this.deviceTypeList.forEach ((item) => {
-                            obj.device_ids.forEach ((deviceId) => {
-                                if (deviceId === item.device_id) {
-                                    this.deviceType.push (deviceId);
-                                }
-                            })
-                        })
-                        // console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
+                        console.log(' 罗列所有设备：' + JSON.stringify(this.deviceTypeList))
+                        // this.deviceTypeList.forEach ((item) => {
+                        //     obj.device_ids.forEach ((deviceId) => {
+                        //         if (deviceId === item.device_id) {
+                        //             this.deviceType.push (deviceId);
+                        //         }
+                        //     })
+                        // })
+                        this.deviceType=obj.device_ids;
                     }
                 });
                 this.id = obj.id;
