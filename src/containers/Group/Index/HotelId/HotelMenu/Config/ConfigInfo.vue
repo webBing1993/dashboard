@@ -1565,17 +1565,10 @@
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
-          <div v-if="showType ===enumShowType.moreLvyeReportType">
-            <el-button @click="addNewLv" style="margin-bottom: 2rem;border: 1px solid #3639FF;color:#60A6FF ">添加一个新旅业
-            </el-button>
-          </div>
-          <div>
             <el-button @click="hideDialog">取 消</el-button>
             <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
-          </div>
         </div>
         <!--footer-->
-
       </el-dialog>
       <el-dialog
         title="点击下载二维码"

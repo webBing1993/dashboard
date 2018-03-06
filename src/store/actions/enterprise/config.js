@@ -65,19 +65,31 @@ module.exports = {
       }
     })
   },
-  //获取微信生态酒店城市列表
-  getWxhotelCityser(ctx, param) {
-    ctx.dispatch('resource', {
-      url: `/hotels/wxhotelcityservice`,
-      method: 'GET',
-      onSuccess: body => {
-        // ctx.commit('WXHOTELCITYSER', body.data)
-        param.onsuccess ? param.onsuccess(body) : null
-      },
-      onFail: () => null
-    })
-  },
+    //总配置接口
+    patchConfig(ctx, param) {
+        ctx.dispatch('resource', {
+            url: `/hotel/${param.hotel_id}/config`,
+            method: 'PATCH',
+            body: {
+                hotel_id: param.hotel_id,
+                ...param.data
+            },
+            onSuccess: body => {
+                ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
 
+                let obj = {
+                    ...ctx.state.enterprise.configData
+                }
+                for (let key in body.data) {
+                    obj[key] = body.data[key];
+                }
+                ctx.commit('CONFIGDATA', obj)
+
+                param.onsuccess ? param.onsuccess(body) : null
+            }
+        })
+    },
+   //微信生态酒店注册
   WxhotelRegister(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
@@ -97,6 +109,7 @@ module.exports = {
       }
     })
   },
+    //删除微信生态酒店
   deleteWxHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.hotel_id}/wxhotel/${param.wx_hotel_id}`,
@@ -106,6 +119,18 @@ module.exports = {
       },
     })
   },
+    //获取微信生态酒店城市列表
+    getWxhotelCityser(ctx, param) {
+        ctx.dispatch('resource', {
+            url: `/hotels/wxhotelcityservice`,
+            method: 'GET',
+            onSuccess: body => {
+                // ctx.commit('WXHOTELCITYSER', body.data)
+                param.onsuccess ? param.onsuccess(body) : null
+            },
+            onFail: () => null
+        })
+    },
     //获取旅业系统配置
   getlvyeTypeList(ctx, param) {
     ctx.dispatch('resource', {
@@ -125,29 +150,6 @@ module.exports = {
               param.onsuccess ? param.onsuccess(body, headers) : null
           },
       })
-  },
-  patchConfig(ctx, param) {
-    ctx.dispatch('resource', {
-      url: `/hotel/${param.hotel_id}/config`,
-      method: 'PATCH',
-      body: {
-        hotel_id: param.hotel_id,
-        ...param.data
-      },
-      onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
-
-        let obj = {
-          ...ctx.state.enterprise.configData
-        }
-        for (let key in body.data) {
-          obj[key] = body.data[key];
-        }
-        ctx.commit('CONFIGDATA', obj)
-
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
   },
   //PMS
   getPMS(ctx, param) {
