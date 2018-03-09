@@ -30,8 +30,8 @@ module.exports = {
     // proxyTable: {},
     proxyTable: {
       '/virgo': {
-        target: 'https://intg.fortrun.cn/',   //联调
-        // target: 'https://qa.fortrun.cn/',  //提交测试
+        // target: 'https://intg.fortrun.cn/',   //联调
+        target: 'https://qa.fortrun.cn/',  //提交测试
         // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
