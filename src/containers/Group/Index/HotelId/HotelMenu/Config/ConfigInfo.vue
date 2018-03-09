@@ -459,7 +459,7 @@
               <p>是否允许提前退房</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!enabledAdvancedCheckout, 'tag_text_green':enabledAdvancedCheckout}">{{enabledAdvancedCheckout ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!enabledAdvancedCheckout||!enabledPMScheckout||!enabledSameDateIO, 'tag_text_green':enabledAdvancedCheckout||enabledPMScheckout||enabledSameDateIO}">{{enabledAdvancedCheckout||enabledPMScheckout||enabledSameDateIO ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>

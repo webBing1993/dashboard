@@ -39,7 +39,7 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <div class="content-item">
+      <div class="content-item" v-show="deviceType==='32'">
         <span>是否在pad上显示设备名称</span>
         <el-switch
           v-model="isShowDeviceNameOnPad"
