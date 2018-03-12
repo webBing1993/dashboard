@@ -1863,7 +1863,7 @@
         enabledDelayedPayment: true,
         //自动退房
         enableAutoCheckout: false,
-        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'手动退款',value:'MANUAL'}],
+        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
         refundVal:'',
         //退款业务配置
         enabledAutoRefund: true,
