@@ -2128,7 +2128,7 @@
       validatelvyeReportType() {
         if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'||this.lvyeType == 'SUZHOU') {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG'|| this.lvyeType == 'ZHUHAI') {
+        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG'|| this.lvyeType == 'ZHUHAI'||this.lvyeType == 'CHANGZHOU') {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
