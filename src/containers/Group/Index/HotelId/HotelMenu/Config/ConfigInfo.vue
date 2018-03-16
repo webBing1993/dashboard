@@ -1986,7 +1986,7 @@
       this.getRCConfigeds();
       this.getAccessServiceType();
       this.getPADMarkConfigs();
-      this.getMoreLvye({hotel_id: this.$route.params.hotelid})
+      // this.getMoreLvye({hotel_id: this.$route.params.hotelid})
     },
     computed: {
       ...mapState({
@@ -2680,7 +2680,6 @@
         "getServiceTypeScript",
         "getPADMarkConfig",
         "savePADMarkConfig",
-          "getMoreLvye"
       ]),
         //获取酒店提示语配置
       getPADMarkConfigs(){
@@ -2704,10 +2703,10 @@
           this.savePADMarkConfig({
               data:{
                   "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark+'#190155',
-                  "apply_checkout_finish":this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.noDeviceCheckInMark+'#190159',
-                  "checkout_failure":this.failedCheckOutMark+'#190163',
+                  "order_hint_item":this.notFoundMark==undefined?'':this.notFoundMark+'#190155',
+                  "apply_checkout_finish":this.checkOutMark==undefined?'':this.checkOutMark+'#190164',
+                  "non_equipment_checkin":this.noDeviceCheckInMark==undefined?'':this.noDeviceCheckInMark+'#190159',
+                  "checkout_failure":this.failedCheckOutMark==undefined?'':this.failedCheckOutMark+'#190163',
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
@@ -2880,7 +2879,7 @@
       },
       closeMorelvye(type){
         if(type===enumShowType.moreLvyeReportType){
-              this.getMoreLvyes();
+              // this.getMoreLvyes();
               this.setTip=false;
           }
       },
