@@ -30,8 +30,8 @@ module.exports = {
     // proxyTable: {},
     proxyTable: {
       '/virgo': {
-        target: 'https://intg.fortrun.cn/',   //联调
-        // target: 'https://qa.fortrun.cn/',  //提交测试
+        // target: 'https://intg.fortrun.cn/',   //联调
+        target: 'https://qa.fortrun.cn/',  //提交测试
         // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
@@ -39,9 +39,9 @@ module.exports = {
         }
       },
       '/libra': {
-        target: 'https://intg.fortrun.cn/',
-        // target: 'https://qa.fortrun.cn/',
-        // target: 'https://gem.fortrun.cn/',
+        // target: 'https://intg.fortrun.cn/',
+        target: 'https://qa.fortrun.cn/',
+        // target: 'https://gem.fortrun.csn/',
         changeOrigin: true,
         pathRewrite: {
           // '^/virgo': ''
