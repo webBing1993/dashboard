@@ -2296,7 +2296,7 @@
         return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
       },
       validatePADshowContent(){
-        return(tool.isNotBlank(this.notFoundMark)||tool.isNotBlank(this.checkOutMark)||tool.isNotBlank(this.noDeviceCheckInMark)||tool.isNotBlank(this.failedCheckOutMark)||tool.isNotBlank(this.hotelServiceTelMark));
+        return true;
       },
       validateInformCoResident(){
         return (tool.isNotBlank(this.timeStep))
@@ -2695,6 +2695,7 @@
                       this.hotelServiceTelMark=body.data.customer_service_tel;
                       this.hotelMark=true;
                   }
+
               }
           })
       },
@@ -2710,7 +2711,7 @@
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
-                  console.log(7777)
+                  this.showDialog = false;
                   this.hotelMark=true;
               }
           })
