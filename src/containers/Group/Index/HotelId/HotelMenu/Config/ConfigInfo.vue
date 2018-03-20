@@ -1675,7 +1675,6 @@
     enableRCstatus :40,
     accessServiceType:41,
     PADshowContent:42,
-    // refundBusiness:43,
     informCoResident:43,
     noCertificateCheck:44,
   }
