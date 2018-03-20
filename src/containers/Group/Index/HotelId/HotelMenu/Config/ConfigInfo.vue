@@ -1662,26 +1662,27 @@
     CustomerOperate: 27,//禁止顾客操作订单
     mobileCheckin: 28,//启用移动端办理入住
     ticketPrint: 29,//是否启用小票打印
-    advancedCheckout: 30,//是否允许提前退房
+    advancedCheckout: 30,//退离规则配置
     hotelAreaCode: 31,//酒店行政区划代码
     qrCodeCreate: 32,//酒店二维码配置
     autoGiveRoom: 33,//自动分房
     autoIdentityCheck: 34,//自动调用人脸识别接口
     issuedCardRule: 35,//发房卡规则
-    rcPrint: 36,
-    identityCheck: 37,
-    moreLvyeReportType: 2,
-    customization:38,
-    enableRCstatus :39,
-    accessServiceType:40,
-    PADshowContent:41,
-    refundBusiness:42,
+    rcPrint: 36,//RC单打印
+    identityCheck: 37,//开启身份核验功能配置
+    moreLvyeReportType: 38,
+    customization:39,
+    enableRCstatus :40,
+    accessServiceType:41,
+    PADshowContent:42,
+    // refundBusiness:43,
     informCoResident:43,
-    noCertificateCheck:44
+    noCertificateCheck:44,
   }
 
   //弹框标题类型
-  const typeTitles = ['是否删除',
+  const typeTitles = [
+    '是否删除',
     'PMS信息',
     '旅业系统配置',
     '门锁配置',
@@ -1709,7 +1710,7 @@
     '极速领卡配置',
     '微信生态酒店配置',
     '禁止顾客操作订单配置',
-    '订单操作配置',
+    '启用移动端办理入住',
     '是否打印小票配置',
     '退离规则配置',
     '酒店行政区划代码配置',
