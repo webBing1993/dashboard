@@ -547,6 +547,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.appManage)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>应用功能配置管理</span>
+              <p>可配置微前台应用模块功能管理</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -1562,6 +1576,14 @@
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
+          <div v-if="showType === enumShowType.appManage">
+            <el-radio-group v-model="appValue">
+              <span>门店业务</span>
+              <el-radio class="el-right"label="WQT">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>
+              <span></span>
+              <el-radio class="el-right"label="IDENTITY">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
+            </el-radio-group>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -1647,13 +1669,13 @@
     issuedCardRule: 35,//发房卡规则
     rcPrint: 36,
     identityCheck: 37,
-    moreLvyeReportType: 38,
-    customization:39,
-    enableRCstatus :40,
-    accessServiceType:41,
-    PADshowContent:42,
-    refundBusiness:43,
-    informCoResident:44
+    customization:38,
+    enableRCstatus :39,
+    accessServiceType:40,
+    PADshowContent:41,
+    refundBusiness:42,
+    informCoResident:43,
+    appManage:44
   }
 
   //弹框标题类型
@@ -1700,7 +1722,8 @@
     'RC单是否开启字段',
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
-    '通知同住人配置'
+    '通知同住人配置',
+    '应用功能配置管理'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1973,6 +1996,7 @@
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
         hotelMark:false,
+        appValue:''
       }
     },
     mounted() {
@@ -2301,6 +2325,9 @@
       validateInformCoResident(){
         return (tool.isNotBlank(this.timeStep))
       },
+      validateAppManage(){
+        return (tool.isNotBlank(this.appValue))
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2432,6 +2459,9 @@
             break;
           case enumShowType.informCoResident:
             result=this.validateInformCoResident;
+            break;
+          case enumShowType.appManage:
+            result=this.validateAppManage;
             break;
           default:
             result = false;
@@ -2569,7 +2599,9 @@
           this.rcStatus=configData.rc_status=='true'?true:false;
           //同住人通知配置
           this.timeStep=configData.checkin_noshow_interval_time;
-        };
+          //应用功能配置
+          this.appValue=configData.business_mode;
+        }
       },
       pmsData() {
         if (tool.isNotBlank(this.pmsData)) {
@@ -3072,6 +3104,10 @@
             break;
           case enumShowType.informCoResident:
             this.timeStep=this.configData.checkin_noshow_interval_time;
+              break;
+          case enumShowType.appManage:
+             this.appValue=this.configData.business_mode;
+             break;
           default:
         }
       },
@@ -3458,6 +3494,11 @@
           case enumShowType.PADshowContent:
             this.savePADMarkConfigs();
             return;
+          case enumShowType.appManage:
+            data={
+                "business_mode":this.appValue
+            }
+            break;
           default:
           data = null
         };
@@ -3557,7 +3598,7 @@
       },
       //修改服务端数据
       patchConfigData(data) {
-          console.log('debug：',data)
+          console.log('debug:------->patchConfigData：',data)
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
           data: data,

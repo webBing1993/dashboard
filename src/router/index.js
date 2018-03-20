@@ -8,6 +8,7 @@ import MainApp from '@/containers/MainApp'
 import Home from '@/containers/Home'
 import Group from '@/containers/Group'
 import System from '@/containers/System'
+import Statistics from '@/containers/Statistics'
 // 3级路由
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
@@ -285,6 +286,14 @@ const main = [
               }
             ]
           }]
+      },
+      {
+        path:'statistics',
+        name:'Statistics',
+        component:Statistics,
+        children:[{
+            path:''
+        }]
       }
     ]
   }
