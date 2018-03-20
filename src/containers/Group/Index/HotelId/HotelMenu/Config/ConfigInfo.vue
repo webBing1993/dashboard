@@ -547,6 +547,19 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.noCertificateCheck)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>无证核验</span>
+              <p>酒店是否开启无证核验功能</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enableNoCertificateCheck, 'tag_text_green': enableNoCertificateCheck}">{{enableNoCertificateCheck ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -1472,6 +1485,16 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.noCertificateCheck">
+            <div class="item-form">
+              <span>无证核验</span>
+              <el-switch
+                v-model="enableNoCertificateCheck"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <!-- 定制化配置 -->
           <div v-if="showType === enumShowType.customization">
             <div class="item-form">
@@ -1647,13 +1670,14 @@
     issuedCardRule: 35,//发房卡规则
     rcPrint: 36,
     identityCheck: 37,
-    moreLvyeReportType: 38,
-    customization:39,
-    enableRCstatus :40,
-    accessServiceType:41,
-    PADshowContent:42,
-    refundBusiness:43,
-    informCoResident:44
+    moreLvyeReportType: 2,
+    customization:38,
+    enableRCstatus :39,
+    accessServiceType:40,
+    PADshowContent:41,
+    refundBusiness:42,
+    informCoResident:43,
+    noCertificateCheck:44
   }
 
   //弹框标题类型
@@ -1700,7 +1724,8 @@
     'RC单是否开启字段',
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
-    '通知同住人配置'
+    '通知同住人配置',
+    '无证核验配置',
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1973,6 +1998,7 @@
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
         hotelMark:false,
+        enableNoCertificateCheck:false
       }
     },
     mounted() {
@@ -2415,6 +2441,9 @@
           case enumShowType.rcPrint:
             result = true;
             break;
+          case enumShowType.noCertificateCheck:
+              result = true;
+          break;
           case enumShowType.moreLvyeReportType:
             result = this.validateMore;
             break;
@@ -2569,6 +2598,8 @@
           this.rcStatus=configData.rc_status=='true'?true:false;
           //同住人通知配置
           this.timeStep=configData.checkin_noshow_interval_time;
+          //无证核验
+          this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
         };
       },
       pmsData() {
@@ -3433,6 +3464,11 @@
             }
             this.mySetRCconfig(data);
             return;
+          case enumShowType.noCertificateCheck:
+              data = {
+                  enable_identity_check_undocumented:this.enableNoCertificateCheck.toString()
+              }
+              break;
           case enumShowType.customization:
               data = {
                   "enabled_mirror_introduce": this.mirrorIntro.toString(),
