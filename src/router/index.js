@@ -17,6 +17,7 @@ import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
+import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
 // 4级路由
 import HotelId from '@/containers/Group/Index/HotelId.vue'
 import GroupList from '@/containers/Group/Index/GroupMenu/GroupList.vue'
@@ -289,11 +290,23 @@ const main = [
       },
       {
         path:'statistics',
-        name:'Statistics',
         component:Statistics,
         children:[{
-            path:''
-        }]
+            path:'orderStatistics',
+            name:'OrderStatistics',
+            component:OrderStatistics
+        },
+            {
+                path:'orderStatistics',
+                name:'OrderStatistics',
+                component:OrderStatistics
+            },
+            {
+                path:'orderStatistics',
+                name:'OrderStatistics',
+                component:OrderStatistics
+            }
+            ]
       }
     ]
   }
