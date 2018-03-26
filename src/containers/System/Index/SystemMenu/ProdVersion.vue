@@ -169,7 +169,6 @@
 </script>
 <style lang="less">
   .module-wrapper {
-    padding: 1rem;
     .content_prodVersion {
       .top {
         font-size: 16px;

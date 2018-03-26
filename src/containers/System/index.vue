@@ -21,7 +21,6 @@
     computed: {
       list() {
         let bread = [];
-
         for (let obj of this.$route.matched) {
           if (obj.path === '/system') {
             bread.push({name: '系统设置', path: '/system'})

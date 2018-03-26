@@ -120,11 +120,11 @@
     h3 {
       font-size: 16px;
       color: #4A4A4A;
-      padding: 0 23px 16px 25px;
+      padding: 0 2rem 1.5rem 2rem;
       &:nth-child(1) {
-        line-height: 68px;
+        line-height: 3rem;
         padding-bottom: 0;
-        border-bottom: 1px solid #ECECEC;
+        /*border-bottom: 1px solid #ECECEC;*/
         font-size: 16px;
         color: #4A4A4A;
       }

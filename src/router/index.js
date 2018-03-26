@@ -8,6 +8,7 @@ import MainApp from '@/containers/MainApp'
 import Home from '@/containers/Home'
 import Group from '@/containers/Group'
 import System from '@/containers/System'
+import Statistics from '@/containers/Statistics'
 // 3级路由
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
 import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
@@ -16,6 +17,9 @@ import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
+import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
+import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
+
 // 4级路由
 import HotelId from '@/containers/Group/Index/HotelId.vue'
 import GroupList from '@/containers/Group/Index/GroupMenu/GroupList.vue'
@@ -223,11 +227,12 @@ const main = [
       {
         path: 'system',
         component: System,
-        children: [{
-          path: 'addminiapp',
-          name: 'AddMiniApp',
-          component: AddMiniApp,
-        },
+        children: [
+          {
+            path: 'addminiapp',
+            name: 'AddMiniApp',
+            component: AddMiniApp,
+          },
           {
             path: 'addwechatpay',
             name: 'AddWechatpay',
@@ -285,6 +290,26 @@ const main = [
               }
             ]
           }]
+      },
+      {
+        path:'statistics',
+        component:Statistics,
+        children:[{
+                path:'/',
+                name:'OrderStatistics',
+                component:OrderStatistics
+            },
+            {
+                path:'/brandManage',
+                name:'BrandManage',
+                component:BrandManage
+            },
+            {
+                path:'/funnelAnalysis',
+                name:'FunnelAnalysis',
+                component:OrderStatistics
+            }
+            ]
       }
     ]
   }

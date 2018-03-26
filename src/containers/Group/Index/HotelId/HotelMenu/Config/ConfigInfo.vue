@@ -560,6 +560,20 @@
                   :class="{'tag_text_red': !enableNoCertificateCheck, 'tag_text_green': enableNoCertificateCheck}">{{enableNoCertificateCheck ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.appManage)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>应用功能配置管理</span>
+              <p>可配置微前台应用模块功能管理</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -747,12 +761,15 @@
           <div v-if="showType === enumShowType.lvyeReportType">
             <div class="lvyeItem">
               <div class="item-form">
-                <span>是否自动上传配置项?</span>
-                <el-switch
-                  v-model="lvyeAutoReport"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
-                </el-switch>
+                <span>上传配置项</span>
+                <el-select class="el-right" v-model="lvyeAutoReport" placeholder="请选择旅业系统类型">
+                  <el-option
+                    v-for="(obj, index) of LvyeConfigItemList"
+                    :key="obj.index"
+                    :label="obj.name"
+                    :value="obj.value">
+                  </el-option>
+                </el-select>
               </div>
               <div class="item-form">
                 <span>旅业系统类型</span>
@@ -1585,6 +1602,14 @@
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
+          <div v-if="showType === enumShowType.appManage">
+            <el-radio-group v-model="appValue">
+              <span>门店业务</span>
+              <el-radio class="el-right"label="WQT">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>
+              <span></span>
+              <el-radio class="el-right"label="IDENTITY">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
+            </el-radio-group>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -1662,14 +1687,14 @@
     CustomerOperate: 27,//禁止顾客操作订单
     mobileCheckin: 28,//启用移动端办理入住
     ticketPrint: 29,//是否启用小票打印
-    advancedCheckout: 30,//退离规则配置
+    advancedCheckout: 30,//是否允许提前退房
     hotelAreaCode: 31,//酒店行政区划代码
     qrCodeCreate: 32,//酒店二维码配置
     autoGiveRoom: 33,//自动分房
     autoIdentityCheck: 34,//自动调用人脸识别接口
     issuedCardRule: 35,//发房卡规则
-    rcPrint: 36,//RC单打印
-    identityCheck: 37,//开启身份核验功能配置
+    rcPrint: 36,
+    identityCheck: 37,
     moreLvyeReportType: 38,
     customization:39,
     enableRCstatus :40,
@@ -1677,11 +1702,11 @@
     PADshowContent:42,
     informCoResident:43,
     noCertificateCheck:44,
+    appManage:45
   }
 
   //弹框标题类型
-  const typeTitles = [
-    '是否删除',
+  const typeTitles = ['是否删除',
     'PMS信息',
     '旅业系统配置',
     '门锁配置',
@@ -1709,7 +1734,7 @@
     '极速领卡配置',
     '微信生态酒店配置',
     '禁止顾客操作订单配置',
-    '启用移动端办理入住',
+    '订单操作配置',
     '是否打印小票配置',
     '退离规则配置',
     '酒店行政区划代码配置',
@@ -1725,7 +1750,8 @@
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
     '通知同住人配置',
-    '无证核验配置',
+     '无证核验',
+    '应用功能配置管理'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1821,7 +1847,7 @@
         dcKey: '',
         // 旅业配置
         lvyeTypeList: [],
-        lvyeAutoReport: false,
+        lvyeAutoReport: '',
         lvyeType: '',
         policeId: '',
         policeType: '',
@@ -1998,7 +2024,9 @@
         failedCheckOutMark:'',
         hotelServiceTelMark:'',
         hotelMark:false,
-        enableNoCertificateCheck:false
+        enableNoCertificateCheck:false,
+        appValue:'',
+        LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}]
       }
     },
     mounted() {
@@ -2327,6 +2355,9 @@
       validateInformCoResident(){
         return (tool.isNotBlank(this.timeStep))
       },
+      validateAppManage(){
+        return (tool.isNotBlank(this.appValue))
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2461,6 +2492,9 @@
             break;
           case enumShowType.informCoResident:
             result=this.validateInformCoResident;
+            break;
+          case enumShowType.appManage:
+            result=this.validateAppManage;
             break;
           default:
             result = false;
@@ -2601,6 +2635,8 @@
           //无证核验
           this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
         };
+          //应用功能配置
+          this.appValue=configData.business_mode;
       },
       pmsData() {
         if (tool.isNotBlank(this.pmsData)) {
@@ -2734,10 +2770,10 @@
           this.savePADMarkConfig({
               data:{
                   "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark==undefined?'':this.notFoundMark+'#190155',
-                  "apply_checkout_finish":this.checkOutMark==undefined?'':this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.noDeviceCheckInMark==undefined?'':this.noDeviceCheckInMark+'#190159',
-                  "checkout_failure":this.failedCheckOutMark==undefined?'':this.failedCheckOutMark+'#190163',
+                  "order_hint_item":this.notFoundMark==''?'':this.notFoundMark+'#190155',
+                  "apply_checkout_finish":this.checkOutMark==''?'':this.checkOutMark+'#190164',
+                  "non_equipment_checkin":this.noDeviceCheckInMark==''?'':this.noDeviceCheckInMark+'#190159',
+                  "checkout_failure":this.failedCheckOutMark==''?'':this.failedCheckOutMark+'#190163',
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
@@ -3103,6 +3139,10 @@
             break;
           case enumShowType.informCoResident:
             this.timeStep=this.configData.checkin_noshow_interval_time;
+              break;
+          case enumShowType.appManage:
+             this.appValue=this.configData.business_mode;
+             break;
           default:
         }
       },
@@ -3494,6 +3534,11 @@
           case enumShowType.PADshowContent:
             this.savePADMarkConfigs();
             return;
+          case enumShowType.appManage:
+            data={
+                "business_mode":this.appValue
+            }
+            break;
           default:
           data = null
         };
@@ -3593,7 +3638,7 @@
       },
       //修改服务端数据
       patchConfigData(data) {
-          console.log('debug：',data)
+          console.log('debug:------->patchConfigData：',data)
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
           data: data,
