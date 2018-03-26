@@ -762,7 +762,7 @@
             <div class="lvyeItem">
               <div class="item-form">
                 <span>上传配置项</span>
-                <el-select class="el-right" v-model="lvyeAutoReport" placeholder="请选择旅业系统类型">
+                <el-select class="el-right" v-model="singlelvyeAutoReport" placeholder="请选择旅业系统类型">
                   <el-option
                     v-for="(obj, index) of LvyeConfigItemList"
                     :key="obj.index"
@@ -1847,7 +1847,7 @@
         dcKey: '',
         // 旅业配置
         lvyeTypeList: [],
-        lvyeAutoReport: '',
+          singlelvyeAutoReport: '',
         lvyeType: '',
         policeId: '',
         policeType: '',
@@ -2688,12 +2688,11 @@
       lvyeData() {
         // 旅业配置
         if (tool.isNotBlank(this.lvyeData)) {
-          this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
+          this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
           this.lvyeType = this.lvyeData.lvye_report_type;
           this.policeId = this.lvyeData.hotel_ga_id;
           this.policeType = this.lvyeData.police_type;
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
-
         }
       },
       faceinPassValue(val) {
@@ -2714,6 +2713,7 @@
           this.rendLvyeTypeList.forEach(obj=>{
               if(val===obj.lvye_report_type){
                   this.isPoliceParam=obj.enable_police_param
+                  return;
               };
           })
       },
@@ -2998,7 +2998,7 @@
             this.xrbs_moduleNum=this.pmsData.modu;
             break;
           case enumShowType.lvyeReportType:
-            this.lvyeAutoReport = this.lvyeData.lvye_auto_report;
+            this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
             this.lvyeType = this.lvyeData.lvye_report_type;
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
@@ -3220,7 +3220,7 @@
             break;
           case enumShowType.lvyeReportType: {
             let tempData = {
-              lvye_auto_report: this.lvyeAutoReport,
+              lvye_auto_report: this.singlelvyeAutoReport,
               lvye_report_type: this.lvyeType,
               hotel_ga_id: this.policeId,
               police_type: this.policeType
