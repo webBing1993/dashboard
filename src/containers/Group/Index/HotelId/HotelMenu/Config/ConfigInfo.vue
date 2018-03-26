@@ -761,12 +761,15 @@
           <div v-if="showType === enumShowType.lvyeReportType">
             <div class="lvyeItem">
               <div class="item-form">
-                <span>是否自动上传配置项?</span>
-                <el-switch
-                  v-model="lvyeAutoReport"
-                  on-color="#13ce66"
-                  off-color="#ff4949">
-                </el-switch>
+                <span>上传配置项</span>
+                <el-select class="el-right" v-model="lvyeAutoReport" placeholder="请选择旅业系统类型">
+                  <el-option
+                    v-for="(obj, index) of LvyeConfigItemList"
+                    :key="obj.index"
+                    :label="obj.name"
+                    :value="obj.value">
+                  </el-option>
+                </el-select>
               </div>
               <div class="item-form">
                 <span>旅业系统类型</span>
@@ -1692,16 +1695,15 @@
     issuedCardRule: 35,//发房卡规则
     rcPrint: 36,
     identityCheck: 37,
-    moreLvyeReportType: 2,
-    customization:38,
-    enableRCstatus :39,
-    accessServiceType:40,
-    PADshowContent:41,
-    refundBusiness:42,
+    moreLvyeReportType: 38,
+    customization:39,
+    enableRCstatus :40,
+    accessServiceType:41,
+    PADshowContent:42,
     informCoResident:43,
-    noCertificateCheck:44
+    noCertificateCheck:44,
+    appManage:45
   }
-
   //弹框标题类型
   const typeTitles = ['是否删除',
     'PMS信息',
@@ -1747,6 +1749,7 @@
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
     '通知同住人配置',
+     '无证核验',
     '应用功能配置管理'
   ]
 
@@ -1843,7 +1846,7 @@
         dcKey: '',
         // 旅业配置
         lvyeTypeList: [],
-        lvyeAutoReport: false,
+        lvyeAutoReport: '',
         lvyeType: '',
         policeId: '',
         policeType: '',
@@ -2021,7 +2024,8 @@
         hotelServiceTelMark:'',
         hotelMark:false,
         enableNoCertificateCheck:false,
-        appValue:''
+        appValue:'',
+        LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}]
       }
     },
     mounted() {
@@ -2765,10 +2769,10 @@
           this.savePADMarkConfig({
               data:{
                   "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark==undefined?'':this.notFoundMark+'#190155',
-                  "apply_checkout_finish":this.checkOutMark==undefined?'':this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.noDeviceCheckInMark==undefined?'':this.noDeviceCheckInMark+'#190159',
-                  "checkout_failure":this.failedCheckOutMark==undefined?'':this.failedCheckOutMark+'#190163',
+                  "order_hint_item":this.notFoundMark==''?'':this.notFoundMark+'#190155',
+                  "apply_checkout_finish":this.checkOutMark==''?'':this.checkOutMark+'#190164',
+                  "non_equipment_checkin":this.noDeviceCheckInMark==''?'':this.noDeviceCheckInMark+'#190159',
+                  "checkout_failure":this.failedCheckOutMark==''?'':this.failedCheckOutMark+'#190163',
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {

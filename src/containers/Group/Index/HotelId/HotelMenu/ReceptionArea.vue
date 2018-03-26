@@ -227,7 +227,7 @@
 </script>
 <style lang="less">
   .module-wrapper {
-    padding: 1rem;
+    /*padding: 1rem;*/
     .content_reception {
       .top {
         font-size: 16px;

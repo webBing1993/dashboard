@@ -82,12 +82,15 @@
             <el-input class="" v-model="descrption" placeholder="本旅业的相应描述" :disabled="!enabledReport"></el-input>
           </div>
           <div class="item-form">
-            <span class="itemTitle">自动上传配置项</span>
-            <el-switch
-            v-model="autoReport"
-            on-color="#13ce66"
-            off-color="#ff4949" :disabled="!enabledReport">
-            </el-switch >
+            <span class="itemTitle">上传配置项</span>
+            <el-select class="el-right" v-model="autoReport" placeholder="请选择旅业系统类型" :disabled="!enabledReport">
+              <el-option
+                v-for="(obj, index) of LvyeConfigItemList"
+                :key="obj.index"
+                :label="obj.name"
+                :value="obj.value">
+              </el-option>
+            </el-select>
           </div>
           <div class="item-form">
             <span class="itemTitle">是否开启</span>
@@ -134,8 +137,9 @@
                 moreLvyeList: [],
                 id:'',
                 enabledReport:true,
-                autoReport:true,
+                autoReport:'',
                 descrption:'',
+                renderDeskList:[],
                 renderDeskList:[],
                 lvyeId:'',
                 reportChannel:'',
@@ -143,6 +147,7 @@
                 lvyeName:'',
                 transitParam:'',
                 lvyeTypeList:[],
+                LvyeConfigItemList:[{'name':'全自动上传','value':'AUTO'},{'name':'全手工上传','value':'MANUAL'},{'name':'仅自动上传有房号的','value':'HAS_ROOM_NO'}],
                 showDialog: false,
             }
         },
@@ -208,7 +213,7 @@
                 this.lvyeId= "",
                 this.transitParam= "",
                 this.descrption= "",
-                this.autoReport= true,
+                this.autoReport= '',
                 this.enabledReport= true,
                 this.filterRoomNo=[],
                 this.roomType=[],
@@ -281,7 +286,7 @@
                 "transit_param":this.transitParam,   //公安参数
                 "room_no":this.filterRoomNo,   //关联房号 值为房间号
                 "descrption":this.descrption,   //说明
-                "auto_report": this.autoReport===true?1:0,
+                "auto_report": this.autoReport,
                 "enabled_report":this.enabledReport===true?1:0,
                 "device_id":this.deviceId
                 }
@@ -306,7 +311,7 @@
                 this.transitParam=obj.transit_param;   //公安参数
                 this.filterRoomNo=obj.room_no;   //已选房号 值为房间号
                 this.descrption=obj.descrption;   //说明
-                this.autoReport=obj.auto_report==1?true:0;
+                this.autoReport=obj.auto_report;
                 this.enabledReport=obj.enabled_report==1?true:0;
                 this.deviceId=obj.device_id;
                 console.log('hhhh:',this.roomType)
