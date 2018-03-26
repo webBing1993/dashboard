@@ -17,7 +17,7 @@ import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
-import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
+// import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
 import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
 
 // 4级路由
@@ -291,26 +291,26 @@ const main = [
             ]
           }]
       },
-      {
-        path:'statistics',
-        component:Statistics,
-        children:[{
-                path:'/',
-                name:'OrderStatistics',
-                component:OrderStatistics
-            },
-            {
-                path:'/brandManage',
-                name:'BrandManage',
-                component:BrandManage
-            },
-            {
-                path:'/funnelAnalysis',
-                name:'FunnelAnalysis',
-                component:OrderStatistics
-            }
-            ]
-      }
+      // {
+      //   path:'statistics',
+      //   component:Statistics,
+      //   children:[{
+      //           path:'/',
+      //           name:'OrderStatistics',
+      //           component:OrderStatistics
+      //       },
+      //       {
+      //           path:'/brandManage',
+      //           name:'BrandManage',
+      //           component:BrandManage
+      //       },
+      //       {
+      //           path:'/funnelAnalysis',
+      //           name:'FunnelAnalysis',
+      //           component:OrderStatistics
+      //       }
+      //       ]
+      // }
     ]
   }
 ]
