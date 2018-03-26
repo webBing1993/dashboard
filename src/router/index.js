@@ -18,7 +18,7 @@ import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 // import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
-import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
+// import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
 
 // 4级路由
 import HotelId from '@/containers/Group/Index/HotelId.vue'
