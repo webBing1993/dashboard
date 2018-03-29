@@ -286,7 +286,7 @@
                 "transit_param":this.transitParam,   //公安参数
                 "room_no":this.filterRoomNo,   //关联房号 值为房间号
                 "descrption":this.descrption,   //说明
-                "auto_report": this.autoReport,
+                "report_trigger": this.autoReport,
                 "enabled_report":this.enabledReport===true?1:0,
                 "device_id":this.deviceId
                 }
@@ -311,7 +311,7 @@
                 this.transitParam=obj.transit_param;   //公安参数
                 this.filterRoomNo=obj.room_no;   //已选房号 值为房间号
                 this.descrption=obj.descrption;   //说明
-                this.autoReport=obj.auto_report;
+                this.autoReport=obj.report_trigger;
                 this.enabledReport=obj.enabled_report==1?true:0;
                 this.deviceId=obj.device_id;
                 console.log('hhhh:',this.roomType)
