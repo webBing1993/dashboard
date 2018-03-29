@@ -21,13 +21,13 @@ module.exports = {
     })
   },
   getGroup(ctx, param) {
-    ctx.dispatch('resource', {
-      url: `/groups/${param.id}`,
-      method:'GET',
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
-      }
-    })
+    // ctx.dispatch('resource', {
+    //   url: `/groups/${param.id}`,
+    //   method:'GET',
+    //   onSuccess: body => {
+    //     param.onsuccess ? param.onsuccess(body) : null
+    //   }
+    // })
   },
   modifyGroup(ctx, param) {
     ctx.dispatch('resource', {

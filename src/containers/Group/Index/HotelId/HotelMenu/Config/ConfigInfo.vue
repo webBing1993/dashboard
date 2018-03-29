@@ -1605,9 +1605,9 @@
           <div v-if="showType === enumShowType.appManage">
             <el-radio-group v-model="appValue">
               <span>门店业务</span>
-              <el-radio class="el-right"label="WQT">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>
+              <el-radio class="el-right"label="IDENTITY">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>
               <span></span>
-              <el-radio class="el-right"label="IDENTITY">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
+              <el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
             </el-radio-group>
           </div>
         </div>
@@ -2712,7 +2712,10 @@
       lvyeType(val){
           this.rendLvyeTypeList.forEach(obj=>{
               if(val===obj.lvye_report_type){
-                  this.isPoliceParam=obj.enable_police_param
+                  // console.log()
+                  this.isPoliceParam=obj.enable_police_param;
+
+                  console.log('isPoliceParam:',this.isPoliceParam)
                   return;
               };
           })
