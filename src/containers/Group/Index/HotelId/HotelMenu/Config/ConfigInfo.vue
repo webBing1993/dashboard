@@ -2030,11 +2030,11 @@
       }
     },
     mounted() {
+
+      this.getLvyes();
       this.getConfigs();
       this.getWxhotelCitysers();
       this.getPms();
-      this.getLvyes();
-      this.getlvyeTypeLists();
       this.wechatList();
       this.WxhotelRegisters();
       this.getRCConfigeds();
@@ -2690,6 +2690,7 @@
         if (tool.isNotBlank(this.lvyeData)) {
           this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
           this.lvyeType = this.lvyeData.lvye_report_type;
+          console.log('this.lvyeType:',this.lvyeType)
           this.policeId = this.lvyeData.hotel_ga_id;
           this.policeType = this.lvyeData.police_type;
           this.policeParam = JSON.stringify(this.lvyeData.police_param);
@@ -2708,18 +2709,16 @@
           } else {
               this.hasSetMoreLvye = false;
           };
-      },
-      lvyeType(val){
-          this.rendLvyeTypeList.forEach(obj=>{
-              if(val===obj.lvye_report_type){
-                  // console.log()
-                  this.isPoliceParam=obj.enable_police_param;
-
-                  console.log('isPoliceParam:',this.isPoliceParam)
-                  return;
-              };
-          })
-      },
+      }
+      // lvyeType(val){
+      //     console.log(val);
+      //     this.lvyeTypeList.forEach(obj=>{
+      //         if(val==obj.lvye_report_type){
+      //             this.isPoliceParam=obj.enable_police_param;
+      //             console.log(this.isPoliceParam)
+      //         };
+      //     })
+      // },
     },
     methods: {
       ...mapActions([
@@ -2751,6 +2750,21 @@
         "getPADMarkConfig",
         "savePADMarkConfig",
       ]),
+      //查询旅业类型
+      getlvyeTypeLists() {
+          this.getlvyeTypeList({
+              onsuccess: body => {
+                  this.lvyeTypeList = [...body.data];
+                  this.lvyeTypeList.forEach(item =>{
+                      if(this.lvyeType===item.lvye_report_type){
+                          this.isPoliceParam=item.enable_police_param;
+                          console.log(this.isPoliceParam)
+                      };
+                  })
+                  console.log('旅业类型列表',this.lvyeTypeList)
+              }
+          })
+      },
         //获取酒店提示语配置
       getPADMarkConfigs(){
           this.getPADMarkConfig({
@@ -3622,13 +3636,6 @@
         this.queryDel = false;
         this.hideDialog();
       },
-
-        //查询旅业类型
-      getlvyeTypeLists() {
-        this.getlvyeTypeList({
-          onsuccess: body => (this.lvyeTypeList = [...body.data])
-        })
-      },
       //上传已配置数据
       mySetRCconfig(data) {
         this.setRCconfig({
@@ -3681,7 +3688,10 @@
       },
       getLvyes() {
         this.getLvye({
-          hotel_id: this.$route.params.hotelid
+          hotel_id: this.$route.params.hotelid,
+            onsuccess:body=>{
+                this.getlvyeTypeLists();
+            }
         })
       },
       modifyLvyes(data) {
