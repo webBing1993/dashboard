@@ -2709,16 +2709,15 @@
           } else {
               this.hasSetMoreLvye = false;
           };
-      }
-      // lvyeType(val){
-      //     console.log(val);
-      //     this.lvyeTypeList.forEach(obj=>{
-      //         if(val==obj.lvye_report_type){
-      //             this.isPoliceParam=obj.enable_police_param;
-      //             console.log(this.isPoliceParam)
-      //         };
-      //     })
-      // },
+      },
+      lvyeType(val){
+          this.lvyeTypeList.forEach(obj=>{
+              if(val==obj.lvye_report_type){
+                  this.isPoliceParam=obj.enable_police_param;
+                  console.log(this.isPoliceParam)
+              };
+          })
+      },
     },
     methods: {
       ...mapActions([
