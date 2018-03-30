@@ -36,7 +36,7 @@ module.exports = {
         // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
-          '^/virgo': ''
+          // '^/virgo': ''
         }
       },
       '/libra': {
