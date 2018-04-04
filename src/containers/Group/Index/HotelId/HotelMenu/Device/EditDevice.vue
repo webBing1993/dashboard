@@ -94,7 +94,7 @@
         deviceName: '',
         deviceType: '',
         enabled: true,
-        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'}],
+        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'},{id:'41',name:'广告机'}],
         partnerIdTemp: '',
         partnerName: '',
         isShowDeviceNameOnPad:false
