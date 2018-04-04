@@ -574,6 +574,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.keyAccess)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>关键通道配置</span>
+              <p>配置关键通道</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -1610,6 +1624,26 @@
               <el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
             </el-radio-group>
           </div>
+          <div v-if="showType === enumShowType.autoGiveRoom">
+            <div class="item-form">
+              <span>是否自动分房</span>
+              <el-switch
+                v-model="autoGiveRoomVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.keyAccess">
+            <div class="item-form">
+              <span>关键通道开关</span>
+              <el-switch
+                v-model="enableKeyAccess"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -1702,7 +1736,8 @@
     PADshowContent:42,
     informCoResident:43,
     noCertificateCheck:44,
-    appManage:45
+    appManage:45,
+    keyAccess:46
   }
 
   //弹框标题类型
@@ -1750,8 +1785,9 @@
     '酒店开通业务类型配置',
     'PAD界面内容显示配置',
     '通知同住人配置',
-     '无证核验',
-    '应用功能配置管理'
+    '无证核验',
+    '应用功能配置管理',
+    '关键通道配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -2026,7 +2062,8 @@
         hotelMark:false,
         enableNoCertificateCheck:false,
         appValue:'',
-        LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}]
+        LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
+        enableKeyAccess:false
       }
     },
     mounted() {
@@ -2358,6 +2395,10 @@
       validateAppManage(){
         return (tool.isNotBlank(this.appValue))
       },
+      validateKeyAccess(){
+        return true
+      },
+
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2496,6 +2537,9 @@
           case enumShowType.appManage:
             result=this.validateAppManage;
             break;
+          case enumShowType.keyAccess:
+            result=this.validateKeyAccess;
+            break
           default:
             result = false;
         }
@@ -2634,6 +2678,7 @@
           this.timeStep=configData.checkin_noshow_interval_time;
           //无证核验
           this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
+          this.enableKeyAccess=configData.enable_pull_identity_guest_info == 'true' ? true : false
         };
           //应用功能配置
           this.appValue=configData.business_mode;
@@ -3523,6 +3568,11 @@
           case enumShowType.noCertificateCheck:
               data = {
                   enable_identity_check_undocumented:this.enableNoCertificateCheck.toString()
+              }
+              break;
+            case enumShowType.keyAccess:
+              data={
+                  enable_pull_identity_guest_info:this.enableKeyAccess.toString()
               }
               break;
           case enumShowType.customization:
