@@ -2217,9 +2217,10 @@
         }
       },
       validatelvyeReportType() {
-        if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'||this.lvyeType == 'SUZHOU'||this.lvyeType == 'CHANGZHOUDAJIANG') {
+
+        if (this.isPoliceParam) {
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.lvyeType == 'LOCAL' ||this.lvyeType == 'GUANGDONGOLD'|| this.lvyeType == 'HEFEI' || this.lvyeType == 'CHENGDU' || this.lvyeType == 'HANGZHOU' || this.lvyeType == 'GUANGDONG'|| this.lvyeType == 'ZHUHAI'||this.lvyeType == 'CHANGZHOU') {
+        } else if (!this.isPoliceParam) {
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -2231,7 +2232,7 @@
           }
           return false;
         } else if (this.lvyeType == 'NONE') {
-          return true;
+            return true;
         } else {
           return false;
         }

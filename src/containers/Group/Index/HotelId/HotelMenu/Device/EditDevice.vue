@@ -20,7 +20,7 @@
         <span>设备名称</span>
         <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
-      <div class="content-item">
+      <div class="content-item" v-if="deviceType!=='41'">
         <span>配对设备</span>
         <el-select class="el-right" v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
@@ -114,7 +114,7 @@
       },
       partnerId: {
         get() {
-          if (!this.partnerIdTemp) return '';
+          if (!this.partnerIdTemp||this.deviceType=='41') return '';
           if (this.partnerIdTemp === '无') return '';
           return this.partnerIdTemp.split(' | ')[1];
         },
