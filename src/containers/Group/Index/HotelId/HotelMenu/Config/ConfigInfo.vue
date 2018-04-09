@@ -2217,10 +2217,11 @@
         }
       },
       validatelvyeReportType() {
-
-        if (this.isPoliceParam) {
+        if (!this.isPoliceParam) {
+            console.log(888)
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (!this.isPoliceParam) {
+        } else if (this.isPoliceParam) {
+            console.log(999)
           if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
             let flag = true;
             try {
@@ -3287,11 +3288,11 @@
               hotel_ga_id: this.policeId,
               police_type: this.policeType
             }
-            if (this.lvyeType == 'CLOUD' || this.lvyeType == 'WUHAN'|| this.lvyeType == 'SUZHOU') {
+            if (!this.isPoliceParam) {
               data = {
                 ...tempData
               }
-            }else{
+            }else if(this.isPoliceParam){
               data = {
                 ...tempData,
                 police_param: JSON.parse(this.policeParam)
