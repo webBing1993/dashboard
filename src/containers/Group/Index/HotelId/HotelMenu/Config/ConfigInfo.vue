@@ -575,6 +575,20 @@
           </button>
         </el-col>
         <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.appManage2)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>应用功能配置管理二</span>
+              <p>可配置微前台应用模块功能管理</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.keyAccess)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
@@ -1624,6 +1638,72 @@
               <el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
             </el-radio-group>
           </div>
+          <div v-if="showType === enumShowType.appManage2">
+            <div class="item-form">
+              <span>公安验证</span>
+              <el-switch
+                v-model="appPolice"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>订单中心</span>
+              <el-switch
+                v-model="appOrder"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>住离信息</span>
+              <el-switch
+                v-model="appIdentity"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>入住核验</span>
+              <el-switch
+                v-model="appLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>发票中心</span>
+              <el-switch
+                v-model="appInvoice"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>财务管理</span>
+              <el-switch
+                v-model="appMoney"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>异常提醒</span>
+              <el-switch
+                v-model="appAbnormal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>可疑人员</span>
+              <el-switch
+                v-model="appSuspicious"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
               <span>是否自动分房</span>
@@ -1737,7 +1817,8 @@
     informCoResident:43,
     noCertificateCheck:44,
     appManage:45,
-    keyAccess:46
+    appManage2:46,
+    keyAccess:47
   }
 
   //弹框标题类型
@@ -1787,7 +1868,9 @@
     '通知同住人配置',
     '无证核验',
     '应用功能配置管理',
-    '关键通道配置'
+    '应用功能配置管理二',
+    '关键通道配置',
+
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -2063,11 +2146,18 @@
         enableNoCertificateCheck:false,
         appValue:'',
         LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
-        enableKeyAccess:false
+        enableKeyAccess:false,
+        appPolice:false,
+        appOrder:false,
+        appIdentity:false,
+        appLiveIn:false,
+        appInvoice:false,
+        appMoney:false,
+        appAbnormal:false,
+        appSuspicious:false
       }
     },
     mounted() {
-
       this.getLvyes();
       this.getConfigs();
       this.getWxhotelCitysers();
@@ -2396,6 +2486,9 @@
       validateAppManage(){
         return (tool.isNotBlank(this.appValue))
       },
+      validateAppManage2(){
+        return true;
+      },
       validateKeyAccess(){
         return true
       },
@@ -2538,6 +2631,9 @@
           case enumShowType.appManage:
             result=this.validateAppManage;
             break;
+          case enumShowType.appManage2:
+              result=this.validateAppManage2;
+              break;
           case enumShowType.keyAccess:
             result=this.validateKeyAccess;
             break
@@ -2680,9 +2776,20 @@
           //无证核验
           this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
           this.enableKeyAccess=configData.enable_pull_identity_guest_info == 'true' ? true : false
-        };
           //应用功能配置
           this.appValue=configData.business_mode;
+          //应用功能配置二
+          let wqtMainCtl=JSON.parse(configData.wqt_main_control);
+          // console.log('wqtMainCtl:',wqtMainCtl)
+          this.appPolice=wqtMainCtl.identity_check_view;
+          this.appOrder=wqtMainCtl.order_view;
+          this.appIdentity=wqtMainCtl.room_status_view;
+          this.appLiveIn=wqtMainCtl.check_in_identity_check_view;
+          this.appInvoice=wqtMainCtl.invoice_view;
+          this.appMoney=wqtMainCtl.order_bill_view;
+          this.appAbnormal=wqtMainCtl.exception_view;
+          this.appSuspicious=wqtMainCtl.suspicious_person_view
+        };
       },
       pmsData() {
         if (tool.isNotBlank(this.pmsData)) {
@@ -3605,6 +3712,21 @@
             data={
                 "business_mode":this.appValue
             }
+            break;
+          case enumShowType.appManage2:
+              let wqt_main_control=JSON.stringify({
+                      "identity_check_view":this.appPolice, 			//公安验证
+                      "order_view":this.appOrder,						//订单中心
+                      "room_status_view":this.appIdentity,				//住离信息
+                      "check_in_identity_check_view":this.appLiveIn,	//入住核验
+                      "invoice_view":this.appInvoice,					//发票中心
+                      "order_bill_view":this.appMoney,				//账务管理
+                      "exception_view":this.appAbnormal,					//异常提醒
+                      "suspicious_person_view":this.appSuspicious
+                  });
+              data={
+                  wqt_main_control
+              }
             break;
           default:
           data = null
