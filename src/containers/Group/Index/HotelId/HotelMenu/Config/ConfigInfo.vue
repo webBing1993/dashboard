@@ -560,7 +560,7 @@
                   :class="{'tag_text_red': !enableNoCertificateCheck, 'tag_text_green': enableNoCertificateCheck}">{{enableNoCertificateCheck ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="8" v-show="false">
           <button @click="dialogConfig(enumShowType.appManage)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
@@ -580,7 +580,7 @@
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
-              <span>应用功能配置管理二</span>
+              <span>企业微信应用功能配置</span>
               <p>可配置微前台应用模块功能管理</p>
             </div>
             <span class="tag_text"
@@ -1868,7 +1868,7 @@
     '通知同住人配置',
     '无证核验',
     '应用功能配置管理',
-    '应用功能配置管理二',
+    '企业微信应用功能配置',
     '关键通道配置',
 
   ]
@@ -2144,7 +2144,7 @@
         hotelServiceTelMark:'',
         hotelMark:false,
         enableNoCertificateCheck:false,
-        appValue:'',
+        appValue:'WQT',
         LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
         enableKeyAccess:false,
         appPolice:false,
