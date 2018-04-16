@@ -588,20 +588,20 @@
             </span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.keyAccess)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>关键通道配置</span>
-              <p>配置关键通道</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}
-            </span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.keyAccess)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/标签.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>关键通道配置</span>-->
+              <!--<p>配置关键通道</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}-->
+            <!--</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -636,7 +636,7 @@
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
-            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'">
+            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14'">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -1714,16 +1714,16 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.keyAccess">
-            <div class="item-form">
-              <span>关键通道开关</span>
-              <el-switch
-                v-model="enableKeyAccess"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
+          <!--<div v-if="showType === enumShowType.keyAccess">-->
+            <!--<div class="item-form">-->
+              <!--<span>关键通道开关</span>-->
+              <!--<el-switch-->
+                <!--v-model="enableKeyAccess"-->
+                <!--on-color="#13ce66"-->
+                <!--off-color="#ff4949">-->
+              <!--</el-switch>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -1818,7 +1818,7 @@
     noCertificateCheck:44,
     appManage:45,
     appManage2:46,
-    keyAccess:47
+    // keyAccess:47
   }
 
   //弹框标题类型
@@ -1868,8 +1868,8 @@
     '通知同住人配置',
     '无证核验',
     '应用功能配置管理',
-    '企业微信应用功能配置',
-    '关键通道配置',
+    '企业微信应用功能配置'
+    // '关键通道配置',
 
   ]
 
@@ -3330,7 +3330,7 @@
               urls:this.urls,
               pms_worker_id:this.wqtPublicNo
             };
-            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11') {
+            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
