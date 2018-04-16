@@ -331,6 +331,7 @@ module.exports = {
             method:'POST',
             body:param.data,
             onSuccess: body => {
+                console.log('param.data:',param.data)
                 param.onsuccess ? param.onsuccess(body) : null
             }
         })

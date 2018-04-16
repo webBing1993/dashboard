@@ -2154,7 +2154,11 @@
         appInvoice:false,
         appMoney:false,
         appAbnormal:false,
-        appSuspicious:false
+        appSuspicious:false,
+        order_hint_item_idFromPAD:'',
+        apply_checkout_finish_idFromPAD:'',
+        non_equipment_checkin_idFromPAD:'',
+        checkout_failure_idFromPAD:''
       }
     },
     mounted() {
@@ -2940,10 +2944,10 @@
           this.savePADMarkConfig({
               data:{
                   "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark==''?'':this.notFoundMark+'#190155',
-                  "apply_checkout_finish":this.checkOutMark==''?'':this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.noDeviceCheckInMark==''?'':this.noDeviceCheckInMark+'#190159',
-                  "checkout_failure":this.failedCheckOutMark==''?'':this.failedCheckOutMark+'#190163',
+                  "order_hint_item":this.notFoundMark==''?''+'#190155':this.notFoundMark+'#190155',
+                  "apply_checkout_finish":this.checkOutMark==''?''+'#190164':this.checkOutMark+'#190164',
+                  "non_equipment_checkin":this.noDeviceCheckInMark==''?''+'#190159':this.noDeviceCheckInMark+'#190159',
+                  "checkout_failure":this.failedCheckOutMark==''?''+'#190163':this.failedCheckOutMark+'#190163',
                   "customer_service_tel":this.hotelServiceTelMark
               },
               onsuccess: body => {
