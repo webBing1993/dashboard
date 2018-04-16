@@ -166,7 +166,7 @@ module.exports = {
     let urlQuery = ``;
     if (param.data.pms_type == 1) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBYH`;
-    } else if (param.data.pms_type == 2 || param.data.pms_type == 7|| param.data.pms_type == 11) {
+    } else if (param.data.pms_type == 2 || param.data.pms_type == 7|| param.data.pms_type == 11|| param.data.pms_type == 14) {
       urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }
     else if (param.data.pms_type == 3) {
