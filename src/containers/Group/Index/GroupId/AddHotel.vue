@@ -44,7 +44,14 @@
 
               <div class="item">
                 <span>企业微信id</span>
-                <el-input class="el-right" v-model="corpId" placeholder="请输入企业微信id"></el-input>
+                <el-select class="el-right" v-model="corpId" placeholder="请输入企业微信id">
+                  <el-option
+                    v-for="(obj, index) of corpIdList"
+                    :key="obj.id"
+                    :label="obj.corp_name"
+                    :value="obj.corp_id">
+                  </el-option>
+                </el-select>
               </div>
 
               <div class="content-address">
@@ -163,7 +170,8 @@
         contactPhone: '',
         contactPosition: '',
         isChooseLocation: true,
-        showAreaSelect: true
+        showAreaSelect: true,
+        corpIdList:[]
       }
     },
     computed: {
@@ -230,8 +238,18 @@
         'getBrandList',
         'addHotel',
         'showtoast',
-        'goto'
+        'goto',
+        'getCorpids'
       ]),
+      getCorpid(){
+          this.getCorpids({
+              onsuccess: body => {
+                  if(body.data){
+                      this.corpIdList=body.data;
+                  }
+              }
+          })
+      },
       getBrand() {
         this.brandList = [];
         this.getBrandList({
@@ -352,6 +370,7 @@
       this.groupId = this.$route.params.id;
 
       this.initMap();
+      this.getCorpid()
     }
   }
 </script>
