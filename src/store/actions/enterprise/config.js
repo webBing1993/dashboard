@@ -351,19 +351,9 @@ module.exports = {
     },
     saveReviewRoomNum(ctx, param){
         ctx.dispatch('resource',{
-            url:`morelvyemapper/${param.hotel_id}`,
+            url:`/morelvyemapper/${param.hotel_id}`,
             body:param.data,
             method:'POST',
-            onSuccess:(body,headers)=>{
-                param.onsuccess?param.onsuccess(body,headers):null
-            }
-        })
-    },
-    editReviewRoomNum(ctx, param){
-        ctx.dispatch('resource',{
-            url:`morelvyemapper/${param.hotel_id}`,
-            body:param.data,
-            method:'PUT',
             onSuccess:(body,headers)=>{
                 param.onsuccess?param.onsuccess(body,headers):null
             }
