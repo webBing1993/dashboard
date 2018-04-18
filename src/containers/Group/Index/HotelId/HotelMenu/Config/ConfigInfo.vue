@@ -599,7 +599,7 @@
               <p>匹配PMS，房间号手动输入旅业房间号</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !isHaveRoomNumReviewList, 'tag_text_green': isHaveRoomNumReviewList}">{{isHaveRoomNumReviewList ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -2198,6 +2198,7 @@
         page: 1,
         size: 10,
         total: 0,
+        isHaveRoomNumReviewList:false
       }
     },
     mounted() {
@@ -2969,6 +2970,12 @@
               size:this.size,
               onsuccess:(body,headers)=>{
                   this.roomNumReviewList = body.data;
+                  if(this.roomNumReviewList){
+                      this.isHaveRoomNumReviewList=true
+                  }else {
+                      this.isHaveRoomNumReviewList=false
+                  }
+
                   this.total=parseInt(headers['x-total'])
               }
           })
