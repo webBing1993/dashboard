@@ -2970,8 +2970,8 @@
               size:this.size,
               onsuccess:(body,headers)=>{
                   this.roomNumReviewList = body.data;
-                  if(this.roomNumReviewList&&this.roomNumReviewList.length!==0){
-                      this.isHaveRoomNumReviewList=true
+                  if(body.data&&body.data.length!==0){
+                      this.isHaveRoomNumReviewList=trues
                   }else {
                       this.isHaveRoomNumReviewList=false
                   }
