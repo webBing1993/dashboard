@@ -2971,7 +2971,7 @@
               onsuccess:(body,headers)=>{
                   this.roomNumReviewList = body.data;
                   if(body.data&&body.data.length!==0){
-                      this.isHaveRoomNumReviewList=trues
+                      this.isHaveRoomNumReviewList=true
                   }else {
                       this.isHaveRoomNumReviewList=false
                   }
