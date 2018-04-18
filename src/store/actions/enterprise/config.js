@@ -335,5 +335,38 @@ module.exports = {
                 param.onsuccess ? param.onsuccess(body) : null
             }
         })
+    },
+    getRoomNum(ctx, param){
+        ctx.dispatch('resource',{
+            url:`/morelvyemapper/${param.hotel_id}`,
+            headers: {
+                'X-Current-Page': param.page || '1',
+                'X-Page-Size': param.size || '0'
+            },
+            method:'GET',
+            onSuccess:(body,headers)=>{
+                param.onsuccess?param.onsuccess(body,headers):null
+            }
+        })
+    },
+    saveReviewRoomNum(ctx, param){
+        ctx.dispatch('resource',{
+            url:`morelvyemapper/${param.hotel_id}`,
+            body:param.data,
+            method:'POST',
+            onSuccess:(body,headers)=>{
+                param.onsuccess?param.onsuccess(body,headers):null
+            }
+        })
+    },
+    editReviewRoomNum(ctx, param){
+        ctx.dispatch('resource',{
+            url:`morelvyemapper/${param.hotel_id}`,
+            body:param.data,
+            method:'PUT',
+            onSuccess:(body,headers)=>{
+                param.onsuccess?param.onsuccess(body,headers):null
+            }
+        })
     }
 }

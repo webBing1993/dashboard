@@ -138,6 +138,7 @@
           </button>
         </el-col>
       </el-row>
+
       <div class="content-title">
         <span>业务配置 <i>（选择酒店开启业务）</i></span>
       </div>
@@ -582,6 +583,20 @@
             <div class="item-text">
               <span>企业微信应用功能配置</span>
               <p>可配置微前台应用模块功能管理</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.reviewRoomNum)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>旅业房间号核对配置</span>
+              <p>匹配PMS，房间号手动输入旅业房间号</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !configData.business_mode, 'tag_text_green': configData.business_mode}">{{configData.business_mode ? '已配置' : '未配置'}}
@@ -1630,14 +1645,14 @@
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
-          <div v-if="showType === enumShowType.appManage">
-            <el-radio-group v-model="appValue">
-              <span>门店业务</span>
-              <el-radio class="el-right"label="IDENTITY">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>
-              <span></span>
-              <el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>
-            </el-radio-group>
-          </div>
+          <!--<div v-if="showType === enumShowType.appManage">-->
+            <!--<el-radio-group v-model="appValue">-->
+              <!--<span>门店业务</span>-->
+              <!--<el-radio class="el-right"label="IDENTITY">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>-->
+              <!--<span></span>-->
+              <!--<el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>-->
+            <!--</el-radio-group>-->
+          <!--</div>-->
           <div v-if="showType === enumShowType.appManage2">
             <div class="item-form">
               <span>公安验证</span>
@@ -1712,6 +1727,26 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+          </div>
+          <div v-if="showType === enumShowType.reviewRoomNum">
+            <div class="item-form">
+              <span>PMS房间号与旅业房间号核对:</span>
+            </div>
+            <div class="item-form">
+             <table-roomNumReview :list="renderRoomNumReviewList" :page="page" :size="size"></table-roomNumReview>
+            </div>
+            <div class="item-form">
+              <el-pagination
+                v-show="total > size"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentPageChange"
+                :current-page="page"
+                :page-sizes="[10, 20, 30]"
+                :page-size="size"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="total">
+              </el-pagination>
             </div>
           </div>
           <!--<div v-if="showType === enumShowType.keyAccess">-->
@@ -1816,8 +1851,9 @@
     PADshowContent:42,
     informCoResident:43,
     noCertificateCheck:44,
-    appManage:45,
-    appManage2:46,
+    // appManage:45,
+    appManage2:45,
+    reviewRoomNum:46
     // keyAccess:47
   }
 
@@ -1868,7 +1904,6 @@
     '通知同住人配置',
     '无证核验',
     '应用功能配置管理',
-    '企业微信应用功能配置'
     // '关键通道配置',
 
   ]
@@ -2158,7 +2193,11 @@
         order_hint_item_idFromPAD:'',
         apply_checkout_finish_idFromPAD:'',
         non_equipment_checkin_idFromPAD:'',
-        checkout_failure_idFromPAD:''
+        checkout_failure_idFromPAD:'',
+        roomNumReviewList:[],
+        page: 1,
+        size: 10,
+        total: 0,
       }
     },
     mounted() {
@@ -2171,6 +2210,7 @@
       this.getRCConfigeds();
       this.getAccessServiceType();
       this.getPADMarkConfigs();
+      this.getRoomNumList()
       // this.getMoreLvye({hotel_id: this.$route.params.hotelid})
     },
     computed: {
@@ -2209,6 +2249,9 @@
       },
       renderMoreLvyeList() {
         return this.moreLvyeList;
+      },
+      renderRoomNumReviewList(){
+        return this.roomNumReviewList;
       },
       providerMchIdList() {
         return this.providerList.map(v => {
@@ -2495,9 +2538,11 @@
         return true;
       },
       validateKeyAccess(){
-        return true
+        return true;
       },
-
+      validateReviewRoomNum(){
+        return true;
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2641,6 +2686,9 @@
               break;
           case enumShowType.keyAccess:
             result=this.validateKeyAccess;
+            break;
+          case enumShowType.reviewRoomNum:
+            result=this.validateReviewRoomNum;
             break
           default:
             result = false;
@@ -2649,6 +2697,9 @@
       }
     },
     watch: {
+      renderRoomNumReviewList(val){
+          console.log(val)
+      },
       configData()
       {
         let configData = this.configData;
@@ -2906,7 +2957,45 @@
         "getServiceTypeScript",
         "getPADMarkConfig",
         "savePADMarkConfig",
+        "getRoomNum",
+        "saveReviewRoomNum",
+        "editReviewRoomNum"
       ]),
+      //查询所以PMS房间号
+      getRoomNumList(){
+          this.getRoomNum({
+              hotel_id: this.$route.params.hotelid,
+              page:this.page,
+              size:this.size,
+              onsuccess:(body,headers)=>{
+                  this.roomNumReviewList = body.data;
+                  this.total=parseInt(headers['x-total'])
+              }
+          })
+      },
+       //保存旅业房间号
+      saveReviewRoomNumList(){
+          let lvyeRoomNumlist=[];
+          this.renderRoomNumReviewList.forEach(item=>{
+              lvyeRoomNumlist.push({'id':item.id,'room_id':item.room_id,'room_no':item.room_no,'lvye_room_no':item.lvye_room_no})
+          });
+          this.saveReviewRoomNum({
+              hotel_id: this.$route.params.hotelid,
+              data:lvyeRoomNumlist,
+              onsuccess:(body)=>{
+                  console.log('新增');
+                  this.showDialog = false;
+              }
+          });
+      },
+      handleSizeChange(val) {
+          this.size = val;
+          this.getRoomNumList();
+      },
+      handleCurrentPageChange(val){
+          this.page = val;
+          this.getRoomNumList();
+      },
       //查询旅业类型
       getlvyeTypeLists() {
           this.getlvyeTypeList({
@@ -3733,6 +3822,9 @@
                   wqt_main_control
               }
             break;
+          case enumShowType.reviewRoomNum:
+              this.saveReviewRoomNumList();
+             return;
           default:
           data = null
         };
