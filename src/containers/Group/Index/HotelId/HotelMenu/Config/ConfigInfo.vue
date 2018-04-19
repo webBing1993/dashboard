@@ -603,6 +603,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.isShowPoliceHandeld)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>公安验证是否显示已处理列表配置</span>
+              <p>企业微信公安验证是否显示已处理列表</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.enable_show_plice_processed, 'tag_text_green': configData.isHaveRoomNumReviewList}">{{configData.isHaveRoomNumReviewList ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig(enumShowType.keyAccess)">-->
             <!--<div class="item_img">-->
@@ -1749,6 +1763,16 @@
               </el-pagination>
             </div>
           </div>
+          <div v-if="showType === enumShowType.isShowPoliceHandeld">
+            <div class="item-form">
+              <span>企业微信公安验证显示已处理列表</span>
+              <el-switch
+                v-model="showPoliceHandledList"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <!--<div v-if="showType === enumShowType.keyAccess">-->
             <!--<div class="item-form">-->
               <!--<span>关键通道开关</span>-->
@@ -1853,7 +1877,8 @@
     noCertificateCheck:44,
     // appManage:45,
     appManage2:45,
-    reviewRoomNum:46
+    reviewRoomNum:46,
+    isShowPoliceHandeld:47
     // keyAccess:47
   }
 
@@ -1904,6 +1929,8 @@
     '通知同住人配置',
     '无证核验',
     '应用功能配置管理',
+    '旅业房间号核对配置',
+    '公安验证是否显示已处理记录'
     // '关键通道配置',
 
   ]
@@ -2198,7 +2225,8 @@
         page: 1,
         size: 10,
         total: 0,
-        isHaveRoomNumReviewList:false
+        isHaveRoomNumReviewList:false,
+        showPoliceHandledList:false
       }
     },
     mounted() {
@@ -2544,6 +2572,9 @@
       validateReviewRoomNum(){
         return true;
       },
+      validateShowPoliceHandled(){
+        return true;
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -2691,6 +2722,9 @@
           case enumShowType.reviewRoomNum:
             result=this.validateReviewRoomNum;
             break
+          case enumShowType.isShowPoliceHandeld:
+          result=this.validateShowPoliceHandled;
+            break;
           default:
             result = false;
         }
@@ -2704,6 +2738,7 @@
       configData()
       {
         let configData = this.configData;
+        console.log('configData:',configData)
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -2836,7 +2871,7 @@
           //应用功能配置
           this.appValue=configData.business_mode;
           //应用功能配置二
-          let wqtMainCtl=JSON.parse(configData.wqt_main_control);
+          let wqtMainCtl=configData.wqt_main_control?JSON.parse(configData.wqt_main_control):'';
           // console.log('wqtMainCtl:',wqtMainCtl)
           this.appPolice=wqtMainCtl.identity_check_view;
           this.appOrder=wqtMainCtl.order_view;
@@ -2845,7 +2880,9 @@
           this.appInvoice=wqtMainCtl.invoice_view;
           this.appMoney=wqtMainCtl.order_bill_view;
           this.appAbnormal=wqtMainCtl.exception_view;
-          this.appSuspicious=wqtMainCtl.suspicious_person_view
+          this.appSuspicious=wqtMainCtl.suspicious_person_view;
+          //公安验证是否显示已处理列表配置
+          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
         };
       },
       pmsData() {
@@ -3829,11 +3866,15 @@
                   wqt_main_control
               }
             break;
+          case enumShowType.isShowPoliceHandeld:
+                data = {
+                    "enable_show_plice_processed":this.showPoliceHandledList.toString()
+                };
+            break;
           case enumShowType.reviewRoomNum:
               this.saveReviewRoomNumList();
              return;
-          default:
-          data = null
+          default:null
         };
         this.patchConfigData(data);
       },

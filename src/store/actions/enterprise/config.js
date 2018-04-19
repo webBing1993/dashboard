@@ -67,6 +67,7 @@ module.exports = {
   },
     //总配置接口
     patchConfig(ctx, param) {
+        console.log('hhhh:',param.data)
         ctx.dispatch('resource', {
             url: `/hotel/${param.hotel_id}/config`,
             method: 'PATCH',
@@ -84,7 +85,6 @@ module.exports = {
                     obj[key] = body.data[key];
                 }
                 ctx.commit('CONFIGDATA', obj)
-
                 param.onsuccess ? param.onsuccess(body) : null
             }
         })
