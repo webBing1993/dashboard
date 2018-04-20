@@ -613,7 +613,7 @@
               <p>企业微信公安验证是否显示已处理列表</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.enable_show_plice_processed, 'tag_text_green': configData.isHaveRoomNumReviewList}">{{configData.isHaveRoomNumReviewList ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':!configData.enable_show_plice_processed, 'tag_text_green': configData.enable_show_plice_processed}">{{configData.enable_show_plice_processed ? '已配置' : '未配置'}}
             </span>
           </button>
         </el-col>
@@ -3873,7 +3873,7 @@
             break;
           case enumShowType.reviewRoomNum:
               this.saveReviewRoomNumList();
-             return;
+             // return;
           default:null
         };
         this.patchConfigData(data);
