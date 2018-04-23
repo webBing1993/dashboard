@@ -4,8 +4,16 @@
       <h3>门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
         <el-input v-model="searchVal" @keyup.13.native="getList" placeholder="请输入门店的名称或子账户编码"></el-input>
+        <el-select v-model="version_name_value" placeholder="版本">
+          <el-option
+            v-for="(obj, index) in  versionOptions"
+            :key="obj.version_name"
+            :label="obj.version_name"
+            :value="obj.version_name">
+          </el-option>
+        </el-select>
         <el-button type="success" @click.native="getList">搜索</el-button>
-        <el-button type="success" @click.native="regist">+ 添加门店</el-button>
+        <el-button type="success" @click.native="regist">+ 1添加门店</el-button>
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">
@@ -58,7 +66,9 @@
         showDialog: false,
         groupId: '',
         groupList: [],
-        groupBrandList: []
+        groupBrandList: [],
+        versionOptions:[],
+        version_name_value:''
       }
     },
     computed: {
@@ -93,6 +103,7 @@
     methods: {
       ...mapActions([
         'getHotelList',
+        'getVersionList',
         'getBrandList',
         'getGroupList',
         'showtoast',
@@ -161,12 +172,10 @@
       getList() {
         this.getHotelList({
           keyword: this.searchVal,
+          hotel_version: this.version_name_value,
           page: this.page.toString(),
           size: this.size.toString(),
           onsuccess: (body, headers) => {
-            // headers.get('x-current-page') ? this.page = +headers.get('x-current-page') : null;
-            // headers.get('x-total') ? this.total = +headers.get('x-total') : null;
-
             headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
             headers['x-total'] ? this.total = +headers['x-total'] : null;
 
@@ -189,11 +198,20 @@
           })
         })
       },
+      _getVersionList(){
+        this.getVersionList({
+          offset:0,
+          limit:0,
+          onsuccess: body => this.versionOptions = body.data
+
+        })
+      },
     },
     mounted() {
       this.getGroupLists();
       this.brangList();
       this.getList();
+      this._getVersionList();
     }
   }
 </script>
@@ -210,6 +228,12 @@
     }
     .search-bar {
       padding: 15px 23px 0 26px;
+      .el-input{
+        width: 60%;
+      }
+      .el-button--success{
+       width: 100px;
+      }
     }
     .content_grouphotel {
       padding: 0 23px 10px 25px;

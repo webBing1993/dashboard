@@ -124,6 +124,7 @@
                   :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.accessServiceType)">
             <div class="item_img">
@@ -137,6 +138,7 @@
                   :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+
       </el-row>
 
       <div class="content-title">
@@ -1636,6 +1638,8 @@
               </el-switch>
             </div>
           </div>
+
+
           <!--PAD界面显示-->
           <div v-if="showType === enumShowType.PADshowContent">
             <div class="item-form">
@@ -1878,7 +1882,8 @@
     // appManage:45,
     appManage2:45,
     reviewRoomNum:46,
-    isShowPoliceHandeld:47
+    isShowPoliceHandeld:47,
+    withoutCard:48
     // keyAccess:47
   }
 
@@ -3204,6 +3209,8 @@
         } else if (type === enumShowType.moreLvyeReportType){
           this.goto({name: 'moreLvyeConfig'});
           return;
+        }else if(type === enumShowType.withoutCard){
+          this.showDialog = true;
         }
           this.showDialog = true;
       },
@@ -3843,6 +3850,7 @@
             };
             this.saveAccessServiceType(tempData);
             return;
+//            withoutCard
           case enumShowType.PADshowContent:
             this.savePADMarkConfigs();
             return;

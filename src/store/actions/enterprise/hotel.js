@@ -108,10 +108,21 @@ module.exports = {
       },
       params: {
         group_id: param.group_id || '',
-        keyword: param.keyword || ''
+        keyword: param.keyword || '',
+        hotel_version: param.hotel_version || ''
       },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  getVersionList(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/grayrelease?offset=`+param.offset+`&limit=`+param.limit,
+      method:'GET',
+      onSuccess: body => {
+        ctx.dispatch('showtoast', {text: '操作成功', type: 'success'});
+        param.onsuccess ? param.onsuccess(body) : null
       }
     })
   }

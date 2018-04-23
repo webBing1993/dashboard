@@ -20,6 +20,7 @@ import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI)
 
 import tableGroup from '@/modules/Tables/table-group.vue'
+import tableList from '@/modules/Tables/table-list.vue'
 import tableHotel from '@/modules/Tables/table-hotel.vue'
 import tableBrand from '@/modules/Tables/table-brand.vue'
 import tableDevice from '@/modules/Tables/table-device.vue'
@@ -33,8 +34,11 @@ import tableReceptionArea from '@/modules/Tables/table-receptionArea.vue'
 import tableMoreLvyeConfig from '@/modules/Tables/table-moreLvyeConfig.vue'
 import tableProdVersion from '@/modules/Tables/tabel-prodVersion.vue'
 import tableRoomNumReview from '@/modules/Tables/table-roomNumReview.vue'
+// import xcheckbox from '@/modules/forms/x-checkbox.vue'
 
+// Vue.component('XCheckbox', XCheckbox)
 Vue.component('table-group', tableGroup)
+Vue.component('table-list', tableList)
 Vue.component('table-hotel', tableHotel)
 Vue.component('table-brand', tableBrand)
 Vue.component('table-device', tableDevice)

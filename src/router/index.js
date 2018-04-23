@@ -46,6 +46,7 @@ import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionArea.vue'
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
+import HotelStaffList from '@/containers/Group/Index/HotelId/HotelMenu/hotelStaffList.vue'
 import manageProdVersion from '@/containers/Group/Index/HotelId/HotelMenu/manageProdVersion.vue'
 import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
 import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMiniAppMsg.vue'
@@ -55,6 +56,7 @@ import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/Device
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
+import ConfigInfo2 from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo2.vue'
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 //7级路由
 import MoreLvyeConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/MoreLvyeConfig.vue'
@@ -207,9 +209,25 @@ const main = [
                         ]
                       },
                       {
+                        path: 'config2',
+                        component: Config,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigInfo2',
+                            component: ConfigInfo2
+                          }
+                        ]
+                      },
+                      {
                         path: 'onlinestatus',
                         name: 'OnlineStatus',
                         component: OnlineStatus
+                      },
+                      {
+                        path: 'hotelStaff',
+                        name: 'HotelStaffList',
+                        component: HotelStaffList
                       },
                       {
                         path: 'manageProdVersion',

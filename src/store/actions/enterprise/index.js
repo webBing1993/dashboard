@@ -11,4 +11,5 @@ module.exports = {
   ...require('./online'),
   ...require('./roomtype'),
   ...require('./receptionArea'),
+  ...require('./hotelStaff'),
 }
