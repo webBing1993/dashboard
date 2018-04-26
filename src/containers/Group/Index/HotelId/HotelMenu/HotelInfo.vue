@@ -7,6 +7,18 @@
           <div class="info-content">
             <div class="content-item">
               <div class="item">
+                <span>所属集团</span>
+                <el-select class="el-right" :disabled="!isEditInfo" v-model="belongGroupId" name="belongGroupId"
+                           v-validate="'required'" :class="{'is-danger': errors.has('belongGroupId') }" placeholder="请选择所属集团">
+                  <el-option
+                    v-for="(obj, index) of groupList"
+                    :key="obj.id"
+                    :label="obj.name"
+                    :value="obj.id">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="item">
                 <span>所属品牌</span>
                 <el-select class="el-right" :disabled="!isEditInfo" v-model="brandId" name="brandId"
                            v-validate="'required'" :class="{'is-danger': errors.has('brandId') }" placeholder="请选择所属品牌">
@@ -162,10 +174,12 @@
     name: 'EditHotel',
     data () {
       return {
+        groupList: [],
         brandList: [],
         hotelType:'',
         hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         hotel: {},
+        belongGroupId: '',
         groupId: '',
         brandId: '',
         code: '',
@@ -252,6 +266,7 @@
     methods: {
       ...mapActions([
         'getBrandList',
+        'getGroupList',
         'getHotel',
         'modifyHotel',
         'removeHotel',
@@ -284,6 +299,21 @@
             }
           }
         })
+      },
+      _getGroupList(){
+          this.groupList=[];
+          this.getGroupList({
+            onsuccess: body => {
+              if (body.data && body.data.length > 0) {
+                this.groupList = body.data;
+                console.log('所属集团----》',this.groupList)
+                //现有列表后有比对的brandId,不然即使先给brandId赋值，列表复制后v-model绑定的brandId会变成undefined
+                this.belongGroupId = this.hotel.group_id;
+              } else {
+                this.showtoast({text: '暂无集团', type: 'warning'})
+              }
+            }
+          })
       },
       getInfo() {
         this.getHotel({
@@ -341,7 +371,7 @@
         if (city === undefined) return;
         this.modifyHotel({
           id: this.hotel.id,
-          group_id: this.hotel.group_id,
+          group_id: this.belongGroupId||this.hotel.group_id,
           brand_id: this.brandId,
           code: this.code,
           corp_id: this.corpId,
@@ -468,11 +498,12 @@
     },
     mounted() {
       this.getInfo();
+      this._getGroupList();
       this.getCorpid();
     }
   }
 </script>
-
+<!--&lt;!&ndash;"79fb37969a0f41a0807a077e04e35d51"&ndash;&gt;0864f6731acb11e780ad5cb9018d9b5c-->
 <style lang="less">
   .module-wrapper {
     .content_hotelinfo {

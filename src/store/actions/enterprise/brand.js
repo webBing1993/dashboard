@@ -1,11 +1,11 @@
 /**
-* 企业品牌管理action
-*/
+ * 企业品牌管理action
+ */
 module.exports = {
   addBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: '/brands',
-      method:'POST',
+      method: 'POST',
       body: {
         group_id: param.group_id,
         name: param.name,
@@ -20,7 +20,7 @@ module.exports = {
   getBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: `/brands/${param.id}`,
-      method:'GET',
+      method: 'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
@@ -29,7 +29,7 @@ module.exports = {
   modifyBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: `/brands/${param.id}`,
-      method:'PUT',
+      method: 'PUT',
       body: {
         group_id: param.group_id,
         logo_url: param.logo_url,
@@ -37,7 +37,7 @@ module.exports = {
         code: param.code
       },
       onSuccess: body => {
-        ctx.dispatch('showtoast', {text: '修改成功', type:'success'});
+        ctx.dispatch('showtoast', {text: '修改成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -45,7 +45,7 @@ module.exports = {
   removeBrand(ctx, param) {
     ctx.dispatch('resource', {
       url: `/brands/${param.id}`,
-      method:'DELETE',
+      method: 'DELETE',
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
@@ -55,7 +55,7 @@ module.exports = {
   getBrandList(ctx, param){
     ctx.dispatch('resource', {
       url: '/brands',
-      method:'GET',
+      method: 'GET',
       headers: {
         'X-Current-Page': param.page || '1',
         'X-Page-Size': param.size || '0'
@@ -68,5 +68,5 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
-  }
+  },
 }
