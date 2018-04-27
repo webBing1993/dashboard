@@ -2735,8 +2735,7 @@
       renderRoomNumReviewList(val){
           console.log(val)
       },
-      configData()
-      {
+      configData(){
         let configData = this.configData;
         console.log('configData:',configData)
         if (tool.isNotBlank(configData)) {

@@ -55,7 +55,7 @@
           </div>
         </div>
         <!--footer-->
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="dialog-footer" v-if="openWithoutCard">
             <el-button @click="hideDialog">取 消</el-button>
             <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
@@ -167,7 +167,7 @@
       submitDialog() {
         let data;
         switch (this.showType) {
-          case enumShowType.withoutCard:
+          case enumShowType.withoutCard://无证核验
             data = {
 
             }
@@ -196,23 +196,36 @@
 
 
     },
+
     mounted() {
       this.getConfigs();
 
     },
+
+    computed:{
+      ...mapState({
+        configData: state => state.enterprise.configData,
+      }),
+    },
+
     watch: {
       configData() {
         let configData = this.configData;
         console.log('configData:', configData)
         if (tool.isNotBlank(configData)) {
-          this.withoutCardConfig=configData.withoutCardConfig== 'true' ? true : false
-
+//            无证核验
+          this.withoutCardConfig=configData.enable_show_plice_processed== 'true' ? true : false;
+          this.firstRecharge=configData.first_recharge;
+          this.minimumMoney=configData.recharge_lowest;
+          this.checkMoney=configData.nocard_used_pay;
+          this.balanceTip=configData.nocard_money_insufficient;
         }
       }
     },
   }
 </script>
 <style lang="less">
+
   .morelvyeCheckbox {
     .el-checkbox {
       margin-left: 0;
