@@ -57,7 +57,8 @@
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="openWithoutCard">
             <el-button @click="hideDialog">取 消</el-button>
-            <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
+          <!--:disabled="!validateAll"-->
+            <el-button  type="primary" @click="submitDialog">确 定</el-button>
         </div>
         <!--footer-->
       </el-dialog>
@@ -118,9 +119,9 @@
         if(tool.isNotBlank(this.firstRecharge)&&
           tool.isNotBlank(this.minimumMoney)&&
           tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
-          return true;
+          return false;
         }else {
-            return false
+            return true
         }
       },
       validateAll() {
@@ -168,8 +169,14 @@
         let data;
         switch (this.showType) {
           case enumShowType.withoutCard://无证核验
+//            firstRecharge:'',
+//              minimumMoney:'',
+//            checkMoney:'',
             data = {
-
+              "first_recharge":this.firstRecharge,
+              "recharge_lowest":this.minimumMoney,
+              "nocard_used_pay":this.checkMoney,
+              "nocard_money_insufficient":this.balanceTip
             }
             break;
           default:null
@@ -214,7 +221,7 @@
         console.log('configData:', configData)
         if (tool.isNotBlank(configData)) {
 //            无证核验
-          this.withoutCardConfig=configData.enable_show_plice_processed== 'true' ? true : false;
+          this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
           this.firstRecharge=configData.first_recharge;
           this.minimumMoney=configData.recharge_lowest;
           this.checkMoney=configData.nocard_used_pay;
