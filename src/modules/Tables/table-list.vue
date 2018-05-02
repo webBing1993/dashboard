@@ -8,6 +8,7 @@
         <th>电话号码</th>
         <th>登录人员</th>
         <th>创建日期</th>
+        <th>酒店名称</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -18,6 +19,7 @@
         <td class="v-item">{{ obj.mobilePhone }}</td>
         <td class="v-item">{{ obj.landlord }}</td>
         <td class="v-item">{{ obj.createtime }}</td>
+        <td class="v-item">{{ obj.hotelName }}</td>
         <td>
           <el-checkbox v-if="obj.status!='2'" :checked="obj.status=='0'?false:true" @change="change(obj)">状态</el-checkbox>
           <!--<el-checkbox v-if="obj.status=='1'" checked="true" @change="change(obj)">状态</el-checkbox>-->

@@ -31,9 +31,9 @@ module.exports = {
     proxyTable: {
       '/virgo': {
         // target: 'https://intg.fortrun.cn/',   //联调
-        target: 'http://123.206.180.61:8096/',   //联调
+        // target: 'http://123.206.180.61:8096/',   //联调
         // target: 'https://qa.fortrun.cn/',  //提交测试
-        //   target: 'http://123.206.99.219:8096/',
+          target: 'http://123.206.99.219:8096/',
           // target: 'https://gem.fortrun.cn/',
         changeOrigin: true,
         pathRewrite: {
