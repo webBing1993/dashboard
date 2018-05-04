@@ -1,0 +1,188 @@
+<!--门店配置页-->
+<template>
+  <div class="wrapper">
+    <div class="title">开通产品配置</div>
+    <div class="switchContent">
+      <div v-for="(item,index)  of  prodConfigList" class="switchList">
+        <span>{{item.name}}</span>
+        <el-switch
+          v-model="item.status"
+          @change="_openThisConfig(item)"
+          active-color="#39C240"
+          inactive-color="#ff4949"
+          active-text="item.name"
+          inactive-text="item.name">
+        </el-switch>
+        <span v-if="item.status" class="charge">管理</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import ElDialog from "../../../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
+
+
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
+  import tool from '@/assets/tools/tool.js'
+
+  export default {
+    components: {
+      ElDialog,
+      ElInput
+    },
+    data() {
+      return {
+        prodConfigList: [
+          {
+            'name': "e卡通",
+            'code': "e_ka_tong",
+            'status': false,
+          },
+          {
+            'name': "支付通",
+            'code': "zhi_fu_tong",
+            'status': false,
+          },
+          {
+            'name': "人证通",
+            'code': "ren_zheng_tong",
+            'status': false,
+          },
+          {
+            'name': "客控通",
+            'code': "ke_kong_tong",
+            'status': false,
+          },
+          {
+            'name': "直订通",
+            'code': "zhi_ding_tong",
+            'status': false,
+          },
+          {
+            'name': "发票通",
+            'code': "fa_piao_tong",
+            'status': false,
+          },
+          {
+            'name': "值房通",
+            'code': "zhi_fang_tong",
+            'status': false,
+          }
+        ]
+      }
+    },
+
+    computed: {
+      ...mapState({
+        configData: state => state.enterprise.configData,
+      }),
+    },
+
+    methods: {
+      ...mapActions([
+        'goto',
+        'getProdConfig',
+        'setProdConfig',
+      ]),
+      _getProdConfig(){
+//          this.prodConfigList={}
+
+
+
+      this.getProdConfig({
+      hotel_id: this.$route.params.hotelid,
+      onsuccess: body => {
+//              this.prodConfigList=body.data
+        console.log('------>', body.data)
+        let res = body.data
+        if (res) {
+            console.log('--->')
+          re.forEach((item, index) => {
+              console.log(item)
+//            if(item.fun_model_code==this.prodConfigList[index].code){
+//              this.prodConfigList[index].status=item.status
+//            }
+          })
+        }
+        console.log(this.prodConfigList)
+      }
+    })
+  }
+  ,
+  _openThisConfig(obj)
+  {
+    let code = obj.code
+    let status = !obj.status
+    console.log(code, status)
+    let data = '{"' + code + '":' + status + "}"
+    let tempobj = JSON.parse(data)
+    this.setProdConfig({
+      hotel_id: this.$route.params.hotelid,
+      data: tempobj,
+      onsuccess: body => {
+        this._getProdConfig()
+      }
+    })
+
+  }
+  ,
+  },
+
+  mounted()
+  {
+    this._getProdConfig()
+  }
+  ,
+
+  computed: {
+  ...
+    mapState({}),
+  }
+  ,
+
+  watch: {
+  }
+  ,
+  }
+</script>
+<style lang="less">
+  .fifth-router {
+    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    .title {
+      font-family: PingFangSC-Semibold;
+      font-size: 20px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      margin-bottom: 40px;
+    }
+    .switchContent {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .switchList {
+        height: 60px;
+        line-height: 50px;
+        width: 95%;
+        border-bottom: 1px solid #979797;
+        .charge {
+          float: right;
+          margin-right: 20px;
+          color: #1AAD19;
+        }
+      }
+    }
+
+  }
+
+</style>
+
+

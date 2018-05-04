@@ -12,4 +12,5 @@ module.exports = {
   ...require('./roomtype'),
   ...require('./receptionArea'),
   ...require('./hotelStaff'),
+  ...require('./prodConfig'),
 }
