@@ -35,12 +35,12 @@ import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
-import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
+import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue's
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 import prodBaseConfig from '@/containers/System/Index/SystemMenu/ProdBaseConfig.vue'
 import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue'
-import lvye_Cop from '@/containers/System/Index/SystemMenu/lvyeCop.vue'
-import lvye_Staff from '@/containers/System/Index/SystemMenu/lvyeStaff.vue'
+import lvye_Cop from '@/containers/System/Index/SystemMenu/LvyeCop.vue'
+import lvye_Staff from '@/containers/System/Index/SystemMenu/LvyeStaff.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
