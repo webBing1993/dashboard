@@ -11,8 +11,11 @@
       <span class="account">产品配置</span>
       <router-link to="/system/prodBaseConfig">产品基本配置</router-link>
 
+      <router-link to="/system/lvyeCop">旅业公司管理</router-link>
+      <router-link to="/system/lvyeStaff">旅业员工管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
+
   </div>
 </template>
 

@@ -41,9 +41,9 @@ module.exports = {
         }
       },
       '/libra': {
-        // target: 'https://intg.fortrun.cn/',
+        target: 'https://intg.fortrun.cn/',
         // target: 'https://qa.fortrun.cn/',
-          target:'http://123.206.99.219:8091/',
+        //   target:'http://123.206.99.219:8091/',
         // target: 'https://gem.fortrun.csn/',
         changeOrigin: true,
         pathRewrite: {

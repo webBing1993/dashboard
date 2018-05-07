@@ -8,4 +8,6 @@ module.exports = {
     ...require('./ServerMessage'),
     ...require('./prodVersion'),
     ...require('./prodBaseConfig'),
+    ...require('./prodVersion'),
+    ...require('./lvyeOnlineManage')
 }

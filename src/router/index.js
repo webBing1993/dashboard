@@ -39,6 +39,8 @@ import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 import prodBaseConfig from '@/containers/System/Index/SystemMenu/ProdBaseConfig.vue'
 import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue'
+import lvye_Cop from '@/containers/System/Index/SystemMenu/LvyeCop.vue'
+import lvye_Staff from '@/containers/System/Index/SystemMenu/LvyeStaff.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -301,6 +303,16 @@ const main = [
                   }
                 ]
               },
+              {
+                path:'lvyeCop',
+                name:'lvye_Cop',
+                component:lvye_Cop
+              },
+                {
+                    path:'lvyeStaff',
+                    name:'lvye_Staff',
+                    component:lvye_Staff
+                },
               {
                 path: 'qrcodecreate',
                 name: 'QR_Code_create',
