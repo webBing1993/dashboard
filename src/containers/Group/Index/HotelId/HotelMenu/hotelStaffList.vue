@@ -48,6 +48,7 @@
         console.log('------>',obj)
         this.modifyStatus({
           id: obj.id,
+          status: obj.status=='0'?'1':'0',
           onsuccess: body => {
             this._hotelStaffList();
           }
