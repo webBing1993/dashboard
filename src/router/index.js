@@ -35,7 +35,7 @@ import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
-import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue's
+import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 import prodBaseConfig from '@/containers/System/Index/SystemMenu/ProdBaseConfig.vue'
 import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue'
