@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <table-LinkList :hotelStaffList="linkList" @click="_changeSwitch"></table-LinkList>
+      <table-LinkList :prodLinkList="linkList" @gogo="_toThisLink()"></table-LinkList>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@
     methods: {
       ...mapActions([
         'goto',
-        'getProdBaseList'
+        'getProdBaseList',
       ]),
       _getProdBaseList(){
         this.getProdBaseList({
@@ -27,6 +27,10 @@
             this.linkList = body.data;
           }
         })
+      },
+      _toThisLink(obj){
+        console.log('------>',obj)
+          console.log('11111')
       },
     },
     mounted() {

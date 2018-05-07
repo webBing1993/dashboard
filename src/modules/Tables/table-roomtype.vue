@@ -20,6 +20,7 @@
         <td>{{ obj.max_guest_count }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
+          <a class="v-options pointer" style="color: #F43530" @click="del(obj)">删除</a>
         </td>
       </tr>
       </tbody>
@@ -48,6 +49,10 @@
     methods: {
       edit(obj) {
         this.$emit('edit', obj);
+      },
+      del(obj){
+        this.$emit('del', obj);
+
       }
     }
   }

@@ -15,7 +15,11 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/productLine/${param.hotel_id}/hotelFunItemConfig`,
       method: 'post',
-      body: param.data,
+      // body: param.data,
+      body: {
+        code:param.code,
+        status:param.status,
+      },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }

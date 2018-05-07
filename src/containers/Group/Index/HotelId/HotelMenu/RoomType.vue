@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="module-wrapper">
+      <div class="addRoomtype">
+        <el-button type="success" @click="addRoomtype">+ 添加</el-button>
+      </div>
       <div class="content_room">
-        <table-roomtype :list="list" :page="page" :size="size" @edit="edit"></table-roomtype>
+        <table-roomtype :list="list" :page="page" :size="size" @del="_del" @edit="edit"></table-roomtype>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -14,6 +17,7 @@
           :total="total">
         </el-pagination>
       </div>
+      <!--编辑弹框-->
       <el-dialog
         title="房型设置"
         :visible.sync="showDialog"
@@ -39,6 +43,58 @@
           <el-button type="primary" @click="modify">确 定</el-button>
         </div>
       </el-dialog>
+      <!--添加弹框-->
+      <el-dialog
+        title="添加房型"
+        :visible.sync="addRoomTypeDialog"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="true"
+      >
+        <div class="onespace"></div>
+        <div class="dialog-content  ">
+          <div class="item-form">
+            <span>房型编号</span>
+            <el-input v-model="roomtypeCode" placeholder="请输入内容"></el-input>
+          </div>
+          <div class="item-form">
+            <span>房型名</span>
+            <el-input v-model="roomtypeName" placeholder="请输入内容"></el-input>
+          </div>
+          <div class="item-form">
+            <span>房间数目</span>
+            <el-input v-model="roomNum" placeholder="请输入内容"></el-input>
+          </div>
+          <div class="item-form">
+            <span>可住人数</span>
+            <el-input v-model="roomCanLiveInNum" placeholder="请输入内容"></el-input>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="_saveRoomType">保存</el-button>
+        </div>
+      </el-dialog>
+      <!--删除弹框-->
+      <el-dialog
+        title="删除房型"
+        :visible.sync="delRoomTypeDialog"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="true">
+        <div class="onespace"></div>
+        <div class="dialog-content  ">
+          <div class="content">
+            <p>确认删除房型？</p>
+            <span>房型编号：</span><span>DDF</span>
+            <span>房型名：</span><span>海景房</span>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="_confirmDel">确认</el-button>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -51,12 +107,19 @@
     data() {
       return {
         showDialog: false,
+        addRoomTypeDialog: false,
+        delRoomTypeDialog: false,
         page: 1,
         size: 20,
         total: 0,
         list: [],
         roomTypeId: '',
         maxGuestCount: '',
+//    添加房间类型参数
+        roomtypeCode: '',
+        roomtypeName: '',
+        roomNum: '',
+        roomCanLiveInNum: '',
       }
     },
     methods: {
@@ -64,11 +127,29 @@
         'patchRoomType',
         'getRoomTypeList'
       ]),
+      addRoomtype(){
+        this.addRoomTypeDialog = true
+      },
+
+      _saveRoomType(){
+      },
+
       edit(obj) {
         this.roomTypeId = obj.room_type_id;
         this.maxGuestCount = obj.max_guest_count;
         this.showDialog = true;
       },
+      _del(obj){
+        this.delRoomTypeDialog = true
+        console.log(obj)
+        this.roomtypeCode = obj.pms_code
+        this.roomtypeName = obj.name
+
+      },
+      _confirmDel(){
+
+      },
+
       handleSizeChange(val) {
         this.size = val;
       },
@@ -77,6 +158,8 @@
       },
       hideDialog() {
         this.showDialog = false;
+        this.addRoomTypeDialog = false
+        this.delRoomTypeDialog = false
       },
       modify() {
         let data = {
@@ -116,6 +199,21 @@
 </script>
 
 <style scoped lang="less">
+  .onespace {
+    border-bottom: 1px solid #CACACA;
+    margin-bottom: 20px;
+    margin-top: -10px;
+  }
+
+  .addRoomtype {
+    button {
+      width: 160px;
+      height: 40px;
+      float: right;
+      margin: 25px;
+    }
+  }
+
   .content_room {
     font-size: 16px;
     color: #4A4A4A;
@@ -126,7 +224,7 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
-      span {
+      span, p {
         flex: 1;
         font-size: 14px;
         color: #4A4A4A;
@@ -152,9 +250,25 @@
 
   .el-dialog {
     .dialog-content {
+      .item-form {
+        display: flex;
+        flex-direction: row;
+        /*justify-content: space-between;*/
+        margin-bottom: 20px;
+        .el-input {
+          width: 80%;
+
+        }
+      }
       span {
         font-size: 16px;
         color: #4A4A4A;
+        width: 100px;
+      }
+      p {
+        font-size: 16px;
+        color: #4A4A4A;
+        width: 120px;
       }
       .el-select {
         min-width: 300px;
@@ -162,27 +276,27 @@
       }
     }
     .dialog-footer {
-            text-align: center;
-            .el-button {
-              width: 246px;
-              border-radius: 0;
-              line-height: 18px;
-              margin: 0;
-              &:nth-child(1) {
-                margin-right: 22px;
-              }
-              &:nth-child(2) {
-                background-color: #39C240;
-                border-color: #39C240;
-                color: #ffffff;
-              }
-            }
-            .el-button--primary {
-              background-color: transparent;
-              border: solid 1px #979797;
-              color: #4A4A4A;
-            }
-          }
+      text-align: center;
+      .el-button {
+        width: 246px;
+        border-radius: 0;
+        line-height: 18px;
+        margin: 0;
+        &:nth-child(1) {
+          margin-right: 22px;
+        }
+        &:nth-child(2) {
+          background-color: #39C240;
+          border-color: #39C240;
+          color: #ffffff;
+        }
+      }
+      .el-button--primary {
+        background-color: transparent;
+        border: solid 1px #979797;
+        color: #4A4A4A;
+      }
+    }
   }
 
 </style>

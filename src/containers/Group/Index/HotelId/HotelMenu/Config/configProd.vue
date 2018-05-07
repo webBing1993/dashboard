@@ -13,7 +13,7 @@
           active-text="item.name"
           inactive-text="item.name">
         </el-switch>
-        <span v-if="item.status" class="charge">管理</span>
+        <a v-if="item.status" class="charge" href="item.control_url">管理</a>
       </div>
     </div>
   </div>
@@ -26,7 +26,6 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
   import tool from '@/assets/tools/tool.js'
-
   export default {
     components: {
       ElDialog,
@@ -34,43 +33,7 @@
     },
     data() {
       return {
-        prodConfigList: [
-          {
-            'name': "e卡通",
-            'code': "e_ka_tong",
-            'status': false,
-          },
-          {
-            'name': "支付通",
-            'code': "zhi_fu_tong",
-            'status': false,
-          },
-          {
-            'name': "人证通",
-            'code': "ren_zheng_tong",
-            'status': false,
-          },
-          {
-            'name': "客控通",
-            'code': "ke_kong_tong",
-            'status': false,
-          },
-          {
-            'name': "直订通",
-            'code': "zhi_ding_tong",
-            'status': false,
-          },
-          {
-            'name': "发票通",
-            'code': "fa_piao_tong",
-            'status': false,
-          },
-          {
-            'name': "值房通",
-            'code': "zhi_fang_tong",
-            'status': false,
-          }
-        ]
+        prodConfigList: []
       }
     },
 
@@ -87,25 +50,21 @@
         'setProdConfig',
       ]),
       _getProdConfig(){
-//          this.prodConfigList={}
-
-
-
+          this.prodConfigList=[]
       this.getProdConfig({
       hotel_id: this.$route.params.hotelid,
       onsuccess: body => {
-//              this.prodConfigList=body.data
-        console.log('------>', body.data)
-        let res = body.data
-        if (res) {
-            console.log('--->')
-          re.forEach((item, index) => {
-              console.log(item)
-//            if(item.fun_model_code==this.prodConfigList[index].code){
-//              this.prodConfigList[index].status=item.status
-//            }
-          })
-        }
+         this.prodConfigList=body.data
+//        let res = body.data
+//        if (res) {
+//            console.log('--->')
+//          re.forEach((item, index) => {
+//              console.log(item)
+////            if(item.fun_model_code==this.prodConfigList[index].code){
+////              this.prodConfigList[index].status=item.status
+////            }
+//          })
+//        }
         console.log(this.prodConfigList)
       }
     })
@@ -113,14 +72,16 @@
   ,
   _openThisConfig(obj)
   {
-    let code = obj.code
+    let code = obj.fun_model_code
     let status = !obj.status
-    console.log(code, status)
-    let data = '{"' + code + '":' + status + "}"
-    let tempobj = JSON.parse(data)
+//    console.log(code, status)
+//    let data = '{"' + code + '":' + status + "}"
+//    let tempobj = JSON.parse(data)
     this.setProdConfig({
       hotel_id: this.$route.params.hotelid,
-      data: tempobj,
+//      data: tempobj,
+      code:code,
+      status:status,
       onsuccess: body => {
         this._getProdConfig()
       }
