@@ -7,5 +7,7 @@ module.exports = {
     ...require('./miniappmsg'),
     ...require('./ServerMessage'),
     ...require('./prodVersion'),
+    ...require('./prodBaseConfig'),
+    ...require('./prodVersion'),
     ...require('./lvyeOnlineManage')
 }

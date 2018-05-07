@@ -7,6 +7,7 @@
         <!--<router-link to="/home">首页</router-link>-->
         <router-link to="/group">企业账户</router-link>
         <router-link to="/system">系统设置</router-link>
+        <router-link to="/operate">运营中心</router-link>
         <!--<router-link to="/statistics">运营统计</router-link>-->
         <div class="login-banner">
           <span>您好,{{userInfo.name}}</span>

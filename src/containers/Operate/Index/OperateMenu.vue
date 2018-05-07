@@ -1,21 +1,18 @@
 <template>
   <div>
     <aside>
-      <span class="account">微信配置</span>
-      <router-link to="/system" class="">小程序</router-link>
-      <router-link to="/system/wechatpay">微信支付</router-link>
-      <!--<router-link to="/system/miniappmsg">小程序消息模板</router-link>-->
-      <router-link to="/system/servemessage">服务消息模板管理</router-link>
-      <router-link to="/system/qrcodecreate">二维码生成</router-link>
-      <router-link to="/system/prodVersion">产品版本</router-link>
-      <span class="account">产品配置</span>
-      <router-link to="/system/prodBaseConfig">产品基本配置</router-link>
+      <span class="account">运营中心</span>
+      <router-link to="/operate" class="">连接</router-link>
+      <!--<router-link to="/system/wechatpay">微信支付</router-link>-->
+      <!--&lt;!&ndash;<router-link to="/system/miniappmsg">小程序消息模板</router-link>&ndash;&gt;-->
+      <!--<router-link to="/system/servemessage">服务消息模板管理</router-link>-->
+      <!--<router-link to="/system/qrcodecreate">二维码生成</router-link>-->
+      <!--<router-link to="/system/prodVersion">产品版本</router-link>-->
+      <!--<span class="account">产品配置</span>-->
+      <!--<router-link to="/system/prodBaseConfig">产品基本配置</router-link>-->
 
-      <router-link to="/system/lvyeCop">旅业公司管理</router-link>
-      <router-link to="/system/lvyeStaff">旅业员工管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
-
   </div>
 </template>
 

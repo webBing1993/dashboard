@@ -8,6 +8,7 @@ import MainApp from '@/containers/MainApp'
 import Home from '@/containers/Home'
 import Group from '@/containers/Group'
 import System from '@/containers/System'
+import Operate from '@/containers/Operate'
 import Statistics from '@/containers/Statistics'
 // 3级路由
 import AddGroup from '@/containers/Group/Index/AddGroup.vue'
@@ -17,6 +18,8 @@ import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
+import OperateMenu from '@/containers/Operate/Index/OperateMenu.vue'
+
 // import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
 // import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
 
@@ -34,6 +37,8 @@ import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
 import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
+import prodBaseConfig from '@/containers/System/Index/SystemMenu/ProdBaseConfig.vue'
+import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue'
 import lvye_Cop from '@/containers/System/Index/SystemMenu/lvyeCop.vue'
 import lvye_Staff from '@/containers/System/Index/SystemMenu/lvyeStaff.vue'
 
@@ -59,6 +64,7 @@ import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDe
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigInfo2 from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo2.vue'
+import ConfigProd from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigProd.vue'
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 //7级路由
 import MoreLvyeConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/MoreLvyeConfig.vue'
@@ -222,6 +228,10 @@ const main = [
                         ]
                       },
                       {
+                        path:"ConfigProd",
+                        component: ConfigProd,
+                      },
+                      {
                         path: 'onlinestatus',
                         name: 'OnlineStatus',
                         component: OnlineStatus
@@ -317,10 +327,37 @@ const main = [
                 path: 'servemessage',
                 name: 'serve_message',
                 component: serve_message
-              }
+              },
+              {
+                path: 'prodBaseConfig',
+                name: 'prodBaseConfig',
+                component: prodBaseConfig
+              },
             ]
           }]
       },
+      {
+        path:"operate",
+        component: Operate,
+        children: [
+          {
+            path: '/',
+            component: OperateMenu,
+            children: [
+              {
+                path: '/',
+                name: 'OperateLinkList',
+                component: OperateLinkList
+              },
+              {
+                path: 'hotel',
+                name: 'GroupHotel',
+                component: GroupHotel
+              }
+            ]
+          },
+        ]
+      }
       // {
       //   path:'statistics',
       //   component:Statistics,

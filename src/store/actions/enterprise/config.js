@@ -1,23 +1,23 @@
 /*
-* 企业门店配置管理action
-* */
+ * 企业门店配置管理action
+ * */
 module.exports = {
   getConfig(ctx, param) {
     ctx.dispatch('resource', {
-    url: `/hotel/${param.hotel_id}/config`,
-    method: 'GET',
-    onSuccess: body => {
-      ctx.commit('CONFIGDATA', body.data)
-      param.onsuccess ? param.onsuccess(body) : null
-    }
-  })
-},
+      url: `/hotel/${param.hotel_id}/config`,
+      method: 'GET',
+      onSuccess: body => {
+        ctx.commit('CONFIGDATA', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   setRCconfig(ctx, param) {
     ctx.dispatch('resource', {
       url: "/rcConfig",
-      method:'post',
-      body:param.data,
-      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      method: 'post',
+      body: param.data,
+      headers: {"Content-Type": "application/json;charset=UTF-8"},
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
@@ -47,7 +47,7 @@ module.exports = {
   RCconfig(ctx, param) {
     ctx.dispatch('resource', {
       url: `/fileUpload/${param.hotel_id}`,
-      method:'post',
+      method: 'post',
       onSuccess: body => {
         ctx.commit('CONFIGDATA', body.data)
         param.onsuccess ? param.onsuccess(body) : null
@@ -57,7 +57,7 @@ module.exports = {
   //拉已配置的RC数据
   getRCConfiged(ctx, param) {
     ctx.dispatch('resource', {
-      url:`/rcConfig/${param.hotel_id}`,
+      url: `/rcConfig/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
         // ctx.commit('CONFIGDATA', body.data)
@@ -65,31 +65,31 @@ module.exports = {
       }
     })
   },
-    //总配置接口
-    patchConfig(ctx, param) {
-        console.log('wwwwh:',param.data)
-        ctx.dispatch('resource', {
-            url: `/hotel/${param.hotel_id}/config`,
-            method: 'PATCH',
-            body: {
-                hotel_id: param.hotel_id,
-                ...param.data
-            },
-            onSuccess: body => {
-                ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
+  //总配置接口
+  patchConfig(ctx, param) {
+    console.log('wwwwh:', param.data)
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/config`,
+      method: 'PATCH',
+      body: {
+        hotel_id: param.hotel_id,
+        ...param.data
+      },
+      onSuccess: body => {
+        ctx.dispatch('showtoast', {text: '配置成功', type: 'success'});
 
-                let obj = {
-                    ...ctx.state.enterprise.configData
-                }
-                for (let key in body.data) {
-                    obj[key] = body.data[key];
-                }
-                ctx.commit('CONFIGDATA', obj)
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-   //微信生态酒店注册
+        let obj = {
+          ...ctx.state.enterprise.configData
+        }
+        for (let key in body.data) {
+          obj[key] = body.data[key];
+        }
+        ctx.commit('CONFIGDATA', obj)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  //微信生态酒店注册
   WxhotelRegister(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
@@ -109,7 +109,7 @@ module.exports = {
       }
     })
   },
-    //删除微信生态酒店
+  //删除微信生态酒店
   deleteWxHotel(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotels/${param.hotel_id}/wxhotel/${param.wx_hotel_id}`,
@@ -119,19 +119,19 @@ module.exports = {
       },
     })
   },
-    //获取微信生态酒店城市列表
-    getWxhotelCityser(ctx, param) {
-        ctx.dispatch('resource', {
-            url: `/hotels/wxhotelcityservice`,
-            method: 'GET',
-            onSuccess: body => {
-                // ctx.commit('WXHOTELCITYSER', body.data)
-                param.onsuccess ? param.onsuccess(body) : null
-            },
-            onFail: () => null
-        })
-    },
-    //获取旅业系统配置
+  //获取微信生态酒店城市列表
+  getWxhotelCityser(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/hotels/wxhotelcityservice`,
+      method: 'GET',
+      onSuccess: body => {
+        // ctx.commit('WXHOTELCITYSER', body.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: () => null
+    })
+  },
+  //获取旅业系统配置
   getlvyeTypeList(ctx, param) {
     ctx.dispatch('resource', {
       url: `/hotel/lvyetypes`,
@@ -141,15 +141,15 @@ module.exports = {
       },
     })
   },
-    //获取底座配置
+  //获取底座配置
   getDeskList(ctx, param) {
-      ctx.dispatch('resource', {
-          url: `/bottomdevice/${param.hotel_id}`,
-          method: 'GET',
-          onSuccess: (body, headers) => {
-              param.onsuccess ? param.onsuccess(body, headers) : null
-          },
-      })
+    ctx.dispatch('resource', {
+      url: `/bottomdevice/${param.hotel_id}`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      },
+    })
   },
   //PMS
   getPMS(ctx, param) {
@@ -166,7 +166,7 @@ module.exports = {
     let urlQuery = ``;
     if (param.data.pms_type == 1) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBYH`;
-    } else if (param.data.pms_type == 2 || param.data.pms_type == 7|| param.data.pms_type == 11|| param.data.pms_type == 14) {
+    } else if (param.data.pms_type == 2 || param.data.pms_type == 7 || param.data.pms_type == 11 || param.data.pms_type == 14) {
       urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }
     else if (param.data.pms_type == 3) {
@@ -175,12 +175,13 @@ module.exports = {
     else if (param.data.pms_type == 8) {
       urlQuery = `/hotel/${param.hotel_id}/pmsdc`;
     }
-    else if (param.data.pms_type == 12){
+    else if (param.data.pms_type == 12) {
       urlQuery = `/hotel/${param.hotel_id}/pmsCloudXr`;
     }
     else {
       urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;
-    };
+    }
+    ;
 
     ctx.dispatch('resource', {
       url: urlQuery,
@@ -240,9 +241,9 @@ module.exports = {
       url: `/morelvye/${param.hotel_id}`,
       method: 'GET',
       onSuccess: body => {
-          if(body.data&&body.data.length>0){
-              ctx.commit('SHOWMORELVYE',true)
-          }
+        if (body.data && body.data.length > 0) {
+          ctx.commit('SHOWMORELVYE', true)
+        }
         param.onsuccess ? param.onsuccess(body) : null
       }
     })
@@ -297,66 +298,66 @@ module.exports = {
       }
     })
   },
-    saveScriptUpload(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/script/${param.hotel_id}`,
-            method: 'POST',
-            body:param.body,
-            onSuccess: body => {
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-    getServiceTypeScript(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/script/${param.hotel_id}`,
-            method:'GET',
-            onSuccess: body => {
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-    getPADMarkConfig(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/hotel/gethotelitem/${param.hotel_id}`,
-            method:'GET',
-            onSuccess: body => {
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-    savePADMarkConfig(ctx, param){
-        ctx.dispatch('resource', {
-            url: `/hotel/savehotelhint`,
-            method:'POST',
-            body:param.data,
-            onSuccess: body => {
-                console.log('param.data:',param.data)
-                param.onsuccess ? param.onsuccess(body) : null
-            }
-        })
-    },
-    getRoomNum(ctx, param){
-        ctx.dispatch('resource',{
-            url:`/morelvyemapper/${param.hotel_id}`,
-            headers: {
-                'X-Current-Page': param.page || '1',
-                'X-Page-Size': param.size || '0'
-            },
-            method:'GET',
-            onSuccess:(body,headers)=>{
-                param.onsuccess?param.onsuccess(body,headers):null
-            }
-        })
-    },
-    saveReviewRoomNum(ctx, param){
-        ctx.dispatch('resource',{
-            url:`/morelvyemapper/${param.hotel_id}`,
-            body:param.data,
-            method:'POST',
-            onSuccess:(body,headers)=>{
-                param.onsuccess?param.onsuccess(body,headers):null
-            }
-        })
-    }
+  saveScriptUpload(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/script/${param.hotel_id}`,
+      method: 'POST',
+      body: param.body,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  getServiceTypeScript(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/script/${param.hotel_id}`,
+      method: 'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  getPADMarkConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/gethotelitem/${param.hotel_id}`,
+      method: 'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  savePADMarkConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/savehotelhint`,
+      method: 'POST',
+      body: param.data,
+      onSuccess: body => {
+        console.log('param.data:', param.data)
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  getRoomNum(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/morelvyemapper/${param.hotel_id}`,
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0'
+      },
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  saveReviewRoomNum(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/morelvyemapper/${param.hotel_id}`,
+      body: param.data,
+      method: 'POST',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  }
 }

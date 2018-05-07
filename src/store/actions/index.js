@@ -6,5 +6,6 @@ module.exports = {
   ...require('./auth'),
   ...require('./ui'),
   ...require('./enterprise'),
-  ...require('./system')
+  ...require('./system'),
+  ...require('./operate')
 }
