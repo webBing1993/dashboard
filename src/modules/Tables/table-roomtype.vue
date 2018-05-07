@@ -17,10 +17,10 @@
         <td>{{ obj.pms_code }}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.room_num }}</td>
-        <td>{{ obj.max_guest_count }}</td>
+        <td v-if="!obj.is_pms">{{ obj.max_guest_count }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
-          <a class="v-options pointer" style="color: #F43530" @click="del(obj)">删除</a>
+          <a v-if="!obj.is_pms" class="v-options pointer" style="color: #F43530" @click="del(obj)">删除</a>
         </td>
       </tr>
       </tbody>

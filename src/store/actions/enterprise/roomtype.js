@@ -28,7 +28,17 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
-  }
+  },
+  // 判断是否pms对接
+  checkPmsConnection(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/roomtype/pms/${param.hotel_id}`,
+      method:'GET',
+      onSuccess: (body) => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   // 添加房型接口
 
   // 删除房型接口

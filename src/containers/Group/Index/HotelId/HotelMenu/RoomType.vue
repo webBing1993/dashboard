@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <div class="addRoomtype">
+      <div class="addRoomtype" v-if="!PmsConnectionStatus">
         <el-button type="success" @click="addRoomtype">+ 添加</el-button>
       </div>
       <div class="content_room">
@@ -17,8 +17,36 @@
           :total="total">
         </el-pagination>
       </div>
-      <!--编辑弹框-->
+      <!--对接了pms的编辑弹框-->
       <el-dialog
+        v-if="PmsConnectionStatus"
+        title="房型设置"
+        :visible.sync="showDialog"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        :show-close="false"
+      >
+        <div class="dialog-content">
+          <div class="item-form">
+            <span>可住人数</span>
+            <el-select class="el-right" v-model="maxGuestCount" placeholder="请选择可住人数">
+              <el-option
+                v-for="num of 10"
+                :key="num"
+                :label="num"
+                :value="num">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button type="primary" @click="modify">确 定</el-button>
+        </div>
+      </el-dialog>
+      <!--没有对接了pms的编辑弹框-->
+      <el-dialog
+        v-if="!PmsConnectionStatus"
         title="房型设置"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
@@ -120,13 +148,23 @@
         roomtypeName: '',
         roomNum: '',
         roomCanLiveInNum: '',
+        PmsConnectionStatus: false,
       }
     },
     methods: {
       ...mapActions([
         'patchRoomType',
-        'getRoomTypeList'
+        'getRoomTypeList',
+        'checkPmsConnection',//判断pms对接了吗
       ]),
+      _checkPmsConnection(){
+          this.checkPmsConnection({
+            hotel_id:this.$route.params.hotelid,
+            onsuccess: (res) =>{
+              this.PmsConnectionStatus=res.data
+            }
+          })
+      },
       addRoomtype(){
         this.addRoomTypeDialog = true
       },
@@ -194,6 +232,7 @@
     },
     mounted() {
       this.getList();
+      this._checkPmsConnection();
     }
   }
 </script>
