@@ -34,6 +34,9 @@ import tableReceptionArea from '@/modules/Tables/table-receptionArea.vue'
 import tableMoreLvyeConfig from '@/modules/Tables/table-moreLvyeConfig.vue'
 import tableProdVersion from '@/modules/Tables/tabel-prodVersion.vue'
 import tableRoomNumReview from '@/modules/Tables/table-roomNumReview.vue'
+import tableLvyeCop from '@/modules/Tables/table-lvyeCop.vue'
+import tableLvyeStaff from '@/modules/Tables/table-lvyeStaff.vue'
+
 // import xcheckbox from '@/modules/forms/x-checkbox.vue'
 
 // Vue.component('XCheckbox', XCheckbox)
@@ -52,6 +55,8 @@ Vue.component('table-receptionArea',tableReceptionArea)
 Vue.component('table-moreLvyeConfig',tableMoreLvyeConfig)
 Vue.component('table-prodVersion',tableProdVersion)
 Vue.component('table-roomNumReview',tableRoomNumReview)
+Vue.component('table-lvyeCop',tableLvyeCop)
+Vue.component('table-lvyeStaff',tableLvyeStaff)
 
 // 注册一个全局自定义指令 v-focus
 Vue.directive('focus', {

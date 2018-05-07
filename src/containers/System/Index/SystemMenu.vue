@@ -8,8 +8,11 @@
       <router-link to="/system/servemessage">服务消息模板管理</router-link>
       <router-link to="/system/qrcodecreate">二维码生成</router-link>
       <router-link to="/system/prodVersion">产品版本</router-link>
+      <router-link to="/system/lvyeCop">旅业公司管理</router-link>
+      <router-link to="/system/lvyeStaff">旅业员工管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
+
   </div>
 </template>
 

@@ -34,6 +34,8 @@ import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
 import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
+import lvye_Cop from '@/containers/System/Index/SystemMenu/lvyeCop.vue'
+import lvye_Staff from '@/containers/System/Index/SystemMenu/lvyeStaff.vue'
 
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
@@ -291,6 +293,16 @@ const main = [
                   }
                 ]
               },
+              {
+                path:'lvyeCop',
+                name:'lvye_Cop',
+                component:lvye_Cop
+              },
+                {
+                    path:'lvyeStaff',
+                    name:'lvye_Staff',
+                    component:lvye_Staff
+                },
               {
                 path: 'qrcodecreate',
                 name: 'QR_Code_create',
