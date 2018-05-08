@@ -122,8 +122,8 @@
         <div class="dialog-content  ">
           <div class="content">
             <p>确认删除房型？</p>
-            <span>房型编号：</span><span>DDF</span>
-            <span>房型名：</span><span>海景房</span>
+            <span>房型编号：</span><span>{{roomtypeCode}}</span>
+            <span>房型名：</span><span>{{roomtypeName}}</span>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -165,6 +165,7 @@
         'ChangeRoomType',
         'getRoomTypeLists',
         'addRoomType',
+        'delCurrentRoomType',
         'checkPmsConnection',//判断pms对接了吗
 
       ]),
@@ -208,6 +209,7 @@
       },
 
       _del(obj){
+        this.roomTypeId = obj.room_type_id;
         this.delRoomTypeDialog = true
         console.log(obj)
         this.roomtypeCode = obj.pms_code
@@ -216,7 +218,13 @@
       },
 
       _confirmDel(){
-
+        this.delCurrentRoomType({
+          room_type_id: this.roomTypeId,
+          onsuccess: body => {
+            this.delRoomTypeDialog = false;
+            this.getList();
+          }
+        })
       },
 
       handleSizeChange(val) {

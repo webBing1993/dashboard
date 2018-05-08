@@ -73,4 +73,13 @@ module.exports = {
   },
 
   // 删除房型接口
+  delCurrentRoomType(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/roomtype/delete/${param.room_type_id}`,
+      method:'delete',
+      onSuccess: (body) => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
 }
