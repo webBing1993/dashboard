@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="addRoomtype" v-if="!PmsConnectionStatus">
-        <el-button type="success" @click="addRoomtype">+ 添加</el-button>
+        <el-button type="success" @click="_addRoomtype">+ 添加</el-button>
       </div>
       <div class="content_room">
         <table-roomtype :list="list" :page="page" :size="size" @del="_del" @edit="edit"></table-roomtype>
@@ -17,6 +17,7 @@
           :total="total">
         </el-pagination>
       </div>
+
       <!--对接了pms的编辑弹框-->
       <el-dialog
         v-if="PmsConnectionStatus"
@@ -44,26 +45,32 @@
           <el-button type="primary" @click="modify">确 定</el-button>
         </div>
       </el-dialog>
+
       <!--没有对接了pms的编辑弹框-->
       <el-dialog
-        v-if="!PmsConnectionStatus"
         title="房型设置"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
-        :show-close="false"
+        :show-close="true"
       >
-        <div class="dialog-content">
+        <div class="onespace"></div>
+        <div class="dialog-content  ">
+          <div class="item-form">
+            <span>房型编号</span>
+            <el-input v-model="roomtypeCode" placeholder="请输入内容"></el-input>
+          </div>
+          <div class="item-form">
+            <span>房型名</span>
+            <el-input v-model="roomtypeName" placeholder="请输入内容"></el-input>
+          </div>
+          <!--<div class="item-form">-->
+            <!--<span>房间数目</span>-->
+            <!--<el-input v-model="roomNum" placeholder="请输入内容"></el-input>-->
+          <!--</div>-->
           <div class="item-form">
             <span>可住人数</span>
-            <el-select class="el-right" v-model="maxGuestCount" placeholder="请选择可住人数">
-              <el-option
-                v-for="num of 10"
-                :key="num"
-                :label="num"
-                :value="num">
-              </el-option>
-            </el-select>
+            <el-input v-model="roomCanLiveInNum" placeholder="请输入内容"></el-input>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -103,6 +110,7 @@
           <el-button type="primary" @click="_saveRoomType">保存</el-button>
         </div>
       </el-dialog>
+
       <!--删除弹框-->
       <el-dialog
         title="删除房型"
@@ -154,29 +162,51 @@
     methods: {
       ...mapActions([
         'patchRoomType',
-        'getRoomTypeList',
+        'ChangeRoomType',
+        'getRoomTypeLists',
+        'addRoomType',
         'checkPmsConnection',//判断pms对接了吗
+
       ]),
       _checkPmsConnection(){
-          this.checkPmsConnection({
-            hotel_id:this.$route.params.hotelid,
-            onsuccess: (res) =>{
-              this.PmsConnectionStatus=res.data
-            }
-          })
+        this.checkPmsConnection({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: (res) => {
+            this.PmsConnectionStatus = res.data
+          }
+        })
       },
-      addRoomtype(){
-        this.addRoomTypeDialog = true
+      _addRoomtype(){
+        this.addRoomTypeDialog = true;
+        this.roomtypeCode = ''
+        this.roomtypeName = ''
+        this.roomNum = ''
+        this.roomCanLiveInNum = ''
       },
 
       _saveRoomType(){
+        this.addRoomType({
+          hotel_id: this.$route.params.hotelid,
+          name: this.roomtypeName,
+          max_guest_count: this.roomCanLiveInNum,
+          pms_code: this.roomtypeCode,
+          onsuccess: (res) => {
+            this.addRoomTypeDialog = false
+            this.getList()
+          }
+        })
       },
 
       edit(obj) {
+          console.log(obj)
         this.roomTypeId = obj.room_type_id;
-        this.maxGuestCount = obj.max_guest_count;
+        this.roomtypeName = obj.name;
+        this.roomtypeCode = obj.pms_code;
+        this.roomNum = obj.room_num;
+        this.roomCanLiveInNum = obj.max_guest_count;
         this.showDialog = true;
       },
+
       _del(obj){
         this.delRoomTypeDialog = true
         console.log(obj)
@@ -184,6 +214,7 @@
         this.roomtypeName = obj.name
 
       },
+
       _confirmDel(){
 
       },
@@ -191,30 +222,49 @@
       handleSizeChange(val) {
         this.size = val;
       },
+
       handleCurrentChange(val) {
         this.page = val;
       },
+
       hideDialog() {
         this.showDialog = false;
         this.addRoomTypeDialog = false
         this.delRoomTypeDialog = false
       },
+
       modify() {
-        let data = {
-          max_guest_count: this.maxGuestCount
+        if (this.PmsConnectionStatus) {//对接了pms的
+          let data = {
+            max_guest_count: this.maxGuestCount
+          }
+
+          this.patchRoomType({
+            data,
+            room_type_id: this.roomTypeId,
+            onsuccess: body => {
+              this.showDialog = false;
+              this.getList();
+            }
+          })
+        } else {
+          this.ChangeRoomType({
+            hotel_id: this.$route.params.hotelid,
+            room_type_id: this.roomTypeId,
+            name: this.roomtypeName,
+            max_guest_count: this.roomCanLiveInNum,
+            pms_code: this.roomtypeCode,
+            onsuccess: body => {
+              this.showDialog = false;
+              this.getList();
+            }
+          })
         }
 
-        this.patchRoomType({
-          data,
-          room_type_id: this.roomTypeId,
-          onsuccess: body => {
-            this.showDialog = false;
-            this.getList();
-          }
-        })
       },
+
       getList() {
-        this.getRoomTypeList({
+        this.getRoomTypeLists({
           page: this.page.toString(),
           size: this.size.toString(),
           hotel_id: this.$route.params.hotelid,
