@@ -55,12 +55,12 @@
       hotel_id: this.$route.params.hotelid,
       onsuccess: body => {
          this.prodConfigList=body.data
-        console.log(this.prodConfigList)
       }
     })
   }
   ,
   _openThisConfig(obj){
+    console.log(obj.status)
     let code = obj.fun_model_code
     let status = !obj.status
     this.setProdConfig({
