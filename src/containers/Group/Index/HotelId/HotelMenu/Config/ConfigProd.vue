@@ -60,13 +60,14 @@
   }
   ,
   _openThisConfig(obj){
-    console.log(obj.status)
+    console.log('获取的状态值',obj.status)
     let code = obj.fun_model_code
     let status = !obj.status
+    console.log('传输的状态值',status)
     this.setProdConfig({
       hotel_id: this.$route.params.hotelid,
       code:code,
-      status:status,
+      status: status,
       onsuccess: body => {
         this._getProdConfig()
       }
