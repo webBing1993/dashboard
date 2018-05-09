@@ -55,31 +55,16 @@
       hotel_id: this.$route.params.hotelid,
       onsuccess: body => {
          this.prodConfigList=body.data
-//        let res = body.data
-//        if (res) {
-//            console.log('--->')
-//          re.forEach((item, index) => {
-//              console.log(item)
-////            if(item.fun_model_code==this.prodConfigList[index].code){
-////              this.prodConfigList[index].status=item.status
-////            }
-//          })
-//        }
         console.log(this.prodConfigList)
       }
     })
   }
   ,
-  _openThisConfig(obj)
-  {
+  _openThisConfig(obj){
     let code = obj.fun_model_code
     let status = !obj.status
-//    console.log(code, status)
-//    let data = '{"' + code + '":' + status + "}"
-//    let tempobj = JSON.parse(data)
     this.setProdConfig({
       hotel_id: this.$route.params.hotelid,
-//      data: tempobj,
       code:code,
       status:status,
       onsuccess: body => {

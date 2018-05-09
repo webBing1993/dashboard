@@ -96,10 +96,10 @@
             <span>房型名</span>
             <el-input v-model="roomtypeName" placeholder="请输入内容"></el-input>
           </div>
-          <div class="item-form">
-            <span>房间数目</span>
-            <el-input v-model="roomNum" placeholder="请输入内容"></el-input>
-          </div>
+          <!--<div class="item-form">-->
+            <!--<span>房间数目</span>-->
+            <!--<el-input v-model="roomNum" placeholder="请输入内容"></el-input>-->
+          <!--</div>-->
           <div class="item-form">
             <span>可住人数</span>
             <el-input v-model="roomCanLiveInNum" placeholder="请输入内容"></el-input>

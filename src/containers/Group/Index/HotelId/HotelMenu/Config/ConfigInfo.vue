@@ -1732,6 +1732,14 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>脏房处理</span>
+              <el-switch
+                v-model="appDirtyRoom"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
@@ -2217,6 +2225,7 @@
         appMoney:false,
         appAbnormal:false,
         appSuspicious:false,
+        appDirtyRoom:false,
         order_hint_item_idFromPAD:'',
         apply_checkout_finish_idFromPAD:'',
         non_equipment_checkin_idFromPAD:'',
@@ -2880,6 +2889,7 @@
           this.appMoney=wqtMainCtl.order_bill_view;
           this.appAbnormal=wqtMainCtl.exception_view;
           this.appSuspicious=wqtMainCtl.suspicious_person_view;
+          this.appDirtyRoom=wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
           this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
         };
@@ -3859,7 +3869,8 @@
                       "invoice_view":this.appInvoice,					//发票中心
                       "order_bill_view":this.appMoney,				//账务管理
                       "exception_view":this.appAbnormal,					//异常提醒
-                      "suspicious_person_view":this.appSuspicious
+                      "suspicious_person_view":this.appSuspicious,
+                      "dirty_room_view":this.appDirtyRoom
                   });
               data={
                   wqt_main_control
