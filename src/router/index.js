@@ -208,26 +208,12 @@ const main = [
                             name: 'ConfigInfo',
                             component: ConfigInfo
                           },
-                          // {
-                          //   path: 'ConfigSysInfo',
-                          //   name: 'ConfigSysInfo',
-                          //   component: ConfigSysInfo
-                          // },
-                          // {
-                          //   path: 'ConfigBusnessInfo',
-                          //   name: 'ConfigBusnessInfo',
-                          //   component: ConfigBusnessInfo
-                          // },
-                          // {
-                          //   path: 'ConfigHotelInfo',
-                          //   name: 'ConfigHotelInfo',
-                          //   component: ConfigHotelInfo
-                          // },
-                          // {
-                          //   path: 'configsummary',
-                          //   name: 'ConfigSummary',
-                          //   component: ConfigSummary
-                          // },
+
+                          {
+                            path: 'configsummary',
+                            name: 'ConfigSummary',
+                            component: ConfigSummary
+                          },
                           {
                             path: 'moreLvyeConfig',
                             name: 'moreLvyeConfig',
@@ -236,7 +222,17 @@ const main = [
                         ]
                       },
 
-
+                      {
+                        path: 'config2',
+                        component: ConfigInfo2,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigInfo2',
+                            component: ConfigSysInfo
+                          }
+                        ]
+                      },
 
                       {
                         path: 'ConfigSysInfo',
