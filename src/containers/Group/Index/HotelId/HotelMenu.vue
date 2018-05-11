@@ -8,8 +8,8 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/receptionArea'" v-if="showReception">接待区</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">配置管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'">门店配置</router-link>
-      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config2'">门店配置2</router-link>-->
-      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigProd'">开通产品配置</router-link>-->
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config2'">门店配置2</router-link>
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigProd'">开通产品配置</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">门店设备</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/device'">设备管理</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">上线管理</a>
