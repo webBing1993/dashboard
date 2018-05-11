@@ -48,6 +48,7 @@
 
       <!--没有对接了pms的编辑弹框-->
       <el-dialog
+        v-if="!PmsConnectionStatus"
         title="房型设置"
         :visible.sync="showDialog"
         :close-on-click-modal="false"
