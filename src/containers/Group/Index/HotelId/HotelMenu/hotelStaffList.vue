@@ -1,11 +1,5 @@
 <template>
   <div class="module-content">
-    <!--&lt;!&ndash;<div class="title">&ndash;&gt;-->
-    <!--&lt;!&ndash;<div>姓名</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div>电话</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div>登录人员</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;<div>操作</div>&ndash;&gt;-->
-    <!--</div>-->
     <div>
       <div>
         <table-list :hotelStaffList="hotelStaffList" @click="_changeSwitch"></table-list>

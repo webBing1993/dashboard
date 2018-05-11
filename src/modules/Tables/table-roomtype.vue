@@ -16,10 +16,11 @@
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.pms_code }}</td>
         <td>{{ obj.name }}</td>
-        <td>{{ obj.room_num }}</td>
-        <td>{{ obj.max_guest_count }}</td>
+        <td>{{ obj.is_pms?obj.room_num:"暂不支持" }}</td>
+        <td >{{ obj.max_guest_count }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
+          <a v-if="!obj.is_pms" class="v-options pointer" style="color: #F43530" @click="del(obj)">删除</a>
         </td>
       </tr>
       </tbody>
@@ -48,6 +49,10 @@
     methods: {
       edit(obj) {
         this.$emit('edit', obj);
+      },
+      del(obj){
+        this.$emit('del', obj);
+
       }
     }
   }

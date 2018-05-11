@@ -9,12 +9,12 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(obj, index) of hotelStaffList">
-        <td class="v-item"></td>
-        <td class="v-item"></td>
+      <tr v-for="(obj, index) of prodLinkList">
+        <td class="v-item">{{obj.name}}</td>
+        <td class="v-item">{{obj.control_url}}</td>
         <td>
-          <el-checkbox v-if="obj.status!='2'" :checked="obj.status=='0'?false:true" @change="change(obj)">状态</el-checkbox>
-          <a class="v-options pointer" @click="del(obj)">前往</a>
+          <!--<a class="v-options pointer" @click="gogo(obj)">前往</a>-->
+          <a class="v-options pointer"href="obj.control_url">前往</a>
         </td>
       </tr>
       </tbody>
@@ -30,7 +30,7 @@
       }
     },
     props: {
-      hotelStaffList: {
+      prodLinkList: {
         type: Array,
         default: []
       },
@@ -46,6 +46,9 @@
     methods: {
       detail(obj) {
         this.$emit('detail', obj);
+      },
+      gogo(obj) {
+        this.$emit('gogo', obj);
       },
       hotel(obj) {
         this.$emit('hotel', obj);
@@ -144,6 +147,7 @@
 
   .pointer {
     cursor: pointer;
+    color: #37a836;
   }
 
   .v-item {
