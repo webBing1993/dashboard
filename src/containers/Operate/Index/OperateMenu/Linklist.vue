@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="module-wrapper">
-      <table-LinkList :prodLinkList="linkList" @gogo="_toThisLink()"></table-LinkList>
+      <table-LinkList :prodLinkList="linkList"  @gogo="_toThisLink(obj)"></table-LinkList>
     </div>
   </div>
 </template>
@@ -31,6 +31,7 @@
       _toThisLink(obj){
         console.log('------>',obj)
           console.log('11111')
+        this.goto(obj)
       },
     },
     mounted() {

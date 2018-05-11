@@ -13,8 +13,7 @@
         <td class="v-item">{{obj.name}}</td>
         <td class="v-item">{{obj.control_url}}</td>
         <td>
-          <!--<a class="v-options pointer" @click="gogo(obj)">前往</a>-->
-          <a class="v-options pointer"href="obj.control_url">前往</a>
+          <a target="_blank" class="v-options pointer" :href="obj.control_url">前往</a>
         </td>
       </tr>
       </tbody>
@@ -34,6 +33,7 @@
         type: Array,
         default: []
       },
+
       page: {
         type: Number,
         default: 1
