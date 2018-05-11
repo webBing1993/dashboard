@@ -63,6 +63,10 @@ import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/Device
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
+import ConfigSysInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSysInfo.vue'
+import ConfigBusnessInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigBusnessInfo.vue'
+import ConfigHotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigHotelInfo.vue'
+
 import ConfigInfo2 from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo2.vue'
 import ConfigProd from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigProd.vue'
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
@@ -204,11 +208,26 @@ const main = [
                             name: 'ConfigInfo',
                             component: ConfigInfo
                           },
-                          {
-                            path: 'configsummary',
-                            name: 'ConfigSummary',
-                            component: ConfigSummary
-                          },
+                          // {
+                          //   path: 'ConfigSysInfo',
+                          //   name: 'ConfigSysInfo',
+                          //   component: ConfigSysInfo
+                          // },
+                          // {
+                          //   path: 'ConfigBusnessInfo',
+                          //   name: 'ConfigBusnessInfo',
+                          //   component: ConfigBusnessInfo
+                          // },
+                          // {
+                          //   path: 'ConfigHotelInfo',
+                          //   name: 'ConfigHotelInfo',
+                          //   component: ConfigHotelInfo
+                          // },
+                          // {
+                          //   path: 'configsummary',
+                          //   name: 'ConfigSummary',
+                          //   component: ConfigSummary
+                          // },
                           {
                             path: 'moreLvyeConfig',
                             name: 'moreLvyeConfig',
@@ -216,17 +235,43 @@ const main = [
                           }
                         ]
                       },
+
+
+
                       {
-                        path: 'config2',
-                        component: Config,
+                        path: 'ConfigSysInfo',
+                        component: ConfigSysInfo,
                         children: [
                           {
                             path: '/',
-                            name: 'ConfigInfo2',
-                            component: ConfigInfo2
+                            name: 'ConfigSysInfo',
+                            component: ConfigSysInfo
                           }
                         ]
                       },
+                      {
+                        path: 'ConfigBusnessInfo',
+                        component: ConfigBusnessInfo,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigBusnessInfo',
+                            component: ConfigBusnessInfo
+                          }
+                        ]
+                      },
+                      {
+                        path: 'ConfigHotelInfo',
+                        component: ConfigHotelInfo,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigHotelInfo',
+                            component: ConfigHotelInfo
+                          }
+                        ]
+                      },
+
                       {
                         path:"ConfigProd",
                         component: ConfigProd,
