@@ -13,7 +13,7 @@
           active-text="item.name"
           inactive-text="item.name">
         </el-switch>
-        <a v-if="item.status" class="charge" href="item.control_url">管理</a>
+        <a v-if="item.status" class="charge" target="_blank" :href="item.control_url">管理</a>
       </div>
     </div>
   </div>
