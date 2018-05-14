@@ -79,6 +79,7 @@
           <el-button type="primary" @click="modify">确 定</el-button>
         </div>
       </el-dialog>
+
       <!--添加弹框-->
       <el-dialog
         title="添加房型"
@@ -201,6 +202,7 @@
 
       edit(obj) {
           console.log(obj)
+        this.maxGuestCount = obj.max_guest_count;
         this.roomTypeId = obj.room_type_id;
         this.roomtypeName = obj.name;
         this.roomtypeCode = obj.pms_code;

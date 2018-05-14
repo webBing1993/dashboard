@@ -174,6 +174,7 @@
           }
         })
       },
+
       addDevices() {
           if (this.submitDisabled) return;
           this.saveIsShowPadName ({
@@ -195,6 +196,7 @@
               }
           })
       },
+
       getDevices() {
         this.getDevice({
           device_id: this.$route.query.device_id,
@@ -208,6 +210,7 @@
           }
         })
       },
+
       modifyDevices() {
         if (this.submitDisabled) return;
           this.saveIsShowPadName ({
@@ -227,18 +230,21 @@
               }
           })
       },
+
       removeDevices() {
         this.removeDevice({
           device_id: this.$route.query.device_id,
           onsuccess: body => this.goto(-1)
         })
       },
+
       getList() {
         this.getDeviceList({
           hotel_id: this.$route.params.hotelid,
           // onsuccess: (body, headers) => console.log(body)
         })
       },
+
       unlink() {
         if (this.submitDisabled) return;
         this.showDialog = true;
