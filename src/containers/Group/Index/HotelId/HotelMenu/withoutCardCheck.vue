@@ -53,6 +53,20 @@
       ...mapState({
         configData: state => state.enterprise.configData,
       }),
+      defaultstarttime(){
+        var d = new Date();
+        let YYYY = d.getFullYear()
+        let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
+        let DD = d.getDate() > 10 ? d.getDate() : '0' + d.getDate()
+        return YYYY + '-' + MM + '-' + DD
+      },
+      defaultendtime(){
+        var d = new Date();
+        let YYYY = d.getFullYear()
+        let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
+        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        return YYYY + '-' + MM + '-' + DD
+      },
       groupId () {
         return this.$route.params.id
       },
@@ -68,28 +82,28 @@
       ]),
       _getBinTime(){
         var d = new Date(this.binDate);
-        let YYYY=d.getFullYear()
-        let MM=(d.getMonth() + 1)>10?(d.getMonth() + 1):'0'+(d.getMonth() + 1)
-        let DD=(d.getDate() + 1)>10?(d.getDate() + 1):'0'+(d.getDate() + 1)
-        this.starttime= YYYY+'-'+MM+'-'+DD
-        console.log(YYYY+'-'+MM+'-'+DD)
+        let YYYY = d.getFullYear()
+        let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
+        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        this.starttime = YYYY + '-' + MM + '-' + DD
+        console.log(YYYY + '-' + MM + '-' + DD)
         console.log(this.starttime)
       },
       _getEndTime(){
         var d = new Date(this.enddate);
-        let YYYY=d.getFullYear()
-        let MM=(d.getMonth() + 1)>10?(d.getMonth() + 1):'0'+(d.getMonth() + 1)
-        let DD=(d.getDate() + 1)>10?(d.getDate() + 1):'0'+(d.getDate() + 1)
-        this.endtime= YYYY+'-'+MM+'-'+DD
+        let YYYY = d.getFullYear()
+        let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
+        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        this.endtime = YYYY + '-' + MM + '-' + DD
         this._getwithoutCardList()
       },
 
       //获取产品版本列表
       _getwithoutCardList () {
         this.getwithoutCardList({
-          hotelId:this.hotelId,
-          startDate:this.starttime,
-          endDate:this.endtime,
+          hotelId: this.hotelId,
+          startDate: this.starttime||this.defaultstarttime,
+          endDate: this.endtime||this.defaultendtime,
           onsuccess: body => {
             this.withoutCardLists = body.data;
           }

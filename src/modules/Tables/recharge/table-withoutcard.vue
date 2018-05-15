@@ -14,7 +14,11 @@
         <td class="v-item">{{obj.createdTime}}</td>
         <td class="v-item">{{ obj.name }}</td>
         <td class="v-item">{{ obj.idcard }}</td>
-        <td class="v-item">{{ obj.status }}</td>
+        <!--"status":""//核验结果,PENDING待审核、AGREED通过、REFUSED拒绝-->
+        <td class="v-item" v-if="obj.status=='PENDING'">待审核</td>
+        <td class="v-item" v-if="obj.status=='AGREED'">通过</td>
+        <td class="v-item" v-if="obj.status=='REFUSED'">拒绝</td>
+
       </tr>
       </tbody>
     </table>
