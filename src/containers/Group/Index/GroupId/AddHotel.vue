@@ -312,7 +312,7 @@
           type:this.hotelType,
           onsuccess: body => {
             console.log("hhhhhhhh")
-//            this.goto(-1);
+            this.goto(-1);
           }
         })
       },
