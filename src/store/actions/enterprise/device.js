@@ -150,7 +150,18 @@ module.exports = {
       }
     })
   },
-  getDeviceList(ctx, param){
+  // 获取设备类型列表
+  getDeviceTypeList(ctx, param){
+    ctx.dispatch('resource', {
+      url: '/deviceType/getAll',
+      method:'get',
+      onSuccess: (body,) => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+    getDeviceList(ctx, param){
     ctx.dispatch('resource', {
       url: '/devicesList',
       method:'POST',

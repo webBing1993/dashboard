@@ -37,9 +37,11 @@
 
             bread.push({name: `${this.hotelName}`, path: `/group/${this.groupId}/hotel/${this.hotelId}`})
           } else if (obj.name && obj.name === 'EditDevice') {
-            if (this.$route.query && this.$route.query.deviceid) {
+//            if (this.$route.query && this.$route.query.deviceid) {
+            if (this.$route.query && this.$route.query.device_id) {
               bread.push({name: '编辑设备', path: this.$route.fullPath})
-            } else if (!this.$route.query || !this.$route.query.deviceid) {
+//            } else if (!this.$route.query || !this.$route.query.deviceid) {
+            } else if (!this.$route.query || !this.$route.query.device_id) {
               bread.push({name: '添加设备', path: this.$route.fullPath})
             }
           } else if (obj.name && obj.name === 'AddGroup') {

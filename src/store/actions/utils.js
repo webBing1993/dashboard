@@ -10,6 +10,23 @@ import axios from 'axios'
 import router from '../../router'
 
 module.exports = {
+  formatdate:(ctx, param,status)=>{
+    if (param) {
+      var date = new Date(param);
+      var Y = date.getFullYear() + '-';
+      var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+      var D = date.getDate() + ' ';
+      var h = date.getHours() + ':';
+      var m = date.getMinutes() + ':';
+      var s = date.getSeconds();
+      if(status=='YYYY-MM-DD'){
+        return Y+M+D
+      }else {
+        return Y+M+D+h+m+s;
+      }
+
+    }
+  },
   //路由跳转
   goto: (ctx, param) => {
       if (typeof param === 'number') {
