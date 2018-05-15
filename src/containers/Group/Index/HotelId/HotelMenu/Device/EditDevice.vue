@@ -46,7 +46,7 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <div class="content-item" v-show="deviceType==='32'">
+      <div class="content-item" v-show="PadId==='32'">
         <span>是否在pad上显示设备名称</span>
         <el-switch
           v-model="isShowDeviceNameOnPad"
@@ -97,86 +97,13 @@
         showDialog: false,
         showDeleteDialog: false,
         isAdd: true,
+        PadId:'',
         deviceId: '',
         deviceName: '',
         MacAdress: '',
         deviceType: '',
         enabled: true,
         deviceTypeList: [],
-//        deviceList: [
-//            {
-//          "id": "5fa04bd348394a568b67aa56a1a61029",
-//          "type": "22",
-//          "name": "107底座",
-//          "enabled": true,
-//          "partner_name": "107pad",
-//          "partner_id": "6efa1c7efcda81013cdb97e7168aaa0a"
-//        },
-//          {
-//          "id": "6efa1c7efcda81013cdb97e7168aaa0a",
-//          "type": "22",
-//          "name": "107pad",
-//          "enabled": true,
-//          "partner_name": "107底座",
-//          "partner_id": "5fa04bd348394a568b67aa56a1a61029"
-//        }, {
-//          "id": "6efa1c7efcda81013cdb97e7168ccc0a",
-//          "type": "22",
-//          "name": "Tina_Root",
-//          "enabled": true,
-//          "partner_name": "开发-底座(Tina)",
-//          "partner_id": "8669c4fcc26c4f4d8b7b30cbcf432fd5"
-//        }, {
-//          "id": "7a4275c81eb111e8b4670ed5f89f718b",
-//          "type": "30",
-//          "name": "底座三",
-//          "enabled": true,
-//          "partner_name": "",
-//          "partner_id": null
-//        }, {
-//          "id": "8105a7894b9657d34a060d4352326a34",
-//          "type": "30",
-//          "name": "温德姆新设备",
-//          "enabled": true,
-//          "partner_name": "",
-//          "partner_id": ""
-//        }, {
-//          "id": "8669c4fcc26c4f4d8b7b30cbcf432fd5",
-//          "type": "30",
-//          "name": "开发-底座(Tina)",
-//          "enabled": true,
-//          "partner_name": "Tina_Root",
-//          "partner_id": "6efa1c7efcda81013cdb97e7168ccc0a"
-//        }, {
-//          "id": "8e9826bbbe9146be99bd7a6607973371",
-//          "type": "21",
-//          "name": "温德姆新底座",
-//          "enabled": true,
-//          "partner_name": "温德姆新设备",
-//          "partner_id": "8105a7894b9657d34a060d4352326a34"
-//        }, {
-//          "id": "d58d1c8f33114d1bbb05c64f4d62d674",
-//          "type": "21",
-//          "name": "CESHIDIZOU1",
-//          "enabled": false,
-//          "partner_name": "",
-//          "partner_id": null
-//        }, {
-//          "id": "d8db7c6c80104b278f559a49eaba6aaa",
-//          "type": "21",
-//          "name": "37广告机",
-//          "enabled": false,
-//          "partner_name": "",
-//          "partner_id": null
-//        }, {
-//          "id": "e8c4f92b69264ebb869d948eb8d1f328",
-//          "type": "22",
-//          "name": "37pad",
-//          "enabled": false,
-//          "partner_name": "",
-//          "partner_id": null
-//        }],
-//        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'},{id:'41',name:'广告机'}],
         partnerIdTemp: '',
         partnerName: '',
         isShowDeviceNameOnPad:false,
@@ -261,6 +188,11 @@
       _changeDeviceType(obj){
           console.log('---->',this.deviceType)
           console.log(obj)
+        this.deviceTypeList.map(item=>{
+            if(item.target_type_code==obj){
+              this.PadId=item.type_code
+            }
+        })
         let currentDeviceId=obj
         this.currentDeviceId=obj
         console.log('------',this.currentDeviceId)

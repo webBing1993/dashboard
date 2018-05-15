@@ -132,7 +132,7 @@
           <p>联系信息</p>
           <div class="info-msg">
             <div class="item">
-              <span>联系人姓名</span>
+              <span>联系人姓名1</span>
               <el-input class="el-right" v-model="contactName" placeholder="选填，请输入联系人姓名"></el-input>
             </div>
             <div class="item">
@@ -312,7 +312,7 @@
           type:this.hotelType,
           onsuccess: body => {
             console.log("hhhhhhhh")
-//            this.goto(-1);
+            this.goto(-1);
           }
         })
       },
