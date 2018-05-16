@@ -4,6 +4,7 @@
       <h3>门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
         <el-input v-model="searchVal" @keyup.13.native="getList" placeholder="请输入门店的名称或子账户编码"></el-input>
+        <el-input v-model="device_id" @keyup.13.native="getList" placeholder="请输入deviceID查找"></el-input>
         <el-select v-model="version_name_value" placeholder="版本">
           <el-option
             v-for="(obj, index) in  versionOptions"
@@ -58,6 +59,7 @@
     data () {
       return {
         searchVal: '',
+        device_id: '',
         brandList: [],
         hotelList: [],
         page: 1,
@@ -172,6 +174,7 @@
       getList() {
         this.getHotelList({
           keyword: this.searchVal,
+          device_id: this.device_id,
           hotel_version: this.version_name_value,
           page: this.page.toString(),
           size: this.size.toString(),
@@ -229,7 +232,7 @@
     .search-bar {
       padding: 15px 23px 0 26px;
       .el-input{
-        width: 60%;
+        width: 30%;
       }
       .el-button--success{
        width: 100px;

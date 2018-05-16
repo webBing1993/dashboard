@@ -107,6 +107,7 @@ module.exports = {
         'X-Page-Size': param.size || '0'
       },
       params: {
+        device_id: param.device_id || '',
         group_id: param.group_id || '',
         keyword: param.keyword || '',
         hotel_version: param.hotel_version || ''
