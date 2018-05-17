@@ -33,10 +33,10 @@
         </el-select>
       </div>
 
-      <div class="content-item" v-if="deviceType!==''">
-        <span>电脑MAC地址</span>
-        <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
-      </div>
+      <!--<div class="content-item" v-if="deviceType!==''">-->
+        <!--<span>电脑MAC地址</span>-->
+        <!--<el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>-->
+      <!--</div>-->
 
       <div class="content-item">
         <span>是否开启</span>
@@ -76,8 +76,7 @@
 
       <el-dialog
         title="提示"
-        :visible.sync="showDeleteDialog"
-      >
+        :visible.sync="showDeleteDialog" >
         <h1>确定删除设备？</h1>
         <div slot="footer" class="dialog-footer">
           <el-button @click="showDeleteDialog = false">取 消</el-button>
