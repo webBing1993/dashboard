@@ -40,6 +40,11 @@ import tableLvyeStaff from '@/modules/Tables/table-lvyeStaff.vue'
 import tableProdBaseConfig from '@/modules/Tables/table-prodBaseConfig.vue'
 // 运营中心
 import tableLinkList from '@/modules/Tables/operate/table-LinkList.vue'
+// 充值
+import tableRechargeDetail from '@/modules/Tables/recharge/table-rechargedetail.vue'
+import tableWithoutcard from '@/modules/Tables/recharge/table-withoutcard.vue'
+
+
 // import xcheckbox from '@/modules/forms/x-checkbox.vue'
 
 // Vue.component('XCheckbox', XCheckbox)
@@ -63,7 +68,9 @@ Vue.component('table-lvyeStaff',tableLvyeStaff)
 Vue.component('table-prodBaseConfig',tableProdBaseConfig)
 // 运营中心
 Vue.component('table-LinkList',tableLinkList)
-
+// 充值
+Vue.component('table-RechargeDetail',tableRechargeDetail)
+Vue.component('table-Withoutcard',tableWithoutcard)
 // 注册一个全局自定义指令 v-focus
 Vue.directive('focus', {
   // 当绑定元素插入到 DOM 中。

@@ -3,12 +3,13 @@
     <div class="module-wrapper">
       <div class="content-item">
         <span>设备类型</span>
-        <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型">
+        <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型" @change="_changeDeviceType">
           <el-option
+
             v-for="(obj, index) of deviceTypeList"
-            :key="obj.id"
-            :label="obj.name"
-            :value="obj.id">
+            :key="obj.target_type_code"
+            :label="obj.type_name"
+            :value="obj.target_type_code">
           </el-option>
         </el-select>
       </div>
@@ -20,7 +21,7 @@
         <span>设备名称</span>
         <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
-      <div class="content-item" v-if="deviceType!=='41'">
+      <div class="content-item" v-if="deviceType!==''">
         <span>配对设备</span>
         <el-select class="el-right" v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
@@ -31,6 +32,12 @@
           </el-option>
         </el-select>
       </div>
+
+      <div class="content-item" v-if="deviceType!==''">
+        <span>电脑MAC地址</span>
+        <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
+      </div>
+
       <div class="content-item">
         <span>是否开启</span>
         <el-switch
@@ -39,7 +46,7 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <div class="content-item" v-show="deviceType==='32'">
+      <div class="content-item" v-show="PadId==='32'">
         <span>是否在pad上显示设备名称</span>
         <el-switch
           v-model="isShowDeviceNameOnPad"
@@ -90,14 +97,17 @@
         showDialog: false,
         showDeleteDialog: false,
         isAdd: true,
+        PadId:'',
         deviceId: '',
         deviceName: '',
+        MacAdress: '',
         deviceType: '',
         enabled: true,
-        deviceTypeList: [{id: '31', name: '底座'}, {id: '32', name: 'pad'}, {id: '51', name: '发票插件'},{id:'41',name:'广告机'}],
+        deviceTypeList: [],
         partnerIdTemp: '',
         partnerName: '',
-        isShowDeviceNameOnPad:false
+        isShowDeviceNameOnPad:false,
+        currentDeviceId:'',
       }
     },
     computed: {
@@ -122,20 +132,35 @@
           val && (this.partnerIdTemp = `${this.partnerName} | ${val}`);
         }
       },
-      baseList() {
-        return this.deviceList.filter(v => v.type === '31')
-      },
-      padList() {
-        return this.deviceList.filter(v => v.type === '32')
-      },
+//      baseList() {
+//        return this.deviceList.filter(v => v.type === '31')
+//      },
+//      padList() {
+//        return this.deviceList.filter(v => v.type === '32')
+//      },
       partnerIdListTemp() {
         let partnerIdList = [];
-        if (this.deviceType === '31') {
-          partnerIdList = this.padList;
-        } else if (this.deviceType === '32') {
-          partnerIdList = this.baseList;
-        }
-
+        console.log(this.currentDeviceId)
+       console.log('======',this.deviceList.filter(v => v.type === '31'))
+//        if (this.deviceType === '31') {
+//          partnerIdList = this.padList;
+//        } else if (this.deviceType === '32') {
+//          partnerIdList = this.baseList;
+//        }
+//
+//        let list = partnerIdList.map(v => {
+//          let obj = {
+//            value: `${v.name} | ${v.id}`
+//          }
+//          return obj
+//        })
+//        list.unshift({value: '无'})
+//        return list;
+//        console.log(this.currentDeviceId)
+//        console.log(this.deviceList)
+//        console.log(this.deviceList.filter(v => v.type == this.currentDeviceId))
+        partnerIdList=this.deviceList.filter(v => v.type == this.currentDeviceId)
+        console.log(partnerIdList)
         let list = partnerIdList.map(v => {
           let obj = {
             value: `${v.name} | ${v.id}`
@@ -144,11 +169,13 @@
         })
         list.unshift({value: '无'})
         return list;
+//        return this.deviceList.filter(v => v.type == this.currentDeviceId)
       }
     },
     methods: {
       ...mapActions([
         'getDeviceList',
+        'getDeviceTypeList',
         'addDevice',
         'getDevice',
         'modifyDevice',
@@ -157,6 +184,21 @@
         'saveIsShowPadName',
         'getShowDeviceNameStatus'
       ]),
+
+      _changeDeviceType(obj){
+          console.log('---->',this.deviceType)
+          console.log(obj)
+        this.deviceTypeList.map(item=>{
+            if(item.target_type_code==obj){
+              this.PadId=item.type_code
+            }
+        })
+        let currentDeviceId=obj
+        this.currentDeviceId=obj
+        console.log('------',this.currentDeviceId)
+
+      },
+
       hideDialog() {
         this.showDialog = false;
       },
@@ -238,6 +280,14 @@
         })
       },
 
+      _getDeviceTypeList(){
+          this.getDeviceTypeList({
+            onsuccess: (body) => {
+              this.deviceTypeList=body.data
+            }
+          })
+      },
+
       getList() {
         this.getDeviceList({
           hotel_id: this.$route.params.hotelid,
@@ -264,9 +314,12 @@
             }
           });
       }
-      if (!this.deviceList || this.deviceList.length === 0) {
-        this.getList();
-      }
+      this.getList();
+      this._getDeviceTypeList();
+//      if (!this.deviceList || this.deviceList.length === 0) {
+//        this.getList();
+//        this._getDeviceTypeList();
+//      }
     }
   }
 </script>
@@ -281,8 +334,9 @@
       color: #4A4A4A;
       margin-bottom: 14px;
       span {
-        min-width: 68px;
+        min-width: 100px;
         text-align: end;
+        text-align: left;
       }
       .el-switch {
         margin-left: 24px;

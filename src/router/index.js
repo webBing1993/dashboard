@@ -55,6 +55,10 @@ import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
 import HotelStaffList from '@/containers/Group/Index/HotelId/HotelMenu/hotelStaffList.vue'
 import manageProdVersion from '@/containers/Group/Index/HotelId/HotelMenu/manageProdVersion.vue'
+
+import rechargeDetail from '@/containers/Group/Index/HotelId/HotelMenu/rechargeDetail.vue'
+import withoutCardCheck from '@/containers/Group/Index/HotelId/HotelMenu/withoutCardCheck.vue'
+
 import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
 import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMiniAppMsg.vue'
 
@@ -286,6 +290,16 @@ const main = [
                         path: 'manageProdVersion',
                         name: 'manageProdVersion',
                         component: manageProdVersion
+                      },
+                      {
+                        path: 'rechargeDetail',
+                        name: 'rechargeDetail',
+                        component: rechargeDetail
+                      },
+                      {
+                        path: 'withoutCardCheck',
+                        name: 'withoutCardCheck',
+                        component: withoutCardCheck
                       },
                     ]
                   }

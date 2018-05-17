@@ -33,7 +33,7 @@
       return {
         list: [],
         page: 1,
-        size: 20,
+        size: 2,
         total: 0
       }
     },
