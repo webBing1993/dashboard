@@ -5,9 +5,8 @@
         <span>设备类型</span>
         <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型" @change="_changeDeviceType">
           <el-option
-
             v-for="(obj, index) of deviceTypeList"
-            :key="obj.target_type_code"
+            :key="obj.type_code"
             :label="obj.type_name"
             :value="obj.target_type_code">
           </el-option>
@@ -100,7 +99,7 @@
         deviceId: '',
         deviceName: '',
         MacAdress: '',
-        deviceType: '',
+        deviceType: '请选择',
         enabled: true,
         deviceTypeList: [],
         partnerIdTemp: '',
@@ -280,6 +279,7 @@
       },
 
       _getDeviceTypeList(){
+        this.deviceTypeList=[]
           this.getDeviceTypeList({
             onsuccess: (body) => {
               this.deviceTypeList=body.data
