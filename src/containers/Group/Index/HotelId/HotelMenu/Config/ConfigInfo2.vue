@@ -36,20 +36,24 @@
               <el-switch on-color="#13ce66"off-color="#ff4949"active-value="true"
                          inactive-value="0" v-model="openWithoutCard"></el-switch>
             </div>
+            <!--<div class="item-form" v-if="openWithoutCard">-->
+              <!--<span style="width: 155px">首冲最低金额</span>-->
+              <!--<el-input class="el-right" v-model="firstRecharge" style="display:block"></el-input>-->
+            <!--</div>-->
+            <!--<div class="item-form" v-if="openWithoutCard">-->
+              <!--<span style="width: 155px">续费最低金额</span>-->
+              <!--<el-input class="el-right" v-model="minimumMoney" style="display:block"></el-input>-->
+            <!--</div>-->
             <div class="item-form" v-if="openWithoutCard">
-              <span style="width: 155px">首冲最低金额</span>
-              <el-input class="el-right" v-model="firstRecharge" style="display:block"></el-input>
+            <span style="width: 155px">充值金额（元）</span>
+            <el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>
             </div>
             <div class="item-form" v-if="openWithoutCard">
-              <span style="width: 155px">续费最低金额</span>
-              <el-input class="el-right" v-model="minimumMoney" style="display:block"></el-input>
-            </div>
-            <div class="item-form" v-if="openWithoutCard">
-              <span style="width: 155px">无证核验金额</span>
+              <span style="width: 155px">无证核验金额（元）</span>
               <el-input class="el-right" v-model="checkMoney" style="display:block"></el-input>
             </div>
             <div class="item-form" v-if="openWithoutCard">
-              <span style="width: 155px">余额不足提醒金额</span>
+              <span style="width: 155px">余额不足提醒金额（元）</span>
               <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
             </div>
           </div>
@@ -101,8 +105,9 @@
 //        无证核验配置参数
         withoutCardConfig:false,
         openWithoutCard:true,
-        firstRecharge:'',
-        minimumMoney:'',
+//        firstRecharge:'',
+//        minimumMoney:'',
+        rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
 
@@ -116,8 +121,10 @@
 
       //无数个validate
       validateWithoutCard(){
-        if(tool.isNotBlank(this.firstRecharge)&&
-          tool.isNotBlank(this.minimumMoney)&&
+        if(
+//            tool.isNotBlank(this.firstRecharge)&&
+//          tool.isNotBlank(this.minimumMoney)&&
+          tool.isNotBlank(this.rangeMoney)&&
           tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
           return false;
         }else {
@@ -173,8 +180,10 @@
 //              minimumMoney:'',
 //            checkMoney:'',
             data = {
-              "first_recharge":this.firstRecharge,
-              "recharge_lowest":this.minimumMoney,
+//              "first_recharge":this.firstRecharge,
+//              "recharge_lowest":this.minimumMoney,
+              "enable_identity_check_undocumented":true,
+              "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
               "nocard_money_insufficient":this.balanceTip
             }
@@ -222,8 +231,9 @@
         if (tool.isNotBlank(configData)) {
 //            无证核验
           this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
-          this.firstRecharge=configData.first_recharge;
-          this.minimumMoney=configData.recharge_lowest;
+//          this.firstRecharge=configData.first_recharge;
+//          this.minimumMoney=configData.recharge_lowest;
+          this.rangeMoney=configData.recharge_lowest;
           this.checkMoney=configData.nocard_used_pay;
           this.balanceTip=configData.nocard_money_insufficient;
         }

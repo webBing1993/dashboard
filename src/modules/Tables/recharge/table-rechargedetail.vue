@@ -11,7 +11,7 @@
       <tbody>
       <tr v-for="(obj, index) of rechargeList">
         <td class="v-item">{{obj.recharge_time}}</td>
-        <td class="v-item">{{ obj.pay_fee }}</td>
+        <td class="v-item">{{ parseInt(obj.pay_fee)/100 }} 元</td>
         <td class="v-item pay_way">{{ obj.pay_way}}</td>
       </tr>
       </tbody>
