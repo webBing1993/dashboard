@@ -57,14 +57,14 @@
         var d = new Date();
         let YYYY = d.getFullYear()
         let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
-        let DD = d.getDate() > 10 ? d.getDate() : '0' + d.getDate()
+        let DD = (d.getDate()-1) > 10 ? (d.getDate()-1) : '0' + (d.getDate()-1)
         return YYYY + '-' + MM + '-' + DD
       },
       defaultendtime(){
         var d = new Date();
         let YYYY = d.getFullYear()
         let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
-        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        let DD = (d.getDate() ) > 10 ? (d.getDate()) : '0' + (d.getDate())
         return YYYY + '-' + MM + '-' + DD
       },
       groupId () {
@@ -84,7 +84,7 @@
         var d = new Date(this.binDate);
         let YYYY = d.getFullYear()
         let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
-        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        let DD = (d.getDate()) > 10 ? (d.getDate()) : '0' + (d.getDate())
         this.starttime = YYYY + '-' + MM + '-' + DD
         console.log(YYYY + '-' + MM + '-' + DD)
         console.log(this.starttime)
@@ -93,7 +93,7 @@
         var d = new Date(this.enddate);
         let YYYY = d.getFullYear()
         let MM = (d.getMonth() + 1) > 10 ? (d.getMonth() + 1) : '0' + (d.getMonth() + 1)
-        let DD = (d.getDate() + 1) > 10 ? (d.getDate() + 1) : '0' + (d.getDate() + 1)
+        let DD = (d.getDate()) > 10 ? (d.getDate()) : '0' + (d.getDate())
         this.endtime = YYYY + '-' + MM + '-' + DD
         this._getwithoutCardList()
       },
