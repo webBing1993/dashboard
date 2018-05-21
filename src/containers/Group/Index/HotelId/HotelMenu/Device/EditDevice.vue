@@ -229,7 +229,7 @@
               device_id: this.deviceId,
               device_type: this.deviceType,
               device_name: this.deviceName,
-              mac_address: this.mac_address,
+              mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
               onsuccess: body => {
