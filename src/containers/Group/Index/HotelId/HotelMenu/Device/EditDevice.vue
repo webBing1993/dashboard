@@ -32,10 +32,10 @@
         </el-select>
       </div>
 
-      <!--<div class="content-item" v-if="deviceType!==''">-->
-        <!--<span>电脑MAC地址</span>-->
-        <!--<el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>-->
-      <!--</div>-->
+      <div class="content-item" v-if="deviceType!==''">
+        <span>电脑MAC地址</span>
+        <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
+      </div>
 
       <div class="content-item">
         <span>是否开启</span>
@@ -75,7 +75,7 @@
 
       <el-dialog
         title="提示"
-        :visible.sync="showDeleteDialog" >
+        :visible.sync="showDeleteDialog">
         <h1>确定删除设备？</h1>
         <div slot="footer" class="dialog-footer">
           <el-button @click="showDeleteDialog = false">取 消</el-button>
@@ -95,7 +95,7 @@
         showDialog: false,
         showDeleteDialog: false,
         isAdd: true,
-        PadId:'',
+        PadId: '',
         deviceId: '',
         deviceName: '',
         MacAdress: '',
@@ -104,8 +104,8 @@
         deviceTypeList: [],
         partnerIdTemp: '',
         partnerName: '',
-        isShowDeviceNameOnPad:false,
-        currentDeviceId:'',
+        isShowDeviceNameOnPad: false,
+        currentDeviceId: '',
       }
     },
     computed: {
@@ -113,7 +113,7 @@
         deviceList: state => state.enterprise.deviceList,
       }),
       hotelId(){
-          return this.$route.params.hotelid
+        return this.$route.params.hotelid
       },
       submitDisabled() {
         if (this.deviceId == '' || this.deviceName == '' || this.deviceType == '' || this.$route.params.id == '' || this.$route.params.hotelid == '')
@@ -122,7 +122,7 @@
       },
       partnerId: {
         get() {
-          if (!this.partnerIdTemp||this.deviceType=='41') return '';
+          if (!this.partnerIdTemp || this.deviceType == '41') return '';
           if (this.partnerIdTemp === '无') return '';
           return this.partnerIdTemp.split(' | ')[1];
         },
@@ -139,7 +139,7 @@
       partnerIdListTemp() {
         let partnerIdList = [];
         console.log(this.currentDeviceId)
-       console.log('======',this.deviceList.filter(v => v.type === '31'))
+        console.log('======', this.deviceList.filter(v => v.type === '31'))
 //        if (this.deviceType === '31') {
 //          partnerIdList = this.padList;
 //        } else if (this.deviceType === '32') {
@@ -157,7 +157,7 @@
 //        console.log(this.currentDeviceId)
 //        console.log(this.deviceList)
 //        console.log(this.deviceList.filter(v => v.type == this.currentDeviceId))
-        partnerIdList=this.deviceList.filter(v => v.type == this.currentDeviceId)
+        partnerIdList = this.deviceList.filter(v => v.type == this.currentDeviceId)
         console.log(partnerIdList)
         let list = partnerIdList.map(v => {
           let obj = {
@@ -176,6 +176,7 @@
         'getDeviceTypeList',
         'addDevice',
         'getDevice',
+
         'modifyDevice',
         'removeDevice',
         'goto',
@@ -184,16 +185,16 @@
       ]),
 
       _changeDeviceType(obj){
-          console.log('---->',this.deviceType)
-          console.log(obj)
-        this.deviceTypeList.map(item=>{
-            if(item.target_type_code==obj){
-              this.PadId=item.type_code
-            }
+        console.log('---->', this.deviceType)
+        console.log(obj)
+        this.deviceTypeList.map(item => {
+          if (item.target_type_code == obj) {
+            this.PadId = item.type_code
+          }
         })
-        let currentDeviceId=obj
-        this.currentDeviceId=obj
-        console.log('------',this.currentDeviceId)
+        let currentDeviceId = obj
+        this.currentDeviceId = obj
+        console.log('------', this.currentDeviceId)
 
       },
 
@@ -206,6 +207,7 @@
           device_id: this.deviceId,
           device_type: this.deviceType,
           device_name: this.deviceName,
+          mac_address: this.MacAdress,
           partner_id: this.partnerId,
           enabled: this.enabled ? 1 : 0,
           onsuccess: body => {
@@ -216,25 +218,26 @@
       },
 
       addDevices() {
-          if (this.submitDisabled) return;
-          this.saveIsShowPadName ({
+        if (this.submitDisabled) return;
+        this.saveIsShowPadName({
+          hotel_id: this.hotelId,
+          data: this.isShowDeviceNameOnPad,
+          onsuccess: body => {
+            console.log(888)
+            this.addDevice({
               hotel_id: this.hotelId,
-              data: this.isShowDeviceNameOnPad,
+              device_id: this.deviceId,
+              device_type: this.deviceType,
+              device_name: this.deviceName,
+              mac_address: this.mac_address,
+              partner_id: this.partnerId,
+              enabled: this.enabled ? 1 : 0,
               onsuccess: body => {
-                  console.log (888)
-                  this.addDevice ({
-                      hotel_id: this.hotelId,
-                      device_id: this.deviceId,
-                      device_type: this.deviceType,
-                      device_name: this.deviceName,
-                      partner_id: this.partnerId,
-                      enabled: this.enabled ? 1 : 0,
-                      onsuccess: body => {
-                          this.goto (-1)
-                      }
-                  })
+                this.goto(-1)
               }
-          })
+            })
+          }
+        })
       },
 
       getDevices() {
@@ -244,6 +247,7 @@
             this.deviceId = body.data.id;
             this.deviceType = body.data.type;
             this.deviceName = body.data.name;
+            this.MacAdress = body.data.mac_address;
             this.partnerName = body.data.partner_name;
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
@@ -253,22 +257,23 @@
 
       modifyDevices() {
         if (this.submitDisabled) return;
-          this.saveIsShowPadName ({
-              hotel_id: this.hotelId,
-              data: this.isShowDeviceNameOnPad,
-              onsuccess: body => {
-                  console.log (77)
-                  this.modifyDevice({
-                      device_id: this.deviceId,
-                      hotel_id: this.$route.params.hotelid,
-                      device_type: this.deviceType,
-                      device_name: this.deviceName,
-                      partner_id: this.partnerId,
-                      enabled: this.enabled ? 1 : 0,
-                      onsuccess: body => this.goto(-1)
-                  })
-              }
-          })
+        this.saveIsShowPadName({
+          hotel_id: this.hotelId,
+          data: this.isShowDeviceNameOnPad,
+          onsuccess: body => {
+            console.log(77)
+            this.modifyDevice({
+              device_id: this.deviceId,
+              hotel_id: this.$route.params.hotelid,
+              device_type: this.deviceType,
+              device_name: this.deviceName,
+              mac_address: this.MacAdress,
+              partner_id: this.partnerId,
+              enabled: this.enabled ? 1 : 0,
+              onsuccess: body => this.goto(-1)
+            })
+          }
+        })
       },
 
       removeDevices() {
@@ -279,12 +284,12 @@
       },
 
       _getDeviceTypeList(){
-        this.deviceTypeList=[]
-          this.getDeviceTypeList({
-            onsuccess: (body) => {
-              this.deviceTypeList=body.data
-            }
-          })
+        this.deviceTypeList = []
+        this.getDeviceTypeList({
+          onsuccess: (body) => {
+            this.deviceTypeList = body.data
+          }
+        })
       },
 
       getList() {
@@ -305,13 +310,13 @@
         this.deviceId = this.$route.query.device_id;
         this.getDevices();
         this.getShowDeviceNameStatus({
-            hotel_id:this.hotelId,
-            onsuccess : (body, headers) => {
-               if(body.data){
-                   this.isShowDeviceNameOnPad=body.data.enabled_mirror_show_device_name==='true'?true:false
-               }
+          hotel_id: this.hotelId,
+          onsuccess: (body, headers) => {
+            if (body.data) {
+              this.isShowDeviceNameOnPad = body.data.enabled_mirror_show_device_name === 'true' ? true : false
             }
-          });
+          }
+        });
       }
       this.getList();
       this._getDeviceTypeList();
@@ -384,6 +389,7 @@
       }
     }
   }
+
   .btn-green {
     width: 173px;
     line-height: 18px;
@@ -392,6 +398,7 @@
     border-radius: 0;
     color: #ffffff;
   }
+
   .btn-red {
     width: 173px;
     line-height: 18px;
@@ -400,6 +407,7 @@
     border-radius: 0;
     color: #ffffff;
   }
+
   .btn-yellow {
     width: 173px;
     line-height: 18px;

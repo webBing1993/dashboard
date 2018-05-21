@@ -85,6 +85,7 @@ module.exports = {
         device_id: param.device_id,
         device_type: param.device_type,
         device_name: param.device_name,
+        mac_address: param.mac_address,
         partner_id: param.partner_id,
         enabled: param.enabled
       },
@@ -131,6 +132,7 @@ module.exports = {
         hotel_id: param.hotel_id,
         device_type: param.device_type,
         device_name: param.device_name,
+        mac_address: param.mac_address,
         partner_id: param.partner_id,
         enabled: param.enabled
       },

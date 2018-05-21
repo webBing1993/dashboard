@@ -36,14 +36,6 @@
               <el-switch on-color="#13ce66"off-color="#ff4949"active-value="true"
                          inactive-value="0" v-model="openWithoutCard"></el-switch>
             </div>
-            <!--<div class="item-form" v-if="openWithoutCard">-->
-              <!--<span style="width: 155px">首冲最低金额</span>-->
-              <!--<el-input class="el-right" v-model="firstRecharge" style="display:block"></el-input>-->
-            <!--</div>-->
-            <!--<div class="item-form" v-if="openWithoutCard">-->
-              <!--<span style="width: 155px">续费最低金额</span>-->
-              <!--<el-input class="el-right" v-model="minimumMoney" style="display:block"></el-input>-->
-            <!--</div>-->
             <div class="item-form" v-if="openWithoutCard">
             <span style="width: 155px">充值金额（元）</span>
             <el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>
@@ -59,7 +51,7 @@
           </div>
         </div>
         <!--footer-->
-        <div slot="footer" class="dialog-footer" v-if="openWithoutCard">
+        <div slot="footer" class="dialog-footer">
             <el-button @click="hideDialog">取 消</el-button>
           <!--:disabled="!validateAll"-->
             <el-button  type="primary" @click="submitDialog">确 定</el-button>
@@ -105,8 +97,6 @@
 //        无证核验配置参数
         withoutCardConfig:false,
         openWithoutCard:true,
-//        firstRecharge:'',
-//        minimumMoney:'',
         rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
@@ -122,8 +112,6 @@
       //无数个validate
       validateWithoutCard(){
         if(
-//            tool.isNotBlank(this.firstRecharge)&&
-//          tool.isNotBlank(this.minimumMoney)&&
           tool.isNotBlank(this.rangeMoney)&&
           tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
           return false;
@@ -176,13 +164,8 @@
         let data;
         switch (this.showType) {
           case enumShowType.withoutCard://无证核验
-//            firstRecharge:'',
-//              minimumMoney:'',
-//            checkMoney:'',
             data = {
-//              "first_recharge":this.firstRecharge,
-//              "recharge_lowest":this.minimumMoney,
-              "enable_identity_check_undocumented":true,
+              "enable_identity_check_undocumented":this.openWithoutCard.toString(),
               "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
               "nocard_money_insufficient":this.balanceTip
@@ -231,11 +214,11 @@
         if (tool.isNotBlank(configData)) {
 //            无证核验
           this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
-//          this.firstRecharge=configData.first_recharge;
-//          this.minimumMoney=configData.recharge_lowest;
           this.rangeMoney=configData.recharge_lowest;
           this.checkMoney=configData.nocard_used_pay;
           this.balanceTip=configData.nocard_money_insufficient;
+          this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
+
         }
       }
     },
