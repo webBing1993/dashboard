@@ -1740,6 +1740,14 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>充值中心</span>
+              <el-switch
+                v-model="appCharge"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
@@ -2226,6 +2234,7 @@
         appAbnormal:false,
         appSuspicious:false,
         appDirtyRoom:false,
+        appCharge:false,
         order_hint_item_idFromPAD:'',
         apply_checkout_finish_idFromPAD:'',
         non_equipment_checkin_idFromPAD:'',
@@ -2890,6 +2899,7 @@
           this.appAbnormal=wqtMainCtl.exception_view;
           this.appSuspicious=wqtMainCtl.suspicious_person_view;
           this.appDirtyRoom=wqtMainCtl.dirty_room_view;
+          this.appCharge=wqtMainCtl.recharge_view;
           //公安验证是否显示已处理列表配置
           this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
         };
@@ -3870,7 +3880,8 @@
                       "order_bill_view":this.appMoney,				//账务管理
                       "exception_view":this.appAbnormal,					//异常提醒
                       "suspicious_person_view":this.appSuspicious,
-                      "dirty_room_view":this.appDirtyRoom
+                      "dirty_room_view":this.appDirtyRoom,
+                      "recharge_view":this.appCharge
                   });
               data={
                   wqt_main_control
