@@ -45,7 +45,7 @@
           off-color="#ff4949">
         </el-switch>
       </div>
-      <div class="content-item" v-show="currentCode==='32'">
+      <div class="content-item" v-show="PadId==='32'">
         <span>是否在pad上显示设备名称</span>
         <el-switch
           v-model="isShowDeviceNameOnPad"
@@ -106,14 +106,6 @@
         partnerName: '',
         isShowDeviceNameOnPad: false,
         currentDeviceId: '',
-        typeCode: '',
-
-
-        matchList: [],
-        currentCode: '',
-        currentName: '',
-        currentTargetCode: '',
-        currentTargetName: '',
       }
     },
     computed: {
@@ -141,8 +133,10 @@
 
       partnerIdListTemp() {
         let partnerIdList = [];
-//        console.log('配对设备code',this.currentDeviceId)
-        partnerIdList = this.matchList.filter(v => v.type == this.currentTargetCode)
+        console.log('配对设备code',this.currentDeviceId)
+//        console.log('======', this.deviceList.filter(v => v.type === '31'))
+        partnerIdList = this.deviceList.filter(v => v.type == this.currentDeviceId)
+//        console.log(partnerIdList)
         let list = partnerIdList.map(v => {
           let obj = {
             value: `${v.name} | ${v.id}`
@@ -159,6 +153,7 @@
         'getDeviceTypeList',
         'addDevice',
         'getDevice',
+
         'modifyDevice',
         'removeDevice',
         'goto',
@@ -167,28 +162,20 @@
       ]),
 
       _changeDeviceType(obj){
-          console.log(this.deviceType)
-        console.log('当前设备code1', obj)
-        this.currentCode=obj;
+        console.log('设备code',obj)
         this.deviceTypeList.map(item => {
           if (item.target_type_code == obj) {
             this.PadId = item.type_code
           }
           if (item.type_code == obj) {
-            this.currentTargetCode = item.target_type_code
-          }
-          if(item.type_name==this.deviceType){
-            this.currentCode=item.type_code
+            this.currentDeviceId= item.target_type_code
           }
         })
-        console.log('当前设备code2', this.currentCode)
-        console.log("配对设备Code是", this.currentTargetCode)
       },
 
       hideDialog() {
         this.showDialog = false;
       },
-
       submitDialog() {
         this.modifyDevice({
           hotel_id: '',
@@ -215,7 +202,7 @@
             this.addDevice({
               hotel_id: this.hotelId,
               device_id: this.deviceId,
-              device_type: this.currentCode,
+              device_type: this.deviceType,
               device_name: this.deviceName,
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
@@ -228,25 +215,30 @@
         })
       },
 
+      typeToName(pra){
+          this._getDeviceTypeList();
+        this.deviceTypeList.map(item=>{
+            if(pra==item.type_code){
+               return item.type_name
+            }
+        })
+      },
 
       getDevices() {
-        this.getList()
-        this.deviceType = [];
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            console.log('编辑时获取的设备code', body.data.type)
-            this.deviceTypeList.forEach(item => {
-              if (body.data.type == item.type_code) {
-                this.deviceType = item.type_name;
-                this.currentTargetCode = item.target_type_code
+              console.log('编辑时获取的设备code',body.data.type)
+            this.deviceTypeList.map(item=>{
+              if(body.data.type==item.type_code){
+                this.deviceType =  item.type_name;
+                this.currentDeviceId=item.target_type_code
               }
             })
 //
             console.log('---->shi', this.deviceType)
-
             this.deviceId = body.data.id;
-            this.currentCode = body.data.type;
+//            this.deviceType = body.data.type;
             this.deviceName = body.data.name;
             this.MacAdress = body.data.mac_address;
             this.partnerName = body.data.partner_name;
@@ -258,16 +250,15 @@
 
       modifyDevices() {
         if (this.submitDisabled) return;
-        console.log('确认编辑的code', this.currentCode)
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,
           onsuccess: body => {
+            console.log(77)
             this.modifyDevice({
               device_id: this.deviceId,
               hotel_id: this.$route.params.hotelid,
-//              device_type: this.deviceType,
-              device_type: this.currentCode,
+              device_type: this.deviceType,
               device_name: this.deviceName,
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
@@ -285,33 +276,27 @@
         })
       },
 
-//      获取设备类型
       _getDeviceTypeList(){
         this.deviceTypeList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
-            let temp = body.data
-            temp.map(item => {
-              if (item.type_name == '发票插件') {
-                item.target_type_code = '无配对设备1'
-              } else if (item.type_name == '广告机') {
-                item.target_type_code = '无配对设备2'
+            let temp=body.data
+            temp.map(item=>{
+                if(item.type_name=='发票插件'){
+                  item.target_type_code='无配对设备1'
+                }else if(item.type_name=='广告机'){
+                item.target_type_code='无配对设备2'
               }
             })
-            this.deviceTypeList = temp
+            this.deviceTypeList=temp
           }
         })
       },
 
-//      获取配对设备
-      getList(){
-        this.matchList = []
+      getList() {
         this.getDeviceList({
           hotel_id: this.$route.params.hotelid,
-          onsuccess: (body) => {
-            this.matchList = body.data
-            console.log("配对列表", this.matchList)
-          }
+          // onsuccess: (body, headers) => console.log(body)
         })
       },
 
@@ -336,6 +321,10 @@
       }
       this.getList();
       this._getDeviceTypeList();
+//      if (!this.deviceList || this.deviceList.length === 0) {
+//        this.getList();
+//        this._getDeviceTypeList();
+//      }
     }
   }
 </script>
