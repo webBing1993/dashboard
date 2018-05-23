@@ -8,7 +8,7 @@
             v-for="(obj, index) of deviceTypeList"
             :key="obj.type_code"
             :label="obj.type_name"
-            :value="obj.target_type_code">
+            :value="obj.type_code">
           </el-option>
         </el-select>
       </div>
@@ -32,7 +32,7 @@
         </el-select>
       </div>
 
-      <div class="content-item" v-if="deviceType!==''">
+      <div class="content-item" v-if="deviceType!=='无配对设备1'||deviceType!=='无配对设备2'">
         <span>电脑MAC地址</span>
         <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
       </div>
@@ -130,35 +130,13 @@
           val && (this.partnerIdTemp = `${this.partnerName} | ${val}`);
         }
       },
-//      baseList() {
-//        return this.deviceList.filter(v => v.type === '31')
-//      },
-//      padList() {
-//        return this.deviceList.filter(v => v.type === '32')
-//      },
+
       partnerIdListTemp() {
         let partnerIdList = [];
-        console.log(this.currentDeviceId)
-        console.log('======', this.deviceList.filter(v => v.type === '31'))
-//        if (this.deviceType === '31') {
-//          partnerIdList = this.padList;
-//        } else if (this.deviceType === '32') {
-//          partnerIdList = this.baseList;
-//        }
-//
-//        let list = partnerIdList.map(v => {
-//          let obj = {
-//            value: `${v.name} | ${v.id}`
-//          }
-//          return obj
-//        })
-//        list.unshift({value: '无'})
-//        return list;
-//        console.log(this.currentDeviceId)
-//        console.log(this.deviceList)
-//        console.log(this.deviceList.filter(v => v.type == this.currentDeviceId))
+        console.log('配对设备code',this.currentDeviceId)
+//        console.log('======', this.deviceList.filter(v => v.type === '31'))
         partnerIdList = this.deviceList.filter(v => v.type == this.currentDeviceId)
-        console.log(partnerIdList)
+//        console.log(partnerIdList)
         let list = partnerIdList.map(v => {
           let obj = {
             value: `${v.name} | ${v.id}`
@@ -167,7 +145,6 @@
         })
         list.unshift({value: '无'})
         return list;
-//        return this.deviceList.filter(v => v.type == this.currentDeviceId)
       }
     },
     methods: {
@@ -185,17 +162,15 @@
       ]),
 
       _changeDeviceType(obj){
-        console.log('---->', this.deviceType)
-        console.log(obj)
+        console.log('设备code',obj)
         this.deviceTypeList.map(item => {
           if (item.target_type_code == obj) {
             this.PadId = item.type_code
           }
+          if (item.type_code == obj) {
+            this.currentDeviceId= item.target_type_code
+          }
         })
-        let currentDeviceId = obj
-        this.currentDeviceId = obj
-        console.log('------', this.currentDeviceId)
-
       },
 
       hideDialog() {
@@ -240,12 +215,28 @@
         })
       },
 
+      typeToName(pra){
+          this._getDeviceTypeList();
+        this.deviceTypeList.map(item=>{
+            if(pra==item.type_code){
+               return item.type_name
+            }
+        })
+      },
+
       getDevices() {
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
+              console.log('编辑时获取的设备code',body.data.type)
+            this.deviceTypeList.map(item=>{
+              if(body.data.type==item.type_code){
+                this.deviceType =  item.type_name;
+              }
+            })
+            console.log('---->shi', this.deviceType)
             this.deviceId = body.data.id;
-            this.deviceType = body.data.type;
+//            this.deviceType = body.data.type;
             this.deviceName = body.data.name;
             this.MacAdress = body.data.mac_address;
             this.partnerName = body.data.partner_name;
@@ -287,7 +278,15 @@
         this.deviceTypeList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
-            this.deviceTypeList = body.data
+            let temp=body.data
+            temp.map(item=>{
+                if(item.type_name=='发票插件'){
+                  item.target_type_code='无配对设备1'
+                }else if(item.type_name=='广告机'){
+                item.target_type_code='无配对设备2'
+              }
+            })
+            this.deviceTypeList=temp
           }
         })
       },
