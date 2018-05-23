@@ -20,7 +20,7 @@
         <span>设备名称</span>
         <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
-      <div class="content-item" v-if="deviceType!==''">
+      <div class="content-item" v-if="deviceType!='41'&& deviceType!='51'">
         <span>配对设备</span>
         <el-select class="el-right" v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
@@ -32,7 +32,7 @@
         </el-select>
       </div>
 
-      <div class="content-item" v-if="deviceType!=='无配对设备1'||deviceType!=='无配对设备2'">
+      <div class="content-item" v-if="deviceType!='41'&& deviceType!='51'">
         <span>电脑MAC地址</span>
         <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
       </div>
@@ -232,8 +232,10 @@
             this.deviceTypeList.map(item=>{
               if(body.data.type==item.type_code){
                 this.deviceType =  item.type_name;
+                this.currentDeviceId=item.target_type_code
               }
             })
+//
             console.log('---->shi', this.deviceType)
             this.deviceId = body.data.id;
 //            this.deviceType = body.data.type;
