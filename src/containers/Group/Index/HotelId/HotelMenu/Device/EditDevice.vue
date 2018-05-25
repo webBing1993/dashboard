@@ -193,7 +193,8 @@
         this.modifyDevice({
           hotel_id: '',
           device_id: this.deviceId,
-          device_type: this.deviceType,
+//          device_type: this.deviceType,
+          device_type: this.currentCode,
           device_name: this.deviceName,
           mac_address: this.MacAdress,
           partner_id: this.partnerId,
