@@ -32,10 +32,10 @@
         </el-select>
       </div>
 
-      <div class="content-item" v-if="deviceType!='41'&& deviceType!='51'">
-        <span>电脑MAC地址</span>
-        <el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>
-      </div>
+      <!--<div class="content-item" v-if="deviceType!='41'&& deviceType!='51'">-->
+        <!--<span>电脑MAC地址</span>-->
+        <!--<el-input class="el-right" v-model="MacAdress" placeholder="请输入电脑MAC地址"></el-input>-->
+      <!--</div>-->
 
       <div class="content-item">
         <span>是否开启</span>
