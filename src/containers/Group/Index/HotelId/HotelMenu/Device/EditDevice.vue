@@ -281,6 +281,8 @@
 
       removeDevices() {
         this.removeDevice({
+          hotelId: this.hotelId,
+          device_type:this.currentCode,
           device_id: this.$route.query.device_id,
           onsuccess: body => this.goto(-1)
         })

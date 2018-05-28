@@ -142,10 +142,24 @@ module.exports = {
       }
     })
   },
-  removeDevice(ctx, param) {
+//     周桂桃 5-28 上午11:07
+//     post  /devices/deleteDevice
+// 周桂桃 5-28 上午11:08
+// {
+//   "hotelId":"0864f6731acb11e780ad5cb9018d9b5c", //酒店ID
+//   "deviceType":"",//设备类型 21 人证通,22 发卡机 ,31 - 底座,32 - PAD
+//   "deviceId:""//设备Id
+// }
+
+removeDevice(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/devices/${param.device_id}`,
+      url: `/devices/deleteDevice`,
       method:'DELETE',
+      body: {
+        hotelId: param.hotelId,
+        deviceType: param.device_type,
+        deviceId: param.device_id,
+      },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '删除成功', type: 'success'});
         param.onsuccess ? param.onsuccess(body) : null
