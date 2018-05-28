@@ -88,7 +88,7 @@
               this.rechargeList.push({
 
                 pay_fee: item.pay_fee,
-                pay_way: item.pay_way,
+                pay_user: item.pay_user,
                 recharge_time: this.formatdate(item.recharge_time),
               })
               console.log('--->', this.rechargeList)
