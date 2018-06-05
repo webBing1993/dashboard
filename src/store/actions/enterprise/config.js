@@ -157,6 +157,7 @@ module.exports = {
       url: `/hotel/${param.hotel_id}/pms`,
       method: 'GET',
       onSuccess: body => {
+        console.log("======>",body.data)
         ctx.commit('PMSDATA', body.data ? body.data : {})
         param.onsuccess ? param.onsuccess(body) : null
       }

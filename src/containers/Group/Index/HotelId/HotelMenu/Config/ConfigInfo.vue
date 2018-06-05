@@ -964,6 +964,7 @@
               <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
             </div>
           </div>
+
           <div v-if="showType === enumShowType.wxHotel && RegisterOk">
             <div class="item-form">
               <el-select class="el-right" v-model="optionvalue" placeholder="城市服务">
@@ -980,6 +981,7 @@
               </el-button>
             </div>
           </div>
+
           <div v-if="showType === enumShowType.WxHotelRegister">
             <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
               <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
@@ -3205,15 +3207,18 @@
       },
       depswitch() {
         if (this.wxHotelId) {
+          console.log('11111111111')
           this.delName = 'open';
           this.dialogConfig(enumShowType.WxHotelRegister)
         } else {
+          console.log('2222222222')
           this.delName = 'open';
           this.switchName = 'open';
           this.dialogConfig(enumShowType.wxHotel)
         }
       },
       dialogConfig(type) {
+        console.log('------>',type)
         this.showType = type;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
