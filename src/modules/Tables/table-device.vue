@@ -51,10 +51,16 @@
     },
     filters: {
       deviceType(v) {
+//        if (v === "31") return "底座";
+//        if (v === "32") return "pad";
+//        if (v === "51") return "发票插件";
+//        if (v === "41") return "广告机";
         if (v === "31") return "底座";
+        if (v === "21") return "人证核验机";
         if (v === "32") return "pad";
         if (v === "51") return "发票插件";
         if (v === "41") return "广告机";
+        if (v === "22") return "发卡机";
       },
       status(v) {
         if (v === 1) return "可用";

@@ -5,14 +5,15 @@
       <tr>
         <th>时间</th>
         <th>金额</th>
-        <th>支付方式</th>
+        <th>支付人</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="(obj, index) of rechargeList">
         <td class="v-item">{{obj.recharge_time}}</td>
-        <td class="v-item">{{ parseInt(obj.pay_fee)/100 }} 元</td>
-        <td class="v-item pay_way">{{ obj.pay_way}}</td>
+        <td class="v-item">{{parseInt(obj.pay_fee)/100 }} 元</td>
+        <!--<td class="v-item pay_way">{{obj.pay_user}}</td>-->
+        <td class="v-item pay_way">{{obj.pay_user?obj.pay_user:'空'}}</td>
       </tr>
       </tbody>
     </table>

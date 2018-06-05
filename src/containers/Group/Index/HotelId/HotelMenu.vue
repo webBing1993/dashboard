@@ -20,6 +20,7 @@
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">充值</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/rechargeDetail'">充值详情</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/withoutCardCheck'">无证核验使用详情</router-link>
+
     </aside>
     <router-view class="fifth-router"/>
   </div>
