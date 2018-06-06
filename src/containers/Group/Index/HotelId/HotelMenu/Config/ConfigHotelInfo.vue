@@ -3,304 +3,6 @@
   <div class="module-wrapper">
     <div class="content-configinfo">
       <div class="content-title">
-        <span>系统配置</span>
-        <a @click="goSummary">查看配置汇总</a>
-      </div>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.PMS)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/系统.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>pms对接配置</span>
-              <p>对接PMS的酒店必须开通该配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !pmsId, 'tag_text_green': pmsId}">{{pmsId ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8" v-if="!showReception">
-          <button @click="dialogConfig(enumShowType.lvyeReportType)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>旅业系统配置</span>
-              <p>必须开通该配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red':lvyeType, 'tag_text_green': lvyeType}">{{lvyeType ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.doorLock_unknown)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/门锁.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>门锁配置</span>
-              <p>必须开通该配置。</p>
-            </div>
-            <span class="tag_text">暂无</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.facein)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>人脸识别配置</span>
-              <p>必须开通该配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.wechatPay)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/微信支付.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>PMS支付配置</span>
-              <p>配置PMS支付信息。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="depswitch()">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/酒店.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>生态酒店配置</span>
-              <p>必须开通该配置,身份识别、旅业上报
-                等接口需要用到。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red':!configData.wx_hotel_id, 'tag_text_green': configData.wx_hotel_id}">{{configData.wx_hotel_id ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.miniApp)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/小程序.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>小程序配置</span>
-              <p>关联小程序配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8" v-if="showReception">
-          <button @click="dialogConfig(enumShowType.moreLvyeReportType)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>多旅业系统配置</span>
-              <p>多旅业配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !showMoreLvyeConfig, 'tag_text_green':showMoreLvyeConfig}">{{showMoreLvyeConfig ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.customization)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>定制化配置</span>
-              <p>酒店LOGO、酒店介绍</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.accessServiceType)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>酒店开通业务类型配置</span>
-              <p>业务类型配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-      </el-row>
-
-      <div class="content-title">
-        <span>业务配置 <i>（选择酒店开启业务）</i></span>
-      </div>
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.sign)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/签名.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电子签名</span>
-              <p>客人是否需要在支付后签名。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enabledCancelTime)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/cancel.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电话取消订单</span>
-              <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !isEnabledCancelTime, 'tag_text_green': isEnabledCancelTime}">{{isEnabledCancelTime ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.invoice)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/发票.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>发票配置</span>
-              <p>配置客人是否可以申请发票。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.fastInvoice)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/发票.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>闪开发票配置</span>
-              <p>配置客人是否可以申请闪开发票。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSpeedInvoice, 'tag_text_green': enabledSpeedInvoice}">{{enabledSpeedInvoice ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckinSms)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/登记.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>预登记短信</span>
-              <p>配置客人是否可以受到预登记短信提醒。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.delayedPayment)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/到店.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>到店支付</span>
-              <p>开通后客人可以免支付完成预登记</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledDelayedPayment, 'tag_text_green': enabledDelayedPayment}">{{enabledDelayedPayment ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoCheckout)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/退房.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>自动退房</span>
-              <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
-            </div>
-            <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoRefund)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/退款.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>退款业务配置</span>
-              <p>酒店不必人工登录微信支付手动操作退款，退房成功后调用退款接口。</p>
-            </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckin)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>无证入住</span>
-              <p>酒店是否支持无证入住</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.mobileCheckin)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>启用移动端办理入住</span>
-              <p>启用后可在微前台小程序中进行选房、登记入住人信息、支付等操作
-              </p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledMobileCheckin, 'tag_text_green': enabledMobileCheckin}">{{enabledMobileCheckin ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.rcPrint)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>RC单打印</span>
-              <p>酒店是否支持RC单打印，选择开启一房一签或一人一签
-              </p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enableRCstatus)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>RC单是否开启字段</span>
-              <p>RC单是否开启字段</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-      </el-row>
-      <div class="content-title">
         <span>酒店配置 <i>（需要配置以下所有项目）</i></span>
       </div>
       <el-row :gutter="20">
@@ -632,6 +334,7 @@
           </button>
         </el-col>
       </el-row>
+
       <!--/弹框页-->
       <el-dialog
         :title="typeTitles[showType]"
@@ -643,589 +346,6 @@
       >
         <div class="dialog-content">
           <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
-          <div v-if="showType === enumShowType.PMS">
-            <div class="item-form">
-              <span>PMS品牌</span>
-              <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌">
-                <el-option
-                  v-for="(obj, index) of PMSBrandList"
-                  :key="obj.id"
-                  :label="obj.name"
-                  :value="obj.id">
-                </el-option>
-              </el-select>
-            </div>
-            <div v-show="pmsId != ''">
-              <div class="item-form">
-                <span>酒店PMS编码</span>
-                <el-input class="el-right" v-model="hotelPmsCode" placeholder="请输入酒店PMS编码"></el-input>
-              </div>
-              <div class="item-form">
-                <span>酒店服务地址</span>
-                <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
-              </div>
-            </div>
-            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14'">
-              <div class="item-form">
-                <span>crsURL</span>
-                <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
-              </div>
-              <div class="item-form">
-                <span>hotelGroupCode</span>
-                <el-input class="el-right" v-model="hotelGroupCode" placeholder="请输入hotelGroupCode，选填"></el-input>
-              </div>
-              <div class="item-form">
-                <span>appKey</span>
-                <el-input class="el-right" v-model="appKey" placeholder="请输入appkey，选填"></el-input>
-              </div>
-              <div class="item-form">
-                <span>appSecret</span>
-                <el-input class="el-right" v-model="PMSAppSecret" placeholder="请输入appSecret，选填"></el-input>
-              </div>
-              <div class="item-form">
-                <span>用户名</span>
-                <el-input class="el-right" v-model="userCode" placeholder="请输入用户名，选填"></el-input>
-              </div>
-              <div class="item-form">
-                <span>密码</span>
-                <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
-              </div>
-            </div>
-            <div v-show="pmsType == '1'">
-              <div class="item-form">
-                <span>账单服务地址</span>
-                <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
-              </div>
-              <div class="item-form">
-                <span>CRM服务地址</span>
-                <el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>
-              </div>
-              <div class="item-form">
-                <span>订单服务地址</span>
-                <el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>
-              </div>
-              <div class="item-form">
-                <span>安全服务地址</span>
-                <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
-              </div>
-              <div class="item-form">
-                <span>渠道名称</span>
-                <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
-              </div>
-              <div class="item-form">
-                <span>渠道凭证</span>
-                <el-input class="el-right" v-model="userPass" placeholder="请输入密码"></el-input>
-              </div>
-            </div>
-            <div v-show="pmsType == '3'">
-              <div class="item-form">
-                <span>调用ID</span>
-                <el-input class="el-right" v-model="cid" placeholder="请输入住哲分配的调用ID(cid)"></el-input>
-              </div>
-              <div class="item-form">
-                <span>密钥</span>
-                <el-input class="el-right" v-model="key" placeholder="请输入住哲分配的密钥(key)"></el-input>
-              </div>
-              <div class="item-form">
-                <span>数据加密密钥</span>
-                <el-input class="el-right" v-model="dataKey" placeholder="请输入住哲分配的数据加密密钥(datakey)"></el-input>
-              </div>
-              <div class="item-form">
-                <span>用户名</span>
-                <el-input class="el-right" v-model="adminName" placeholder="请输入用户名"></el-input>
-              </div>
-              <div class="item-form">
-                <span>密码</span>
-                <el-input class="el-right" v-model="adminPassword" placeholder="请输入密码"></el-input>
-              </div>
-              <div class="item-form">
-                <span>品牌ID</span>
-                <el-input class="el-right" v-model="brandId" placeholder="请输入品牌ID"></el-input>
-              </div>
-            </div>
-            <div v-show="pmsType == '8'">
-              <div class="item-form">
-                <span>密钥</span>
-                <el-input class="el-right" v-model="dcKey" placeholder="请输入东呈分配的密钥(key)"></el-input>
-              </div>
-            </div>
-            <!--西软BS-->
-            <div v-show="pmsType == '12'">
-              <div class="item-form">
-                <span>集团ID</span>
-                <el-input class="el-right" v-model="xrbs_groupCode" placeholder="请输入集团ID"></el-input>
-              </div>
-              <div class="item-form">
-                <span>平台appkey</span>
-                <el-input class="el-right" v-model="xrbs_appkey" placeholder="请输入平台appkey"></el-input>
-              </div>
-              <div class="item-form">
-                <span>平台授权码</span>
-                <el-input class="el-right" v-model="xrbs_authCode" placeholder="请输入平台授权码"></el-input>
-              </div>
-              <div class="item-form">
-                <span>返回语种信息</span>
-                <el-input class="el-right" v-model="xrbs_infoLanguage" placeholder="请输入返回语种信息"></el-input>
-              </div>
-              <div class="item-form">
-                <span>服务方法版本</span>
-                <el-input class="el-right" v-model="xrbs_serviceVersion" placeholder="请输入服务方法版本"></el-input>
-              </div>
-              <div class="item-form">
-                <span>渠道代码</span>
-                <el-input class="el-right" v-model="xrbs_CRM" placeholder="请输入渠道代码"></el-input>
-              </div>
-              <div class="item-form">
-                <span>站点ID</span>
-                <el-input class="el-right" v-model="xrbs_siteId" placeholder="请输入站点ID"></el-input>
-              </div>
-              <div class="item-form">
-                <span>工号</span>
-                <el-input class="el-right" v-model="xrbs_employeeNum" placeholder="请输入工号"></el-input>
-              </div>
-              <div class="item-form">
-                <span>模块号</span>
-                <el-input class="el-right" v-model="xrbs_moduleNum" placeholder="请输入模块号"></el-input>
-              </div>
-            </div>
-            <div class="item-form">
-              <span>备注</span>
-              <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
-            </div>
-            <div class="item-form">
-              <span>是否对接退房接口</span>
-              <el-switch
-                v-model="checkout"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>微前台公号</span>
-              <el-input class="el-right" v-model="wqtPublicNo" placeholder="请输入微前台公号"></el-input>
-            </div>
-            <div v-show="pmsType == '5'||pmsType == '7'||pmsType == '9'">
-              <div class="item-form" v-for="(item,index) of urls">
-                <span>代理（备选网址）</span>
-                <el-input class="el-right" v-model="item.url"></el-input>
-                <img src="../../../../../../assets/images/减少.png" class="reduceImg" @click="reduceAlterUrl(index)">
-              </div>
-              <div style="margin-left: 9rem">
-                <el-button plain @click="addAlterUrl"> 添加一个备选网址</el-button>
-              </div>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.lvyeReportType">
-            <div class="lvyeItem">
-              <div class="item-form">
-                <span>上传配置项</span>
-                <el-select class="el-right" v-model="singlelvyeAutoReport" placeholder="请选择旅业系统类型">
-                  <el-option
-                    v-for="(obj, index) of LvyeConfigItemList"
-                    :key="obj.index"
-                    :label="obj.name"
-                    :value="obj.value">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="item-form">
-                <span>旅业系统类型</span>
-                <el-select class="el-right" v-model="lvyeType" placeholder="请选择旅业系统类型">
-                  <el-option
-                    v-for="(obj, index) of rendLvyeTypeList"
-                    :key="obj.index"
-                    :label="obj.lvye_report_type_name"
-                    :value="obj.lvye_report_type">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="item-form">
-                <span>酒店公安ID</span>
-                <el-input class="el-right" v-model="policeId" placeholder="请输入酒店公安ID"></el-input>
-              </div>
-              <div class="item-form">
-                <span>公安类型</span>
-                <el-input class="el-right" v-model="policeType" placeholder="请输入公安类型"></el-input>
-              </div>
-              <div v-show="isPoliceParam">
-                <div class="item-form">
-                  <span>公安参数</span>
-                  <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.doorLock_unknown">
-            <h1>暂无</h1>
-          </div>
-          <div v-if="showType === enumShowType.facein">
-            <div class="item-form">
-              <span>人脸识别通道</span>
-              <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
-                <el-option
-                  v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
-                  :key="index"
-                  :label="obj.name"
-                  :value="obj.name">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span>身份宝账号</span>
-              <el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>
-              <span></span>
-            </div>
-            <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
-              <span>自动通过值</span>
-              <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
-                <el-option
-                  v-for="(obj, index) of [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100]"
-                  :key="index"
-                  :label="obj"
-                  :value="obj">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
-              <span>自动拒绝值</span>
-              <el-select class="el-right" v-model="faceinRejectValue" placeholder="请选择自动拒绝值">
-                <el-option
-                  v-for="(obj, index) of [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100]"
-                  :key="index"
-                  :label="obj"
-                  :value="obj">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form">
-              <span>是否开启人脸识别</span>
-              <el-switch
-                v-model="faceEqu"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否自动人脸核验</span>
-              <el-switch
-                v-model="autoIdentityCheckVal"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否显示相似度对比值</span>
-              <el-switch
-                v-model="similarity"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span>身份宝拒绝是否人工参与</span>
-              <el-switch
-                v-model="shenfenbaoRejectManual"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <article v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
-              <ul>
-                帮助：
-                <li>大于自动通过值则自动通过公安验证。</li>
-                <li>小于自动拒绝值则验证自动拒绝。</li>
-                <li>在自动通过值和自动拒绝值之间需要人工参与核实。</li>
-              </ul>
-            </article>
-          </div>
-          <div v-if="showType === enumShowType.wechatPay">
-            <div class="item_large">
-              <span>酒店微信账务收款代码</span>
-              <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信账务退款代码</span>
-              <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店房租房费关键词</span>
-              <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信支付项目名</span>
-              <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信退款项目名</span>
-              <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.wxHotel && RegisterOk">
-            <div class="item-form">
-              <el-select class="el-right" v-model="optionvalue" placeholder="城市服务">
-                <el-option
-                  v-for="(obj, index) of renderList"
-                  :key="index"
-                  :label="obj.route_name"
-                  :value="obj.route_code">
-                </el-option>
-              </el-select>
-            </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button class="reg" @click="dialogConfig(enumShowType.WxHotelRegister)">注册
-              </el-button>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.WxHotelRegister">
-            <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
-              <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
-                <label v-if="RegistersWxHotelId">{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常1'}}</label>
-                <label v-if="wxHotelId">{{wxHotelId ? wxHotelId : '系统异常2'}}</label>
-              </p>
-              <div>
-                <div v-if="1">
-                  <el-button style="width: 200px;margin-top: 30px" @click="isDelete()">删除</el-button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.miniApp">
-            <div class="item-form">
-              <span>服务商模式</span>
-              <el-switch
-                v-model="provider"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>小程序app_id</span>
-              <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
-                <el-option
-                  v-for="(obj, index) of miniAppList"
-                  :key="obj.app_id"
-                  :label="`${obj.app_id} | ${obj.app_name}`"
-                  :value="`${obj.app_id} | ${obj.app_name}`">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form">
-              <span>商户mch_id</span>
-              <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
-                <el-option
-                  v-for="(obj, index) of mchIdList"
-                  :key="obj.value"
-                  :label="obj.value"
-                  :value="obj.value">
-                </el-option>
-              </el-select>
-            </div>
-            <div v-show="provider">
-              <div class="item-form">
-                <span>服务商app_id</span>
-                <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
-                  <el-option
-                    v-for="(obj, index) of miniAppList"
-                    :key="obj.app_id"
-                    :label="`${obj.app_id} | ${obj.app_name}`"
-                    :value="`${obj.app_id} | ${obj.app_name}`">
-                  </el-option>
-                </el-select>
-              </div>
-              <div class="item-form">
-                <span>服务商mch_id</span>
-                <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
-                  <el-option
-                    v-for="(obj, index) of providerMchIdList"
-                    :key="obj.value"
-                    :label="obj.value"
-                    :value="obj.value">
-                  </el-option>
-                </el-select>
-              </div>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.sign">
-            <div class="item-form">
-              <span>是否开通电子签名？</span>
-              <el-switch
-                v-model="enabledSign"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.enabledCancelTime">
-            <div class="item-form">
-              <span>是否支持电话取消订单？</span>
-              <el-switch
-                v-model="isEnabledCancelTime"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div v-show="isEnabledCancelTime">
-              <span>允许最晚取消时间</span>
-              <el-select class="el-right" v-model="enabledCancelTime">
-                <el-option
-                  v-for="(obj, index) of enabledCancelTimeList"
-                  :key="index"
-                  :label="obj"
-                  :value="obj">
-                </el-option>
-              </el-select>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.invoice">
-            <div class="item-form">
-              <span>是否支持申请发票？</span>
-              <el-switch
-                v-model="enabledInvoice"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div v-show="enabledInvoice">
-              <div class="item-tag2">
-                <span style="min-width: 102px;">发票类型</span>
-                <div class="tag-input">
-                  <div v-for="(obj, index) of invoiceName">
-                    <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
-                  </div>
-                  <div class="tag-btn">
-                    <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
-                            @click="subtractInvoiceName">-
-                    </button>
-                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.fastInvoice">
-            <div class="item-form">
-              <span>是否开启闪开发票？</span>
-              <el-switch
-                v-model="enabledSpeedInvoice"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>发票类型 </span>
-              <el-checkbox-group class="el-right" v-model="invoiceType">
-                <el-checkbox v-for="item in invoicesList" :label="item.value" :key="item.value">{{item.name}}
-                </el-checkbox>
-              </el-checkbox-group>
-            </div>
-            <div class="item-tag2">
-              <span>code</span>
-              <div class="tag-input">
-                <div style="display: flex" v-for="(obj, index) in invoiceCode">
-                  <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
-                  <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码
-                  </el-button>
-                </div>
-                <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceCode.length > 1"
-                          @click="subtractInvoiceCode">-
-                  </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addInvoiceCode">+</button>
-                </div>
-              </div>
-            </div>
-            <div class="item-form">
-              <span>发票插件ID配置</span>
-              <el-input class="el-right" v-model="plugCode" placeholder="请输入发票插件ID"></el-input>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.preCheckinSms">
-            <div class="item-form">
-              <span>预登记是否发送短信？</span>
-              <el-switch
-                v-model="enabledPreCheckinSms"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.delayedPayment">
-            <div class="item-form">
-              <span>是否开通到店支付？</span>
-              <el-switch
-                v-model="enabledDelayedPayment"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.autoCheckout">
-            <div class="item-form">
-              <span>是否开通自动退房服务？</span>
-              <el-switch
-                v-model="enableAutoCheckout"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.autoRefund">
-            <div class="item-form">
-              <span>退款方式</span>
-              <el-select class="el-right" v-model="refundVal" placeholder="请选择退款方式">
-                <el-option
-                  v-for="(obj, index) of refundList"
-                  :key="obj.index"
-                  :label="obj.name"
-                  :value="obj.value">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form">
-              <span>是否开通退款业务配置服务？</span>
-              <el-switch
-                v-model="enabledAutoRefund"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否开通自动退房？</span>
-              <el-switch
-                v-model="isAccessAutoCheckout"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否允许营业员操作超出押金的退款？</span>
-              <el-switch
-                v-model="operateOverDeposit"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.preCheckin">
-            <div class="item-form">
-              <span>是否开通无证入住业务？</span>
-              <el-switch
-                v-model="enabledPreCheckin"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.mobileCheckin">
-            <div class="item-form">
-              <span>是否支持手机入住？</span>
-              <el-switch
-                v-model="enabledMobileCheckin"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
           <div v-if="showType === enumShowType.roomCard">
             <div class="item-form">
               <span>是否支持吞吐门卡？</span>
@@ -1506,49 +626,6 @@
               </el-switch>
             </div>
           </div>
-          <!-- RC单打印 -->
-          <div v-if="showType === enumShowType.rcPrint">
-            <div class="item-form">
-              <span>模版名称</span>
-              <el-upload
-                ref="upload"
-                class="upload-demo el-right"
-                :headers="setHeader"
-                :action="rcgethotelid"
-                :on-success="getUploadData"
-                :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
-              </el-upload>
-            </div>
-            <div class="item-form">
-              <span>电子签名</span>
-              <el-radio v-model="perRoom" label="1">一房一签</el-radio>
-              <el-radio v-model="perRoom" label="2">一人一签</el-radio>
-            </div>
-            <div style="margin: -0.5rem 0 0.5rem 9rem ;color: #9B9B9B;margin-top: -0.5rem">
-              <span>注：一房一签：只需有第一位入住人签名，同住人无需再签名</span><br>
-              <span style="margin-left: 2rem">一人一签：要求每位入住人都签名</span>
-            </div>
-            <div class="item-form">
-              <span>默认自动打印</span><br>
-              <el-switch
-                v-model="autoPrintVal"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.enableRCstatus">
-            <div class="item-form">
-              <span>RC单是否开启字段</span>
-              <el-switch
-                v-model="rcStatus"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
           <div v-if="showType === enumShowType.identityCheck">
             <div class="item-form">
               <span>是否自动调用人脸识别接口</span>
@@ -1559,43 +636,34 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.noCertificateCheck">
+          <div v-if="showType === enumShowType.PADshowContent">
             <div class="item-form">
-              <span>无证核验</span>
-              <el-switch
-                v-model="enableNoCertificateCheck"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
+              <span style="width: 155px">未查找到订单界面提示语</span>
+              <el-input class="el-right" v-model="notFoundMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">申请退房完成界面提示语</span>
+              <el-input class="el-right" v-model="checkOutMark" style="display:block;"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">非设备入住退房提示语</span>
+              <el-input class="el-right" v-model="noDeviceCheckInMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">退房失败以后提示语</span>
+              <el-input class="el-right" v-model="failedCheckOutMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 155px">酒店客服电话</span>
+              <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
             </div>
           </div>
-          <!-- 定制化配置 -->
-          <div v-if="showType === enumShowType.customization">
-            <div class="item-form">
-              <span>是否显示酒店的介绍</span>
-              <el-switch
-                v-model="mirrorIntro"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>显示酒店品牌的logo</span>
-              <el-switch
-                v-model="mirrorBrand"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <!--通知同住人配置-->
           <div v-if="showType === enumShowType.informCoResident">
             <div class="item-form">
               <span>酒店同住人未到时通知发送间隔</span>
               <el-input class="el-right" style="margin-right: 10px" v-model="timeStep"></el-input> 小时
             </div>
           </div>
-          <!--开通酒店业务类型配置-->
           <div v-if="showType === enumShowType.accessServiceType">
             <div class="item-form">
               <span>格式化脚本</span>
@@ -1636,37 +704,16 @@
               </el-switch>
             </div>
           </div>
-          <!--PAD界面显示-->
-          <div v-if="showType === enumShowType.PADshowContent">
+          <div v-if="showType === enumShowType.noCertificateCheck">
             <div class="item-form">
-              <span style="width: 155px">未查找到订单界面提示语</span>
-              <el-input class="el-right" v-model="notFoundMark" style="display:block"></el-input>
-            </div>
-            <div class="item-form">
-              <span style="width: 155px">申请退房完成界面提示语</span>
-              <el-input class="el-right" v-model="checkOutMark" style="display:block;"></el-input>
-            </div>
-            <div class="item-form">
-              <span style="width: 155px">非设备入住退房提示语</span>
-              <el-input class="el-right" v-model="noDeviceCheckInMark" style="display:block"></el-input>
-            </div>
-            <div class="item-form">
-              <span style="width: 155px">退房失败以后提示语</span>
-              <el-input class="el-right" v-model="failedCheckOutMark" style="display:block"></el-input>
-            </div>
-            <div class="item-form">
-              <span style="width: 155px">酒店客服电话</span>
-              <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
+              <span>无证核验</span>
+              <el-switch
+                v-model="enableNoCertificateCheck"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
           </div>
-          <!--<div v-if="showType === enumShowType.appManage">-->
-            <!--<el-radio-group v-model="appValue">-->
-              <!--<span>门店业务</span>-->
-              <!--<el-radio class="el-right"label="IDENTITY">公安人证核验 <br><span style="margin-left: 1.5rem;color: #a9a9a9">设备核验（包括应用，待办事项）</span></el-radio>-->
-              <!--<span></span>-->
-              <!--<el-radio class="el-right"label="WQT">微前台 <br><span style="margin-left: 1.5rem;color: #a9a9a9">订单中心，住离信息，入住核验，设备核验，发票中心，财务管理，异常提醒</span></el-radio>-->
-            <!--</el-radio-group>-->
-          <!--</div>-->
           <div v-if="showType === enumShowType.appManage2">
             <div class="item-form">
               <span>公安验证</span>
@@ -1741,22 +788,12 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.autoGiveRoom">
-            <div class="item-form">
-              <span>是否自动分房</span>
-              <el-switch
-                v-model="autoGiveRoomVal"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
           <div v-if="showType === enumShowType.reviewRoomNum">
             <div class="item-form">
               <span>PMS房间号与旅业房间号核对:</span>
             </div>
             <div class="item-form">
-             <table-roomNumReview :list="renderRoomNumReviewList" :page="page" :size="size"></table-roomNumReview>
+              <table-roomNumReview :list="renderRoomNumReviewList" :page="page" :size="size"></table-roomNumReview>
             </div>
             <div class="item-form">
               <el-pagination
@@ -1838,76 +875,34 @@
   }
   //弹框类型
   const enumShowType = {
-    checkDel: 0,
-    PMS: 1, //PMS信息
-    lvyeReportType: 2,  //旅业系统配置
-    doorLock_unknown: 3, //门锁配置
-    facein: 4,  //人脸识别配置
-    wechatPay: 5,  //微信支付配置
-    wxHotel: 6,  //微信生态酒店配置
-    miniApp: 7,  //小程序配置
-    sign: 8, //电子签名配置
-    enabledCancelTime: 9, //电话取消订单配置
-    invoice: 10,  //发票配置
-    fastInvoice: 11,  //发票配置
-    preCheckinSms: 12,  //预登记短信配置
-    delayedPayment: 13, //到店支付配置
-    autoCheckout: 14, //自动退房配置
-    autoRefund: 15, //退款业务配置配置
-    preCheckin: 16, //无证入住配置
-    roomCard: 17, //门卡配置
-    cashPledge: 18, //押金配置
-    breakfastStemFrom: 19,  //早餐券配置
-    maxAllowRoomcount: 20,  //最大房间数量配置
-    syncSpaceTime: 21,  //PMS同步频率配置
-    autoConfirmPrePay: 22,  //自动确认预付款配置
-    supportVd: 23,  //脏房配置
-    roomTags: 24,  //房间标签配置
-    fastCard: 25,  //极速领卡配置
-    WxHotelRegister: 26,//微信生态酒店——城市服务注册
-    CustomerOperate: 27,//禁止顾客操作订单
-    mobileCheckin: 28,//启用移动端办理入住
-    ticketPrint: 29,//是否启用小票打印
-    advancedCheckout: 30,//是否允许提前退房
-    hotelAreaCode: 31,//酒店行政区划代码
-    qrCodeCreate: 32,//酒店二维码配置
-    autoGiveRoom: 33,//自动分房
-    autoIdentityCheck: 34,//自动调用人脸识别接口
-    issuedCardRule: 35,//发房卡规则
-    rcPrint: 36,
-    identityCheck: 37,
-    moreLvyeReportType: 38,
-    customization:39,
-    enableRCstatus :40,
-    accessServiceType:41,
-    PADshowContent:42,
-    informCoResident:43,
-    noCertificateCheck:44,
-    // appManage:45,
-    appManage2:45,
-    reviewRoomNum:46,
-    isShowPoliceHandeld:47,
-    keyAccess:48
+    roomCard: 1, //门卡配置
+    cashPledge: 2, //押金配置
+    breakfastStemFrom: 3,  //早餐券配置
+    maxAllowRoomcount: 4,  //最大房间数量配置
+    syncSpaceTime: 5,  //PMS同步频率配置
+    autoConfirmPrePay: 6,  //自动确认预付款配置
+    supportVd: 7,  //脏房配置
+    roomTags: 8,  //房间标签配置
+    fastCard: 9,  //极速领卡配置
+    CustomerOperate: 10,//禁止顾客操作订单
+    ticketPrint: 11,//是否启用小票打印
+    advancedCheckout: 12,//是否允许提前退房
+    hotelAreaCode: 13,//酒店行政区划代码
+    qrCodeCreate: 14,//酒店二维码配置
+    autoGiveRoom: 15,//自动分房
+    identityCheck:16,//开启身份核验功能
+//    autoIdentityCheck:16,//开启身份核验功能
+    PADshowContent:17,//PAD界面内容显示配置
+    informCoResident:18,//通知同住人配置
+    noCertificateCheck:19,//无证核验
+    appManage2:20,//企业微信应用功能配置管理
+    reviewRoomNum:21,//旅业房间号核对配置
+    isShowPoliceHandeld:22,//公安验证是否显示已处理
+    keyAccess:23,//关键通道
   }
 
   //弹框标题类型
   const typeTitles = ['是否删除',
-    'PMS信息',
-    '旅业系统配置',
-    '门锁配置',
-    '人脸识别配置',
-    '微信支付配置',
-    '微信生态酒店配置',
-    '小程序配置',
-    '电子签名配置',
-    '电话取消订单配置',
-    '发票配置',
-    '闪开发票配置',
-    '预登记短信配置',
-    '到店支付配置',
-    '自动退房配置',
-    '退款业务配置',
-    '无证入住配置',
     '房卡配置',
     '押金配置',
     '早餐券配置',
@@ -1917,22 +912,13 @@
     '脏房配置',
     '房间标签配置',
     '极速领卡配置',
-    '微信生态酒店配置',
     '禁止顾客操作订单配置',
-    '订单操作配置',
     '是否打印小票配置',
     '退离规则配置',
     '酒店行政区划代码配置',
     '酒店二维码配置',
     '分房配置',
-    '自动人脸核验配置',
-    '发房卡规则配置',
-    'RC单打印',
     '开启身份核验功能配置',
-    '酒店多旅业系统配置',
-    '定制化配置',
-    'RC单是否开启字段',
-    '酒店开通业务类型配置',
     'PAD界面内容显示配置',
     '通知同住人配置',
     '无证核验',
@@ -1940,7 +926,6 @@
     '旅业房间号核对配置',
     '公安验证是否显示已处理记录',
     '关键通道配置',
-
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1991,129 +976,131 @@
         showType: '',
         showDialog: false,
         //PMS配置
-        wqtPublicNo:'',
-        PMSBrandList: [],
-        checkout: true,
-        urls: [],
+//        wqtPublicNo:'',
+//        PMSBrandList: [],
+//        checkout: true,
+//        urls: [],
         //捷信达
-        pmsId: '',
+//        pmsId: '',
         // pmsType: '', //放在计算属性
-        hotelPmsCode: '',
-        hotelServiceUrl: '',
-        remark: '',
+//        hotelPmsCode: '',
+//        hotelServiceUrl: '',
+//        remark: '',
         //西软BS
-          xrbs_groupCode:'',
-          xrbs_appkey:'',
-          xrbs_authCode:'',
-          xrbs_serviceVersion:'',
-          xrbs_infoLanguage:'',
-          xrbs_CRM:'',
-          xrbs_siteId:'',
-          xrbs_employeeNum:'',
-          xrbs_moduleNum:'',
+//          xrbs_groupCode:'',
+//          xrbs_appkey:'',
+//          xrbs_authCode:'',
+//          xrbs_serviceVersion:'',
+//          xrbs_infoLanguage:'',
+//          xrbs_CRM:'',
+//          xrbs_siteId:'',
+//          xrbs_employeeNum:'',
+//          xrbs_moduleNum:'',
         //绿云,西软
-        crsURL: '',
-        hotelGroupCode: '',
-        appKey: '',
-        PMSAppSecret: '',
-        userCode: '',
-        password: '',
+//        crsURL: '',
+//        hotelGroupCode: '',
+//        appKey: '',
+//        PMSAppSecret: '',
+//        userCode: '',
+//        password: '',
         //别样红
-        billServiceUrl: '',
-        crmServiceUrl: '',
-        orderServiceUrl: '',
-        secServiceUrl: '',
-        userName: '',
-        userPass: '',
+//        billServiceUrl: '',
+//        crmServiceUrl: '',
+//        orderServiceUrl: '',
+//        secServiceUrl: '',
+//        userName: '',
+//        userPass: '',
         //住哲
-        cid: '',
-        key: '',
-        dataKey: '',
-        adminName: '',
-        adminPassword: '',
-        brandId: '',
-        //东呈
-        dcKey: '',
+//        cid: '',
+//        key: '',
+//        dataKey: '',
+//        adminName: '',
+//        adminPassword: '',
+//        brandId: '',
+//        东呈
+//        dcKey: '',
         // 旅业配置
-        lvyeTypeList: [],
-          singlelvyeAutoReport: '',
-        lvyeType: '',
-        policeId: '',
-        policeType: '',
-        policeParam: '',
+//        lvyeTypeList: [],
+//          singlelvyeAutoReport: '',
+//        lvyeType: '',
+//        policeId: '',
+//        policeType: '',
+//        policeParam: '',
         //门锁配置，暂无
         //人脸识别配置
-        faceEqu: true,
-        similarity:false,
-        faceTongdao: '腾讯优图',
-        identityAccount: null,
-        shenfenbaoRejectManual: "false",
-
-        faceinPassValue: 70,
-        faceinRejectValue: 70,
+//        faceEqu: true,
+//        similarity:false,
+//        faceTongdao: '腾讯优图',
+//        identityAccount: null,
+//        shenfenbaoRejectManual: "false",
+//
+//        faceinPassValue: 70,
+//        faceinRejectValue: 70,
         //微信支付配置
-        payCode: '',
-        refundCode: '',
-        dayrentName: '',
-        payName: '',
-        refundName: '',
+//        payCode: '',
+//        refundCode: '',
+//        dayrentName: '',
+//        payName: '',
+//        refundName: '',
         //微信生态酒店配置
-        wxHotelId: '',
-        wxhotelCityserList: [],
-        RegistersWxHotelId: '',//注册返回的微信酒店id
-        deleteList: '',//删除微信酒店后返回
-        //小程序配置
-        miniAppList: [],
-        provider: false,
-        appIdTemp: '',
+//        wxHotelId: '',
+//        wxhotelCityserList: [],
+//        RegistersWxHotelId: '',//注册返回的微信酒店id
+//        deleteList: '',//删除微信酒店后返回
+//        小程序配置
+//        miniAppList: [],
+//        provider: false,
+//        appIdTemp: '',
         // appId: '',
         // mchId: '',
-        mchIdTemp: '',
-        providerAppIdTemp: '',
-        // providerAppId: '',
-        providerMchIdTemp: '',
-        // providerMchId: '',
-        //电子签名
-        enabledSign: false,
-        //电话取消订单
-        isEnabledCancelTime: false,
-        enabledCancelTime: '18:00',
-        enabledCancelTimeList: ['12:00', '12:30', '13:00',
-          '13:30', '14:00', '14:30', '15:00', '15:30',
-          '16:00', '16:30', '17:00', '17:30', '18:00',
-          '18:30', '19:00', '19:30', '20:00', '20:30',
-          '21:00', '21:30', '22:00', '22:30', '23:00',
-          '23:30', '24:00'],
-        //发票配置
-        enabledInvoice: true,
-        invoiceName: [''],
-        //闪开发票配置
-        enabledSpeedInvoice: false,
-        invoiceType: [],
-        invoicesList: [{name: '普通发票', value: '1'}, {name: '专用发票', value: '2'}, {name: '个人发票', value: '3'}],
-        invoiceCode: [''],
+//        mchIdTemp: '',
+//        providerAppIdTemp: '',
+//        // providerAppId: '',
+//        providerMchIdTemp: '',
+//        // providerMchId: '',
+//        //电子签名
+//        enabledSign: false,
+//        //电话取消订单
+//        isEnabledCancelTime: false,
+//        enabledCancelTime: '18:00',
+//        enabledCancelTimeList: ['12:00', '12:30', '13:00',
+//          '13:30', '14:00', '14:30', '15:00', '15:30',
+//          '16:00', '16:30', '17:00', '17:30', '18:00',
+//          '18:30', '19:00', '19:30', '20:00', '20:30',
+//          '21:00', '21:30', '22:00', '22:30', '23:00',
+//          '23:30', '24:00'],
+//        //发票配置
+//        enabledInvoice: true,
+//        invoiceName: [''],
+//        //闪开发票配置
+//        enabledSpeedInvoice: false,
+//        invoiceType: [],
+//        invoicesList: [{name: '普通发票', value: '1'}, {name: '专用发票', value: '2'}, {name: '个人发票', value: '3'}],
+//        invoiceCode: [''],
         qrImgUrl: '',
-        tempCode: '',
+//        tempCode: '',
         isBigQrImg: true,
         showQrImgContent: false,
-        plugCode: '',
-        //预登记短信配置
-        enabledPreCheckinSms: false,
-        //到店支付配置
-        enabledDelayedPayment: true,
-        //自动退房
-        enableAutoCheckout: false,
-        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
-        refundVal:'',
-        //退款业务配置
-        enabledAutoRefund: true,
-        operateOverDeposit:false,
-        isAccessAutoCheckout:false,
-        isAccessAutoRefund:false, //无证入住
-        enabledPreCheckin: true,
-        //是否指出手机入住
-        enabledMobileCheckin: false,
-        enabledRCPrint: false,
+//        plugCode: '',
+//        //预登记短信配置
+//        enabledPreCheckinSms: false,
+//        //到店支付配置
+//        enabledDelayedPayment: true,
+//        //自动退房
+//        enableAutoCheckout: false,
+//        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
+//        refundVal:'',
+//        //退款业务配置
+//        enabledAutoRefund: true,
+//        operateOverDeposit:false,
+//        isAccessAutoCheckout:false,
+//        isAccessAutoRefund:false, //无证入住
+//        enabledPreCheckin: true,
+//        //是否指出手机入住
+//        enabledMobileCheckin: false,
+//        enabledRCPrint: false,
+
+
         //门卡配置
         supportRoomCard: true,
         //押金配置
@@ -2197,7 +1184,7 @@
         moreLvyeReportVal: '',
 //        RC单
 //        http://intg.fortrun.cn/fileUpload/1486553a8edc4b088539d05aa99221e2
-        actionUrl: 'http://localhost:8080/virgo/fileUpload',
+//        actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData: '',
         rcConfig: false,
         hasSetMoreLvye: false,
@@ -2374,105 +1361,8 @@
       roomTagsList() {
         return this.roomTags.filter(v => v != '');
       },
+
       //无数个validate
-      validatePMS() {
-        if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsType) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
-          if (this.pmsType == '1') {
-            return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
-          } else if (this.pmsType == '3') {
-            return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey)
-          } else if (this.pmsType == '8') {
-            return tool.isNotBlank(this.dcKey)
-          }
-          else {
-            return true;
-          }
-        } else {
-          return false;
-        }
-      },
-      validatelvyeReportType() {
-        if (!this.isPoliceParam) {
-            console.log(888)
-          return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
-        } else if (this.isPoliceParam) {
-            console.log(999)
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
-            let flag = true;
-            try {
-              JSON.parse(this.policeParam);
-            } catch (e) {
-              flag = false;
-            }
-            return flag;
-          }
-          return false;
-        } else if (this.lvyeType == 'NONE') {
-            return true;
-        } else {
-          return false;
-        }
-      },
-      validateMore() {
-        return true;
-      },
-      validatefacein() {
-        // return tool.isNotBlank(this.faceinPassValue) && tool.isNotBlank(this.faceinRejectValue);
-        return (typeof this.faceinPassValue === 'number') && (typeof this.faceinRejectValue === 'number');
-      },
-      validatewechatPay() {
-        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName);
-//                tool.isNotBlank(this.mchId) &&
-      },
-      validatewxHotel() {
-        return tool.isNotBlank(this.wxHotelId);
-      },
-      validatewxHotelReg() {
-//        return tool.isNotBlank(this.wxHotelId);
-        this.optionvalue && this.optionvalue.length > 0 ? true : false;
-      },
-      validateminiApp() {
-        if (!this.provider) {
-          return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId);
-        }
-        return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.providerAppId) && tool.isNotBlank(this.providerMchId);
-      },
-      validatesign() {
-        return true;
-      },
-      validateenabledCancelTime() {
-        return true;
-      },
-      validateinvoice() {
-        if (this.enabledInvoice) {
-          return (this.invoiceNameList.length > 0);
-        }
-        return true;
-      },
-      validatefastinvoice() {
-        if (this.enabledSpeedInvoice) {
-          return (this.invoiceCodeList.length > 0) && tool.isNotBlank(this.invoiceType) && tool.isNotBlank(this.plugCode)
-        }
-        return true;
-      },
-      validatepreCheckinSms() {
-        return true;
-      },
-      validatedelayedPayment() {
-        return true;
-      },
-      validateautoCheckout() {
-        return true;
-      },
-      validateautoRefund() {
-        return true;
-      },
-      validatepreCheckin() {
-        return true;
-      },
-      validatemobileCheckin() {
-        return true;
-      },
       validateroomCard() {
         return tool.isNotBlank(this.issuedCardRuleVal);
       },
@@ -2500,147 +1390,37 @@
           return true;
         }
       },
-      validatebreakfastStemFrom() {
-        return true;
-      },
+
       validatemaxAllowRoomcount() {
         return tool.isNotBlank(this.maxAllowRoomcount) && !isNaN(+this.maxAllowRoomcount)
       },
-      validatesyncSpaceTime() {
-        return true;
-      },
+
       validateautoConfirmPrePay() {
         return tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword)
       },
-      validatesupportVd() {
-        return true;
-      },
-      validateroomTags() {
-        return true;
-      },
-      validateisfastcard() {
-        return true;
-      },
-      validateCustomerOperate() {
-        return true;
-      },
-      validateTicketPrint() {
-        return true;
-      },
-      validateAdvancedCheckout() {
-        return true;
-      },
-      validateHotelAreaCode() {
-        return true;
-      },
+
       validateQrcodeCreate() {
         return (tool.isNotBlank(this.serviceType) && tool.isNotBlank(this.qrName) && tool.isNotBlank(this.qrCode))
       },
-      validateAutoGiveRoom() {
-        return true;
-      },
-      validateAutoIdentityCheck() {
-        return true;
-      },
+
       validateIssuedCardRule() {
         return (tool.isNotBlank(this.issuedCardRuleVal));
       },
-      validateRcPrint() {
-        return (tool.isNotBlank(this.rcTemplateVal) && (tool.isNotBlank(this.perRoom) && tool.isNotBlank(this.perGuest) && tool.isNotBlank(this.autoPrintVal)))
-      },
-      validateIdentityCheck() {
-        return true;
-      },
-      validateRCPrintCheck() {
-        return true;
-      },
-      validateRCStatus() {
-          return true;
-      },
-      validateCustomization(){
-        return true;
-      },
+
       validateAccessService(){
         return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
       },
-      validatePADshowContent(){
-        return true;
-      },
+
       validateInformCoResident(){
         return (tool.isNotBlank(this.timeStep))
       },
       validateAppManage(){
         return (tool.isNotBlank(this.appValue))
       },
-      validateAppManage2(){
-        return true;
-      },
-      validateKeyAccess(){
-        return true;
-      },
-      validateReviewRoomNum(){
-        return true;
-      },
-      validateShowPoliceHandled(){
-        return true;
-      },
+
       validateAll() {
         let result = false;
         switch (this.showType) {
-          case enumShowType.PMS:
-            result = this.validatePMS;
-            break;
-          case enumShowType.lvyeReportType:
-            result = this.validatelvyeReportType;
-            break;
-          case enumShowType.doorLock_unknown:
-            result = this.validatedoorLock_unknown;
-            break;
-          case enumShowType.facein:
-            result = this.validatefacein;
-            break;
-          case enumShowType.wechatPay:
-            result = this.validatewechatPay;
-            break;
-          case enumShowType.wxHotel:
-            result = this.validatewxHotel;
-            break;
-          case enumShowType.WxHotelRegister:
-            result = this.validatewxHotelReg;
-            break;
-          case enumShowType.miniApp:
-            result = this.validateminiApp;
-            break;
-          case enumShowType.sign:
-            result = this.validatesign;
-            break;
-          case enumShowType.enabledCancelTime:
-            result = this.validateenabledCancelTime;
-            break;
-          case enumShowType.invoice:
-            result = this.validateinvoice;
-            break;
-          case enumShowType.fastInvoice:
-            result = this.validatefastinvoice;
-            break;
-          case enumShowType.preCheckinSms:
-            result = this.validatepreCheckinSms;
-            break;
-          case enumShowType.delayedPayment:
-            result = this.validatedelayedPayment;
-            break;
-          case enumShowType.autoCheckout:
-            result = this.validateautoCheckout;
-            break;
-          case enumShowType.autoRefund:
-            result = this.validateautoRefund;
-            break;
-          case enumShowType.preCheckin:
-            result = this.validatepreCheckin;
-            break;
-          case enumShowType.mobileCheckin:
-            result = this.validatemobileCheckin;
-            break;
           case enumShowType.roomCard:
             result = this.validateroomCard;
             break;
@@ -2648,91 +1428,64 @@
             result = this.validatecashPledge;
             break;
           case enumShowType.breakfastStemFrom:
-            result = this.validatebreakfastStemFrom;
+            result = true;
             break;
           case enumShowType.maxAllowRoomcount:
             result = this.validatemaxAllowRoomcount;
             break;
           case enumShowType.syncSpaceTime:
-            result = this.validatesyncSpaceTime;
+            result = true;
             break;
           case enumShowType.autoConfirmPrePay:
             result = this.validateautoConfirmPrePay;
             break;
           case enumShowType.supportVd:
-            result = this.validatesupportVd;
+            result = true;
             break;
           case enumShowType.roomTags:
-            result = this.validateroomTags;
+            result = true;
             break;
           case enumShowType.fastCard:
-            result = this.validateisfastcard;
+            result = true;
             break;
           case enumShowType.CustomerOperate:
-            result = this.validateCustomerOperate;
+            result = true;
             break;
           case enumShowType.ticketPrint:
-            result = this.validateTicketPrint;
+            result = true;
             break;
           case enumShowType.advancedCheckout:
-            result = this.validateAdvancedCheckout;
+            result = true;
             break;
           case enumShowType.hotelAreaCode:
-            result = this.validateHotelAreaCode;
+            result = true;
             break;
           case enumShowType.qrCodeCreate:
             result = this.validateQrcodeCreate;
             break;
           case enumShowType.autoGiveRoom:
-            result = this.validateAutoGiveRoom;
-            break;
-          case enumShowType.autoIdentityCheck:
-            result = this.validateAutoIdentityCheck;
-            break;
-          case enumShowType.issuedCardRule:
-            result = this.validateIssuedCardRule;
-            break;
-          case enumShowType.identityCheck:
-            result = this.validateIdentityCheck
-            break;
-          case enumShowType.rcPrint:
             result = true;
             break;
-          case enumShowType.noCertificateCheck:
-              result = true;
-          break;
-          case enumShowType.moreLvyeReportType:
-            result = this.validateMore;
-            break;
-          case enumShowType.customization:
-            result = this.validateCustomization;
-            break;
-          case enumShowType.enableRCstatus:
-            result = this.validateRCStatus ;
-            break;
-          case enumShowType.accessServiceType:
-            result=this.validateAccessService;
+          case enumShowType.autoIdentityCheck:
+            result = true;
             break;
           case enumShowType.PADshowContent:
-            result=this.validatePADshowContent;
+            result=true;
             break;
           case enumShowType.informCoResident:
             result=this.validateInformCoResident;
             break;
-          // case enumShowType.appManage:
-          //   result=this.validateAppManage;
-          //   break;
           case enumShowType.appManage2:
-              result=this.validateAppManage2;
+              result=true;
               break;
-          case enumShowType.keyAccess:
-            result=this.validateKeyAccess;
-            break;
           case enumShowType.reviewRoomNum:
-            result=this.validateReviewRoomNum;
+            result=true;
             break
           case enumShowType.isShowPoliceHandeld:
-          result=this.validateShowPoliceHandled;
+          result=true;
+            break;
+          case enumShowType.keyAccess:
+            result=true;
             break;
           default:
             result = false;
@@ -2894,64 +1647,64 @@
           this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
         };
       },
-      pmsData() {
-        if (tool.isNotBlank(this.pmsData)) {
-          //PMS信息
-          //捷信达
-          this.wqtPublicNo=this.pmsData.pms_worker_id;
-          this.urls=this.pmsData.urls;
-          this.pmsId = this.pmsData.pms_id;
-          this.checkout = this.pmsData.checkout == 'true' ? true : false;
-          // this.pmsType = this.pmsData.pms_type; //放在计算属性
-          this.hotelPmsCode = this.pmsData.hotel_pmscode;
-          this.remark = this.pmsData.remark;
-          this.hotelServiceUrl = this.pmsData.hotel_service_url;
-          //绿云,西软
-          this.crsURL = this.pmsData.crs_url;
-          this.hotelGroupCode = this.pmsData.hotel_group_code;
-          this.appKey = this.pmsData.app_key;
-          this.PMSAppSecret = this.pmsData.app_secret;
-          this.userCode = this.pmsData.usercode;
-          this.password = this.pmsData.password;
-          //别样红
-          this.billServiceUrl = this.pmsData.bill_service_url;
-          this.crmServiceUrl = this.pmsData.crm_service_url;
-          this.orderServiceUrl = this.pmsData.order_service_url;
-          this.secServiceUrl = this.pmsData.sec_service_url;
-          this.userName = this.pmsData.user_name;
-          this.userPass = this.pmsData.user_pass;
-          //住哲
-          this.cid = this.pmsData.cid;
-          this.key = this.pmsData.key;
-          this.dataKey = this.pmsData.datakey;
-          this.adminName = this.pmsData.admin_name;
-          this.adminPassword = this.pmsData.admin_password;
-          this.brandId = this.pmsData.brand_id;
-          //东呈
-          this.dcKey = this.pmsData.key;
-          //西软BS
-          this.xrbs_groupCode=this.pmsData.hotelGroupCode;
-          this.xrbs_appkey=this.pmsData.appKey;
-          this.xrbs_authCode=this.pmsData.secret;
-          this.xrbs_serviceVersion=this.pmsData.ver;
-          this.xrbs_infoLanguage=this.pmsData.loc;
-          this.xrbs_CRM=this.pmsData.cmmcode;
-          this.xrbs_siteId=this.pmsData.pcid;
-          this.xrbs_employeeNum=this.pmsData.empno;
-          this.xrbs_moduleNum=this.pmsData.modu;
-        }
-      },
-      lvyeData() {
-        // 旅业配置
-        if (tool.isNotBlank(this.lvyeData)) {
-          this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
-          this.lvyeType = this.lvyeData.lvye_report_type;
-          console.log('this.lvyeType:',this.lvyeType)
-          this.policeId = this.lvyeData.hotel_ga_id;
-          this.policeType = this.lvyeData.police_type;
-          this.policeParam = JSON.stringify(this.lvyeData.police_param);
-        }
-      },
+//      pmsData() {
+//        if (tool.isNotBlank(this.pmsData)) {
+//          //PMS信息
+//          //捷信达
+//          this.wqtPublicNo=this.pmsData.pms_worker_id;
+//          this.urls=this.pmsData.urls;
+//          this.pmsId = this.pmsData.pms_id;
+//          this.checkout = this.pmsData.checkout == 'true' ? true : false;
+//          // this.pmsType = this.pmsData.pms_type; //放在计算属性
+//          this.hotelPmsCode = this.pmsData.hotel_pmscode;
+//          this.remark = this.pmsData.remark;
+//          this.hotelServiceUrl = this.pmsData.hotel_service_url;
+//          //绿云,西软
+//          this.crsURL = this.pmsData.crs_url;
+//          this.hotelGroupCode = this.pmsData.hotel_group_code;
+//          this.appKey = this.pmsData.app_key;
+//          this.PMSAppSecret = this.pmsData.app_secret;
+//          this.userCode = this.pmsData.usercode;
+//          this.password = this.pmsData.password;
+//          //别样红
+//          this.billServiceUrl = this.pmsData.bill_service_url;
+//          this.crmServiceUrl = this.pmsData.crm_service_url;
+//          this.orderServiceUrl = this.pmsData.order_service_url;
+//          this.secServiceUrl = this.pmsData.sec_service_url;
+//          this.userName = this.pmsData.user_name;
+//          this.userPass = this.pmsData.user_pass;
+//          //住哲
+//          this.cid = this.pmsData.cid;
+//          this.key = this.pmsData.key;
+//          this.dataKey = this.pmsData.datakey;
+//          this.adminName = this.pmsData.admin_name;
+//          this.adminPassword = this.pmsData.admin_password;
+//          this.brandId = this.pmsData.brand_id;
+//          //东呈
+//          this.dcKey = this.pmsData.key;
+//          //西软BS
+//          this.xrbs_groupCode=this.pmsData.hotelGroupCode;
+//          this.xrbs_appkey=this.pmsData.appKey;
+//          this.xrbs_authCode=this.pmsData.secret;
+//          this.xrbs_serviceVersion=this.pmsData.ver;
+//          this.xrbs_infoLanguage=this.pmsData.loc;
+//          this.xrbs_CRM=this.pmsData.cmmcode;
+//          this.xrbs_siteId=this.pmsData.pcid;
+//          this.xrbs_employeeNum=this.pmsData.empno;
+//          this.xrbs_moduleNum=this.pmsData.modu;
+//        }
+//      },
+//      lvyeData() {
+//        // 旅业配置
+//        if (tool.isNotBlank(this.lvyeData)) {
+//          this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
+//          this.lvyeType = this.lvyeData.lvye_report_type;
+//          console.log('this.lvyeType:',this.lvyeType)
+//          this.policeId = this.lvyeData.hotel_ga_id;
+//          this.policeType = this.lvyeData.police_type;
+//          this.policeParam = JSON.stringify(this.lvyeData.police_param);
+//        }
+//      },
       faceinPassValue(val) {
         val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
       },
@@ -3200,20 +1953,22 @@
       },
       dialogConfig(type) {
         this.showType = type;
-        if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
-          this.getPMSBrandLists();
-        } else if (type === enumShowType.wxHotel) {
-          this.WxhotelRegisters()
-        } else if (type === enumShowType.WxHotelRegister) {
-          this.WxhotelRegisters()
-          this.hideDialog();
-        } else if (type === enumShowType.miniApp) {
-          this.getMiniAppLists();
-          this.wechatList();
-        } else if (type === enumShowType.moreLvyeReportType){
-          this.goto({name: 'moreLvyeConfig'});
-          return;
-        }
+        console.log('========>',this.showType)
+
+//        if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
+//          this.getPMSBrandLists();
+//        } else if (type === enumShowType.wxHotel) {
+//          this.WxhotelRegisters()
+//        } else if (type === enumShowType.WxHotelRegister) {
+//          this.WxhotelRegisters()
+//          this.hideDialog();
+//        } else if (type === enumShowType.miniApp) {
+//          this.getMiniAppLists();
+//          this.wechatList();
+//        } else if (type === enumShowType.moreLvyeReportType){
+//          this.goto({name: 'moreLvyeConfig'});
+//          return;
+//        }
           this.showDialog = true;
       },
       wechatList() {
@@ -3465,221 +2220,6 @@
       submitDialog() {
         let data;
         switch (this.showType) {
-          case enumShowType.PMS: {
-            let paramData = {
-              pms_id: this.pmsId,
-              checkout: this.checkout.toString(),
-              pms_type: this.pmsType,
-              hotel_pmscode: this.hotelPmsCode,
-              remark: this.remark,
-              hotel_service_url: this.hotelServiceUrl,
-              urls:this.urls,
-              pms_worker_id:this.wqtPublicNo
-            };
-            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14') {
-              data = {
-                ...paramData,
-                crs_url: this.crsURL,
-                hotel_group_code: this.hotelGroupCode,
-                app_key: this.appKey,
-                app_secret: this.PMSAppSecret,
-                usercode: this.userCode,
-                password: this.password,
-              }
-            } else if (this.pmsType == '1') {
-              data = {
-                ...paramData,
-                bill_service_url: this.billServiceUrl,
-                crm_service_url: this.crmServiceUrl,
-                order_service_url: this.orderServiceUrl,
-                sec_service_url: this.secServiceUrl,
-                user_name: this.userName,
-                user_pass: this.userPass,
-              }
-            } else if (this.pmsType == '3') {
-              data = {
-                ...paramData,
-                cid: this.cid,
-                key: this.key,
-                datakey: this.dataKey,
-                admin_name: this.adminName,
-                admin_password: this.adminPassword,
-                brand_id: this.brandId,
-              }
-            } else if (this.pmsType == '8') {
-              data = {
-                ...paramData,
-                key: this.dcKey
-              }
-            }else if (this.pmsType == '12'){
-              data = {
-                  ...paramData,
-                  hotelGroupCode:this.xrbs_groupCode,
-                  appKey:this.xrbs_appkey,
-                  secret:this.xrbs_authCode,
-                  ver:this.xrbs_serviceVersion,
-                  loc:this.xrbs_infoLanguage,
-                  cmmcode:this.xrbs_CRM,
-                  pcid:this.xrbs_siteId,
-                  empno:this.xrbs_employeeNum,
-                  modu:this.xrbs_moduleNum
-              }
-            }
-            else {
-              data = {
-                ...paramData
-              }
-            }
-            this.modifyPms(data);
-            return;
-          }
-            break;
-          case enumShowType.lvyeReportType: {
-            let tempData = {
-              lvye_auto_report: this.singlelvyeAutoReport,
-              lvye_report_type: this.lvyeType,
-              hotel_ga_id: this.policeId,
-              police_type: this.policeType
-            }
-            if (!this.isPoliceParam) {
-              data = {
-                ...tempData
-              }
-            }else if(this.isPoliceParam){
-              data = {
-                ...tempData,
-                police_param: JSON.parse(this.policeParam)
-              }
-            }
-            this.modifyLvyes(data);
-            return;
-          }
-          case enumShowType.doorLock_unknown:
-            break;
-          case enumShowType.facein:
-            if (this.faceTongdao === '腾讯优图') {
-                this.identity_check_channel = 'YOUTU';
-            }
-            if (this.faceTongdao === '厦门身份宝') {
-                this.identity_check_channel = 'SHENFENBAO';
-            }
-            data = {
-              facein_pass_value: this.faceinPassValue,//自动通过值
-              facein_reject_value: this.faceinRejectValue,//自动拒绝值
-              identity_check_channel: this.faceTongdao === '腾讯优图' ? 'YOUTU' : 'SHENFENBAO',
-              shenfenbao_hotel_account: this.identityAccount,
-              support_face_in: this.faceEqu,//是否支持人脸识别
-              shenfenbao_reject_manual: this.shenfenbaoRejectManual,//身份宝拒绝是否人工参与
-              show_similarity:this.similarity.toString(), //相似度
-              enabled_auto_identity_check: this.autoIdentityCheckVal.toString()
-            }
-            break;
-          case enumShowType.wechatPay:
-            data = {
-              pay_code: this.payCode,
-              refund_code: this.refundCode,
-              dayrent_name: this.dayrentName,
-              pay_name: this.payName,
-              refund_name: this.refundName
-            }
-            break;
-          case enumShowType.wxHotel:
-            data = {
-              wx_hotel_id: this.wxHotelId
-            }
-            break;
-          case enumShowType.miniApp: {
-            if (this.provider) {
-              data = {
-                app_id: this.appId,
-                mch_id: this.mchId,
-                provider: this.provider,
-                provider_app_id: this.providerAppId,
-                provider_mch_id: this.providerMchId,
-                app_name: this.appName,
-                mch_name: this.mchName,
-                provider_app_name: this.providerAppName,
-                provider_mch_name: this.providerMchName
-              }
-            } else {
-              data = {
-                app_id: this.appId,
-                mch_id: this.mchId,
-                provider: this.provider,
-                app_name: this.appName,
-                mch_name: this.mchName
-              }
-            }
-          }
-            break;
-          case enumShowType.sign:
-            data = {
-              enabled_sign: this.enabledSign.toString()
-            }
-            break;
-          case enumShowType.enabledCancelTime:
-            if (this.isEnabledCancelTime) {
-              let date = `${new Date().toLocaleDateString()} ${this.enabledCancelTime}`
-              data = {
-                enabled_cancel_time: new Date(date).getTime()
-              }
-            } else {
-              data = {
-                enabled_cancel_time: ''
-              }
-            }
-            break;
-          case enumShowType.invoice:
-            data = {
-              enabled_invoice: this.enabledInvoice.toString(),
-              // invoice_name: this.invoiceNameList
-            }
-            if (this.enabledInvoice) {
-              data.invoice_name = this.invoiceNameList;
-            }
-            break;
-          case enumShowType.fastInvoice:
-            data = {
-              enabled_speed_invoice: this.enabledSpeedInvoice,
-              invoice_type: this.invoiceType,
-              code: this.invoiceCodeList,
-              plug_code: this.plugCode
-            }
-            break;
-          case enumShowType.preCheckinSms:
-            data = {
-              enabled_pre_checkin_sms: this.enabledPreCheckinSms.toString()
-            }
-            break;
-          case enumShowType.delayedPayment:
-            data = {
-              enabled_delayed_payment: this.enabledDelayedPayment.toString()
-            }
-            break;
-          case enumShowType.autoCheckout:
-            data = {
-              enable_auto_checkout: this.enableAutoCheckout.toString()
-            }
-            break;
-          case enumShowType.autoRefund:
-            data = {
-              refund_amount_source:this.refundVal,
-              enabled_auto_refund: this.enabledAutoRefund.toString(),
-              enable_out_of_cash_pledge_refund:this.operateOverDeposit.toString(),
-              enable_auto_checkout:  this.isAccessAutoCheckout.toString()
-            }
-            break;
-          case enumShowType.preCheckin:
-            data = {
-              enabled_pre_checkin: this.enabledPreCheckin.toString(),
-
-            }
-            break;
-          case enumShowType.mobileCheckin:
-            data = {
-              enabled_mobile_checkin: this.enabledMobileCheckin.toString()
-            }
-            break;
           case enumShowType.roomCard:
             data = {
               support_room_card: this.supportRoomCard.toString(),
@@ -3775,6 +2315,11 @@
               enabled_speed_card: this.enabledSpeedCard.toString()
             }
             break;
+          case enumShowType.CustomerOperate:
+            data = {
+              user_disable_order: this.curstomDeploy.toString()
+            }
+            break;
           case enumShowType.ticketPrint:
             data = {
               enabled_ticket_print: this.enabledTicketPrint.toString()
@@ -3785,11 +2330,6 @@
               advanced_checkout: this.enabledAdvancedCheckout.toString(),
               enabled_pms_in_guest_checkout:this.enabledPMScheckout.toString(),
               enabled_same_date_io:this.enabledSameDateIO.toString()
-            }
-            break;
-          case enumShowType.CustomerOperate:
-            data = {
-              user_disable_order: this.curstomDeploy.toString()
             }
             break;
           case enumShowType.hotelAreaCode:
@@ -3808,86 +2348,56 @@
           case enumShowType.autoGiveRoom:
             data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
             break;
-
           case enumShowType.identityCheck:
             data = {'enabled_identity_check': this.identityCheckVal.toString()};
             break;
-          case enumShowType.rcPrint:
-            data = {
-              "id": this.$route.params.hotelid,
-              "electron_sign": parseInt(this.perRoom),
-              "auto_print": this.autoPrintVal ? 1 : 0
-            }
-            this.mySetRCconfig(data);
-            return;
-          case enumShowType.noCertificateCheck:
-              data = {
-                  enable_identity_check_undocumented:this.enableNoCertificateCheck.toString()
-              }
-              break;
-            case enumShowType.keyAccess:
-              data={
-                  enable_pull_identity_guest_info:this.enableKeyAccess.toString()
-              }
-              break;
-          case enumShowType.customization:
-              data = {
-                  "enabled_mirror_introduce": this.mirrorIntro.toString(),
-                  "enabled_mirror_brand": this.mirrorBrand.toString()
-              }
-              break;
-          case enumShowType.enableRCstatus:
-              data = {
-                  "rc_status": this.rcStatus
-              }
-              break;
-          case enumShowType.informCoResident:
-            data = {
-                checkin_noshow_interval_time:this.timeStep
-            }
-            break;
-          case enumShowType.accessServiceType:
-            let tempData={
-                enabled_script:this.enableAccessService
-            };
-            this.saveAccessServiceType(tempData);
-            return;
           case enumShowType.PADshowContent:
             this.savePADMarkConfigs();
             return;
-          case enumShowType.appManage:
-            data={
-                "business_mode":this.appValue
+          case enumShowType.informCoResident:
+            data = {
+              checkin_noshow_interval_time:this.timeStep
+            }
+            break;
+          case enumShowType.noCertificateCheck:
+            data = {
+              enable_identity_check_undocumented:this.enableNoCertificateCheck.toString()
             }
             break;
           case enumShowType.appManage2:
-              let wqt_main_control=JSON.stringify({
-                      "identity_check_view":this.appPolice, 			//公安验证
-                      "order_view":this.appOrder,						//订单中心
-                      "room_status_view":this.appIdentity,				//住离信息
-                      "check_in_identity_check_view":this.appLiveIn,	//入住核验
-                      "invoice_view":this.appInvoice,					//发票中心
-                      "order_bill_view":this.appMoney,				//账务管理
-                      "exception_view":this.appAbnormal,					//异常提醒
-                      "suspicious_person_view":this.appSuspicious,
-                      "dirty_room_view":this.appDirtyRoom
-                  });
-              data={
-                  wqt_main_control
-              }
-            break;
-          case enumShowType.isShowPoliceHandeld:
-                data = {
-                    "enable_show_plice_processed":this.showPoliceHandledList.toString()
-                };
+            let wqt_main_control=JSON.stringify({
+              "identity_check_view":this.appPolice, 			//公安验证
+              "order_view":this.appOrder,						//订单中心
+              "room_status_view":this.appIdentity,				//住离信息
+              "check_in_identity_check_view":this.appLiveIn,	//入住核验
+              "invoice_view":this.appInvoice,					//发票中心
+              "order_bill_view":this.appMoney,				//账务管理
+              "exception_view":this.appAbnormal,					//异常提醒
+              "suspicious_person_view":this.appSuspicious,
+              "dirty_room_view":this.appDirtyRoom
+            });
+            data={
+              wqt_main_control
+            }
             break;
           case enumShowType.reviewRoomNum:
+          case enumShowType.isShowPoliceHandeld:
+            data = {
+              "enable_show_plice_processed":this.showPoliceHandledList.toString()
+            };
+            break;
+          case enumShowType.keyAccess:
+            data={
+              enable_pull_identity_guest_info:this.enableKeyAccess.toString()
+            }
+            break;
               this.saveReviewRoomNumList();
              // return;
           default:null
         };
         this.patchConfigData(data);
       },
+
       validateMoreLvye(){
         // this.moreLvyeList=this.renderMoreLvyeList;
         let result;
