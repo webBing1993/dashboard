@@ -891,7 +891,6 @@
     qrCodeCreate: 14,//酒店二维码配置
     autoGiveRoom: 15,//自动分房
     identityCheck:16,//开启身份核验功能
-//    autoIdentityCheck:16,//开启身份核验功能
     PADshowContent:17,//PAD界面内容显示配置
     informCoResident:18,//通知同住人配置
     noCertificateCheck:19,//无证核验
@@ -1226,27 +1225,21 @@
       }
     },
     mounted() {
-      this.getLvyes();
       this.getConfigs();
-      this.getWxhotelCitysers();
       this.getPms();
-      this.wechatList();
-      this.WxhotelRegisters();
-      this.getRCConfigeds();
       this.getAccessServiceType();
       this.getPADMarkConfigs();
       this.getRoomNumList()
-      // this.getMoreLvye({hotel_id: this.$route.params.hotelid})
     },
     computed: {
       ...mapState({
         configData: state => state.enterprise.configData,
-        pmsData: state => state.enterprise.pmsData,
-        lvyeData: state => state.enterprise.lvyeData,
-        wechatAppData: state => state.enterprise.wechatAppData,
+//        pmsData: state => state.enterprise.pmsData,
+//        lvyeData: state => state.enterprise.lvyeData,
+//        wechatAppData: state => state.enterprise.wechatAppData,
         hotelName: state => state.enterprise.tempHotelName,
         showReception: state => state.enterprise.showReception,
-        showMoreLvyeConfig:  state => state.enterprise.showMoreLvyeConfig
+//        showMoreLvyeConfig:  state => state.enterprise.showMoreLvyeConfig
       }),
       rcgethotelid() {
         return "/virgo/fileUpload/" + this.$route.params.hotelid
@@ -1272,32 +1265,32 @@
       renderList() {
         return this.wxhotelCityserList;
       },
-      renderMoreLvyeList() {
-        return this.moreLvyeList;
-      },
+//      renderMoreLvyeList() {
+//        return this.moreLvyeList;
+//      },
       renderRoomNumReviewList(){
         return this.roomNumReviewList;
       },
-      providerMchIdList() {
-        return this.providerList.map(v => {
-          let obj = {
-            value: `${v.mch_id} | ${v.mch_name}`
-          }
-          return obj
-        })
-      },
-      mchIdList() {
-        return this.unProviderList.map(v => {
-          let obj = {
-            value: `${v.mch_id} | ${v.mch_name}`
-          }
-          return obj
-        })
-      },
-      appName() {
-        if (!this.appIdTemp) return '';
-        return this.appIdTemp.split(' | ')[1];
-      },
+//      providerMchIdList() {
+//        return this.providerList.map(v => {
+//          let obj = {
+//            value: `${v.mch_id} | ${v.mch_name}`
+//          }
+//          return obj
+//        })
+//      },
+//      mchIdList() {
+//        return this.unProviderList.map(v => {
+//          let obj = {
+//            value: `${v.mch_id} | ${v.mch_name}`
+//          }
+//          return obj
+//        })
+//      },
+//      appName() {
+//        if (!this.appIdTemp) return '';
+//        return this.appIdTemp.split(' | ')[1];
+//      },
       appId: {
         get() {
           if (!this.appIdTemp) return '';
@@ -1320,10 +1313,10 @@
           val.mch_id ? this.mchIdTemp = `${val.mch_id} | ${val.mch_name}` : this.mchIdTemp = '';
         }
       },
-      providerAppName() {
-        if (!this.providerAppIdTemp) return '';
-        return this.providerAppIdTemp.split(' | ')[1];
-      },
+//      providerAppName() {
+//        if (!this.providerAppIdTemp) return '';
+//        return this.providerAppIdTemp.split(' | ')[1];
+//      },
       providerAppId: {
         get() {
           if (!this.providerAppIdTemp) return '';
@@ -1333,10 +1326,10 @@
           val.provider_app_id ? this.providerAppIdTemp = `${val.provider_app_id} | ${val.provider_app_name}` : this.providerAppIdTemp = '';
         }
       },
-      providerMchName() {
-        if (!this.providerMchIdTemp) return '';
-        return this.providerMchIdTemp.split(' | ')[1];
-      },
+//      providerMchName() {
+//        if (!this.providerMchIdTemp) return '';
+//        return this.providerMchIdTemp.split(' | ')[1];
+//      },
       providerMchId: {
         get() {
           if (!this.providerMchIdTemp) return '';
@@ -1346,18 +1339,18 @@
           val.provider_app_id ? this.providerMchIdTemp = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTemp = '';
         }
       },
-      pmsType() {
-        let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
-        if (tool.isNotBlank(obj))
-          return obj.type;
-        return '';
-      },
-      invoiceNameList() {
-        return this.invoiceName.filter(v => v != '');
-      },
-      invoiceCodeList() {
-        return this.invoiceCode.filter(v => v != '');
-      },
+//      pmsType() {
+//        let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
+//        if (tool.isNotBlank(obj))
+//          return obj.type;
+//        return '';
+//      },
+//      invoiceNameList() {
+//        return this.invoiceName.filter(v => v != '');
+//      },
+//      invoiceCodeList() {
+//        return this.invoiceCode.filter(v => v != '');
+//      },
       roomTagsList() {
         return this.roomTags.filter(v => v != '');
       },
@@ -1503,69 +1496,69 @@
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
-          this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
-          this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
-          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
-          this.identityAccount = configData.shenfenbao_hotel_account;
-          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
-          this.faceEqu = configData.support_face_in;
-          this.similarity=configData.show_similarity === 'true' ? true : false;
-          this.autoIdentityCheckVal = configData.enabled_auto_identity_check === 'true' ? true : false;
-          //微信支付配置
-          this.mchId = configData;
-          // this.mchId = configData.child_mch_id;
-          this.payCode = configData.pay_code;
-          this.refundCode = configData.refund_code;
-          this.dayrentName = configData.dayrent_name,
-            this.payName = configData.pay_name,
-            this.refundName = configData.refund_name,
+//          this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
+//          this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
+//          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
+//          this.identityAccount = configData.shenfenbao_hotel_account;
+//          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
+//          this.faceEqu = configData.support_face_in;
+//          this.similarity=configData.show_similarity === 'true' ? true : false;
+//          this.autoIdentityCheckVal = configData.enabled_auto_identity_check === 'true' ? true : false;
+//          //微信支付配置
+//          this.mchId = configData;
+//          // this.mchId = configData.child_mch_id;
+//          this.payCode = configData.pay_code;
+//          this.refundCode = configData.refund_code;
+//          this.dayrentName = configData.dayrent_name,
+//            this.payName = configData.pay_name,
+//            this.refundName = configData.refund_name,
             //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
+//            this.wxHotelId = configData.wx_hotel_id;
           //小程序配置
-          this.appId = configData;
-          this.providerAppId = configData;
-          this.providerMchId = configData;
-          this.provider = configData.provider ? true : false;
+//          this.appId = configData;
+//          this.providerAppId = configData;
+//          this.providerMchId = configData;
+//          this.provider = configData.provider ? true : false;
           //电子签名
-          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+//          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
           //电话取消订单
-          this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
-          if (this.isEnabledCancelTime) {
-            let date = new Date(parseInt(configData.enabled_cancel_time));
-            let hours = date.getHours();
-            let min = date.getMinutes();
-            let minStr = min > 9 ? min : `0${min}`;
-            this.enabledCancelTime = `${hours}:${minStr}`;
-          }
+//          this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
+//          if (this.isEnabledCancelTime) {
+//            let date = new Date(parseInt(configData.enabled_cancel_time));
+//            let hours = date.getHours();
+//            let min = date.getMinutes();
+//            let minStr = min > 9 ? min : `0${min}`;
+//            this.enabledCancelTime = `${hours}:${minStr}`;
+//          }
           //发票配置
-          this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-          if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
-            this.invoiceName = [...configData.invoice_name];
-          }
+//          this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
+//          if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
+//            this.invoiceName = [...configData.invoice_name];
+//          }
           //极速开票配置
-          this.enabledSpeedInvoice = configData.enabled_speed_invoice;
-          if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
-            this.invoiceType = [...configData.invoice_type];
-          }
-          if (tool.isNotBlank(configData.code) && configData.code.length > 0) {
-            this.invoiceCode = [...configData.code];
-          }
-          this.plugCode = configData.plug_code;
+//          this.enabledSpeedInvoice = configData.enabled_speed_invoice;
+//          if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
+//            this.invoiceType = [...configData.invoice_type];
+//          }
+//          if (tool.isNotBlank(configData.code) && configData.code.length > 0) {
+//            this.invoiceCode = [...configData.code];
+//          }
+//          this.plugCode = configData.plug_code;
           //预登记短信配置
-          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
+//          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
           //到店支付配置
-          this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
+//          this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
           //自动退房
-          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
+//          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
           //退款业务配置
-          this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
-          this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
-          this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
-           this.refundVal= configData.refund_amount_source;
+//          this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
+//          this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
+//          this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
+//           this.refundVal= configData.refund_amount_source;
           //无证入住
-          this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
+//          this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
           //是否支持手机入住
-          this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
+//          this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
@@ -1705,55 +1698,41 @@
 //          this.policeParam = JSON.stringify(this.lvyeData.police_param);
 //        }
 //      },
-      faceinPassValue(val) {
-        val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
-      },
-      faceinRejectValue(val) {
-        val > this.faceinPassValue ? this.faceinPassValue = this.faceinRejectValue : null;
-      },
-      renderMoreLvyeList(val){
-          console.log('此时的renderMore:',val)
-          if(val.length>0){
-              this.hasSetMoreLvye = true;
-          } else {
-              this.hasSetMoreLvye = false;
-          };
-      },
-      lvyeType(val){
-          this.lvyeTypeList.forEach(obj=>{
-              if(val==obj.lvye_report_type){
-                  this.isPoliceParam=obj.enable_police_param;
-                  console.log(this.isPoliceParam)
-              };
-          })
-      },
+//      faceinPassValue(val) {
+//        val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
+//      },
+//      faceinRejectValue(val) {
+//        val > this.faceinPassValue ? this.faceinPassValue = this.faceinRejectValue : null;
+//      },
+//      renderMoreLvyeList(val){
+//          console.log('此时的renderMore:',val)
+//          if(val.length>0){
+//              this.hasSetMoreLvye = true;
+//          } else {
+//              this.hasSetMoreLvye = false;
+//          };
+//      },
+//      lvyeType(val){
+//          this.lvyeTypeList.forEach(obj=>{
+//              if(val==obj.lvye_report_type){
+//                  this.isPoliceParam=obj.enable_police_param;
+//                  console.log(this.isPoliceParam)
+//              };
+//          })
+//      },
     },
     methods: {
       ...mapActions([
         'getConfig',
-        'getWxhotelCityser',
-        'WxhotelRegister',
-        'deleteWxHotel',
-        'getlvyeTypeList',
-        'getFaceEqu',
         'patchConfig',
         'getPMS',
-        'modifyPMS',
-        'getPMSBrandList',
         'getLvye',
-        'modifyLvye',
-        'modifyMoreLvye',
-        'deleteMoreLvye',
-        'getMiniAppList',
-        'getWechatpayList',
-        'getWechatpayProvider',
         'showtoast',
         'showalert',
         'goto',
         'RCconfig',
         "setRCconfig",
         "getRCConfiged",
-        "saveScriptUpload",
         "getServiceTypeScript",
         "getPADMarkConfig",
         "savePADMarkConfig",
@@ -1802,21 +1781,7 @@
           this.page = val;
           this.getRoomNumList();
       },
-      //查询旅业类型
-      getlvyeTypeLists() {
-          this.getlvyeTypeList({
-              onsuccess: body => {
-                  this.lvyeTypeList = [...body.data];
-                  this.lvyeTypeList.forEach(item =>{
-                      if(this.lvyeType===item.lvye_report_type){
-                          this.isPoliceParam=item.enable_police_param;
-                          console.log(this.isPoliceParam)
-                      };
-                  })
-                  console.log('旅业类型列表',this.lvyeTypeList)
-              }
-          })
-      },
+
         //获取酒店提示语配置
       getPADMarkConfigs(){
           this.getPADMarkConfig({
@@ -1864,16 +1829,7 @@
               }
           })
       },
-      saveAccessServiceType(data){
-         this.saveScriptUpload({
-             hotel_id: this.$route.params.hotelid,
-             body:data,
-             onsuccess: body => {
-                 this.showDialog = false;
-                 this.accessService=true;
-             }
-         });
-      },
+
       beforeUploadformat(){
           this.fileList1=[]
       },
@@ -1897,113 +1853,14 @@
       reduceAlterUrl(index){
         this.urls.splice(index,1);
       },
-      //拉已配置的RC数据
-      getRCConfigeds() {
-        this.getRCConfiged({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-            // console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
-            if (body.data) {
-              this.hasSetRc = true;
-              this.UploadResponData = body.data.hotel_id;
-              this.perRoom = body.data.electron_sign.toString();
-              this.autoPrintVal = body.data.auto_print == 1 ? true : false
-            }
-          }
-        })
-      },
-      getUploadData(res) {
-        this.UploadResponData = res.data
-        console.log('---->', this.UploadResponData)
-      },
-      _upload() {
-        this.RCconfig({
-          hotel_id: this.$route.params.hotelid
-        })
-      },
-      handlePreview(file) {
-        console.log(file);
-      },
-      submitUpload() {
-        this.$refs.upload.submit();
-      },
-      RCconfigs(pre) {
-        console.log(111)
-        this.RCconfig({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-          }
-        })
 
-      },
-      goSummary() {
-        this.goto({
-          name: 'ConfigSummary'
-        })
-      },
-      depswitch() {
-        if (this.wxHotelId) {
-          this.delName = 'open';
-          this.dialogConfig(enumShowType.WxHotelRegister)
-        } else {
-          this.delName = 'open';
-          this.switchName = 'open';
-          this.dialogConfig(enumShowType.wxHotel)
-        }
-      },
       dialogConfig(type) {
         this.showType = type;
         console.log('========>',this.showType)
 
-//        if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
-//          this.getPMSBrandLists();
-//        } else if (type === enumShowType.wxHotel) {
-//          this.WxhotelRegisters()
-//        } else if (type === enumShowType.WxHotelRegister) {
-//          this.WxhotelRegisters()
-//          this.hideDialog();
-//        } else if (type === enumShowType.miniApp) {
-//          this.getMiniAppLists();
-//          this.wechatList();
-//        } else if (type === enumShowType.moreLvyeReportType){
-//          this.goto({name: 'moreLvyeConfig'});
-//          return;
-//        }
           this.showDialog = true;
       },
-      wechatList() {
-        this.getWechatpayList({
-          onsuccess: (body, headers) => {
-            if (body.data && Array.isArray(body.data)) {
-              this.wechatpayList = body.data;
-            }
-          }
-        })
-        this.getWechatpayProvider({
-          provider: '0',
-          onsuccess: (body, headers) => {
-            if (body.data && Array.isArray(body.data)) {
-              this.unProviderList = body.data;
-            }
-          }
-        })
-        this.getWechatpayProvider({
-          provider: '1',
-          onsuccess: (body, headers) => {
-            if (body.data && Array.isArray(body.data)) {
-              this.providerList = body.data;
-            }
-          }
-        })
-
-      },
-      addInvoiceName() {
-        this.invoiceName.push('');
-      },
-      subtractInvoiceName() {
-        if (this.invoiceName.length == 1) return;
-        this.invoiceName.pop();
-      },
+//
       addRoomTags() {
         this.roomTags.push('');
       },
@@ -2025,120 +1882,6 @@
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
-          case enumShowType.PMS:
-            this.wqtPublicNo=this.pmsData.pms_worker_id;
-            //捷信达
-            this.pmsId = this.pmsData.pms_id;
-            this.checkout = this.pmsData.checkout == 'true' ? true : false;
-            // this.pmsType = this.pmsData.pms_type; //放在计算属性
-            this.hotelPmsCode = this.pmsData.hotel_pmscode;
-            this.remark = this.pmsData.remark;
-            this.hotelServiceUrl = this.pmsData.hotel_service_url;
-            //绿云,西软
-            this.crsURL = this.pmsData.crs_url;
-            this.hotelGroupCode = this.pmsData.hotel_group_code;
-            this.appKey = this.pmsData.app_key;
-            this.PMSAppSecret = this.pmsData.app_secret;
-            this.userCode = this.pmsData.usercode;
-            this.password = this.pmsData.password;
-            //别样红
-            this.billServiceUrl = this.pmsData.bill_service_url;
-            this.crmServiceUrl = this.pmsData.crm_service_url;
-            this.orderServiceUrl = this.pmsData.order_service_url;
-            this.secServiceUrl = this.pmsData.sec_service_url;
-            this.userName = this.pmsData.user_name;
-            this.userPass = this.pmsData.user_pass;
-            //住哲
-            this.cid = this.pmsData.cid;
-            this.key = this.pmsData.key;
-            this.dataKey = this.pmsData.datakey;
-            this.adminName = this.pmsData.admin_name;
-            this.adminPassword = this.pmsData.admin_password;
-            this.brandId = this.pmsData.brand_id;
-            //东呈
-            this.dcKey = this.pmsData.key;
-            //西软BS
-            this.xrbs_groupCode=this.pmsData.hotelGroupCode;
-            this.xrbs_appkey=this.pmsData.appKey;
-            this.xrbs_authCode=this.pmsData.secret;
-            this.xrbs_serviceVersion=this.pmsData.ver;
-            this.xrbs_infoLanguage=this.pmsData.loc;
-            this.xrbs_CRM=this.pmsData.cmmcode;
-            this.xrbs_siteId=this.pmsData.pcid;
-            this.xrbs_employeeNum=this.pmsData.empno;
-            this.xrbs_moduleNum=this.pmsData.modu;
-            break;
-          case enumShowType.lvyeReportType:
-            this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
-            this.lvyeType = this.lvyeData.lvye_report_type;
-            this.policeId = this.lvyeData.hotel_ga_id;
-            this.policeType = this.lvyeData.police_type;
-            this.policeParam = JSON.stringify(this.lvyeData.police_param);
-            break;
-          case enumShowType.facein:
-            this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
-            this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
-            this.similarity=this.configData.show_similarity== 'true' ? true : false;
-            this.autoIdentityCheckVal===this.configData.enabled_auto_identity_check ==='true' ? true : false;
-            break;
-          case enumShowType.wechatPay:
-            this.payCode = this.configData.pay_code;
-            this.refundCode = this.configData.refund_code;
-            break;
-          case enumShowType.wxHotel:
-            this.wxHotelId = this.configData.wx_hotel_id;
-            break;
-          case enumShowType.miniApp:
-            this.appId = this.configData;
-            this.mchId = this.configData;
-            this.providerAppId = this.configData;
-            this.providerMchId = this.configData;
-            this.provider = this.configData.provider ? true : false;
-            break;
-          case enumShowType.sign:
-            this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
-            break;
-          case enumShowType.enabledCancelTime:
-            this.isEnabledCancelTime = tool.isNotBlank(this.configData.enabled_cancel_time);
-            if (this.isEnabledCancelTime) {
-              let date = new Date(parseInt(this.configData.enabled_cancel_time));
-              let hours = date.getHours();
-              let min = date.getMinutes();
-              let minStr = min > 9 ? min : `0${min}`;
-              this.enabledCancelTime = `${hours}:${minStr}`;
-            }
-            break;
-          case enumShowType.invoice:
-            this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
-            this.configData.invoice_name ? this.invoiceName = [...this.configData.invoice_name] : null;
-            break;
-          case enumShowType.fastInvoice:
-            this.enabledSpeedInvoice = this.configData.enabled_speed_invoice;
-            this.configData.invoice_type ? this.invoiceType = [...this.configData.invoice_type] : null;
-            this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
-            this.plugCode = this.configData.plug_code;
-            break;
-          case enumShowType.preCheckinSms:
-            this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
-            break;
-          case enumShowType.delayedPayment:
-            this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
-            break;
-          case enumShowType.autoCheckout:
-            this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
-            break;
-          case enumShowType.autoRefund:
-            this.operateOverDeposit=this.configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
-            this.isAccessAutoCheckout=this.configData.enable_auto_checkout == 'true' ? true : false;
-            this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
-            this.refundVal=this.configData.refund_amount_source;
-            break;
-          case enumShowType.preCheckin:
-            this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
-            break;
-          case enumShowType.mobileCheckin:
-            this.enabledMobileCheckin = this.configData.enabled_mobile_checkin == 'true' ? true : false;
-            break;
           case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
@@ -2398,65 +2141,13 @@
         this.patchConfigData(data);
       },
 
-      validateMoreLvye(){
-        // this.moreLvyeList=this.renderMoreLvyeList;
-        let result;
-        result= this.renderMoreLvyeList.every(function (item, index){
-          if(item.reportChannel){
-            if (item.reportChannel == 'CLOUD' || item.reportChannel == 'WUHAN' ) {
-              if( tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && (tool.isNotBlank(item.lvyeName)) && tool.isNotBlank(item.reportChannel)){
-                return true;
-              }
-              else {
-                return false;
-              }
-            } else if (item.reportChannel == 'LOCAL' ||item.reportChannel == 'GUANGDONGOLD'|| item.reportChannel == 'HEFEI' || item.reportChannel == 'CHENGDU' || item.reportChannel == 'HANGZHOU'|| item.reportChannel == 'GUANGDONG') {
-              if (tool.isNotBlank(item.lvyeId) && tool.isNotBlank(item.reportType)&&tool.isNotBlank(item.device_id) && tool.isNotBlank(item.lvyeName) && tool.isNotBlank(item.reportChannel) && tool.isNotBlank(item.transitParam)) {
-                return true;
-              }
-              else {
-                return false;
-              }
-            };
-          }
-          else {
-            return false;
-          }
-        });
-        return result;
-      },
+//
       getConfigs() {
         this.getConfig({
           hotel_id: this.$route.params.hotelid
         })
       },
-      getWxhotelCitysers() {
-        this.getWxhotelCityser({
-          onsuccess: body => (this.wxhotelCityserList = [...body.data])
-        })
-      },
-
-      WxhotelRegisters() {
-        this.WxhotelRegister({
-          hotel_id: this.$route.params.hotelid,
-          route_code: this.optionvalue,
-          onsuccess: body => {
-            this.RegistersWxHotelId = body.data.wx_hotel_id;
-            this.switchName = 'close';
-          }
-        })
-        this.showtoast({
-          text: '注册成功',
-          type: 'success'
-        })
-      },
-      //删除微信生态酒店配置
-      isDelete() {
-        this.showDialog = false;
-        this.queryDel = true;
-        this.delName = 'close';
-        this.switchName = 'close';
-      },
+//
       deleteWxHotels(flag) {
         if (flag) {
           this.deleteWxHotel({
@@ -2523,14 +2214,7 @@
           }
         })
       },
-      getLvyes() {
-        this.getLvye({
-          hotel_id: this.$route.params.hotelid,
-            onsuccess:body=>{
-                this.getlvyeTypeLists();
-            }
-        })
-      },
+
       modifyLvyes(data) {
         this.modifyLvye({
           hotel_id: this.$route.params.hotelid,
@@ -2603,6 +2287,8 @@
       margin-right: 1.5rem;
     }
   }
+
+
   .tip{
     color: #ff2b1c;
     font-size: 16px;
