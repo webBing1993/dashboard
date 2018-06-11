@@ -811,7 +811,7 @@
       }
     },
     mounted() {
-//      this.getLvyes();
+      this.getLvyes();
       this.getConfigs();
       this.getWxhotelCitysers();
       this.getPms();
@@ -1204,7 +1204,7 @@
         'modifyPMS',
         'getPMSBrandList',
 
-//        'getLvye',
+        'getLvye',
         'modifyLvye',
 //        'modifyMoreLvye',
 //        'deleteMoreLvye',
@@ -1225,25 +1225,29 @@
 //        "saveReviewRoomNum",
 //        "editReviewRoomNum"
       ]),
-      //查询所以PMS房间号
-//      getRoomNumList(){
-//          this.getRoomNum({
-//              hotel_id: this.$route.params.hotelid,
-//              page:this.page,
-//              size:this.size,
-//              onsuccess:(body,headers)=>{
-//                  this.roomNumReviewList = body.data;
-//                  if(body.data&&body.data.length!==0){
-//                      this.isHaveRoomNumReviewList=true
-//                  }else {
-//                      this.isHaveRoomNumReviewList=false
-//                  }
-//
-//                  this.total=parseInt(headers['x-total'])
-//              }
-//          })
-//      },
-
+      getLvyes() {
+        this.getLvye({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess:body=>{
+            this.getlvyeTypeLists();
+          }
+        })
+      },
+      getlvyeTypeLists() {
+        this.getlvyeTypeList({
+          onsuccess: body => {
+            this.lvyeTypeList = [...body.data];
+            this.lvyeTypeList.forEach(item => {
+              if (this.lvyeType === item.lvye_report_type) {
+                this.isPoliceParam = item.enable_police_param;
+                console.log(this.isPoliceParam)
+              }
+              ;
+            })
+            console.log('旅业类型列表', this.lvyeTypeList)
+          }
+        })
+      },
       getAccessServiceType(){
           this.getServiceTypeScript({
               hotel_id: this.$route.params.hotelid,
