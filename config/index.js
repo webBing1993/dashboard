@@ -34,7 +34,7 @@ module.exports = {
         // target: 'http://123.206.180.61:8096/',   //联调
         // target: 'https://qa.fortrun.cn/',  //提交测试
           target: 'http://123.206.99.219:8096/',
-          // target: 'https://gem.fortrun.cn/',
+          // target: 'https://gem.fortrun.cng/',
         changeOrigin: true,
         pathRewrite: {
           '^/virgo': ''

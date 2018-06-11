@@ -613,11 +613,11 @@
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
-              <span>公安验证是否显示已处理列表配置</span>
-              <p>企业微信公安验证是否显示已处理列表</p>
+              <span>公安验证显示已处理列表配置</span>
+              <p>公安验证显示已处理列表</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!configData.enable_show_plice_processed, 'tag_text_green': configData.enable_show_plice_processed}">{{configData.enable_show_plice_processed ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':showPoliceHandledList, 'tag_text_green': showPoliceHandledList}">{{showPoliceHandledList? '已开通' : '未开通'}}
             </span>
           </button>
         </el-col>
@@ -631,7 +631,7 @@
               <p>配置关键通道</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !enableKeyAccess , 'tag_text_green': enableKeyAccess }">{{enableKeyAccess ? '已开通' : '未开通'}}
             </span>
           </button>
         </el-col>
@@ -1788,7 +1788,7 @@
           </div>
           <div v-if="showType === enumShowType.isShowPoliceHandeld">
             <div class="item-form">
-              <span>企业微信公安验证显示已处理列表</span>
+              <span>公安验证显示已处理列表</span>
               <el-switch
                 v-model="showPoliceHandledList"
                 on-color="#13ce66"
