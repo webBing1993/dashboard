@@ -1099,18 +1099,20 @@
         this.invoiceCode.pop();
       },
       creatQrcode(code) {
-        if (!code) return;
-        if (process.env.NODE_ENV === 'intg') {
-          this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
-        } else if (process.env.NODE_ENV === 'test') {
-          this.tempCode = `https://jskp.qa.fortrun.cn/index.html?code=${code}`;
-        }
-        if (process.env.NODE_ENV === 'stg') {
-          this.tempCode = `https://jskp.stg.fortrun.cn/index.html?code=${code}`;
-        }
-        if (process.env.NODE_ENV === 'production') {
-          this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
-        }
+          console.log('----->',process)
+//        if (!code) return;
+//        if (process.env.NODE_ENV === 'intg') {
+//          this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
+//        } else if (process.env.NODE_ENV === 'test') {
+//          this.tempCode = `https://jskp.qa.fortrun.cn/index.html?code=${code}`;
+//        }
+//        if (process.env.NODE_ENV === 'stg') {
+//          this.tempCode = `https://jskp.stg.fortrun.cn/index.html?code=${code}`;
+//        }
+//        if (process.env.NODE_ENV === 'production') {
+//          this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
+//        }
+        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         console.log(this.tempCode);
         QRCode.toDataURL(this.tempCode, (err, url) => {
 //          console.log(url)
