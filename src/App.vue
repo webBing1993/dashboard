@@ -6,6 +6,8 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
+  import aaa from '../config/prod.env'
+  import config from '../config'
   export default {
     name: 'app',
     computed: {
@@ -42,6 +44,10 @@
       ]),
     },
     mounted() {
+      console.log('process=====',process)
+      console.log('----->',aaa)
+      console.log('config======',config)
+      console.log('config======',JSON.parse(config.dev.env.NODE_ENV))
 
     }
   }
