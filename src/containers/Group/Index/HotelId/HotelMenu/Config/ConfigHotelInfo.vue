@@ -333,6 +333,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>值房通是否显示多房订单</span>
+              <p>配置值房通是否显示多房订单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !no_support_zft_mroom , 'tag_text_green': no_support_zft_mroom }">{{no_support_zft_mroom ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -661,7 +675,8 @@
           <div v-if="showType === enumShowType.informCoResident">
             <div class="item-form">
               <span>酒店同住人未到时通知发送间隔</span>
-              <el-input class="el-right" style="margin-right: 10px" v-model="timeStep"></el-input> 小时
+              <el-input class="el-right" style="margin-right: 10px" v-model="timeStep"></el-input>
+              小时
             </div>
           </div>
           <div v-if="showType === enumShowType.accessServiceType">
@@ -828,11 +843,23 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.zftShowMoreRoom">
+            <div class="item-form">
+              <span>显示多房订单</span>
+              <el-switch
+                v-model="showMoreRoomOrder"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="more-room-tip">说明:客人在认证通设备上刷二代身份证后，查询到多房订单，根据配置项是否显示订单二维码</div>
+
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
-            <el-button @click="hideDialog">取 消</el-button>
-            <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
+          <el-button @click="hideDialog">取 消</el-button>
+          <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
         <!--footer-->
       </el-dialog>
@@ -870,8 +897,8 @@
   import ElDialog from "../../../../../../../node_modules/element-ui/packages/dialog/src/component.vue";
 
   var QRCode = require('qrcode')
-  const empty={
-      emptyArr:[]
+  const empty = {
+    emptyArr: []
   }
   //弹框类型
   const enumShowType = {
@@ -890,14 +917,16 @@
     hotelAreaCode: 13,//酒店行政区划代码
     qrCodeCreate: 14,//酒店二维码配置
     autoGiveRoom: 15,//自动分房
-    identityCheck:16,//开启身份核验功能
-    PADshowContent:17,//PAD界面内容显示配置
-    informCoResident:18,//通知同住人配置
-    noCertificateCheck:19,//无证核验
-    appManage2:20,//企业微信应用功能配置管理
-    reviewRoomNum:21,//旅业房间号核对配置
-    isShowPoliceHandeld:22,//公安验证是否显示已处理
-    keyAccess:23,//关键通道
+    identityCheck: 16,//开启身份核验功能
+    PADshowContent: 17,//PAD界面内容显示配置
+    informCoResident: 18,//通知同住人配置
+    noCertificateCheck: 19,//无证核验
+    appManage2: 20,//企业微信应用功能配置管理
+    reviewRoomNum: 21,//旅业房间号核对配置
+    isShowPoliceHandeld: 22,//公安验证是否显示已处理
+    keyAccess: 23,//关键通道
+    zftShowMoreRoom: 24,//关键通道
+
   }
 
   //弹框标题类型
@@ -925,6 +954,7 @@
     '旅业房间号核对配置',
     '公安验证是否显示已处理记录',
     '关键通道配置',
+    '值房通是否显示多房订单',
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -939,25 +969,28 @@
     name: 'ConfigInfo',
     data() {
       return {
-        timeStepList:[{label:'2小时',value:'2'},{label:'3小时',value:"3"},{label:'4小时',value:"4"},{label:'5小时',value:"5"},{label:'6小时',value:"6"}],
-        timeStep:'',
+        timeStepList: [{label: '2小时', value: '2'}, {label: '3小时', value: "3"}, {
+          label: '4小时',
+          value: "4"
+        }, {label: '5小时', value: "5"}, {label: '6小时', value: "6"}],
+        timeStep: '',
         //开关设置
-        accessService:false,
+        accessService: false,
         //酒店开通业务类型配置
-        filter:'',
-        format:'',
-        formatScript:"",
-        filterScript:"",
-        enableAccessService:false,
+        filter: '',
+        format: '',
+        formatScript: "",
+        filterScript: "",
+        enableAccessService: false,
         //多旅业列表
-        roomType:[],
-        roomTypeList:[],
+        roomType: [],
+        roomTypeList: [],
         roomNoList: [],
         filterRoomNo: [],
         transferListName: ['所有房号', '已选房号'],
-        deskList:[],
-        disItem:null,
-        setTip:false,
+        deskList: [],
+        disItem: null,
+        setTip: false,
         moreLyReportTypeValue: '',
         moreLyReportTypeList: [{name: "数据库交换", value: "MIDDLE_BASE"}, {
           name: "文件交换",
@@ -974,130 +1007,12 @@
         typeTitles: typeTitles,
         showType: '',
         showDialog: false,
-        //PMS配置
-//        wqtPublicNo:'',
-//        PMSBrandList: [],
-//        checkout: true,
-//        urls: [],
-        //捷信达
-//        pmsId: '',
-        // pmsType: '', //放在计算属性
-//        hotelPmsCode: '',
-//        hotelServiceUrl: '',
-//        remark: '',
-        //西软BS
-//          xrbs_groupCode:'',
-//          xrbs_appkey:'',
-//          xrbs_authCode:'',
-//          xrbs_serviceVersion:'',
-//          xrbs_infoLanguage:'',
-//          xrbs_CRM:'',
-//          xrbs_siteId:'',
-//          xrbs_employeeNum:'',
-//          xrbs_moduleNum:'',
-        //绿云,西软
-//        crsURL: '',
-//        hotelGroupCode: '',
-//        appKey: '',
-//        PMSAppSecret: '',
-//        userCode: '',
-//        password: '',
-        //别样红
-//        billServiceUrl: '',
-//        crmServiceUrl: '',
-//        orderServiceUrl: '',
-//        secServiceUrl: '',
-//        userName: '',
-//        userPass: '',
-        //住哲
-//        cid: '',
-//        key: '',
-//        dataKey: '',
-//        adminName: '',
-//        adminPassword: '',
-//        brandId: '',
-//        东呈
-//        dcKey: '',
-        // 旅业配置
-//        lvyeTypeList: [],
-//          singlelvyeAutoReport: '',
-//        lvyeType: '',
-//        policeId: '',
-//        policeType: '',
-//        policeParam: '',
-        //门锁配置，暂无
-        //人脸识别配置
-//        faceEqu: true,
-//        similarity:false,
-//        faceTongdao: '腾讯优图',
-//        identityAccount: null,
-//        shenfenbaoRejectManual: "false",
-//
-//        faceinPassValue: 70,
-//        faceinRejectValue: 70,
-        //微信支付配置
-//        payCode: '',
-//        refundCode: '',
-//        dayrentName: '',
-//        payName: '',
-//        refundName: '',
-        //微信生态酒店配置
-//        wxHotelId: '',
-//        wxhotelCityserList: [],
-//        RegistersWxHotelId: '',//注册返回的微信酒店id
-//        deleteList: '',//删除微信酒店后返回
-//        小程序配置
-//        miniAppList: [],
-//        provider: false,
-//        appIdTemp: '',
-        // appId: '',
-        // mchId: '',
-//        mchIdTemp: '',
-//        providerAppIdTemp: '',
-//        // providerAppId: '',
-//        providerMchIdTemp: '',
-//        // providerMchId: '',
-//        //电子签名
-//        enabledSign: false,
-//        //电话取消订单
-//        isEnabledCancelTime: false,
-//        enabledCancelTime: '18:00',
-//        enabledCancelTimeList: ['12:00', '12:30', '13:00',
-//          '13:30', '14:00', '14:30', '15:00', '15:30',
-//          '16:00', '16:30', '17:00', '17:30', '18:00',
-//          '18:30', '19:00', '19:30', '20:00', '20:30',
-//          '21:00', '21:30', '22:00', '22:30', '23:00',
-//          '23:30', '24:00'],
-//        //发票配置
-//        enabledInvoice: true,
-//        invoiceName: [''],
-//        //闪开发票配置
-//        enabledSpeedInvoice: false,
-//        invoiceType: [],
-//        invoicesList: [{name: '普通发票', value: '1'}, {name: '专用发票', value: '2'}, {name: '个人发票', value: '3'}],
-//        invoiceCode: [''],
+
         qrImgUrl: '',
 //        tempCode: '',
         isBigQrImg: true,
         showQrImgContent: false,
-//        plugCode: '',
-//        //预登记短信配置
-//        enabledPreCheckinSms: false,
-//        //到店支付配置
-//        enabledDelayedPayment: true,
-//        //自动退房
-//        enableAutoCheckout: false,
-//        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
-//        refundVal:'',
-//        //退款业务配置
-//        enabledAutoRefund: true,
-//        operateOverDeposit:false,
-//        isAccessAutoCheckout:false,
-//        isAccessAutoRefund:false, //无证入住
-//        enabledPreCheckin: true,
-//        //是否指出手机入住
-//        enabledMobileCheckin: false,
-//        enabledRCPrint: false,
+//
 
 
         //门卡配置
@@ -1138,7 +1053,7 @@
         nowpayExclusionKeyword: '',
         freeDepositKeyword: '',
         needDepositKeyword: '',
-        isOpenAutoConfirmPrePay:false,
+        isOpenAutoConfirmPrePay: false,
         //脏房配置
         isSupportVd: true,
         //酒店标签配置
@@ -1151,10 +1066,10 @@
         //顾客自行操作配置
         curstomDeploy: false,
         enabledTicketPrint: false,//是否打印小票配置
-          //是否允许提前退房
+        //是否允许提前退房
         enabledAdvancedCheckout: false,
-        enabledPMScheckout:false,
-        enabledSameDateIO:false,
+        enabledPMScheckout: false,
+        enabledSameDateIO: false,
         hotelAreaCodeVal: '',//酒店行政区划代码
         queryDel: false,
         //酒店二维码配置
@@ -1188,40 +1103,47 @@
         rcConfig: false,
         hasSetMoreLvye: false,
         hasSetRc: false,
-        mirrorIntro:false,
-        mirrorBrand:false,
-        rcStatus:false,
-        inteRoomLock:false,
-        isPoliceParam:false,
-        notFoundMark:'',
-        checkOutMark:'',
-        noDeviceCheckInMark:'',
-        failedCheckOutMark:'',
-        hotelServiceTelMark:'',
-        hotelMark:false,
-        enableNoCertificateCheck:false,
-        appValue:'WQT',
-        LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
-        enableKeyAccess:false,
-        appPolice:false,
-        appOrder:false,
-        appIdentity:false,
-        appLiveIn:false,
-        appInvoice:false,
-        appMoney:false,
-        appAbnormal:false,
-        appSuspicious:false,
-        appDirtyRoom:false,
-        order_hint_item_idFromPAD:'',
-        apply_checkout_finish_idFromPAD:'',
-        non_equipment_checkin_idFromPAD:'',
-        checkout_failure_idFromPAD:'',
-        roomNumReviewList:[],
+        mirrorIntro: false,
+        mirrorBrand: false,
+        rcStatus: false,
+        inteRoomLock: false,
+        isPoliceParam: false,
+        notFoundMark: '',
+        checkOutMark: '',
+        noDeviceCheckInMark: '',
+        failedCheckOutMark: '',
+        hotelServiceTelMark: '',
+        hotelMark: false,
+        enableNoCertificateCheck: false,
+        appValue: 'WQT',
+        LvyeConfigItemList: [{name: '全自动上传', value: 'AUTO'}, {name: '全手工上传', value: 'MANUAL'}, {
+          name: '仅自动上传有房号的',
+          value: 'HAS_ROOM_NO'
+        }],
+        enableKeyAccess: false,
+//        值房通是否显示多房订单
+        no_support_zft_mroom: false,
+        showMoreRoomOrderKey: 'support_zft_mroom',
+        showMoreRoomOrder: true,
+        appPolice: false,
+        appOrder: false,
+        appIdentity: false,
+        appLiveIn: false,
+        appInvoice: false,
+        appMoney: false,
+        appAbnormal: false,
+        appSuspicious: false,
+        appDirtyRoom: false,
+        order_hint_item_idFromPAD: '',
+        apply_checkout_finish_idFromPAD: '',
+        non_equipment_checkin_idFromPAD: '',
+        checkout_failure_idFromPAD: '',
+        roomNumReviewList: [],
         page: 1,
         size: 10,
         total: 0,
-        isHaveRoomNumReviewList:false,
-        showPoliceHandledList:false
+        isHaveRoomNumReviewList: false,
+        showPoliceHandledList: false
       }
     },
     mounted() {
@@ -1230,6 +1152,7 @@
       this.getAccessServiceType();
       this.getPADMarkConfigs();
       this.getRoomNumList()
+      this.getSingerConfig()
     },
     computed: {
       ...mapState({
@@ -1245,7 +1168,7 @@
         return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
       scriptUpload(){
-        return "/virgo/scriptupload/"+ this.$route.params.hotelid
+        return "/virgo/scriptupload/" + this.$route.params.hotelid
       },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
@@ -1401,7 +1324,7 @@
       },
 
       validateAccessService(){
-        return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
+        return (tool.isNotBlank(this.filterScript) || tool.isNotBlank(this.formatScript));
       },
 
       validateInformCoResident(){
@@ -1463,22 +1386,25 @@
             result = true;
             break;
           case enumShowType.PADshowContent:
-            result=true;
+            result = true;
             break;
           case enumShowType.informCoResident:
-            result=this.validateInformCoResident;
+            result = this.validateInformCoResident;
             break;
           case enumShowType.appManage2:
-              result=true;
-              break;
+            result = true;
+            break;
           case enumShowType.reviewRoomNum:
-            result=true;
+            result = true;
             break
           case enumShowType.isShowPoliceHandeld:
-          result=true;
+            result = true;
             break;
           case enumShowType.keyAccess:
-            result=true;
+            result = true;
+            break;
+          case enumShowType.zftShowMoreRoom:
+            result = true;
             break;
           default:
             result = false;
@@ -1488,83 +1414,19 @@
     },
     watch: {
       renderRoomNumReviewList(val){
-          console.log(val)
+        console.log(val)
       },
       configData(){
         let configData = this.configData;
-        console.log('configData:',configData)
+        console.log('configData:', configData)
         if (tool.isNotBlank(configData)) {
-          //门锁配置，暂无
-          //人脸识别配置
-//          this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
-//          this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
-//          this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
-//          this.identityAccount = configData.shenfenbao_hotel_account;
-//          this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
-//          this.faceEqu = configData.support_face_in;
-//          this.similarity=configData.show_similarity === 'true' ? true : false;
-//          this.autoIdentityCheckVal = configData.enabled_auto_identity_check === 'true' ? true : false;
-//          //微信支付配置
-//          this.mchId = configData;
-//          // this.mchId = configData.child_mch_id;
-//          this.payCode = configData.pay_code;
-//          this.refundCode = configData.refund_code;
-//          this.dayrentName = configData.dayrent_name,
-//            this.payName = configData.pay_name,
-//            this.refundName = configData.refund_name,
-            //微信生态酒店配置
-//            this.wxHotelId = configData.wx_hotel_id;
-          //小程序配置
-//          this.appId = configData;
-//          this.providerAppId = configData;
-//          this.providerMchId = configData;
-//          this.provider = configData.provider ? true : false;
-          //电子签名
-//          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
-          //电话取消订单
-//          this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
-//          if (this.isEnabledCancelTime) {
-//            let date = new Date(parseInt(configData.enabled_cancel_time));
-//            let hours = date.getHours();
-//            let min = date.getMinutes();
-//            let minStr = min > 9 ? min : `0${min}`;
-//            this.enabledCancelTime = `${hours}:${minStr}`;
-//          }
-          //发票配置
-//          this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
-//          if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
-//            this.invoiceName = [...configData.invoice_name];
-//          }
-          //极速开票配置
-//          this.enabledSpeedInvoice = configData.enabled_speed_invoice;
-//          if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
-//            this.invoiceType = [...configData.invoice_type];
-//          }
-//          if (tool.isNotBlank(configData.code) && configData.code.length > 0) {
-//            this.invoiceCode = [...configData.code];
-//          }
-//          this.plugCode = configData.plug_code;
-          //预登记短信配置
-//          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
-          //到店支付配置
-//          this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
-          //自动退房
-//          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
-          //退款业务配置
-//          this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
-//          this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
-//          this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
-//           this.refundVal= configData.refund_amount_source;
-          //无证入住
-//          this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
-          //是否支持手机入住
-//          this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
+
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
-          this.inteRoomLock=configData.integration_room_lock == 'true' ? true : false;
+          this.inteRoomLock = configData.integration_room_lock == 'true' ? true : false;
 
-            //
+          //
           this.enabledTicketPrint = configData.enabled_ticket_print == 'true' ? true : false;
           //押金配置
           if (tool.isNotBlank(configData.cash_pledge_config)) {
@@ -1585,7 +1447,7 @@
           this.syncSpaceTime = configData.sync_space_time;
           this.scheduledSure = configData.scheduled;
           //顾客配置
-          this.curstomDeploy = configData.user_disable_order == 'true' ? true : false;
+          this.curstomDeploy = configData.enabled_auto_give_room == 'true' ? true : false;
           //自动预付款确认
           this.prepayKeyword = configData.prepay_keyword;
           this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
@@ -1594,8 +1456,8 @@
           this.nowpayKeyword = configData.nowpay_keyword;
           this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
           this.freeDepositKeyword = configData.free_deposit_keyword;
-          this.isOpenAutoConfirmPrePay = configData.enabled_autoprepay== 'true' ? true : false;
-          this.needDepositKeyword=configData.need_deposit_keyword;
+          this.isOpenAutoConfirmPrePay = configData.enabled_autoprepay == 'true' ? true : false;
+          this.needDepositKeyword = configData.need_deposit_keyword;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
           //酒店标签配置
@@ -1605,8 +1467,8 @@
           this.enabledSpeedCard = configData.enabled_speed_card == 'true' ? true : false;
           //是否允许提前退房配置
           this.enabledAdvancedCheckout = configData.advanced_checkout == 'true' ? true : false;
-          this.enabledPMScheckout=configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
-          this.enabledSameDateIO=configData.enabled_same_date_io== 'true' ? true : false;
+          this.enabledPMScheckout = configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+          this.enabledSameDateIO = configData.enabled_same_date_io == 'true' ? true : false;
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
@@ -1614,112 +1476,34 @@
           //身份核验功能配置
           this.identityCheckVal = configData.enabled_identity_check == 'true' ? true : false;
           //定制化配置
-          this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
-          this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
-          this.rcStatus=configData.rc_status=='true'?true:false;
+          this.mirrorIntro = configData.enabled_mirror_introduce == 'true' ? true : false;
+          this.mirrorBrand = configData.enabled_mirror_brand == 'true' ? true : false;
+          this.rcStatus = configData.rc_status == 'true' ? true : false;
           //同住人通知配置
-          this.timeStep=configData.checkin_noshow_interval_time;
+          this.timeStep = configData.checkin_noshow_interval_time;
           //无证核验
-          this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
-          this.enableKeyAccess=configData.enable_pull_identity_guest_info == 'true' ? true : false
+          this.enableNoCertificateCheck = configData.enable_identity_check_undocumented == 'true' ? true : false;
+          this.enableKeyAccess = configData.enable_pull_identity_guest_info == 'true' ? true : false
           //应用功能配置
-          this.appValue=configData.business_mode;
+          this.appValue = configData.business_mode;
           //应用功能配置二
-          let wqtMainCtl=configData.wqt_main_control?JSON.parse(configData.wqt_main_control):'';
+          let wqtMainCtl = configData.wqt_main_control ? JSON.parse(configData.wqt_main_control) : '';
           // console.log('wqtMainCtl:',wqtMainCtl)
-          this.appPolice=wqtMainCtl.identity_check_view;
-          this.appOrder=wqtMainCtl.order_view;
-          this.appIdentity=wqtMainCtl.room_status_view;
-          this.appLiveIn=wqtMainCtl.check_in_identity_check_view;
-          this.appInvoice=wqtMainCtl.invoice_view;
-          this.appMoney=wqtMainCtl.order_bill_view;
-          this.appAbnormal=wqtMainCtl.exception_view;
-          this.appSuspicious=wqtMainCtl.suspicious_person_view;
-          this.appDirtyRoom=wqtMainCtl.dirty_room_view;
+          this.appPolice = wqtMainCtl.identity_check_view;
+          this.appOrder = wqtMainCtl.order_view;
+          this.appIdentity = wqtMainCtl.room_status_view;
+          this.appLiveIn = wqtMainCtl.check_in_identity_check_view;
+          this.appInvoice = wqtMainCtl.invoice_view;
+          this.appMoney = wqtMainCtl.order_bill_view;
+          this.appAbnormal = wqtMainCtl.exception_view;
+          this.appSuspicious = wqtMainCtl.suspicious_person_view;
+          this.appDirtyRoom = wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
-          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
-        };
+          this.showPoliceHandledList = configData.enable_show_plice_processed == 'true' ? true : false
+        }
+        ;
       },
-//      pmsData() {
-//        if (tool.isNotBlank(this.pmsData)) {
-//          //PMS信息
-//          //捷信达
-//          this.wqtPublicNo=this.pmsData.pms_worker_id;
-//          this.urls=this.pmsData.urls;
-//          this.pmsId = this.pmsData.pms_id;
-//          this.checkout = this.pmsData.checkout == 'true' ? true : false;
-//          // this.pmsType = this.pmsData.pms_type; //放在计算属性
-//          this.hotelPmsCode = this.pmsData.hotel_pmscode;
-//          this.remark = this.pmsData.remark;
-//          this.hotelServiceUrl = this.pmsData.hotel_service_url;
-//          //绿云,西软
-//          this.crsURL = this.pmsData.crs_url;
-//          this.hotelGroupCode = this.pmsData.hotel_group_code;
-//          this.appKey = this.pmsData.app_key;
-//          this.PMSAppSecret = this.pmsData.app_secret;
-//          this.userCode = this.pmsData.usercode;
-//          this.password = this.pmsData.password;
-//          //别样红
-//          this.billServiceUrl = this.pmsData.bill_service_url;
-//          this.crmServiceUrl = this.pmsData.crm_service_url;
-//          this.orderServiceUrl = this.pmsData.order_service_url;
-//          this.secServiceUrl = this.pmsData.sec_service_url;
-//          this.userName = this.pmsData.user_name;
-//          this.userPass = this.pmsData.user_pass;
-//          //住哲
-//          this.cid = this.pmsData.cid;
-//          this.key = this.pmsData.key;
-//          this.dataKey = this.pmsData.datakey;
-//          this.adminName = this.pmsData.admin_name;
-//          this.adminPassword = this.pmsData.admin_password;
-//          this.brandId = this.pmsData.brand_id;
-//          //东呈
-//          this.dcKey = this.pmsData.key;
-//          //西软BS
-//          this.xrbs_groupCode=this.pmsData.hotelGroupCode;
-//          this.xrbs_appkey=this.pmsData.appKey;
-//          this.xrbs_authCode=this.pmsData.secret;
-//          this.xrbs_serviceVersion=this.pmsData.ver;
-//          this.xrbs_infoLanguage=this.pmsData.loc;
-//          this.xrbs_CRM=this.pmsData.cmmcode;
-//          this.xrbs_siteId=this.pmsData.pcid;
-//          this.xrbs_employeeNum=this.pmsData.empno;
-//          this.xrbs_moduleNum=this.pmsData.modu;
-//        }
-//      },
-//      lvyeData() {
-//        // 旅业配置
-//        if (tool.isNotBlank(this.lvyeData)) {
-//          this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
-//          this.lvyeType = this.lvyeData.lvye_report_type;
-//          console.log('this.lvyeType:',this.lvyeType)
-//          this.policeId = this.lvyeData.hotel_ga_id;
-//          this.policeType = this.lvyeData.police_type;
-//          this.policeParam = JSON.stringify(this.lvyeData.police_param);
-//        }
-//      },
-//      faceinPassValue(val) {
-//        val < this.faceinRejectValue ? this.faceinRejectValue = this.faceinPassValue : null;
-//      },
-//      faceinRejectValue(val) {
-//        val > this.faceinPassValue ? this.faceinPassValue = this.faceinRejectValue : null;
-//      },
-//      renderMoreLvyeList(val){
-//          console.log('此时的renderMore:',val)
-//          if(val.length>0){
-//              this.hasSetMoreLvye = true;
-//          } else {
-//              this.hasSetMoreLvye = false;
-//          };
-//      },
-//      lvyeType(val){
-//          this.lvyeTypeList.forEach(obj=>{
-//              if(val==obj.lvye_report_type){
-//                  this.isPoliceParam=obj.enable_police_param;
-//                  console.log(this.isPoliceParam)
-//              };
-//          })
-//      },
+//
     },
     methods: {
       ...mapActions([
@@ -1738,127 +1522,159 @@
         "savePADMarkConfig",
         "getRoomNum",
         "saveReviewRoomNum",
-        "editReviewRoomNum"
+        "editReviewRoomNum",
+        "singerConfig",
+        "updateSingerConfig",
       ]),
+      _updateSingerConfig(pre){
+        this.updateSingerConfig({
+          hotel_id: this.$route.params.hotelid,
+          key: this.showMoreRoomOrderKey,
+          value: pre,
+          onsuccess: (body) => {
+            console.log('修改了')
+
+          }
+        })
+      },
+      getSingerConfig(){
+        this.singerConfig({
+          hotel_id: this.$route.params.hotelid,
+          key: this.showMoreRoomOrderKey,
+          onsuccess: (body) => {
+            console.log('====----->', body)
+            if (body.date && body.date != null) {
+              this.no_support_zft_mroom = false
+            } else {
+              this.no_support_zft_mroom = true
+            }
+          }
+        })
+      },
       //查询所以PMS房间号
       getRoomNumList(){
-          this.getRoomNum({
-              hotel_id: this.$route.params.hotelid,
-              page:this.page,
-              size:this.size,
-              onsuccess:(body,headers)=>{
-                  this.roomNumReviewList = body.data;
-                  if(body.data&&body.data.length!==0){
-                      this.isHaveRoomNumReviewList=true
-                  }else {
-                      this.isHaveRoomNumReviewList=false
-                  }
+        this.getRoomNum({
+          hotel_id: this.$route.params.hotelid,
+          page: this.page,
+          size: this.size,
+          onsuccess: (body, headers) => {
+            this.roomNumReviewList = body.data;
+            if (body.data && body.data.length !== 0) {
+              this.isHaveRoomNumReviewList = true
+            } else {
+              this.isHaveRoomNumReviewList = false
+            }
 
-                  this.total=parseInt(headers['x-total'])
-              }
-          })
+            this.total = parseInt(headers['x-total'])
+          }
+        })
       },
-       //保存旅业房间号
+      //保存旅业房间号
       saveReviewRoomNumList(){
-          let lvyeRoomNumlist=[];
-          this.renderRoomNumReviewList.forEach(item=>{
-              lvyeRoomNumlist.push({'id':item.id,'room_id':item.room_id,'room_no':item.room_no,'lvye_room_no':item.lvye_room_no})
-          });
-          this.saveReviewRoomNum({
-              hotel_id: this.$route.params.hotelid,
-              data:lvyeRoomNumlist,
-              onsuccess:(body)=>{
-                  console.log('新增');
-                  this.showDialog = false;
-              }
-          });
+        let lvyeRoomNumlist = [];
+        this.renderRoomNumReviewList.forEach(item => {
+          lvyeRoomNumlist.push({
+            'id': item.id,
+            'room_id': item.room_id,
+            'room_no': item.room_no,
+            'lvye_room_no': item.lvye_room_no
+          })
+        });
+        this.saveReviewRoomNum({
+          hotel_id: this.$route.params.hotelid,
+          data: lvyeRoomNumlist,
+          onsuccess: (body) => {
+            console.log('新增');
+            this.showDialog = false;
+          }
+        });
       },
       handleSizeChange(val) {
-          this.size = val;
-          this.getRoomNumList();
+        this.size = val;
+        this.getRoomNumList();
       },
       handleCurrentPageChange(val){
-          this.page = val;
-          this.getRoomNumList();
+        this.page = val;
+        this.getRoomNumList();
       },
 
-        //获取酒店提示语配置
+      //获取酒店提示语配置
       getPADMarkConfigs(){
-          this.getPADMarkConfig({
-              hotel_id: this.$route.params.hotelid,
-              onsuccess: body => {
-                  if(body.data){
-                      this.notFoundMark=body.data.order_hint_item;
-                      this.checkOutMark=body.data.apply_checkout_finish;
-                      this.noDeviceCheckInMark=body.data.non_equipment_checkin;
-                      this.failedCheckOutMark=body.data.checkout_failure;
-                      this.hotelServiceTelMark=body.data.customer_service_tel;
-                      this.hotelMark=true;
-                  }
+        this.getPADMarkConfig({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            if (body.data) {
+              this.notFoundMark = body.data.order_hint_item;
+              this.checkOutMark = body.data.apply_checkout_finish;
+              this.noDeviceCheckInMark = body.data.non_equipment_checkin;
+              this.failedCheckOutMark = body.data.checkout_failure;
+              this.hotelServiceTelMark = body.data.customer_service_tel;
+              this.hotelMark = true;
+            }
 
-              }
-          })
+          }
+        })
       },
-        //新增酒店提示语
+      //新增酒店提示语
       savePADMarkConfigs(){
-          this.savePADMarkConfig({
-              data:{
-                  "hotel_id": this.$route.params.hotelid,
-                  "order_hint_item":this.notFoundMark==''?''+'#190155':this.notFoundMark+'#190155',
-                  "apply_checkout_finish":this.checkOutMark==''?''+'#190164':this.checkOutMark+'#190164',
-                  "non_equipment_checkin":this.noDeviceCheckInMark==''?''+'#190159':this.noDeviceCheckInMark+'#190159',
-                  "checkout_failure":this.failedCheckOutMark==''?''+'#190163':this.failedCheckOutMark+'#190163',
-                  "customer_service_tel":this.hotelServiceTelMark
-              },
-              onsuccess: body => {
-                  this.showDialog = false;
-                  this.hotelMark=true;
-              }
-          })
+        this.savePADMarkConfig({
+          data: {
+            "hotel_id": this.$route.params.hotelid,
+            "order_hint_item": this.notFoundMark == '' ? '' + '#190155' : this.notFoundMark + '#190155',
+            "apply_checkout_finish": this.checkOutMark == '' ? '' + '#190164' : this.checkOutMark + '#190164',
+            "non_equipment_checkin": this.noDeviceCheckInMark == '' ? '' + '#190159' : this.noDeviceCheckInMark + '#190159',
+            "checkout_failure": this.failedCheckOutMark == '' ? '' + '#190163' : this.failedCheckOutMark + '#190163',
+            "customer_service_tel": this.hotelServiceTelMark
+          },
+          onsuccess: body => {
+            this.showDialog = false;
+            this.hotelMark = true;
+          }
+        })
       },
       getAccessServiceType(){
-          this.getServiceTypeScript({
-              hotel_id: this.$route.params.hotelid,
-              onsuccess: body => {
-                 this.filterScript=body.data.filter_script_name ;
-                 this.formatScript=body.data.format_script_name ;
-                 this.enableAccessService=body.data.enabled_script;
-                  if(this.filterScript||this.formatScript){
-                      this.accessService=true;
-                  }
-              }
-          })
+        this.getServiceTypeScript({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.filterScript = body.data.filter_script_name;
+            this.formatScript = body.data.format_script_name;
+            this.enableAccessService = body.data.enabled_script;
+            if (this.filterScript || this.formatScript) {
+              this.accessService = true;
+            }
+          }
+        })
       },
 
       beforeUploadformat(){
-          this.fileList1=[]
+        this.fileList1 = []
       },
       beforeUploadfilter(){
-          this.fileList2=[]
+        this.fileList2 = []
       },
-      filterScriptSuccess(res,file,list){
-        if(res.data) {
-            this.filterScript = res.data.script_name;
+      filterScriptSuccess(res, file, list){
+        if (res.data) {
+          this.filterScript = res.data.script_name;
         }
       },
-      formatScriptSuccess(res,file,list){
-          if(res.data) {
-              this.formatScript = res.data.script_name;
-          }
+      formatScriptSuccess(res, file, list){
+        if (res.data) {
+          this.formatScript = res.data.script_name;
+        }
       },
       addAlterUrl(){
-          console.log(typeof this.urls)
-        this.urls.push({url:''});
+        console.log(typeof this.urls)
+        this.urls.push({url: ''});
       },
       reduceAlterUrl(index){
-        this.urls.splice(index,1);
+        this.urls.splice(index, 1);
       },
 
       dialogConfig(type) {
         this.showType = type;
-        console.log('========>',this.showType)
+        console.log('========>', this.showType)
 
-          this.showDialog = true;
+        this.showDialog = true;
       },
 //
       addRoomTags() {
@@ -1873,19 +1689,20 @@
         this.switchName = 'close';
       },
       closeMorelvye(type){
-        if(type===enumShowType.moreLvyeReportType){
-              // this.getMoreLvyes();
-              this.setTip=false;
-          }
+        if (type === enumShowType.moreLvyeReportType) {
+          // this.getMoreLvyes();
+          this.setTip = false;
+        }
       },
-        //弹框取消按钮
+      //弹框取消按钮
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
           case enumShowType.roomCard:
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
-            this.inteRoomLock=this.configData.integration_room_lock== 'true' ? true : false;;
+            this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
+            ;
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
@@ -1913,7 +1730,7 @@
             this.nowpayExclusionKeyword = this.configData.nowpay_exclusion_keyword;
             this.freeDepositKeyword = this.configData.free_deposit_keyword;
             this.needDepositKeyword = this.configData.need_deposit_keyword;
-            this.isOpenAutoConfirmPrePay = this.configData.enabled_autoprepay== 'true' ? true : false;
+            this.isOpenAutoConfirmPrePay = this.configData.enabled_autoprepay == 'true' ? true : false;
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
@@ -1929,8 +1746,8 @@
             break;
           case enumShowType.advancedCheckout:
             this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
-              this.enabledPMScheckout=this.configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
-              this.enabledSameDateIO=this.configData.enabled_same_date_io== 'true' ? true : false;
+            this.enabledPMScheckout = this.configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+            this.enabledSameDateIO = this.configData.enabled_same_date_io == 'true' ? true : false;
             break;
           case enumShowType.hotelAreaCode:
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
@@ -1945,18 +1762,18 @@
             this.identityCheckVal = this.configData.enabled_identity_check == 'true' ? true : false;
             break;
           case enumShowType.customization:
-            this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
-            this.mirrorBrand=this.configData.enabled_mirror_brand=='true'?true:false;
+            this.mirrorIntro = this.configData.enabled_mirror_introduce == 'true' ? true : false;
+            this.mirrorBrand = this.configData.enabled_mirror_brand == 'true' ? true : false;
             break;
           case enumShowType.enableRCstatus:
-            this.rcStatus=this.configData.rc_status=='true'?true:false;
+            this.rcStatus = this.configData.rc_status == 'true' ? true : false;
             break;
           case enumShowType.informCoResident:
-            this.timeStep=this.configData.checkin_noshow_interval_time;
-              break;
+            this.timeStep = this.configData.checkin_noshow_interval_time;
+            break;
           case enumShowType.appManage:
-             this.appValue=this.configData.business_mode;
-             break;
+            this.appValue = this.configData.business_mode;
+            break;
           default:
         }
       },
@@ -1967,7 +1784,7 @@
             data = {
               support_room_card: this.supportRoomCard.toString(),
               issued_card_rule: this.issuedCardRuleVal,
-              integration_room_lock:this.inteRoomLock.toString()
+              integration_room_lock: this.inteRoomLock.toString()
             };
             break;
           case enumShowType.cashPledge: {
@@ -2071,8 +1888,8 @@
           case enumShowType.advancedCheckout:
             data = {
               advanced_checkout: this.enabledAdvancedCheckout.toString(),
-              enabled_pms_in_guest_checkout:this.enabledPMScheckout.toString(),
-              enabled_same_date_io:this.enabledSameDateIO.toString()
+              enabled_pms_in_guest_checkout: this.enabledPMScheckout.toString(),
+              enabled_same_date_io: this.enabledSameDateIO.toString()
             }
             break;
           case enumShowType.hotelAreaCode:
@@ -2099,45 +1916,52 @@
             return;
           case enumShowType.informCoResident:
             data = {
-              checkin_noshow_interval_time:this.timeStep
+              checkin_noshow_interval_time: this.timeStep
             }
             break;
           case enumShowType.noCertificateCheck:
             data = {
-              enable_identity_check_undocumented:this.enableNoCertificateCheck.toString()
+              enable_identity_check_undocumented: this.enableNoCertificateCheck.toString()
             }
             break;
           case enumShowType.appManage2:
-            let wqt_main_control=JSON.stringify({
-              "identity_check_view":this.appPolice, 			//公安验证
-              "order_view":this.appOrder,						//订单中心
-              "room_status_view":this.appIdentity,				//住离信息
-              "check_in_identity_check_view":this.appLiveIn,	//入住核验
-              "invoice_view":this.appInvoice,					//发票中心
-              "order_bill_view":this.appMoney,				//账务管理
-              "exception_view":this.appAbnormal,					//异常提醒
-              "suspicious_person_view":this.appSuspicious,
-              "dirty_room_view":this.appDirtyRoom
+            let wqt_main_control = JSON.stringify({
+              "identity_check_view": this.appPolice, 			//公安验证
+              "order_view": this.appOrder,						//订单中心
+              "room_status_view": this.appIdentity,				//住离信息
+              "check_in_identity_check_view": this.appLiveIn,	//入住核验
+              "invoice_view": this.appInvoice,					//发票中心
+              "order_bill_view": this.appMoney,				//账务管理
+              "exception_view": this.appAbnormal,					//异常提醒
+              "suspicious_person_view": this.appSuspicious,
+              "dirty_room_view": this.appDirtyRoom
             });
-            data={
+            data = {
               wqt_main_control
             }
             break;
           case enumShowType.reviewRoomNum:
           case enumShowType.isShowPoliceHandeld:
             data = {
-              "enable_show_plice_processed":this.showPoliceHandledList.toString()
+              "enable_show_plice_processed": this.showPoliceHandledList.toString()
             };
             break;
           case enumShowType.keyAccess:
-            data={
-              enable_pull_identity_guest_info:this.enableKeyAccess.toString()
+            data = {
+              enable_pull_identity_guest_info: this.enableKeyAccess.toString()
             }
             break;
-              this.saveReviewRoomNumList();
-             // return;
-          default:null
-        };
+            this.saveReviewRoomNumList();
+          // return;
+          case enumShowType.zftShowMoreRoom:
+            this._updateSingerConfig(this.showMoreRoomOrder);
+            this.getSingerConfig();
+
+            break;
+          default:
+            null
+        }
+        ;
         this.patchConfigData(data);
       },
 
@@ -2152,7 +1976,7 @@
         if (flag) {
           this.deleteWxHotel({
             hotel_id: this.$route.params.hotelid,
-            wx_hotel_id: this.wxHotelId||this.RegistersWxHotelId,
+            wx_hotel_id: this.wxHotelId || this.RegistersWxHotelId,
             onsuccess: (body, header) => {
               this.showtoast({
                 text: '删除成功',
@@ -2160,7 +1984,8 @@
               })
             }
           });
-        };
+        }
+        ;
         this.queryDel = false;
         this.hideDialog();
       },
@@ -2176,7 +2001,7 @@
       },
       //修改服务端数据
       patchConfigData(data) {
-          console.log('debug:------->patchConfigData：',data)
+        console.log('debug:------->patchConfigData：', data)
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
           data: data,
@@ -2282,286 +2107,353 @@
 </script>
 <style lang="less">
   .morelvyeCheckbox {
-    .el-checkbox {
-      margin-left: 0;
-      margin-right: 1.5rem;
-    }
+
+  .el-checkbox {
+    margin-left: 0;
+    margin-right: 1.5rem;
   }
 
+  }
 
-  .tip{
+  .tip {
     color: #ff2b1c;
     font-size: 16px;
     margin-left: 9rem;
   }
+
   .module-wrapper {
-    .content-configinfo {
-      padding: 24px 20px 0 8px;
-      .content-title {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 16px;
-        margin-bottom: 18px;
-        padding: 0 0 0 12px;
-        i {
-          font-size: 12px;
-          font-style: normal;
-        }
-        a {
-          color: #39C240;
-          cursor: pointer;
-        }
-      }
-      .el-row {
-        padding-right: 20px;
-        .el-col-8 {
-          margin-bottom: 20px;
-          button {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            background-color: #ffffff;
-            border: solid 1px #E5E5E5;
-            outline: none;
-            color: #4A4A4A;
-            padding: 12px 6px;
-            position: relative;
-            height: 110px;
-            .item_img {
-              width: 42px;
-              height: 42px;
-              text-align: center;
-              border: solid 1px #E5E5E5;
-              background-color: #FBFBFB;
-              border-radius: 50%;
-              padding: 10px;
-              display: flex;
-              align-items: center;
-              -webkit-align-items: center;
-              img {
-                width: 38px;
-                height: 38px;
-              }
-            }
-            .item-text {
-              text-align: start;
-              margin-left: 10px;
-              span {
-                font-size: 16px;
-              }
-              p {
-                font-size: 12px;
-                margin-top: 5px;
-              }
-            }
-            .tag_text {
-              position: absolute;
-              top: 5px;
-              right: 5px;
-              font-size: 16px;
-            }
-            .tag_text_red {
-              color: #D0011B;
-            }
-            .tag_text_green {
-              color: #39C240;
-            }
-            .tag_text_gray {
-              color: #9B9B9B;
-            }
-          }
-        }
-        button {
-          width: 100%;
-          height: 90px;
-        }
-      }
-      .el-right {
-        width: 300px;
-        margin-left: 16px;
-      }
-      .el-dialog {
-        width: 68%;
-        .el-dialog__header {
-          padding: 0 20px;
-          border-bottom: solid 1px #979797;
-          .el-dialog__title {
-            line-height: 43px;
-            font-size: 16px;
-            font-weight: 400;
-            color: #4A4A4A;
-          }
-        }
-        .lvyeItem {
-          border-bottom: 1px solid #979797;;
-        }
-        .el-dialog__body {
-          padding: 22px 20px 33px;
-          .dialog-content {
-            font-size: 14px;
-            font-weight: 400;
-            color: #4A4A4A;
-            .item-form {
-              position: relative;
-              display: flex;
-              align-items: center;
-              margin-bottom: 10px;
-              & > span {
-                display: inline-block;
-                min-width: 110px;
-                text-align: end;
-              }
-              .el-select {
-                width: 100%;
-                .el-input {
-                  width: 69.5%;
-                }
-              }
-              .el-input {
-                width: 60%;
-              }
-              .el-transfer{
-                .el-input{
-                  width: 100%;
-                }
-              }
 
-              .el-switch {
-                margin-left: 16px;
-              }
-              .el-radio {
-                margin-left: 16px;
-              }
-            }
-            article {
-              ul {
-                font-size: 14px;
-                color: #9B9B9B;
-                margin-left: 41px;
-                line-height: 22px;
-                li {
-                  margin-left: 20px;
-                }
-              }
-            }
-            .item_large {
-              display: flex;
-              align-items: center;
-              margin-bottom: 10px;
-              span {
-                min-width: 194px;
-                text-align: end;
-              }
-              .el-input {
-                width: 60%;
-              }
-            }
-            .item-tag2 {
-              display: flex;
-              align-items: center;
-              margin-bottom: 10px;
-              & > span {
-                display: inline-block;
-                min-width: 110px;
-                text-align: end;
-              }
-              .tag-input {
-                position: relative;
-                margin-left: 16px;
-                width: 70%;
-                .el-input {
-                  width: 100%;
-                  margin: 0 0 12px 0;
-                }
-                .tag-btn {
-                  position: absolute;
-                  bottom: 20px;
-                  right: -62px;
-                  button {
-                    border-radius: 50px;
-                    outline: none;
-                    border: solid 1px;
-                    margin-left: 5px;
-                    padding-bottom: 2px;
-                    background-color: #ffffff;
-                    height: 20px;
-                    width: 20px;
-                  }
-                }
-              }
-            }
+  .content-configinfo {
+    padding: 24px 20px 0 8px;
 
-            .item-tag {
-              display: flex;
-              align-items: flex-start;
-              padding-left: 20px;
-              span {
-                width: 60px;
-                text-align: end;
-                line-height: 40px;
-              }
-              .tag-input {
-                position: relative;
-                margin-left: 16px;
-                width: 70%;
-                .el-input {
-                  width: 100%;
-                  margin: 0 0 12px 0;
-                }
-                .tag-btn {
-                  position: absolute;
-                  bottom: 20px;
-                  right: -62px;
-                  button {
-                    border-radius: 50px;
-                    outline: none;
-                    border: solid 1px;
-                    margin-left: 5px;
-                    padding-bottom: 2px;
-                    background-color: #ffffff;
-                    height: 20px;
-                    width: 20px;
-                  }
-                }
-              }
-            }
-          }
-        }
-        .delLv {
-          color: red;
-          position: absolute;
-          right: 0;
-          display: inline-block;
-          cursor: pointer;
-        }
-        .el-dialog__footer {
-          padding: 10px 20px 28px;
-          .dialog-footer {
-            text-align: center;
-            .el-button {
-              width: 246px;
-              border-radius: 0;
-              line-height: 18px;
-              margin: 0;
-              &:nth-child(1) {
-                margin-right: 22px;
-              }
-              &:nth-child(2) {
-                background-color: #39C240;
-                border-color: #39C240;
-                color: #ffffff;
-              }
-            }
-            .el-button--primary {
-              background-color: transparent;
-              border: solid 1px #979797;
-              color: #4A4A4A;
-            }
-          }
-        }
-      }
-    }
+  .content-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    margin-bottom: 18px;
+    padding: 0 0 0 12px;
+
+  i {
+    font-size: 12px;
+    font-style: normal;
+  }
+
+  a {
+    color: #39C240;
+    cursor: pointer;
+  }
+
+  }
+  .el-row {
+    padding-right: 20px;
+
+  .el-col-8 {
+    margin-bottom: 20px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #ffffff;
+    border: solid 1px #E5E5E5;
+    outline: none;
+    color: #4A4A4A;
+    padding: 12px 6px;
+    position: relative;
+    height: 110px;
+
+  .item_img {
+    width: 42px;
+    height: 42px;
+    text-align: center;
+    border: solid 1px #E5E5E5;
+    background-color: #FBFBFB;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    -webkit-align-items: center;
+
+  img {
+    width: 38px;
+    height: 38px;
+  }
+
+  }
+  .item-text {
+    text-align: start;
+    margin-left: 10px;
+
+  span {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+
+  }
+  .tag_text {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 16px;
+  }
+
+  .tag_text_red {
+    color: #D0011B;
+  }
+
+  .tag_text_green {
+    color: #39C240;
+  }
+
+  .tag_text_gray {
+    color: #9B9B9B;
+  }
+
+  }
+  }
+  button {
+    width: 100%;
+    height: 90px;
+  }
+
+  }
+  .el-right {
+    width: 300px;
+    margin-left: 16px;
+  }
+
+  .el-dialog {
+    width: 68%;
+
+  .el-dialog__header {
+    padding: 0 20px;
+    border-bottom: solid 1px #979797;
+
+  .el-dialog__title {
+    line-height: 43px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #4A4A4A;
+  }
+
+  }
+  .lvyeItem {
+    border-bottom: 1px solid #979797;;
+  }
+
+  .el-dialog__body {
+    padding: 22px 20px 33px;
+
+  .dialog-content {
+    font-size: 14px;
+    font-weight: 400;
+    color: #4A4A4A;
+
+  .item-form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+  &
+  >
+  span {
+    display: inline-block;
+    min-width: 110px;
+    text-align: end;
+  }
+
+  .el-select {
+    width: 100%;
+
+  .el-input {
+    width: 69.5%;
+  }
+
+  }
+  .el-input {
+    width: 60%;
+  }
+
+  .el-transfer {
+
+  .el-input {
+    width: 100%;
+  }
+
+  }
+
+  .el-switch {
+    margin-left: 16px;
+  }
+
+  .el-radio {
+    margin-left: 16px;
+  }
+
+  }
+  article {
+
+  ul {
+    font-size: 14px;
+    color: #9B9B9B;
+    margin-left: 41px;
+    line-height: 22px;
+
+  li {
+    margin-left: 20px;
+  }
+
+  }
+  }
+  .item_large {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+  span {
+    min-width: 194px;
+    text-align: end;
+  }
+
+  .el-input {
+    width: 60%;
+  }
+
+  }
+  .item-tag2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+  &
+  >
+  span {
+    display: inline-block;
+    min-width: 110px;
+    text-align: end;
+  }
+
+  .tag-input {
+    position: relative;
+    margin-left: 16px;
+    width: 70%;
+
+  .el-input {
+    width: 100%;
+    margin: 0 0 12px 0;
+  }
+
+  .tag-btn {
+    position: absolute;
+    bottom: 20px;
+    right: -62px;
+
+  button {
+    border-radius: 50px;
+    outline: none;
+    border: solid 1px;
+    margin-left: 5px;
+    padding-bottom: 2px;
+    background-color: #ffffff;
+    height: 20px;
+    width: 20px;
+  }
+
+  }
+  }
+  }
+
+  .item-tag {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 20px;
+
+  span {
+    width: 60px;
+    text-align: end;
+    line-height: 40px;
+  }
+
+  .tag-input {
+    position: relative;
+    margin-left: 16px;
+    width: 70%;
+
+  .el-input {
+    width: 100%;
+    margin: 0 0 12px 0;
+  }
+
+  .tag-btn {
+    position: absolute;
+    bottom: 20px;
+    right: -62px;
+
+  button {
+    border-radius: 50px;
+    outline: none;
+    border: solid 1px;
+    margin-left: 5px;
+    padding-bottom: 2px;
+    background-color: #ffffff;
+    height: 20px;
+    width: 20px;
+  }
+
+  }
+  }
+  }
+  }
+  }
+  .delLv {
+    color: red;
+    position: absolute;
+    right: 0;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .el-dialog__footer {
+    padding: 10px 20px 28px;
+
+  .dialog-footer {
+    text-align: center;
+
+  .el-button {
+    width: 246px;
+    border-radius: 0;
+    line-height: 18px;
+    margin: 0;
+
+  &
+  :nth-child(1) {
+    margin-right: 22px;
+  }
+
+  &
+  :nth-child(2) {
+    background-color: #39C240;
+    border-color: #39C240;
+    color: #ffffff;
+  }
+
+  }
+  .el-button--primary {
+    background-color: transparent;
+    border: solid 1px #979797;
+    color: #4A4A4A;
+  }
+
+  }
+  }
+  }
+  }
   }
 
   .el-autocomplete {
@@ -2578,7 +2470,7 @@
     justify-content: center;
   }
 
-  //我的
+  /*//我的*/
   .el-dialog__headerbtn {
     padding-top: 12px;
   }
@@ -2589,18 +2481,25 @@
     margin-top: 25px;
     margin-left: 35px;
   }
-  .bottoomLine{
+
+  .bottoomLine {
     padding-top: 2rem;
     border-bottom: 1px solid #000000;
   }
+
   .el-transfer-panel__filter {
     padding: 0.2rem 1rem 1.1rem 1rem;
     width: 100%;
   }
-  .reduceImg{
+
+  .reduceImg {
     display: inline-block;
-    width:2rem;
+    width: 2rem;
     height: 2rem;
     margin-left: 1rem;
+  }
+
+  .more-room-tip {
+    color: #aeaeae;
   }
 </style>

@@ -492,7 +492,6 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
   import tool from '@/assets/tools/tool.js'
-
   export default {
     components: {
       ElDialog,
@@ -1112,8 +1111,11 @@
         if (process.env.NODE_ENV === 'production') {
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
-        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
-        console.log(this.tempCode);
+        if(process.env.NODE_ENV ==='ssj_ai_ssj'){
+          this.tempCode = 'hhttp:///////';
+        }
+//        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
+        console.log(this.tempCode)
         QRCode.toDataURL(this.tempCode, (err, url) => {
 //          console.log(url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');

@@ -4073,6 +4073,8 @@
       },
       creatQrcode(code) {
         if (!code) return;
+        console.log('process.env=======',process.env)
+
         if (process.env.NODE_ENV === 'intg') {
           this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
         } else if (process.env.NODE_ENV === 'test') {
@@ -4086,7 +4088,7 @@
         }
 //        console.log(this.tempCode);
         QRCode.toDataURL(this.tempCode, (err, url) => {
-//          console.log(url)
+          console.log('url=======',url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })

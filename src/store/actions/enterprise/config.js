@@ -89,6 +89,29 @@ module.exports = {
       }
     })
   },
+  // 单个酒店配置
+  singerConfig(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/config/${param.key}`,
+      method: 'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: () => null
+    })
+  },
+    // PUT /hotel/{hotel_id}/config/{key}/{value}
+  updateSingerConfig(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/config/${param.key}/${param.value}`,
+      method: 'PUT',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      },
+      onFail: () => null
+    })
+  },
+
   //微信生态酒店注册
   WxhotelRegister(ctx, param) {
     ctx.dispatch('resource', {
