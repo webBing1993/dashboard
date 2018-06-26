@@ -10,6 +10,7 @@
         <th>状态</th>
         <th>配对</th>
         <th>操作</th>
+        <th>升级</th>
       </tr>
       </thead>
       <tbody>
@@ -24,6 +25,9 @@
         <td>{{ obj.partner_name }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
+        </td>
+        <td>
+          <a class="v-options pointer" @click="update_aly(obj)">升级到阿里云</a>
         </td>
       </tr>
       </tbody>
@@ -70,6 +74,9 @@
     methods: {
       edit(obj) {
         this.$emit('edit', obj);
+      },
+      update_aly(obj) {
+        this.$emit('update_aly', obj);
       }
     }
   }

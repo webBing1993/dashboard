@@ -9,7 +9,7 @@
             <el-button type="success" @click.native="add">添加新设备</el-button>
           </div>
         </div>
-        <table-device :list="list" :page="page" :size="size" @edit="edit"></table-device>
+        <table-device :list="list" :page="page" :size="size" @edit="edit" @update_aly="update_aly"></table-device>
         <el-pagination
           v-show="total > size"
           @size-change="handleSizeChange"
@@ -40,6 +40,7 @@
     methods: {
       ...mapActions([
         'getDeviceList',
+        'updateToALY',
         'goto'
       ]),
       add(obj) {
@@ -53,6 +54,15 @@
           name: 'EditDevice',
           query: {
             device_id: obj.id
+          }
+        })
+      },
+      update_aly(obj){
+        console.log('------->',obj)
+        this.updateToALY({
+          deviceId:obj.id,
+          onsuccess: (body) =>{
+              console.log(body)
           }
         })
       },

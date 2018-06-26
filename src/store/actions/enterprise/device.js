@@ -166,6 +166,15 @@ removeDevice(ctx, param) {
       }
     })
   },
+  updateToALY(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/updateDeviceConfigById/${param.deviceId}`,
+      method:'get',
+      onSuccess: (body,) => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   // 获取设备类型列表
   getDeviceTypeList(ctx, param){
     ctx.dispatch('resource', {
