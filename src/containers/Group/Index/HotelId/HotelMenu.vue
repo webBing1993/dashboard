@@ -10,9 +10,9 @@
       <!--    -->
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'">门店配置</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config2'">门店配置2</router-link>
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigSysInfo'">门店系统配置</router-link>
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigBusnessInfo'">门店业务配置</router-link>
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigHotelInfo'">门店酒店配置</router-link>
+      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigSysInfo'">门店系统配置</router-link>-->
+      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigBusnessInfo'">门店业务配置</router-link>-->
+      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigHotelInfo'">门店酒店配置</router-link>-->
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigProd'">开通产品配置</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">门店设备</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/device'">设备管理</router-link>
