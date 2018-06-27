@@ -1124,7 +1124,7 @@
 //        值房通是否显示多房订单
         no_support_zft_mroom: false,
         showMoreRoomOrderKey: 'support_zft_mroom',
-        showMoreRoomOrder: true,
+        showMoreRoomOrder: false,
         appPolice: false,
         appOrder: false,
         appIdentity: false,
@@ -1164,6 +1164,7 @@
         showReception: state => state.enterprise.showReception,
 //        showMoreLvyeConfig:  state => state.enterprise.showMoreLvyeConfig
       }),
+
       rcgethotelid() {
         return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
@@ -1503,7 +1504,25 @@
         }
         ;
       },
-//
+      getSingerConfig(){
+        this.singerConfig({
+          hotel_id: this.$route.params.hotelid,
+          key: this.showMoreRoomOrderKey,
+          onsuccess: (body) => {
+            console.log('====----->', body)
+            this.no_support_zft_mroom = body.data == 'true' ? true : false;
+            this.showMoreRoomOrder = body.data == 'true' ? true : false;
+//            if (body.data && body.data == 'true') {
+//                console.log(11111)
+//              this.no_support_zft_mroom = true
+//            } else {
+//              console.log(222222222222)
+//              this.no_support_zft_mroom = false
+//            }
+            console.log('已经配置了', this.no_support_zft_mroom)
+          }
+        })
+      },
     },
     methods: {
       ...mapActions([
@@ -1537,17 +1556,16 @@
           }
         })
       },
+
       getSingerConfig(){
         this.singerConfig({
           hotel_id: this.$route.params.hotelid,
           key: this.showMoreRoomOrderKey,
           onsuccess: (body) => {
             console.log('====----->', body)
-            if (body.date && body.date != null) {
-              this.no_support_zft_mroom = false
-            } else {
-              this.no_support_zft_mroom = true
-            }
+            this.no_support_zft_mroom = body.data == 'true' ? true : false;
+            this.showMoreRoomOrder = body.data == 'true' ? true : false;
+            console.log('已经配置了', this.no_support_zft_mroom)
           }
         })
       },
