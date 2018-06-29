@@ -65,6 +65,7 @@
         if (v === "51") return "发票插件";
         if (v === "41") return "广告机";
         if (v === "22") return "发卡机";
+        if (v === "99") return "测试";
       },
       status(v) {
         if (v === 1) return "可用";
