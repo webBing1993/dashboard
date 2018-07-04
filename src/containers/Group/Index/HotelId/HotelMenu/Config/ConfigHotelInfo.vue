@@ -1386,6 +1386,9 @@
           case enumShowType.autoIdentityCheck:
             result = true;
             break;
+          case enumShowType.identityCheck:
+            result = true;
+            break;
           case enumShowType.PADshowContent:
             result = true;
             break;
@@ -2519,5 +2522,10 @@
 
   .more-room-tip {
     color: #aeaeae;
+  }
+  .module-wrapper .content-configinfo .el-dialog .el-dialog__footer .dialog-footer .el-button--primary {
+    background-color: #1AAD19;
+    border: solid 1px #979797;
+    color: #ffffff;
   }
 </style>
