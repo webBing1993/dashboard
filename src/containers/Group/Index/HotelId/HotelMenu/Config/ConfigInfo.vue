@@ -2856,6 +2856,7 @@
           this.scheduledSure = configData.scheduled;
           //顾客配置
           this.curstomDeploy = configData.user_disable_order == 'true' ? true : false;
+
           //自动预付款确认
           this.prepayKeyword = configData.prepay_keyword;
           this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;

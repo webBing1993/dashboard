@@ -1451,7 +1451,9 @@
           this.syncSpaceTime = configData.sync_space_time;
           this.scheduledSure = configData.scheduled;
           //顾客配置
-          this.curstomDeploy = configData.enabled_auto_give_room == 'true' ? true : false;
+//          this.curstomDeploy = configData.enabled_auto_give_room == 'true' ? true : false;
+          this.curstomDeploy = configData.user_disable_order == 'true' ? true : false;
+
           //自动预付款确认
           this.prepayKeyword = configData.prepay_keyword;
           this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
@@ -2493,9 +2495,13 @@
 
   /*//我的*/
   .el-dialog__headerbtn {
-    padding-top: 12px;
+    padding-top: 12px!important;
   }
 
+  /*.el-dialog__headerbtn .el-dialog__close {*/
+    /*color: #bfcbd9;*/
+    /*padding-top: 12px;*/
+  /*}*/
   .reg {
     display: block;
     width: 200px;
