@@ -742,13 +742,14 @@
             result = this.validatepreCheckin;
             break;
           case enumShowType.mobileCheckin:
-            result = this.true;
+            result = true;
             break;
           case enumShowType.rcPrint:
             result = true;
             break;
           case enumShowType.enableRCstatus:
-            result = this.validateRCStatus ;
+//            result = this.validateRCStatus ;
+            result = true;
             break;
           default:
             result = false;
