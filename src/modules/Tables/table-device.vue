@@ -16,8 +16,8 @@
       <tbody>
       <tr v-for="(obj, index) of list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
-        <td>{{ obj.type | deviceType }}</td>
-        <!--<td>{{ obj.type}}</td>-->
+        <!--<td>{{ obj.type | deviceType }}</td>-->
+        <td>{{ obj.type_name}}</td>
         <td>{{ obj.name }}</td>
         <td>{{ obj.id }}</td>
         <td><span
