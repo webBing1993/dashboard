@@ -315,8 +315,11 @@
               <p>企业微信公安验证是否显示已处理列表</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!configData.enable_show_plice_processed, 'tag_text_green': configData.enable_show_plice_processed}">{{configData.enable_show_plice_processed ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red':showPoliceHandledList, 'tag_text_green': showPoliceHandledList}">{{showPoliceHandledList? '已开通' : '未开通'}}
             </span>
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red':!configData.enable_show_plice_processed, 'tag_text_green': configData.enable_show_plice_processed}">{{configData.enable_show_plice_processed ? '已配置' : '未配置'}}-->
+            <!--</span>-->
           </button>
         </el-col>
         <el-col :span="8">
