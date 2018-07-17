@@ -329,8 +329,11 @@
               <p>配置关键通道</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}
+                  :class="{'tag_text_red': !enableKeyAccess , 'tag_text_green': enableKeyAccess }">{{enableKeyAccess ? '已开通' : '未开通'}}
             </span>
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}-->
+            <!--</span>-->
           </button>
         </el-col>
         <el-col :span="8">
