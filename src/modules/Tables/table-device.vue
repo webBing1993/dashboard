@@ -28,7 +28,7 @@
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
         </td>
         <td>
-          <a class="v-options pointer" @click="update_aly(obj)">升级到阿里云</a>
+          <a  class="v-options pointer" @click="update_aly(obj)">{{ obj.isrised ? '':'升级到阿里云'}}</a>
         </td>
       </tr>
       </tbody>

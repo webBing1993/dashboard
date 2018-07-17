@@ -63,6 +63,8 @@
           deviceId:obj.id,
           onsuccess: (body) =>{
               console.log(body)
+            this.getList();
+
           }
         })
       },
