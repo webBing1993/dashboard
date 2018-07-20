@@ -418,18 +418,18 @@
         </div>
         <!--footer-->
       </el-dialog>
-      <!--<el-dialog-->
-        <!--title="点击下载二维码"-->
-        <!--:visible.sync="showQrImgContent">-->
-        <!--<div class="qrcode-img">-->
-          <!--<img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"-->
-               <!--:src="qrImgUrl"/>-->
-        <!--</div>-->
-        <!--<div slot="footer" class="dialog-footer">-->
-          <!--<el-radio class="radio" v-model="isBigQrImg" :label="true">大图 280</el-radio>-->
-          <!--<el-radio class="radio" v-model="isBigQrImg" :label="false">小图 140</el-radio>-->
-        <!--</div>-->
-      <!--</el-dialog>-->
+      <el-dialog
+        title="点击下载二维码"
+        :visible.sync="showQrImgContent">
+        <div class="qrcode-img">
+          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"
+               :src="qrImgUrl"/>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-radio class="radio" v-model="isBigQrImg" :label="true">大图 280</el-radio>
+          <el-radio class="radio" v-model="isBigQrImg" :label="false">小图 140</el-radio>
+        </div>
+      </el-dialog>
       <!--<el-dialog-->
         <!--:title="typeTitles[showType]"-->
         <!--:visible.sync="queryDel"-->
@@ -1099,8 +1099,9 @@
         this.invoiceCode.pop();
       },
       creatQrcode(code) {
-          console.log('----->',process)
         if (!code) return;
+        console.log('process.env=======',process.env)
+
         if (process.env.NODE_ENV === 'intg') {
           this.tempCode = `https://jskp.intg.fortrun.cn/index.html?code=${code}`;
         } else if (process.env.NODE_ENV === 'test') {
@@ -1112,18 +1113,14 @@
         if (process.env.NODE_ENV === 'production') {
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
-        if(process.env.NODE_ENV ==='ssj_ai_ssj'){
-          this.tempCode = 'hhttp:///////';
-        }
-//        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
-        console.log(this.tempCode)
+        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
+
         QRCode.toDataURL(this.tempCode, (err, url) => {
-//          console.log(url)
+          console.log('url=======',url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })
       },
-
       saveFile(data, filename) {
         var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
         save_link.href = data;
@@ -1134,9 +1131,9 @@
         event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
         save_link.dispatchEvent(event);
       },
-//      downloadImg() {
-//        this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
-//      }
+      downloadImg() {
+        this.saveFile(this.qrImgUrl, `${this.hotelName}_${this.tempCode}.png`);
+      }
     }
   }
 </script>

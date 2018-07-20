@@ -4088,12 +4088,14 @@
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
 //        console.log(this.tempCode);
+        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         QRCode.toDataURL(this.tempCode, (err, url) => {
           console.log('url=======',url)
           this.qrImgUrl = url.replace('image/png', 'image/octet-stream');
           this.showQrImgContent = true;
         })
       },
+
       saveFile(data, filename) {
         var save_link = document.createElementNS('http://www.w3.org/1999/xhtml', 'a');
         save_link.href = data;
