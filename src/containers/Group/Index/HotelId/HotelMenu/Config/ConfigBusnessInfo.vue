@@ -813,6 +813,8 @@
           //应用功能配置
           this.appValue=configData.business_mode;
            };
+        this.rcStatus=configData.rc_status=='true'?true:false;
+
       },
 //      lvyeType(val){
 //          this.lvyeTypeList.forEach(obj=>{
