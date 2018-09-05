@@ -2,134 +2,117 @@
   <div>
     <div class="module-wrapper">
       <div class="top">
-        <span>旅业公司</span>
-        <el-button type="success" @click.native="addLvyeCop" class="button">添 加</el-button>
+        <span>模板管理</span>
+        <el-button type="success" @click="showAddContent=true" class="button">添加模板</el-button>
       </div>
-      <table-lvyeCop :list='lvyeCopList' @edit="editItem" @del="delItem"></table-lvyeCop>
-    </div>
-    <el-dialog title="添加旅业公司"
-               :visible.sync="showAddContent"
-               :close-on-click-modal="false"
-               :close-on-press-escape="false"
-               :show-close="true"
-               width=""
-               @close="handleClose"
-               center>
-      <div class="rec">
+      <div>
+        <el-table
+          style="width: 100%">
+          <el-table-column label="ID" width="180"></el-table-column>
+          <el-table-column label="名称" width="180"></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
 
-        <div class="item-form">
-          <span class="itemTitle">编码</span>
-          <el-input v-model="copCode" placeholder="请输入编码" class="input" :disabled="flag"></el-input>
+      <el-dialog title="添加模板"
+                 :visible.sync="showAddContent"
+                 :close-on-click-modal="false"
+                 :close-on-press-escape="false"
+                 :show-close="true"
+                 width=""
+                 @close="handleClose"
+                 center>
+        <div class="rec">
+          <el-form ref="form" :model="form" label-width="180px" labelPosition="left">
+            <el-form-item label="模板名称">
+              <el-input v-model="Dateform.tempName"></el-input>
+            </el-form-item>
+            <el-form-item label="二代证读卡间隔">
+              <el-select v-model="Dateform.IdCardReadTime" placeholder="请选择">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="找脸模式">
+              <el-select v-model="Dateform.fetchFaceMod" placeholder="请选择">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="上传数据总开关">
+              <el-switch v-model="Dateform.uploadAllDate"></el-switch>
+            </el-form-item>
+            <el-form-item label="上传低于下限得数据">
+              <el-switch v-model="Dateform.underFloor"></el-switch>
+            </el-form-item>
+            <el-form-item label="验证不通过提示验证完成">
+              <el-switch v-model="Dateform.notPassTost"></el-switch>
+            </el-form-item>
+            <el-form-item label="有证抓脸出实时画面？">
+              <el-switch v-model="Dateform.hasCardCatchFace"></el-switch>
+            </el-form-item>
+            <el-form-item label="无证抓脸出实时画面？">
+              <el-switch v-model="Dateform.noCardCatchFace"></el-switch>
+            </el-form-item>
+          </el-form>
+
         </div>
-        <div class="item-form">
-          <span class="itemTitle">名称</span>
-          <el-input v-model="copName" placeholder="请输入旅业公司名称" class="input"></el-input>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="showAddContent=false">取 消</el-button>
+          <el-button type="primary" @click="save" :disabled="validate">保 存</el-button>
         </div>
-      </div>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="showAddContent=false">取 消</el-button>
-        <el-button type="primary" @click="save" :disabled="validate">保 存</el-button>
-      </div>
-    </el-dialog>
+      </el-dialog>
+    </div>
+
   </div>
 </template>
 <script>
   import {mapActions, mapState} from 'vuex'
 
   export default {
-    components: {},
     data() {
       return {
-
         showAddContent: false,
-        copCode: '',
-        copName: '',
-        lvyeCopList: [],
-        flag: true
+        form: {},
+        Dateform: {
+          tempName: '',
+//          fileList: [],
+          IdCardReadTime: '',
+          fetchFaceMod: '',
+          uploadAllDate: true,
+          underFloor: true,
+          notPassTost: true,
+          hasCardCatchFace: true,
+          noCardCatchFace: true,
+        }
       }
     },
+
     methods: {
       ...mapActions([
         'goto',
-        'getLvyeCopList',
-        'saveLvyeCopInfo',
-        'delLvyeCopInfo',
-        'updateLvyeCopInfo'
-      ]),
-      save() {
-        if (!this.flag) {
-          this.saveLvyeCopInfo({
-            data: {
-              code: this.copCode,
-              name: this.copName
-            },
-            onsuccess: body => {
-              this.showAddContent = false;
-              this.getLvyeCopLists()
-            }
-          });
-        } else {
-          this.updateLvyeCopInfo({
-            data: {
-              code: this.copCode,
-              name: this.copName
-            },
-            onsuccess: body => {
-              this.showAddContent = false;
-              this.getLvyeCopLists()
-            }
-          })
-        }
+        'TemplateList',
 
-      },
-      editItem(obj) {
-        this.showAddContent = true;
-        this.flag = true;
-        this.copCode = obj.code;
-        this.copName = obj.name;
-      },
-      delItem(obj) {
-        this.delLvyeCopInfo({
-          code: obj.code,
-          onsuccess: body => {
-            this.showAddContent = false;
-            this.getLvyeCopLists()
-          }
-        })
+      ]),
+      addTemplate() {
+        this.showAddContent = true
       },
       handleClose() {
+        this.showAddContent = false
 
       },
-      //添加旅业酒店
-      addLvyeCop() {
-        this.showAddContent = true;
-        this.flag = false
-        this.copCode = '';
-        this.copName = '';
-      },
-      //获取旅业酒店列表
-      getLvyeCopLists() {
-        this.getLvyeCopList({
-          onsuccess: body => {
-            this.lvyeCopList = body.data
-          }
-        })
+      save() {
       }
 
+
     },
-    computed: {
-      ...mapState([
-        'route',
-        'Interface'
-      ]),
-      validate() {
-        if (this.copCode == '' || this.copName == '') {
-          return true
-        }
-      }
-    },
+
     mounted() {
-      this.getLvyeCopLists()
+
     }
   }
 </script>
@@ -144,11 +127,11 @@
         font-weight: bold;
         font-size: 16px;
       }
-    }
-    .el-button {
-      &.button {
-        float: right;
-        width: 12rem;
+      .el-button {
+        &.button {
+          float: right;
+          width: 12rem;
+        }
       }
     }
 
@@ -243,17 +226,6 @@
               padding: 0.5rem;
               border-color: #a9bdd1;
               width: 80%
-            }
-          }
-          article {
-            ul {
-              font-size: 14px;
-              color: #9B9B9B;
-              margin-left: 41px;
-              line-height: 22px;
-              li {
-                margin-left: 20px;
-              }
             }
           }
           .item_large {

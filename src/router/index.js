@@ -42,6 +42,16 @@ import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue
 import lvye_Cop from '@/containers/System/Index/SystemMenu/LvyeCop.vue'
 import lvye_Staff from '@/containers/System/Index/SystemMenu/LvyeStaff.vue'
 
+
+import adv_cont from '@/containers/System/Index/SystemMenu/advConfig/AdvertiserCont.vue'
+import group_cont from '@/containers/System/Index/SystemMenu/advConfig/GroupCont.vue'
+import matter_cont from '@/containers/System/Index/SystemMenu/advConfig/MatterCont.vue'
+import put_In from '@/containers/System/Index/SystemMenu/advConfig/PutInCont.vue'
+
+
+
+import material_temp from '@/containers/System/Index/SystemMenu/MaterialTemp.vue'
+
 // 5级路由
 import GroupInfo from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupInfo.vue'
 import Brand from '@/containers/Group/Index/GroupId/GroupIdMenu/Brand.vue'
@@ -76,6 +86,7 @@ import ConfigProd from '@/containers/Group/Index/HotelId/HotelMenu/Config/Config
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 //7级路由
 import MoreLvyeConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/MoreLvyeConfig.vue'
+
 Vue.use(Router)
 
 const main = [
@@ -273,7 +284,7 @@ const main = [
                       },
 
                       {
-                        path:"ConfigProd",
+                        path: "ConfigProd",
                         component: ConfigProd,
                       },
                       {
@@ -359,15 +370,20 @@ const main = [
                 ]
               },
               {
-                path:'lvyeCop',
-                name:'lvye_Cop',
-                component:lvye_Cop
+                path: 'lvyeCop',
+                name: 'lvye_Cop',
+                component: lvye_Cop
               },
-                {
-                    path:'lvyeStaff',
-                    name:'lvye_Staff',
-                    component:lvye_Staff
-                },
+              {
+                path: 'lvyeStaff',
+                name: 'lvye_Staff',
+                component: lvye_Staff
+              },
+              {
+                path: 'materialTemp',
+                name: 'material_temp',
+                component: material_temp
+              },
               {
                 path: 'qrcodecreate',
                 name: 'QR_Code_create',
@@ -388,11 +404,39 @@ const main = [
                 name: 'prodBaseConfig',
                 component: prodBaseConfig
               },
+              {
+                path: 'prodBaseConfig',
+                name: 'prodBaseConfig',
+                component: prodBaseConfig
+              },
+
+
+              // 广告配置
+              {
+                path: 'advcont',
+                name: 'adv_cont',
+                component: adv_cont
+              },
+              {
+                path: 'groupcont',
+                name: 'group_cont',
+                component: group_cont
+              },
+              {
+                path: 'mattercont',
+                name: 'matter_cont',
+                component: matter_cont
+              },
+              {
+                path: 'putIn',
+                name: 'put_In',
+                component: put_In
+              },
             ]
           }]
       },
       {
-        path:"operate",
+        path: "operate",
         component: Operate,
         children: [
           {
