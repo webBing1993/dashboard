@@ -17,30 +17,29 @@
           </el-table-column>
         </el-table>
       </div>
+      <!---->
+      <!--:close-on-click-modal="false"-->
+      <!--:close-on-press-escape="false"-->
+      <!--:show-close="true"-->
+      <!--width=""-->
+      <!--@close="handleClose"-->
+      <el-dialog title="添加模板" :visible.sync="showAddContent"
 
-      <el-dialog title="添加模板"
-                 :visible.sync="showAddContent"
-                 :close-on-click-modal="false"
-                 :close-on-press-escape="false"
-                 :show-close="true"
-                 width=""
-                 @close="handleClose"
                  center>
-        <div class="rec">
+        <!--<div class="rec">-->
           <el-form ref="form" :model="form" label-width="180px" labelPosition="left">
             <el-form-item label="模板名称">
               <el-input v-model="Dateform.tempName"></el-input>
             </el-form-item>
             <el-form-item label="二代证读卡间隔">
               <el-select v-model="Dateform.IdCardReadTime" placeholder="请选择">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-option :label="item.value" v-for="(item ,index) in initDate.IdCardReadTime" :key="index"
+                           :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="找脸模式">
               <el-select v-model="Dateform.fetchFaceMod" placeholder="请选择">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+                <el-option label="找相似度最高" value="shanghai"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="上传数据总开关">
@@ -60,12 +59,14 @@
             </el-form-item>
           </el-form>
 
-        </div>
+        <!--</div>-->
         <div slot="footer" class="dialog-footer">
           <el-button @click="showAddContent=false">取 消</el-button>
-          <el-button type="primary" @click="save" :disabled="validate">保 存</el-button>
+          <el-button type="primary" @click="save">保 存</el-button>
         </div>
       </el-dialog>
+
+
     </div>
 
   </div>
@@ -74,18 +75,43 @@
   import {mapActions, mapState} from 'vuex'
 
   export default {
+
     data() {
       return {
         showAddContent: false,
         form: {},
+        initDate: {
+          IdCardReadTime: [
+            {
+              id: '1',
+              value: "1秒"
+            },
+            {
+              id: '2',
+              value: "2秒"
+            },
+            {
+              id: '3',
+              value: "3秒"
+            },
+            {
+              id: '4',
+              value: "4秒"
+            },
+            {
+              id: '5',
+              value: "5秒"
+            },
+          ]
+        },
         Dateform: {
           tempName: '',
 //          fileList: [],
-          IdCardReadTime: '',
+          IdCardReadTime: '2秒',
           fetchFaceMod: '',
           uploadAllDate: true,
           underFloor: true,
-          notPassTost: true,
+          notPassTost: false,
           hasCardCatchFace: true,
           noCardCatchFace: true,
         }

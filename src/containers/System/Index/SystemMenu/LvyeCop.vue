@@ -16,7 +16,6 @@
                @close="handleClose"
                center>
       <div class="rec">
-
         <div class="item-form">
           <span class="itemTitle">编码</span>
           <el-input v-model="copCode" placeholder="请输入编码" class="input" :disabled="flag"></el-input>
@@ -40,7 +39,6 @@
     components: {},
     data() {
       return {
-
         showAddContent: false,
         copCode: '',
         copName: '',
