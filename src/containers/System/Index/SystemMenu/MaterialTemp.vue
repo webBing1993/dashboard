@@ -5,7 +5,7 @@
         <span>模板管理</span>
         <el-button type="success" @click="showAddContent=true" class="button">添加模板</el-button>
       </div>
-      <div>
+      <div class="tableList">
         <el-table
           style="width: 100%">
           <el-table-column label="ID" width="180"></el-table-column>
@@ -160,7 +160,14 @@
         }
       }
     }
-
+    /deep/.tableList{
+      table tr{
+        background-color: #cccccc;
+      }
+      .el-table th, .el-table tr{
+        background-color: #cccccc;
+      }
+    }
     .el-dialog {
       width: 65%;
       .el-dialog__header {

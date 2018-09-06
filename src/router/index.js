@@ -410,7 +410,6 @@ const main = [
                 component: prodBaseConfig
               },
 
-
               // 广告配置
               {
                 path: 'advcont',
