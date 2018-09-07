@@ -1,8 +1,8 @@
 // 所有关于广告配置
 module.exports = {
-  // 1：关于广告商管理
+  // *************1：关于广告商管理部分**************************
   // 获取广告商模板列表
-  MatterList(ctx, param) {
+  AdvertiserList(ctx, param) {
     ctx.dispatch('resource', {
       url: `/advCompanies?page=${param.page}&pageSize=${param.pageSize}`,
       method: 'GET',
@@ -11,7 +11,7 @@ module.exports = {
   },
 
 // 添加广告商
-  saveMatter(ctx, param) {
+  saveAdvertiser(ctx, param) {
     ctx.dispatch('resource', {
       url: '/advCompanies/advCompany',
       method: 'PUT',
@@ -31,7 +31,7 @@ module.exports = {
     })
   },
   // 修改广告商
-  modifiMatter(ctx, param) {
+  modifiAdvertiser(ctx, param) {
     ctx.dispatch('resource', {
       url: `/advCompanies/advCompany/${param.id}`,
       method: 'PUT',
@@ -42,6 +42,71 @@ module.exports = {
     })
   },
 
-  // advCompanies/advCompany/a9620a4c419c47c5aa2944b1a599eb0a
+  // **************************2:关于素材管理部分**************************
+
+// 获取素材列表
+  MatterList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos?page=${param.page}&pageSize=${param.pageSize}`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+  // 保存素材
+  saveMatter(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/advInfos/advInfo',
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+
+  // 修改素材
+  modifiMatter(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos/advInfo/${param.id}`,
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 查看素材
+  viewMatter(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos/advInfo/${param.id}`,
+      method: 'GET',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 获取所有可选广告商
+  allCanSelectedCom(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos/companies/company/${param.id}/advInfos`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+
+  // **************************3:分组管理***************************************
+// 获取分组列表
+
+  groupContList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advScopes`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
 
 }

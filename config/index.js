@@ -30,10 +30,6 @@ module.exports = {
     assetsPublicPath: '/',
     // proxyTable: {},
     proxyTable: {
-      " ":{
-        target: 'http://intg.fortrun.cn:8244/',
-        changeOrigin: true,
-      },
       '/virgo': {
         // target: 'https://intg.fortrun.cn/',   //联调
         target: 'http://123.206.180.61:8096/',   //联调

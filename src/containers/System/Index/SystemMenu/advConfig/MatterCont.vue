@@ -7,26 +7,26 @@
       </div>
       <div>
         <el-table
+          :data="tableData"
           style="width: 100%">
-          <el-table-column label="ID"></el-table-column>
-          <el-table-column label="素材名"></el-table-column>
+          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="name" label="素材名"></el-table-column>
           <el-table-column label="更新时间"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
+              <span @click="handleView(scope.row)">查看</span>
+              <span @click="handleEdit(scope.row)">编辑</span>
             </template>
           </el-table-column>
         </el-table>
       </div>
 
       <div class="dialogModel">
-        <el-dialog title="添加素材" :visible.sync="showAddContent"
-
-                   center>
+        <el-dialog title="添加素材" :visible.sync="showAddContent" center>
           <div class="rec">
             <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
               <el-form-item label="素材名称">
-                <el-input v-model="form.mattertName"placeholder="请输入素材名" ></el-input>
+                <el-input v-model="form.mattertName" placeholder="请输入素材名"></el-input>
                 <span class="error">*素材名重名，请重新命名</span>
 
               </el-form-item>
@@ -64,17 +64,29 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="素材审核编号">
-                <el-input v-model="form.mattertAuditNum"placeholder="请输入素材审核编号" ></el-input>
+                <el-input v-model="form.mattertAuditNum" placeholder="请输入素材审核编号"></el-input>
               </el-form-item>
               <el-form-item label="备注">
                 <el-input v-model="form.comment" placeholder="请输入备注"></el-input>
               </el-form-item>
-                <el-upload
-                  class="upload-demo"
-                  action="https://jsonplaceholder.typicode.com/posts/"
-                  :limit="1">
-                  <el-button size="small" type="primary">上传素材</el-button>
-                </el-upload>
+              <!--<el-upload-->
+                <!--class="upload-demo"-->
+                <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+                <!--:limit="1">-->
+                <!--<el-button size="small" type="primary">上传素材</el-button>-->
+              <!--</el-upload>-->
+
+              <el-upload
+                class="upload-demo el-right"
+                :action="scriptUpload"
+                :headers="setHeader"
+                :data="{'script_type':'filter'}"
+                :show-file-list=false
+                :before-upload='beforeUploadfilter'
+                :on-success="filterScriptSuccess"
+                :limit=1>
+                <el-button size="small" type="primary">{{formatScript ? '上传素材' : '选择上传文件'}}</el-button>
+              </el-upload>
 
             </el-form>
           </div>
@@ -82,9 +94,17 @@
             <el-button @click="showAddContent=false">取 消</el-button>
             <el-button type="primary" @click="save">保 存</el-button>
           </div>
+          <div v-if="viewStatus">查看的信息</div>
         </el-dialog>
       </div>
-
+      <div class="pagination">
+        <el-pagination
+          :page-size="pageSize"
+          :pager-count="11"
+          layout="prev, pager, next"
+          :total="Total">
+        </el-pagination>
+      </div>
 
     </div>
 
@@ -98,6 +118,31 @@
     data() {
       return {
         showAddContent: false,
+        tableData: [
+          {
+            "id": "1aa87764e31145bc9a28e5a179ac0632",
+            "serialNumber": "string",
+            "name": "string",
+            "url": "string",
+            "type": "string",
+            "source": "string",
+            "companyId": "string",
+            "remark": "string",
+            "status": "string",
+            "isDelete": true
+          },
+          {
+            "id": "5105895e9cf34e6bb2e0f7c2a834c897",
+            "serialNumber": "1111",
+            "name": "测试视频",
+            "url": "http://for-test01.oss-cn-beijing.aliyuncs.com/%E5%B9%BF%E5%91%8A4.2%201080.mp4",
+            "type": "VIDEO",
+            "source": "string",
+            "companyId": "630fc706ab86400896aef6673552e2ac",
+            "remark": "测试专用",
+            "status": "OPEN"
+          }
+        ],
         form: {
           mattertName: '',
           mattertType: '',
@@ -149,28 +194,94 @@
               id: "w",
             }
           ],
-        }
+        },
+        pageSize: 10,
+        currentPage: 1,
+        Total: 100,
+        viewStatus: false,
+        formatScript: "",
+
       }
-    },
-    methods: {
-      ...mapActions([
-        'goto',
-        'getLvyeCopList',
-
-      ]),
-      save() {
-      },
-
     },
     computed: {
       ...mapState([
         'route',
         'Interface'
       ]),
-
+      scriptUpload(){
+        return "/virgo/scriptupload/" + this.$route.params.hotelid
+      },
+      setHeader() {
+        return {
+          Session: sessionStorage.getItem('session_id'),
+          enctype: "multipart/form-data"
+        }
+      },
     },
-    mounted() {
+    methods: {
+      ...mapActions([
+        'goto',
+        'MatterList',
+        'saveMatter',
+        'modifiMatter',
+        'viewMatter',
+        'allCanSelectedCom',
 
+      ]),
+
+      getMatterList() {
+        this.MatterList({
+          page: this.currentPage,
+          pageSize: this.pageSize,
+          onsuccess: body => {
+            this.Dateform.tableData = body.data
+          }
+        })
+      },
+      getAllCanSelectedCom() {
+        this.allCanSelectedCom({
+          id: '',//不知道是啥id
+          onsuccess: body => {
+            this.mattertList = body.data
+          }
+        })
+      },
+      save() {
+      },
+      handleView(parm) {
+        this.viewMatter({
+          id: parm.id,
+          onsuccess: body => {
+
+          }
+        })
+
+      },
+
+      handleEdit(parm) {
+        this.modifiMatter({
+          id: parm.id,
+          data: {},
+          onsuccess: body => {
+            this.showAddContent = false;
+            this.getMatterList()
+          }
+        })
+      },
+
+      beforeUploadfilter(){
+        this.fileList2 = []
+      },
+      filterScriptSuccess(res, file, list){
+        if (res.data) {
+          this.filterScript = res.data.script_name;
+        }
+      },
+    },
+
+    mounted() {
+      this.getMatterList()
+      this.getAllCanSelectedCom()
     }
   }
 </script>
@@ -225,7 +336,7 @@
 
           }
         }
-        .el-dialog__body{
+        .el-dialog__body {
           padding-right: 200px;
           padding-top: 0px;
         }
@@ -238,7 +349,7 @@
           }
           .el-input-number {
             width: 80px;
-            margin:0  20px;
+            margin: 0 20px;
           }
           .el-input-number.is-without-controls .el-input__inner {
             border-radius: 10px;
@@ -256,17 +367,17 @@
           height: 39px;
           border-radius: 1px;
         }
-        .el-form-item{
+        .el-form-item {
           margin-bottom: 5px;
         }
-        .el-radio__inner{
+        .el-radio__inner {
           width: 24px;
           height: 24px;
           /*border-color: #3AC240;*/
           border-color: #dfdfdf;
           background: #e8e8e8;
         }
-        .el-radio__input.is-checked .el-radio__inner{
+        .el-radio__input.is-checked .el-radio__inner {
           border-color: #3AC240;
           background: #3AC240;
         }
@@ -297,7 +408,7 @@
           }
         }
       }
-      .people{
+      .people {
         color: #4A4A4A;
         font-size: 16px;
       }

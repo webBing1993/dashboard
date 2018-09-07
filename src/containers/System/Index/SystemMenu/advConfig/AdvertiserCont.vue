@@ -13,7 +13,7 @@
           <el-table-column label="广告商"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <span class="contral" @click="handleEdit(scope.row.id)">编辑</span>
+              <span class="contral" @click="handleEdit(scope.row)">编辑</span>
             </template>
           </el-table-column>
         </el-table>
@@ -112,13 +112,13 @@
     methods: {
       ...mapActions([
         'goto',
-        'MatterList',
-        'saveMatter',
-        'modifiMatter',
+        'AdvertiserList',
+        'saveAdvertiser',
+        'modifiAdvertiser',
 
       ]),
       save() {
-        this.saveMatter({
+        this.saveAdvertiser({
           data: this.sendDate,
           onsuccess: body => {
             this.tableData = body.data
@@ -126,8 +126,8 @@
         })
       },
 
-      getMatterList() {
-        this.MatterList({
+      getAdvertiserList() {
+        this.AdvertiserList({
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
@@ -138,12 +138,14 @@
 
       handleEdit(parm) {
         console.log(parm)
-
-        this.modifiMatter({
+        this.showAddContent=true;
+        this.sendDate=parm
+        this.modifiAdvertiser({
           id: parm,
           data: this.sendDate,
           onsuccess: body => {
-
+            this.showAddContent=false;
+            this.getAdvertiserList()
           }
         })
       },
@@ -151,7 +153,7 @@
     },
 
     mounted() {
-      this.getMatterList()
+      this.getAdvertiserList()
     }
   }
 </script>

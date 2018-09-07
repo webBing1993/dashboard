@@ -6,10 +6,10 @@
         <el-button type="success" @click="showAddContent=true" class="button">添加分组</el-button>
       </div>
       <div>
-        <el-table
+        <el-table :data="tableData"
           style="width: 100%">
-          <el-table-column label="ID"></el-table-column>
-          <el-table-column label="组名"></el-table-column>
+          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column prop="name" label="组名"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
@@ -34,7 +34,7 @@
                   <el-checkbox >所有设备</el-checkbox>
                   <span>10</span>
                 </div>
-                <div>
+                <div class="treeBody">
                   <el-input
                     placeholder="输入关键字进行过滤"
                     v-model="filterKey">
@@ -58,7 +58,7 @@
                   <el-checkbox >已选设备</el-checkbox>
                   <span>2</span>
                 </div>
-                <div>
+                <div class="treeBody">
                   <el-input
                     placeholder="输入关键字进行过滤"
                     v-model="filterKey">
@@ -88,6 +88,24 @@
     data() {
       return {
         showAddContent: false,
+        tableData:[
+          {
+            "id": "1b72990bb7cb4a8ea5a35190b35a7205",
+            "deviceType": "string",
+            "name": "string",
+            "status": "string",
+            "hotelIds": "string",
+            "deviceIds": "string"
+          },
+          {
+            "id": "74186d0807a944ae8e592f411e207c61",
+            "deviceType": "32",
+            "name": "测试组",
+            "status": "OPEN",
+            "hotelIds": "",
+            "deviceIds": "[\"6ac308254bcc4876b3b1649dcd5e1ece\",\"5AFDFF4E49CA85E6DDD34350CC477B79\"]"
+          }
+        ],
         form: {
           groupName: '',
 
@@ -145,8 +163,7 @@
     },
     methods: {
       ...mapActions([
-        'goto',
-        'getLvyeCopList',
+        'groupContList',
 
       ]),
       save() {
@@ -377,6 +394,7 @@
     }
     .rec {
       .treeCount {
+        /*border: 1px solid #9B9B9B;*/
         display: flex;
         flex-direction: row;
         .title {
@@ -389,14 +407,14 @@
           justify-content: space-between;
           width: 100%;
           .common {
-            width: 220px;
+            width: 100%;
             height: 300px;
-            border: 1px solid #9B9B9B;
+            border: 1px solid #F5F7FA;
             border-radius: 5px;
             .title {
               width: 100%;
-              height: 30px;
-              background-color: #dcdcdc;
+              height: 40px;
+              background-color: #F5F7FA;
               color: #9B9B9B;
               border-radius: 5px 5px 0 0;
               display: flex;
@@ -404,10 +422,23 @@
               justify-content: space-between;
               align-items: center;
             }
-            /deep/.el-input .el-input__inner{
-              border-radius: 10px;
-              margin-top: 10px;
+            .el-checkbox{
+              margin-left: 15px;
             }
+            span{
+              margin-right: 15px;
+            }
+            /deep/.el-input .el-input__inner{
+              border-radius: 16px;
+              margin-top: 10px;
+              background-color: #FFFFFF;
+              border: 1px solid #d6d6d6;
+              height: 32px;
+            }
+            .treeBody{
+              padding: 0 10px;
+            }
+
           }
           .centre {
             display: flex;
@@ -415,12 +446,14 @@
             height: 300px;
             align-items: center;
             justify-content: center;
+            margin-left: 20px;
+            margin-right: 20px;
             span {
-              width: 50px;
-              height: 50px;
+              width: 36px;
+              height: 36px;
               display: block;
               border-radius: 50%;
-              line-height: 50px;
+              line-height: 36px;
               text-align: center;
               font-size: 24px;
               margin-bottom: 20px;
