@@ -10,11 +10,11 @@
           :data="tableData"
           style="width: 100%" height="500px">
           <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="name" label="素材名"></el-table-column>
-          <el-table-column prop="id" label="分组"></el-table-column>
-          <el-table-column prop="id" label="广告位"></el-table-column>
-          <el-table-column prop="id" label="开始时间"></el-table-column>
-          <el-table-column prop="id" label="结束时间"></el-table-column>
+          <el-table-column prop="advMaterialId" label="素材名"></el-table-column>
+          <el-table-column prop="advScopeId" label="分组"></el-table-column>
+          <el-table-column prop="showType" label="广告位"></el-table-column>
+          <el-table-column prop="beginTime" label="开始时间"></el-table-column>
+          <el-table-column prop="endTime" label="结束时间"></el-table-column>
           <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -66,7 +66,7 @@
       </div>
 
 
-      <div class="pagination">
+      <div class="paginationPage">
         <el-pagination
           :page-size="pageSize"
           :pager-count="11"
@@ -94,38 +94,7 @@
       return {
         showAddContent: false,
         advertiserName: '',
-        tableData: [
-          {
-            "id": "18577f265b9d4d0c91428c46bfcbcc9d",
-            "name": "张三",
-            "description": "",
-            "address": "",
-            "tel": "",
-            "userName": "",
-            "status": "OPEN",
-            "isDelete": "0"
-          },
-          {
-            "id": "630fc706ab86400896aef6673552e2ac",
-            "name": "string",
-            "description": "测试店铺",
-            "address": "test",
-            "tel": "",
-            "userName": "test",
-            "status": "",
-            "isDelete": "0"
-          },
-          {
-            "id": "a9620a4c419c47c5aa2944b1a599eb0a",
-            "name": "",
-            "description": "",
-            "address": "",
-            "tel": "",
-            "userName": "",
-            "status": "",
-            "isDelete": "0"
-          }
-        ],
+        tableData: [],
         pageSize: 10,
         currentPage: 1,
         Total: 100,
@@ -172,7 +141,7 @@
     methods: {
       ...mapActions([
         'goto',
-        'AdvertiserList',
+        'putInList',
         'saveAdvertiser',
         'modifiAdvertiser',
 
@@ -181,17 +150,17 @@
         this.saveAdvertiser({
           data: this.sendDate,
           onsuccess: body => {
-            this.tableData = body.data
+            this.tableData = body.data.list
           }
         })
       },
 
-      getAdvertiserList() {
-        this.AdvertiserList({
+      getPutInList() {
+        this.putInList({
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
-            this.tableData = body.data
+            this.tableData = body.data.list
           }
         })
       },
@@ -205,7 +174,7 @@
           data: this.sendDate,
           onsuccess: body => {
             this.showAddContent = false;
-            this.getAdvertiserList()
+            this.getPutInList()
           }
         })
       },
@@ -213,7 +182,7 @@
     },
 
     mounted() {
-      this.getAdvertiserList()
+      this.getPutInList()
     }
   }
 </script>
@@ -253,9 +222,10 @@
         line-height: 12px;
       }
     }
-    /deep/ .dialogModel {
+    /deep/.dialogModel {
       .el-dialog {
         width: 65%;
+
         .el-dialog__header {
           padding: 0;
           margin: 0 20px;
@@ -275,8 +245,12 @@
           .el-dialog__headerbtn {
             font-size: 24px;
             top: 10px;
+            padding: 0;
 
           }
+        }
+        .el-dialog__body{
+          padding-right: 200px;
         }
 
       }
@@ -305,7 +279,11 @@
           }
         }
       }
+      .el-select{
+        width: 100%;
+      }
     }
+
 
     .error {
       color: #ff2712;
@@ -313,13 +291,23 @@
       display: block;
       margin-left: 80px;
     }
-    .pagination {
+    .paginationPage {
       width: 100%;
-      height: 200px;
+      height: 100px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      .el-pagination {
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-sizing: border-box;
+        width: 100%;
+        line-height: 50px;
+      }
     }
   }
 </style>

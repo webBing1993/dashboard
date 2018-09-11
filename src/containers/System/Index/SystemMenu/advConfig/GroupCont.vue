@@ -7,7 +7,7 @@
       </div>
       <div>
         <el-table :data="tableData"
-          style="width: 100%">
+                  style="width: 100%">
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="组名"></el-table-column>
           <el-table-column label="操作">
@@ -31,7 +31,7 @@
             <div class="equipmentList">
               <div class="leftTree common">
                 <div class="title">
-                  <el-checkbox >所有设备</el-checkbox>
+                  <el-checkbox>所有设备</el-checkbox>
                   <span>10</span>
                 </div>
                 <div class="treeBody">
@@ -55,7 +55,7 @@
               </div>
               <div class="rightList common">
                 <div class="title">
-                  <el-checkbox >已选设备</el-checkbox>
+                  <el-checkbox>已选设备</el-checkbox>
                   <span>2</span>
                 </div>
                 <div class="treeBody">
@@ -88,7 +88,7 @@
     data() {
       return {
         showAddContent: false,
-        tableData:[
+        tableData: [
           {
             "id": "1b72990bb7cb4a8ea5a35190b35a7205",
             "deviceType": "string",
@@ -158,7 +158,7 @@
         },
         equTree: [],
         filterKey: '',
-        selectedList:[],
+        selectedList: [],
       }
     },
     methods: {
@@ -219,147 +219,29 @@
     }
     .el-dialog {
       width: 65%;
-      .el-dialog__header {
-        padding: 0 20px;
-        border-bottom: solid 1px #979797;
-        .el-dialog__title {
-          line-height: 43px;
-          font-size: 16px;
-          font-weight: 400;
-          color: #4A4A4A;
-        }
-        .el-dialog__headerbtn {
-          padding-top: 12px;
-        }
-      }
-      .recCheckbox {
-        .el-checkbox {
-          margin-left: 0;
-          margin-right: 1.5rem;
-        }
+
+    }
+    /deep/.el-dialog__header {
+      padding: 0;
+      margin: 0 20px;
+      text-align: left;
+      border-bottom: solid 1px #D8D8D8;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .el-dialog__title {
+        line-height: 43px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #4A4A4A;
       }
 
-      .el-icon-search {
-        height: 85%;
-      }
+      .el-dialog__headerbtn {
+        font-size: 24px;
+        top: 10px;
+        padding: 0;
 
-      .el-transfer-panel__filter {
-        padding: 0.2rem 1rem 1.1rem 1rem;
-        width: 100%;
-      }
-      .el-input__inner {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-color: #fff;
-        background-image: none;
-        border-radius: 4px;
-        border: 1px solid #bfcbd9;
-        box-sizing: border-box;
-        color: #1f2d3d;
-        font-size: inherit;
-        height: 36px;
-      }
-      .el-dialog__body {
-        padding: 0 20px 33px;
-        .rec {
-          padding: 1rem 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: #4A4A4A;
-          .departLine {
-            margin: 1rem 10rem 2rem 5.5rem;
-            border-top: 1px solid #dadada;
-          }
-          .item-form {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            .itemTitle {
-              display: inline-block;
-              min-width: 75px;
-            }
-            .el-select {
-              width: 80%;
-              .el-option {
-                width: 80%;
-              }
-            }
-            .el-input {
-              width: 100%;
-            }
-            .el-switch {
-              margin-left: 16px;
-            }
-            .el-checkbox-group {
-              .el-checkbox__inner {
-                display: inline-block;
-                min-width: 0.2rem;
-                min-height: 0.2rem;
-              }
-            }
-            .input {
-              width: 80%;
-            }
-            .text {
-              resize: none;
-              min-height: 100px;
-              padding: 0.5rem;
-              border-color: #a9bdd1;
-              width: 80%
-            }
-          }
-          .item_large {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            span {
-              min-width: 194px;
-              text-align: end;
-            }
-            .el-input {
-              width: 60%;
-            }
-          }
-          .item-tag2 {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            & > span {
-              display: inline-block;
-              min-width: 110px;
-              text-align: end;
-            }
-            .tag-input {
-              position: relative;
-              margin-left: 16px;
-              width: 70%;
-              .el-input {
-                width: 100%;
-                margin: 0 0 12px 0;
-              }
-              .tag-btn {
-                position: absolute;
-                bottom: 20px;
-                right: -62px;
-                button {
-                  border-radius: 50px;
-                  outline: none;
-                  border: solid 1px;
-                  margin-left: 5px;
-                  padding-bottom: 2px;
-                  background-color: #ffffff;
-                  height: 20px;
-                  width: 20px;
-                }
-              }
-            }
-          }
-        }
-        .rec:not(:last-child) {
-          border-bottom: solid 1px #979797;;
-        }
       }
     }
     .el-dialog__footer {
@@ -422,20 +304,20 @@
               justify-content: space-between;
               align-items: center;
             }
-            .el-checkbox{
+            .el-checkbox {
               margin-left: 15px;
             }
-            span{
+            span {
               margin-right: 15px;
             }
-            /deep/.el-input .el-input__inner{
+            /deep/ .el-input .el-input__inner {
               border-radius: 16px;
               margin-top: 10px;
               background-color: #FFFFFF;
               border: 1px solid #d6d6d6;
               height: 32px;
             }
-            .treeBody{
+            .treeBody {
               padding: 0 10px;
             }
 

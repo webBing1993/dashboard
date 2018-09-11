@@ -10,7 +10,7 @@
           :data="tableData"
           style="width: 100%" height="500px">
           <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column label="广告商"></el-table-column>
+          <el-table-column prop="name" label="广告商"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <span class="contral" @click="handleEdit(scope.row)">编辑</span>
@@ -28,13 +28,13 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button type="primary" @click="save">保 存</el-button>
+            <el-button type="primary" @click="save" :disabled="!validateall">保 存</el-button>
           </div>
         </el-dialog>
       </div>
 
 
-      <div class="pagination">
+      <div class="paginationPage">
         <el-pagination
           :page-size="pageSize"
           :pager-count="11"
@@ -56,7 +56,13 @@
         'route',
         'Interface'
       ]),
-
+      validateall() {
+        if (this.advertiserName.length == 0 || this.advertiserName.length > 30) {
+          return false
+        } else {
+          return true
+        }
+      },
     },
     data() {
       return {
@@ -98,14 +104,16 @@
         currentPage: 1,
         Total: 100,
         reNameError: false,
+        editeStatus: false,
+        currentItem: {},
         sendDate: {
-          address: "",
-          description: "",
-          isDelete: '',
-          name: "",
-          status: "",
-          tel: "",
-          userName: "",
+//          address: "",
+//          description: "",
+//          isDelete: '',
+//          name: "",
+//          status: "",
+//          tel: "",
+//          userName: "",
         }
       }
     },
@@ -117,13 +125,31 @@
         'modifiAdvertiser',
 
       ]),
+
+
       save() {
-        this.saveAdvertiser({
-          data: this.sendDate,
-          onsuccess: body => {
-            this.tableData = body.data
-          }
-        })
+        if (this.editeStatus) {
+          this.modifiAdvertiser({
+            id: this.currentItem.id,
+            data: {
+              name: this.advertiserName
+            },
+            onsuccess: body => {
+              this.getAdvertiserList()
+              this.showAddContent = false;
+
+            }
+          })
+        } else {
+          this.saveAdvertiser({
+            data: {
+              name: this.advertiserName
+            },
+            onsuccess: body => {
+              this.tableData = body.data
+            }
+          })
+        }
       },
 
       getAdvertiserList() {
@@ -131,23 +157,18 @@
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
-            this.tableData = body.data
+            this.tableData = body.data.list
+
           }
         })
       },
 
       handleEdit(parm) {
         console.log(parm)
-        this.showAddContent=true;
-        this.sendDate=parm
-        this.modifiAdvertiser({
-          id: parm,
-          data: this.sendDate,
-          onsuccess: body => {
-            this.showAddContent=false;
-            this.getAdvertiserList()
-          }
-        })
+        this.showAddContent = true;
+        this.currentItem = parm;
+        this.editeStatus = true;
+        this.advertiserName=parm.name
       },
 
     },
@@ -193,7 +214,7 @@
         line-height: 12px;
       }
     }
-   /deep/.dialogModel {
+    /deep/ .dialogModel {
       .el-dialog {
         width: 65%;
         .el-dialog__header {
@@ -215,6 +236,7 @@
           .el-dialog__headerbtn {
             font-size: 24px;
             top: 10px;
+            padding: 0;
 
           }
         }
@@ -247,20 +269,29 @@
       }
     }
 
-
     .error {
       color: #ff2712;
       font-size: 10px;
       display: block;
       margin-left: 80px;
     }
-    .pagination {
+    .paginationPage {
       width: 100%;
-      height: 200px;
+      height: 100px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      .el-pagination {
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-sizing: border-box;
+        width: 100%;
+        line-height: 50px;
+      }
     }
   }
 </style>

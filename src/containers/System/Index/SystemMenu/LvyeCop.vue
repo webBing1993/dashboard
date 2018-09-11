@@ -16,13 +16,49 @@
                @close="handleClose"
                center>
       <div class="rec">
-        <div class="item-form">
-          <span class="itemTitle">编码</span>
-          <el-input v-model="copCode" placeholder="请输入编码" class="input" :disabled="flag"></el-input>
-        </div>
-        <div class="item-form">
-          <span class="itemTitle">名称</span>
-          <el-input v-model="copName" placeholder="请输入旅业公司名称" class="input"></el-input>
+        <el-form ref="form" label-width="100px" labelPosition="left">
+          <el-form-item label="编码">
+            <el-input v-model="copCode" placeholder="请输入编码" @change="getLvCode" class="input"
+                      :disabled="flag"></el-input>
+          </el-form-item>
+          <el-form-item label="名称">
+            <el-input v-model="copName" placeholder="请输入旅业公司名称" class="input"></el-input>
+          </el-form-item>
+        </el-form>
+
+        <div class="treeCount">
+          <div class="title">人证通模板</div>
+          <div class="equipmentList">
+            <div class="leftTree common">
+              <div class="title">
+                <el-checkbox>所有模板</el-checkbox>
+                <span>10</span>
+              </div>
+              <div class="treeBody">
+                <el-input
+                  placeholder="输入模板名称"
+                >
+                </el-input>
+
+              </div>
+            </div>
+            <div class="centre">
+              <span class="el-icon-arrow-left active"></span>
+              <span class="el-icon-arrow-left blue"></span>
+            </div>
+            <div class="rightList common">
+              <div class="title">
+                <el-checkbox>已选模板</el-checkbox>
+                <span>2</span>
+              </div>
+              <div class="treeBody">
+                <el-input
+                  placeholder="请输入模板名称"
+                >
+                </el-input>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -43,7 +79,9 @@
         copCode: '',
         copName: '',
         lvyeCopList: [],
-        flag: true
+        flag: true,
+        lvyecode: '',//旅业编码
+        rztTemplateList: []
       }
     },
     methods: {
@@ -52,7 +90,8 @@
         'getLvyeCopList',
         'saveLvyeCopInfo',
         'delLvyeCopInfo',
-        'updateLvyeCopInfo'
+        'updateLvyeCopInfo',
+        'templateList',
       ]),
       save() {
         if (!this.flag) {
@@ -80,12 +119,14 @@
         }
 
       },
+
       editItem(obj) {
         this.showAddContent = true;
         this.flag = true;
         this.copCode = obj.code;
         this.copName = obj.name;
       },
+
       delItem(obj) {
         this.delLvyeCopInfo({
           code: obj.code,
@@ -95,9 +136,11 @@
           }
         })
       },
+
       handleClose() {
 
       },
+
       //添加旅业酒店
       addLvyeCop() {
         this.showAddContent = true;
@@ -106,11 +149,24 @@
         this.copName = '';
       },
       //获取旅业酒店列表
+
       getLvyeCopLists() {
         this.getLvyeCopList({
           onsuccess: body => {
             this.lvyeCopList = body.data
           }
+        })
+      },
+
+      getLvCode(parm) {
+        this.lvyecode = parm
+        this.templateList({
+          lvyecode: this.lvyecode,
+          onsuccess: body => {
+            this.rztTemplateList = body.data
+            console.log('this.rztTemplateList',this.rztTemplateList)
+          }
+
         })
       }
 
@@ -142,168 +198,46 @@
         font-weight: bold;
         font-size: 16px;
       }
-    }
-    .el-button {
-      &.button {
-        float: right;
-        width: 12rem;
+      .el-button {
+        &.button {
+          float: right;
+          width: 12rem;
+        }
       }
     }
-
+    /deep/ .tableList {
+      table tr {
+        background-color: #cccccc;
+      }
+      .el-table th, .el-table tr {
+        background-color: #cccccc;
+      }
+    }
     .el-dialog {
       width: 65%;
-      .el-dialog__header {
-        padding: 0 20px;
-        border-bottom: solid 1px #979797;
-        .el-dialog__title {
-          line-height: 43px;
-          font-size: 16px;
-          font-weight: 400;
-          color: #4A4A4A;
-        }
-        .el-dialog__headerbtn {
-          padding-top: 12px;
-        }
-      }
-      .recCheckbox {
-        .el-checkbox {
-          margin-left: 0;
-          margin-right: 1.5rem;
-        }
+
+    }
+    /deep/ .el-dialog__header {
+      padding: 0;
+      margin: 0 20px;
+      text-align: left;
+      border-bottom: solid 1px #D8D8D8;
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .el-dialog__title {
+        line-height: 43px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #4A4A4A;
       }
 
-      .el-icon-search {
-        height: 85%;
-      }
+      .el-dialog__headerbtn {
+        font-size: 24px;
+        top: 10px;
+        padding: 0;
 
-      .el-transfer-panel__filter {
-        padding: 0.2rem 1rem 1.1rem 1rem;
-        width: 100%;
-      }
-      .el-input__inner {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        background-color: #fff;
-        background-image: none;
-        border-radius: 4px;
-        border: 1px solid #bfcbd9;
-        box-sizing: border-box;
-        color: #1f2d3d;
-        font-size: inherit;
-        height: 36px;
-      }
-      .el-dialog__body {
-        padding: 0 20px 33px;
-        .rec {
-          padding: 1rem 0;
-          font-size: 14px;
-          font-weight: 400;
-          color: #4A4A4A;
-          .departLine {
-            margin: 1rem 10rem 2rem 5.5rem;
-            border-top: 1px solid #dadada;
-          }
-          .item-form {
-            display: flex;
-            align-items: center;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            .itemTitle {
-              display: inline-block;
-              min-width: 75px;
-            }
-            .el-select {
-              width: 80%;
-              .el-option {
-                width: 80%;
-              }
-            }
-            .el-input {
-              width: 100%;
-            }
-            .el-switch {
-              margin-left: 16px;
-            }
-            .el-checkbox-group {
-              .el-checkbox__inner {
-                display: inline-block;
-                min-width: 0.2rem;
-                min-height: 0.2rem;
-              }
-            }
-            .input {
-              width: 80%;
-            }
-            .text {
-              resize: none;
-              min-height: 100px;
-              padding: 0.5rem;
-              border-color: #a9bdd1;
-              width: 80%
-            }
-          }
-          article {
-            ul {
-              font-size: 14px;
-              color: #9B9B9B;
-              margin-left: 41px;
-              line-height: 22px;
-              li {
-                margin-left: 20px;
-              }
-            }
-          }
-          .item_large {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            span {
-              min-width: 194px;
-              text-align: end;
-            }
-            .el-input {
-              width: 60%;
-            }
-          }
-          .item-tag2 {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            & > span {
-              display: inline-block;
-              min-width: 110px;
-              text-align: end;
-            }
-            .tag-input {
-              position: relative;
-              margin-left: 16px;
-              width: 70%;
-              .el-input {
-                width: 100%;
-                margin: 0 0 12px 0;
-              }
-              .tag-btn {
-                position: absolute;
-                bottom: 20px;
-                right: -62px;
-                button {
-                  border-radius: 50px;
-                  outline: none;
-                  border: solid 1px;
-                  margin-left: 5px;
-                  padding-bottom: 2px;
-                  background-color: #ffffff;
-                  height: 20px;
-                  width: 20px;
-                }
-              }
-            }
-          }
-        }
-        .rec:not(:last-child) {
-          border-bottom: solid 1px #979797;;
-        }
       }
     }
     .el-dialog__footer {
@@ -330,6 +264,91 @@
           color: #4A4A4A;
         }
       }
+    }
+    .error {
+      color: #ff2712;
+      font-size: 10px;
+      display: block;
+    }
+    .rec {
+      .treeCount {
+        /*border: 1px solid #9B9B9B;*/
+        display: flex;
+        flex-direction: row;
+        .title {
+          width: 100px;
+
+        }
+        .equipmentList {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          width: 100%;
+          .common {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #F5F7FA;
+            border-radius: 5px;
+            .title {
+              width: 100%;
+              height: 40px;
+              background-color: #F5F7FA;
+              color: #9B9B9B;
+              border-radius: 5px 5px 0 0;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+            }
+            .el-checkbox {
+              margin-left: 15px;
+            }
+            span {
+              margin-right: 15px;
+            }
+            /deep/ .el-input .el-input__inner {
+              border-radius: 16px;
+              margin-top: 10px;
+              background-color: #FFFFFF;
+              border: 1px solid #d6d6d6;
+              height: 32px;
+            }
+            .treeBody {
+              padding: 0 10px;
+            }
+
+          }
+          .centre {
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+            align-items: center;
+            justify-content: center;
+            margin-left: 20px;
+            margin-right: 20px;
+            span {
+              width: 36px;
+              height: 36px;
+              display: block;
+              border-radius: 50%;
+              line-height: 36px;
+              text-align: center;
+              font-size: 24px;
+              margin-bottom: 20px;
+            }
+            .blue {
+              color: #8e8e8e;
+              background-color: #ebebeb;
+              border: 1px solid #8e8e8e;
+            }
+            .active {
+              color: #FFFFFF;
+              background-color: #39C240;
+            }
+          }
+        }
+      }
+
     }
   }
 </style>

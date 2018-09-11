@@ -16,15 +16,6 @@ module.exports = {
       url: '/advCompanies/advCompany',
       method: 'PUT',
       body: param.data,
-      // body: {
-      //   address: param.address,
-      //   description: param.description,
-      //   isDelete: param.isDelete,
-      //   name: param.name,
-      //   status: param.status,
-      //   tel: param.tel,
-      //   userName: param.userName,
-      // },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
@@ -104,6 +95,14 @@ module.exports = {
   groupContList(ctx, param) {
     ctx.dispatch('resource', {
       url: `/advScopes`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+// **************************:投放策略***************************************
+  putInList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advMaterialScopes?page=${param.page}&pageSize=${param.pageSize}`,
       method: 'GET',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })

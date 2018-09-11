@@ -50,9 +50,10 @@
                   <el-radio :label="item.code" :key="item.code"
                             v-for="(item,index) in Dateform.aimtAtAge">{{item.name}}</el-radio>
                 </el-radio-group>
-
-                <el-input-number :controls="false" :min="1" :max="100"></el-input-number>至
-                <el-input-number :controls="false" :min="1" :max="100"></el-input-number>岁
+                <div class="ageNum">
+                  <el-input-number :controls="false" :min="1" :max="200"></el-input-number>至
+                <el-input-number :controls="false" :min="1" :max="200"></el-input-number>岁
+                </div>
               </span>
 
                 <span class="error">年龄段未设置</span>
@@ -70,20 +71,21 @@
                 <el-input v-model="form.comment" placeholder="请输入备注"></el-input>
               </el-form-item>
               <!--<el-upload-->
-                <!--class="upload-demo"-->
-                <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-                <!--:limit="1">-->
-                <!--<el-button size="small" type="primary">上传素材</el-button>-->
+              <!--class="upload-demo"-->
+              <!--action="https://jsonplaceholder.typicode.com/posts/"-->
+              <!--:limit="1">-->
+              <!--<el-button size="small" type="primary">上传素材</el-button>-->
               <!--</el-upload>-->
-
+              <!---->
               <el-upload
                 class="upload-demo el-right"
                 :action="scriptUpload"
                 :headers="setHeader"
-                :data="{'script_type':'filter'}"
+                :data="{'file':'filter'}"
                 :show-file-list=false
                 :before-upload='beforeUploadfilter'
                 :on-success="filterScriptSuccess"
+                :onError="uploadError"
                 :limit=1>
                 <el-button size="small" type="primary">{{formatScript ? '上传素材' : '选择上传文件'}}</el-button>
               </el-upload>
@@ -97,7 +99,7 @@
           <div v-if="viewStatus">查看的信息</div>
         </el-dialog>
       </div>
-      <div class="pagination">
+      <div class="paginationPage">
         <el-pagination
           :page-size="pageSize"
           :pager-count="11"
@@ -200,6 +202,7 @@
         Total: 100,
         viewStatus: false,
         formatScript: "",
+        file:{}
 
       }
     },
@@ -208,8 +211,9 @@
         'route',
         'Interface'
       ]),
-      scriptUpload(){
-        return "/virgo/scriptupload/" + this.$route.params.hotelid
+      scriptUpload() {
+//        POST /files/adv/upload
+        return "http://123.206.180.61:8096/files/adv/upload" ;
       },
       setHeader() {
         return {
@@ -246,6 +250,7 @@
           }
         })
       },
+
       save() {
       },
       handleView(parm) {
@@ -269,13 +274,20 @@
         })
       },
 
-      beforeUploadfilter(){
-        this.fileList2 = []
+      beforeUploadfilter(file) {
+        this.file=file
+        console.log('file',file)
       },
-      filterScriptSuccess(res, file, list){
-        if (res.data) {
-          this.filterScript = res.data.script_name;
-        }
+      uploadError (response, file, fileList) {
+        console.log('上传失败，请重试！1',response)
+        console.log('上传失败，请重试！2',file)
+        console.log('上传失败，请重试！3',fileList)
+      },
+      filterScriptSuccess(res, file, list) {
+        console.log(res)
+//        if (res.data) {
+//          this.filterScript = res.data.script_name;
+//        }
       },
     },
 
@@ -333,6 +345,7 @@
           .el-dialog__headerbtn {
             font-size: 24px;
             top: 10px;
+            padding: 0;
 
           }
         }
@@ -343,16 +356,28 @@
         .el-input {
         }
         .ageRange {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .ageNum{
+            margin-left: 30px;
+          }
           .el-input {
-            width: 80px;
+            width: 34px;
+            height: 24px;
+            line-height: 24px;
             border-radius: 5px;
+            padding: 0;
+            margin: 0;
           }
           .el-input-number {
-            width: 80px;
-            margin: 0 20px;
+            width: 40px;
+            margin: 0 10px;
           }
           .el-input-number.is-without-controls .el-input__inner {
-            border-radius: 10px;
+            padding: 0;
+            margin: 0;
+            border-radius: 4px;
 
           }
         }
@@ -418,6 +443,24 @@
       color: #ff2712;
       font-size: 10px;
       display: block;
+    }
+    .paginationPage {
+      width: 100%;
+      height: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      .el-pagination {
+        text-align: center;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        box-sizing: border-box;
+        width: 100%;
+        line-height: 50px;
+      }
     }
   }
 </style>
