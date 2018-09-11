@@ -27,6 +27,17 @@
           <el-form-item label="模板名称">
             <el-input v-model="Dateform.name"></el-input>
           </el-form-item>
+          <el-upload
+            class="upload-demo el-right"
+            :action="scriptUpload"
+            :show-file-list=false
+            :headers="setHeader"
+            :before-upload='beforeUploadfilter'
+            :on-success="filterScriptSuccess"
+            :onError="uploadError"
+            :limit=1>
+            <el-button size="small" type="primary">上传logo</el-button>
+          </el-upload>
           <el-form-item label="二代证读卡间隔">
             <el-select v-model="Dateform.readInterval" placeholder="请选择">
               <el-option :label="item.value" v-for="(item ,index) in initDate.IdCardReadTime" :key="index"
@@ -104,9 +115,9 @@
         },
         Dateform: {
           name: "",
-          logoUrl: "暂无",
+          logoUrl: "",
           readInterval: '',
-          searchMode: true,
+          searchMode: '找相似度最高',
           uploadOn: true,
           uploadLower: true,
           remindFinish: false,
@@ -114,9 +125,23 @@
           undocumentReal: true
         },
         editStatus: false,
+//        formatScript: "",
+
       }
     },
 
+    computed: {
+      ...mapState([]),
+      scriptUpload() {
+        return "/virgo/files/adv/upload";
+      },
+      setHeader() {
+        return {
+          Session: sessionStorage.getItem('session_id'),
+          enctype: "multipart/form-data"
+        }
+      },
+    },
     methods: {
       ...mapActions([
         'goto',
@@ -125,7 +150,21 @@
         'modifiTemp',
 
       ]),
-
+      beforeUploadfilter(file) {
+        this.file=file
+        console.log('file',file)
+      },
+      uploadError (response, file, fileList) {
+        console.log('上传失败，请重试！1',response)
+        console.log('上传失败，请重试！2',file)
+        console.log('上传失败，请重试！3',fileList)
+      },
+      filterScriptSuccess(res, file, list) {
+        console.log('resresres',res)
+        if (res.data) {
+          this.Dateform.logoUrl = res.data;
+        }
+      },
       handleClose() {
         this.showAddContent = false
 
@@ -144,7 +183,7 @@
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
           "readInterval": this.Dateform.readInterval,
-          "searchMode": this.Dateform.searchMode,
+          "searchMode":true, //this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
           "uploadLower": this.Dateform.uploadLower,
           "remindFinish": this.Dateform.remindFinish,
@@ -165,7 +204,7 @@
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
           "readInterval": this.Dateform.readInterval,
-          "searchMode": this.Dateform.searchMode,
+          "searchMode": true,//this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
           "uploadLower": this.Dateform.uploadLower,
           "remindFinish": this.Dateform.remindFinish,
@@ -173,7 +212,7 @@
           "undocumentReal": this.Dateform.undocumentReal,
         }
         this.modifiTemp({
-          tempId:this.Dateform.id,
+          tempId: this.Dateform.id,
           data: JSON.stringify(temp),
           onsuccess: body => {
             this.getTempList()
@@ -181,6 +220,7 @@
           }
         })
       },
+
       handleEdit(parm) {
         this.editStatus = true
         this.showAddContent = true
@@ -188,6 +228,7 @@
         console.log('this.Dateform', this.Dateform)
 
       },
+
       validateall() {
         if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30) {
           return false

@@ -60,8 +60,10 @@ module.exports = {
     })
   },
 
+
+
   // 通过编码获取认证通模板列表
-  templateList(ctx, param) {
+  haveSelectTemplateList(ctx, param) {
     ctx.dispatch('resource', {
       url: `/rztlvye/get/${param.lvyecode}`,
       headers: {"Content-Type": "application/json;charset=UTF-8"},

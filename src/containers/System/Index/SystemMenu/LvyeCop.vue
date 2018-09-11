@@ -18,7 +18,7 @@
       <div class="rec">
         <el-form ref="form" label-width="100px" labelPosition="left">
           <el-form-item label="编码">
-            <el-input v-model="copCode" placeholder="请输入编码" @change="getLvCode" class="input"
+            <el-input v-model="copCode" placeholder="请输入编码" class="input"
                       :disabled="flag"></el-input>
           </el-form-item>
           <el-form-item label="名称">
@@ -26,40 +26,61 @@
           </el-form-item>
         </el-form>
 
-        <div class="treeCount">
-          <div class="title">人证通模板</div>
-          <div class="equipmentList">
-            <div class="leftTree common">
-              <div class="title">
-                <el-checkbox>所有模板</el-checkbox>
-                <span>10</span>
-              </div>
-              <div class="treeBody">
-                <el-input
-                  placeholder="输入模板名称"
-                >
-                </el-input>
+        <!--<div class="treeCount">-->
+        <!--<div class="title">人证通模板</div>-->
+        <!--<div class="equipmentList">-->
+        <!--<div class="leftTree common">-->
+        <!--<div class="title">-->
+        <!--<el-checkbox>所有模板</el-checkbox>-->
+        <!--<span>10</span>-->
+        <!--</div>-->
+        <!--<div class="treeBody">-->
+        <!--<el-input-->
+        <!--v-model="filterText_l"-->
+        <!--placeholder="输入模板名称">-->
+        <!--</el-input>-->
+        <!--<el-tree-->
+        <!--class="filter-tree"-->
+        <!--:data="ALLTemplateList"-->
+        <!--:props="defaultProps_l"-->
+        <!--default-expand-all-->
+        <!--show-checkbox-->
+        <!--:filter-node-method="filterNode_l"-->
+        <!--ref="tree">-->
+        <!--</el-tree>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="centre">-->
+        <!--<span class="el-icon-arrow-left active"></span>-->
+        <!--<span class="el-icon-arrow-left blue"></span>-->
+        <!--</div>-->
+        <!--<div class="rightList common">-->
+        <!--<div class="title">-->
+        <!--<el-checkbox>已选模板</el-checkbox>-->
+        <!--<span>2</span>-->
+        <!--</div>-->
+        <!--<div class="treeBody">-->
+        <!--<el-input-->
+        <!--v-model="filterText_r"-->
+        <!--placeholder="请输入模板名称">-->
+        <!--</el-input>-->
+        <!--&lt;!&ndash;<el-tree&ndash;&gt;-->
+        <!--&lt;!&ndash;class="filter-tree"&ndash;&gt;-->
+        <!--&lt;!&ndash;:data="HaveSelectedTemplateList"&ndash;&gt;-->
+        <!--&lt;!&ndash;:props="defaultProps_r"&ndash;&gt;-->
+        <!--&lt;!&ndash;default-expand-all&ndash;&gt;-->
+        <!--&lt;!&ndash;show-checkbox&ndash;&gt;-->
+        <!--&lt;!&ndash;:filter-node-method="filterNode_r"&ndash;&gt;-->
+        <!--&lt;!&ndash;ref="tree">&ndash;&gt;-->
+        <!--&lt;!&ndash;</el-tree>&ndash;&gt;-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
 
-              </div>
-            </div>
-            <div class="centre">
-              <span class="el-icon-arrow-left active"></span>
-              <span class="el-icon-arrow-left blue"></span>
-            </div>
-            <div class="rightList common">
-              <div class="title">
-                <el-checkbox>已选模板</el-checkbox>
-                <span>2</span>
-              </div>
-              <div class="treeBody">
-                <el-input
-                  placeholder="请输入模板名称"
-                >
-                </el-input>
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <el-transfer v-model="HaveSelectedTemplateList" :data="ALLTemplateList"></el-transfer>
+
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="showAddContent=false">取 消</el-button>
@@ -80,8 +101,20 @@
         copName: '',
         lvyeCopList: [],
         flag: true,
-        lvyecode: '',//旅业编码
-        rztTemplateList: []
+        ALLTemplateList: [],
+        HaveSelectedTemplateList: [],
+      }
+    },
+    computed: {
+      ...mapState([
+        'route',
+        'Interface'
+      ]),
+
+      validate() {
+        if (this.copCode == '' || this.copName == '') {
+          return true
+        }
       }
     },
     methods: {
@@ -91,7 +124,8 @@
         'saveLvyeCopInfo',
         'delLvyeCopInfo',
         'updateLvyeCopInfo',
-        'templateList',
+        'haveSelectTemplateList',
+        'tempList',
       ]),
       save() {
         if (!this.flag) {
@@ -125,6 +159,7 @@
         this.flag = true;
         this.copCode = obj.code;
         this.copName = obj.name;
+        this.getHaveSelectTemp()
       },
 
       delItem(obj) {
@@ -147,6 +182,8 @@
         this.flag = false
         this.copCode = '';
         this.copName = '';
+        this.getAllTempList();
+
       },
       //获取旅业酒店列表
 
@@ -158,33 +195,41 @@
         })
       },
 
-      getLvCode(parm) {
-        this.lvyecode = parm
-        this.templateList({
-          lvyecode: this.lvyecode,
+      getHaveSelectTemp() {
+        this.haveSelectTemplateList({
+          lvyecode: this.copCode,
           onsuccess: body => {
-            this.rztTemplateList = body.data
-            console.log('this.rztTemplateList',this.rztTemplateList)
+//            this.HaveSelectedTemplateList = body.data
+            body.data.map(item=>{
+              this.HaveSelectedTemplateList.push(item.id)
+            })
           }
 
         })
-      }
+      },
+//      获取所有的模板列表
+      getAllTempList() {
+        this.tempList({
+          onsuccess: body => {
+//            this.ALLTemplateList = body.data
+            body.data.map(item => {
+              this.ALLTemplateList.push({
+                label: item.name,
+                key: item.id,
+              })
+            })
 
+          }
+        })
+      },
     },
-    computed: {
-      ...mapState([
-        'route',
-        'Interface'
-      ]),
-      validate() {
-        if (this.copCode == '' || this.copName == '') {
-          return true
-        }
-      }
-    },
+
     mounted() {
       this.getLvyeCopLists()
-    }
+//      this.getAllTempList()
+//      this.getHaveSelectTemp()
+    },
+    watch: {},
   }
 </script>
 <style lang="less" scoped>

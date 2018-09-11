@@ -12,7 +12,7 @@
           <el-table-column prop="name" label="组名"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
+              <span class="have-link" @click="handleEdit(scope.row)">编辑</span>
             </template>
           </el-table-column>
         </el-table>
@@ -71,7 +71,8 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="showAddContent=false">取 消</el-button>
-          <el-button type="primary" @click="save">保 存</el-button>
+          <el-button type="primary" v-if="!editStatus" @click="save">保 存</el-button>
+          <el-button type="primary"v-if="editStatus" @click="modifi">修 改</el-button>
         </div>
       </el-dialog>
 
@@ -88,24 +89,7 @@
     data() {
       return {
         showAddContent: false,
-        tableData: [
-          {
-            "id": "1b72990bb7cb4a8ea5a35190b35a7205",
-            "deviceType": "string",
-            "name": "string",
-            "status": "string",
-            "hotelIds": "string",
-            "deviceIds": "string"
-          },
-          {
-            "id": "74186d0807a944ae8e592f411e207c61",
-            "deviceType": "32",
-            "name": "测试组",
-            "status": "OPEN",
-            "hotelIds": "",
-            "deviceIds": "[\"6ac308254bcc4876b3b1649dcd5e1ece\",\"5AFDFF4E49CA85E6DDD34350CC477B79\"]"
-          }
-        ],
+        tableData: [],
         form: {
           groupName: '',
 
@@ -159,6 +143,7 @@
         equTree: [],
         filterKey: '',
         selectedList: [],
+        editStatus:false
       }
     },
     methods: {
@@ -168,6 +153,20 @@
       ]),
       save() {
       },
+
+      getGroupContList(){
+        this.groupContList({
+          onsuccess: body => {
+            this.tableData=body.data
+          }
+        })
+      },
+
+      handleEdit(){
+        this.showAddContent=true
+        this.editStatus=true
+      },
+
       filterNode(value, data) {
         if (!value) return true;
         return data.label.indexOf(value) !== -1;
@@ -187,7 +186,7 @@
       }
     },
     mounted() {
-
+        this.getGroupContList()
     }
   }
 </script>
@@ -353,6 +352,10 @@
         }
       }
 
+    }
+    .have-link {
+      color: #3CC51F;
+      cursor: pointer;
     }
   }
 </style>

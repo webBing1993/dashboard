@@ -14,15 +14,15 @@
           <el-table-column label="更新时间"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <span @click="handleView(scope.row)">查看</span>
-              <span @click="handleEdit(scope.row)">编辑</span>
+              <span class="have-link" @click="handleView(scope.row)">查看</span>
+              <span class="have-link" @click="edit(scope.row)">编辑</span>
             </template>
           </el-table-column>
         </el-table>
       </div>
 
       <div class="dialogModel">
-        <el-dialog title="添加素材" :visible.sync="showAddContent" center>
+        <el-dialog :title="editStatus?'编辑素材':'添加素材' " :visible.sync="showAddContent" center>
           <div class="rec">
             <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
               <el-form-item label="素材名称">
@@ -51,8 +51,8 @@
                             v-for="(item,index) in Dateform.aimtAtAge">{{item.name}}</el-radio>
                 </el-radio-group>
                 <div class="ageNum">
-                  <el-input-number :controls="false" :min="1" :max="200"></el-input-number>至
-                <el-input-number :controls="false" :min="1" :max="200"></el-input-number>岁
+                  <el-input-number v-model="form.ageLow" :controls="false" :min="1" :max="200"></el-input-number>至
+                <el-input-number v-model="form.ageTop" :controls="false" :min="1" :max="200"></el-input-number>岁
                 </div>
               </span>
 
@@ -70,31 +70,25 @@
               <el-form-item label="备注">
                 <el-input v-model="form.comment" placeholder="请输入备注"></el-input>
               </el-form-item>
-              <!--<el-upload-->
-              <!--class="upload-demo"-->
-              <!--action="https://jsonplaceholder.typicode.com/posts/"-->
-              <!--:limit="1">-->
-              <!--<el-button size="small" type="primary">上传素材</el-button>-->
-              <!--</el-upload>-->
-              <!---->
+
               <el-upload
                 class="upload-demo el-right"
                 :action="scriptUpload"
-                :headers="setHeader"
-                :data="{'file':'filter'}"
                 :show-file-list=false
                 :before-upload='beforeUploadfilter'
+                :headers="setHeader"
                 :on-success="filterScriptSuccess"
                 :onError="uploadError"
                 :limit=1>
-                <el-button size="small" type="primary">{{formatScript ? '上传素材' : '选择上传文件'}}</el-button>
+                <el-button size="small" type="primary">上传素材</el-button>
               </el-upload>
 
             </el-form>
           </div>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button type="primary" @click="save">保 存</el-button>
+            <el-button v-if="!editStatus" type="primary" @click="save">保 存</el-button>
+            <el-button  v-if="editStatus" type="primary" @click="handleEdit">确 认</el-button>
           </div>
           <div v-if="viewStatus">查看的信息</div>
         </el-dialog>
@@ -150,6 +144,8 @@
           mattertType: '',
           aimtAtSex: '',
           aimtAtAge: '',
+          ageLow:'',
+          ageTop:'',
           mattertListValue: '',
           mattertAuditNum: '',
           comment: '',
@@ -169,11 +165,11 @@
             },
             {
               name: "女",
-              code: "w",
+              code: "woman",
             },
             {
               name: "不限",
-              code: "man",
+              code: "nothing",
             },
           ],
           aimtAtAge: [
@@ -186,23 +182,16 @@
               code: "w",
             }
           ],
-          mattertList: [
-            {
-              name: "不限",
-              id: "man",
-            },
-            {
-              name: "特定年龄",
-              id: "w",
-            }
-          ],
+          mattertList: [ ],
         },
+        havePut:false,
         pageSize: 10,
         currentPage: 1,
         Total: 100,
         viewStatus: false,
         formatScript: "",
-        file:{}
+        currentTemp:{},
+        editStatus:false
 
       }
     },
@@ -212,8 +201,7 @@
         'Interface'
       ]),
       scriptUpload() {
-//        POST /files/adv/upload
-        return "http://123.206.180.61:8096/files/adv/upload" ;
+        return "/virgo/files/adv/upload" ;
       },
       setHeader() {
         return {
@@ -232,19 +220,21 @@
         'allCanSelectedCom',
 
       ]),
-
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
       getMatterList() {
         this.MatterList({
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
-            this.Dateform.tableData = body.data
+            this.tableData = body.data
           }
         })
       },
       getAllCanSelectedCom() {
         this.allCanSelectedCom({
-          id: '',//不知道是啥id
+          id: '1111111111111',//不知道是啥id
           onsuccess: body => {
             this.mattertList = body.data
           }
@@ -252,23 +242,52 @@
       },
 
       save() {
-      },
-      handleView(parm) {
-        this.viewMatter({
-          id: parm.id,
+        let temp={
+          aa:this.form.mattertName,
+          aa:this.form.mattertType,
+          aa:this.form.aimtAtSex,
+          aa:this.form.aimtAtAge,
+          aa:this.form.ageLow,
+          aa:this.form.ageTop,
+          aa:this.form.mattertAuditNum,
+          aa:this.form.comment,
+        }
+        this.saveMatter({
+          data: {},
           onsuccess: body => {
-
+            this.showAddContent = false;
+            this.getMatterList()
           }
         })
+      },
+
+      handleView(parm) {
+        console.log('commentcomment',parm)
+        this.$message({
+          message: '查看没有UI没做',
+          type: 'success'
+        });
+//        this.viewMatter({
+//          id: parm.id,
+//          onsuccess: body => {
+//
+//          }
+//        })
 
       },
 
-      handleEdit(parm) {
+      edit(parm){
+        this.showAddContent = true;
+        this.editStatus = true;
+        this.currentTemp=parm
+
+      },
+
+      handleEdit() {
         this.modifiMatter({
           id: parm.id,
           data: {},
           onsuccess: body => {
-            this.showAddContent = false;
             this.getMatterList()
           }
         })
@@ -443,6 +462,10 @@
       color: #ff2712;
       font-size: 10px;
       display: block;
+    }
+    .have-link {
+      color: #3CC51F;
+      cursor: pointer;
     }
     .paginationPage {
       width: 100%;

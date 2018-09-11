@@ -18,7 +18,7 @@
           <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <span class="contral" @click="handleEdit(scope.row)">编辑</span>
+              <span class="contral have-link" @click="handleEdit(scope.row)">编辑</span>
             </template>
           </el-table-column>
         </el-table>
@@ -28,27 +28,26 @@
           <el-form ref="form" label-width="80px" labelPosition="left">
             <el-form-item label="素材">
               <el-select v-model="form.mattertListValue" placeholder="" size="100%">
-                <el-option :label="item.value" v-for="(item ,index) in Dateform.mattertList" :key="index"
+                <el-option :label="item.name" v-for="(item ,index) in Dateform.mattertList" :key="item.id"
                            :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="投放组别">
               <el-select v-model="form.GroupListValue" placeholder="" size="100%">
-                <el-option :label="item.value" v-for="(item ,index) in Dateform.GroupList" :key="index"
+                <el-option :label="item.name" v-for="(item ,index) in Dateform.GroupList" :key="item.id"
                            :value="item.id"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="广告位">
               <el-checkbox-group v-model="form.advertising">
-                <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                <el-checkbox label="地推活动" name="type"></el-checkbox>
-                <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+                <el-checkbox :key="item.code" :label="item.code" v-for="(item,index) in Dateform.advertising">{{item.name}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="日期">
               <el-date-picker
+                v-model="form.dateRange"
                 type="daterange"
+                value-format="timestamp"
                 range-separator="至"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期">
@@ -60,7 +59,8 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button type="primary" @click="save">保 存</el-button>
+            <el-button type="primary" v-if="!editStatus" @click="save">保 存</el-button>
+            <el-button type="primary" v-if="editStatus" @click="HandelModifiPutIn">确 认</el-button>
           </div>
         </el-dialog>
       </div>
@@ -108,49 +108,46 @@
           tel: "",
           userName: "",
         },
-        form:{
-          mattertListValue:'',
-          GroupListValue:'',
-          advertising:[],
-          used:true
+        form: {
+          dateRange: [],
+          mattertListValue: '',
+          GroupListValue: '',
+          advertising: [],
+          used: true
         },
-        Dateform:{
-          mattertList: [
-            {
-              name: "不限",
-              id: "man",
-            },
-            {
-              name: "特定年龄",
-              id: "w",
-            }
-          ],
-          GroupList:[
-            {
-              name: "不限",
-              id: "man",
-            },
-            {
-              name: "特定年龄",
-              id: "w",
-            }
-          ],
-        }
+        Dateform: {
+          mattertList: [],
+          GroupList: [],
+          advertising:[]
+        },
+        editStatus:false
       }
     },
     methods: {
       ...mapActions([
         'goto',
         'putInList',
-        'saveAdvertiser',
-        'modifiAdvertiser',
+        'matterInList',
+        'advGroupList',
+        'putInStrategy',
+        'modifiPutIn',
+        'advshowLocal',
 
       ]),
       save() {
-        this.saveAdvertiser({
-          data: this.sendDate,
+        let temp = {
+          "advMaterialId":this.form. mattertListValue,
+          "advScopeId": this.form. GroupListValue,
+          "beginTime": this.form.dateRange[0],
+          "endTime": this.form.dateRange[1],
+          "showType": this.form.advertising.join(','),
+          "status": this.form.used,
+        }
+        this.putInStrategy({
+          data: JSON.stringify(temp),
           onsuccess: body => {
-            this.tableData = body.data.list
+            this.showAddContent=false
+
           }
         })
       },
@@ -164,14 +161,49 @@
           }
         })
       },
+      getMatterInList() {
+        this.matterInList({
+          onsuccess: body => {
+            this.Dateform.mattertList = body.data
+          }
+        })
+      },
+      getAdvGroupList() {
+        this.advGroupList({
+          onsuccess: body => {
+            this.Dateform.GroupList = body.data
+          }
+        })
+      },
+      getadvshowLocalList() {
+        this.advshowLocal({
+          onsuccess: body => {
+            this.Dateform.advertising = JSON.parse(body.data)
+//            console.log(this.Dateform.advertising)
+          }
+        })
+      },
 
       handleEdit(parm) {
         console.log(parm)
         this.showAddContent = true;
-        this.sendDate = parm
-        this.modifiAdvertiser({
-          id: parm,
-          data: this.sendDate,
+        this.editStatus = true;
+        this.form = parm;
+
+        console.log('this.form',this.form)
+      },
+      HandelModifiPutIn(){
+        let temp = {
+          "advMaterialId":this.form. mattertListValue,
+          "advScopeId": this.form. GroupListValue,
+          "beginTime": this.form.dateRange[0],
+          "endTime": this.form.dateRange[1],
+          "showType": '',
+          "status": this.form.used,
+        }
+        this.modifiPutIn({
+          id: this.form.id,
+          data: temp,
           onsuccess: body => {
             this.showAddContent = false;
             this.getPutInList()
@@ -183,6 +215,9 @@
 
     mounted() {
       this.getPutInList()
+      this.getMatterInList()
+      this.getAdvGroupList()
+      this.getadvshowLocalList()
     }
   }
 </script>
@@ -222,7 +257,7 @@
         line-height: 12px;
       }
     }
-    /deep/.dialogModel {
+    /deep/ .dialogModel {
       .el-dialog {
         width: 65%;
 
@@ -249,7 +284,7 @@
 
           }
         }
-        .el-dialog__body{
+        .el-dialog__body {
           padding-right: 200px;
         }
 
@@ -279,17 +314,20 @@
           }
         }
       }
-      .el-select{
+      .el-select {
         width: 100%;
       }
     }
-
 
     .error {
       color: #ff2712;
       font-size: 10px;
       display: block;
       margin-left: 80px;
+    }
+    .have-link {
+      color: #3CC51F;
+      cursor: pointer;
     }
     .paginationPage {
       width: 100%;

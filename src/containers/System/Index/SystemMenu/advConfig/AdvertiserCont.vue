@@ -146,7 +146,9 @@
               name: this.advertiserName
             },
             onsuccess: body => {
-              this.tableData = body.data
+//              this.tableData = body.data
+              this.showAddContent = false;
+
             }
           })
         }
@@ -212,7 +214,9 @@
         color: #3AC240;
         letter-spacing: 0;
         line-height: 12px;
+        cursor: pointer;
       }
+
     }
     /deep/ .dialogModel {
       .el-dialog {

@@ -108,4 +108,52 @@ module.exports = {
     })
   },
 
+  // 获取素材列表  接口问题  分页写100
+  matterInList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos?page=1&pageSize=100`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+// 获取广告组
+  advGroupList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advScopes`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+
+  // 获取广告位
+  advshowLocal(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advMaterialScopes/showtypes`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+  // 添加投放策略
+  putInStrategy(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advMaterialScopes/advMaterialScope`,
+      headers: {"Content-Type": "application/json;charset=UTF-8"},
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  // 修改投放策略
+  modifiPutIn(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advMaterialScopes/advMaterialScope/${param.id}`,
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
 }
