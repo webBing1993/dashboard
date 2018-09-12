@@ -130,9 +130,11 @@
       save() {
         if (!this.flag) {
           this.saveLvyeCopInfo({
+            lvyecode: this.copCode,
             data: {
-              code: this.copCode,
-              name: this.copName
+              lvyeCode: this.copCode,
+              lvyeName: this.copName,
+              templates: this.HaveSelectedTemplateList
             },
             onsuccess: body => {
               this.showAddContent = false;
@@ -140,10 +142,13 @@
             }
           });
         } else {
-          this.updateLvyeCopInfo({
+//          this.updateLvyeCopInfo({
+          this.saveLvyeCopInfo({
+            lvyecode: this.copCode,
             data: {
-              code: this.copCode,
-              name: this.copName
+              lvyeCode: this.copCode,
+              lvyeName: this.copName,
+              templates: this.HaveSelectedTemplateList
             },
             onsuccess: body => {
               this.showAddContent = false;
@@ -159,6 +164,11 @@
         this.flag = true;
         this.copCode = obj.code;
         this.copName = obj.name;
+
+        this.ALLTemplateList=[]
+        this.HaveSelectedTemplateList=[]
+
+        this.getAllTempList()
         this.getHaveSelectTemp()
       },
 

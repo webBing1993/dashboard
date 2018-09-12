@@ -21,9 +21,19 @@ module.exports = {
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })
   },
+  // 原来的增加
+  // saveLvyeCopInfo(ctx, param) {
+  //   ctx.dispatch('resource', {
+  //     url: '/corporationLvye/add',
+  //     body: param.data,
+  //     method: 'POST',
+  //     onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+  //   })
+  // },
+  // 新的增加和编辑请求路径：/rztlvye/get/{lvyecode}
   saveLvyeCopInfo(ctx, param) {
     ctx.dispatch('resource', {
-      url: '/corporationLvye/add',
+      url: `/rztlvye/get/${param.lvyecode}`,
       body: param.data,
       method: 'POST',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)

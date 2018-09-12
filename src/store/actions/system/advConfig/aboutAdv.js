@@ -80,10 +80,11 @@ module.exports = {
     })
   },
 
-  // 获取所有可选广告商
+  // 获取所有可选广告商http://intg.fortrun.cn:8244/advCompanies?page=1&pageSize=10
+
   allCanSelectedCom(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/advInfos/companies/company/${param.id}/advInfos`,
+      url:`/advCompanies?page=1&pageSize=100`,
       method: 'GET',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })

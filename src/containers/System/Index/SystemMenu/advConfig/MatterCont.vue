@@ -60,7 +60,7 @@
               </el-form-item>
               <el-form-item label="广告商">
                 <el-select v-model="form.mattertListValue" placeholder="请选择广告商" size="100%">
-                  <el-option :label="item.value" v-for="(item ,index) in Dateform.mattertList" :key="index"
+                  <el-option :label="item.name" v-for="(item ,index) in Dateform.mattertList" :key="index"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
@@ -79,8 +79,10 @@
                 :headers="setHeader"
                 :on-success="filterScriptSuccess"
                 :onError="uploadError"
+                :on-progress="uploadVideoProcess"
                 :limit=1>
                 <el-button size="small" type="primary">上传素材</el-button>
+                <el-progress v-if="videoFlag == true"  :percentage="videoUploadPercent" style="margin-top:30px;"></el-progress>
               </el-upload>
 
             </el-form>
@@ -149,6 +151,7 @@
           mattertListValue: '',
           mattertAuditNum: '',
           comment: '',
+          uplodGetUrl:'',
 
         },
         Dateform: {
@@ -175,14 +178,10 @@
           aimtAtAge: [
             {
               name: "不限",
-              code: "man",
-            },
-            {
-              name: "特定年龄",
-              code: "w",
+              code: "不限",
             }
           ],
-          mattertList: [ ],
+          mattertList: [],
         },
         havePut:false,
         pageSize: 10,
@@ -191,7 +190,9 @@
         viewStatus: false,
         formatScript: "",
         currentTemp:{},
-        editStatus:false
+        editStatus:false,
+        videoFlag:false,
+        videoUploadPercent:'',
 
       }
     },
@@ -220,9 +221,9 @@
         'allCanSelectedCom',
 
       ]),
-      submitUpload() {
-        this.$refs.upload.submit();
-      },
+
+
+
       getMatterList() {
         this.MatterList({
           page: this.currentPage,
@@ -234,26 +235,38 @@
       },
       getAllCanSelectedCom() {
         this.allCanSelectedCom({
-          id: '1111111111111',//不知道是啥id
           onsuccess: body => {
-            this.mattertList = body.data
+            this.Dateform.mattertList = body.data.list
+
           }
         })
       },
 
       save() {
         let temp={
-          aa:this.form.mattertName,
-          aa:this.form.mattertType,
-          aa:this.form.aimtAtSex,
-          aa:this.form.aimtAtAge,
-          aa:this.form.ageLow,
-          aa:this.form.ageTop,
-          aa:this.form.mattertAuditNum,
-          aa:this.form.comment,
+          advMatch:{
+            "ageBegin":this.form.ageLow,
+            "ageEnd": this.form.ageTop,
+            "ageType": this.form.aimtAtAge,
+            "id": "string",
+            "sexType": this.form.aimtAtSex,
+            "status": "未知",
+            "weight": 0
+          },
+          "companyId": "未知",
+          "id": "未知",
+          "isDelete": '未知',
+          "name": this.form.mattertName,
+          "remark": this.form.comment,
+          "serialNumber": this.form.mattertAuditNum,
+          "source": "未知",
+          "status": "未知",
+          "type": this.form.mattertType,
+          "url": this.form.uplodGetUrl,
+
         }
         this.saveMatter({
-          data: {},
+          data: temp,
           onsuccess: body => {
             this.showAddContent = false;
             this.getMatterList()
@@ -277,9 +290,18 @@
       },
 
       edit(parm){
-        this.showAddContent = true;
-        this.editStatus = true;
-        this.currentTemp=parm
+        console.log(parm)
+        if(parm.status=="OPEN"){
+          this.$message({
+            message: '投放了',
+            type: 'success'
+          });
+        }else {
+          this.showAddContent = true;
+          this.editStatus = true;
+          this.currentTemp=parm
+
+        }
 
       },
 
@@ -304,9 +326,15 @@
       },
       filterScriptSuccess(res, file, list) {
         console.log(res)
-//        if (res.data) {
-//          this.filterScript = res.data.script_name;
-//        }
+        if (res.data) {
+          this.form.uplodGetUrl = res.data;
+          this.videoFlag = false;
+        }
+      },
+      uploadVideoProcess(event, file, fileList){
+        console.log('filefilefile',file)
+        this.videoFlag = true;
+        this.videoUploadPercent = parseInt(file.percentage.toFixed(0));
       },
     },
 
