@@ -22,18 +22,18 @@ module.exports = {
     })
   },
   // 原来的增加
-  // saveLvyeCopInfo(ctx, param) {
-  //   ctx.dispatch('resource', {
-  //     url: '/corporationLvye/add',
-  //     body: param.data,
-  //     method: 'POST',
-  //     onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
-  //   })
-  // },
-  // 新的增加和编辑请求路径：/rztlvye/get/{lvyecode}
+  bindLvyeCopInfo(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/corporationLvye/add',
+      body: param.data,
+      method: 'POST',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+  // 新的增加和编辑请求路径：
   saveLvyeCopInfo(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/rztlvye/get/${param.lvyecode}`,
+      url: `/rztlvye/settemplates`,
       body: param.data,
       method: 'POST',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)

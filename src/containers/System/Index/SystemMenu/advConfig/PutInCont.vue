@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="top">
         <span>XX管理</span>
-        <el-button type="success" @click="showAddContent=true" class="button">添加投放策略</el-button>
+        <el-button type="success" @click="addPutIN" class="button">添加投放策略</el-button>
       </div>
       <div class="dataTable">
         <el-table
@@ -67,12 +67,20 @@
 
 
       <div class="paginationPage">
+        <!--<el-pagination-->
+          <!--:page-size="pageSize"-->
+          <!--:pager-count="11"-->
+          <!--layout="prev, pager, next"-->
+          <!--:total="Total">-->
+        <!--</el-pagination>-->
+
         <el-pagination
-          :page-size="pageSize"
-          :pager-count="11"
-          layout="prev, pager, next"
-          :total="Total">
+          :page-size=pageSize
+          :total=Total
+          @current-change="currentChange"
+        >
         </el-pagination>
+
       </div>
     </div>
 
@@ -120,7 +128,8 @@
           GroupList: [],
           advertising:[]
         },
-        editStatus:false
+        editStatus:false,
+        currentItem:{},
       }
     },
     methods: {
@@ -138,8 +147,8 @@
         let temp = {
           "advMaterialId":this.form. mattertListValue,
           "advScopeId": this.form. GroupListValue,
-          "beginTime": this.form.dateRange[0],
-          "endTime": this.form.dateRange[1],
+          "beginTime": this.form.dateRange.length>0?this.form.dateRange[0]:" ",
+          "endTime": this.form.dateRange.length>0?this.form.dateRange[1]:" ",
           "showType": this.form.advertising.join(','),
           "status": this.form.used,
         }
@@ -147,11 +156,19 @@
           data: JSON.stringify(temp),
           onsuccess: body => {
             this.showAddContent=false
-
+            this.getPutInList()
           }
         })
       },
 
+      currentChange(argum) {
+        console.log('当前', argum)
+        this.currentPage = argum
+        this.$nextTick(function () {
+          this.getPutInList()
+        })
+
+      },
       getPutInList() {
         this.putInList({
           page: this.currentPage,
@@ -176,21 +193,36 @@
         })
       },
       getadvshowLocalList() {
+        this.Dateform.advertising=[]
         this.advshowLocal({
           onsuccess: body => {
             this.Dateform.advertising = JSON.parse(body.data)
-//            console.log(this.Dateform.advertising)
           }
         })
       },
 
       handleEdit(parm) {
-        console.log(parm)
+        this.getadvshowLocalList()
+        console.log('parmparmparm',parm)
         this.showAddContent = true;
         this.editStatus = true;
-        this.form = parm;
+//        dateRange: [],
+//          mattertListValue: '',
+//          GroupListValue: '',
+//          advertising: [],
+//          used: true
+        this.currentItem = parm;
+        this.form.dateRange = [parm.beginTime,parm.endTime];
+        this.form.mattertListValue = parm.advMaterialId;
+        this.form.GroupListValue = parm.advScopeId;
+         parm.showType.length>1?this.form.advertising=parm.showType.split(','):this.form.advertising.push(parm.showType);
+        this.form.used = parm.status;
 
         console.log('this.form',this.form)
+      },
+      addPutIN(){
+        this.showAddContent=true
+        this.getadvshowLocalList()
       },
       HandelModifiPutIn(){
         let temp = {
@@ -198,11 +230,11 @@
           "advScopeId": this.form. GroupListValue,
           "beginTime": this.form.dateRange[0],
           "endTime": this.form.dateRange[1],
-          "showType": '',
+          "showType": this.form.advertising.length>0?this.form.advertising.join(','):"空",
           "status": this.form.used,
         }
         this.modifiPutIn({
-          id: this.form.id,
+          id: this.currentItem.id,
           data: temp,
           onsuccess: body => {
             this.showAddContent = false;
@@ -217,7 +249,6 @@
       this.getPutInList()
       this.getMatterInList()
       this.getAdvGroupList()
-      this.getadvshowLocalList()
     }
   }
 </script>

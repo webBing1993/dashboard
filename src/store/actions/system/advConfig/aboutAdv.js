@@ -84,7 +84,7 @@ module.exports = {
 
   allCanSelectedCom(ctx, param) {
     ctx.dispatch('resource', {
-      url:`/advCompanies?page=1&pageSize=100`,
+      url: `/advCompanies?page=1&pageSize=100`,
       method: 'GET',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })
@@ -100,6 +100,46 @@ module.exports = {
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })
   },
+  // 获取酒店树GET hotel/adv/treedata
+  hotelTree(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/hotel/adv/treedata`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+  // devicesList/adv/hotelId
+  // 酒店获取设备
+  devicesList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/devicesList/adv/${param.hotelid}`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
+// 保存
+  saveGroup(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/advScopes/advScope',
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  // 修改
+  modifyGroup(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advScopes/advScope/${param.id}`,
+      method: 'PUT',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
 // **************************:投放策略***************************************
   putInList(ctx, param) {
     ctx.dispatch('resource', {

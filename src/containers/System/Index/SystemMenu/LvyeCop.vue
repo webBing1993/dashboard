@@ -122,6 +122,8 @@
         'goto',
         'getLvyeCopList',
         'saveLvyeCopInfo',
+        'bindLvyeCopInfo',
+
         'delLvyeCopInfo',
         'updateLvyeCopInfo',
         'haveSelectTemplateList',
@@ -134,13 +136,23 @@
             data: {
               lvyeCode: this.copCode,
               lvyeName: this.copName,
-              templates: this.HaveSelectedTemplateList
+              templates: this.HaveSelectedTemplateList.length > 0 ? this.HaveSelectedTemplateList.join(',') : ''
             },
             onsuccess: body => {
-              this.showAddContent = false;
-              this.getLvyeCopLists()
+              this.bindLvyeCopInfo({
+                data: {
+                  code: this.copCode,
+                  name: this.copName,
+                },
+                onsuccess: body => {
+                  this.showAddContent = false;
+                  this.getLvyeCopLists()
+                }
+              });
+
             }
           });
+
         } else {
 //          this.updateLvyeCopInfo({
           this.saveLvyeCopInfo({
@@ -148,11 +160,19 @@
             data: {
               lvyeCode: this.copCode,
               lvyeName: this.copName,
-              templates: this.HaveSelectedTemplateList
+              templates: this.HaveSelectedTemplateList.length > 0 ? this.HaveSelectedTemplateList.join(',') : ''
             },
             onsuccess: body => {
-              this.showAddContent = false;
-              this.getLvyeCopLists()
+              this.updateLvyeCopInfo({
+                data: {
+                  code: this.copCode,
+                  name: this.copName,
+                },
+                onsuccess: body => {
+                  this.showAddContent = false;
+                  this.getLvyeCopLists()
+                }
+              })
             }
           })
         }
@@ -165,8 +185,8 @@
         this.copCode = obj.code;
         this.copName = obj.name;
 
-        this.ALLTemplateList=[]
-        this.HaveSelectedTemplateList=[]
+        this.ALLTemplateList = []
+        this.HaveSelectedTemplateList = []
 
         this.getAllTempList()
         this.getHaveSelectTemp()
@@ -210,7 +230,7 @@
           lvyecode: this.copCode,
           onsuccess: body => {
 //            this.HaveSelectedTemplateList = body.data
-            body.data.map(item=>{
+            body.data.map(item => {
               this.HaveSelectedTemplateList.push(item.id)
             })
           }

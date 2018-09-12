@@ -27,17 +27,20 @@
           <el-form-item label="模板名称">
             <el-input v-model="Dateform.name"></el-input>
           </el-form-item>
-          <el-upload
-            class="upload-demo el-right"
-            :action="scriptUpload"
-            :show-file-list=false
-            :headers="setHeader"
-            :before-upload='beforeUploadfilter'
-            :on-success="filterScriptSuccess"
-            :onError="uploadError"
-            :limit=1>
-            <el-button size="small" type="primary">上传logo</el-button>
-          </el-upload>
+          <el-form-item label="上传信息">
+            <img style="width: 100px;height: 100px" :src="Dateform.logoUrl" alt="">
+            <el-upload
+              class="upload-demo el-right"
+              :action="scriptUpload"
+              :show-file-list=false
+              :headers="setHeader"
+              :before-upload='beforeUploadfilter'
+              :on-success="filterScriptSuccess"
+              :onError="uploadError"
+              :limit=1>
+              <el-button size="small" type="primary">{{editStatus?"重新上传logo":"上传logo"}}</el-button>
+            </el-upload>
+          </el-form-item>
           <el-form-item label="二代证读卡间隔">
             <el-select v-model="Dateform.readInterval" placeholder="请选择">
               <el-option :label="item.value" v-for="(item ,index) in initDate.IdCardReadTime" :key="index"
@@ -133,7 +136,7 @@
     computed: {
       ...mapState([]),
       scriptUpload() {
-        return "/virgo/files/adv/upload";
+        return "/virgo/files/logo/upload";
       },
       setHeader() {
         return {

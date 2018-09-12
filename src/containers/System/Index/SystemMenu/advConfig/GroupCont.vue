@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="top">
         <span>XX管理</span>
-        <el-button type="success" @click="showAddContent=true" class="button">添加分组</el-button>
+        <el-button type="success" @click="addGroup" class="button">添加分组</el-button>
       </div>
       <div>
         <el-table :data="tableData"
@@ -23,56 +23,83 @@
           <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
             <el-form-item label="组名">
               <el-input v-model="form.groupName"></el-input>
-              <span class="error">*组名重名，请重新命名</span>
+              <span class="error" v-if="error">*组名重名，请重新命名</span>
+            </el-form-item>
+
+            <el-form-item label="设备列表">
+              <div class="treeCount">
+                <!--<div class="title">设备列表</div>-->
+                <div class="equipmentList">
+                  <div>
+                    <div class="title">
+                      <el-checkbox>所有设备</el-checkbox>
+                      <span>10</span>
+                    </div>
+                    <div class="leftTree common">
+                      <div class="treeBody">
+                        <el-input
+                          placeholder="输入关键字进行过滤"
+                          v-model="filterKey">
+                        </el-input>
+                        <div class="tree-detail">
+                          <el-tree
+                            ref="tree"
+                            node-key="id"
+                            :filter-node-method="filterNode"
+                            :data="equTree"
+                            :props="props"
+                            @check="checkNode"
+                            show-checkbox>
+                            <!---->
+
+                          </el-tree>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="centre">
+                    <!--<span class="el-icon-arrow-left active"></span>-->
+                    <!--<span class="el-icon-arrow-left blue"></span>-->
+                  </div>
+                  <div>
+                    <div class="title">
+                      <el-checkbox>已选设备</el-checkbox>
+                      <span>{{selectedDevice.length}}</span>
+                    </div>
+                    <div class="rightList common">
+                      <div class="treeBody">
+                        <el-input
+                          placeholder="输入关键字进行过滤"
+                          v-model="filterKey">
+                        </el-input>
+                        <el-form-item label="">
+                          <!--<el-checkbox-group v-model="sendKeyList" @change="getkey">-->
+                          <!--<el-checkbox :label="item.id"-->
+                          <!--:value="item.id"-->
+                          <!--:key="item.id" v-for="(item ,index) in selectedDevice" >{{item.label}}-->
+                          <!--</el-checkbox>-->
+                          <div v-for="(item ,index) in selectedDevice" class="selected-item">
+                            <span>{{item.label}}</span>
+                            <span class="el-icon-close" @click="delSel(item)"></span>
+                          </div>
+                          <!--</el-checkbox-group>-->
+                        </el-form-item>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </el-form-item>
           </el-form>
-          <div class="treeCount">
-            <div class="title">设备列表</div>
-            <div class="equipmentList">
-              <div class="leftTree common">
-                <div class="title">
-                  <el-checkbox>所有设备</el-checkbox>
-                  <span>10</span>
-                </div>
-                <div class="treeBody">
-                  <el-input
-                    placeholder="输入关键字进行过滤"
-                    v-model="filterKey">
-                  </el-input>
-                  <el-tree
-                    ref="tree2"
-                    :data="equTree"
-                    :props="props"
-                    :filter-node-method="filterNode"
-                    show-checkbox
-                  >
-                  </el-tree>
-                </div>
-              </div>
-              <div class="centre">
-                <span class="el-icon-arrow-left active"></span>
-                <span class="el-icon-arrow-left blue"></span>
-              </div>
-              <div class="rightList common">
-                <div class="title">
-                  <el-checkbox>已选设备</el-checkbox>
-                  <span>2</span>
-                </div>
-                <div class="treeBody">
-                  <el-input
-                    placeholder="输入关键字进行过滤"
-                    v-model="filterKey">
-                  </el-input>
-                </div>
-              </div>
-            </div>
-          </div>
+
 
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="showAddContent=false">取 消</el-button>
           <el-button type="primary" v-if="!editStatus" @click="save">保 存</el-button>
-          <el-button type="primary"v-if="editStatus" @click="modifi">修 改</el-button>
+          <el-button type="primary" v-if="editStatus" @click="modify">修 改</el-button>
         </div>
       </el-dialog>
 
@@ -88,6 +115,7 @@
     components: {},
     data() {
       return {
+        error: false,
         showAddContent: false,
         tableData: [],
         form: {
@@ -137,34 +165,143 @@
           ],
         },
         props: {
-          label: 'name',
-          children: 'zones'
+          label: 'label',
+          children: 'children',
+          key: 'id',
         },
         equTree: [],
         filterKey: '',
         selectedList: [],
-        editStatus:false
+        editStatus: false,
+        selectedDevice: [],
+        selectedKey: [],
+        sendKeyList: [],
+        allSelectKey: [],
+        allSelectNode: [],
+        currentId: '',
       }
     },
     methods: {
       ...mapActions([
         'groupContList',
+        'hotelTree',
+        'devicesList',
+        'saveGroup',
+        'modifyGroup',
 
       ]),
-      save() {
+      addGroup() {
+        this.showAddContent = true
+        this.getHotelTree()
+      },
+      getkey(parm) {
+        console.log('getkey', parm)
+        this.sendKeyList = parm
       },
 
-      getGroupContList(){
-        this.groupContList({
+      save() {
+        console.log('this.sendKeyList', this.sendKeyList)
+        let temp = {
+          "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
+          "deviceType": "",
+          "hotelIds": "",
+          "id": "",
+          "name": this.form.groupName,
+          "status": ""
+        }
+        this.saveGroup({
+          data: temp,
           onsuccess: body => {
-            this.tableData=body.data
+            this.showAddContent = false
+            this.getGroupContList()
           }
         })
       },
 
-      handleEdit(){
-        this.showAddContent=true
-        this.editStatus=true
+      delSel(parm) {
+        this.selectedDevice.splice(this.selectedDevice.indexOf(parm), 1);
+        this.$refs.tree.setChecked(parm.id, false, false)
+      },
+
+      modify() {
+        let temp = {
+          "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
+          "deviceType": "",
+          "hotelIds": "",
+          "id": "",
+          "name": this.form.groupName,
+          "status": ""
+        }
+        this.modifyGroup({
+          id: this.currentId,
+          data: temp,
+          onsuccess: body => {
+            this.showAddContent = false
+            this.getGroupContList()
+          }
+        })
+      },
+
+      getGroupContList() {
+        this.groupContList({
+          onsuccess: body => {
+            this.tableData = body.data.list
+          }
+        })
+      },
+
+      getHotelTree() {
+        this.hotelTree({
+          onsuccess: body => {
+            this.equTree = body.data
+          }
+        })
+      },
+
+      handleEdit(parm) {
+        this.showAddContent = true;
+        this.editStatus = true;
+        this.form.groupName = parm.name;
+        this.getHotelTree();
+        this.currentId = parm.id
+
+      },
+
+      checkNode(parm1, parm2) {
+        console.log("parm2", parm2)
+        let tempnode = []
+        if (parm2.checkedNodes.length > 0) {
+          this.selectedDevice = []
+          parm2.checkedNodes.map(item => {
+            if (!item.children) {
+              tempnode.push(item)
+            }
+          })
+        }
+        this.$nextTick(function () {
+          this.selectedDevice = tempnode
+        })
+
+
+        if (this.selectedKey.indexOf(parm1.id) == -1) {
+          this.selectedKey.push(parm1.id)
+          console.log('首次点击')
+          if (parm1.children) {    //非叶子节点
+            this.devicesList({
+              hotelid: parm1.id,
+              onsuccess: body => {
+                let temp = []
+                parm1.children = []
+                temp = body.data
+                if (temp.length > 0) {
+                  parm1.children = temp
+                }
+              }
+            })
+          }
+        } else {
+          console.log('非首次点击')
+        }
       },
 
       filterNode(value, data) {
@@ -182,11 +319,14 @@
     },
     watch: {
       filterKey(val) {
-        this.$refs.tree2.filter(val);
-      }
+        this.$refs.tree.filter(val);
+      },
+//      sendKeyList(val) {
+//        console.log(val)
+//      }
     },
     mounted() {
-        this.getGroupContList()
+      this.getGroupContList()
     }
   }
 </script>
@@ -220,7 +360,7 @@
       width: 65%;
 
     }
-    /deep/.el-dialog__header {
+    /deep/ .el-dialog__header {
       padding: 0;
       margin: 0 20px;
       text-align: left;
@@ -287,27 +427,37 @@
           flex-direction: row;
           justify-content: space-between;
           width: 100%;
+          .title {
+            width: 180px;
+            height: 40px;
+            background-color: #F5F7FA;
+            color: #9B9B9B;
+            border: 1px solid #F5F7FA;
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+
+          }
           .common {
-            width: 100%;
+            width: 200px;
             height: 300px;
             border: 1px solid #F5F7FA;
-            border-radius: 5px;
-            .title {
-              width: 100%;
-              height: 40px;
-              background-color: #F5F7FA;
-              color: #9B9B9B;
-              border-radius: 5px 5px 0 0;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-              align-items: center;
-            }
+            border-radius: 0 0 5px 5px;
+            position: relative;
+            overflow-x: scroll;
+            overflow-y: scroll;
+
             .el-checkbox {
               margin-left: 15px;
             }
             span {
               margin-right: 15px;
+            }
+            .el-input {
+              width: 100%;
             }
             /deep/ .el-input .el-input__inner {
               border-radius: 16px;
@@ -317,45 +467,43 @@
               height: 32px;
             }
             .treeBody {
-              padding: 0 10px;
+              width: 200px;
+              overflow-x: auto;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              .el-input {
+                width: 90%;
+              }
+              .tree-detail {
+                align-self: flex-start;
+              }
+            }
+            /deep/ .el-tree__empty-text {
+              display: none;
+            }
+            .selected-item {
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              height: 30px;
             }
 
           }
           .centre {
-            display: flex;
-            flex-direction: column;
-            height: 300px;
-            align-items: center;
-            justify-content: center;
-            margin-left: 20px;
-            margin-right: 20px;
-            span {
-              width: 36px;
-              height: 36px;
-              display: block;
-              border-radius: 50%;
-              line-height: 36px;
-              text-align: center;
-              font-size: 24px;
-              margin-bottom: 20px;
-            }
-            .blue {
-              color: #8e8e8e;
-              background-color: #ebebeb;
-              border: 1px solid #8e8e8e;
-            }
-            .active {
-              color: #FFFFFF;
-              background-color: #39C240;
-            }
+            width: 50px;
           }
         }
       }
+    }
 
-    }
-    .have-link {
-      color: #3CC51F;
-      cursor: pointer;
-    }
   }
+
+  .have-link {
+    color: #3CC51F;
+    cursor: pointer;
+  }
+
 </style>
