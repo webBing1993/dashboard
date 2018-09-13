@@ -31,11 +31,11 @@ module.exports = {
     // proxyTable: {},
     proxyTable: {
       '/virgo': {
-        target: 'https://intg.fortrun.cn/virgo',   //联调
+        // target: 'https://intg.fortrun.cn/virgo',   //联调
         // target: 'http://123.206.180.61:8096/',   //联调
         // target: 'http://dashboard.intg.fortrun.cn/',   //联调
         // target: 'https://qa.fortrun.cn/',  //提交测试
-        //   target: 'http://123.206.99.219:8096/',
+          target: 'http://123.206.99.219:8096/',
         //   target: 'https://gem.fortrun.cng/',
         //   target: 'http://intg.fortrun.cn:8244/advCompanies',
         changeOrigin: true,
