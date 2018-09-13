@@ -54,8 +54,18 @@ module.exports = {
       }
     })
   },
-
-
+  // http://intg.fortrun.cn:8244/advInfos/advInfo/check/111
+  // 检测修改素材
+  checkMatter(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advInfos/advInfo/check/${param.id}`,
+      method: 'GET',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
   // 修改素材
   modifiMatter(ctx, param) {
     ctx.dispatch('resource', {

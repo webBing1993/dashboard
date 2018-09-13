@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="top">
         <span>XX管理</span>
-        <el-button type="success" @click="showAddContent=true" class="button">添加素材</el-button>
+        <el-button type="success" @click="add()" class="button">添加素材</el-button>
       </div>
       <div>
         <el-table
@@ -11,7 +11,11 @@
           style="width: 100%">
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="素材名"></el-table-column>
-          <el-table-column label="更新时间"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间">
+            <template slot-scope="scope">
+              <span>{{formatdate(scope.row.updateTime, 'YYYY-MM-DD')}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <span class="have-link" @click="handleView(scope.row)">查看</span>
@@ -26,49 +30,48 @@
           <div class="rec">
             <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
               <el-form-item label="素材名称">
-                <el-input v-model="form.mattertName" placeholder="请输入素材名"></el-input>
+                <el-input v-model="form.mattertName" placeholder="请输入素材名" :disabled="viewStatus"></el-input>
                 <span class="error">*素材名重名，请重新命名</span>
 
               </el-form-item>
 
               <el-form-item label="素材类型">
-                <el-radio-group v-model="form.mattertType">
+                <el-radio-group v-model="form.mattertType" :disabled="viewStatus">
                   <el-radio :label="item.code" :key="item.code" v-for="(item,index) in Dateform.mattertType">{{item.name}}</el-radio>
                 </el-radio-group>
               </el-form-item>
               <span class="people">针对人群</span>
               <el-form-item label="性别">
                 <el-radio-group v-model="form.aimtAtSex">
-                  <el-radio :label="item.code" :key="item.code" v-for="(item,index) in Dateform.aimtAtSex">
+                  <el-radio :disabled="viewStatus" :label="item.code" :key="item.code"
+                            v-for="(item,index) in Dateform.aimtAtSex">
                     {{item.name}}
                   </el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="年龄段">
                 <span class="ageRange">
-                <el-radio-group v-model="form.aimtAtAge">
-                  <el-radio :label="item.code" :key="item.code"
-                            v-for="(item,index) in Dateform.aimtAtAge">{{item.name}}</el-radio>
-                </el-radio-group>
+                  <el-radio v-model="form.aimtAtAge" :disabled="viewStatus">不限</el-radio>
                 <div class="ageNum">
-                  <el-input-number v-model="form.ageLow" :controls="false" :min="1" :max="200"></el-input-number>至
-                <el-input-number v-model="form.ageTop" :controls="false" :min="1" :max="200"></el-input-number>岁
+                  <el-input-number :disabled="viewStatus" v-model="form.ageLow" :controls="false" :min="1"
+                                   :max="200"></el-input-number>至
+                <el-input-number :disabled="viewStatus" v-model="form.ageTop" :controls="false" :min="1"
+                                 :max="200"></el-input-number>岁
                 </div>
               </span>
-
                 <span class="error">年龄段未设置</span>
               </el-form-item>
               <el-form-item label="广告商">
-                <el-select v-model="form.mattertListValue" placeholder="请选择广告商" size="100%">
+                <el-select v-model="form.mattertListValue" placeholder="请选择广告商" size="100%" :disabled="viewStatus">
                   <el-option :label="item.name" v-for="(item ,index) in Dateform.mattertList" :key="index"
                              :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="素材审核编号">
-                <el-input v-model="form.mattertAuditNum" placeholder="请输入素材审核编号"></el-input>
+                <el-input :disabled="viewStatus" v-model="form.mattertAuditNum" placeholder="请输入素材审核编号"></el-input>
               </el-form-item>
               <el-form-item label="备注">
-                <el-input v-model="form.comment" placeholder="请输入备注"></el-input>
+                <el-input :disabled="viewStatus" v-model="form.comment" placeholder="请输入备注"></el-input>
               </el-form-item>
 
               <el-upload
@@ -81,24 +84,27 @@
                 :onError="uploadError"
                 :on-progress="uploadVideoProcess"
                 :limit=1>
-                <el-button size="small" type="primary">上传素材</el-button>
-                <el-progress v-if="videoFlag == true"  :percentage="videoUploadPercent" style="margin-top:30px;"></el-progress>
+                <el-button size="small" type="primary" :disabled="viewStatus">上传素材</el-button>
+                <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent"
+                             style="margin-top:30px;"></el-progress>
+                <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus ":autoplay="playVideo"
+                       :src="form.uplodGetUrl"></video>
               </el-upload>
 
             </el-form>
           </div>
-          <div slot="footer" class="dialog-footer">
+          <div slot="footer" class="dialog-footer" v-if="!viewStatus">
             <el-button @click="showAddContent=false">取 消</el-button>
             <el-button v-if="!editStatus" type="primary" @click="save">保 存</el-button>
-            <el-button  v-if="editStatus" type="primary" @click="handleEdit">确 认</el-button>
+            <el-button v-if="editStatus" type="primary" @click="handleEdit">确 认</el-button>
           </div>
-          <div v-if="viewStatus">查看的信息</div>
         </el-dialog>
       </div>
+
       <div class="paginationPage">
         <el-pagination
           :page-size="pageSize"
-          :pager-count="11"
+          @current-change="currentChange"
           layout="prev, pager, next"
           :total="Total">
         </el-pagination>
@@ -116,42 +122,18 @@
     data() {
       return {
         showAddContent: false,
-        tableData: [
-          {
-            "id": "1aa87764e31145bc9a28e5a179ac0632",
-            "serialNumber": "string",
-            "name": "string",
-            "url": "string",
-            "type": "string",
-            "source": "string",
-            "companyId": "string",
-            "remark": "string",
-            "status": "string",
-            "isDelete": true
-          },
-          {
-            "id": "5105895e9cf34e6bb2e0f7c2a834c897",
-            "serialNumber": "1111",
-            "name": "测试视频",
-            "url": "http://for-test01.oss-cn-beijing.aliyuncs.com/%E5%B9%BF%E5%91%8A4.2%201080.mp4",
-            "type": "VIDEO",
-            "source": "string",
-            "companyId": "630fc706ab86400896aef6673552e2ac",
-            "remark": "测试专用",
-            "status": "OPEN"
-          }
-        ],
+        tableData: [],
         form: {
           mattertName: '',
           mattertType: '',
           aimtAtSex: '',
           aimtAtAge: '',
-          ageLow:'',
-          ageTop:'',
+          ageLow: '',
+          ageTop: '',
           mattertListValue: '',
           mattertAuditNum: '',
           comment: '',
-          uplodGetUrl:'',
+          uplodGetUrl: '',
 
         },
         Dateform: {
@@ -175,24 +157,19 @@
               code: "nothing",
             },
           ],
-          aimtAtAge: [
-            {
-              name: "不限",
-              code: "不限",
-            }
-          ],
           mattertList: [],
         },
-        havePut:false,
+        havePut: false,
         pageSize: 10,
         currentPage: 1,
-        Total: 100,
+        Total: 0,
         viewStatus: false,
         formatScript: "",
-        currentTemp:{},
-        editStatus:false,
-        videoFlag:false,
-        videoUploadPercent:'',
+        currentTemp: {},
+        editStatus: false,
+        videoFlag: false,
+        videoUploadPercent: '',
+        playVideo: true,
 
       }
     },
@@ -202,7 +179,7 @@
         'Interface'
       ]),
       scriptUpload() {
-        return "/virgo/files/adv/upload" ;
+        return "/virgo/files/adv/upload";
       },
       setHeader() {
         return {
@@ -217,19 +194,61 @@
         'MatterList',
         'saveMatter',
         'modifiMatter',
+        'checkMatter',
         'viewMatter',
         'allCanSelectedCom',
 
       ]),
 
+      resetparm() {
+        this.form = {
+          mattertName: '',
+          mattertType: '',
+          aimtAtSex: '',
+          aimtAtAge: '',
+          ageLow: '',
+          ageTop: '',
+          mattertListValue: '',
+          mattertAuditNum: '',
+          comment: '',
+          uplodGetUrl: '',
 
+        };
+      },
 
+      formatdate(param, status) {
+        if (param) {
+          var date = new Date(param);
+          var Y = date.getFullYear() + '-';
+          var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+          var D = date.getDate() + ' ';
+          var h = date.getHours() + ':';
+          var m = date.getMinutes() + ':';
+          var s = date.getSeconds();
+          if (status == 'YYYY-MM-DD') {
+            return Y + M + D
+          } else {
+            return Y + M + D + h + m + s;
+          }
+
+        }
+      },
+      currentChange(argum) {
+        console.log('当前', argum)
+        this.currentPage = argum
+        this.$nextTick(function () {
+          this.getMatterList()
+        })
+
+      },
       getMatterList() {
         this.MatterList({
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
-            this.tableData = body.data
+            this.tableData = body.data.list
+            this.Total=body.data.total
+
           }
         })
       },
@@ -241,13 +260,18 @@
           }
         })
       },
+      add() {
+        this.showAddContent = true
+        this.resetparm()
+      },
 
       save() {
-        let temp={
-          advMatch:{
-            "ageBegin":this.form.ageLow,
+//
+        let temp = {
+          advMatch: {
+            "ageBegin": this.form.ageLow,
             "ageEnd": this.form.ageTop,
-            "ageType": this.form.aimtAtAge,
+            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
             "id": "string",
             "sexType": this.form.aimtAtSex,
             "status": "未知",
@@ -255,7 +279,6 @@
           },
           "companyId": "未知",
           "id": "未知",
-          "isDelete": '未知',
           "name": this.form.mattertName,
           "remark": this.form.comment,
           "serialNumber": this.form.mattertAuditNum,
@@ -275,40 +298,87 @@
       },
 
       handleView(parm) {
-        console.log('commentcomment',parm)
-        this.$message({
-          message: '查看没有UI没做',
-          type: 'success'
-        });
-//        this.viewMatter({
-//          id: parm.id,
-//          onsuccess: body => {
-//
-//          }
-//        })
+        this.currentTemp = []
+        this.currentTemp = parm
+        this.viewStatus = true
+        this.showAddContent = true;
+        this.viewMatter({
+          id: parm.id,
+          onsuccess: body => {
+//            this.form.mattertName=
+//            this.form.mattertType=
+            this.form.aimtAtSex = body.data.advMatch.sexType
+            this.form.aimtAtAge = body.data.advMatch.ageType
+            this.form.ageLow = body.data.advMatch.ageBegin
+            this.form.ageTop = body.data.advMatch.ageEnd
+//            this.form.mattertListValue=
+            this.form.comment = body.data.remark
+            this.form.uplodGetUrl = body.data.url
+          }
+        })
 
       },
 
-      edit(parm){
+      edit(parm) {
         console.log(parm)
-        if(parm.status=="OPEN"){
-          this.$message({
-            message: '投放了',
-            type: 'success'
-          });
-        }else {
-          this.showAddContent = true;
-          this.editStatus = true;
-          this.currentTemp=parm
+        this.checkMatter({
+          id: parm.id,
+          onsuccess: body => {
+            if (!body.data) {
+              this.$message({
+                message: '不可更改已经投放了',
+                type: 'success'
+              });
+            } else {
+              this.showAddContent = true;
+              this.editStatus = true;
+              this.currentTemp = parm
+              this.viewMatter({
+                id: parm.id,
+                onsuccess: body => {
+//            this.form.mattertName=
+//            this.form.mattertType=
+                  this.form.aimtAtSex = body.data.advMatch.sexType
+                  this.form.aimtAtAge = body.data.advMatch.ageType
+                  this.form.ageLow = body.data.advMatch.ageBegin
+                  this.form.ageTop = body.data.advMatch.ageEnd
+//            this.form.mattertListValue=
+                  this.form.comment = body.data.remark
+                  this.form.uplodGetUrl = body.data.url
+                }
+              })
 
-        }
+            }
+          }
+        })
 
       },
 
       handleEdit() {
+        let temp = {
+          advMatch: {
+            "ageBegin": this.form.ageLow,
+            "ageEnd": this.form.ageTop,
+            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
+            "id": "string",
+            "sexType": this.form.aimtAtSex,
+            "status": "未知",
+            "weight": 0
+          },
+          "companyId": "未知",
+          "id": "未知",
+          "name": this.form.mattertName,
+          "remark": this.form.comment,
+          "serialNumber": this.form.mattertAuditNum,
+          "source": "未知",
+          "status": "未知",
+          "type": this.form.mattertType,
+          "url": this.form.uplodGetUrl,
+
+        }
         this.modifiMatter({
-          id: parm.id,
-          data: {},
+          id: this.currentTemp.id,
+          data: temp,
           onsuccess: body => {
             this.getMatterList()
           }
@@ -316,13 +386,13 @@
       },
 
       beforeUploadfilter(file) {
-        this.file=file
-        console.log('file',file)
+        this.file = file
+        console.log('file', file)
       },
-      uploadError (response, file, fileList) {
-        console.log('上传失败，请重试！1',response)
-        console.log('上传失败，请重试！2',file)
-        console.log('上传失败，请重试！3',fileList)
+      uploadError(response, file, fileList) {
+        console.log('上传失败，请重试！1', response)
+        console.log('上传失败，请重试！2', file)
+        console.log('上传失败，请重试！3', fileList)
       },
       filterScriptSuccess(res, file, list) {
         console.log(res)
@@ -331,8 +401,8 @@
           this.videoFlag = false;
         }
       },
-      uploadVideoProcess(event, file, fileList){
-        console.log('filefilefile',file)
+      uploadVideoProcess(event, file, fileList) {
+        console.log('filefilefile', file)
         this.videoFlag = true;
         this.videoUploadPercent = parseInt(file.percentage.toFixed(0));
       },
@@ -406,7 +476,7 @@
           display: flex;
           flex-direction: row;
           align-items: center;
-          .ageNum{
+          .ageNum {
             margin-left: 30px;
           }
           .el-input {
@@ -504,10 +574,10 @@
       justify-content: center;
       .el-pagination {
         text-align: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*bottom: 0;*/
         box-sizing: border-box;
         width: 100%;
         line-height: 50px;

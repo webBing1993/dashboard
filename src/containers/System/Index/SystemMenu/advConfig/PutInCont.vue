@@ -75,9 +75,10 @@
         <!--</el-pagination>-->
 
         <el-pagination
-          :page-size=pageSize
-          :total=Total
+          :page-size="pageSize"
+          :total="Total"
           @current-change="currentChange"
+          layout="prev, pager, next"
         >
         </el-pagination>
 
@@ -105,7 +106,7 @@
         tableData: [],
         pageSize: 10,
         currentPage: 1,
-        Total: 100,
+        Total: 0,
         reNameError: false,
         sendDate: {
           address: "",
@@ -175,6 +176,8 @@
           pageSize: this.pageSize,
           onsuccess: body => {
             this.tableData = body.data.list
+            this.Total=body.data.total
+
           }
         })
       },
@@ -369,10 +372,10 @@
       justify-content: center;
       .el-pagination {
         text-align: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*bottom: 0;*/
         box-sizing: border-box;
         width: 100%;
         line-height: 50px;

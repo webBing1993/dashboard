@@ -37,7 +37,7 @@
       <div class="paginationPage">
         <el-pagination
           :page-size="pageSize"
-          :pager-count="11"
+          @current-change="currentChange"
           layout="prev, pager, next"
           :total="Total">
         </el-pagination>
@@ -102,7 +102,7 @@
         ],
         pageSize: 10,
         currentPage: 1,
-        Total: 100,
+        Total: 0,
         reNameError: false,
         editeStatus: false,
         currentItem: {},
@@ -153,13 +153,21 @@
           })
         }
       },
+      currentChange(argum) {
+        console.log('当前', argum)
+        this.currentPage = argum
+        this.$nextTick(function () {
+          this.getAdvertiserList()
+        })
 
+      },
       getAdvertiserList() {
         this.AdvertiserList({
           page: this.currentPage,
           pageSize: this.pageSize,
           onsuccess: body => {
             this.tableData = body.data.list
+            this.Total=body.data.total
 
           }
         })
@@ -288,10 +296,10 @@
       justify-content: center;
       .el-pagination {
         text-align: center;
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*bottom: 0;*/
         box-sizing: border-box;
         width: 100%;
         line-height: 50px;
