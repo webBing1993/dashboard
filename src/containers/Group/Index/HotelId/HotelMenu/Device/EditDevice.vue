@@ -45,6 +45,18 @@
           off-color="#ff4949">
         </el-switch>
       </div>
+
+      <div class="content-item">
+        <span>认证通模板</span>
+        <el-select v-model="templateValue" placeholder="请选择">
+          <el-option   v-for="(item ,index) in templateList"
+                       :key="item.id"
+                       :label="item.id"
+                       :value="item.id">{{item.name}}
+          </el-option>
+        </el-select>
+      </div>
+
       <div class="content-item" v-show="currentCode==='32'">
         <span>是否在pad上显示设备名称</span>
         <el-switch
@@ -114,6 +126,8 @@
         currentName: '',
         currentTargetCode: '',
         currentTargetName: '',
+        templateValue:'',
+        templateList:[]
       }
     },
     computed: {
@@ -163,9 +177,16 @@
         'removeDevice',
         'goto',
         'saveIsShowPadName',
-        'getShowDeviceNameStatus'
+        'getShowDeviceNameStatus',
+        'tempList',
       ]),
-
+      getTempList() {
+        this.tempList({
+          onsuccess: body => {
+            this.templateList = body.data
+          }
+        })
+      },
       _changeDeviceType(obj){
           console.log(this.deviceType)
         console.log('当前设备code1', obj)
@@ -199,6 +220,7 @@
           mac_address: this.MacAdress,
           partner_id: this.partnerId,
           enabled: this.enabled ? 1 : 0,
+          rzt_template:this.templateValue,
           onsuccess: body => {
             this.showDialog = false;
             this.goto(-1)
@@ -221,6 +243,7 @@
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
+              rzt_template:this.templateValue,
               onsuccess: body => {
                 this.goto(-1)
               }
@@ -253,6 +276,7 @@
             this.partnerName = body.data.partner_name;
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
+//            rzt_template
           }
         })
       },
@@ -273,6 +297,7 @@
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
+              rzt_template:this.templateValue,
               onsuccess: body => this.goto(-1)
             })
           }
@@ -337,6 +362,7 @@
           }
         });
       }
+      this.getTempList();
       this.getList();
       this._getDeviceTypeList();
     }

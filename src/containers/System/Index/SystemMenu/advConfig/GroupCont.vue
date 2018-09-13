@@ -32,8 +32,9 @@
                 <div class="equipmentList">
                   <div>
                     <div class="title">
-                      <el-checkbox>所有设备</el-checkbox>
-                      <span>10</span>
+                      <!--<el-checkbox>所有设备</el-checkbox>-->
+                      <span>所有设备</span>
+                      <span></span>
                     </div>
                     <div class="leftTree common">
                       <div class="treeBody">
@@ -64,7 +65,8 @@
                   </div>
                   <div>
                     <div class="title">
-                      <el-checkbox>已选设备</el-checkbox>
+                      <!--<el-checkbox>已选设备</el-checkbox>-->
+                      <span>已选设备</span>
                       <span>{{selectedDevice.length}}</span>
                     </div>
                     <div class="rightList common">
@@ -188,10 +190,14 @@
         'devicesList',
         'saveGroup',
         'modifyGroup',
+        'groupDetail',
 
       ]),
       addGroup() {
         this.showAddContent = true
+        this.form.groupName = ''
+        this.selectedDevice = []
+        this.selectedKey = []
         this.getHotelTree()
       },
       getkey(parm) {
@@ -220,6 +226,15 @@
 
       delSel(parm) {
         this.selectedDevice.splice(this.selectedDevice.indexOf(parm), 1);
+
+        let temp = []
+        this.selectedDevice.map(v => {
+          temp.push(v.id)
+        })
+        this.$nextTick(function () {
+          this.sendKeyList = temp
+        })
+
         this.$refs.tree.setChecked(parm.id, false, false)
       },
 
@@ -259,29 +274,32 @@
       },
 
       handleEdit(parm) {
+        this.selectedDevice = []
+        this.selectedKey = []
         this.showAddContent = true;
         this.editStatus = true;
         this.form.groupName = parm.name;
         this.getHotelTree();
         this.currentId = parm.id
+        this.groupDetail({
+          id: parm.id,
+          onsuccess: body => {
+            console.log(body.data)
+            let temp = []
+            this.selectedDevice = body.data.deviceAdvVos
+            this.selectedDevice.map(v => {
+              temp.push(v.id)
+            })
+            this.$nextTick(function () {
+              this.selectedKey = temp
+            })
+          }
+        })
 
       },
 
       checkNode(parm1, parm2) {
         console.log("parm2", parm2)
-        let tempnode = []
-        if (parm2.checkedNodes.length > 0) {
-          this.selectedDevice = []
-          parm2.checkedNodes.map(item => {
-            if (!item.children) {
-              tempnode.push(item)
-            }
-          })
-        }
-        this.$nextTick(function () {
-          this.selectedDevice = tempnode
-        })
-
 
         if (this.selectedKey.indexOf(parm1.id) == -1) {
           this.selectedKey.push(parm1.id)
@@ -294,14 +312,43 @@
                 parm1.children = []
                 temp = body.data
                 if (temp.length > 0) {
-                  parm1.children = temp
+                  temp.map(i => {
+                    i.id = parm1.id + '-' + i.id
+                    i.label = parm1.label + '-' + i.label
+
+                  })
+                  console.log('temptemp', temp)
+                  this.$nextTick(function () {
+                    parm1.children = temp
+                  })
+
                 }
               }
+            })
+          } else {//叶子节点
+            this.$nextTick(function () {
+              let tempnode = []
+              if (parm2.checkedNodes.length > 0) {
+                this.selectedDevice = []
+                parm2.checkedNodes.map(item => {
+                  if (!item.children) {
+                    tempnode.push(item)
+                  }
+                })
+              }
+              this.selectedDevice = tempnode
+              this.sendKeyList = []
+              this.selectedDevice.map(v => {
+                this.sendKeyList.push(v.id)
+              })
+
             })
           }
         } else {
           console.log('非首次点击')
         }
+
+
       },
 
       filterNode(value, data) {
@@ -428,7 +475,7 @@
           justify-content: space-between;
           width: 100%;
           .title {
-            width: 180px;
+            width: 260px;
             height: 40px;
             background-color: #F5F7FA;
             color: #9B9B9B;
@@ -442,7 +489,7 @@
 
           }
           .common {
-            width: 200px;
+            width: 280px;
             height: 300px;
             border: 1px solid #F5F7FA;
             border-radius: 0 0 5px 5px;
@@ -467,7 +514,7 @@
               height: 32px;
             }
             .treeBody {
-              width: 200px;
+              width: 280px;
               overflow-x: auto;
               display: flex;
               flex-direction: column;
@@ -489,6 +536,9 @@
               justify-content: space-between;
               align-items: center;
               height: 30px;
+              span {
+                display: block;
+              }
             }
 
           }

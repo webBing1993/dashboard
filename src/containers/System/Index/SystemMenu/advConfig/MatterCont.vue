@@ -380,6 +380,7 @@
           id: this.currentTemp.id,
           data: temp,
           onsuccess: body => {
+            this.showAddContent = false
             this.getMatterList()
           }
         })

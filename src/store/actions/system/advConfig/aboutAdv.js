@@ -149,7 +149,15 @@ module.exports = {
       }
     })
   },
-
+  // http://intg.fortrun.cn:8244/advScopes/advScope/3456789
+// 获取详情
+  groupDetail(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/advScopes/advScope/${param.id}`,
+      method: 'GET',
+      onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
+    })
+  },
 // **************************:投放策略***************************************
   putInList(ctx, param) {
     ctx.dispatch('resource', {
