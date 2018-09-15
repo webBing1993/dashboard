@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="top">
-        <span>XX管理</span>
+        <span>投放管理</span>
         <el-button type="success" @click="addPutIN" class="button">添加投放策略</el-button>
       </div>
       <div class="dataTable">
@@ -192,14 +192,14 @@
       getMatterInList() {
         this.matterInList({
           onsuccess: body => {
-            this.Dateform.mattertList = body.data
+            this.Dateform.mattertList = body.data.list
           }
         })
       },
       getAdvGroupList() {
         this.advGroupList({
           onsuccess: body => {
-            this.Dateform.GroupList = body.data
+            this.Dateform.GroupList = body.data.list
           }
         })
       },

@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="top">
-        <span>XX管理</span>
+        <span>广告商管理</span>
         <el-button type="success" @click="showAddContent=true" class="button">添加模板广告商</el-button>
       </div>
       <div class="dataTable">

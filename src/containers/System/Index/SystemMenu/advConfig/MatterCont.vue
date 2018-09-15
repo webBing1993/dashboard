@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="top">
-        <span>XX管理</span>
+        <span>素材管理</span>
         <el-button type="success" @click="add()" class="button">添加素材</el-button>
       </div>
       <div>
@@ -31,15 +31,19 @@
             <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
               <el-form-item label="素材名称">
                 <el-input v-model="form.mattertName" placeholder="请输入素材名" :disabled="viewStatus"></el-input>
-                <span class="error">*素材名重名，请重新命名</span>
+                <!--<span class="error">*素材名重名，请重新命名</span>-->
 
               </el-form-item>
 
               <el-form-item label="素材类型">
+
                 <el-radio-group v-model="form.mattertType" :disabled="viewStatus">
-                  <el-radio :label="item.code" :key="item.code" v-for="(item,index) in Dateform.mattertType">{{item.name}}</el-radio>
+                  <el-radio :label="item.code" :value="item.code" :key="item.code" v-for="(item,index) in Dateform.mattertType">{{item.name}}</el-radio>
                 </el-radio-group>
               </el-form-item>
+
+
+
               <span class="people">针对人群</span>
               <el-form-item label="性别">
                 <el-radio-group v-model="form.aimtAtSex">
@@ -51,7 +55,7 @@
               </el-form-item>
               <el-form-item label="年龄段">
                 <span class="ageRange">
-                  <el-radio v-model="form.aimtAtAge" checked :disabled="viewStatus">不限</el-radio>
+                  <el-radio v-model="form.aimtAtAge" label="不限" :disabled="viewStatus">不限</el-radio>
                 <div class="ageNum">
                   <el-input-number :disabled="viewStatus" v-model="form.ageLow" :controls="false" :min="1"
                                    :max="200"></el-input-number>至
@@ -59,7 +63,7 @@
                                  :max="200"></el-input-number>岁
                 </div>
               </span>
-                <span class="error">年龄段未设置</span>
+                <!--<span class="error">年龄段未设置</span>-->
               </el-form-item>
               <el-form-item label="广告商">
                 <el-select v-model="form.mattertListValue" placeholder="请选择广告商" size="100%" :disabled="viewStatus">
@@ -125,8 +129,8 @@
         tableData: [],
         form: {
           mattertName: '',
-          mattertType: 'sp',
-          aimtAtSex: 'nothing',
+          mattertType: true,
+          aimtAtSex: '',
           aimtAtAge: '',
           ageLow: '',
           ageTop: '',
@@ -134,7 +138,6 @@
           mattertAuditNum: '',
           comment: '',
           uplodGetUrl: '',
-
         },
         Dateform: {
           mattertType: [
@@ -203,9 +206,9 @@
       resetparm() {
         this.form = {
           mattertName: '',
-          mattertType: '',
-          aimtAtSex: '',
-          aimtAtAge: '',
+          mattertType: 'sp',
+          aimtAtSex: 'nothing',
+          aimtAtAge: '不限',
           ageLow: '',
           ageTop: '',
           mattertListValue: '',
@@ -332,6 +335,7 @@
             } else {
               this.showAddContent = true;
               this.editStatus = true;
+              this.viewStatus = false
               this.currentTemp = parm
               this.viewMatter({
                 id: parm.id,
@@ -343,6 +347,7 @@
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
 //            this.form.mattertListValue=
+                  this.form.mattertName = body.data.name
                   this.form.comment = body.data.remark
                   this.form.uplodGetUrl = body.data.url
                 }

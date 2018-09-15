@@ -205,14 +205,17 @@
         let tempcode='';
         this.Dateform.readInterval
         this.initDate.IdCardReadTime.map(item=>{
-
+          if(this.Dateform.readInterval==item.value){
+            tempcode=item.id
+          }
         })
 
 
         let temo = {
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
-          "readInterval": this.Dateform.readInterval,
+//          "readInterval": this.Dateform.readInterval,
+          "readInterval": tempcode,
           "searchMode":1, //this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
           "uploadLower": this.Dateform.uploadLower,
@@ -230,10 +233,18 @@
       },
 
       HandelmodifiTemp() {
+        let tempcode='';
+        this.Dateform.readInterval
+        this.initDate.IdCardReadTime.map(item=>{
+          if(this.Dateform.readInterval==item.value){
+            tempcode=item.id
+          }
+        })
         let temp = {
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
-          "readInterval": this.Dateform.readInterval,
+          "readInterval": tempcode,
+//          "readInterval": this.Dateform.readInterval,
           "searchMode": 1,//this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
           "uploadLower": this.Dateform.uploadLower,

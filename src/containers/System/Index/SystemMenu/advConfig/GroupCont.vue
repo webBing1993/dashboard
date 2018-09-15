@@ -2,7 +2,7 @@
   <div>
     <div class="module-wrapper">
       <div class="top">
-        <span>XX管理</span>
+        <span>分组管理</span>
         <el-button type="success" @click="addGroup" class="button">添加分组</el-button>
       </div>
       <div>
