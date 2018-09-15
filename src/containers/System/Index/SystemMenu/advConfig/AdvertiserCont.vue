@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="top">
         <span>广告商管理</span>
-        <el-button type="success" @click="showAddContent=true" class="button">添加模板广告商</el-button>
+        <el-button type="success" @click="add" class="button">添加广告商</el-button>
       </div>
       <div class="dataTable">
         <el-table
@@ -19,10 +19,10 @@
         </el-table>
       </div>
       <div class="dialogModel">
-        <el-dialog title="添加模板广告商" :visible.sync="showAddContent" center>
+        <el-dialog :title="title" :visible.sync="showAddContent" center>
           <el-form ref="form" label-width="80px" labelPosition="left">
             <el-form-item label="广告商">
-              <el-input v-model="advertiserName"></el-input>
+              <el-input v-model="advertiserName"  placeholder="输入广告商"></el-input>
             </el-form-item>
             <span class="error" v-if="reNameError">*广告商重名请重新命名</span>
           </el-form>
@@ -67,38 +67,10 @@
     data() {
       return {
         showAddContent: false,
+        title:'添加广告商',
         advertiserName: '',
         tableData: [
-          {
-            "id": "18577f265b9d4d0c91428c46bfcbcc9d",
-            "name": "张三",
-            "description": "",
-            "address": "",
-            "tel": "",
-            "userName": "",
-            "status": "OPEN",
-            "isDelete": "0"
-          },
-          {
-            "id": "630fc706ab86400896aef6673552e2ac",
-            "name": "string",
-            "description": "测试店铺",
-            "address": "test",
-            "tel": "",
-            "userName": "test",
-            "status": "",
-            "isDelete": "0"
-          },
-          {
-            "id": "a9620a4c419c47c5aa2944b1a599eb0a",
-            "name": "",
-            "description": "",
-            "address": "",
-            "tel": "",
-            "userName": "",
-            "status": "",
-            "isDelete": "0"
-          }
+
         ],
         pageSize: 10,
         currentPage: 1,
@@ -126,7 +98,12 @@
 
       ]),
 
+      add(){
+        this.title = '添加广告商';
+        this.advertiserName=''
+        this.showAddContent=true
 
+      },
       save() {
         if (this.editeStatus) {
           this.modifiAdvertiser({
@@ -175,6 +152,7 @@
 
       handleEdit(parm) {
         console.log(parm)
+        this.title = '编辑广告商';
         this.showAddContent = true;
         this.currentItem = parm;
         this.editeStatus = true;

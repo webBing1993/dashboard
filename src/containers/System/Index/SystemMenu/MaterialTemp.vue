@@ -19,7 +19,7 @@
         </el-table>
       </div>
 
-      <el-dialog title="添加模板" :visible.sync="showAddContent"
+      <el-dialog :title="title" :visible.sync="showAddContent"
 
                  center>
         <!--<div class="rec">-->
@@ -38,13 +38,14 @@
               :on-success="filterScriptSuccess"
               :onError="uploadError"
               :limit=1>
-              <el-button size="small" type="primary">{{editStatus?"重新上传logo":"上传logo"}}</el-button>
+              <el-button size="small" type="primary">{{editStatus ? "重新上传logo" : "上传logo"}}</el-button>
             </el-upload>
           </el-form-item>
           <el-form-item label="二代证读卡间隔">
             <el-select v-model="Dateform.readInterval" placeholder="请选择">
               <el-option :label="item.value" v-for="(item ,index) in initDate.IdCardReadTime" :key="index"
-                         :value="item.value">{{item.value}}</el-option>
+                         :value="item.value">{{item.value}}
+              </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="找脸模式">
@@ -89,6 +90,7 @@
 
     data() {
       return {
+        title: '添加模板',
         showAddContent: false,
         tableData: [],
         form: {},
@@ -145,7 +147,7 @@
         }
       },
       validateall() {
-        if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30) {
+        if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30 || this.Dateform.logoUrl == '') {
           return false
         } else {
           return true
@@ -160,30 +162,30 @@
         'modifiTemp',
 
       ]),
-      add(){
-        this.showAddContent=true
-        this.Dateform.name=''
-        this.Dateform.logoUrl=''
-        this.Dateform.readInterval='2秒';
-        this.Dateform.searchMode='找相似度最高'
-        this.Dateform.uploadOn=true
-        this.Dateform.uploadLower=true
-        this.Dateform.remindFinish=false
-        this.Dateform.cardReal=true
-        this.Dateform.undocumentReal=true
+      add() {
+        this.showAddContent = true
+        this.Dateform.name = ''
+        this.Dateform.logoUrl = ''
+        this.Dateform.readInterval = '2秒';
+        this.Dateform.searchMode = '找相似度最高'
+        this.Dateform.uploadOn = true
+        this.Dateform.uploadLower = true
+        this.Dateform.remindFinish = false
+        this.Dateform.cardReal = true
+        this.Dateform.undocumentReal = true
       },
 
       beforeUploadfilter(file) {
-        this.file=file
-        console.log('file',file)
+        this.file = file
+        console.log('file', file)
       },
-      uploadError (response, file, fileList) {
-        console.log('上传失败，请重试！1',response)
-        console.log('上传失败，请重试！2',file)
-        console.log('上传失败，请重试！3',fileList)
+      uploadError(response, file, fileList) {
+        console.log('上传失败，请重试！1', response)
+        console.log('上传失败，请重试！2', file)
+        console.log('上传失败，请重试！3', fileList)
       },
       filterScriptSuccess(res, file, list) {
-        console.log('resresres',res)
+        console.log('resresres', res)
         if (res.data) {
           this.Dateform.logoUrl = res.data;
         }
@@ -202,11 +204,11 @@
       },
 
       saveTemplate() {
-        let tempcode='';
+        let tempcode = '';
         this.Dateform.readInterval
-        this.initDate.IdCardReadTime.map(item=>{
-          if(this.Dateform.readInterval==item.value){
-            tempcode=item.id
+        this.initDate.IdCardReadTime.map(item => {
+          if (this.Dateform.readInterval == item.value) {
+            tempcode = item.id
           }
         })
 
@@ -215,8 +217,8 @@
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
 //          "readInterval": this.Dateform.readInterval,
-          "readInterval": tempcode,
-          "searchMode":1, //this.Dateform.searchMode,
+          "readInterval": tempcode || this.Dateform.readInterval,
+          "searchMode": 1, //this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
           "uploadLower": this.Dateform.uploadLower,
           "remindFinish": this.Dateform.remindFinish,
@@ -233,17 +235,17 @@
       },
 
       HandelmodifiTemp() {
-        let tempcode='';
+        let tempcode = '';
         this.Dateform.readInterval
-        this.initDate.IdCardReadTime.map(item=>{
-          if(this.Dateform.readInterval==item.value){
-            tempcode=item.id
+        this.initDate.IdCardReadTime.map(item => {
+          if (this.Dateform.readInterval == item.value) {
+            tempcode = item.id
           }
         })
         let temp = {
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
-          "readInterval": tempcode,
+          "readInterval": tempcode || this.Dateform.readInterval,
 //          "readInterval": this.Dateform.readInterval,
           "searchMode": 1,//this.Dateform.searchMode,
           "uploadOn": this.Dateform.uploadOn,
@@ -263,10 +265,14 @@
       },
 
       handleEdit(parm) {
+        this.title = '编辑模板'
         this.editStatus = true
         this.showAddContent = true
         this.Dateform = parm
-        this.Dateform.searchMode='找相似度最高'
+        this.Dateform.id = parm.id
+        this.Dateform.searchMode = '找相似度最高'
+        this.Dateform.logoUrl = parm.logoUrl
+        this.Dateform.readInterval = parm.readInterval
 
       },
 
@@ -412,20 +418,20 @@
       color: #3CC51F;
       cursor: pointer;
     }
-    .el-button--default{
+    .el-button--default {
       width: 160px;
       height: 40px;
       border-radius: 2px;
     }
-    .el-button--primary{
-      background-color:#3CC51F ;
+    .el-button--primary {
+      background-color: #3CC51F;
       border: 1px solid #3CC51F;
       width: 160px;
       height: 40px;
       border-radius: 2px;
     }
-    /deep/.el-switch.is-checked .el-switch__core{
-      background-color:#3CC51F ;
+    /deep/ .el-switch.is-checked .el-switch__core {
+      background-color: #3CC51F;
       border: 1px solid #3CC51F;
     }
   }

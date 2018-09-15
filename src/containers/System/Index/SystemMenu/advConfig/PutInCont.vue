@@ -32,7 +32,7 @@
         </el-table>
       </div>
       <div class="dialogModel">
-        <el-dialog title="添加模板广告商" :visible.sync="showAddContent" center>
+        <el-dialog :title="title" :visible.sync="showAddContent" center>
           <el-form ref="form" label-width="80px" labelPosition="left">
             <el-form-item label="素材">
               <el-select v-model="form.mattertListValue" placeholder="" size="100%">
@@ -109,6 +109,7 @@
     },
     data() {
       return {
+        title:'添加投放',
         showAddContent: false,
         advertiserName: '',
         tableData: [],
@@ -213,6 +214,7 @@
       },
 
       handleEdit(parm) {
+        this.title='编辑投放'
         this.getadvshowLocalList()
         console.log('parmparmparm',parm)
         this.showAddContent = true;
@@ -233,6 +235,12 @@
       },
       addPutIN(){
         this.showAddContent=true
+        this.form.mattertListValue=''
+        this.form.GroupListValue=''
+        this.form.advertising=['HOME_PAGE']
+        this.form.used=true
+        this.title='添加投放'
+
         this.getadvshowLocalList()
       },
       HandelModifiPutIn(){

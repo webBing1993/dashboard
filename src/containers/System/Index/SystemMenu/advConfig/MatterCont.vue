@@ -26,7 +26,7 @@
       </div>
 
       <div class="dialogModel">
-        <el-dialog :title="editStatus?'编辑素材':'添加素材' " :visible.sync="showAddContent" center>
+        <el-dialog :title="title" :visible.sync="showAddContent" center>
           <div class="rec">
             <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
               <el-form-item label="素材名称">
@@ -99,8 +99,8 @@
           </div>
           <div slot="footer" class="dialog-footer" v-if="!viewStatus">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button v-if="!editStatus" type="primary" @click="save">保 存</el-button>
-            <el-button v-if="editStatus" type="primary" @click="handleEdit">确 认</el-button>
+            <el-button v-if="!editStatus" type="primary" :disabled="!validateall"@click="save">保 存</el-button>
+            <el-button v-if="editStatus" type="primary" :disabled="!validateall"@click="handleEdit">确 认</el-button>
           </div>
         </el-dialog>
       </div>
@@ -125,6 +125,7 @@
     components: {},
     data() {
       return {
+        title:"添加素材",
         showAddContent: false,
         tableData: [],
         form: {
@@ -188,6 +189,19 @@
         return {
           Session: sessionStorage.getItem('session_id'),
           enctype: "multipart/form-data"
+        }
+      },
+      validateall() {
+        if (this.form.mattertName.length == 0 ||
+          this.form.mattertName.length > 30||
+          this.form.mattertListValue==''||
+          this.form.mattertAuditNum.length>99||
+          this.form.comment.length>99
+
+        ) {
+          return false
+        } else {
+          return true
         }
       },
     },
@@ -301,6 +315,7 @@
       },
 
       handleView(parm) {
+        this.title='查看';
         this.currentTemp = []
         this.currentTemp = parm
         this.viewStatus = true
@@ -333,6 +348,8 @@
                 type: 'success'
               });
             } else {
+//              title:"",
+              this.title='编辑素材';
               this.showAddContent = true;
               this.editStatus = true;
               this.viewStatus = false

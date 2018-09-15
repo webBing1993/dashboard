@@ -18,7 +18,7 @@
         </el-table>
       </div>
 
-      <el-dialog title="添加分组" :visible.sync="showAddContent" center>
+      <el-dialog :title="title" :visible.sync="showAddContent" center>
         <div class="rec">
           <el-form ref="form" :model="form" label-width="100px" labelPosition="left">
             <el-form-item label="组名">
@@ -100,8 +100,8 @@
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="showAddContent=false">取 消</el-button>
-          <el-button type="primary" v-if="!editStatus" @click="save">保 存</el-button>
-          <el-button type="primary" v-if="editStatus" @click="modify">修 改</el-button>
+          <el-button type="primary" v-if="!editStatus" @click="save" :disabled="!validateall">保 存</el-button>
+          <el-button type="primary" v-if="editStatus" @click="modify" :disabled="!validateall">修 改</el-button>
         </div>
       </el-dialog>
 
@@ -117,6 +117,7 @@
     components: {},
     data() {
       return {
+        title:'添加分组',
         error: false,
         showAddContent: false,
         tableData: [],
@@ -274,6 +275,7 @@
       },
 
       handleEdit(parm) {
+        this.title='编辑分组'
         this.selectedDevice = []
         this.selectedKey = []
         this.showAddContent = true;
@@ -365,7 +367,13 @@
         'route',
         'Interface'
       ]),
-
+      validateall() {
+        if (this.form.groupName.length == 0 || this.form.groupName.length > 30) {
+          return false
+        } else {
+          return true
+        }
+      },
     },
     watch: {
       filterKey(val) {
