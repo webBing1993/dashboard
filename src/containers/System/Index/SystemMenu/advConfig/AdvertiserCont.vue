@@ -22,7 +22,7 @@
         <el-dialog :title="title" :visible.sync="showAddContent" center>
           <el-form ref="form" label-width="80px" labelPosition="left">
             <el-form-item label="广告商">
-              <el-input v-model="advertiserName"  placeholder="输入广告商"></el-input>
+              <el-input v-model="advertiserName"  placeholder="请输入广告商名称"></el-input>
             </el-form-item>
             <span class="error" v-if="reNameError">*广告商重名请重新命名</span>
           </el-form>

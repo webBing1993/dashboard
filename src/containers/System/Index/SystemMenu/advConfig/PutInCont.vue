@@ -109,7 +109,7 @@
     },
     data() {
       return {
-        title:'添加投放',
+        title:'添加投放策略',
         showAddContent: false,
         advertiserName: '',
         tableData: [],
@@ -214,7 +214,7 @@
       },
 
       handleEdit(parm) {
-        this.title='编辑投放'
+        this.title='编辑投放策略'
         this.getadvshowLocalList()
         console.log('parmparmparm',parm)
         this.showAddContent = true;
@@ -239,7 +239,7 @@
         this.form.GroupListValue=''
         this.form.advertising=['HOME_PAGE']
         this.form.used=true
-        this.title='添加投放'
+        this.title='添加投放策略'
 
         this.getadvshowLocalList()
       },

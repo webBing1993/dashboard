@@ -38,10 +38,11 @@
               <el-form-item label="素材类型">
 
                 <el-radio-group v-model="form.mattertType" :disabled="viewStatus">
-                  <el-radio :label="item.code" :value="item.code" :key="item.code" v-for="(item,index) in Dateform.mattertType">{{item.name}}</el-radio>
+                  <el-radio :label="item.code" :value="item.code" :key="item.code"
+                            v-for="(item,index) in Dateform.mattertType">{{item.name}}
+                  </el-radio>
                 </el-radio-group>
               </el-form-item>
-
 
 
               <span class="people">针对人群</span>
@@ -54,8 +55,15 @@
                 </el-radio-group>
               </el-form-item>
               <el-form-item label="年龄段">
-                <span class="ageRange">
-                  <el-radio v-model="form.aimtAtAge" label="不限" :disabled="viewStatus">不限</el-radio>
+                <div class="agecount">
+                  <div>
+                    <el-radio-group v-model="form.aimtAtAge">
+                      <el-radio label="不限" :disabled="viewStatus">不限</el-radio>
+                      <el-radio label="特定年龄段" :disabled="viewStatus">特定年龄段</el-radio>
+                    </el-radio-group>
+                  </div>
+                  <span class="ageRange" v-if="form.aimtAtAge=='特定年龄段'">
+                  <!--<el-radio v-model="form.aimtAtAge" label="不限" :disabled="viewStatus">不限</el-radio>-->
                 <div class="ageNum">
                   <el-input-number :disabled="viewStatus" v-model="form.ageLow" :controls="false" :min="1"
                                    :max="200"></el-input-number>至
@@ -63,7 +71,8 @@
                                  :max="200"></el-input-number>岁
                 </div>
               </span>
-                <!--<span class="error">年龄段未设置</span>-->
+                </div>
+
               </el-form-item>
               <el-form-item label="广告商">
                 <el-select v-model="form.mattertListValue" placeholder="请选择广告商" size="100%" :disabled="viewStatus">
@@ -91,7 +100,7 @@
                 <el-button size="small" type="primary" :disabled="viewStatus">上传素材</el-button>
                 <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent"
                              style="margin-top:30px;"></el-progress>
-                <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus ":autoplay="playVideo"
+                <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus " :autoplay="playVideo"
                        :src="form.uplodGetUrl"></video>
               </el-upload>
 
@@ -99,8 +108,8 @@
           </div>
           <div slot="footer" class="dialog-footer" v-if="!viewStatus">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button v-if="!editStatus" type="primary" :disabled="!validateall"@click="save">保 存</el-button>
-            <el-button v-if="editStatus" type="primary" :disabled="!validateall"@click="handleEdit">确 认</el-button>
+            <el-button v-if="!editStatus" type="primary" :disabled="!validateall" @click="save">保 存</el-button>
+            <el-button v-if="editStatus" type="primary" :disabled="!validateall" @click="handleEdit">确 认</el-button>
           </div>
         </el-dialog>
       </div>
@@ -125,14 +134,15 @@
     components: {},
     data() {
       return {
-        title:"添加素材",
+        title: "添加素材",
+        showAgeNum: false,
         showAddContent: false,
         tableData: [],
         form: {
           mattertName: '',
           mattertType: true,
           aimtAtSex: '',
-          aimtAtAge: '',
+          aimtAtAge: '不限',
           ageLow: '',
           ageTop: '',
           mattertListValue: '',
@@ -193,10 +203,10 @@
       },
       validateall() {
         if (this.form.mattertName.length == 0 ||
-          this.form.mattertName.length > 30||
-          this.form.mattertListValue==''||
-          this.form.mattertAuditNum.length>99||
-          this.form.comment.length>99
+          this.form.mattertName.length > 30 ||
+          this.form.mattertListValue == '' ||
+          this.form.mattertAuditNum.length > 99 ||
+          this.form.comment.length > 99
 
         ) {
           return false
@@ -264,7 +274,7 @@
           pageSize: this.pageSize,
           onsuccess: body => {
             this.tableData = body.data.list
-            this.Total=body.data.total
+            this.Total = body.data.total
 
           }
         })
@@ -315,7 +325,7 @@
       },
 
       handleView(parm) {
-        this.title='查看';
+        this.title = '查看';
         this.currentTemp = []
         this.currentTemp = parm
         this.viewStatus = true
@@ -349,7 +359,7 @@
               });
             } else {
 //              title:"",
-              this.title='编辑素材';
+              this.title = '编辑素材';
               this.showAddContent = true;
               this.editStatus = true;
               this.viewStatus = false
@@ -412,11 +422,13 @@
         this.file = file
         console.log('file', file)
       },
+
       uploadError(response, file, fileList) {
         console.log('上传失败，请重试！1', response)
         console.log('上传失败，请重试！2', file)
         console.log('上传失败，请重试！3', fileList)
       },
+
       filterScriptSuccess(res, file, list) {
         console.log(res)
         if (res.data) {
@@ -430,7 +442,7 @@
         this.videoUploadPercent = parseInt(file.percentage.toFixed(0));
       },
     },
-
+    watch: {},
     mounted() {
       this.getMatterList()
       this.getAllCanSelectedCom()
@@ -494,6 +506,11 @@
           padding-top: 0px;
         }
         .el-input {
+        }
+        .agecount{
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
         .ageRange {
           display: flex;
