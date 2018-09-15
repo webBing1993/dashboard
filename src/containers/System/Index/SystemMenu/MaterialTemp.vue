@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <div class="top">
         <span>模板管理</span>
-        <el-button type="success" @click="showAddContent=true" class="button">添加模板</el-button>
+        <el-button type="success" @click="add()" class="button">添加模板</el-button>
       </div>
       <div class="tableList dataTable">
         <el-table
@@ -44,7 +44,7 @@
           <el-form-item label="二代证读卡间隔">
             <el-select v-model="Dateform.readInterval" placeholder="请选择">
               <el-option :label="item.value" v-for="(item ,index) in initDate.IdCardReadTime" :key="index"
-                         :value="item.id"></el-option>
+                         :value="item.value">{{item.value}}</el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="找脸模式">
@@ -119,7 +119,7 @@
         Dateform: {
           name: "",
           logoUrl: "",
-          readInterval: '',
+          readInterval: '2秒',
           searchMode: '找相似度最高',
           uploadOn: true,
           uploadLower: true,
@@ -144,6 +144,13 @@
           enctype: "multipart/form-data"
         }
       },
+      validateall() {
+        if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30) {
+          return false
+        } else {
+          return true
+        }
+      },
     },
     methods: {
       ...mapActions([
@@ -153,6 +160,19 @@
         'modifiTemp',
 
       ]),
+      add(){
+        this.showAddContent=true
+        this.Dateform.name=''
+        this.Dateform.logoUrl=''
+        this.Dateform.readInterval='2秒';
+        this.Dateform.searchMode='找相似度最高'
+        this.Dateform.uploadOn=true
+        this.Dateform.uploadLower=true
+        this.Dateform.remindFinish=false
+        this.Dateform.cardReal=true
+        this.Dateform.undocumentReal=true
+      },
+
       beforeUploadfilter(file) {
         this.file=file
         console.log('file',file)
@@ -182,6 +202,13 @@
       },
 
       saveTemplate() {
+        let tempcode='';
+        this.Dateform.readInterval
+        this.initDate.IdCardReadTime.map(item=>{
+
+        })
+
+
         let temo = {
           "name": this.Dateform.name,
           "logoUrl": this.Dateform.logoUrl,
@@ -228,17 +255,17 @@
         this.editStatus = true
         this.showAddContent = true
         this.Dateform = parm
-        console.log('this.Dateform', this.Dateform)
+        this.Dateform.searchMode='找相似度最高'
 
       },
 
-      validateall() {
-        if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30) {
-          return false
-        } else {
-          return true
-        }
-      },
+//      validateall() {
+//        if (this.Dateform.name.length == 0 || this.Dateform.name.length > 30) {
+//          return false
+//        } else {
+//          return true
+//        }
+//      },
 
 
     },
@@ -373,6 +400,22 @@
     .have-link {
       color: #3CC51F;
       cursor: pointer;
+    }
+    .el-button--default{
+      width: 160px;
+      height: 40px;
+      border-radius: 2px;
+    }
+    .el-button--primary{
+      background-color:#3CC51F ;
+      border: 1px solid #3CC51F;
+      width: 160px;
+      height: 40px;
+      border-radius: 2px;
+    }
+    /deep/.el-switch.is-checked .el-switch__core{
+      background-color:#3CC51F ;
+      border: 1px solid #3CC51F;
     }
   }
 </style>

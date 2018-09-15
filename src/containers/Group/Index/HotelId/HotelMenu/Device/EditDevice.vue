@@ -8,7 +8,7 @@
             v-for="(obj, index) of deviceTypeList"
             :key="obj.type_code"
             :label="obj.type_name"
-            :value="obj.type_code">
+            :value="obj.type_code">{{obj.type_name}}
           </el-option>
         </el-select>
       </div>
@@ -46,12 +46,12 @@
         </el-switch>
       </div>
 
-      <div class="content-item">
+      <div class="content-item" v-if="deviceType==24||deviceType==25||deviceType=='Windows人证核验机'||deviceType=='Android人证核验机'">
         <span>认证通模板</span>
         <el-select v-model="templateValue" placeholder="请选择">
           <el-option   v-for="(item ,index) in templateList"
                        :key="item.id"
-                       :label="item.id"
+                       :label="item.name"
                        :value="item.id">{{item.name}}
           </el-option>
         </el-select>
@@ -211,6 +211,18 @@
       },
 
       submitDialog() {
+//        let tempcode=''
+//        console.log('this.templateList',this.templateList)
+//        console.log('this.templateValue',this.templateValue)
+//        if(this.templateList){
+//          this.templateList.map(item=>{
+//            if(this.templateValue==item.name){
+//              tempcode=item.id
+//            }
+//          })
+//        }
+
+
         this.modifyDevice({
           hotel_id: '',
           device_id: this.deviceId,
@@ -260,15 +272,22 @@
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
             console.log('编辑时获取的设备code', body.data.type)
-            this.deviceTypeList.forEach(item => {
-              if (body.data.type == item.type_code) {
-                this.deviceType = item.type_name;
-                this.currentTargetCode = item.target_type_code
-              }
-            })
+            this.deviceType = body.data.type_name;
+//            this.templateValue=body.data.rzt_template
+            if(body.data.rzt_template){
+              this.templateList.map(item=>{
+                if(body.data.rzt_template==item.id){
+                  this.templateValue=item.name
+                }
+              })
+            }
+//            this.deviceTypeList.forEach(item => {
+//              if (body.data.type == item.type_code) {
+//                this.deviceType = item.type_name;
+//                this.currentTargetCode = item.target_type_code
+//              }
+//            })
 //
-            console.log('---->shi', this.deviceType)
-
             this.deviceId = body.data.id;
             this.currentCode = body.data.type;
             this.deviceName = body.data.name;
@@ -283,7 +302,17 @@
 
       modifyDevices() {
         if (this.submitDisabled) return;
-        console.log('确认编辑的code', this.currentCode)
+
+        let tempcode=''
+        console.log('this.templateList',this.templateList)
+        console.log('this.templateValue',this.templateValue)
+//        if(this.templateList){
+//          this.templateList.map(item=>{
+//            if(this.templateValue==item.name){
+//              tempcode=item.id
+//            }
+//          })
+//        }
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,

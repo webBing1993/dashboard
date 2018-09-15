@@ -286,10 +286,13 @@
           onsuccess: body => {
             console.log(body.data)
             let temp = []
-            this.selectedDevice = body.data.deviceAdvVos
-            this.selectedDevice.map(v => {
-              temp.push(v.id)
-            })
+            if(body.data.deviceAdvVos){
+              this.selectedDevice = body.data.deviceAdvVos
+              this.selectedDevice.map(v => {
+                temp.push(v.id)
+              })
+            }
+
             this.$nextTick(function () {
               this.selectedKey = temp
             })

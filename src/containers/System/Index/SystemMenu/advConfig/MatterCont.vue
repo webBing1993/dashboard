@@ -51,7 +51,7 @@
               </el-form-item>
               <el-form-item label="年龄段">
                 <span class="ageRange">
-                  <el-radio v-model="form.aimtAtAge" :disabled="viewStatus">不限</el-radio>
+                  <el-radio v-model="form.aimtAtAge" checked :disabled="viewStatus">不限</el-radio>
                 <div class="ageNum">
                   <el-input-number :disabled="viewStatus" v-model="form.ageLow" :controls="false" :min="1"
                                    :max="200"></el-input-number>至
@@ -125,8 +125,8 @@
         tableData: [],
         form: {
           mattertName: '',
-          mattertType: '',
-          aimtAtSex: '',
+          mattertType: 'sp',
+          aimtAtSex: 'nothing',
           aimtAtAge: '',
           ageLow: '',
           ageTop: '',

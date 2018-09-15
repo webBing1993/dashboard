@@ -13,8 +13,16 @@
           <el-table-column prop="advMaterialId" label="素材名"></el-table-column>
           <el-table-column prop="advScopeId" label="分组"></el-table-column>
           <el-table-column prop="showType" label="广告位"></el-table-column>
-          <el-table-column prop="beginTime" label="开始时间"></el-table-column>
-          <el-table-column prop="endTime" label="结束时间"></el-table-column>
+          <el-table-column prop="beginTime" label="开始时间">
+            <template slot-scope="scope">
+              <span>{{formatdate(scope.row.beginTime,'YYYY-MM-DD')}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column  label="结束时间">
+            <template slot-scope="scope">
+              <span>{{formatdate(scope.row.endTime,'YYYY-MM-DD')}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="status" label="状态"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -121,7 +129,7 @@
           dateRange: [],
           mattertListValue: '',
           GroupListValue: '',
-          advertising: [],
+          advertising: ['HOME_PAGE'],
           used: true
         },
         Dateform: {
@@ -244,6 +252,23 @@
             this.getPutInList()
           }
         })
+      },
+      formatdate(param, status) {
+        if (param) {
+          var date = new Date(param);
+          var Y = date.getFullYear() + '年';
+          var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月';
+          var D = date.getDate() + ' 日';
+          var h = date.getHours() + ':';
+          var m = date.getMinutes() + ':';
+          var s = date.getSeconds();
+          if (status == 'YYYY-MM-DD') {
+            return Y + M + D
+          } else {
+            return Y + M + D + h + m + s;
+          }
+
+        }
       },
 
     },
