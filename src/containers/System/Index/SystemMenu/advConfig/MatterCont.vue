@@ -637,7 +637,7 @@
         justify-content: flex-start;
         align-items: center;
         video{
-          margin-left: 20px;
+          margin-left: 60px;
         }
       }
     }
