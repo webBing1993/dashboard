@@ -47,7 +47,7 @@
       </div>
 
       <div class="content-item" v-if="deviceType==24||deviceType==25||deviceType=='Windows人证核验机'||deviceType=='Android人证核验机'">
-        <span>认证通模板</span>
+        <span>人证通模板</span>
         <el-select v-model="templateValue" placeholder="请选择">
           <el-option   v-for="(item ,index) in templateList"
                        :key="item.id"
