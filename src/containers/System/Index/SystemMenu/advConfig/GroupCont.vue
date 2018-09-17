@@ -210,11 +210,11 @@
         console.log('this.sendKeyList', this.sendKeyList)
         let temp = {
           "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
-          "deviceType": "",
-          "hotelIds": "",
-          "id": "",
+//          "deviceType": "",
+//          "hotelIds": "",
+//          "id": "",
           "name": this.form.groupName,
-          "status": ""
+//          "status": ""
         }
         this.saveGroup({
           data: temp,
@@ -242,11 +242,11 @@
       modify() {
         let temp = {
           "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
-          "deviceType": "",
-          "hotelIds": "",
-          "id": "",
+//          "deviceType": "",
+//          "hotelIds": "",
+//          "id": "",
           "name": this.form.groupName,
-          "status": ""
+//          "status": ""
         }
         this.modifyGroup({
           id: this.currentId,

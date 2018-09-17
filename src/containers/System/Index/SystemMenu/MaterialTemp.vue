@@ -37,7 +37,8 @@
               :before-upload='beforeUploadfilter'
               :on-success="filterScriptSuccess"
               :onError="uploadError"
-              :limit=1>
+              list-type="picture-card"
+              >
               <el-button size="small" type="primary">{{editStatus ? "重新上传logo" : "上传logo"}}</el-button>
             </el-upload>
           </el-form-item>
@@ -163,6 +164,7 @@
 
       ]),
       add() {
+        this.editStatus=false
         this.showAddContent = true
         this.Dateform.name = ''
         this.Dateform.logoUrl = ''
@@ -173,10 +175,11 @@
         this.Dateform.remindFinish = false
         this.Dateform.cardReal = true
         this.Dateform.undocumentReal = true
+
       },
 
       beforeUploadfilter(file) {
-        this.file = file
+//        this.file = file
         console.log('file', file)
       },
       uploadError(response, file, fileList) {
@@ -429,10 +432,18 @@
       width: 160px;
       height: 40px;
       border-radius: 2px;
+      margin-top: 80px;
     }
     /deep/ .el-switch.is-checked .el-switch__core {
       background-color: #3CC51F;
       border: 1px solid #3CC51F;
+    }
+    /deep/.el-upload--picture-card{
+      width: 100px;
+      height: 40px;
+      background: none;
+      border: none;
+      margin-top: -80px;
     }
   }
 </style>

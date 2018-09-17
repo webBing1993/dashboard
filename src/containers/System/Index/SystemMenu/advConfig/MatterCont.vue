@@ -96,7 +96,7 @@
                 :on-success="filterScriptSuccess"
                 :onError="uploadError"
                 :on-progress="uploadVideoProcess"
-                :limit=1>
+                list-type="picture-card">
                 <el-button size="small" type="primary" :disabled="viewStatus">上传素材</el-button>
                 <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent"
                              style="margin-top:30px;"></el-progress>
@@ -301,16 +301,16 @@
             "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
             "id": "string",
             "sexType": this.form.aimtAtSex,
-            "status": "未知",
+//            "status": "未知",
             "weight": 0
           },
-          "companyId": "未知",
-          "id": "未知",
+          "companyId": this.form.mattertListValue,
+//          "id": "未知",
           "name": this.form.mattertName,
           "remark": this.form.comment,
           "serialNumber": this.form.mattertAuditNum,
-          "source": "未知",
-          "status": "未知",
+//          "source": "未知",
+//          "status": "未知",
           "type": this.form.mattertType,
           "url": this.form.uplodGetUrl,
 
@@ -394,16 +394,16 @@
             "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
             "id": "string",
             "sexType": this.form.aimtAtSex,
-            "status": "未知",
+//            "status": "未知",
             "weight": 0
           },
-          "companyId": "未知",
-          "id": "未知",
+//          "companyId": "未知",
+//          "id": "未知",
           "name": this.form.mattertName,
           "remark": this.form.comment,
           "serialNumber": this.form.mattertAuditNum,
-          "source": "未知",
-          "status": "未知",
+//          "source": "未知",
+//          "status": "未知",
           "type": this.form.mattertType,
           "url": this.form.uplodGetUrl,
 
@@ -604,6 +604,14 @@
     .have-link {
       color: #3CC51F;
       cursor: pointer;
+    }
+    /deep/.el-upload--picture-card{
+      width: 100px;
+      height: 40px;
+      background: none;
+      border: none;
+      margin-top: -10px;
+      margin-bottom: 30px;
     }
     .paginationPage {
       width: 100%;

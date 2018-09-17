@@ -10,9 +10,14 @@
           :data="tableData"
           style="width: 100%" height="500px">
           <el-table-column prop="id" label="ID"></el-table-column>
-          <el-table-column prop="advMaterialId" label="素材名"></el-table-column>
-          <el-table-column prop="advScopeId" label="分组"></el-table-column>
-          <el-table-column prop="showType" label="广告位"></el-table-column>
+          <el-table-column prop="materialName" label="素材名"></el-table-column>
+          <el-table-column prop="scopeName" label="分组"></el-table-column>
+          <el-table-column prop="showType" label="广告位">
+            <template slot-scope="scope">
+              <span v-if="scope.row.showType=='HOME_PAGE'">首页</span>
+              <span v-if="scope.row.showType=='CHECK_PAGE'">核验页</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="beginTime" label="开始时间">
             <template slot-scope="scope">
               <span>{{formatdate(scope.row.beginTime,'YYYY-MM-DD')}}</span>
@@ -23,7 +28,11 @@
               <span>{{formatdate(scope.row.endTime,'YYYY-MM-DD')}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="status" label="状态"></el-table-column>
+          <el-table-column prop="" label="状态">
+            <template slot-scope="scope">
+              <span>{{scope.row.status=='OPEN'?'启用':'停用'}}</span>
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <span class="contral have-link" @click="handleEdit(scope.row)">编辑</span>
@@ -229,7 +238,7 @@
         this.form.mattertListValue = parm.advMaterialId;
         this.form.GroupListValue = parm.advScopeId;
          parm.showType.length>1?this.form.advertising=parm.showType.split(','):this.form.advertising.push(parm.showType);
-        this.form.used = parm.status;
+        this.form.used = parm.status=='OPEN'?true:false;
 
         console.log('this.form',this.form)
       },
