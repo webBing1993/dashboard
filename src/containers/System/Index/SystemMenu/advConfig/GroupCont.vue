@@ -195,6 +195,7 @@
 
       ]),
       addGroup() {
+        this.title='添加分组';
         this.showAddContent = true
         this.form.groupName = ''
         this.selectedDevice = []

@@ -35,6 +35,7 @@
               :show-file-list=false
               :headers="setHeader"
               :before-upload='beforeUploadfilter'
+              :on-preview="handlePictureCardPreview"
               :on-success="filterScriptSuccess"
               :onError="uploadError"
               list-type="picture-card"
@@ -192,6 +193,9 @@
         if (res.data) {
           this.Dateform.logoUrl = res.data;
         }
+      },
+      handlePictureCardPreview(file) {
+        this.Dateform.logoUrl= file.data;
       },
       handleClose() {
         this.showAddContent = false

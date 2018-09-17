@@ -169,7 +169,7 @@
           "beginTime": this.form.dateRange.length>0?this.form.dateRange[0]:" ",
           "endTime": this.form.dateRange.length>0?this.form.dateRange[1]:" ",
           "showType": this.form.advertising.join(','),
-          "status": this.form.used,
+          "status": this.form.used?"OPEN":'CLOSE',
         }
         this.putInStrategy({
           data: JSON.stringify(temp),
@@ -243,12 +243,13 @@
         console.log('this.form',this.form)
       },
       addPutIN(){
+        this.title='添加投放策略'
+
         this.showAddContent=true
         this.form.mattertListValue=''
         this.form.GroupListValue=''
         this.form.advertising=['HOME_PAGE']
         this.form.used=true
-        this.title='添加投放策略'
 
         this.getadvshowLocalList()
       },
@@ -259,7 +260,7 @@
           "beginTime": this.form.dateRange[0],
           "endTime": this.form.dateRange[1],
           "showType": this.form.advertising.length>0?this.form.advertising.join(','):"空",
-          "status": this.form.used,
+          "status": this.form.used?"OPEN":'CLOSE',
         }
         this.modifiPutIn({
           id: this.currentItem.id,

@@ -9,7 +9,7 @@
         <el-table
           :data="tableData"
           style="width: 100%">
-          <el-table-column prop="id" label="ID"></el-table-column>
+          <el-table-column label="ID" type="index"></el-table-column>
           <el-table-column prop="name" label="素材名"></el-table-column>
           <el-table-column prop="updateTime" label="更新时间">
             <template slot-scope="scope">
@@ -86,23 +86,32 @@
               <el-form-item label="备注">
                 <el-input :disabled="viewStatus" v-model="form.comment" placeholder="请输入备注"></el-input>
               </el-form-item>
+              <div class="upload">
+                <div class="rowContral">
+                  <el-upload
+                    class="upload-demo el-right"
+                    :action="scriptUpload"
+                    :show-file-list=false
+                    :before-upload='beforeUploadfilter'
+                    :headers="setHeader"
+                    :on-success="filterScriptSuccess"
+                    :on-preview="handlePictureCardPreview"
+                    :onError="uploadError"
+                    :on-progress="uploadVideoProcess"
+                    list-type="picture-card">
+                    <el-button size="small" type="primary" :disabled="viewStatus">上传素材</el-button>
 
-              <el-upload
-                class="upload-demo el-right"
-                :action="scriptUpload"
-                :show-file-list=false
-                :before-upload='beforeUploadfilter'
-                :headers="setHeader"
-                :on-success="filterScriptSuccess"
-                :onError="uploadError"
-                :on-progress="uploadVideoProcess"
-                list-type="picture-card">
-                <el-button size="small" type="primary" :disabled="viewStatus">上传素材</el-button>
+
+                  </el-upload>
+                  <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus " :autoplay="playVideo"
+                         :src="form.uplodGetUrl"></video>
+                </div>
+
                 <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent"
                              style="margin-top:30px;"></el-progress>
-                <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus " :autoplay="playVideo"
-                       :src="form.uplodGetUrl"></video>
-              </el-upload>
+              </div>
+
+
 
             </el-form>
           </div>
@@ -154,7 +163,7 @@
           mattertType: [
             {
               name: "视频",
-              code: "sp",
+              code: "VIDEO:",
             }
           ],
           aimtAtSex: [
@@ -230,7 +239,7 @@
       resetparm() {
         this.form = {
           mattertName: '',
-          mattertType: 'sp',
+          mattertType: 'VIDEO:',
           aimtAtSex: 'nothing',
           aimtAtAge: '不限',
           ageLow: '',
@@ -288,6 +297,7 @@
         })
       },
       add() {
+        this.title='添加素材'
         this.showAddContent = true
         this.resetparm()
       },
@@ -325,7 +335,7 @@
       },
 
       handleView(parm) {
-        this.title = '查看';
+        this.title = '查看素材';
         this.currentTemp = []
         this.currentTemp = parm
         this.viewStatus = true
@@ -336,10 +346,10 @@
 //            this.form.mattertName=
 //            this.form.mattertType=
             this.form.aimtAtSex = body.data.advMatch.sexType
-            this.form.aimtAtAge = body.data.advMatch.ageType
+            this.form.aimtAtAge = body.data.advMatch.ageType='PART'?'不限':'特定年龄段'
             this.form.ageLow = body.data.advMatch.ageBegin
             this.form.ageTop = body.data.advMatch.ageEnd
-//            this.form.mattertListValue=
+            this.form.mattertName = body.data.name
             this.form.comment = body.data.remark
             this.form.uplodGetUrl = body.data.url
           }
@@ -373,7 +383,7 @@
                   this.form.aimtAtAge = body.data.advMatch.ageType
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
-//            this.form.mattertListValue=
+            this.form.mattertListValue=body.data.companyId
                   this.form.mattertName = body.data.name
                   this.form.comment = body.data.remark
                   this.form.uplodGetUrl = body.data.url
@@ -419,8 +429,8 @@
       },
 
       beforeUploadfilter(file) {
-        this.file = file
-        console.log('file', file)
+//        this.file = file
+//        console.log('file', file)
       },
 
       uploadError(response, file, fileList) {
@@ -435,6 +445,10 @@
           this.form.uplodGetUrl = res.data;
           this.videoFlag = false;
         }
+      },
+      handlePictureCardPreview(file) {
+        this.form.uplodGetUrl = file.data;
+        this.videoFlag = false;
       },
       uploadVideoProcess(event, file, fileList) {
         console.log('filefilefile', file)
@@ -613,6 +627,21 @@
       margin-top: -10px;
       margin-bottom: 30px;
     }
+    .upload{
+      display: flex;
+      flex-direction: column;
+
+      .rowContral{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        video{
+          margin-left: 20px;
+        }
+      }
+    }
+
     .paginationPage {
       width: 100%;
       height: 100px;

@@ -28,7 +28,7 @@
             <div class="transfer">
               <el-form-item label="人证通模板">
                 <el-transfer v-model="HaveSelectedTemplateList"
-                             :titles="['所有设备', '已选设备']"
+                             :titles="['所有模板', '已选模板']"
                              :data="ALLTemplateList"></el-transfer>
               </el-form-item>
             </div>
