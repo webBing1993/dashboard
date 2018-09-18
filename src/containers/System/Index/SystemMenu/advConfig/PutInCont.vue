@@ -12,12 +12,7 @@
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="materialName" label="素材名"></el-table-column>
           <el-table-column prop="scopeName" label="分组"></el-table-column>
-          <el-table-column prop="showType" label="广告位">
-            <template slot-scope="scope">
-              <span v-if="scope.row.showType=='HOME_PAGE'">首页</span>
-              <span v-if="scope.row.showType=='CHECK_PAGE'">核验页</span>
-            </template>
-          </el-table-column>
+          <el-table-column prop="showTypeName" label="广告位"></el-table-column>
           <el-table-column prop="beginTime" label="开始时间">
             <template slot-scope="scope">
               <span>{{formatdate(scope.row.beginTime,'YYYY-MM-DD')}}</span>
@@ -76,8 +71,8 @@
           </el-form>
           <div slot="footer" class="dialog-footer">
             <el-button @click="showAddContent=false">取 消</el-button>
-            <el-button type="primary" v-if="!editStatus" @click="save">保 存</el-button>
-            <el-button type="primary" v-if="editStatus" @click="HandelModifiPutIn">确 认</el-button>
+            <el-button type="primary" v-if="!editStatus" :disabled="!validateall" @click="save">保 存</el-button>
+            <el-button type="primary" v-if="editStatus" :disabled="!validateall" @click="HandelModifiPutIn">确 认</el-button>
           </div>
         </el-dialog>
       </div>
@@ -112,9 +107,20 @@
     computed: {
       ...mapState([
         'route',
+
         'Interface'
       ]),
+      validateall() {
+        if (this.form.mattertListValue.length == 0 ||
+          this.form.GroupListValue.length == 0
 
+
+        ) {
+          return false
+        } else {
+          return true
+        }
+      },
     },
     data() {
       return {
@@ -154,6 +160,7 @@
     methods: {
       ...mapActions([
         'goto',
+        'showtoast',
         'putInList',
         'matterInList',
         'advGroupList',
@@ -163,21 +170,28 @@
 
       ]),
       save() {
-        let temp = {
-          "advMaterialId":this.form. mattertListValue,
-          "advScopeId": this.form. GroupListValue,
-          "beginTime": this.form.dateRange.length>0?this.form.dateRange[0]:" ",
-          "endTime": this.form.dateRange.length>0?this.form.dateRange[1]:" ",
-          "showType": this.form.advertising.join(','),
-          "status": this.form.used?"OPEN":'CLOSE',
-        }
-        this.putInStrategy({
-          data: JSON.stringify(temp),
-          onsuccess: body => {
-            this.showAddContent=false
-            this.getPutInList()
+        if( this.form.advertising.length == 0){
+          this.showtoast ({
+            text: '请选择广告位',
+            type: 'error'
+          })
+        }else {
+          let temp = {
+            "advMaterialId":this.form. mattertListValue,
+            "advScopeId": this.form. GroupListValue,
+            "beginTime": this.form.dateRange.length>0?this.form.dateRange[0]:" ",
+            "endTime": this.form.dateRange.length>0?this.form.dateRange[1]:" ",
+            "showType": this.form.advertising.join(','),
+            "status": this.form.used?"OPEN":'CLOSE',
           }
-        })
+          this.putInStrategy({
+            data: JSON.stringify(temp),
+            onsuccess: body => {
+              this.showAddContent=false
+              this.getPutInList()
+            }
+          })
+        }
       },
 
       currentChange(argum) {
@@ -194,9 +208,10 @@
           pageSize: this.pageSize,
           onsuccess: body => {
             this.tableData = body.data.list
-            this.Total=body.data.total
 
+            this.Total=body.data.total
           }
+
         })
       },
       getMatterInList() {

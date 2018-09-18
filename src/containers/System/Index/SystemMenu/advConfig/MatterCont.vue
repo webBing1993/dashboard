@@ -36,12 +36,14 @@
               </el-form-item>
 
               <el-form-item label="素材类型">
+                <el-radio v-model="form.mattertType" label="VIDEO">视频</el-radio>
 
-                <el-radio-group v-model="form.mattertType" :disabled="viewStatus">
-                  <el-radio :label="item.code" :value="item.code" :key="item.code"
-                            v-for="(item,index) in Dateform.mattertType">{{item.name}}
-                  </el-radio>
-                </el-radio-group>
+                <!--<el-radio-group v-model="form.mattertType" :disabled="viewStatus">-->
+                <!--<el-radio :label="item.code" :value="item.code" :key="item.code"-->
+                <!--v-for="(item,index) in Dateform.mattertType">{{item.name}}-->
+                <!--</el-radio>-->
+                <!--<el-radio label="VIDEO" :disabled="viewStatus">视频</el-radio>-->
+                <!--</el-radio-group>-->
               </el-form-item>
 
 
@@ -112,7 +114,6 @@
               </div>
 
 
-
             </el-form>
           </div>
           <div slot="footer" class="dialog-footer" v-if="!viewStatus">
@@ -149,7 +150,7 @@
         tableData: [],
         form: {
           mattertName: '',
-          mattertType: true,
+          mattertType: '',
           aimtAtSex: '',
           aimtAtAge: '不限',
           ageLow: '',
@@ -163,13 +164,13 @@
           mattertType: [
             {
               name: "视频",
-              code: "VIDEO:",
+              code: "VIDEO",
             }
           ],
           aimtAtSex: [
             {
               name: "男",
-              code: "man",
+              code: "MAN",
             },
             {
               name: "女",
@@ -297,7 +298,8 @@
         })
       },
       add() {
-        this.title='添加素材'
+        this.viewStatus = false
+        this.title = '添加素材'
         this.showAddContent = true
         this.resetparm()
       },
@@ -343,15 +345,17 @@
         this.viewMatter({
           id: parm.id,
           onsuccess: body => {
-//            this.form.mattertName=
-//            this.form.mattertType=
+            this.form.mattertType = body.data.type
             this.form.aimtAtSex = body.data.advMatch.sexType
-            this.form.aimtAtAge = body.data.advMatch.ageType='PART'?'不限':'特定年龄段'
+            this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
             this.form.ageLow = body.data.advMatch.ageBegin
             this.form.ageTop = body.data.advMatch.ageEnd
             this.form.mattertName = body.data.name
             this.form.comment = body.data.remark
             this.form.uplodGetUrl = body.data.url
+            this.form.mattertListValue = body.data.companyId
+            this.form.mattertAuditNum = body.data.serialNumber
+
           }
         })
 
@@ -378,12 +382,13 @@
                 id: parm.id,
                 onsuccess: body => {
 //            this.form.mattertName=
-//            this.form.mattertType=
+                  this.form.mattertType = body.data.type
                   this.form.aimtAtSex = body.data.advMatch.sexType
-                  this.form.aimtAtAge = body.data.advMatch.ageType
+                  this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
-            this.form.mattertListValue=body.data.companyId
+                  this.form.mattertListValue = body.data.companyId
+                  this.form.mattertAuditNum = body.data.serialNumber
                   this.form.mattertName = body.data.name
                   this.form.comment = body.data.remark
                   this.form.uplodGetUrl = body.data.url
@@ -521,7 +526,7 @@
         }
         .el-input {
         }
-        .agecount{
+        .agecount {
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -619,7 +624,7 @@
       color: #3CC51F;
       cursor: pointer;
     }
-    /deep/.el-upload--picture-card{
+    /deep/ .el-upload--picture-card {
       width: 100px;
       height: 40px;
       background: none;
@@ -627,16 +632,16 @@
       margin-top: -10px;
       margin-bottom: 30px;
     }
-    .upload{
+    .upload {
       display: flex;
       flex-direction: column;
 
-      .rowContral{
+      .rowContral {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        video{
+        video {
           margin-left: 60px;
         }
       }

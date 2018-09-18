@@ -25,7 +25,7 @@
         <!--<div class="rec">-->
         <el-form ref="form" :model="form" label-width="180px" labelPosition="left">
           <el-form-item label="模板名称">
-            <el-input v-model="Dateform.name"></el-input>
+            <el-input v-model="Dateform.name" maxlength="30"minlength="1" ></el-input>
           </el-form-item>
           <el-form-item label="上传信息">
             <img style="width: 100px;height: 100px" :src="Dateform.logoUrl" alt="">

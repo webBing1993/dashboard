@@ -76,11 +76,6 @@
                           v-model="filterKey">
                         </el-input>
                         <el-form-item label="">
-                          <!--<el-checkbox-group v-model="sendKeyList" @change="getkey">-->
-                          <!--<el-checkbox :label="item.id"-->
-                          <!--:value="item.id"-->
-                          <!--:key="item.id" v-for="(item ,index) in selectedDevice" >{{item.label}}-->
-                          <!--</el-checkbox>-->
                           <div v-for="(item ,index) in selectedDevice" class="selected-item">
                             <span>{{item.label}}</span>
                             <span class="el-icon-close" @click="delSel(item)"></span>
@@ -541,13 +536,20 @@
             /deep/ .el-tree__empty-text {
               display: none;
             }
+            /deep/.el-tree-node>.el-tree-node__children{
+              overflow: inherit;
+            }
+            .el-tree-node__content{
+              width: 100%;
+            }
             .selected-item {
               width: 100%;
+              width: 220px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
               align-items: center;
-              height: 30px;
+              min-height: 30px;
               span {
                 display: block;
               }
