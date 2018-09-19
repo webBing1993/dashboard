@@ -353,7 +353,7 @@
             this.form.mattertName = body.data.name
             this.form.comment = body.data.remark
             this.form.uplodGetUrl = body.data.url
-            this.form.mattertListValue = body.data.companyId
+            this.form.mattertListValue = body.data.companyName
             this.form.mattertAuditNum = body.data.serialNumber
 
           }
@@ -387,7 +387,7 @@
                   this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
-                  this.form.mattertListValue = body.data.companyId
+                  this.form.mattertListValue = body.data.companyName
                   this.form.mattertAuditNum = body.data.serialNumber
                   this.form.mattertName = body.data.name
                   this.form.comment = body.data.remark
@@ -412,7 +412,7 @@
 //            "status": "未知",
             "weight": 0
           },
-//          "companyId": "未知",
+          "companyId": this.form.mattertListValue,
 //          "id": "未知",
           "name": this.form.mattertName,
           "remark": this.form.comment,
@@ -515,7 +515,7 @@
 
           .el-dialog__headerbtn {
             font-size: 24px;
-            top: 10px;
+            /*top: 10px;*/
             padding: 0;
 
           }

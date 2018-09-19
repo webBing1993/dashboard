@@ -269,22 +269,30 @@
         this.getadvshowLocalList()
       },
       HandelModifiPutIn(){
-        let temp = {
-          "advMaterialId":this.form. mattertListValue,
-          "advScopeId": this.form. GroupListValue,
-          "beginTime": this.form.dateRange[0],
-          "endTime": this.form.dateRange[1],
-          "showType": this.form.advertising.length>0?this.form.advertising.join(','):"空",
-          "status": this.form.used?"OPEN":'CLOSE',
-        }
-        this.modifiPutIn({
-          id: this.currentItem.id,
-          data: temp,
-          onsuccess: body => {
-            this.showAddContent = false;
-            this.getPutInList()
+        if( this.form.advertising.length == 0){
+          this.showtoast ({
+            text: '请选择广告位',
+            type: 'error'
+          })
+        }else {
+          let temp = {
+            "advMaterialId":this.form. mattertListValue,
+            "advScopeId": this.form. GroupListValue,
+            "beginTime": this.form.dateRange[0],
+            "endTime": this.form.dateRange[1],
+            "showType": this.form.advertising.length>0?this.form.advertising.join(','):" ",
+            "status": this.form.used?"OPEN":'CLOSE',
           }
-        })
+          this.modifiPutIn({
+            id: this.currentItem.id,
+            data: temp,
+            onsuccess: body => {
+              this.showAddContent = false;
+              this.getPutInList()
+            }
+          })
+        }
+
       },
       formatdate(param, status) {
         if (param) {
@@ -371,7 +379,7 @@
 
           .el-dialog__headerbtn {
             font-size: 24px;
-            top: 10px;
+            /*top: 10px;*/
             padding: 0;
 
           }

@@ -357,7 +357,7 @@
 
           .el-dialog__headerbtn {
             font-size: 24px;
-            top: 10px;
+            /*top: 10px;*/
             padding: 0;
 
           }

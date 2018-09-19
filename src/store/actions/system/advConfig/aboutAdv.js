@@ -105,7 +105,7 @@ module.exports = {
 
   groupContList(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/advScopes`,
+      url: `/advScopes?page=${param.page}&pageSize=${param.pageSize}`,
       method: 'GET',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })
@@ -178,7 +178,7 @@ module.exports = {
 // 获取广告组
   advGroupList(ctx, param) {
     ctx.dispatch('resource', {
-      url: `/advScopes`,
+      url: `/advScopes?page=1&pageSize=100`,
       method: 'GET',
       onSuccess: body => (param.onsuccess ? param.onsuccess(body) : null)
     })

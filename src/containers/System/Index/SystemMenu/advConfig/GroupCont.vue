@@ -34,12 +34,12 @@
                     <div class="title">
                       <!--<el-checkbox>所有设备</el-checkbox>-->
                       <span>所有设备</span>
-                      <span></span>
+                      <span>{{deviceTotle}}</span>
                     </div>
                     <div class="leftTree common">
                       <div class="treeBody">
                         <el-input
-                          placeholder="输入关键字进行过滤"
+                          placeholder="输入设备名称"
                           v-model="filterKey">
                         </el-input>
                         <div class="tree-detail">
@@ -51,7 +51,8 @@
                             :props="props"
                             @check="checkNode"
                             show-checkbox>
-                            <!---->
+                            <!-- :check-strictly="checkStrictly"
+-->
 
                           </el-tree>
                         </div>
@@ -71,10 +72,10 @@
                     </div>
                     <div class="rightList common">
                       <div class="treeBody">
-                        <el-input
-                          placeholder="输入关键字进行过滤"
-                          v-model="filterKey">
-                        </el-input>
+                        <!--<el-input-->
+                          <!--placeholder="输入关键字进行过滤"-->
+                          <!--v-model="filterKey">-->
+                        <!--</el-input>-->
                         <el-form-item label="">
                           <div v-for="(item ,index) in selectedDevice" class="selected-item">
                             <span>{{item.label}}</span>
@@ -100,6 +101,23 @@
         </div>
       </el-dialog>
 
+      <div class="paginationPage">
+        <!--<el-pagination-->
+        <!--:page-size="pageSize"-->
+        <!--:pager-count="11"-->
+        <!--layout="prev, pager, next"-->
+        <!--:total="Total">-->
+        <!--</el-pagination>-->
+
+        <el-pagination
+          :page-size="pageSize"
+          :total="Total"
+          @current-change="currentChange"
+          layout="prev, pager, next"
+        >
+        </el-pagination>
+
+      </div>
 
     </div>
 
@@ -112,9 +130,14 @@
     components: {},
     data() {
       return {
-        title:'添加分组',
+        pageSize: 10,
+        currentPage: 1,
+        Total: 0,
+        title: '添加分组',
+        deviceTotle:0,
         error: false,
         showAddContent: false,
+        checkStrictly: true,
         tableData: [],
         form: {
           groupName: '',
@@ -190,7 +213,7 @@
 
       ]),
       addGroup() {
-        this.title='添加分组';
+        this.title = '添加分组';
         this.showAddContent = true
         this.form.groupName = ''
         this.selectedDevice = []
@@ -203,14 +226,19 @@
       },
 
       save() {
-        console.log('this.sendKeyList', this.sendKeyList)
+//        "hotelId-24fa3cb6eb704f48a5a8e5099a692245-4CCD753EF2441F48D7B87123588CA790"
+        let temp1=[]
+        this.sendKeyList.map(item=>{
+          temp1.push(item.substring(8,item.length))
+        })
+        this.sendKeyList=temp1
+//        console.log('this.sendKeyList', this.sendKeyList)
+//        console.log('this.sendKeyList', temp1)
+
+
         let temp = {
           "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
-//          "deviceType": "",
-//          "hotelIds": "",
-//          "id": "",
           "name": this.form.groupName,
-//          "status": ""
         }
         this.saveGroup({
           data: temp,
@@ -236,13 +264,14 @@
       },
 
       modify() {
+        let temp1=[]
+        this.sendKeyList.map(item=>{
+          temp1.push(item.substring(8,item.length))
+        })
+        this.sendKeyList=temp1
         let temp = {
           "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
-//          "deviceType": "",
-//          "hotelIds": "",
-//          "id": "",
           "name": this.form.groupName,
-//          "status": ""
         }
         this.modifyGroup({
           id: this.currentId,
@@ -254,10 +283,24 @@
         })
       },
 
+      currentChange(argum) {
+        console.log('当前', argum)
+        this.currentPage = argum
+        this.$nextTick(function () {
+          this.getGroupContList()
+        })
+
+      },
+
       getGroupContList() {
         this.groupContList({
+          page: this.currentPage,
+          pageSize: this.pageSize,
           onsuccess: body => {
             this.tableData = body.data.list
+            this.Total = body.data.total
+
+
           }
         })
       },
@@ -266,12 +309,13 @@
         this.hotelTree({
           onsuccess: body => {
             this.equTree = body.data
+            this.deviceTotle=body.data[0].deviceCount
           }
         })
       },
 
       handleEdit(parm) {
-        this.title='编辑分组'
+        this.title = '编辑分组'
         this.selectedDevice = []
         this.selectedKey = []
         this.showAddContent = true;
@@ -284,7 +328,7 @@
           onsuccess: body => {
             console.log(body.data)
             let temp = []
-            if(body.data.deviceAdvVos){
+            if (body.data.deviceAdvVos) {
               this.selectedDevice = body.data.deviceAdvVos
               this.selectedDevice.map(v => {
                 temp.push(v.id)
@@ -300,54 +344,75 @@
       },
 
       checkNode(parm1, parm2) {
-        console.log("parm2", parm2)
-
-        if (this.selectedKey.indexOf(parm1.id) == -1) {
-          this.selectedKey.push(parm1.id)
-          console.log('首次点击')
-          if (parm1.children) {    //非叶子节点
-            this.devicesList({
-              hotelid: parm1.id,
-              onsuccess: body => {
-                let temp = []
-                parm1.children = []
-                temp = body.data
-                if (temp.length > 0) {
-                  temp.map(i => {
-                    i.id = parm1.id + '-' + i.id
-                    i.label = parm1.label + '-' + i.label
-
-                  })
-                  console.log('temptemp', temp)
-                  this.$nextTick(function () {
-                    parm1.children = temp
-                  })
-
-                }
-              }
-            })
-          } else {//叶子节点
-            this.$nextTick(function () {
-              let tempnode = []
-              if (parm2.checkedNodes.length > 0) {
-                this.selectedDevice = []
-                parm2.checkedNodes.map(item => {
-                  if (!item.children) {
-                    tempnode.push(item)
-                  }
-                })
-              }
-              this.selectedDevice = tempnode
-              this.sendKeyList = []
-              this.selectedDevice.map(v => {
-                this.sendKeyList.push(v.id)
-              })
-
-            })
+        console.log("parm2", parm1)
+        this.selectedDevice = []
+        this.sendKeyList = []
+        parm2.checkedNodes.map(v => {
+          if (!v.children) {
+            this.selectedDevice.push(v)
+            this.sendKeyList.push(v.id)
           }
-        } else {
-          console.log('非首次点击')
-        }
+        })
+//        this.selectedDevice=parm2.checkedNodes
+//        if (this.selectedKey.indexOf(parm1.id) == -1) {
+//          this.selectedKey.push(parm1.id)
+//          console.log('首次点击')
+//          if (parm1.children) {    //非叶子节点
+//            if (parm1.id.indexOf('cityId') == -1) {
+//              this.devicesList({
+//                hotelid: parm1.id.split("-")[1],
+//                onsuccess: body => {
+//                  let temp = []
+//                  parm1.children = []
+//                  temp = body.data
+//                  if (temp.length > 0) {
+//                    temp.map(i => {
+//                      i.id = parm1.id + '-' + i.id
+//                      i.label = parm1.label + '-' + i.label
+//
+//                    })
+//                    console.log('temptemp', temp)
+//                    this.$nextTick(function () {
+//                      parm1.children = temp
+//                    })
+//
+//                  }
+//                }
+//              })
+//            }
+//
+//          } else {//叶子节点
+//            this.$nextTick(function () {
+//              let tempnode = []
+//              if (parm2.checkedNodes.length > 0) {
+//                this.selectedDevice = []
+//                parm2.checkedNodes.map(item => {
+//                  if (!item.children) {
+//                    tempnode.push(item)
+//                  }
+//                })
+//              }
+//              this.selectedDevice = tempnode
+//              this.sendKeyList = []
+//              this.selectedDevice.map(v => {
+//                this.sendKeyList.push(v.id)
+//              })
+//
+//            })
+//          }
+//        }
+//        else {
+//          console.log('非首次点击')
+//          this.selectedDevice =[]
+//          this.sendKeyList =[]
+//            parm2.checkedNodes.map(v => {
+//              if(!v.children){
+//                this.selectedDevice.push(v)
+//                this.sendKeyList.push(v.id)
+//              }
+//          })
+//
+//        }
 
 
       },
@@ -432,7 +497,7 @@
 
       .el-dialog__headerbtn {
         font-size: 24px;
-        top: 10px;
+        /*top: 10px;*/
         padding: 0;
 
       }
@@ -536,15 +601,16 @@
             /deep/ .el-tree__empty-text {
               display: none;
             }
-            /deep/.el-tree-node>.el-tree-node__children{
+            /deep/ .el-tree-node > .el-tree-node__children {
               overflow: inherit;
             }
-            .el-tree-node__content{
+            .el-tree-node__content {
               width: 100%;
             }
             .selected-item {
               width: 100%;
               width: 220px;
+              line-height: 20px;
               display: flex;
               flex-direction: row;
               justify-content: space-between;
@@ -568,6 +634,25 @@
   .have-link {
     color: #3CC51F;
     cursor: pointer;
+  }
+
+  .paginationPage {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    .el-pagination {
+      text-align: center;
+      /*position: absolute;*/
+      /*left: 0;*/
+      /*right: 0;*/
+      /*bottom: 0;*/
+      box-sizing: border-box;
+      width: 100%;
+      line-height: 50px;
+    }
   }
 
 </style>
