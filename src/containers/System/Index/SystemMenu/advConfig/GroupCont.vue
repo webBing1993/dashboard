@@ -73,12 +73,12 @@
                     <div class="rightList common">
                       <div class="treeBody">
                         <!--<el-input-->
-                          <!--placeholder="输入关键字进行过滤"-->
-                          <!--v-model="filterKey">-->
+                        <!--placeholder="输入关键字进行过滤"-->
+                        <!--v-model="filterKey">-->
                         <!--</el-input>-->
                         <el-form-item label="">
                           <div v-for="(item ,index) in selectedDevice" class="selected-item">
-                            <span>{{item.label}}</span>
+                            <span>{{item.label2 ? item.label2 : item.label}}</span>
                             <span class="el-icon-close" @click="delSel(item)"></span>
                           </div>
                           <!--</el-checkbox-group>-->
@@ -134,7 +134,7 @@
         currentPage: 1,
         Total: 0,
         title: '添加分组',
-        deviceTotle:0,
+        deviceTotle: 0,
         error: false,
         showAddContent: false,
         checkStrictly: true,
@@ -227,11 +227,11 @@
 
       save() {
 //        "hotelId-24fa3cb6eb704f48a5a8e5099a692245-4CCD753EF2441F48D7B87123588CA790"
-        let temp1=[]
-        this.sendKeyList.map(item=>{
-          temp1.push(item.substring(8,item.length))
-        })
-        this.sendKeyList=temp1
+//        let temp1=[]
+//        this.sendKeyList.map(item=>{
+//          temp1.push(item.substring(8,item.length))
+//        })
+//        this.sendKeyList=temp1
 //        console.log('this.sendKeyList', this.sendKeyList)
 //        console.log('this.sendKeyList', temp1)
 
@@ -264,11 +264,11 @@
       },
 
       modify() {
-        let temp1=[]
-        this.sendKeyList.map(item=>{
-          temp1.push(item.substring(8,item.length))
-        })
-        this.sendKeyList=temp1
+//        let temp1=[]
+//        this.sendKeyList.map(item=>{
+//          temp1.push(item.substring(8,item.length))
+//        })
+//        this.sendKeyList=temp1
         let temp = {
           "deviceIds": this.sendKeyList.length > 0 ? this.sendKeyList.join(',') : "",
           "name": this.form.groupName,
@@ -309,7 +309,7 @@
         this.hotelTree({
           onsuccess: body => {
             this.equTree = body.data
-            this.deviceTotle=body.data[0].deviceCount
+            this.deviceTotle = body.data[0].deviceCount
           }
         })
       },
@@ -344,7 +344,7 @@
       },
 
       checkNode(parm1, parm2) {
-        console.log("parm2", parm1)
+        console.log("parm2", parm2)
         this.selectedDevice = []
         this.sendKeyList = []
         parm2.checkedNodes.map(v => {
@@ -353,67 +353,6 @@
             this.sendKeyList.push(v.id)
           }
         })
-//        this.selectedDevice=parm2.checkedNodes
-//        if (this.selectedKey.indexOf(parm1.id) == -1) {
-//          this.selectedKey.push(parm1.id)
-//          console.log('首次点击')
-//          if (parm1.children) {    //非叶子节点
-//            if (parm1.id.indexOf('cityId') == -1) {
-//              this.devicesList({
-//                hotelid: parm1.id.split("-")[1],
-//                onsuccess: body => {
-//                  let temp = []
-//                  parm1.children = []
-//                  temp = body.data
-//                  if (temp.length > 0) {
-//                    temp.map(i => {
-//                      i.id = parm1.id + '-' + i.id
-//                      i.label = parm1.label + '-' + i.label
-//
-//                    })
-//                    console.log('temptemp', temp)
-//                    this.$nextTick(function () {
-//                      parm1.children = temp
-//                    })
-//
-//                  }
-//                }
-//              })
-//            }
-//
-//          } else {//叶子节点
-//            this.$nextTick(function () {
-//              let tempnode = []
-//              if (parm2.checkedNodes.length > 0) {
-//                this.selectedDevice = []
-//                parm2.checkedNodes.map(item => {
-//                  if (!item.children) {
-//                    tempnode.push(item)
-//                  }
-//                })
-//              }
-//              this.selectedDevice = tempnode
-//              this.sendKeyList = []
-//              this.selectedDevice.map(v => {
-//                this.sendKeyList.push(v.id)
-//              })
-//
-//            })
-//          }
-//        }
-//        else {
-//          console.log('非首次点击')
-//          this.selectedDevice =[]
-//          this.sendKeyList =[]
-//            parm2.checkedNodes.map(v => {
-//              if(!v.children){
-//                this.selectedDevice.push(v)
-//                this.sendKeyList.push(v.id)
-//              }
-//          })
-//
-//        }
-
 
       },
 
@@ -497,7 +436,7 @@
 
       .el-dialog__headerbtn {
         font-size: 24px;
-        top:0px;
+        top: 0px;
         padding: 0;
 
       }
@@ -656,3 +595,4 @@
   }
 
 </style>
+
