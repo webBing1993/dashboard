@@ -7,7 +7,11 @@ import store from './store';
 
 import VeeValidate from 'vee-validate';
 
-Vue.use(VeeValidate);
+// Vue.use(VeeValidate);
+const config = {
+  fieldsBagName: 'vee-fields'
+}
+Vue.use(VeeValidate, config)
 
 // Mockdata
 // import './mock';
@@ -15,7 +19,9 @@ Vue.use(VeeValidate);
 Vue.config.productionTip = false
 
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+// import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
+
 
 Vue.use(ElementUI)
 

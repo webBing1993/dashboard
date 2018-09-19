@@ -87,7 +87,8 @@ module.exports = {
         device_name: param.device_name,
         mac_address: param.mac_address,
         partner_id: param.partner_id,
-        enabled: param.enabled
+        enabled: param.enabled,
+        rzt_template: param.rzt_template
       },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
@@ -134,7 +135,8 @@ module.exports = {
         device_name: param.device_name,
         mac_address: param.mac_address,
         partner_id: param.partner_id,
-        enabled: param.enabled
+        enabled: param.enabled,
+        rzt_template: param.rzt_template
       },
       onSuccess: body => {
         ctx.dispatch('showtoast', {text: '修改成功', type:'success'});

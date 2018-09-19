@@ -9,5 +9,7 @@ module.exports = {
     ...require('./prodVersion'),
     ...require('./prodBaseConfig'),
     ...require('./prodVersion'),
-    ...require('./lvyeOnlineManage')
+    ...require('./lvyeOnlineManage'),
+    ...require('./rztTemplate'),
+    ...require('./advConfig/aboutAdv'),
 }

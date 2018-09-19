@@ -10,11 +10,17 @@
       <router-link to="/system/prodVersion">产品版本</router-link>
       <span class="account">产品配置</span>
       <router-link to="/system/prodBaseConfig">产品基本配置</router-link>
-
       <router-link to="/system/lvyeCop">旅业公司管理</router-link>
       <router-link to="/system/lvyeStaff">旅业员工管理</router-link>
+      <router-link to="/system/materialTemp">人证通模板</router-link>
+      <span class="account">广告配置</span>
+      <router-link to="/system/advcont">广告商管理</router-link>
+      <router-link to="/system/mattercont">素材管理</router-link>
+      <router-link to="/system/groupcont">分组管理</router-link>
+      <router-link to="/system/putIn">投放管理</router-link>
     </aside>
     <router-view class="fourth-router"/>
+
 
   </div>
 </template>

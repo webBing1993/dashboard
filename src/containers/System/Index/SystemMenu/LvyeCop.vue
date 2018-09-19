@@ -1,1 +1,340 @@
-<template>  <div>    <div class="module-wrapper">      <div class="top">        <span>旅业公司</span>        <el-button type="success" @click.native="addLvyeCop" class="button">添 加</el-button>      </div>      <table-lvyeCop :list='lvyeCopList' @edit="editItem" @del="delItem"></table-lvyeCop>    </div>    <el-dialog title="添加旅业公司"               :visible.sync="showAddContent"               :close-on-click-modal="false"               :close-on-press-escape="false"               :show-close="true"               width=""               @close="handleClose"               center>      <div class="rec">        <div class="item-form">          <span class="itemTitle">编码</span>          <el-input v-model="copCode" placeholder="请输入编码" class="input" :disabled="flag"></el-input>        </div>        <div class="item-form">          <span class="itemTitle">名称</span>          <el-input v-model="copName" placeholder="请输入旅业公司名称" class="input"></el-input>        </div>      </div>      <div slot="footer" class="dialog-footer">        <el-button @click="showAddContent=false">取 消</el-button>        <el-button type="primary" @click="save" :disabled="validate">保 存</el-button>      </div>    </el-dialog>  </div></template><script>    import {mapActions,mapState} from 'vuex'    export default {        components:{        },        data(){            return{                showAddContent:false,                copCode:'',                copName:'',                lvyeCopList:[],                flag:true            }        },        methods:{            ...mapActions([                'goto',                'getLvyeCopList',                'saveLvyeCopInfo',                'delLvyeCopInfo',                'updateLvyeCopInfo'            ]),            save(){                if(!this.flag){                    this.saveLvyeCopInfo({                        data:{                            code:this.copCode,                            name:this.copName                        },                        onsuccess:body=>{                            this.showAddContent=false;                            this.getLvyeCopLists()                        }                    });                } else {                    this.updateLvyeCopInfo({                        data:{                            code:this.copCode,                            name:this.copName                        },                        onsuccess:body=>{                            this.showAddContent=false;                            this.getLvyeCopLists()                        }                    })                }            },            editItem(obj){                this.showAddContent=true;                this.flag=true;                this.copCode=obj.code;                this.copName=obj.name;            },            delItem(obj){                this.delLvyeCopInfo({                    code:obj.code,                    onsuccess:body=>{                        this.showAddContent=false;                        this.getLvyeCopLists()                    }                })            },            handleClose(){            },            //添加旅业酒店            addLvyeCop(){                this.showAddContent=true;                this.flag=false                this.copCode='';                this.copName='';            },            //获取旅业酒店列表            getLvyeCopLists(){                this.getLvyeCopList({                    onsuccess:body=>{                        this.lvyeCopList=body.data                    }                })            }        },        computed:{            ...mapState([                'route',                'Interface'            ]),            validate(){                if(this.copCode==''||this.copName==''){                    return true                }            }        },        mounted(){              this.getLvyeCopLists()        }    }</script><style lang="less" scoped>  .module-wrapper{    padding: 1rem;    .top{      line-height: 3rem;      height: 3rem;      margin-bottom: 1rem;      span{        font-weight: bold;        font-size: 16px;      }    }    .el-button {      &.button {        float: right;        width: 12rem;      }    }    .el-dialog {      width: 65%;      .el-dialog__header {        padding: 0 20px;        border-bottom: solid 1px #979797;        .el-dialog__title {          line-height: 43px;          font-size: 16px;          font-weight: 400;          color: #4A4A4A;        }        .el-dialog__headerbtn {          padding-top: 12px;        }      }      .recCheckbox {        .el-checkbox {          margin-left: 0;          margin-right: 1.5rem;        }      }      .el-icon-search {        height: 85%;      }      .el-transfer-panel__filter {        padding: 0.2rem 1rem 1.1rem 1rem;        width: 100%;      }      .el-input__inner {        -webkit-appearance: none;        -moz-appearance: none;        appearance: none;        background-color: #fff;        background-image: none;        border-radius: 4px;        border: 1px solid #bfcbd9;        box-sizing: border-box;        color: #1f2d3d;        font-size: inherit;        height: 36px;      }      .el-dialog__body {        padding: 0 20px 33px;        .rec {          padding: 1rem 0;          font-size: 14px;          font-weight: 400;          color: #4A4A4A;          .departLine {            margin: 1rem 10rem 2rem 5.5rem;            border-top: 1px solid #dadada;          }          .item-form {            display: flex;            align-items: center;            margin-top: 10px;            margin-bottom: 10px;            .itemTitle {              display: inline-block;              min-width: 75px;            }            .el-select {              width: 80%;              .el-option {                width: 80%;              }            }            .el-input {              width: 100%;            }            .el-switch {              margin-left: 16px;            }            .el-checkbox-group {              .el-checkbox__inner {                display: inline-block;                min-width: 0.2rem;                min-height: 0.2rem;              }            }            .input {              width: 80%;            }            .text {              resize: none;              min-height: 100px;              padding: 0.5rem;              border-color: #a9bdd1;              width: 80%            }          }          article {            ul {              font-size: 14px;              color: #9B9B9B;              margin-left: 41px;              line-height: 22px;              li {                margin-left: 20px;              }            }          }          .item_large {            display: flex;            align-items: center;            margin-bottom: 10px;            span {              min-width: 194px;              text-align: end;            }            .el-input {              width: 60%;            }          }          .item-tag2 {            display: flex;            align-items: center;            margin-bottom: 10px;            & > span {              display: inline-block;              min-width: 110px;              text-align: end;            }            .tag-input {              position: relative;              margin-left: 16px;              width: 70%;              .el-input {                width: 100%;                margin: 0 0 12px 0;              }              .tag-btn {                position: absolute;                bottom: 20px;                right: -62px;                button {                  border-radius: 50px;                  outline: none;                  border: solid 1px;                  margin-left: 5px;                  padding-bottom: 2px;                  background-color: #ffffff;                  height: 20px;                  width: 20px;                }              }            }          }        }        .rec:not(:last-child) {          border-bottom: solid 1px #979797;;        }      }    }    .el-dialog__footer {      padding: 10px 20px 28px;      .dialog-footer {        text-align: center;        .el-button {          width: 246px;          border-radius: 0;          line-height: 18px;          margin: 0;          &:nth-child(1) {            margin-right: 22px;          }          &:nth-child(2) {            background-color: #39C240;            border-color: #39C240;            color: #ffffff;          }        }        .el-button--primary {          background-color: transparent;          border: solid 1px #979797;          color: #4A4A4A;        }      }    }  }</style>
+<template>
+  <div>
+    <div class="module-wrapper">
+      <div class="top">
+        <span>旅业公司</span>
+        <el-button type="success" @click.native="addLvyeCop" class="button">添 加</el-button>
+      </div>
+      <table-lvyeCop :list='lvyeCopList' @edit="editItem" @del="delItem"></table-lvyeCop>
+    </div>
+    <div class="dialogModel">
+      <el-dialog title="添加旅业公司"
+                 :visible.sync="showAddContent"
+                 :close-on-click-modal="false"
+                 :close-on-press-escape="false"
+                 :show-close="true"
+                 width=""
+                 @close="handleClose"
+                 center>
+        <div class="rec">
+          <el-form ref="form" label-width="100px" labelPosition="left">
+            <el-form-item label="编码">
+              <el-input v-model="copCode" placeholder="请输入编码" class="input"
+                        :disabled="flag"></el-input>
+            </el-form-item>
+            <el-form-item label="名称">
+              <el-input v-model="copName" placeholder="请输入旅业公司名称" class="input"></el-input>
+            </el-form-item>
+            <div class="transfer">
+              <el-form-item label="人证通模板">
+                <el-transfer v-model="HaveSelectedTemplateList"
+                             :titles="['所有模板', '已选模板']"
+                             :data="ALLTemplateList"></el-transfer>
+              </el-form-item>
+            </div>
+
+          </el-form>
+
+
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="showAddContent=false">取 消</el-button>
+          <el-button type="primary" @click="save" :disabled="validate">保 存</el-button>
+        </div>
+      </el-dialog>
+    </div>
+
+  </div>
+</template>
+<script>
+  import {mapActions, mapState} from 'vuex'
+
+  export default {
+    components: {},
+    data() {
+      return {
+        showAddContent: false,
+        copCode: '',
+        copName: '',
+        lvyeCopList: [],
+        flag: true,
+        ALLTemplateList: [],
+        HaveSelectedTemplateList: [],
+      }
+    },
+    computed: {
+      ...mapState([
+        'route',
+        'Interface'
+      ]),
+
+      validate() {
+        if (this.copCode == '' || this.copName == '') {
+          return true
+        }
+      }
+    },
+    methods: {
+      ...mapActions([
+        'goto',
+        'getLvyeCopList',
+        'saveLvyeCopInfo',
+        'bindLvyeCopInfo',
+
+        'delLvyeCopInfo',
+        'updateLvyeCopInfo',
+        'haveSelectTemplateList',
+        'tempList',
+      ]),
+      save() {
+        if (!this.flag) {
+          this.saveLvyeCopInfo({
+            lvyecode: this.copCode,
+            data: {
+              lvyeCode: this.copCode,
+              lvyeName: this.copName,
+              templates: this.HaveSelectedTemplateList.length > 0 ? this.HaveSelectedTemplateList.join(',') : ''
+            },
+            onsuccess: body => {
+              this.bindLvyeCopInfo({
+                data: {
+                  code: this.copCode,
+                  name: this.copName,
+                },
+                onsuccess: body => {
+                  this.showAddContent = false;
+                  this.getLvyeCopLists()
+                }
+              });
+
+            }
+          });
+
+        } else {
+//          this.updateLvyeCopInfo({
+          this.saveLvyeCopInfo({
+            lvyecode: this.copCode,
+            data: {
+              lvyeCode: this.copCode,
+              lvyeName: this.copName,
+              templates: this.HaveSelectedTemplateList.length > 0 ? this.HaveSelectedTemplateList.join(',') : ''
+            },
+            onsuccess: body => {
+              this.updateLvyeCopInfo({
+                data: {
+                  code: this.copCode,
+                  name: this.copName,
+                },
+                onsuccess: body => {
+                  this.showAddContent = false;
+                  this.getLvyeCopLists()
+                }
+              })
+            }
+          })
+        }
+
+      },
+
+      editItem(obj) {
+        this.showAddContent = true;
+        this.flag = true;
+        this.copCode = obj.code;
+        this.copName = obj.name;
+
+        this.ALLTemplateList = []
+        this.HaveSelectedTemplateList = []
+
+        this.getAllTempList()
+        this.getHaveSelectTemp()
+      },
+
+      delItem(obj) {
+        this.delLvyeCopInfo({
+          code: obj.code,
+          onsuccess: body => {
+            this.showAddContent = false;
+            this.getLvyeCopLists()
+          }
+        })
+      },
+
+      handleClose() {
+
+      },
+
+      //添加旅业酒店
+      addLvyeCop() {
+        this.showAddContent = true;
+        this.flag = false
+        this.copCode = '';
+        this.copName = '';
+        this.getAllTempList();
+
+      },
+      //获取旅业酒店列表
+
+      getLvyeCopLists() {
+        this.getLvyeCopList({
+          onsuccess: body => {
+            this.lvyeCopList = body.data
+          }
+        })
+      },
+
+      getHaveSelectTemp() {
+        this.haveSelectTemplateList({
+          lvyecode: this.copCode,
+          onsuccess: body => {
+//            this.HaveSelectedTemplateList = body.data
+            body.data.map(item => {
+              this.HaveSelectedTemplateList.push(item.id)
+            })
+          }
+
+        })
+      },
+//      获取所有的模板列表
+      getAllTempList() {
+        this.tempList({
+          onsuccess: body => {
+//            this.ALLTemplateList = body.data
+            body.data.map(item => {
+              this.ALLTemplateList.push({
+                label: item.name,
+                key: item.id,
+              })
+            })
+
+          }
+        })
+      },
+    },
+
+    mounted() {
+      this.getLvyeCopLists()
+//      this.getAllTempList()
+//      this.getHaveSelectTemp()
+    },
+    watch: {},
+  }
+</script>
+<style lang="less" scoped>
+  .module-wrapper {
+    padding: 1rem;
+    .top {
+      line-height: 3rem;
+      height: 3rem;
+      margin-bottom: 1rem;
+      span {
+        font-weight: bold;
+        font-size: 16px;
+      }
+      .el-button {
+        &.button {
+          float: right;
+          width: 12rem;
+        }
+      }
+    }
+    /deep/ .tableList {
+      table tr {
+        background-color: #cccccc;
+      }
+      .el-table th, .el-table tr {
+        background-color: #cccccc;
+      }
+    }
+
+    /deep/ .dialogModel {
+      .el-dialog__header{
+        text-align: left;
+      }
+      /deep/.el-dialog__header {
+        padding: 0;
+        margin: 0 20px;
+        text-align: left;
+        border-bottom: solid 1px #D8D8D8;
+        margin-bottom: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .el-dialog__title {
+          line-height: 43px;
+          font-size: 16px;
+          font-weight: 400;
+          color: #4A4A4A;
+        }
+
+        .el-dialog__headerbtn {
+          font-size: 24px;
+          top: 0px;
+          padding: 0;
+
+        }
+      }
+      .el-dialog {
+        width: 65%;
+
+
+        .el-dialog__body {
+          padding-right: 200px;
+        }
+
+      }
+      .el-dialog__footer {
+        padding: 10px 20px 28px;
+        .dialog-footer {
+          text-align: center;
+          .el-button {
+            width: 246px;
+            border-radius: 0;
+            line-height: 18px;
+            margin: 0;
+            &:nth-child(1) {
+              margin-right: 22px;
+            }
+            &:nth-child(2) {
+              background-color: #39C240;
+              border-color: #39C240;
+              color: #ffffff;
+            }
+          }
+          .el-button--primary {
+            background-color: transparent;
+            border: solid 1px #979797;
+            color: #4A4A4A;
+          }
+        }
+      }
+      .el-select {
+        width: 100%;
+      }
+    }
+
+
+    .error {
+      color: #ff2712;
+      font-size: 10px;
+      display: block;
+    }
+    /deep/ .rec {
+      /deep/ .el-checkbox__inner {
+        background-color: #39C240;
+        border-color: #39C240;
+      }
+      .el-checkbox__label {
+        color: #39C240;
+      }
+    }
+
+    /deep/ .transfer {
+      .el-checkbox__inner {
+        background-color: #3CC51F !important;
+      }
+      .el-button--primary {
+        background-color: #3CC51F !important;
+      }
+    }
+  }
+</style>
