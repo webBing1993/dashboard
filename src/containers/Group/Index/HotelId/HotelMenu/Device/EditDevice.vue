@@ -20,7 +20,7 @@
         <span>设备名称</span>
         <el-input class="el-right" v-model="deviceName" placeholder="请输入该设备名称"></el-input>
       </div>
-      <div class="content-item" v-if="deviceType!='41'&& deviceType!='51'">
+      <div class="content-item" v-if="currentCode!='41'&& currentCode!='51'">
         <span>配对设备</span>
         <el-select class="el-right" v-model="partnerIdTemp" placeholder="请选择配对设备">
           <el-option
@@ -303,7 +303,7 @@
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            console.log('编辑时获取的设备详情', body.data.type)
+            console.log('编辑时获取的设备详情', body.data.partner_device_types)
             this.deviceType = body.data.type_name;
             if (body.data.rzt_template) {
               this.templateList.map(item => {
@@ -320,6 +320,27 @@
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
 //            rzt_template
+            console.log('编辑时获取的设备详情', this.matchList)
+
+            if(this.matchList&&this.matchList.length>0){
+              let partnerIdList=[]
+              this.matchList.map(item=>{
+                if(body.data.partner_device_types.indexOf(item.type)!==-1){
+                  partnerIdList.push(item)
+                }
+              })
+              this.matchList=partnerIdList
+              let list = partnerIdList.map(v => {
+                let obj = {
+                  value: `${v.name} | ${v.id}`
+                }
+                return obj
+              })
+              list.unshift({value: '无'})
+              this.partnerIdListTemp=list
+            }
+
+
           }
         })
       },
