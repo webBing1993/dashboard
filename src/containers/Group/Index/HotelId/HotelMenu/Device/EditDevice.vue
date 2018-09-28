@@ -6,9 +6,9 @@
         <el-select class="el-right" v-model="deviceType" placeholder="请选择设备类型" @change="_changeDeviceType">
           <el-option
             v-for="(obj, index) of deviceTypeList"
-            :key="obj.type_code"
+            :key="obj.id"
             :label="obj.type_name"
-            :value="obj.type_code">{{obj.type_name}}
+            :value="obj.id"> {{obj.type_name}}
           </el-option>
         </el-select>
       </div>
@@ -46,13 +46,14 @@
         </el-switch>
       </div>
 
-      <div class="content-item" v-if="deviceType==24||deviceType==25||deviceType=='Windows人证核验机'||deviceType=='Android人证核验机'">
+      <div class="content-item"
+           v-if="currentCode==24||currentCode==25||currentCode=='Windows人证核验机'||deviceType=='Android人证核验机'">
         <span>人证通模板</span>
         <el-select v-model="templateValue" placeholder="请选择">
-          <el-option   v-for="(item ,index) in templateList"
-                       :key="item.id"
-                       :label="item.name"
-                       :value="item.id">{{item.name}}
+          <el-option v-for="(item ,index) in templateList"
+                     :key="item.id"
+                     :label="item.name"
+                     :value="item.id">{{item.name}}
           </el-option>
         </el-select>
       </div>
@@ -100,6 +101,7 @@
 
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+
   export default {
     name: 'EditDevice',
     data() {
@@ -126,15 +128,17 @@
         currentName: '',
         currentTargetCode: '',
         currentTargetName: '',
-        templateValue:'',
-        templateList:[]
+        templateValue: '',
+        templateList: [],
+        currentTypeDate: {},
+        partnerIdListTemp:[]
       }
     },
     computed: {
       ...mapState({
         deviceList: state => state.enterprise.deviceList,
       }),
-      hotelId(){
+      hotelId() {
         return this.$route.params.hotelid
       },
       submitDisabled() {
@@ -153,19 +157,30 @@
         }
       },
 
-      partnerIdListTemp() {
-        let partnerIdList = [];
-//        console.log('配对设备code',this.currentDeviceId)
-        partnerIdList = this.matchList.filter(v => v.type == this.currentTargetCode)
-        let list = partnerIdList.map(v => {
-          let obj = {
-            value: `${v.name} | ${v.id}`
-          }
-          return obj
-        })
-        list.unshift({value: '无'})
-        return list;
-      }
+//      partnerIdListTemp() {
+//        let partnerIdList = [];
+////        partnerIdList = this.matchList.filter(v => v.type == this.currentTargetCode)
+//        if(this.matchList&&this.matchList.length>0){
+//          let partnerIdList=[]
+//          this.matchList.map(item=>{
+//            if(this.currentTypeDate.partner_device_types.indexOf(item.type)!==-1){
+//              partnerIdList.push(item)
+//            }
+//          })
+//          this.matchList=partnerIdList
+//        }
+//        console.log('this.matchList', this.matchList)
+//        console.log('this.currentTypeDate', this.currentTypeDate.partner_device_types)
+//
+//        let list = partnerIdList.map(v => {
+//          let obj = {
+//            value: `${v.name} | ${v.id}`
+//          }
+//          return obj
+//        })
+//        list.unshift({value: '无'})
+//        return list;
+//      }
     },
     methods: {
       ...mapActions([
@@ -187,23 +202,52 @@
           }
         })
       },
-      _changeDeviceType(obj){
-          console.log(this.deviceType)
-        console.log('当前设备code1', obj)
-        this.currentCode=obj;
+      _changeDeviceType(obj) {
+        this.currentCode = obj;
         this.deviceTypeList.map(item => {
-          if (item.target_type_code == obj) {
+//          if (item.target_type_code == obj) {
+//            this.PadId = item.type_code
+//          }
+//          if (item.type_code == obj) {
+//            this.currentTargetCode = item.target_type_code
+//          }
+//          if (item.type_name == this.deviceType) {
+//            this.currentCode = item.type_code
+//          }
+          if (item.id == obj) {
             this.PadId = item.type_code
-          }
-          if (item.type_code == obj) {
             this.currentTargetCode = item.target_type_code
-          }
-          if(item.type_name==this.deviceType){
-            this.currentCode=item.type_code
+            this.currentCode = item.type_code
+
+            this.currentTypeDate = item
+            let partnerIdList = [];
+            if(this.matchList&&this.matchList.length>0){
+              let partnerIdList=[]
+              this.matchList.map(item=>{
+                if(this.currentTypeDate.partner_device_types.indexOf(item.type)!==-1){
+                  partnerIdList.push(item)
+                }
+              })
+              this.matchList=partnerIdList
+              console.log('this.matchList', this.matchList)
+              console.log('this.currentTypeDate', this.currentTypeDate.partner_device_types)
+
+              let list = partnerIdList.map(v => {
+                let obj = {
+                  value: `${v.name} | ${v.id}`
+                }
+                return obj
+              })
+              list.unshift({value: '无'})
+              this.partnerIdListTemp=list
+              return this.partnerIdListTemp;
+            }
+
           }
         })
-        console.log('当前设备code2', this.currentCode)
-        console.log("配对设备Code是", this.currentTargetCode)
+
+
+
       },
 
       hideDialog() {
@@ -211,18 +255,6 @@
       },
 
       submitDialog() {
-//        let tempcode=''
-//        console.log('this.templateList',this.templateList)
-//        console.log('this.templateValue',this.templateValue)
-//        if(this.templateList){
-//          this.templateList.map(item=>{
-//            if(this.templateValue==item.name){
-//              tempcode=item.id
-//            }
-//          })
-//        }
-
-
         this.modifyDevice({
           hotel_id: '',
           device_id: this.deviceId,
@@ -232,7 +264,7 @@
           mac_address: this.MacAdress,
           partner_id: this.partnerId,
           enabled: this.enabled ? 1 : 0,
-          rzt_template:this.templateValue,
+          rzt_template: this.templateValue,
           onsuccess: body => {
             this.showDialog = false;
             this.goto(-1)
@@ -255,7 +287,7 @@
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
-              rzt_template:this.templateValue,
+              rzt_template: this.templateValue,
               onsuccess: body => {
                 this.goto(-1)
               }
@@ -264,30 +296,22 @@
         })
       },
 
-
+//      编辑时获取的设备详情
       getDevices() {
         this.getList()
         this.deviceType = [];
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            console.log('编辑时获取的设备code', body.data.type)
+            console.log('编辑时获取的设备详情', body.data.type)
             this.deviceType = body.data.type_name;
-//            this.templateValue=body.data.rzt_template
-            if(body.data.rzt_template){
-              this.templateList.map(item=>{
-                if(body.data.rzt_template==item.id){
-                  this.templateValue=item.name
+            if (body.data.rzt_template) {
+              this.templateList.map(item => {
+                if (body.data.rzt_template == item.id) {
+                  this.templateValue = item.name
                 }
               })
             }
-//            this.deviceTypeList.forEach(item => {
-//              if (body.data.type == item.type_code) {
-//                this.deviceType = item.type_name;
-//                this.currentTargetCode = item.target_type_code
-//              }
-//            })
-//
             this.deviceId = body.data.id;
             this.currentCode = body.data.type;
             this.deviceName = body.data.name;
@@ -303,16 +327,9 @@
       modifyDevices() {
         if (this.submitDisabled) return;
 
-        let tempcode=''
-        console.log('this.templateList',this.templateList)
-        console.log('this.templateValue',this.templateValue)
-//        if(this.templateList){
-//          this.templateList.map(item=>{
-//            if(this.templateValue==item.name){
-//              tempcode=item.id
-//            }
-//          })
-//        }
+        let tempcode = ''
+        console.log('this.templateList', this.templateList)
+        console.log('this.templateValue', this.templateValue)
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,
@@ -326,7 +343,7 @@
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
-              rzt_template:this.templateValue,
+              rzt_template: this.templateValue,
               onsuccess: body => this.goto(-1)
             })
           }
@@ -336,14 +353,14 @@
       removeDevices() {
         this.removeDevice({
           hotelId: this.hotelId,
-          device_type:this.currentCode,
+          device_type: this.currentCode,
           device_id: this.$route.query.device_id,
           onsuccess: body => this.goto(-1)
         })
       },
 
 //      获取设备类型
-      _getDeviceTypeList(){
+      _getDeviceTypeList() {
         this.deviceTypeList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
@@ -361,7 +378,7 @@
       },
 
 //      获取配对设备
-      getList(){
+      getList() {
         this.matchList = []
         this.getDeviceList({
           hotel_id: this.$route.params.hotelid,

@@ -53,7 +53,7 @@
         this.goto({
           name: 'EditDevice',
           query: {
-            device_id: obj.id
+            device_id: obj.id,
           }
         })
       },
