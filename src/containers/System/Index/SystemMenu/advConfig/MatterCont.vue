@@ -56,6 +56,7 @@
                   </el-radio>
                 </el-radio-group>
               </el-form-item>
+
               <el-form-item label="年龄段">
                 <div class="agecount">
                   <div>
@@ -347,7 +348,7 @@
           onsuccess: body => {
             this.form.mattertType = body.data.type
             this.form.aimtAtSex = body.data.advMatch.sexType
-            this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
+            this.form.aimtAtAge = body.data.advMatch.ageType == 'ALL' ? '不限' : '特定年龄段'
             this.form.ageLow = body.data.advMatch.ageBegin
             this.form.ageTop = body.data.advMatch.ageEnd
             this.form.mattertName = body.data.name
@@ -355,10 +356,8 @@
             this.form.uplodGetUrl = body.data.url
             this.form.mattertListValue = body.data.companyName
             this.form.mattertAuditNum = body.data.serialNumber
-
           }
         })
-
       },
 
       edit(parm) {
@@ -384,7 +383,7 @@
 //            this.form.mattertName=
                   this.form.mattertType = body.data.type
                   this.form.aimtAtSex = body.data.advMatch.sexType
-                  this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
+                  this.form.aimtAtAge = body.data.advMatch.ageType == 'ALL' ? '不限' : '特定年龄段'
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
                   this.form.mattertListValue = body.data.companyName
