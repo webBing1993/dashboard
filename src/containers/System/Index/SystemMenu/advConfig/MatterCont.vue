@@ -37,13 +37,6 @@
 
               <el-form-item label="素材类型">
                 <el-radio v-model="form.mattertType" label="VIDEO">视频</el-radio>
-
-                <!--<el-radio-group v-model="form.mattertType" :disabled="viewStatus">-->
-                <!--<el-radio :label="item.code" :value="item.code" :key="item.code"-->
-                <!--v-for="(item,index) in Dateform.mattertType">{{item.name}}-->
-                <!--</el-radio>-->
-                <!--<el-radio label="VIDEO" :disabled="viewStatus">视频</el-radio>-->
-                <!--</el-radio-group>-->
               </el-form-item>
 
 
@@ -306,12 +299,11 @@
       },
 
       save() {
-//
         let temp = {
           advMatch: {
             "ageBegin": this.form.ageLow,
             "ageEnd": this.form.ageTop,
-            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
+            "ageType": this.form.aimtAtAge=="不限" ? "ALL" : "PART",
             "id": "string",
             "sexType": this.form.aimtAtSex,
 //            "status": "未知",
@@ -401,11 +393,13 @@
       },
 
       handleEdit() {
+        console.log('11111',this.form.aimtAtAge)
+
         let temp = {
           advMatch: {
             "ageBegin": this.form.ageLow,
             "ageEnd": this.form.ageTop,
-            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
+            "ageType": this.form.aimtAtAge=="不限" ? "ALL" : "PART",
             "id": "string",
             "sexType": this.form.aimtAtSex,
 //            "status": "未知",
