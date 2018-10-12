@@ -131,7 +131,7 @@
         templateValue: '',
         templateList: [],
         currentTypeDate: {},
-        partnerIdListTemp:[]
+        partnerIdListTemp: []
       }
     },
     computed: {
@@ -221,14 +221,14 @@
 
             this.currentTypeDate = item
             let partnerIdList = [];
-            if(this.matchList&&this.matchList.length>0){
-              let partnerIdList=[]
-              this.matchList.map(item=>{
-                if(this.currentTypeDate.partner_device_types.indexOf(item.type)!==-1){
+            if (this.matchList && this.matchList.length > 0) {
+              let partnerIdList = []
+              this.matchList.map(item => {
+                if (this.currentTypeDate.partner_device_types.indexOf(item.type) !== -1) {
                   partnerIdList.push(item)
                 }
               })
-              this.matchList=partnerIdList
+              this.matchList = partnerIdList
               console.log('this.matchList', this.matchList)
               console.log('this.currentTypeDate', this.currentTypeDate.partner_device_types)
 
@@ -239,13 +239,12 @@
                 return obj
               })
               list.unshift({value: '无'})
-              this.partnerIdListTemp=list
+              this.partnerIdListTemp = list
               return this.partnerIdListTemp;
             }
 
           }
         })
-
 
 
       },
@@ -254,11 +253,14 @@
         this.showDialog = false;
       },
 
+
       submitDialog() {
+//       this.templateValue = this.templateValueNameToCode( this.templateValue )
+
+
         this.modifyDevice({
           hotel_id: '',
           device_id: this.deviceId,
-//          device_type: this.deviceType,
           device_type: this.currentCode,
           device_name: this.deviceName,
           mac_address: this.MacAdress,
@@ -322,14 +324,14 @@
 //            rzt_template
             console.log('编辑时获取的设备详情', this.matchList)
 
-            if(this.matchList&&this.matchList.length>0){
-              let partnerIdList=[]
-              this.matchList.map(item=>{
-                if(body.data.partner_device_types.indexOf(item.type)!==-1){
+            if (this.matchList && this.matchList.length > 0) {
+              let partnerIdList = []
+              this.matchList.map(item => {
+                if (body.data.partner_device_types.indexOf(item.type) !== -1) {
                   partnerIdList.push(item)
                 }
               })
-              this.matchList=partnerIdList
+              this.matchList = partnerIdList
               let list = partnerIdList.map(v => {
                 let obj = {
                   value: `${v.name} | ${v.id}`
@@ -337,20 +339,37 @@
                 return obj
               })
               list.unshift({value: '无'})
-              this.partnerIdListTemp=list
+              this.partnerIdListTemp = list
             }
 
 
           }
         })
       },
-
+      templateValueNameToCode(name, temp) {
+        this.templateList.map(item => {
+          if (item.name == name) {
+            temp = item.id
+          }
+        })
+        return temp
+      },
       modifyDevices() {
-        if (this.submitDisabled) return;
+        let temp = ''
+//         this.templateValueNameToCode(this.templateValue,temp)
+        this.templateList.map(item => {
+          if (item.name == this.templateValue) {
+            temp = item.id
+          }
+        })
 
+//        console.log(temp)
+//        console.log('----------')
+//        exit;
+        if (this.submitDisabled) return;
         let tempcode = ''
-        console.log('this.templateList', this.templateList)
-        console.log('this.templateValue', this.templateValue)
+//        console.log('this.templateList', this.templateList)
+//        console.log('this.templateValue', this.templateValue)
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,
@@ -364,7 +383,7 @@
               mac_address: this.MacAdress,
               partner_id: this.partnerId,
               enabled: this.enabled ? 1 : 0,
-              rzt_template: this.templateValue,
+              rzt_template: temp || this.templateValue,
               onsuccess: body => this.goto(-1)
             })
           }
