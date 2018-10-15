@@ -235,7 +235,7 @@
         this.form = {
           mattertName: '',
           mattertType: 'VIDEO:',
-          aimtAtSex: 'nothing',
+          aimtAtSex: 'ALL',
           aimtAtAge: '不限',
           ageLow: '',
           ageTop: '',
