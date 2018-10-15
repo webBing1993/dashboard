@@ -168,11 +168,11 @@
             },
             {
               name: "女",
-              code: "woman",
+              code: "WOMAN",
             },
             {
               name: "不限",
-              code: "nothing",
+              code: "ALL",
             },
           ],
           mattertList: [],
