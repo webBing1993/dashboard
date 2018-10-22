@@ -37,13 +37,6 @@
 
               <el-form-item label="素材类型">
                 <el-radio v-model="form.mattertType" label="VIDEO">视频</el-radio>
-
-                <!--<el-radio-group v-model="form.mattertType" :disabled="viewStatus">-->
-                <!--<el-radio :label="item.code" :value="item.code" :key="item.code"-->
-                <!--v-for="(item,index) in Dateform.mattertType">{{item.name}}-->
-                <!--</el-radio>-->
-                <!--<el-radio label="VIDEO" :disabled="viewStatus">视频</el-radio>-->
-                <!--</el-radio-group>-->
               </el-form-item>
 
 
@@ -56,6 +49,7 @@
                   </el-radio>
                 </el-radio-group>
               </el-form-item>
+
               <el-form-item label="年龄段">
                 <div class="agecount">
                   <div>
@@ -174,11 +168,11 @@
             },
             {
               name: "女",
-              code: "woman",
+              code: "WOMAN",
             },
             {
               name: "不限",
-              code: "nothing",
+              code: "ALL",
             },
           ],
           mattertList: [],
@@ -241,7 +235,7 @@
         this.form = {
           mattertName: '',
           mattertType: 'VIDEO:',
-          aimtAtSex: 'nothing',
+          aimtAtSex: 'ALL',
           aimtAtAge: '不限',
           ageLow: '',
           ageTop: '',
@@ -305,12 +299,11 @@
       },
 
       save() {
-//
         let temp = {
           advMatch: {
             "ageBegin": this.form.ageLow,
             "ageEnd": this.form.ageTop,
-            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
+            "ageType": this.form.aimtAtAge=="不限" ? "ALL" : "PART",
             "id": "string",
             "sexType": this.form.aimtAtSex,
 //            "status": "未知",
@@ -347,7 +340,7 @@
           onsuccess: body => {
             this.form.mattertType = body.data.type
             this.form.aimtAtSex = body.data.advMatch.sexType
-            this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
+            this.form.aimtAtAge = body.data.advMatch.ageType == 'ALL' ? '不限' : '特定年龄段'
             this.form.ageLow = body.data.advMatch.ageBegin
             this.form.ageTop = body.data.advMatch.ageEnd
             this.form.mattertName = body.data.name
@@ -355,10 +348,8 @@
             this.form.uplodGetUrl = body.data.url
             this.form.mattertListValue = body.data.companyName
             this.form.mattertAuditNum = body.data.serialNumber
-
           }
         })
-
       },
 
       edit(parm) {
@@ -384,7 +375,7 @@
 //            this.form.mattertName=
                   this.form.mattertType = body.data.type
                   this.form.aimtAtSex = body.data.advMatch.sexType
-                  this.form.aimtAtAge = body.data.advMatch.ageType = 'ALL' ? '不限' : '特定年龄段'
+                  this.form.aimtAtAge = body.data.advMatch.ageType == 'ALL' ? '不限' : '特定年龄段'
                   this.form.ageLow = body.data.advMatch.ageBegin
                   this.form.ageTop = body.data.advMatch.ageEnd
                   this.form.mattertListValue = body.data.companyName
@@ -402,11 +393,13 @@
       },
 
       handleEdit() {
+        console.log('11111',this.form.aimtAtAge)
+
         let temp = {
           advMatch: {
             "ageBegin": this.form.ageLow,
             "ageEnd": this.form.ageTop,
-            "ageType": this.form.ageLow && this.form.ageTop ? "PART" : "ALL",
+            "ageType": this.form.aimtAtAge=="不限" ? "ALL" : "PART",
             "id": "string",
             "sexType": this.form.aimtAtSex,
 //            "status": "未知",
