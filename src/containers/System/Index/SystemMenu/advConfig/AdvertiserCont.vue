@@ -100,8 +100,9 @@
 
       add(){
         this.title = '添加广告商';
-        this.advertiserName=''
-        this.showAddContent=true
+        this.advertiserName='';
+        this.editeStatus=false;
+        this.showAddContent=true;
 
       },
       save() {
@@ -125,6 +126,7 @@
             onsuccess: body => {
 //              this.tableData = body.data
               this.showAddContent = false;
+              this.getAdvertiserList();
 
             }
           })
