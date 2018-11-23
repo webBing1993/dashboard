@@ -67,7 +67,7 @@ module.exports = {
   },
   //总配置接口
   patchConfig(ctx, param) {
-    console.log('wwwwh:', param.data)
+    console.log('wwwwh:',...param.data)
     ctx.dispatch('resource', {
       url: `/hotel/${param.hotel_id}/config`,
       method: 'PATCH',
@@ -80,7 +80,7 @@ module.exports = {
 
         let obj = {
           ...ctx.state.enterprise.configData
-        }
+        };
         for (let key in body.data) {
           obj[key] = body.data[key];
         }
