@@ -292,9 +292,10 @@
         })
       },
       add() {
-        this.viewStatus = false
-        this.title = '添加素材'
-        this.showAddContent = true
+        this.viewStatus = false;
+        this.title = '添加素材';
+        this.showAddContent = true;
+        this.editStatus = true;
         this.resetparm()
       },
 
