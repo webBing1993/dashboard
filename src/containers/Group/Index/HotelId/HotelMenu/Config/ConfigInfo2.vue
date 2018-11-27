@@ -32,19 +32,18 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span>无证核验</span>
-              <el-switch on-color="#13ce66"off-color="#ff4949"active-value="true"
-                         inactive-value="0" v-model="openWithoutCard"></el-switch>
+              <span>无证核验{{withoutCardConfig}}</span>
+              <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
-            <div class="item-form" v-if="openWithoutCard">
+            <div class="item-form" v-if="withoutCardConfig">
             <span style="width: 155px">充值金额（元）</span>
             <el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>
             </div>
-            <div class="item-form" v-if="openWithoutCard">
+            <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">无证核验金额（元）</span>
               <el-input class="el-right" v-model="checkMoney" style="display:block"></el-input>
             </div>
-            <div class="item-form" v-if="openWithoutCard">
+            <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">余额不足提醒金额（元）</span>
               <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
             </div>
@@ -162,10 +161,11 @@
 
       submitDialog() {
         let data;
+
         switch (this.showType) {
           case enumShowType.withoutCard://无证核验
             data = {
-              "enable_identity_check_undocumented":this.openWithoutCard.toString(),
+              "enable_identity_check_undocumented":this.withoutCardConfig.toString(),
               "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
               "nocard_money_insufficient":this.balanceTip
@@ -186,7 +186,12 @@
         console.log('debug:------->patchConfigData：',data)
         this.patchConfig({
           hotel_id: this.$route.params.hotelid,
-          data: data,
+          data: {
+              "enable_identity_check_undocumented":data.enable_identity_check_undocumented,
+              "recharge_lowest":data.recharge_lowest,
+              "nocard_used_pay":data.nocard_used_pay,
+              "nocard_money_insufficient":data.nocard_money_insufficient
+          },
           onsuccess: body => {
             this.showDialog = false;
           }
@@ -210,7 +215,7 @@
     watch: {
       configData() {
         let configData = this.configData;
-        console.log('configData:', configData)
+        console.log('全局configData:',configData)
         if (tool.isNotBlank(configData)) {
 //            无证核验
           this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
