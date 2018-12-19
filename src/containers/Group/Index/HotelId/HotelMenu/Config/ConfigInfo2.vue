@@ -47,6 +47,13 @@
               <span style="width: 155px">余额不足提醒金额（元）</span>
               <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
             </div>
+            <div class="item-form" v-if="withoutCardConfig">
+              <span style="width: 155px">无证收费方式</span>
+              <el-select v-model="collectionManner" placeholder="请选择无证收费方式">
+                <el-option v-for="(item, index) in collection" :key="index" :label="item.methods" :value="item.id">
+                </el-option>
+              </el-select>
+            </div>
           </div>
         </div>
         <!--footer-->
@@ -99,6 +106,9 @@
         rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
+        collectionManner:'',
+        collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
+
 
       }
     },
@@ -190,7 +200,8 @@
               "enable_identity_check_undocumented":data.enable_identity_check_undocumented,
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
-              "nocard_money_insufficient":data.nocard_money_insufficient
+              "nocard_money_insufficient":data.nocard_money_insufficient,
+              "nocard_money_methods":this.collectionManner
           },
           onsuccess: body => {
             this.showDialog = false;
@@ -362,15 +373,17 @@
                 min-width: 110px;
                 text-align: left;
               }
-              .el-select {
-                width: 100%;
-                .el-input {
-                  width: 69.5%;
-                }
-              }
               .el-input {
                 width: 60%;
               }
+              .el-select {
+                width:60%;
+                margin-left:16px;
+                .el-input{
+                  width:100%;
+                }
+              }
+
               .el-transfer{
                 .el-input{
                   width: 100%;
