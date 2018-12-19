@@ -32,7 +32,7 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span>无证核验{{withoutCardConfig}}</span>
+              <span style="width: 155px">无证核验{{withoutCardConfig}}</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
@@ -49,7 +49,7 @@
             </div>
             <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">无证收费方式</span>
-              <el-select v-model="collectionManner" placeholder="请选择无证收费方式">
+              <el-select v-model="collectionManner" placeholder="请选择无证收费方式" style="width:60%;margin-left:16px!important">
                 <el-option v-for="(item, index) in collection" :key="index" :label="item.methods" :value="item.id">
                 </el-option>
               </el-select>
@@ -379,10 +379,10 @@
                 width: 60%;
               }
               .el-select {
-                width:60%;
-                margin-left:16px;
+                width:60%!important;
+                margin-left:16px!important;
                 .el-input{
-                  width:100%;
+                  width:100%!important;
                 }
               }
 
@@ -393,7 +393,7 @@
               }
 
               .el-switch {
-                margin-left: 60px;
+                margin-left: 16px;
               }
               .el-radio {
                 margin-left: 16px;
