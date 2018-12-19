@@ -178,7 +178,8 @@
               "enable_identity_check_undocumented":this.withoutCardConfig.toString(),
               "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
-              "nocard_money_insufficient":this.balanceTip
+              "nocard_money_insufficient":this.balanceTip,
+              "nocard_pay_mode":this.collectionManner
             }
             break;
           default:null
@@ -201,7 +202,7 @@
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
               "nocard_money_insufficient":data.nocard_money_insufficient,
-              "nocard_money_methods":this.collectionManner
+              "nocard_pay_mode":data.nocard_pay_mode
           },
           onsuccess: body => {
             this.showDialog = false;
@@ -234,6 +235,7 @@
           this.checkMoney=configData.nocard_used_pay;
           this.balanceTip=configData.nocard_money_insufficient;
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
+          this.collectionManner= configData.nocard_pay_mode
 
         }
       }
