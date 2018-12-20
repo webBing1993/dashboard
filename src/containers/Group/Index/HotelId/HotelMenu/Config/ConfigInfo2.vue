@@ -32,7 +32,7 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span>无证核验{{withoutCardConfig}}</span>
+              <span>无证核验</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
