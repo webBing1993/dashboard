@@ -206,6 +206,7 @@
           },
           onsuccess: body => {
             this.showDialog = false;
+            this.getConfigs();
           }
         })
       },
