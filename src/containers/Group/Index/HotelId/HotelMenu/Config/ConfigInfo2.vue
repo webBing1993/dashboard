@@ -32,7 +32,7 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span>无证核验{{withoutCardConfig}}</span>
+              <span style="width: 155px">无证核验{{withoutCardConfig}}</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
@@ -46,6 +46,13 @@
             <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">余额不足提醒金额（元）</span>
               <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
+            </div>
+            <div class="item-form" v-if="withoutCardConfig">
+              <span style="width: 155px">无证收费方式</span>
+              <el-select v-model="collectionManner" placeholder="请选择无证收费方式" style="width:60%;margin-left:16px!important">
+                <el-option v-for="(item, index) in collection" :key="index" :label="item.methods" :value="item.id">
+                </el-option>
+              </el-select>
             </div>
           </div>
         </div>
@@ -99,6 +106,9 @@
         rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
+        collectionManner:'',
+        collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
+
 
       }
     },
@@ -168,7 +178,8 @@
               "enable_identity_check_undocumented":this.withoutCardConfig.toString(),
               "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
-              "nocard_money_insufficient":this.balanceTip
+              "nocard_money_insufficient":this.balanceTip,
+              "nocard_pay_mode":this.collectionManner
             }
             break;
           default:null
@@ -190,10 +201,12 @@
               "enable_identity_check_undocumented":data.enable_identity_check_undocumented,
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
-              "nocard_money_insufficient":data.nocard_money_insufficient
+              "nocard_money_insufficient":data.nocard_money_insufficient,
+              "nocard_pay_mode":data.nocard_pay_mode
           },
           onsuccess: body => {
             this.showDialog = false;
+            this.getConfigs();
           }
         })
       },
@@ -223,6 +236,7 @@
           this.checkMoney=configData.nocard_used_pay;
           this.balanceTip=configData.nocard_money_insufficient;
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
+          this.collectionManner= configData.nocard_pay_mode
 
         }
       }
@@ -362,15 +376,17 @@
                 min-width: 110px;
                 text-align: left;
               }
-              .el-select {
-                width: 100%;
-                .el-input {
-                  width: 69.5%;
-                }
-              }
               .el-input {
                 width: 60%;
               }
+              .el-select {
+                width:60%!important;
+                margin-left:16px!important;
+                .el-input{
+                  width:100%!important;
+                }
+              }
+
               .el-transfer{
                 .el-input{
                   width: 100%;
@@ -378,7 +394,7 @@
               }
 
               .el-switch {
-                margin-left: 60px;
+                margin-left: 16px;
               }
               .el-radio {
                 margin-left: 16px;
