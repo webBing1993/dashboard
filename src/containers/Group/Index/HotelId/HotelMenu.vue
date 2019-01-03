@@ -20,9 +20,9 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/hotelStaff'">酒店员工</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">产品版本管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/manageProdVersion'">产品版本</router-link>
-      <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">充值</a>
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/rechargeDetail'">充值详情</router-link>
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/withoutCardCheck'">无证核验使用详情</router-link>
+      <!--<a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">充值</a>-->
+      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/rechargeDetail'">充值详情</router-link>-->
+      <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/withoutCardCheck'">无证核验使用详情</router-link>-->
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">酒店账户</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/hotelMoney'">余额</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/consumptionRecord'">消费记录</router-link>

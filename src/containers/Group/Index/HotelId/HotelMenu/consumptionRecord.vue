@@ -26,7 +26,7 @@
           <el-col :span="3">
             <div class=" firstdate">
               <el-date-picker
-                v-model="datatime1"
+                v-model="datatime2"
                 type="date"
                 placeholder="选择日期">
               </el-date-picker>
