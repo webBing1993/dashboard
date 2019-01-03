@@ -124,6 +124,9 @@
       handleSizeChange(val){
         console.log('当前页有多少条',val)
 
+      },
+      handleCurrentChange(val){
+        console.log('当前是第几页',val)
       }
     }
   }

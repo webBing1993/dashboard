@@ -28,13 +28,13 @@
       <el-dialog title="充值/冲帐页面" :visible.sync="dialogFormVisible">
        <el-form :model="form">
         <el-form-item label="金额" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" placeholder="请输入金额"></el-input>
         </el-form-item>
         <el-form-item label="关联/合同编号" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" placeholder="请填写合同编号"></el-input>
         </el-form-item>
         <el-form-item label="支付流水号" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" placeholder="(本次操作管来呢的线下资金交易单号)"></el-input>
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth">
           <el-select v-model="form.region" placeholder="请选择活动区域">
@@ -45,7 +45,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-input v-model="form.name" autocomplete="off" placeholder="(一些想填重要信息,如果没有,可以不填)"></el-input>
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <template>

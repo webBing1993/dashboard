@@ -4,11 +4,12 @@
       <thead>
       <tr>
         <th>交易单号</th>
+        <th>酒店名称</th>
         <th>金额</th>
-        <th>类型</th>
+        <th>业务类型</th>
         <th>时间</th>
-        <th>合同编号</th>
-        <th>支付流水号</th>
+        <th>开票状态</th>
+        <th>付费方</th>
         <th>支付方式</th>
         <th>备注</th>
         <th>操作人</th>
@@ -24,6 +25,7 @@
         <td>实际号码</td>
         <td>企业网银</td>
         <td>备注1</td>
+        <td>张三</td>
         <td>张三</td>
       </tr>
       </tbody>
