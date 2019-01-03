@@ -27,6 +27,7 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/hotelMoney'">余额</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/consumptionRecord'">消费记录</router-link>
     </aside>
+
     <router-view class="fifth-router"/>
   </div>
 </template>
