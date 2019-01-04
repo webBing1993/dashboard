@@ -3,7 +3,7 @@
     <div class="all">
       <div class="expenseCalendar">
         <span class="title">筛选</span>
-        <el-row style="margin-bottom:20px">
+        <el-row>
           <el-col :span="1">
             <div class="datetitle">
               <span>日期</span>
@@ -19,12 +19,12 @@
           </div>
           </el-col>
           <el-col :span="1">
-            <div style="text-align:center">
+            <div class="mcenter">
               <span>至</span>
             </div>
           </el-col>
           <el-col :span="3">
-            <div class=" firstdate">
+            <div class="firstdate">
               <el-date-picker
                 v-model="datatime2"
                 type="date"
@@ -33,13 +33,13 @@
             </div>
           </el-col>
           <el-col :span="6">
-            <div style="text-align:center">
-              <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+            <div class="mcenter">
+              <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
                 <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{sta}}</el-checkbox>
               </el-checkbox-group>
            </div>
           </el-col>
-          <el-col :span="2"><div style="text-align:right;margin-right:10px">消费类型</div></el-col>
+          <el-col :span="2"><div class="mright">消费类型</div></el-col>
           <el-col :span="2">
             <div>
               <el-select v-model="selectSta" placeholder="请选择">
@@ -51,13 +51,13 @@
                 </el-option>
               </el-select>
           </div></el-col>
-          <el-col :span="2"><div style="text-align:right;margin-right:10px">交易单号</div></el-col>
+          <el-col :span="2"><div class="mright">交易单号</div></el-col>
           <el-col :span="2"><div class="firstdate">
             <el-input v-model="transactionNumber"></el-input></div>
           </el-col>
           <el-col :span="2">
             <div style="text-align:right">
-             <el-button >查询</el-button>
+             <el-button @click="query">查询</el-button>
           </div></el-col>
         </el-row>
         <el-row>
@@ -65,18 +65,18 @@
         </el-row>
         <el-row>
           <el-col :span="2">消费单数</el-col>
-          <el-col :span="3"><el-input v-model="transactionNumber"></el-input></el-col>
+          <el-col :span="3"><el-input v-model="consumptionNumber"></el-input></el-col>
           <el-col :span="2"><div style="text-align:center">金额总计</div></el-col>
-          <el-col :span="3"><el-input v-model="transactionNumber"></el-input></el-col>
+          <el-col :span="3"><el-input v-model=" columnTotals"></el-input></el-col>
           <el-col :span="3">
             <div style="text-align:right">
-              <el-button >开票</el-button>
+              <el-button @click="makeInvoice">开票</el-button>
             </div>
             </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24" style="margin:20px 0" class="title">
-            xx酒店-消费明细
+          <el-col :span="24" class="title">
+            {{hotelName}}酒店-消费明细
           </el-col>
         </el-row>
         <table-ConsumptionRecord :list="consumptionlist" :page="pageNo" :size="pageSize"></table-ConsumptionRecord>
@@ -101,7 +101,7 @@
       datatime1:'',
       datatime2:'',
       status:['上月','已开票','未开票'],
-      checkedCities: [],
+      checkedStatus: [],
       selectSta:'',
       options:[{
         value:'1',
@@ -110,15 +110,17 @@
         value:'2',
         label:'其他'
       }],
-      transactionNumber:'',
       consumptionlist:[],
       pageNo:1,
       pageSize:10,
-      total:60
+      total:60,
+      consumptionNumber:'',
+      columnTotals:'',
+      hotelName:'xx'
     }
    },
     methods:{
-      handleCheckedCitiesChange(value) {
+      handleCheckedStatusChange(value) {
           console.log('选中后的值',value)
       },
       handleSizeChange(val){
@@ -127,6 +129,12 @@
       },
       handleCurrentChange(val){
         console.log('当前是第几页',val)
+      },
+      query(){
+
+      },
+      makeInvoice(){
+
       }
     }
   }
@@ -147,8 +155,8 @@
         line-height: 16px;
         font-size: 16px;
         color: #4A4A4A;
-        margin-bottom:20px;
-
+        /*margin-bottom:20px;*/
+        margin:20px 0
       }
       .firstdate{
         /deep/  .el-date-editor.el-input,.el-date-editor.el-input__inner{
@@ -166,6 +174,7 @@
       }
       /deep/ .el-input .el-input__inner{
         border:1px solid #D0D0D0;
+        font-size:10px;
       }
       /deep/ .el-button{
         padding:12px 18px;
@@ -173,13 +182,19 @@
         color:#fff;
         font-size:14px;
         font-family:normal;
-        font-weight:10;
+        font-weight:300;
         border:none;
         outline:none;
         &:hover{
           background:green
         }
       }
+    }
+    .mright{
+      text-align:right;margin-right:10px
+    }
+    .mcenter{
+      text-align:center
     }
   }
 </style>

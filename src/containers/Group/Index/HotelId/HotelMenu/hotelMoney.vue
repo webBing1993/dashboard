@@ -6,11 +6,11 @@
       <div class="hotelmsg">
         <div class="hotelmsg_money">
           <span class="hotelmsg_symbol">¥</span>
-          <span class="hotelmsg_number">98.00</span>
+          <span class="hotelmsg_number">{{balance}}</span>
         </div>
         <div class="hotelmsg_status" @click="recharge">充值/冲帐</div>
       </div>
-      <div class="hotellist_title">XX酒店-充值明细</div>
+      <div class="hotellist_title">{{hotelName}}酒店-充值明细</div>
       <table-hotelMoney :list="moneylist" :page="pageNo" :size="pageSize"></table-hotelMoney>
       <el-pagination
         v-show="total > pageSize"
@@ -80,6 +80,8 @@
           radio:'1',
         },
         formLabelWidth: '150px',
+        balance:'88.00',
+        hotelName:'xx'
 
       }
     },
