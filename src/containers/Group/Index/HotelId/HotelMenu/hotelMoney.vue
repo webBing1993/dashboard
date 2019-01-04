@@ -26,18 +26,18 @@
     </div>
     <!--/弹框页-->
       <el-dialog title="充值/冲帐页面" :visible.sync="dialogFormVisible">
-       <el-form :model="form">
-        <el-form-item label="金额" :label-width="formLabelWidth">
-          <el-input v-model="form.money" autocomplete="off" placeholder="请输入金额"></el-input>
+       <el-form :model="ruleForm" :rules="rules" ref="contentForm">
+        <el-form-item label="金额" :label-width="formLabelWidth" prop="money">
+          <el-input v-model="ruleForm.money" autocomplete="off" placeholder="请输入金额"></el-input>
         </el-form-item>
-        <el-form-item label="关联/合同编号" :label-width="formLabelWidth">
-          <el-input v-model="form.contractNo" autocomplete="off" placeholder="请填写合同编号"></el-input>
+        <el-form-item label="关联/合同编号" :label-width="formLabelWidth" prop="contractNo">
+          <el-input v-model="ruleForm.contractNo" autocomplete="off" placeholder="请填写合同编号"></el-input>
         </el-form-item>
-        <el-form-item label="支付流水号" :label-width="formLabelWidth">
-          <el-input v-model="form.serialNum" autocomplete="off" placeholder="(本次操作管来呢的线下资金交易单号)"></el-input>
+        <el-form-item label="支付流水号" :label-width="formLabelWidth" prop="serialNum">
+          <el-input v-model="ruleForm.serialNum" autocomplete="off" placeholder="(本次操作管来呢的线下资金交易单号)"></el-input>
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
+          <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
             <el-option label="企业转账" value="1"></el-option>
             <el-option label="微信支付" value="2"></el-option>
             <el-option label="支付宝支付" value="3"></el-option>
@@ -45,18 +45,18 @@
           </el-select>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="form.remarks" autocomplete="off" placeholder="(一些想填重要信息,如果没有,可以不填)"></el-input>
+          <el-input v-model="ruleForm.remarks" autocomplete="off" placeholder="(一些想填重要信息,如果没有,可以不填)"></el-input>
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <template>
-            <el-radio v-model="form.radio" label="1">充值</el-radio>
-            <el-radio v-model="form.radio" label="2">冲帐</el-radio>
+            <el-radio v-model="ruleForm.radio" label="1">充值</el-radio>
+            <el-radio v-model="ruleForm.radio" label="2">冲帐</el-radio>
           </template>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button type="primary" @click="sureRecharge('contentForm')">确 定</el-button>
       </div>
     </el-dialog>
     </div>
@@ -71,7 +71,7 @@
         pageSize:10,
         total:60,
         dialogFormVisible:false,
-        form: {
+        ruleForm: {
           money:'',
           contractNo:'',
           serialNum:'',
@@ -81,7 +81,32 @@
         },
         formLabelWidth: '150px',
         balance:'88.00',
-        hotelName:'xx'
+        hotelName:'xx',
+        rules: {
+          //现在只是简单的验证后面要改验证
+          money:[
+            {
+              required: true,
+              message: '金额不能为空',
+              trigger: 'blur'
+            }
+          ],
+          contractNo:[{
+            required: true,
+            message: '合同编号不能为空',
+            trigger: 'blur'
+          }],
+          serialNum:[{
+            required: true,
+            message: '支付流水号不能为空',
+            trigger: 'blur'
+          }],
+          region:[{
+            required: true,
+            message: '支付方式不能为空',
+            trigger: 'blur'
+          }],
+        }
 
       }
     },
@@ -95,6 +120,15 @@
       },
       recharge(){
         this.dialogFormVisible = true
+      },
+      sureRecharge(formname){
+        console.log('ceshi',this.$refs[formname])
+        this.$refs[formname].validate(valide => {
+          if (valide) {
+            console.log(1111)
+            // this.dialogFormVisible = false
+          }
+        })
       }
     }
   }

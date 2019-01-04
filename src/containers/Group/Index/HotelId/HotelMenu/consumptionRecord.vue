@@ -66,8 +66,8 @@
         <el-row>
           <el-col :span="2">消费单数</el-col>
           <el-col :span="3"><el-input v-model="consumptionNumber"></el-input></el-col>
-          <el-col :span="2"><div style="text-align:center">金额总计</div></el-col>
-          <el-col :span="3"><el-input v-model=" columnTotals"></el-input></el-col>
+          <el-col :span="2"><div class="mcenter">金额总计</div></el-col>
+          <el-col :span="3"><el-input v-model="columnTotals"></el-input></el-col>
           <el-col :span="3">
             <div style="text-align:right">
               <el-button @click="makeInvoice">开票</el-button>
