@@ -25,7 +25,7 @@
 
     </div>
     <!--/弹框页-->
-      <el-dialog title="充值/冲帐页面" :visible.sync="dialogFormVisible">
+      <el-dialog title="充值/冲帐页面" :visible.sync="dialogFormVisible" @close="closeDialog" >
        <el-form :model="ruleForm" :rules="rules" ref="contentForm">
         <el-form-item label="金额" :label-width="formLabelWidth" prop="money">
           <el-input v-model="ruleForm.money" autocomplete="off" placeholder="请输入金额"></el-input>
@@ -36,7 +36,7 @@
         <el-form-item label="支付流水号" :label-width="formLabelWidth" prop="serialNum">
           <el-input v-model="ruleForm.serialNum" autocomplete="off" placeholder="(本次操作管来呢的线下资金交易单号)"></el-input>
         </el-form-item>
-        <el-form-item label="支付方式" :label-width="formLabelWidth">
+        <el-form-item label="支付方式" :label-width="formLabelWidth" prop="region">
           <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
             <el-option label="企业转账" value="1"></el-option>
             <el-option label="微信支付" value="2"></el-option>
@@ -55,7 +55,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="cancelRecharge('contentForm')">取 消</el-button>
         <el-button type="primary" @click="sureRecharge('contentForm')">确 定</el-button>
       </div>
     </el-dialog>
@@ -104,7 +104,7 @@
           region:[{
             required: true,
             message: '支付方式不能为空',
-            trigger: 'blur'
+            trigger: 'change'
           }],
         }
 
@@ -120,9 +120,20 @@
       },
       recharge(){
         this.dialogFormVisible = true
+        this.ruleForm.money =''
+        this.ruleForm.contractNo =''
+        this.ruleForm.serialNum =''
+        this.ruleForm.region =''
+        this.ruleForm.remarks =''
+      },
+      cancelRecharge(formname){
+        this.dialogFormVisible = false;
+        this.$refs[formname].resetFields();
+      },
+      closeDialog(){
+        this.$refs['contentForm'].resetFields();
       },
       sureRecharge(formname){
-        console.log('ceshi',this.$refs[formname])
         this.$refs[formname].validate(valide => {
           if (valide) {
             console.log(1111)

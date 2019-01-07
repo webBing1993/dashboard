@@ -116,7 +116,8 @@
       total:60,
       consumptionNumber:'',
       columnTotals:'',
-      hotelName:'xx'
+      hotelName:'xx',
+      transactionNumber:''
     }
    },
     methods:{
