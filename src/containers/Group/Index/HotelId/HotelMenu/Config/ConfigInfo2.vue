@@ -43,7 +43,7 @@
               <span style="width: 155px">付费来源</span>
               <div style="margin-left:20px">
                 <el-checkbox-group v-model="checkedMoney" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{sta}}</el-checkbox>
+                  <el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{(sta =='1')?'酒店付费':'顾客付费'}}</el-checkbox>
                 </el-checkbox-group>
               </div>
             </div>
@@ -57,7 +57,7 @@
             </div>
             <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">备注</span>
-              <el-input class="el-right"v-model="remark" style="display:block" placeholder="关联到消费记录中的备注"></el-input>
+              <el-input class="el-right"v-model="beizhu" style="display:block" placeholder="关联到消费记录中的备注"></el-input>
             </div>
             <!--<div class="item-form" v-if="withoutCardConfig">-->
               <!--<span style="width: 155px">无证收费方式</span>-->
@@ -118,9 +118,9 @@
         // rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
-        moneyStatus:['酒店付费','顾客付费'],
+        moneyStatus:['1','2'],
         checkedMoney:[],
-        remark:'',
+        beizhu:'',
         // collectionManner:'',
         // collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
 
@@ -189,7 +189,6 @@
 
       submitDialog() {
         let data;
-
         switch (this.showType) {
           case enumShowType.withoutCard://无证核验
             data = {
@@ -197,7 +196,10 @@
               // "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
               "nocard_money_insufficient":this.balanceTip,
+              //付费来源  checkedMoney
+              "nocard_pay_mode":this.checkedMoney.join(','),
               // "nocard_pay_mode":this.collectionManner
+              "remarks_content":this.beizhu, //备注
             }
             break;
           default:null
@@ -220,7 +222,9 @@
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
               "nocard_money_insufficient":data.nocard_money_insufficient,
-              // "nocard_pay_mode":data.nocard_pay_mode
+              "nocard_pay_mode":this.checkedMoney.join(','),
+              // "nocard_pay_mode":this.collectionManner
+              "remarks_content":this.beizhu, //备注
           },
           onsuccess: body => {
             this.showDialog = false;
@@ -255,6 +259,9 @@
           this.balanceTip=configData.nocard_money_insufficient;
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
           // this.collectionManner= configData.nocard_pay_mode
+          this.beizhu = configData.remarks_content
+          this.checkedMoney = configData.nocard_pay_mode.split(',')
+          console.log('ceshi4444',configData.nocard_pay_mode)
 
         }
       }
@@ -564,7 +571,7 @@
 
   //我的
   .el-dialog__headerbtn {
-    padding-top: 12px;
+    /*padding-top: 12px;*/
   }
 
   .reg {
