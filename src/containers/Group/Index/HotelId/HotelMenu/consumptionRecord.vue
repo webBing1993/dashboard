@@ -175,7 +175,7 @@
       }
       /deep/ .el-input .el-input__inner{
         border:1px solid #D0D0D0;
-        font-size:10px;
+        font-size:13px;
       }
       /deep/ .el-button{
         padding:12px 18px;
