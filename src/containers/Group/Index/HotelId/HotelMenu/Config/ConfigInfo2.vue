@@ -199,7 +199,7 @@
               //付费来源  checkedMoney
               "nocard_pay_mode":this.checkedMoney.join(','),
               // "nocard_pay_mode":this.collectionManner
-              "remarks_content":this.beizhu, //备注
+              "nocard_remarks_content":this.beizhu, //备注
             }
             break;
           default:null
@@ -224,7 +224,7 @@
               "nocard_money_insufficient":data.nocard_money_insufficient,
               "nocard_pay_mode":this.checkedMoney.join(','),
               // "nocard_pay_mode":this.collectionManner
-              "remarks_content":this.beizhu, //备注
+              "nocard_remarks_content":this.beizhu, //备注
           },
           onsuccess: body => {
             this.showDialog = false;
@@ -259,7 +259,7 @@
           this.balanceTip=configData.nocard_money_insufficient;
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
           // this.collectionManner= configData.nocard_pay_mode
-          this.beizhu = configData.remarks_content
+          this.beizhu = configData.nocard_remarks_content
           this.checkedMoney = configData.nocard_pay_mode.split(',')
           console.log('ceshi4444',configData.nocard_pay_mode)
 

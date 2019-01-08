@@ -1098,7 +1098,7 @@
             //微信生态酒店配置
             this.wxHotelId = configData.wx_hotel_id;
 
-            this.checkedStatus=configData.pay_method.split(',')
+            this.checkedStatus=configData.pms_pay_method.split(',')
 
 
           //小程序配置
@@ -1583,7 +1583,7 @@
               dayrent_name: this.dayrentName,
               pay_name: this.payName,
               refund_name: this.refundName,
-              pay_method:this.checkedStatus.join(',')
+              pms_pay_method:this.checkedStatus.join(',')
             }
             break;
           case enumShowType.wxHotel:
