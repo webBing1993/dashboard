@@ -65,9 +65,9 @@
         </el-row>
         <el-row>
           <el-col :span="2">消费单数</el-col>
-          <el-col :span="3"><el-input v-model="consumptionNumber"></el-input></el-col>
+          <el-col :span="3"><el-input v-model="consumptionNumber" :disabled="true"></el-input></el-col>
           <el-col :span="2"><div class="mcenter">金额总计</div></el-col>
-          <el-col :span="3"><el-input v-model="columnTotals"></el-input></el-col>
+          <el-col :span="3"><el-input v-model="columnTotals" :disabled="true"></el-input></el-col>
           <el-col :span="3">
             <div style="text-align:right">
               <el-button @click="makeInvoice">开票</el-button>
@@ -95,6 +95,7 @@
   </div>
 </template>
 <script>
+  import {mapActions} from 'vuex';
   export default{
   data(){
     return{
@@ -121,6 +122,13 @@
     }
    },
     methods:{
+      ...mapActions([
+        'demandBill',
+        'makeSign'
+      ]),
+      initlist(){
+        //充值明细列表
+      },
       handleCheckedStatusChange(value) {
           console.log('选中后的值',value)
       },
@@ -135,8 +143,17 @@
 
       },
       makeInvoice(){
-
+          this.makeSign({
+            "hotelid": this.$route.params.hotelid,
+             "ids":'',
+             onsuccess:body=>{
+              console.log(body)
+             }
+          })
       }
+    },
+    mounted(){
+      this.initlist()
     }
   }
 

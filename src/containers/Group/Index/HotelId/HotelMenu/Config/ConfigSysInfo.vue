@@ -784,7 +784,7 @@
         dayrentName: '',
         payName: '',
         refundName: '',
-        checkedStatus:[],
+        checkedStatus:['1','2'],
         status:['1','2','3'],
  //**********************微信生态酒店配置**********************
         wxHotelId: '',

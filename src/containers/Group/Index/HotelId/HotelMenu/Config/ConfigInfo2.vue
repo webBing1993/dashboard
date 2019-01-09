@@ -42,9 +42,11 @@
             <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">付费来源</span>
               <div style="margin-left:20px">
-                <el-checkbox-group v-model="checkedMoney" @change="handleCheckedCitiesChange">
-                  <el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{(sta =='1')?'酒店付费':'顾客付费'}}</el-checkbox>
-                </el-checkbox-group>
+                <!--<el-checkbox-group v-model="checkedMoney" @change="handleCheckedCitiesChange">-->
+                  <!--<el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{(sta =='1')?'酒店付费':'顾客付费'}}</el-checkbox>-->
+                <!--</el-checkbox-group>-->
+                <el-radio v-model="checkedMoney" label="1">酒店付费</el-radio>
+                <el-radio v-model="checkedMoney" label="2">顾客付费</el-radio>
               </div>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
@@ -118,8 +120,8 @@
         // rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
-        moneyStatus:['1','2'],
-        checkedMoney:[],
+        // moneyStatus:['1','2'],
+        checkedMoney:'',
         beizhu:'',
         // collectionManner:'',
         // collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
@@ -197,7 +199,7 @@
               "nocard_used_pay":this.checkMoney,
               "nocard_money_insufficient":this.balanceTip,
               //付费来源  checkedMoney
-              "nocard_pay_mode":this.checkedMoney.join(','),
+              "nocard_pay_mode":this.checkedMoney,
               // "nocard_pay_mode":this.collectionManner
               "nocard_remarks_content":this.beizhu, //备注
             }
@@ -222,7 +224,7 @@
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
               "nocard_money_insufficient":data.nocard_money_insufficient,
-              "nocard_pay_mode":this.checkedMoney.join(','),
+              "nocard_pay_mode":this.checkedMoney,
               // "nocard_pay_mode":this.collectionManner
               "nocard_remarks_content":this.beizhu, //备注
           },
@@ -260,7 +262,7 @@
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
           // this.collectionManner= configData.nocard_pay_mode
           this.beizhu = configData.nocard_remarks_content
-          this.checkedMoney = configData.nocard_pay_mode.split(',')
+          this.checkedMoney = configData.nocard_pay_mode
           console.log('ceshi4444',configData.nocard_pay_mode)
 
         }

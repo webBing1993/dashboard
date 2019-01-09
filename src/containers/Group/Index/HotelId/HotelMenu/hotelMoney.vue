@@ -49,8 +49,8 @@
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <template>
-            <el-radio v-model="ruleForm.radio" label="1">充值</el-radio>
-            <el-radio v-model="ruleForm.radio" label="2">冲帐</el-radio>
+            <el-radio v-model="ruleForm.radio" label="CHARGE">充值</el-radio>
+            <el-radio v-model="ruleForm.radio" label="REVERSE">冲帐</el-radio>
           </template>
         </el-form-item>
       </el-form>
@@ -63,6 +63,7 @@
   </div>
 </template>
 <script>
+  import {mapActions} from 'vuex';
   export default{
     data(){
       return {
@@ -77,10 +78,10 @@
           serialNum:'',
           region:'',
           remarks:'',
-          radio:'1',
+          radio:'CHARGE',
         },
         formLabelWidth: '150px',
-        balance:'88.00',
+        balance:'',
         hotelName:'xx',
         rules: {
           //现在只是简单的验证后面要改验证
@@ -111,6 +112,33 @@
       }
     },
     methods:{
+      ...mapActions([
+        'getHotelAccout',
+        'getHotelrecharge',
+        'demandBill',
+        'getHotelCode'
+      ]),
+
+      initlist(){
+        //获取余额
+        this.getHotelAccout({
+          hotelid: this.$route.params.hotelid,
+          onsuccess: body => {
+            if(body.errcode == '0'){
+                this.balance = body.data.balance
+            }
+          }
+        })
+        //充值明细字典code
+        this.getHotelCode({
+          'code':'hotelAccount:expense:businessType',
+          onsuccess: body => {
+           console.log('充值明细code',body)
+          }
+        })
+
+
+      },
       handleSizeChange(val){
         console.log('当前页有多少条',val)
 
@@ -125,6 +153,7 @@
         this.ruleForm.serialNum =''
         this.ruleForm.region =''
         this.ruleForm.remarks =''
+        // console.log('ceshi',this.ruleForm.radio)
       },
       cancelRecharge(formname){
         this.dialogFormVisible = false;
@@ -136,11 +165,31 @@
       sureRecharge(formname){
         this.$refs[formname].validate(valide => {
           if (valide) {
-            console.log(1111)
-            // this.dialogFormVisible = false
+            this.getHotelrecharge({
+                "hotelid": this.$route.params.hotelid,
+                "amount":this.ruleForm.money,  //金额
+                "businessType":this.ruleForm.radio,   //消费类型 REVERSE:冲账,CHARGE:充值
+                "transactionNumber":this.ruleForm.serialNum, //交易单号
+                "contractNumber":this.ruleForm.contractNo, //合同号
+                "remark":this.ruleForm.remarks, //备注
+              // 支付方式
+              onsuccess: body => {
+                if(body.errcode == '0'){
+                  this.$message({
+                    message: '添加成功',
+                    type: 'success'
+                  });
+                  this.dialogFormVisible = false
+                }
+
+              }
+            })
           }
         })
       }
+    },
+    mounted(){
+      this.initlist();
     }
   }
 
