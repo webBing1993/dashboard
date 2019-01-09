@@ -121,7 +121,7 @@
         checkMoney:'',
         balanceTip:'',
         // moneyStatus:['1','2'],
-        checkedMoney:'',
+        checkedMoney:'1',
         beizhu:'',
         // collectionManner:'',
         // collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
