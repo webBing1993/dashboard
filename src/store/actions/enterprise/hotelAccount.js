@@ -60,8 +60,14 @@ module.exports = {
   //修改酒店账户开票标记
   makeSign(ctx,param){
     ctx.dispatch('resource', {
-      url: `/hotel/account/${param.hotelid}/invoiced`,
+      url: `/hotel/expense/record/${param.hotelid}/invoiced`,
       method: 'POST',
+      headers: {
+        'content-type':'application/json;charset=UTF-8'
+      },
+      body:{
+       "ids":param.ids
+      },
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }

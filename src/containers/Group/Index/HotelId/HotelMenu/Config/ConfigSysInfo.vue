@@ -457,7 +457,7 @@
               <span>微信支付方式</span>
               <div>
               <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
-                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{sta=='1'?'小程序支付':(sta=='2'?'刷脸支付':'微信预授权')}}</el-checkbox>
+                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{sta=='1'?'小程序支付':(sta=='2'?'刷脸支付(POS机)':'微信预授权')}}</el-checkbox>
               </el-checkbox-group>
               </div>
             </div>

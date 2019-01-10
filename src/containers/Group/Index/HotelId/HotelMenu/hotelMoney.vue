@@ -148,26 +148,20 @@
             }
           })
         },
-      //充值明细字典code获取
+      //消费明细字典code获取
       getBusinessType(){
         this.getHotelCode({
-          'code':'hotelAccount:expense:businessType',
+          'code':'hotelAccount:accounting:businessType',
           onsuccess: body => {
-            this.businessType = body.data
+               if(body.errcode == '0'){
+                 body.data.forEach(item=>{
+                   this.businessType.push(item.code)
+                 })
+               }
           }
         })
 
       },
-      //账户记录code获取
-      //  getAccountData(){
-      //    this.getHotelCode({
-      //      'code':'hotelAccount:expense:businessType',
-      //      onsuccess: body => {
-      //        this.accountData = body.data
-      //        console.log('测试',this.accountData)
-      //      }
-      //    })
-      //  },
       //支付类型字典获取
        paymentTypes(){
          this.getHotelCode({
@@ -198,12 +192,13 @@
       },
        //充值明细列表
       getBusinessList(){
+        this.getBusinessType()
         this.demandBill({
           "hotelid": this.$route.params.hotelid,
           "page":this.pageNo.toString(),
           "size":this.pageSize.toString(),
           "transactionNumber":"",//交易单号
-          "businessTypes":["REVERSE","CHARGE"],//消费类型
+          "businessTypes":this.businessType,//消费类型
           "invoiced":'',//已开票
           "createTimeStart":"",//时间区间 - 开始
           "createTimeEnd":"",//时间区间 - 结束

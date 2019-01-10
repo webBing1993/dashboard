@@ -51,8 +51,6 @@ import tableRechargeDetail from '@/modules/Tables/recharge/table-rechargedetail.
 import tableWithoutcard from '@/modules/Tables/recharge/table-withoutcard.vue'
 //余额
 import tablehotelMoney from '@/modules/Tables/table-hotelMoney.vue'
-//消费记录
-import tableConsumptionRecord from '@/modules/Tables/table-consumptionRecord.vue'
 // import xcheckbox from '@/modules/forms/x-checkbox.vue'
 
 // Vue.component('XCheckbox', XCheckbox)
@@ -80,7 +78,6 @@ Vue.component('table-LinkList',tableLinkList)
 Vue.component('table-RechargeDetail',tableRechargeDetail)
 Vue.component('table-Withoutcard',tableWithoutcard)
 Vue.component('table-hotelMoney',tablehotelMoney)
-Vue.component('table-ConsumptionRecord',tableConsumptionRecord)
 // 注册一个全局自定义指令 v-focus
 Vue.directive('focus', {
   // 当绑定元素插入到 DOM 中。
