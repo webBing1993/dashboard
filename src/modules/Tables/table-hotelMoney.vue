@@ -15,16 +15,16 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <td>201898778903</td>
-        <td>+800.00</td>
-        <td>充值</td>
-        <td>2018-12-21 10:23:13</td>
-        <td>FT201FDKKKN</td>
-        <td>实际号码</td>
-        <td>企业网银</td>
-        <td>备注1</td>
-        <td>张三</td>
+      <tr v-for="(item,index) in list" :key="index">
+        <td>{{item.transactionNumber}}</td>
+        <td>{{item.amount/100}}</td>
+        <td>{{(item.businessType =='REVERSE')?'冲帐':'充值'}}</td>
+        <td>{{item.createTime}}</td>
+        <td>{{item.contractNumber}}</td>
+        <td>{{item.transactionNumber}}</td>
+        <td>{{item.payType}}</td>
+        <td>{{item.remark}}</td>
+        <td>{{item.createBy}}</td>
       </tr>
       </tbody>
     </table>
@@ -50,6 +50,7 @@
       }
     },
     methods: {
+
     }
   }
 </script>

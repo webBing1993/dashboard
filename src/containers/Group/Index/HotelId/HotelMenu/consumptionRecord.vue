@@ -123,11 +123,23 @@
    },
     methods:{
       ...mapActions([
-        'demandBill',
-        'makeSign'
+        'makeSign',
+        'getHotelExpense'
       ]),
       initlist(){
         //充值明细列表
+        this.getHotelExpense({
+          "hotelid": this.$route.params.hotelid,
+          "transactionNumber":'',//交易单号
+          "businessTypes":["REVERSE","CHARGE"],//消费类型
+          "payerTypes":'',  //支付放类型
+          "invoiced":'',//已开票
+          "createTimeStart":'',//时间区间 - 开始
+          "createTimeEnd":'',//时间区间 - 结束
+          onsuccess:body=>{
+            console.log('消费记录列表',body)
+          }
+        })
       },
       handleCheckedStatusChange(value) {
           console.log('选中后的值',value)

@@ -13,7 +13,7 @@
       <div class="hotellist_title">{{hotelName}}酒店-充值明细</div>
       <table-hotelMoney :list="moneylist" :page="pageNo" :size="pageSize"></table-hotelMoney>
       <el-pagination
-        v-show="total > pageSize"
+        v-show="total"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pageNo"
@@ -38,10 +38,8 @@
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth" prop="region">
           <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-            <el-option label="企业转账" value="1"></el-option>
-            <el-option label="微信支付" value="2"></el-option>
-            <el-option label="支付宝支付" value="3"></el-option>
-            <el-option label="赠送" value="4"></el-option>
+            <el-option v-for="(item, index) in payType" :key="index" :label="item.name" :value="item.code">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
@@ -70,7 +68,7 @@
         moneylist:[],
         pageNo:1,
         pageSize:10,
-        total:60,
+        total:0,
         dialogFormVisible:false,
         ruleForm: {
           money:'',
@@ -83,6 +81,9 @@
         formLabelWidth: '150px',
         balance:'',
         hotelName:'xx',
+        businessType:[],//消费明细
+        payType:[],//支付方式
+        // accountData:[],//消费记录
         rules: {
           //现在只是简单的验证后面要改验证
           money:[
@@ -116,35 +117,113 @@
         'getHotelAccout',
         'getHotelrecharge',
         'demandBill',
-        'getHotelCode'
+        'getHotelCode',
       ]),
-
-      initlist(){
-        //获取余额
-        this.getHotelAccout({
-          hotelid: this.$route.params.hotelid,
-          onsuccess: body => {
-            if(body.errcode == '0'){
-                this.balance = body.data.balance
-            }
-          }
-        })
-        //充值明细字典code
-        this.getHotelCode({
-          'code':'hotelAccount:expense:businessType',
-          onsuccess: body => {
-           console.log('充值明细code',body)
-          }
-        })
-
-
-      },
       handleSizeChange(val){
         console.log('当前页有多少条',val)
-
+        this.pageSize = val
+        this.getBusinessList()
       },
       handleCurrentChange(val){
         console.log('当前是第几页',val)
+        this.pageNo = val
+        this.getBusinessList()
+      },
+      //获取余额和充值明细字典
+      initlist(){
+        this.getAccount();  //获取余额
+        this.getBusinessType(); //获取充值明细
+        this.paymentTypes(); //支付类型
+        this.getBusinessList();  //充值明细列表
+        // this.getAccountData();  //账户记录
+      },
+      //获取余额信息
+        getAccount(){
+          this.getHotelAccout({
+            hotelid: this.$route.params.hotelid,
+            onsuccess: body => {
+              if(body.errcode == '0'){
+                this.balance = body.data.balance
+              }
+            }
+          })
+        },
+      //充值明细字典code获取
+      getBusinessType(){
+        this.getHotelCode({
+          'code':'hotelAccount:expense:businessType',
+          onsuccess: body => {
+            this.businessType = body.data
+          }
+        })
+
+      },
+      //账户记录code获取
+      //  getAccountData(){
+      //    this.getHotelCode({
+      //      'code':'hotelAccount:expense:businessType',
+      //      onsuccess: body => {
+      //        this.accountData = body.data
+      //        console.log('测试',this.accountData)
+      //      }
+      //    })
+      //  },
+      //支付类型字典获取
+       paymentTypes(){
+         this.getHotelCode({
+           'code':'hotelAccount:payType',
+           onsuccess: body => {
+             this.payType = body.data
+           }
+         })
+
+       },
+      //日期
+      formatdate(param, status) {
+        if (param) {
+          var date = new Date(param);
+          var Y = date.getFullYear() + '-';
+          var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+          var D = date.getDate() + ' ';
+          var h = date.getHours() + ':';
+          var m = date.getMinutes() + ':';
+          var s = date.getSeconds();
+          if (status == 'YYYY-MM-DD') {
+            return Y + M + D
+          } else {
+            return Y + M + D + h + m + s;
+          }
+
+        }
+      },
+       //充值明细列表
+      getBusinessList(){
+        this.demandBill({
+          "hotelid": this.$route.params.hotelid,
+          "page":this.pageNo.toString(),
+          "size":this.pageSize.toString(),
+          "transactionNumber":"",//交易单号
+          "businessTypes":["REVERSE","CHARGE"],//消费类型
+          "invoiced":'',//已开票
+          "createTimeStart":"",//时间区间 - 开始
+          "createTimeEnd":"",//时间区间 - 结束
+          onsuccess: (body, headers) => {
+
+            if(body.errcode == '0'){
+              this.moneylist = body.data;
+              this.moneylist.forEach(item=>{
+                item.createTime=this.formatdate(item.createTime,'yy-mm-dd hh:mm:ss')
+                this.payType.forEach(key=>{
+                  if(key.code == item.payType){
+                    item.payType = key.name
+                  }
+                })
+              })
+              // headers['x-total'] ? this.total = +headers['x-total'] : null;
+              headers['x-total'] ? this.total = +headers['x-total'] : null;
+            }
+          }
+        })
       },
       recharge(){
         this.dialogFormVisible = true
@@ -167,11 +246,12 @@
           if (valide) {
             this.getHotelrecharge({
                 "hotelid": this.$route.params.hotelid,
-                "amount":this.ruleForm.money,  //金额
+                "amount":(this.ruleForm.money*100),  //金额
                 "businessType":this.ruleForm.radio,   //消费类型 REVERSE:冲账,CHARGE:充值
                 "transactionNumber":this.ruleForm.serialNum, //交易单号
                 "contractNumber":this.ruleForm.contractNo, //合同号
                 "remark":this.ruleForm.remarks, //备注
+                 "payType":this.ruleForm.region,
               // 支付方式
               onsuccess: body => {
                 if(body.errcode == '0'){
@@ -179,6 +259,7 @@
                     message: '添加成功',
                     type: 'success'
                   });
+                  this.getBusinessList();
                   this.dialogFormVisible = false
                 }
 

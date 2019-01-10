@@ -17,6 +17,17 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/hotel/account/charge/${param.hotelid}`,
       method: 'POST',
+      headers: {
+        'content-type':'application/json;charset=UTF-8'
+      },
+      body:{
+        "amount":param.amount,  //金额
+        "businessType":param.businessType,   //消费类型 REVERSE:冲账,CHARGE:充值
+        "transactionNumber":param.transactionNumber, //交易单号
+        "contractNumber":param.contractNumber, //合同号
+        "remark":param.remark, //备注
+        "payType":param.payType, // 支付方式
+      },
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
@@ -29,8 +40,18 @@ module.exports = {
       method: 'POST',
       headers: {
         'X-Current-Page': param.page || '1',
-        'X-Page-Size': param.size || '0'
+        'X-Page-Size': param.size || '0',
+        'content-type':'application/json;charset=UTF-8'
       },
+      body:{
+        "transactionNumber":param.transactionNumber,
+        "businessTypes":param.businessTypes,//消费类型
+        "invoiced":param.invoiced,//已开票
+        "createTimeStart":param.createTimeStart,//时间区间 - 开始
+        "createTimeEnd":param.createTimeEnd,//时间区间 - 结束
+
+      },
+      emulateJSON: false,
       onSuccess: (body, headers) => {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }
@@ -55,6 +76,31 @@ module.exports = {
           param.onsuccess ? param.onsuccess(body, headers) : null
         }
       })
-    }
+    },
+  //消费记录列表
+  getHotelExpense(ctx,param){
+    ctx.dispatch('resource', {
+      url: `/hotel/expense/record/${param.hotelid}`,
+      method: 'POST',
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0',
+        'content-type':'application/json;charset=UTF-8'
+      },
+      body:{
+        "transactionNumber":param.transactionNumber,
+        "businessTypes":param.businessTypes,//消费类型
+        "payerTypes":param.payerTypes,  //支付放类型
+        "invoiced":param.invoiced,//已开票
+        "createTimeStart":param.createTimeStart,//时间区间 - 开始
+        "createTimeEnd":param.createTimeEnd,//时间区间 - 结束
+
+      },
+      emulateJSON: false,
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  }
 
 }
