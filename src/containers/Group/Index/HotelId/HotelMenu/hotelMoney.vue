@@ -80,7 +80,7 @@
         },
         formLabelWidth: '150px',
         balance:'',
-        hotelName:'xx',
+        hotelName:'',
         businessType:[],//消费明细
         payType:[],//支付方式
         // accountData:[],//消费记录

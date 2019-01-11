@@ -141,7 +141,7 @@
       total:60,
       consumptionNumber:'',
       columnTotals:0,
-      hotelName:'xx',
+      hotelName:'',
       transactionNumber:'',
       multipleSelection: [],
       businessType:[],  //消费类型code数组
