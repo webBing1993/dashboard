@@ -319,7 +319,7 @@
             "hotelid": this.$route.params.hotelid,
             "transactionNumber":this.transactionNumber,
             "businessTypes": selctBusi,
-            "payerTypes":this.payerList,
+            "payerTypes":[],
             "invoiced":this.invoi,
             "createTimeStart":this.datatime1,
             "createTimeEnd":this.datatime2 ,
@@ -368,6 +368,7 @@
                   message: '添加成功',
                   type: 'success'
                 });
+                this.consumptionList() //页面刷新
               }
              }
           })
