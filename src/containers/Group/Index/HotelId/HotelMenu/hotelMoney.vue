@@ -119,59 +119,6 @@
         'demandBill',
         'getHotelCode',
       ]),
-      handleSizeChange(val){
-        console.log('当前页有多少条',val)
-        this.pageSize = val
-        this.getBusinessList()
-      },
-      handleCurrentChange(val){
-        console.log('当前是第几页',val)
-        this.pageNo = val
-        this.getBusinessList()
-      },
-      //获取余额和充值明细字典
-      initlist(){
-        this.getAccount();  //获取余额
-        this.getBusinessType(); //获取充值明细
-        this.paymentTypes(); //支付类型
-        this.getBusinessList();  //充值明细列表
-        // this.getAccountData();  //账户记录
-      },
-      //获取余额信息
-        getAccount(){
-          this.getHotelAccout({
-            hotelid: this.$route.params.hotelid,
-            onsuccess: body => {
-              if(body.errcode == '0'){
-                this.balance = body.data.balance
-              }
-            }
-          })
-        },
-      //消费明细字典code获取
-      getBusinessType(){
-        this.getHotelCode({
-          'code':'hotelAccount:accounting:businessType',
-          onsuccess: body => {
-               if(body.errcode == '0'){
-                 body.data.forEach(item=>{
-                   this.businessType.push(item.code)
-                 })
-               }
-          }
-        })
-
-      },
-      //支付类型字典获取
-       paymentTypes(){
-         this.getHotelCode({
-           'code':'hotelAccount:payType',
-           onsuccess: body => {
-             this.payType = body.data
-           }
-         })
-
-       },
       //日期
       formatdate(param, status) {
         if (param) {
@@ -190,9 +137,64 @@
 
         }
       },
+      //分页切换分页条数
+      handleSizeChange(val){
+        console.log('当前页有多少条',val)
+        this.pageSize = val
+        this.getBusinessList()
+      },
+      //切换当前页
+      handleCurrentChange(val){
+        console.log('当前是第几页',val)
+        this.pageNo = val
+        this.getBusinessList()
+      },
+      //获取余额和充值明细字典
+      initlist(){
+        this.getAccount();  //获取余额
+        this.getBusinessType(); //获取充值明细
+        this.paymentTypes(); //支付类型
+        this.getBusinessList();  //充值明细列表
+      },
+      //获取余额信息
+        getAccount(){
+          this.getHotelAccout({
+            hotelid: this.$route.params.hotelid,
+            onsuccess: body => {
+              if(body.errcode == '0'){
+                this.balance = body.data.balance
+              }
+            }
+          })
+        },
+      //消费明细字典code获取例如是充值还是冲帐
+      getBusinessType(){
+        this.getHotelCode({
+          'code':'hotelAccount:accounting:businessType',
+          onsuccess: body => {
+               if(body.errcode == '0'){
+                 body.data.forEach(item=>{
+                   this.businessType.push(item.code)
+                 })
+               }
+               //调取列表在这调用是为了解决异步的问题
+            this.getBusinessList()
+          }
+        })
+
+      },
+      //支付类型字典获取 例如是支付宝还是微信
+       paymentTypes(){
+         this.getHotelCode({
+           'code':'hotelAccount:payType',
+           onsuccess: body => {
+             this.payType = body.data
+           }
+         })
+
+       },
        //充值明细列表
       getBusinessList(){
-        this.getBusinessType()
         this.demandBill({
           "hotelid": this.$route.params.hotelid,
           "page":this.pageNo.toString(),
@@ -214,12 +216,12 @@
                   }
                 })
               })
-              // headers['x-total'] ? this.total = +headers['x-total'] : null;
               headers['x-total'] ? this.total = +headers['x-total'] : null;
             }
           }
         })
       },
+      //点击充值冲帐
       recharge(){
         this.dialogFormVisible = true
         this.ruleForm.money =''
@@ -233,9 +235,11 @@
         this.dialogFormVisible = false;
         this.$refs[formname].resetFields();
       },
+      //重置验证
       closeDialog(){
         this.$refs['contentForm'].resetFields();
       },
+      //冲帐确定
       sureRecharge(formname){
         this.$refs[formname].validate(valide => {
           if (valide) {

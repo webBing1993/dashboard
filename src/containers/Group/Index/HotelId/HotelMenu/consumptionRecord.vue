@@ -80,13 +80,12 @@
         </el-row>
         <!--<table-ConsumptionRecord :list="consumptionlist" :page="pageNo" :size="pageSize"></table-ConsumptionRecord>-->
          <!---------表格------->
-        <el-table ref="multipleTable" :data="consumptlist" tooltip-effect="dark" style="width: 100%" class="tableContent" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="consumptlist" stripe tooltip-effect="dark" style="width: 100%" class="tableContent" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55">
           </el-table-column>
           <el-table-column  prop="transactionNumber" label="交易单号" width="120">
-            <!--<template slot-scope="scope">{{ scope.row.date }}</template>-->
           </el-table-column>
-          <el-table-column prop="hotelId" label="酒店名称" width="120">
+          <el-table-column prop="hotel" label="酒店名称" width="120">
           </el-table-column>
           <el-table-column prop="realPrice" label="金额">
           </el-table-column>
@@ -128,8 +127,6 @@
       invoi:false,
       datatime1:'',
       datatime2:'',
-      // status:['已开票','未开票'],
-      // checkedStatus: [],
       selectBusiness:'',
       options:[{
         value:'1',
@@ -161,12 +158,6 @@
         'getHotelExpense',
         'getHotelCode'
       ]),
-      initlist(){
-        this.consumptionType() //消费类型
-        this.paymentType()  //支付类型
-        this.paymentStatus()  //支付方式
-        this.consumptionList()//消费明细列表
-      },
       //日期
       formatdate(param, status) {
         if (param) {
@@ -182,24 +173,43 @@
           } else {
             return Y + M + D + h + m + s;
           }
-
         }
       },
-      //支付类型
+      initlist(){
+
+        this.paymentType()  //支付类型
+        this.paymentStatus()  //支付方式
+        this.consumptionType() //消费类型
+      },
+      //更换选择勾选复选框进行开票
+      handleSelectionChange(val) {
+        this.columnTotals =0
+        this.multipleSelection = val;
+        this.checkList =[]    //把勾选的复选框的id组成一个新数组
+        this.multipleSelection.forEach(item=>{
+          this.checkList.push(item.id)
+          this.columnTotals +=item.realPrice
+
+        })
+        this.consumptionNumber = (this.checkList.length!=0)?this.checkList.length:''    //判断消费单数
+        this.columnTotals = (this.columnTotals!=0)?this.columnTotals:''   //金额总计
+
+      },
+      //支付类型  是谁付的款例如客人或者酒店
       paymentType(){
         this.getHotelCode({
           'code':'hotelAccount:payerType',
           onsuccess: body => {
             if(body.errcode == '0'){
                 this.payList = body.data;
-              body.data.forEach(item=>{
-                   this.payerList.push(item.code)
-              })
+                 body.data.forEach(item=>{
+                    this.payerList.push(item.code)
+                 })
             }
           }
         })
       },
-      //支付类型字典获取
+      //支付类型字典获取支付方式银联或支付宝或刷脸支付
       paymentStatus(){
         this.getHotelCode({
           'code':'hotelAccount:payType',
@@ -209,7 +219,7 @@
         })
 
       },
-      //消费类型
+      //消费类型例如无证核验在住服务或者其它
       consumptionType(){
         this.getHotelCode({
           'code':'hotelAccount:expense:businessType',
@@ -219,24 +229,10 @@
               body.data.forEach(item=>{
                 this.businessType.push(item.code)
               })
+              this.consumptionList()
             }
           }
         })
-
-      },
-      //更换选择
-      handleSelectionChange(val) {
-        this.columnTotals =0
-        this.multipleSelection = val;
-        console.log('复选框选择',this.multipleSelection)
-        this.checkList =[]
-        this.multipleSelection.forEach(item=>{
-          this.checkList.push(item.id)
-          this.columnTotals +=item.realPrice
-
-        })
-        this.consumptionNumber = (this.checkList.length!=0)?this.checkList.length:''
-        this.columnTotals = (this.columnTotals!=0)?this.columnTotals:''
 
       },
       //消费明细列表
@@ -247,7 +243,7 @@
           "size":this.pageSize.toString(),
           "hotelid": this.$route.params.hotelid,
           "transactionNumber":'',
-          "businessTypes":["UNDOCUMENTED_CHECK"],
+          "businessTypes": this.businessType,
           "payerTypes":[],
           "invoiced":'',
           "createTimeStart":'',
@@ -260,7 +256,7 @@
                 if(item.invoiced == false){
                   item.invoiced = '未开票'
                 }else{
-                  item.invoiced ='开票'
+                  item.invoiced ='已开票'
                 }
                 item.realPrice = item.realPrice/100
                 item.createTime=this.formatdate(item.createTime,'yy-mm-dd hh:mm:ss')
@@ -287,28 +283,31 @@
         })
 
       },
-      handleCheckedStatusChange(value) {
-          // console.log('选中后的值',value)
-      },
+      //切换分页条数
       handleSizeChange(val){
-        // console.log('当前页有多少条',val)
         this.pageSize = val;
         this.consumptionList();
 
       },
+      //切换当前页
       handleCurrentChange(val){
         // console.log('当前是第几页',val)
         this.pageNo = val
         this.consumptionList();
       },
+      //查询筛选
       query(){
         console.log('this.invoice',typeof(this.invoice))
         if(this.invoice == '1'){
           this.invoi = true;
         }
-        else{
+        else if(this.invoice == '0'){
           this.invoi = false;
         }
+        else{
+          this.invoi =''|| null;
+        }
+        //判断当日期是number类型的时候不转化否则转化
         this.datatime1=(Number(this.datatime1) == this.datatime1 ) ? this.datatime1 : this.datatime1.getTime()
         this.datatime2 = (Number(this.datatime2) == this.datatime2 ) ? this.datatime2 : this.datatime2.getTime()
         let selctBusi =[];
@@ -431,6 +430,19 @@
       }
       /deep/ .tableContent .el-checkbox, .el-checkbox__input{
         display:block;
+      }
+      /deep/ .el-table th{
+        background-color: #9B9B9B;
+        font-size: 14px;
+        color: #3e3e3e;
+        height: 38px;
+        padding:0;
+      }
+      /deep/ .el-table td{
+        padding:0
+      }
+      /deep/ .tableContent .el-table td, .el-table th{
+        padding:0;
       }
     }
     .mright{
