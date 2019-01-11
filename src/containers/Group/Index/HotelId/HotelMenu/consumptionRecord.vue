@@ -123,7 +123,7 @@
   export default{
   data(){
     return{
-      invoice:'',
+      invoice:'1',
       invoi:false,
       datatime1:'',
       datatime2:'',
