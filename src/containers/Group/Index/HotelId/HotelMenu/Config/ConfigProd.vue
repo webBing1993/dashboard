@@ -10,8 +10,8 @@
           @change="_openThisConfig(item)"
           active-color="#39C240"
           inactive-color="#ff4949"
-          active-text="item.name"
-          inactive-text="item.name">
+          active-text=""
+          inactive-text="">
         </el-switch>
         <a v-if="item.status" class="charge" target="_blank" :href="item.control_url">管理</a>
       </div>
