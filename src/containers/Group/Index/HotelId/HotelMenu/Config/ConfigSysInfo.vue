@@ -457,7 +457,7 @@
               <span>微信支付方式</span>
               <div>
               <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
-                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{sta=='1'?'小程序支付':(sta=='2'?'刷脸支付(POS机)':'微信预授权')}}</el-checkbox>
+                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'刷脸支付(POS机)':((sta=='3')?'微信预授权':'刷脸支付(POS机)')}}</el-checkbox>
               </el-checkbox-group>
               </div>
             </div>
@@ -785,7 +785,7 @@
         payName: '',
         refundName: '',
         checkedStatus:['1','2'],
-        status:['1','2','3'],
+        status:['2','3'],
  //**********************微信生态酒店配置**********************
         wxHotelId: '',
         wxhotelCityserList: [],

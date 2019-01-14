@@ -85,7 +85,7 @@
           </el-table-column>
           <el-table-column  prop="transactionNumber" label="交易单号" width="120">
           </el-table-column>
-          <el-table-column prop="hotel" label="酒店名称" width="120">
+          <el-table-column prop="hotelName" label="酒店名称" width="120">
           </el-table-column>
           <el-table-column prop="realPrice" label="金额">
           </el-table-column>
@@ -119,7 +119,7 @@
   </div>
 </template>
 <script>
-  import {mapActions} from 'vuex';
+  import {mapActions,mapState} from 'vuex';
   export default{
   data(){
     return{
@@ -138,7 +138,7 @@
       consumptlist:[],
       pageNo:1,
       pageSize:10,
-      total:60,
+      total:0,
       consumptionNumber:'',
       columnTotals:0,
       hotelName:'',
@@ -152,6 +152,8 @@
       checkList:[]  //选中的所有复选框的id
     }
    },
+    computed:{
+    },
     methods:{
       ...mapActions([
         'makeSign',
@@ -250,6 +252,7 @@
           "createTimeEnd":'',
           onsuccess:(body,headers)=>{
             if(body.errcode == '0'){
+              console.log('消费明细',body)
               headers['x-total'] ? this.total = +headers['x-total'] : null;
 
               body.data.forEach(item=>{
@@ -376,6 +379,11 @@
     },
     mounted(){
       this.initlist()
+      this.initlist()
+      this.hotelName = this.$store.state.enterprise.tempHotelName
+    },
+    watch:{
+
     }
   }
 

@@ -270,6 +270,7 @@
     },
     mounted(){
       this.initlist();
+      this.hotelName = this.$store.state.enterprise.tempHotelName
     }
   }
 
