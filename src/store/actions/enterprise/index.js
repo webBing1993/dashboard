@@ -14,4 +14,5 @@ module.exports = {
   ...require('./hotelStaff'),
   ...require('./prodConfig'),
   ...require('./recharge'),
+  ...require('./hotelAccount')
 }
