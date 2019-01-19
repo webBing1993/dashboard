@@ -1076,6 +1076,7 @@
       configData(){
         let configData = this.configData;
         console.log('configData:',configData)
+        this.appId = configData
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -1097,7 +1098,6 @@
             this.refundName = configData.refund_name,
             //微信生态酒店配置
             this.wxHotelId = configData.wx_hotel_id;
-
             this.checkedStatus=configData.pms_pay_method.split(',')
 
 
