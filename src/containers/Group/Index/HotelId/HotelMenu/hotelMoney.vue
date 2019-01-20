@@ -162,7 +162,8 @@
             hotelid: this.$route.params.hotelid,
             onsuccess: body => {
               if(body.errcode == '0'){
-                this.balance = body.data.balance
+                this.balance = body.data.balance/100
+                console.log('body.data',body.data)
               }
             }
           })
