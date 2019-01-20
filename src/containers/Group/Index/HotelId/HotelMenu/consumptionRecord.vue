@@ -379,7 +379,6 @@
     },
     mounted(){
       this.initlist()
-      this.initlist()
       this.hotelName = this.$store.state.enterprise.tempHotelName
     },
     watch:{
