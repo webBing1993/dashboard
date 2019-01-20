@@ -64,6 +64,19 @@
   import {mapActions} from 'vuex';
   export default{
     data(){
+      var checkMoney =  (rule, value, callback) => {
+        var re = new RegExp(/^[1-9][0-9]*$/)
+        if(value===''){
+          callback(new Error('请输入充值金额'))
+        }
+        else if(!re.test(value)){
+          callback(new Error('输入需要是大于等于1的正整数'))
+        }
+        else{
+          callback();
+        }
+
+      }
       return {
         moneylist:[],
         pageNo:1,
@@ -89,7 +102,8 @@
           money:[
             {
               required: true,
-              message: '金额不能为空',
+              // message: '金额只能输入大于等于1的整数',
+              validator: checkMoney,
               trigger: 'blur'
             }
           ],
