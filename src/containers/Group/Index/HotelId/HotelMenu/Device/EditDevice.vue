@@ -207,6 +207,7 @@
         console.log(111111222222222)
         console.log('改变的当前obj',obj)
         this.currentCode = obj;
+        this.partnerIdTemp = ''
         this.deviceTypeList.map(item => {
           console.log('每条设备item',item.type_code)
 //          if (item.target_type_code == obj) {
