@@ -204,8 +204,11 @@
         })
       },
       _changeDeviceType(obj) {
+        console.log(111111222222222)
+        console.log('改变的当前obj',obj)
         this.currentCode = obj;
         this.deviceTypeList.map(item => {
+          console.log('每条设备item',item.type_code)
 //          if (item.target_type_code == obj) {
 //            this.PadId = item.type_code
 //          }
@@ -221,30 +224,25 @@
             this.currentCode = item.type_code
 
             this.currentTypeDate = item
-            let partnerIdList = [];
             if (this.matchList && this.matchList.length > 0) {
               let partnerIdList = []
               this.matchList.map(item => {
-                if (this.currentTypeDate.partner_device_types.indexOf(item.type) !== -1) {
+                if (this.currentTypeDate.partner_device_types.indexOf(item.type_code) !== -1) {
                   partnerIdList.push(item)
                 }
               })
-              this.matchList = partnerIdList
+              // this.matchList = partnerIdList
               console.log('this.matchList', this.matchList)
               console.log('this.currentTypeDate', this.currentTypeDate.partner_device_types)
 
               let list = partnerIdList.map(v => {
                 let obj = {
-                  value: `${v.name} | ${v.id}`
+                  value: `${v.type_name} | ${v.id}`
                 }
                 return obj
               })
               list.unshift({value: '无'})
               this.partnerIdListTemp = list
-              console.log('改变设备的时候获取到的配对设备zhangmengjie',this.partnerIdListTemp)
-              console.log(1111111)
-              return this.partnerIdListTemp;
-
             }
 
           }
@@ -304,12 +302,12 @@
 
 //      编辑时获取的设备详情
       getDevices() {
-        this.getList()
+        // this.getList()
         this.deviceType = [];
         this.getDevice({
           device_id: this.$route.query.device_id,
           onsuccess: (body, headers) => {
-            console.log('编辑时获取的设备详情', body.data.partner_device_types)
+            console.log('编辑时获取的匹配详情', body.data.partner_device_types)
             this.deviceType = body.data.type_name;
             if (body.data.rzt_template) {
               this.templateList.map(item => {
@@ -331,21 +329,20 @@
             if (this.matchList && this.matchList.length > 0) {
               let partnerIdList = []
               this.matchList.map(item => {
-                if (body.data.partner_device_types.indexOf(item.type) !== -1) {
+                if (body.data.partner_device_types.indexOf(item.type_code) !== -1) {
                   partnerIdList.push(item)
                 }
               })
-              this.matchList = partnerIdList
+              // this.matchList = partnerIdList
               let list = partnerIdList.map(v => {
                 let obj = {
-                  value: `${v.name} | ${v.id}`
+                  value: `${v.type_name} | ${v.id}`
                 }
                 return obj
               })
               list.unshift({value: '无'})
 
               this.partnerIdListTemp = list
-              console.log('编辑时获取到的配对设备zhangmengjie',this.partnerIdListTemp)
             }
 
 
@@ -369,13 +366,8 @@
           }
         })
 
-//        console.log(temp)
-//        console.log('----------')
-//        exit;
         if (this.submitDisabled) return;
         let tempcode = ''
-//        console.log('this.templateList', this.templateList)
-//        console.log('this.templateValue', this.templateValue)
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,
@@ -408,9 +400,10 @@
 //      -----------获取设备类型------------------
       _getDeviceTypeList() {
         this.deviceTypeList = []
+        this.matchList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
-            console.log('获取设备类型zhangmengjie',body.data)
+            this.matchList = body.data
             let temp = body.data
             temp.map(item => {
               if (item.type_name == '发票插件') {
@@ -425,16 +418,16 @@
       },
 
 //      -----------------获取配对设备列表--------------
-      getList() {
-        this.matchList = []
-        this.getDeviceList({
-          hotel_id: this.$route.params.hotelid,
-          onsuccess: (body) => {
-            this.matchList = body.data
-            console.log("配对列表", this.matchList)
-          }
-        })
-      },
+//       getList() {
+//         this.matchList = []
+//         this.getDeviceList({
+//           hotel_id: this.$route.params.hotelid,
+//           onsuccess: (body) => {
+//             this.matchList = body.data
+//             console.log("配对列表", this.matchList)
+//           }
+//         })
+//       },
 
       unlink() {
         if (this.submitDisabled) return;
@@ -456,7 +449,7 @@
         });
       }
       this.getTempList();  //------------人证通模板-----------
-      this.getList();    //--------------配对设备列表--------
+      // this.getList();    //--------------配对设备列表--------
       this._getDeviceTypeList();
     }
   }
