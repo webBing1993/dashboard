@@ -16,7 +16,7 @@
       </thead>
       <tbody>
       <tr v-for="(item,index) in list" :key="index">
-        <td>{{item.transactionNumber}}</td>
+        <td>{{item.orderId}}</td>
         <td>{{item.amount/100}}</td>
         <td>{{(item.businessType =='REVERSE')?'冲帐':'充值'}}</td>
         <td>{{item.createTime}}</td>

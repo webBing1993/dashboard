@@ -195,6 +195,7 @@
         'getShowDeviceNameStatus',
         'tempList',
       ]),
+      //-----------人证通模板-------------
       getTempList() {
         this.tempList({
           onsuccess: body => {
@@ -240,7 +241,10 @@
               })
               list.unshift({value: '无'})
               this.partnerIdListTemp = list
+              console.log('改变设备的时候获取到的配对设备zhangmengjie',this.partnerIdListTemp)
+              console.log(1111111)
               return this.partnerIdListTemp;
+
             }
 
           }
@@ -339,7 +343,9 @@
                 return obj
               })
               list.unshift({value: '无'})
+
               this.partnerIdListTemp = list
+              console.log('编辑时获取到的配对设备zhangmengjie',this.partnerIdListTemp)
             }
 
 
@@ -399,11 +405,12 @@
         })
       },
 
-//      获取设备类型
+//      -----------获取设备类型------------------
       _getDeviceTypeList() {
         this.deviceTypeList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
+            console.log('获取设备类型zhangmengjie',body.data)
             let temp = body.data
             temp.map(item => {
               if (item.type_name == '发票插件') {
@@ -417,7 +424,7 @@
         })
       },
 
-//      获取配对设备
+//      -----------------获取配对设备列表--------------
       getList() {
         this.matchList = []
         this.getDeviceList({
@@ -448,8 +455,8 @@
           }
         });
       }
-      this.getTempList();
-      this.getList();
+      this.getTempList();  //------------人证通模板-----------
+      this.getList();    //--------------配对设备列表--------
       this._getDeviceTypeList();
     }
   }
