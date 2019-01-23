@@ -204,12 +204,10 @@
         })
       },
       _changeDeviceType(obj) {
-        console.log(111111222222222)
-        console.log('改变的当前obj',obj)
         this.currentCode = obj;
         this.partnerIdTemp = ''
         this.deviceTypeList.map(item => {
-          console.log('每条设备item',item.type_code)
+
 //          if (item.target_type_code == obj) {
 //            this.PadId = item.type_code
 //          }
@@ -283,7 +281,6 @@
           hotel_id: this.hotelId,
           data: this.isShowDeviceNameOnPad,
           onsuccess: body => {
-            console.log(888)
             this.addDevice({
               hotel_id: this.hotelId,
               device_id: this.deviceId,
