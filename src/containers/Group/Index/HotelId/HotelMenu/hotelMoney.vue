@@ -275,6 +275,7 @@
                   });
                   this.getBusinessList();
                   this.dialogFormVisible = false
+                  this.getAccount()
                 }
 
               }
