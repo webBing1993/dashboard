@@ -34,16 +34,16 @@
           <el-input v-model="ruleForm.contractNo" autocomplete="off" placeholder="请填写合同编号"></el-input>
         </el-form-item>
         <el-form-item label="支付流水号" :label-width="formLabelWidth" prop="serialNum">
-          <el-input v-model="ruleForm.serialNum" autocomplete="off" placeholder="(本次操作管来呢的线下资金交易单号)"></el-input>
+          <el-input v-model="ruleForm.serialNum" autocomplete="off" placeholder="请输入交易单号"></el-input>
         </el-form-item>
         <el-form-item label="支付方式" :label-width="formLabelWidth" prop="region">
-          <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+          <el-select v-model="ruleForm.region" placeholder="请选择支付方式">
             <el-option v-for="(item, index) in payType" :key="index" :label="item.name" :value="item.code">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="备注" :label-width="formLabelWidth">
-          <el-input v-model="ruleForm.remarks" autocomplete="off" placeholder="(一些想填重要信息,如果没有,可以不填)"></el-input>
+          <el-input v-model="ruleForm.remarks" autocomplete="off" placeholder="请填重要信息,如果没有,可以不填"></el-input>
         </el-form-item>
         <el-form-item label="类型" :label-width="formLabelWidth">
           <template>
@@ -66,11 +66,17 @@
     data(){
       var checkMoney =  (rule, value, callback) => {
         var re = new RegExp(/^[1-9][0-9]*$/)
-        if(value===''){
+        if(value == ''){
           callback(new Error('请输入充值金额'))
         }
-        else if(!re.test(value)){
-          callback(new Error('输入需要是大于等于1的正整数'))
+        else if(value < 10){
+          callback(new Error('请输入大于等于10的整数'))
+        }
+         else if(!re.test(value)){
+          callback(new Error('输入不合法请输入整数'))
+        }
+        else if(value % 10 != 0){
+          callback(new Error('请输入10的整数倍'))
         }
         else{
           callback();
@@ -119,7 +125,7 @@
           }],
           region:[{
             required: true,
-            message: '支付方式不能为空',
+            message: '请选择支付方式',
             trigger: 'change'
           }],
         }
