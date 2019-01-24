@@ -66,11 +66,17 @@
     data(){
       var checkMoney =  (rule, value, callback) => {
         var re = new RegExp(/^[1-9][0-9]*$/)
-        if(value===''){
+        if(value == ''){
           callback(new Error('请输入充值金额'))
         }
-        else if(!re.test(value)){
-          callback(new Error('输入需要是大于等于1的正整数'))
+        else if(value < 10){
+          callback(new Error('请输入大于等于10的整数'))
+        }
+         else if(!re.test(value)){
+          callback(new Error('输入不合法请输入整数'))
+        }
+        else if(value % 10 != 0){
+          callback(new Error('请输入10的整数倍'))
         }
         else{
           callback();
