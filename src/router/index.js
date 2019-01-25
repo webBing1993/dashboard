@@ -68,6 +68,10 @@ import manageProdVersion from '@/containers/Group/Index/HotelId/HotelMenu/manage
 
 import rechargeDetail from '@/containers/Group/Index/HotelId/HotelMenu/rechargeDetail.vue'
 import withoutCardCheck from '@/containers/Group/Index/HotelId/HotelMenu/withoutCardCheck.vue'
+//余额
+import hotelMoney from '@/containers/Group/Index/HotelId/HotelMenu/hotelMoney.vue'
+//消费记录
+import consumptionRecord from '@/containers/Group/Index/HotelId/HotelMenu/consumptionRecord.vue'
 
 import MiniAppMsgList from '@/containers/System/Index/SystemMenu/MiniAppMsg/MiniAppMsgList.vue'
 import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMiniAppMsg.vue'
@@ -312,6 +316,17 @@ const main = [
                         name: 'withoutCardCheck',
                         component: withoutCardCheck
                       },
+                      {
+                        path:'hotelMoney',
+                        name:'hotelMoney',
+                        component:hotelMoney
+                      },
+                      {
+                        path:'consumptionRecord',
+                        name:'consumptionRecord',
+                        component:consumptionRecord
+                      }
+
                     ]
                   }
                 ]

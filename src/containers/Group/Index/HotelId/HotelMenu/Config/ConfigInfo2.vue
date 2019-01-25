@@ -32,12 +32,22 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span>无证核验</span>
+              <span style="width: 155px">无证核验{{withoutCardConfig}}</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
+            <!--<div class="item-form" v-if="withoutCardConfig">-->
+            <!--<span style="width: 155px">充值金额（元）</span>-->
+            <!--<el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>-->
+            <!--</div>-->
             <div class="item-form" v-if="withoutCardConfig">
-            <span style="width: 155px">充值金额（元）</span>
-            <el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>
+              <span style="width: 155px">付费来源</span>
+              <div style="margin-left:20px">
+                <!--<el-checkbox-group v-model="checkedMoney" @change="handleCheckedCitiesChange">-->
+                  <!--<el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{(sta =='1')?'酒店付费':'顾客付费'}}</el-checkbox>-->
+                <!--</el-checkbox-group>-->
+                <el-radio v-model="checkedMoney" label="1">酒店付费</el-radio>
+                <el-radio v-model="checkedMoney" label="2">顾客付费</el-radio>
+              </div>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
               <span style="width: 155px">无证核验金额（元）</span>
@@ -47,6 +57,17 @@
               <span style="width: 155px">余额不足提醒金额（元）</span>
               <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
             </div>
+            <div class="item-form" v-if="withoutCardConfig">
+              <span style="width: 155px">备注</span>
+              <el-input class="el-right"v-model="beizhu" style="display:block" placeholder="关联到消费记录中的备注"></el-input>
+            </div>
+            <!--<div class="item-form" v-if="withoutCardConfig">-->
+              <!--<span style="width: 155px">无证收费方式</span>-->
+              <!--<el-select v-model="collectionManner" placeholder="请选择无证收费方式" style="width:60%;margin-left:16px!important">-->
+                <!--<el-option v-for="(item, index) in collection" :key="index" :label="item.methods" :value="item.id">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</div>-->
           </div>
         </div>
         <!--footer-->
@@ -96,9 +117,15 @@
 //        无证核验配置参数
         withoutCardConfig:false,
         openWithoutCard:true,
-        rangeMoney:'',
+        // rangeMoney:'',
         checkMoney:'',
         balanceTip:'',
+        // moneyStatus:['1','2'],
+        checkedMoney:'1',
+        beizhu:'',
+        // collectionManner:'',
+        // collection:[{'id':'1','methods':'向客人收费'},{'id':'2','methods':'向酒店收费'}]
+
 
       }
     },
@@ -111,7 +138,7 @@
       //无数个validate
       validateWithoutCard(){
         if(
-          tool.isNotBlank(this.rangeMoney)&&
+          // tool.isNotBlank(this.rangeMoney)&&
           tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
           return false;
         }else {
@@ -137,6 +164,9 @@
         'goto',
         'patchConfig',
       ]),
+      handleCheckedCitiesChange(val){
+        console.log('当前选中的有哪些',val)
+      },
       goSummary() {
         this.goto({
           name: 'ConfigSummary'
@@ -161,14 +191,17 @@
 
       submitDialog() {
         let data;
-
         switch (this.showType) {
           case enumShowType.withoutCard://无证核验
             data = {
               "enable_identity_check_undocumented":this.withoutCardConfig.toString(),
-              "recharge_lowest":this.rangeMoney,
+              // "recharge_lowest":this.rangeMoney,
               "nocard_used_pay":this.checkMoney,
-              "nocard_money_insufficient":this.balanceTip
+              "nocard_money_insufficient":this.balanceTip,
+              //付费来源  checkedMoney
+              "nocard_pay_mode":this.checkedMoney,
+              // "nocard_pay_mode":this.collectionManner
+              "nocard_remarks_content":this.beizhu, //备注
             }
             break;
           default:null
@@ -190,10 +223,14 @@
               "enable_identity_check_undocumented":data.enable_identity_check_undocumented,
               "recharge_lowest":data.recharge_lowest,
               "nocard_used_pay":data.nocard_used_pay,
-              "nocard_money_insufficient":data.nocard_money_insufficient
+              "nocard_money_insufficient":data.nocard_money_insufficient,
+              "nocard_pay_mode":this.checkedMoney,
+              // "nocard_pay_mode":this.collectionManner
+              "nocard_remarks_content":this.beizhu, //备注
           },
           onsuccess: body => {
             this.showDialog = false;
+            this.getConfigs();
           }
         })
       },
@@ -219,10 +256,14 @@
         if (tool.isNotBlank(configData)) {
 //            无证核验
           this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
-          this.rangeMoney=configData.recharge_lowest;
+          // this.rangeMoney=configData.recharge_lowest;
           this.checkMoney=configData.nocard_used_pay;
           this.balanceTip=configData.nocard_money_insufficient;
           this.openWithoutCard= configData.enable_identity_check_undocumented == 'true' ? true : false;
+          // this.collectionManner= configData.nocard_pay_mode
+          this.beizhu = configData.nocard_remarks_content
+          this.checkedMoney = configData.nocard_pay_mode
+          console.log('ceshi4444',configData.nocard_pay_mode)
 
         }
       }
@@ -362,15 +403,17 @@
                 min-width: 110px;
                 text-align: left;
               }
-              .el-select {
-                width: 100%;
-                .el-input {
-                  width: 69.5%;
-                }
-              }
               .el-input {
                 width: 60%;
               }
+              .el-select {
+                width:60%!important;
+                margin-left:16px!important;
+                .el-input{
+                  width:100%!important;
+                }
+              }
+
               .el-transfer{
                 .el-input{
                   width: 100%;
@@ -378,7 +421,7 @@
               }
 
               .el-switch {
-                margin-left: 60px;
+                margin-left: 16px;
               }
               .el-radio {
                 margin-left: 16px;
@@ -530,7 +573,7 @@
 
   //我的
   .el-dialog__headerbtn {
-    padding-top: 12px;
+    /*padding-top: 12px;*/
   }
 
   .reg {

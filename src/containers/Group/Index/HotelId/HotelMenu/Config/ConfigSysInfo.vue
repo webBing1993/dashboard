@@ -454,6 +454,14 @@
 
           <div v-if="showType === enumShowType.wechatPay">
             <div class="item_large">
+              <span>微信支付方式</span>
+              <div>
+              <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'刷脸支付(POS机)':((sta=='3')?'微信预授权':'刷脸支付(POS机)')}}</el-checkbox>
+              </el-checkbox-group>
+              </div>
+            </div>
+            <div class="item_large">
               <span>酒店微信账务收款代码</span>
               <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
             </div>
@@ -675,6 +683,7 @@
     customization:8,
     accessServiceType:9,
     WxHotelRegister: 10,//微信生态酒店——城市服务注册
+
   }
 
   //弹框标题类型
@@ -775,6 +784,8 @@
         dayrentName: '',
         payName: '',
         refundName: '',
+        checkedStatus:['1','2'],
+        status:['2','3'],
  //**********************微信生态酒店配置**********************
         wxHotelId: '',
         wxhotelCityserList: [],
@@ -809,6 +820,7 @@
         showType: '',
         showDialog: false,
       }
+
     },
     mounted() {
       this.getLvyes();
@@ -997,7 +1009,7 @@
       },
 
       validatewechatPay() {
-        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName);
+        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName)&& tool.isNotBlank(this.checkedStatus);
       },
 
       validatewxHotel() {
@@ -1064,6 +1076,7 @@
       configData(){
         let configData = this.configData;
         console.log('configData:',configData)
+        this.appId = configData
         if (tool.isNotBlank(configData)) {
           //门锁配置，暂无
           //人脸识别配置
@@ -1085,6 +1098,9 @@
             this.refundName = configData.refund_name,
             //微信生态酒店配置
             this.wxHotelId = configData.wx_hotel_id;
+            this.checkedStatus=configData.pms_pay_method.split(',')
+
+
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -1225,6 +1241,10 @@
 //        "saveReviewRoomNum",
 //        "editReviewRoomNum"
       ]),
+      handleCheckedStatusChange(value) {
+        console.log('选中后的值',value)
+        console.log(this.checkedStatus)
+      },
       getLvyes() {
         this.getLvye({
           hotel_id: this.$route.params.hotelid,
@@ -1562,7 +1582,8 @@
               refund_code: this.refundCode,
               dayrent_name: this.dayrentName,
               pay_name: this.payName,
-              refund_name: this.refundName
+              refund_name: this.refundName,
+              pms_pay_method:this.checkedStatus.join(',')
             }
             break;
           case enumShowType.wxHotel:
@@ -2051,7 +2072,7 @@
 
   //我的
   .el-dialog__headerbtn {
-    padding-top: 12px;
+
   }
 
   .reg {
@@ -2074,4 +2095,11 @@
     height: 2rem;
     margin-left: 1rem;
   }
+  .module-wrapper .content-configinfo .el-dialog .el-dialog__body .dialog-content .item_large .el-checkbox-group{
+    margin-left:16px;
+    span{
+      min-width:0;
+    }
+  }
+
 </style>

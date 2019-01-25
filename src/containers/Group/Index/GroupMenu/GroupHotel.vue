@@ -13,8 +13,8 @@
             :value="obj.version_name">
           </el-option>
         </el-select>
-        <el-button type="success" @click.native="getList">搜索</el-button>
-        <el-button type="success" @click.native="regist">+ 添加门店</el-button>
+        <el-button type="success" @click.native="getList1">搜索</el-button>
+        <!--<el-button type="success" @click.native="regist">+ 添加门店</el-button>-->
       </div>
       <h3>最近操作的门店</h3>
       <div class="content_grouphotel">
@@ -170,6 +170,10 @@
         this.getGroupList({
           onsuccess: body => this.groupList = body.data
         })
+      },
+      getList1(){
+        this.page = 1
+        this.getList()
       },
       getList() {
         this.getHotelList({
