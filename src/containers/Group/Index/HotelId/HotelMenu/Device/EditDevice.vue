@@ -226,21 +226,22 @@
             if (this.matchList && this.matchList.length > 0) {
               let partnerIdList = []
               this.matchList.map(item => {
-                if (this.currentTypeDate.partner_device_types.indexOf(item.type_code) !== -1) {
+                if (this.currentTypeDate.partner_device_types.indexOf(item.type) !== -1) {
                   partnerIdList.push(item)
                 }
               })
               // this.matchList = partnerIdList
               console.log('this.matchList', this.matchList)
               console.log('this.currentTypeDate', this.currentTypeDate.partner_device_types)
-
-              let list = partnerIdList.map(v => {
+              let list;
+              list.unshift({value: '无'})
+               list = partnerIdList.map(v => {
                 let obj = {
                   value: `${v.type_name} | ${v.id}`
                 }
                 return obj
               })
-              list.unshift({value: '无'})
+
               this.partnerIdListTemp = list
             }
 
@@ -327,7 +328,7 @@
             if (this.matchList && this.matchList.length > 0) {
               let partnerIdList = []
               this.matchList.map(item => {
-                if (body.data.partner_device_types.indexOf(item.type_code) !== -1) {
+                if (body.data.partner_device_types.indexOf(item.type) !== -1) {
                   partnerIdList.push(item)
                 }
               })
@@ -398,10 +399,8 @@
 //      -----------获取设备类型------------------
       _getDeviceTypeList() {
         this.deviceTypeList = []
-        this.matchList = []
         this.getDeviceTypeList({
           onsuccess: (body) => {
-            this.matchList = body.data
             let temp = body.data
             temp.map(item => {
               if (item.type_name == '发票插件') {
@@ -416,16 +415,16 @@
       },
 
 //      -----------------获取配对设备列表--------------
-//       getList() {
-//         this.matchList = []
-//         this.getDeviceList({
-//           hotel_id: this.$route.params.hotelid,
-//           onsuccess: (body) => {
-//             this.matchList = body.data
-//             console.log("配对列表", this.matchList)
-//           }
-//         })
-//       },
+      getList() {
+        this.matchList = []
+        this.getDeviceList({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: (body) => {
+            this.matchList = body.data
+            console.log("配对列表", this.matchList)
+          }
+        })
+      },
 
       unlink() {
         if (this.submitDisabled) return;
@@ -436,6 +435,7 @@
       if (this.$route.query.device_id) {
         this.isAdd = false;
         this.deviceId = this.$route.query.device_id;
+        this.getList();    //--------------配对设备列表--------
         this.getDevices();
         this.getShowDeviceNameStatus({
           hotel_id: this.hotelId,
@@ -447,7 +447,7 @@
         });
       }
       this.getTempList();  //------------人证通模板-----------
-      // this.getList();    //--------------配对设备列表--------
+
       this._getDeviceTypeList();
     }
   }
