@@ -153,6 +153,18 @@
           </button>
         </el-col>
         <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.advancedLiveIn)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>入住规则配置</span>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
@@ -360,6 +372,7 @@
         :close-on-press-escape="false"
         :show-close="true"
         @close="closeMorelvye(showType)"
+        z-index="1000"
       >
         <div class="dialog-content">
           <span class="tip" v-if="setTip">* 旅业信息不能为空</span>
@@ -454,8 +467,34 @@
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
+            <div class="item-form">
+              <span style="min-width: 210px; ">开启选房时间</span>
+              <el-time-picker class="el-right" value-format="HH:mm:ss"
+                v-model="setHouseTime"
+                placeholder="选择时间">
+              </el-time-picker>
+            </div>
+            <div class="item-form">
+              <span style="min-width: 210px; ">是否允许选房</span>
+              <el-switch
+                v-model="selectHouseSure"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <div v-if="showType === enumShowType.syncSpaceTime">
+            <div class="item-form">
+              <span>同步时间</span>
+              <el-time-picker class="el-right"
+                is-range
+                v-model="syncTime" value-format="HH:mm:ss"
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围">
+              </el-time-picker>
+            </div>
             <div class="item-form">
               <span>PMS同步频率</span>
               <el-select class="el-right" v-model="syncSpaceTime" placeholder="请选择PMS同步频率">
@@ -466,6 +505,10 @@
                   :value="obj.value">
                 </el-option>
               </el-select>
+            </div>
+            <div class="item-form">
+              <span>同步几天内的订单</span>
+              <el-input class="el-right" v-model="inputOrderId" placeholder="1"></el-input>
             </div>
             <div class="item-form">
               <span>是否需要自动同步？</span>
@@ -573,6 +616,16 @@
               </el-switch>
             </div>
           </div>
+          <div v-if="showType === enumShowType.advancedLiveIn">
+            <div class="item-form">
+              <span>无手机号是否允许直接转入住</span>
+              <el-switch
+                v-model="enabledAdvancedLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
           <div v-if="showType === enumShowType.advancedCheckout">
             <div class="item-form">
               <span>是否允许提前退房</span>
@@ -594,6 +647,37 @@
               <span>是否允许当日抵离</span>
               <el-switch
                 v-model="enabledSameDateIO"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>客人退房提醒时间</span>
+              <el-time-picker class="el-right" value-format="HH:mm:ss"
+                              v-model="setCheckoutHouseTime"
+                              placeholder="选择时间">
+              </el-time-picker>
+            </div>
+            <div class="item-form">
+              <span>账单是否需要签名</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutName"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>平帐帐单是否需要签名</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutNameSure"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否判断客房消费</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutHouse"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -673,6 +757,14 @@
             <div class="item-form">
               <span style="width: 155px">酒店客服电话</span>
               <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
+            </div>
+            <div class="item-form">
+              <span>是否在人证通显示完整房号</span>
+              <el-switch
+                v-model="enabledFullRoom"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
             </div>
           </div>
           <div v-if="showType === enumShowType.informCoResident">
@@ -929,6 +1021,8 @@
     isShowPoliceHandeld: 22,//公安验证是否显示已处理
     keyAccess: 23,//关键通道
     zftShowMoreRoom: 24,//关键通道
+    advancedLiveIn:25,//入住规则配置
+
 
   }
 
@@ -958,6 +1052,7 @@
     '公安验证是否显示已处理记录',
     '关键通道配置',
     '值房通是否显示多房订单',
+    '入住规则配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1040,6 +1135,8 @@
           {name: '漫客平台定义,人/张', value: 'MANKE'}],
         //可选房数量
         maxAllowRoomcount: '10',
+        setHouseTime:'',//选房时间
+        selectHouseSure:false,//是否允许选房
         //PMS同步频率
         syncSpaceTime: '30',
         scheduledSure: true,
@@ -1047,6 +1144,10 @@
           {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
           {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
           {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
+        inputOrderId:'1',  //同步几天内的订单
+        syncTime:'', //同步时间
+        startTime:'',//开始时间
+        endTime:'',//结束时间
         //自动预付款确认
         prepayKeyword: '',
         prepayExclusionKeyword: '',
@@ -1073,6 +1174,10 @@
         enabledAdvancedCheckout: false,
         enabledPMScheckout: false,
         enabledSameDateIO: false,
+        setCheckoutHouseTime:'',  //客人退房时间提醒
+        enabledAdvancedCheckoutName:false,//账单是否需要签名
+        enabledAdvancedCheckoutNameSure:false,  //平张帐单是否需要签名
+        enabledAdvancedCheckoutHouse:false, //是否判断客房消费
         hotelAreaCodeVal: '',//酒店行政区划代码
         queryDel: false,
         //酒店二维码配置
@@ -1116,6 +1221,7 @@
         noDeviceCheckInMark: '',
         failedCheckOutMark: '',
         hotelServiceTelMark: '',
+        enabledFullRoom:false,
         hotelMark: false,
         enableNoCertificateCheck: false,
         appValue: 'WQT',
@@ -1146,7 +1252,9 @@
         size: 10,
         total: 0,
         isHaveRoomNumReviewList: false,
-        showPoliceHandledList: false
+        showPoliceHandledList: false,
+        enabledAdvancedLiveIn:false,  //入住规则
+
       }
     },
     mounted() {
@@ -1374,6 +1482,9 @@
           case enumShowType.ticketPrint:
             result = true;
             break;
+          case enumShowType.advancedLiveIn:
+            result = true;
+            break;
           case enumShowType.advancedCheckout:
             result = true;
             break;
@@ -1420,6 +1531,13 @@
       }
     },
     watch: {
+      setHouseTime(newval){
+       console.log('时间',newval)
+      },
+      syncTime(newval){
+        console.log('时间选择',newval)
+
+      },
       renderRoomNumReviewList(val){
         console.log(val)
       },
@@ -1427,7 +1545,6 @@
         let configData = this.configData;
         console.log('configData:', configData)
         if (tool.isNotBlank(configData)) {
-
           //门卡配置
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
@@ -1446,13 +1563,27 @@
             ;
             this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
           }
+          //入住规则配置
+          this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
+
+            //pad界面内容显示配置 是否在人证通显示完整房号
+          this.enabledFullRoom=configData.show_full_roomno == 'true' ? true : false;
+
+
+
           //早餐券配置
           this.breakfastStemFrom = configData.breakfast_stem_from;
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
+          this.setHouseTime = configData.allow_give_room
+          this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
+
           //PMS同步频率
           this.syncSpaceTime = configData.sync_space_time;
           this.scheduledSure = configData.scheduled;
+          this.inputOrderId = configData.max_order_day
+          let extract_time = configData.extract_start_time+','+configData.extract_end_time
+          this.syncTime =extract_time.split(',')
           //顾客配置
 //          this.curstomDeploy = configData.enabled_auto_give_room == 'true' ? true : false;
           this.curstomDeploy = configData.user_disable_order == 'true' ? true : false;
@@ -1478,6 +1609,11 @@
           this.enabledAdvancedCheckout = configData.advanced_checkout == 'true' ? true : false;
           this.enabledPMScheckout = configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
           this.enabledSameDateIO = configData.enabled_same_date_io == 'true' ? true : false;
+          this.setCheckoutHouseTime = configData.checkout_remind_time
+          this.enabledAdvancedCheckoutName = configData.bill_need_sign== 'true' ? true : false;
+          this.enabledAdvancedCheckoutNameSure = configData.bill_equal_need_sign == 'true' ? true : false;
+          this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
+
           //酒店行政区划代码配置
           this.hotelAreaCodeVal = configData.hotel_area_code;
           //是否自动分房配置
@@ -1553,6 +1689,13 @@
         "singerConfig",
         "updateSingerConfig",
       ]),
+      timeToTime(dateobj) {
+        let hh = dateobj.getHours () > 9 ? dateobj.getHours () : '0' + dateobj.getHours ()
+        let mm = dateobj.getMinutes () > 9 ? dateobj.getMinutes () : '0' + dateobj.getMinutes ()
+        let ss = dateobj.getSeconds () > 9 ? dateobj.getSeconds () : '0' + dateobj.getSeconds ()
+        return hh+':'+mm+':'+ss
+      },
+      //时间格式处理
       _updateSingerConfig(pre){
         this.updateSingerConfig({
           hotel_id: this.$route.params.hotelid,
@@ -1650,7 +1793,8 @@
             "apply_checkout_finish": this.checkOutMark == '' ? '' + '#190164' : this.checkOutMark + '#190164',
             "non_equipment_checkin": this.noDeviceCheckInMark == '' ? '' + '#190159' : this.noDeviceCheckInMark + '#190159',
             "checkout_failure": this.failedCheckOutMark == '' ? '' + '#190163' : this.failedCheckOutMark + '#190163',
-            "customer_service_tel": this.hotelServiceTelMark
+            "customer_service_tel": this.hotelServiceTelMark,
+            "show_full_roomno":this.enabledFullRoom
           },
           onsuccess: body => {
             this.showDialog = false;
@@ -1864,13 +2008,19 @@
             break;
           case enumShowType.maxAllowRoomcount:
             data = {
-              max_allow_roomcount: this.maxAllowRoomcount
+              max_allow_roomcount: this.maxAllowRoomcount,
+              allow_give_room:this.setHouseTime,
+              enable_select_house:this.selectHouseSure
             }
             break;
           case enumShowType.syncSpaceTime:
             data = {
               sync_space_time: this.syncSpaceTime,
-              scheduled: this.scheduledSure
+              scheduled: this.scheduledSure,
+              extract_start_time:this.syncTime[0],
+              extract_end_time:this.syncTime[1],
+              max_order_day:this.inputOrderId,
+
             }
             break;
           case enumShowType.autoConfirmPrePay:
@@ -1911,11 +2061,21 @@
               enabled_ticket_print: this.enabledTicketPrint.toString()
             }
             break;
+          case enumShowType.advancedLiveIn:
+            data = {
+              no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
+            }
+            break;
           case enumShowType.advancedCheckout:
             data = {
               advanced_checkout: this.enabledAdvancedCheckout.toString(),
               enabled_pms_in_guest_checkout: this.enabledPMScheckout.toString(),
-              enabled_same_date_io: this.enabledSameDateIO.toString()
+              enabled_same_date_io: this.enabledSameDateIO.toString(),
+              checkout_remind_time: this.setCheckoutHouseTime,
+              bill_need_sign:this.enabledAdvancedCheckoutName.toString(),
+              bill_equal_need_sign:this.enabledAdvancedCheckoutName.toString(),
+              need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
+
             }
             break;
           case enumShowType.hotelAreaCode:
@@ -2498,7 +2658,7 @@
 
   /*//我的*/
   .el-dialog__headerbtn {
-    padding-top: 12px!important;
+    /*padding-top: 12px!important;*/
   }
 
   /*.el-dialog__headerbtn .el-dialog__close {*/

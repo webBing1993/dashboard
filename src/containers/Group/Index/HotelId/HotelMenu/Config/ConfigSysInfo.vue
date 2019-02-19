@@ -324,6 +324,14 @@
                 <el-button plain @click="addAlterUrl"> 添加一个备选网址</el-button>
               </div>
             </div>
+            <div class="item-form">
+              <span>pms接口是否支持续住(君庭不支持)</span>
+              <el-switch
+                v-model="pmsCheckIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
 
           <div v-if="showType === enumShowType.lvyeReportType">
@@ -758,6 +766,7 @@
         brandId: '',
         //东呈
         dcKey: '',
+        pmsCheckIn:false,
 // **********旅业配置*********************
         lvyeTypeList: [],
         singlelvyeAutoReport: '',
@@ -1078,6 +1087,9 @@
         console.log('configData:',configData)
         this.appId = configData
         if (tool.isNotBlank(configData)) {
+          //是否续住
+          this.pmsCheckIn =configData.pms_enable_extension == 'true' ? true : false
+          console.log('是否续住',this.pmsCheckIn)
           //门锁配置，暂无
           //人脸识别配置
           this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
@@ -1132,7 +1144,7 @@
 
       pmsData() {
         if (tool.isNotBlank(this.pmsData)) {
-          //PMS信息
+          //PMS信息this.pmsData
           //捷信达
           this.wqtPublicNo=this.pmsData.pms_worker_id;
           this.urls=this.pmsData.urls;
@@ -1142,6 +1154,7 @@
           this.hotelPmsCode = this.pmsData.hotel_pmscode;
           this.remark = this.pmsData.remark;
           this.hotelServiceUrl = this.pmsData.hotel_service_url;
+
           //绿云,西软
           this.crsURL = this.pmsData.crs_url;
           this.hotelGroupCode = this.pmsData.hotel_group_code;
@@ -1476,7 +1489,8 @@
               remark: this.remark,
               hotel_service_url: this.hotelServiceUrl,
               urls:this.urls,
-              pms_worker_id:this.wqtPublicNo
+              pms_worker_id:this.wqtPublicNo,
+              pms_enable_extension:this.pmsCheckIn
             };
             if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14') {
               data = {
