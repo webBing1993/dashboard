@@ -2073,7 +2073,7 @@
               enabled_same_date_io: this.enabledSameDateIO.toString(),
               checkout_remind_time: this.setCheckoutHouseTime,
               bill_need_sign:this.enabledAdvancedCheckoutName.toString(),
-              bill_equal_need_sign:this.enabledAdvancedCheckoutName.toString(),
+              bill_equal_need_sign:this.enabledAdvancedCheckoutNameSure,
               need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
 
             }
