@@ -323,7 +323,7 @@
             this.partnerId = body.data.partner_id;
             this.enabled = body.data.enabled == 1 ? true : false;
 //            rzt_template
-            console.log('编辑时获取的设备详情', this.matchList)
+            console.log('编辑时获取的设备详情11111', this.matchList)
 
             if (this.matchList && this.matchList.length > 0) {
               let partnerIdList = []
@@ -422,6 +422,7 @@
           onsuccess: (body) => {
             this.matchList = body.data
             console.log("配对列表", this.matchList)
+            this.getDevices()
           }
         })
       },
@@ -436,7 +437,7 @@
         this.isAdd = false;
         this.deviceId = this.$route.query.device_id;
         this.getList();    //--------------配对设备列表--------
-        this.getDevices();
+        // this.getDevices();
         this.getShowDeviceNameStatus({
           hotel_id: this.hotelId,
           onsuccess: (body, headers) => {
