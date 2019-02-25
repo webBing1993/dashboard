@@ -1887,9 +1887,16 @@
             break;
           case enumShowType.maxAllowRoomcount:
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
+            this.setHouseTime = this.configData.allow_give_room
+            this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
+
             break;
           case enumShowType.syncSpaceTime:
             this.syncSpaceTime = this.configData.sync_space_time;
+            let extract_time = this.configData.extract_start_time+','+this.configData.extract_end_time
+            this.syncTime = extract_time.split(',')
+            this.inputOrderId = this.configData.max_order_day
+            this.scheduledSure = this.configData.scheduled
             break;
           case enumShowType.autoConfirmPrePay:
             this.prepayKeyword = this.configData.prepay_keyword;
@@ -1918,7 +1925,14 @@
             this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
             this.enabledPMScheckout = this.configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
             this.enabledSameDateIO = this.configData.enabled_same_date_io == 'true' ? true : false;
+            this.setCheckoutHouseTime = this.configData.checkout_remind_time
+            this.enabledAdvancedCheckoutName = this.configData.bill_need_sign== 'true' ? true : false;
+            this.enabledAdvancedCheckoutNameSure = this.configData.bill_equal_need_sign == 'true' ? true : false;
+            this.enabledAdvancedCheckoutHouse = this.configData.need_check_expense == 'true' ? true : false;
             break;
+          case enumShowType.advancedLiveIn:
+            this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
+             break;
           case enumShowType.hotelAreaCode:
             this.hotelAreaCodeVal = this.configData.hotel_area_code;
             break;
