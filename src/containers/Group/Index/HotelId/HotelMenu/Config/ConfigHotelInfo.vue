@@ -653,10 +653,19 @@
             </div>
             <div class="item-form">
               <span>客人退房提醒时间</span>
-              <el-time-picker class="el-right" value-format="H"
-                              v-model="setCheckoutHouseTime"
-                              placeholder="选择时间">
-              </el-time-picker>
+              <!--<el-time-picker class="el-right" value-format="H"-->
+                              <!--v-model="setCheckoutHouseTime"-->
+                              <!--placeholder="选择时间">-->
+              <!--</el-time-picker>-->
+              <el-time-select
+                v-model="setCheckoutHouseTime"
+                :picker-options="{
+                 start: '00:00',
+                 step: '00:60',
+                 end: '24:00'
+                 }"
+                placeholder="选择时间">
+              </el-time-select>
             </div>
             <div class="item-form">
               <span>账单是否需要签名</span>
