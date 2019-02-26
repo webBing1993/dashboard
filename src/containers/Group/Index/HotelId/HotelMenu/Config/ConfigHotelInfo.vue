@@ -2033,7 +2033,7 @@
               scheduled: this.scheduledSure,
               extract_start_time:this.syncTime[0],
               extract_end_time:this.syncTime[1],
-              max_order_day:this.inputOrderId,
+              max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : 1,
 
             }
             break;
