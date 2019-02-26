@@ -325,7 +325,7 @@
               </div>
             </div>
             <div class="item-form">
-              <span>pms接口是否支持续住(君庭不支持)</span>
+              <span>pms接口是否支持续住</span>
               <el-switch
                 v-model="pmsCheckIn"
                 on-color="#13ce66"

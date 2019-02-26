@@ -653,7 +653,7 @@
             </div>
             <div class="item-form">
               <span>客人退房提醒时间</span>
-              <el-time-picker class="el-right" value-format="HH:mm:ss"
+              <el-time-picker class="el-right" value-format="H"
                               v-model="setCheckoutHouseTime"
                               placeholder="选择时间">
               </el-time-picker>
@@ -1963,6 +1963,7 @@
       },
       submitDialog() {
         let data;
+        console.log('测试空格',this.inputOrderId.replace(/\s*/g,"") == "")
         switch (this.showType) {
           case enumShowType.roomCard:
             data = {
@@ -2033,7 +2034,8 @@
               scheduled: this.scheduledSure,
               extract_start_time:this.syncTime[0],
               extract_end_time:this.syncTime[1],
-              max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : '1',
+              max_order_day:(this.inputOrderId.replace(/\s*/g,"") == "") ? 1 : this.inputOrderId.replace(/\s*/g,"")
+              // max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : '1',
 
             }
             break;
