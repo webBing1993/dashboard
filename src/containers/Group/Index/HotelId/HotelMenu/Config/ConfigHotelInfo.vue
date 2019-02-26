@@ -653,7 +653,7 @@
             </div>
             <div class="item-form">
               <span>客人退房提醒时间</span>
-              <el-time-picker class="el-right" value-format="HH:mm:ss"
+              <el-time-picker class="el-right" value-format="H"
                               v-model="setCheckoutHouseTime"
                               placeholder="选择时间">
               </el-time-picker>
