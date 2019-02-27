@@ -1187,6 +1187,8 @@
         enabledAdvancedCheckoutName:false,//账单是否需要签名
         enabledAdvancedCheckoutNameSure:false,  //平张帐单是否需要签名
         enabledAdvancedCheckoutHouse:false, //是否判断客房消费
+        signAdvancedCheckoutName:false,
+        signAdvancedCheckoutNameSure:false,
         hotelAreaCodeVal: '',//酒店行政区划代码
         queryDel: false,
         //酒店二维码配置
@@ -1549,6 +1551,23 @@
       },
       renderRoomNumReviewList(val){
         console.log(val)
+      },
+      enabledAdvancedCheckoutName(newval,oldval){
+        this.signAdvancedCheckoutName = newval
+        if(newval == false){
+           this.enabledAdvancedCheckoutNameSure = false
+        }
+      },
+      enabledAdvancedCheckoutNameSure(newval,oldval){
+         // this.signAdvancedCheckoutNameSure = newval
+         if(this.signAdvancedCheckoutName == false){
+             this.enabledAdvancedCheckoutNameSure = false
+             this.showtoast({
+               text: '如需要使用平帐帐单开关需要先打开账单总开关',
+               type: 'error'
+             })
+         }
+
       },
       configData(){
         let configData = this.configData;
