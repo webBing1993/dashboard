@@ -474,14 +474,14 @@
                 placeholder="选择时间">
               </el-time-picker>
             </div>
-            <div class="item-form">
-              <span style="min-width: 210px; ">是否允许选房</span>
-              <el-switch
-                v-model="selectHouseSure"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
+            <!--<div class="item-form">-->
+              <!--<span style="min-width: 210px; ">是否允许选房</span>-->
+              <!--<el-switch-->
+                <!--v-model="selectHouseSure"-->
+                <!--on-color="#13ce66"-->
+                <!--off-color="#ff4949">-->
+              <!--</el-switch>-->
+            <!--</div>-->
           </div>
           <div v-if="showType === enumShowType.syncSpaceTime">
             <div class="item-form">
@@ -1145,7 +1145,7 @@
         //可选房数量
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
-        selectHouseSure:false,//是否允许选房
+        // selectHouseSure:false,//是否允许选房
         //PMS同步频率
         syncSpaceTime: '30',
         scheduledSure: true,
@@ -1604,7 +1604,7 @@
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
           this.setHouseTime = configData.allow_give_room
-          this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
+          // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //PMS同步频率
           this.syncSpaceTime = configData.sync_space_time;
@@ -1916,7 +1916,7 @@
           case enumShowType.maxAllowRoomcount:
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             this.setHouseTime = this.configData.allow_give_room
-            this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
+            // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
 
             break;
           case enumShowType.syncSpaceTime:
@@ -2053,7 +2053,7 @@
             data = {
               max_allow_roomcount: this.maxAllowRoomcount,
               allow_give_room:this.setHouseTime,
-              enable_select_house:this.selectHouseSure
+              // enable_select_house:this.selectHouseSure
             }
             break;
           case enumShowType.syncSpaceTime:
