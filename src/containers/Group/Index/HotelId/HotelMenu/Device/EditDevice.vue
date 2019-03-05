@@ -237,7 +237,7 @@
               list.unshift({value: '无'})
                list = partnerIdList.map(v => {
                 let obj = {
-                  value: `${v.type_name} | ${v.id}`
+                  value: `${v.name} | ${v.id}`
                 }
                 return obj
               })
@@ -335,7 +335,7 @@
               // this.matchList = partnerIdList
               let list = partnerIdList.map(v => {
                 let obj = {
-                  value: `${v.type_name} | ${v.id}`
+                  value: `${v.name} | ${v.id}`
                 }
                 return obj
               })
