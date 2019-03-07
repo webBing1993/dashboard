@@ -1991,7 +1991,7 @@
       },
       submitDialog() {
         let data;
-        console.log('测试空格',this.inputOrderId.replace(/\s*/g,"") == "")
+        // console.log('测试空格',this.inputOrderId.replace(/\s*/g,"") == "")
         switch (this.showType) {
           case enumShowType.roomCard:
             data = {
