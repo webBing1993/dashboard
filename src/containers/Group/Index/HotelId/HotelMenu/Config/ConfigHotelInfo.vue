@@ -618,7 +618,7 @@
           </div>
           <div v-if="showType === enumShowType.advancedLiveIn">
             <div class="item-form">
-              <span>无手机号是否允许直接转入住</span>
+              <span>办理入住时，需要用户填写订单手机号</span>
               <el-switch
                 v-model="enabledAdvancedLiveIn"
                 on-color="#13ce66"
