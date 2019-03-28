@@ -257,7 +257,7 @@
           this.isDeleteCatch({
             hotel_id: this.$route.params.hotelid,
             onsuccess: body => {
-              if (body) {
+              if (body.errcode == '0') {
                 this.$message({
                   type: 'success',
                   message: '删除成功!'
