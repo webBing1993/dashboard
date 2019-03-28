@@ -262,7 +262,6 @@
                   type: 'success',
                   message: '删除成功!'
                 })
-                this.initlist()
               }else{
                 this.$message({
                   type: 'error',
