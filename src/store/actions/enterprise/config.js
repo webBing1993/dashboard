@@ -383,5 +383,15 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
-  }
+  },
+  //是否清除缓存
+  isDeleteCatch(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/cache/${param.hotel_id}/clear`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
 }
