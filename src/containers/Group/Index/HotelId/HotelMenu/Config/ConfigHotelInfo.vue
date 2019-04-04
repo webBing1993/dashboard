@@ -1511,6 +1511,9 @@
           case enumShowType.autoIdentityCheck:
             result = true;
             break;
+          case enumShowType.noCertificateCheck:
+            result = true;
+            break;
           case enumShowType.identityCheck:
             result = true;
             break;
@@ -2151,7 +2154,7 @@
             break;
           case enumShowType.noCertificateCheck:
             data = {
-              enable_identity_check_undocumented: this.enableNoCertificateCheck.toString()
+             enable_identity_check_undocumented: this.enableNoCertificateCheck.toString()
             }
             break;
           case enumShowType.appManage2:
