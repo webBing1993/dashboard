@@ -466,7 +466,7 @@
                   <span>支付方式</span>
                   <div>
                     <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
-                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':((sta=='3')?'设备名称122':'扫码支付')}}</el-checkbox>
+                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'刷脸支付(POS机)':((sta=='3')?'微信预授权':'刷脸支付(POS机)')}}</el-checkbox>
                     </el-checkbox-group>
                   </div>
                 </div>
@@ -496,7 +496,7 @@
                   <span>支付方式</span>
                   <div>
                     <el-checkbox-group v-model="checkedStatusa" @change="handleCheckedStatusChange">
-                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':((sta=='3')?'设备名称122':'扫码支付')}}</el-checkbox>
+                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'刷脸支付(POS机)':((sta=='3')?'微信预授权':'刷脸支付(POS机)')}}</el-checkbox>s
                     </el-checkbox-group>
                   </div>
                 </div>
