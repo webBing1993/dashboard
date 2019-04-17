@@ -494,7 +494,10 @@ export default {
 
            if(body.data.alipay_config!=null){
              this.isAlipayUse=JSON.parse(body.data.alipay_config.enable);          //支付宝设备是否启用
-             this.alipayDeviceList=body.data.alipay_config.devices; // 支付宝支付设备列表
+             if(body.data.alipay_config.devices!=undefined){
+               this.alipayDeviceList=body.data.alipay_config.devices; // 支付宝支付设备列表
+             }
+             console.log("this.alipayDeviceList",this.alipayDeviceList);
              this.account=body.data.alipay_config.alipay_config_id;
            }
            if(body.data.frontdesk_pay_config!=null){
