@@ -624,6 +624,7 @@ export default {
      flex-direction: row;
      align-items: center;
      font-size:16px;
+     margin-top:10px;
      span{
        color:#00CD78;
        margin-right:20px;
