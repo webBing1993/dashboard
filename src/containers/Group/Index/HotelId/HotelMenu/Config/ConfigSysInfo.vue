@@ -71,7 +71,6 @@
                   :class="{'tag_text_red': payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-
         <el-col :span="8">
           <button @click="depswitch()">
             <div class="item_img">
@@ -86,15 +85,14 @@
                   :class="{'tag_text_red':!configData.wx_hotel_id, 'tag_text_green': configData.wx_hotel_id}">{{configData.wx_hotel_id ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.miniApp)">
+        <el-col :span="8"><!--dialogConfig(enumShowType.miniApp)-->
+          <button @click="goto('/group/' + groupId + '/hotel/' + hotelId + '/payConfig')">
             <div class="item_img">
               <img src="../../../../../../assets/images/小程序.png" alt="a">
             </div>
             <div class="item-text">
-              <span>小程序配置</span>
-              <p>关联小程序配置。</p>
+              <span>设备支付配置</span>
+              <p>关联设备支付配置。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
@@ -153,6 +151,7 @@
         <!--@close="closeMorelvye(showType)"-->
         <div class="dialog-content">
           <!--<span class="tip" v-if="setTip">* 旅业信息不能为空</span>-->
+          <!--Pms对接配置弹框-->
           <div v-if="showType === enumShowType.PMS">
             <div class="item-form">
               <span>PMS品牌</span>
@@ -333,7 +332,7 @@
               </el-switch>
             </div>
           </div>
-
+          <!--旅业系统配置弹框-->
           <div v-if="showType === enumShowType.lvyeReportType">
             <div class="lvyeItem">
               <div class="item-form">
@@ -374,11 +373,11 @@
               </div>
             </div>
           </div>
-
+          <!--门锁配置弹框-->
           <div v-if="showType === enumShowType.doorLock_unknown">
             <h1>暂无</h1>
           </div>
-
+          <!--人脸识别配置弹框-->
           <div v-if="showType === enumShowType.facein">
             <div class="item-form">
               <span>人脸识别通道</span>
@@ -459,38 +458,73 @@
               </ul>
             </article>
           </div>
-
+          <!--PMS支付配置弹框-->
           <div v-if="showType === enumShowType.wechatPay">
-            <div class="item_large">
-              <span>微信支付方式</span>
-              <div>
-              <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
-                <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'刷脸支付(POS机)':((sta=='3')?'微信预授权':'刷脸支付(POS机)')}}</el-checkbox>
-              </el-checkbox-group>
-              </div>
-            </div>
-            <div class="item_large">
-              <span>酒店微信账务收款代码</span>
-              <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信账务退款代码</span>
-              <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店房租房费关键词</span>
-              <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信支付项目名</span>
-              <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
-            </div>
-            <div class="item_large">
-              <span>酒店微信退款项目名</span>
-              <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
-            </div>
-          </div>
+            <el-tabs v-model="activeName2" type="card" @tab-click="handleClick">
+              <el-tab-pane label="微信支付" name="first">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':((sta=='3')?'设备名称122':'扫码支付')}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="支付宝支付" name="second">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatusa" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in status" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':((sta=='3')?'设备名称122':'扫码支付')}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCodea" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCodea" placeholder="请输入酒店微信账务退款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentNamea" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payNamea" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundNamea" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
 
+          </div>
+          <!--生态酒店配置弹框-->
           <div v-if="showType === enumShowType.wxHotel && RegisterOk">
             <div class="item-form">
               <el-select class="el-right" v-model="optionvalue" placeholder="城市服务">
@@ -507,7 +541,7 @@
               </el-button>
             </div>
           </div>
-
+          <!--设备支付配置弹框-->
           <div v-if="showType === enumShowType.WxHotelRegister">
             <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
               <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
@@ -521,7 +555,7 @@
               </div>
             </div>
           </div>
-
+          <!--微信配置弹框-->
           <div v-if="showType === enumShowType.miniApp">
             <div class="item-form">
               <span>服务商模式</span>
@@ -578,8 +612,7 @@
               </div>
             </div>
           </div>
-
-          <!-- 定制化配置 -->
+          <!--定制化配置弹框-->
           <div v-if="showType === enumShowType.customization">
             <div class="item-form">
               <span>是否显示酒店的介绍</span>
@@ -598,7 +631,6 @@
               </el-switch>
             </div>
           </div>
-
           <!--开通酒店业务类型配置-->
           <div v-if="showType === enumShowType.accessServiceType">
             <div class="item-form">
@@ -640,10 +672,8 @@
               </el-switch>
             </div>
           </div>
-
-
         </div>
-        <!--footer-->
+        <!--弹框footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
             <el-button @click="hideDialog">取 消</el-button>
             <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
@@ -666,7 +696,6 @@
           <el-button type="primary" @click="deleteWxHotels(true)">确 定</el-button>
         </div>
       </el-dialog>
-
     </div>
   </div>
 </template>
@@ -692,6 +721,7 @@
     accessServiceType:9,
     WxHotelRegister: 10,//微信生态酒店——城市服务注册
 
+
   }
 
   //弹框标题类型
@@ -700,7 +730,7 @@
     '旅业系统配置',
     '门锁配置',
     '人脸识别配置',
-    '微信支付配置',
+    '',
     '微信生态酒店配置',
     '小程序配置',
     '定制化配置',
@@ -795,6 +825,14 @@
         refundName: '',
         checkedStatus:['1','2'],
         status:['2','3'],
+
+        payCodea: '',
+        refundCodea: '',
+        dayrentNamea: '',
+        payNamea: '',
+        refundNamea: '',
+        checkedStatusa:['1','2'],
+
  //**********************微信生态酒店配置**********************
         wxHotelId: '',
         wxhotelCityserList: [],
@@ -828,6 +866,9 @@
         typeTitles: typeTitles,
         showType: '',
         showDialog: false,
+
+        activeName2: 'first',
+        isShowPMSDialog:true,
       }
 
     },
@@ -854,6 +895,12 @@
         showReception: state => state.enterprise.showReception,
 
       }),
+      groupId(){
+        return this.$route.params.id
+      },
+      hotelId(){
+        return this.$route.params.hotelid
+      },
 //      rcgethotelid() {
 //        return "/virgo/fileUpload/" + this.$route.params.hotelid
 //      },
@@ -1018,7 +1065,12 @@
       },
 
       validatewechatPay() {
-        return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName)&& tool.isNotBlank(this.checkedStatus);
+        if(this.activeName2=='first'){
+          return tool.isNotBlank(this.payCode) && tool.isNotBlank(this.refundCode) && tool.isNotBlank(this.dayrentName) && tool.isNotBlank(this.payName) && tool.isNotBlank(this.refundName)&& tool.isNotBlank(this.checkedStatus);
+        }else{
+          return tool.isNotBlank(this.payCodea) && tool.isNotBlank(this.refundCodea) && tool.isNotBlank(this.dayrentNamea) && tool.isNotBlank(this.payNamea) && tool.isNotBlank(this.refundNamea)&& tool.isNotBlank(this.checkedStatusa);
+        }
+
       },
 
       validatewxHotel() {
@@ -1103,16 +1155,17 @@
           //微信支付配置
           this.mchId = configData;
           // this.mchId = configData.child_mch_id;
-          this.payCode = configData.pay_code;
-          this.refundCode = configData.refund_code;
-          this.dayrentName = configData.dayrent_name,
-            this.payName = configData.pay_name,
-            this.refundName = configData.refund_name,
-            //微信生态酒店配置
-            this.wxHotelId = configData.wx_hotel_id;
-            this.checkedStatus=configData.pms_pay_method.split(',')
-
-
+          // this.payCode = configData.pay_code;
+          // this.refundCode = configData.refund_code;
+          // this.dayrentName = configData.dayrent_name,
+          // this.payName = configData.pay_name,
+          // this.refundName = configData.refund_name,
+           //微信生态酒店配置
+          this.wxHotelId = configData.wx_hotel_id;
+          console.log("configData.pms_pay_method",configData.pms_pay_method);
+          // if(configData.pms_pay_method!=undefined){
+          //   this.checkedStatus=configData.pms_pay_method.split(',')
+          // }
           //小程序配置
           this.appId = configData;
           this.providerAppId = configData;
@@ -1253,7 +1306,41 @@
 //        "getRoomNum",
 //        "saveReviewRoomNum",
 //        "editReviewRoomNum"
+       'getPMSPayConfig'
       ]),
+      initPMSPayConfig(){
+        this.getPMSPayConfig({
+          hotel_id: this.$route.params.hotelid,
+          key:'pms_alipay_config',
+          onsuccess:body=>{
+            if(body.data!=null) {
+              this.payCodea = body.data.pay_code;
+              this.refundCodea = body.data.refund_code;
+              this.dayrentNamea = body.data.dayrent_name;
+              this.payNamea = body.data.pay_name;
+              this.refundNamea = body.data.refund_name;
+              this.checkedStatusa=body.data.pms_pay_method.split(',')
+            }
+          }
+        });
+        this.getPMSPayConfig({
+          hotel_id: this.$route.params.hotelid,
+          key:'pms_wechatpay_config',
+          onsuccess:body=>{
+            if(body.data!=null){
+              this.payCode = body.data.pay_code;
+              this.refundCode = body.data.refund_code;
+              this.dayrentName = body.data.dayrent_name;
+              this.payName = body.data.pay_name;
+              this.refundName = body.data.refund_name;
+              this.checkedStatus=body.data.pms_pay_method.split(',')
+            }
+          }
+        });
+      },
+      handleClick(){
+
+      },
       handleCheckedStatusChange(value) {
         console.log('选中后的值',value)
         console.log(this.checkedStatus)
@@ -1360,6 +1447,8 @@
         } else if (type === enumShowType.miniApp) {
           this.getMiniAppLists();
           this.wechatList();
+        }else if (type === enumShowType.wechatPay) {
+         this.initPMSPayConfig();
         } else if (type === enumShowType.moreLvyeReportType){
           this.goto({name: 'moreLvyeConfig'});
           return;
@@ -1457,8 +1546,7 @@
             this.autoIdentityCheckVal===this.configData.enabled_auto_identity_check ==='true' ? true : false;
             break;
           case enumShowType.wechatPay:
-            this.payCode = this.configData.pay_code;
-            this.refundCode = this.configData.refund_code;
+            this.initPMSPayConfig();
             break;
           case enumShowType.wxHotel:
             this.wxHotelId = this.configData.wx_hotel_id;
@@ -1479,6 +1567,7 @@
       },
       submitDialog() {
         let data;
+        console.log("111111111111111111111111111111111",this.appId);
         switch (this.showType) {
           case enumShowType.PMS: {
             let paramData = {
@@ -1591,13 +1680,26 @@
             }
             break;
           case enumShowType.wechatPay:
-            data = {
-              pay_code: this.payCode,
-              refund_code: this.refundCode,
-              dayrent_name: this.dayrentName,
-              pay_name: this.payName,
-              refund_name: this.refundName,
-              pms_pay_method:this.checkedStatus.join(',')
+            if(this.activeName2=='first'){
+              data = {
+                "pms_config_key":'pms_wechatpay_config', // 类型：pms_wechatpay_config（微信支付）       // pms_alipay_config（支付宝支付）
+                "pay_code":this.payCode, //收款代码
+                "refund_code":this.refundCode, //退款代码
+                "dayrent_name":this.dayrentName, // 租房费关键词
+                "pay_name":this.payName, // 支付项目名
+                "refund_name":this.refundName ,// 退款项目名
+                 pms_pay_method:this.checkedStatus.join(','),
+              }
+            }else{
+               data = {
+                 "pms_config_key":'pms_alipay_config', // 类型：pms_wechatpay_config（微信支付）       // pms_alipay_config（支付宝支付）
+                 "pay_code":this.payCodea, //收款代码
+                 "refund_code":this.refundCodea, //退款代码
+                 "dayrent_name":this.dayrentNamea, // 租房费关键词
+                 "pay_name":this.payNamea, // 支付项目名
+                 "refund_name":this.refundNamea, // 退款项目名
+                 pms_pay_method:this.checkedStatusa.join(','),
+               }
             }
             break;
           case enumShowType.wxHotel:
@@ -1908,6 +2010,13 @@
             font-size: 14px;
             font-weight: 400;
             color: #4A4A4A;
+            .el-tabs__item{
+              color:#39C240;
+            }
+            .el-tabs__item.is-active{
+              background:#39C240;
+              color:#fff;
+            }
             .item-form {
               position: relative;
               display: flex;
@@ -2085,10 +2194,6 @@
   }
 
   //我的
-  .el-dialog__headerbtn {
-
-  }
-
   .reg {
     display: block;
     width: 200px;

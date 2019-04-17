@@ -12,4 +12,5 @@ module.exports = {
     ...require('./lvyeOnlineManage'),
     ...require('./rztTemplate'),
     ...require('./advConfig/aboutAdv'),
+    ...require('./alipay'),
 }
