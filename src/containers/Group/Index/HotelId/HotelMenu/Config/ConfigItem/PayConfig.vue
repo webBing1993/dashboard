@@ -3,6 +3,7 @@
     <div class="payConfig_header">
       <i class="el-icon-arrow-left"></i> <span @click="goto(-1)"> 返回</span> <div>设备支付配置</div>
     </div>
+    <!--微信支付配置-->
     <div class="payConfig_main">
       <div class="payConfig_main_top">
         <div>
@@ -32,6 +33,7 @@
         </div>
       </div>
     </div>
+    <!--支付宝支付配置-->
     <div class="payConfig_main">
       <div class="payConfig_main_top">
         <div>
@@ -58,6 +60,7 @@
         </div>
       </div>
     </div>
+    <!--前台支付配置-->
     <div class="payConfig_main">
       <div class="payConfig_main_top">
         <div>
@@ -242,6 +245,7 @@ export default {
       providerList:[],
       pay_config_key:'',
       payType:'',
+      accountdata:'',
     }
   },
   methods: {
@@ -277,7 +281,6 @@ export default {
     },
     chooseDevice (type) {
       let data={};
-
       if (type == 'wechat') {
         this.pay_config_key='wechat_pay_config';
         if(this.isWechatUse){
@@ -370,7 +373,6 @@ export default {
         onsuccess: (body, headers) => {
           if (body.data && Array.isArray(body.data)) {
             this.unProviderList = body.data;
-            console.log();
           }
         }
       })
@@ -409,12 +411,12 @@ export default {
        }
        if(type=='alipay'){
           this.alipayDialog=false;
+          this.account=this.accountdata;
        }
 
     },
     //微信配置保存
     wechatSubmit(){
-      console.log(111111111111111);
       this.wechatDialog=false;
       let data={};
       if (this.provider) {
@@ -482,14 +484,14 @@ export default {
     },
     //酒店默认打开项
     initDevicePayConfig(){
-       console.log("1111111111111");
        this.getDevicePayConfig({
          hotel_id: this.$route.params.hotelid,
          onsuccess: body => {
-
            if(body.data.wechat_pay_config!=null){
              this.isWechatUse=JSON.parse(body.data.wechat_pay_config.enable);      //微信设备是否启用
-             this.wechatDeviceList=body.data.wechat_pay_config.devices; // 微信支付设备列表
+             if(body.data.wechat_pay_config.devices!=undefined){
+               this.wechatDeviceList=body.data.wechat_pay_config.devices; // 微信支付设备列表
+             }
            }
 
            if(body.data.alipay_config!=null){
@@ -498,12 +500,15 @@ export default {
                this.alipayDeviceList=body.data.alipay_config.devices; // 支付宝支付设备列表
              }
              console.log("this.alipayDeviceList",this.alipayDeviceList);
-             this.account=body.data.alipay_config.alipay_config_id;
+             this.accountdata=body.data.alipay_config.alipay_config_id;
+             this.account=this.accountdata;
            }
            if(body.data.frontdesk_pay_config!=null){
              this.isProsceniumUse=JSON.parse(body.data.frontdesk_pay_config.enable);
-             this.prosceniumDeviceList=body.data.frontdesk_pay_config.devices; // 前台支付设备列表
              this.inform=JSON.parse(body.data.frontdesk_pay_config.enable_todo_list);
+             if(body.data.frontdesk_pay_config.devices!=undefined){
+               this.prosceniumDeviceList=body.data.frontdesk_pay_config.devices; // 前台支付设备列表
+             }
            }
            console.log("this.inform",this.inform);
          }
@@ -520,11 +525,6 @@ export default {
   computed:{
     ...mapState({
       configData: state => state.enterprise.configData,
-      pmsData: state => state.enterprise.pmsData,
-      lvyeData: state => state.enterprise.lvyeData,
-      wechatAppData: state => state.enterprise.wechatAppData,
-      hotelName: state => state.enterprise.tempHotelName,
-      showReception: state => state.enterprise.showReception,
     }),
     appName() {
       console.log(this.appIdTemp);

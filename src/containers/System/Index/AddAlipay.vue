@@ -25,19 +25,19 @@
             </div>
             <div class="content-msg">
               <span>商户私钥</span>
-              <el-input class="el-right" v-model="mchPriKey" name="mchPriKey" v-validate="'required'"
+              <el-input class="el-right" v-model="mchPriKey" name="mchPriKey" v-validate="'required'" type="textarea" :autosize="{ minRows: 1, maxRows: 5}"
                         :class="{'is-danger': errors.has('mchPriKey') }" placeholder="请输入支付宝支付商户私钥"></el-input>
               <span class="help is-danger" v-show="errors.has('mchPriKey')">商户私钥不能为空!</span>
             </div>
             <div class="content-msg">
-              <span>商户公钥</span>
-              <el-input class="el-right" v-model="mchPubKey" name="mchPubKey" v-validate="'required'"
-                        :class="{'is-danger': errors.has('mchPubKey') }" placeholder="请输入支付宝支付商户公钥"></el-input>
-              <span class="help is-danger" v-show="errors.has('mchPubKey')">商户公钥不能为空!</span>
+              <span>应用公钥</span>
+              <el-input class="el-right" v-model="mchPubKey" name="mchPubKey" v-validate="'required'"  type="textarea" :autosize="{ minRows: 1, maxRows: 5}"
+                        :class="{'is-danger': errors.has('mchPubKey') }" placeholder="请输入支付宝支付应用公钥"></el-input>
+              <span class="help is-danger" v-show="errors.has('mchPubKey')">应用公钥不能为空!</span>
             </div>
             <div class="content-msg">
               <span>支付宝公钥</span>
-              <el-input class="el-right" v-model="alipayPubKey" name="alipayPubKey" v-validate="'required'"
+              <el-input class="el-right" v-model="alipayPubKey" name="alipayPubKey" v-validate="'required'" type="textarea" :autosize="{ minRows: 1, maxRows: 5}"
                         :class="{'is-danger': errors.has('alipayPubKey') }" placeholder="请输入支付宝公钥"></el-input>
               <span class="help is-danger" v-show="errors.has('alipayPubKey')">支付宝公钥不能为空!</span>
             </div>
