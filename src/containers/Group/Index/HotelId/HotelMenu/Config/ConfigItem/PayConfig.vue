@@ -1,132 +1,110 @@
 <template>
-  <div class="payConfig">
-    <div class="payConfig_header">
-      <i class="el-icon-arrow-left"></i> <span @click="goto(-1)"> 返回</span> <div>设备支付配置</div>
-    </div>
-    <!--微信支付配置-->
-    <div class="payConfig_main">
-      <div class="payConfig_main_top">
-        <div>
-          <p class="payConfig_main_p1">微信支付</p>
-          <p class="payConfig_main_p2">开启后可选择设备支持微信支付</p>
+  <div>
+    <div class="module-wrapper" style="margin:20px 0 20px 20px;">
+      <div class="payConfig_header">
+        <i class="el-icon-arrow-left"></i> <span @click="goto(-1)"> 返回</span> <div>设备支付配置</div>
+      </div>
+      <!--微信支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">微信支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持微信支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="wechatConfig">配置</span>
+            <p :class="isWechatUse ? 'noUse':'payConfig_main_btn2'" @click="useConfig('wechat')">
+              <span v-if="isWechatUse">停用</span>
+              <span v-else>启用</span>
+            </p>
+          </div>
         </div>
-        <div class="payConfig_main_right">
-          <span class="payConfig_main_btn1" @click="wechatConfig">配置</span>
-          <p :class="isWechatUse ? 'noUse':'payConfig_main_btn2'" @click="useConfig('wechat')">
-            <span v-if="isWechatUse">停用</span>
-            <span v-else>启用</span>
-          </p>
+        <div class="chooseDevice" v-if="isWechatUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="wechatDeviceList"
+              @change="chooseDevice('wechat')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
       </div>
-      <div class="chooseDevice" v-if="isWechatUse">
-        <div class="chooseDevice_div">
-          <p class="chooseDevice_p1">选择需要启用的设备</p>
-          <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+      <!--支付宝支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">支付宝</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持支付宝支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="alipayConfig">配置</span>
+            <span :class="isAlipayUse?'noUse':'payConfig_main_btn2'" @click="useConfig('alipay')">{{isAlipayUse?'停用':'启用'}}</span>
+          </div>
         </div>
-        <div class="deviceList">
-          <el-checkbox-group
-            v-model="wechatDeviceList"
-            @change="chooseDevice('wechat')"
-          >
-            <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-      </div>
-    </div>
-    <!--支付宝支付配置-->
-    <div class="payConfig_main">
-      <div class="payConfig_main_top">
-        <div>
-          <p class="payConfig_main_p1">支付宝</p>
-          <p class="payConfig_main_p2">开启后可选择设备支持支付宝支付</p>
-        </div>
-        <div class="payConfig_main_right">
-          <span class="payConfig_main_btn1" @click="alipayConfig">配置</span>
-          <span :class="isAlipayUse?'noUse':'payConfig_main_btn2'" @click="useConfig('alipay')">{{isAlipayUse?'停用':'启用'}}</span>
-        </div>
-      </div>
-      <div class="chooseDevice" v-if="isAlipayUse">
-        <div class="chooseDevice_div">
-          <p class="chooseDevice_p1">选择需要启用的设备</p>
-          <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
-        </div>
-        <div class="deviceList">
-          <el-checkbox-group
-            v-model="alipayDeviceList"
-            @change="chooseDevice('alipay')"
-          >
-            <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-          </el-checkbox-group>
+        <div class="chooseDevice" v-if="isAlipayUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="alipayDeviceList"
+              @change="chooseDevice('alipay')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
       </div>
-    </div>
-    <!--前台支付配置-->
-    <div class="payConfig_main">
-      <div class="payConfig_main_top">
-        <div>
-          <p class="payConfig_main_p1">前台支付</p>
-          <p class="payConfig_main_p2">开启后可选择设备支持前台支付</p>
+      <!--前台支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">前台支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持前台支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="prosceniumConfig">配置</span>
+            <span :class="isProsceniumUse? 'noUse':'payConfig_main_btn2'" @click="useConfig('proscenium')">{{isProsceniumUse?'停用':'启用'}}</span>
+          </div>
         </div>
-        <div class="payConfig_main_right">
-          <span class="payConfig_main_btn1" @click="prosceniumConfig">配置</span>
-          <span :class="isProsceniumUse? 'noUse':'payConfig_main_btn2'" @click="useConfig('proscenium')">{{isProsceniumUse?'停用':'启用'}}</span>
+        <div class="chooseDevice" v-if="isProsceniumUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="prosceniumDeviceList"
+              @change="chooseDevice('proscenium')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
         </div>
       </div>
-      <div class="chooseDevice" v-if="isProsceniumUse">
-        <div class="chooseDevice_div">
-          <p class="chooseDevice_p1">选择需要启用的设备</p>
-          <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
-        </div>
-        <div class="deviceList">
-          <el-checkbox-group
-            v-model="prosceniumDeviceList"
-            @change="chooseDevice('proscenium')"
-          >
-            <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-          </el-checkbox-group>
-        </div>
-      </div>
-    </div>
-    <!--微信支付配置弹框-->
-    <el-dialog
-      title="微信支付参数配置"
-      :visible.sync="wechatDialog"
-      width="50%"
-      center>
-      <div class="item-form">
-        <span>服务商模式</span>
-        <el-switch
-          v-model="provider"
-          on-color="#13ce66"
-          off-color="#ff4949">
-        </el-switch>
-      </div>
-      <div class="item-form">
-        <span>小程序app_id</span>
-        <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
-          <el-option
-            v-for="(obj, index) of miniAppList"
-            :key="obj.app_id"
-            :label="`${obj.app_id} | ${obj.app_name}`"
-            :value="`${obj.app_id} | ${obj.app_name}`">
-          </el-option>
-        </el-select>
-      </div>
-      <div class="item-form">
-        <span>商户mch_id</span>
-        <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
-          <el-option
-            v-for="(obj, index) of mchIdList"
-            :key="obj.value"
-            :label="obj.value"
-            :value="obj.value">
-          </el-option>
-        </el-select>
-      </div>
-      <div v-show="provider">
+      <!--微信支付配置弹框-->
+      <el-dialog
+        title="微信支付参数配置"
+        :visible.sync="wechatDialog"
+        width="50%"
+        center>
         <div class="item-form">
-          <span>服务商app_id</span>
-          <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+          <span>服务商模式</span>
+          <el-switch
+            v-model="provider"
+            on-color="#13ce66"
+            off-color="#ff4949">
+          </el-switch>
+        </div>
+        <div class="item-form">
+          <span>小程序app_id</span>
+          <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
             <el-option
               v-for="(obj, index) of miniAppList"
               :key="obj.app_id"
@@ -136,80 +114,104 @@
           </el-select>
         </div>
         <div class="item-form">
-          <span>服务商mch_id</span>
-          <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+          <span>商户mch_id</span>
+          <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
             <el-option
-              v-for="(obj, index) of providerMchIdList"
+              v-for="(obj, index) of mchIdList"
               :key="obj.value"
               :label="obj.value"
               :value="obj.value">
             </el-option>
           </el-select>
         </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
+        <div v-show="provider">
+          <div class="item-form">
+            <span>服务商app_id</span>
+            <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+              <el-option
+                v-for="(obj, index) of miniAppList"
+                :key="obj.app_id"
+                :label="`${obj.app_id} | ${obj.app_name}`"
+                :value="`${obj.app_id} | ${obj.app_name}`">
+              </el-option>
+            </el-select>
+          </div>
+          <div class="item-form">
+            <span>服务商mch_id</span>
+            <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+              <el-option
+                v-for="(obj, index) of providerMchIdList"
+                :key="obj.value"
+                :label="obj.value"
+                :value="obj.value">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <span slot="footer" class="dialog-footer">
             <el-button @click="hideDialog('wechat')">取 消</el-button>
             <el-button :disabled="!wechatvalidate" type="primary" @click="wechatSubmit">确 定</el-button>
       </span>
-    </el-dialog>
-    <!--支付宝支付配置弹框-->
-    <el-dialog
-      title="支付宝参数配置"
-      :visible.sync="alipayDialog"
-      width="50%"
-      center>
-      <div class="item_large">
-        <span>商户账号</span>
-        <el-select v-model="account" slot="prepend" placeholder="请选择">
-          <el-option
-            v-for="(obj, index) of accountList"
-            :key="obj.id"
-            :label="obj.name"
-            :value="obj.id">
-          </el-option>
-        </el-select>
-      </div>
-      <span slot="footer" class="dialog-footer">
+      </el-dialog>
+      <!--支付宝支付配置弹框-->
+      <el-dialog
+        title="支付宝参数配置"
+        :visible.sync="alipayDialog"
+        width="50%"
+        center>
+        <div class="item_large">
+          <span>商户账号</span>
+          <el-select v-model="account" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of accountList"
+              :key="obj.id"
+              :label="obj.name"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
             <el-button @click="hideDialog('alipay')">取 消</el-button>
             <el-button :disabled="!alipayvalidate" type="primary" @click="alipaySubmit">确 定</el-button>
       </span>
-    </el-dialog>
-    <!--前台支付配置弹框-->
-    <el-dialog
-      title="前台支付"
-      :visible.sync="prosceniumDialog"
-      width="50%"
-      center>
-      <div class="dialog_main">
-        <div>
-          <p class="dialog_main_p1">通知待办</p>
-          <p class="dialog_main_p2">开启后选择此支付方式时会发送待办事项到企业微信</p>
+      </el-dialog>
+      <!--前台支付配置弹框-->
+      <el-dialog
+        title="前台支付"
+        :visible.sync="prosceniumDialog"
+        width="50%"
+        center>
+        <div class="dialog_main">
+          <div>
+            <p class="dialog_main_p1">通知待办</p>
+            <p class="dialog_main_p2">开启后选择此支付方式时会发送待办事项到企业微信</p>
+          </div>
+          <div>
+            <el-switch
+              v-model="inform"
+              active-color="#13ce66"
+              inactive-color="#E8E8E8"
+              :width="40">
+            </el-switch>
+          </div>
         </div>
-        <div>
-          <el-switch
-            v-model="inform"
-            active-color="#13ce66"
-            inactive-color="#E8E8E8"
-            :width="40">
-          </el-switch>
-        </div>
-      </div>
-      <span slot="footer" class="dialog-footer">
+        <span slot="footer" class="dialog-footer">
          <el-button style="background-color:#00CD78;color:#ffffff" @click="proSubmit">保 存</el-button>
       </span>
-    </el-dialog>
-    <!---->
-    <el-dialog
-      title="提示"
-      :visible.sync="promptDialog"
-      width="50%"
-      center>
-      <div style="width:100%;text-align: center">该支付方式暂无配置参数，请先进行配置后启用</div>
-      <span slot="footer" class="dialog-footer">
+      </el-dialog>
+      <!---->
+      <el-dialog
+        title="提示"
+        :visible.sync="promptDialog"
+        width="50%"
+        center>
+        <div style="width:100%;text-align: center">该支付方式暂无配置参数，请先进行配置后启用</div>
+        <span slot="footer" class="dialog-footer">
         <el-button style="background-color:#00CD78;color:#ffffff" @click="promptDialog = false">取消</el-button>
          <el-button style="background-color:#00CD78;color:#ffffff" @click="goConfig">去配置</el-button>
       </span>
-    </el-dialog>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -615,10 +617,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
- .payConfig{
-    margin:20px;
-   display: flex;
-   flex-direction: column;
    .payConfig_header{
      display:flex;
      flex-direction: row;
@@ -688,7 +686,7 @@ export default {
        }
      }
    }
- }
+
   /deep/.el-dialog__wrapper  .el-dialog__header{
      border:0px;
   }
