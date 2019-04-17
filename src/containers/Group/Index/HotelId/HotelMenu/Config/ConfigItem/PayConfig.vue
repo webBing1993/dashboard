@@ -53,7 +53,7 @@
             v-model="alipayDeviceList"
             @change="chooseDevice('alipay')"
           >
-            <el-checkbox v-for="item in deviceList" :label="item.name" :key="item.id">{{item.name}}</el-checkbox>
+            <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </div>
       </div>
@@ -79,7 +79,7 @@
             v-model="prosceniumDeviceList"
             @change="chooseDevice('proscenium')"
           >
-            <el-checkbox v-for="item in deviceList" :label="item.name" :key="item.id">{{item.name}}</el-checkbox>
+            <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
           </el-checkbox-group>
         </div>
       </div>
