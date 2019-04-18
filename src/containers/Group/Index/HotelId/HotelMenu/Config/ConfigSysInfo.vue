@@ -85,7 +85,7 @@
                   :class="{'tag_text_red':!configData.wx_hotel_id, 'tag_text_green': configData.wx_hotel_id}">{{configData.wx_hotel_id ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8"><!--dialogConfig(enumShowType.miniApp)-->
+        <el-col :span="8">
           <button @click="goto('/group/' + groupId + '/hotel/' + hotelId + '/payConfig')">
             <div class="item_img">
               <img src="../../../../../../assets/images/小程序.png" alt="a">
@@ -93,6 +93,19 @@
             <div class="item-text">
               <span>设备支付配置</span>
               <p>关联设备支付配置。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.miniApp)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/小程序.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>小程序支付配置</span>
+              <p>关联小程序支付配置。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
