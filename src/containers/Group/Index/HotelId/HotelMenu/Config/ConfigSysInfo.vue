@@ -68,7 +68,7 @@
               <p>配置PMS支付信息。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': payCode, 'tag_text_green': payCode}">{{payCode ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': (payCode || payCodea), 'tag_text_green': (payCode || payCodea)}">{{(payCode || payCodea) ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -876,6 +876,7 @@
     mounted() {
       this.getLvyes();
       this.getConfigs();
+      this.initPMSPayConfig();
       this.getWxhotelCitysers();
       this.getPms();
       this.wechatList();
@@ -1321,6 +1322,13 @@
               this.payNamea = body.data.pay_name;
               this.refundNamea = body.data.refund_name;
               this.checkedStatusa=body.data.pms_pay_method.split(',')
+            }else{
+              this.payCodea = '';
+              this.refundCodea = '';
+              this.dayrentNamea = '';
+              this.payNamea = '';
+              this.refundNamea = '';
+              this.checkedStatusa='';
             }
           }
         });
@@ -1335,6 +1343,13 @@
               this.payName = body.data.pay_name;
               this.refundName = body.data.refund_name;
               this.checkedStatus=body.data.pms_pay_method.split(',')
+            }else{
+              this.payCode = '';
+              this.refundCode  = '';
+              this.dayrentName  = '';
+              this.payName = '';
+              this.refundName = '';
+              this.checkedStatus ='';
             }
           }
         });
@@ -1449,7 +1464,7 @@
           this.getMiniAppLists();
           this.wechatList();
         }else if (type === enumShowType.wechatPay) {
-         this.initPMSPayConfig();
+        // this.initPMSPayConfig();
         } else if (type === enumShowType.moreLvyeReportType){
           this.goto({name: 'moreLvyeConfig'});
           return;
