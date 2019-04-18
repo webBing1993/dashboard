@@ -40,8 +40,8 @@ module.exports = {
         'X-Page-Size': param.size || '0'
       },
       method:'POST',
-      onSuccess: body => {
-        param.onsuccess ? param.onsuccess(body) : null
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
   },
