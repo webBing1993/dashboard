@@ -836,7 +836,7 @@
         dayrentName: '',
         payName: '',
         refundName: '',
-        checkedStatus:['1','2'],
+        checkedStatus:[],
         status:['2','3'],
 
         payCodea: '',
@@ -844,7 +844,7 @@
         dayrentNamea: '',
         payNamea: '',
         refundNamea: '',
-        checkedStatusa:['1','2'],
+        checkedStatusa:[],
         statusa:['2'],
 
  //**********************微信生态酒店配置**********************
@@ -1341,7 +1341,7 @@
               this.dayrentNamea = '';
               this.payNamea = '';
               this.refundNamea = '';
-              this.checkedStatusa='';
+              this.checkedStatusa=[];
             }
           }
         });
@@ -1362,7 +1362,7 @@
               this.dayrentName  = '';
               this.payName = '';
               this.refundName = '';
-              this.checkedStatus ='';
+              this.checkedStatus = [];
             }
           }
         });
