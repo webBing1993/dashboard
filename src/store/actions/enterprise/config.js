@@ -383,5 +383,71 @@ module.exports = {
         param.onsuccess ? param.onsuccess(body, headers) : null
       }
     })
-  }
+  },
+  //是否清除缓存
+  isDeleteCatch(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/cache/${param.hotel_id}/clear`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
+
+  //获取商户类型
+  getMchNames(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/alipayConfig/mchNames`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  //获取设备列表
+  getDevices(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/${param.hotelId}/devices`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  // 微信启用/停用
+  patchPayConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/payConfig/${param.pay_config_key}`,
+      method: 'PATCH',
+      body:{
+        ...param.data
+      },
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+  // 支付配置默认
+  getDevicePayConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/devicePayConfig`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
+  //pms配置查询
+  getPMSPayConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/pmsConfig/${param.key}`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
 }

@@ -28,6 +28,8 @@
             bread.push({name: '添加小程序', path: '/system/addminiapp'})
           } else if (obj.path === '/system/addwechatpay') {
             bread.push({name: '添加微信支付', path: '/system/addwechatpay'})
+          }else if (obj.path === '/system/addalipay') {
+            bread.push({name: '添加支付宝支付', path: '/system/addalipay'})
           }
         }
         return bread;

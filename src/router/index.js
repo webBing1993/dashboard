@@ -16,6 +16,7 @@ import GroupMenu from '@/containers/Group/Index/GroupMenu.vue'
 import GroupId from '@/containers/Group/Index/GroupId.vue'
 import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
+import AddAlipay from '@/containers/System/Index/AddAlipay.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 import OperateMenu from '@/containers/Operate/Index/OperateMenu.vue'
@@ -33,6 +34,7 @@ import HotelMenu from '@/containers/Group/Index/HotelId/HotelMenu.vue'
 import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
+import AlipayList from '@/containers/System/Index/SystemMenu/AlipayList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
 import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
@@ -90,6 +92,7 @@ import ConfigProd from '@/containers/Group/Index/HotelId/HotelMenu/Config/Config
 import ConfigSummary from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSummary.vue'
 //7级路由
 import MoreLvyeConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/MoreLvyeConfig.vue'
+import PayConfig from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigItem/PayConfig.vue'
 
 Vue.use(Router)
 
@@ -261,8 +264,14 @@ const main = [
                             path: '/',
                             name: 'ConfigSysInfo',
                             component: ConfigSysInfo
-                          }
+                          },
+
                         ]
+                      },
+                      {
+                        path: 'payConfig',
+                        name: 'payConfig',
+                        component: PayConfig
                       },
                       {
                         path: 'ConfigBusnessInfo',
@@ -350,6 +359,11 @@ const main = [
             component: AddWechatpay,
           },
           {
+            path: 'addalipay',
+            name: 'AddAlipay',
+            component: AddAlipay,
+          },
+          {
             path: 'addServeMessage',
             name: 'AddServeMessage',
             component: AddServeMessage,
@@ -367,6 +381,11 @@ const main = [
                 path: 'wechatpay',
                 name: 'WechatPayList',
                 component: WechatPayList
+              },
+              {
+                path: 'alipay',
+                name: 'AlipayList',
+                component: AlipayList
               },
               {
                 path: 'miniappmsg',

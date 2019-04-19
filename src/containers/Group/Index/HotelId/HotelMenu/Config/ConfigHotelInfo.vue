@@ -1511,6 +1511,9 @@
           case enumShowType.autoIdentityCheck:
             result = true;
             break;
+          case enumShowType.noCertificateCheck:
+            result = true;
+            break;
           case enumShowType.identityCheck:
             result = true;
             break;
@@ -1923,6 +1926,7 @@
             this.syncSpaceTime = this.configData.sync_space_time;
             let extract_time = this.configData.extract_start_time+','+this.configData.extract_end_time
             this.syncTime = extract_time.split(',')
+            console.log("2222222222222222",this.inputOrderId);
             this.inputOrderId = this.configData.max_order_day
             this.scheduledSure = this.configData.scheduled
             break;
@@ -2057,13 +2061,14 @@
             }
             break;
           case enumShowType.syncSpaceTime:
+            console.log("this.inputOrderId",this.inputOrderId);
             data = {
               sync_space_time: this.syncSpaceTime,
               scheduled: this.scheduledSure,
               extract_start_time:this.syncTime[0],
               extract_end_time:this.syncTime[1],
-              max_order_day:(this.inputOrderId.replace(/\s*/g,"") == "") ? 1 : this.inputOrderId.replace(/\s*/g,"")
-              // max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : '1',
+              //max_order_day:(this.inputOrderId.replace(/\s*/g,"") == "") ? 1 : this.inputOrderId.replace(/\s*/g,"")
+              max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : '1',
 
             }
             break;
@@ -2151,7 +2156,7 @@
             break;
           case enumShowType.noCertificateCheck:
             data = {
-              enable_identity_check_undocumented: this.enableNoCertificateCheck.toString()
+             enable_identity_check_undocumented: this.enableNoCertificateCheck.toString()
             }
             break;
           case enumShowType.appManage2:

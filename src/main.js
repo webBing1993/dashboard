@@ -34,6 +34,7 @@ import tableRoom from '@/modules/Tables/table-room.vue'
 import tableRoomType from '@/modules/Tables/table-roomtype.vue'
 import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
 import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
+import tableAlipay from '@/modules/Tables/table-alipay.vue'
 import tableMiniappmsg from '@/modules/Tables/table-miniappmsg.vue'
 import tableServerMassage from '@/modules/Tables/table-servermassage.vue'
 import tableReceptionArea from '@/modules/Tables/table-receptionArea.vue'
@@ -63,6 +64,7 @@ Vue.component('table-room', tableRoom)
 Vue.component('table-roomtype', tableRoomType)
 Vue.component('table-miniapp', tableMiniApp)
 Vue.component('table-wechatpay', tableWechatpay)
+Vue.component('table-alipay', tableAlipay)
 Vue.component('table-miniappmsg', tableMiniappmsg)
 Vue.component('table-server-massage', tableServerMassage)
 Vue.component('table-receptionArea',tableReceptionArea)
