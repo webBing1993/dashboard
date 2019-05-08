@@ -507,7 +507,9 @@ export default {
            }
            if(body.data.frontdesk_pay_config!=null){
              this.isProsceniumUse=JSON.parse(body.data.frontdesk_pay_config.enable);
-             this.inform=JSON.parse(body.data.frontdesk_pay_config.enable_todo_list);
+             if(body.data.frontdesk_pay_config.enable_todo_list!=undefined){
+               this.inform=JSON.parse(body.data.frontdesk_pay_config.enable_todo_list);
+             }
              if(body.data.frontdesk_pay_config.devices!=undefined){
                this.prosceniumDeviceList=body.data.frontdesk_pay_config.devices; // 前台支付设备列表
              }
