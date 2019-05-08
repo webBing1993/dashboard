@@ -84,6 +84,7 @@ import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDe
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigSysInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSysInfo.vue'
+import ConfigMicro from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigMicro.vue'
 import ConfigBusnessInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigBusnessInfo.vue'
 import ConfigHotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigHotelInfo.vue'
 
@@ -252,6 +253,17 @@ const main = [
                             path: '/',
                             name: 'ConfigInfo2',
                             component: ConfigSysInfo
+                          }
+                        ]
+                      },
+                      {
+                        path: 'ConfigMicro',
+                        component: ConfigMicro,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'ConfigMicro',
+                            component: ConfigMicro
                           }
                         ]
                       },
