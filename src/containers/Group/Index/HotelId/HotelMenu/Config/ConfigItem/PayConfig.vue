@@ -258,6 +258,7 @@ export default {
          this.wechatDialog = true;
       }else if(this.payType=='alipay'){
         this.alipayDialog = true;
+        this.initMchNames();
       }else{
         this.prosceniumDialog = true;
       }
