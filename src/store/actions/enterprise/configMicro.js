@@ -1,4 +1,4 @@
-
+import qs from 'qs'
 /*
  * 微前台2.0配置action
  * */
@@ -6,8 +6,12 @@ module.exports = {
   //酒店状态列表
   getHotelServer(ctx, params) {
     ctx.dispatch('resource', {
-      url: 'hotelServiceConfigs/hotelId?hotelId='+params.data.hotelId,
+      url: '/hotelconfig/hotelConfigDetail',
       method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body:qs.stringify(params.data),
       onSuccess: (body) => {
         params.onsuccess && params.onsuccess(body)
       },
@@ -18,7 +22,7 @@ module.exports = {
   },
   getHotelServiceConfigs(ctx, params) {
     ctx.dispatch('resource', {
-      url: 'hotelServiceConfigs/hotelserviceconfig',
+      url: '/hotelconfig/hotelRoomTypeConfig',
       method: 'post',
       body: params.data,
       onSuccess: (body) => {
@@ -32,7 +36,7 @@ module.exports = {
   //服务状态修改
   getHotelIdsStatus(ctx, params) {
     ctx.dispatch('resource', {
-      url: '/hotelServiceConfigs/hotelIds',
+      url: '/hotelconfig/update',
       method: 'post',
       body: params.data,
       onSuccess: (body) => {

@@ -84,12 +84,12 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig('roomService','客房服务配置')">
+          <button @click="dialogConfig('roomService','专属管家配置')">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
-              <span>客房服务</span>
+              <span>专属管家</span>
               <p>客房享有的餐券，SPA，迷你吧</p>
             </div>
             <span class="tag_text"
@@ -123,7 +123,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig('guestinvoice','预约发票配置')">
+          <button @click="dialogConfig('invoice','预约发票配置')">
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
@@ -186,7 +186,7 @@
           <!--优图面部通行证配置-->
           <div v-if="this.showType=='facein'">
             <div class="item-form">
-              <span style="width: 155px">是否开启优图面部通行证？</span>
+              <span style="width: 155px">优图面部通行证</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="facein"></el-switch>
             </div>
           </div>
@@ -221,9 +221,22 @@
             </div>
           </div>
           <div v-if="this.showType=='roomService'">
-            <div class="item-form">
-              <span style="width: 155px">客房服务</span>
-              <el-switch on-color="#13ce66"off-color="#ff4949" v-model="roomService"></el-switch>
+            <div class="item-form-service">
+              <div class="item-form-header">
+                <span style="width: 155px">专属管家</span>
+                <el-switch on-color="#13ce66"off-color="#ff4949" v-model="roomService"></el-switch>
+              </div>
+              <div class="hotel_server_main_checkList" v-if="roomService">
+                <p class="hotel_server_main_checkList_span2">选择支持在线客专属管家的房型</p>
+                <p class="hotel_server_main_p2">（不选表示不启用该功能）</p>
+                <div style="margin-top: 10px">
+                  <el-checkbox-group
+                    v-model="checkedServer2"
+                    >
+                    <el-checkbox v-for="list2 in optionList2" :disabled="roomService == false" :label="list2.id" :key="list2.id">{{list2.value}}</el-checkbox>
+                  </el-checkbox-group>
+                </div>
+              </div>
             </div>
           </div>
           <div v-if="this.showType=='roomRestricts'">
@@ -241,16 +254,16 @@
           <div v-if="this.showType=='invoice'">
             <div class="item-form">
               <span style="width: 155px">预约发票</span>
-              <el-switch on-color="#13ce66"off-color="#ff4949" v-model="invoice"></el-switch>
+              <el-switch on-color="#13ce66" off-color="#ff4949" v-model="invoice"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='guestControl'">
             <div class="item-form">
               <span style="width: 155px">智能客控</span>
-              <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guestControl"></el-switch>
+              <el-switch on-color="#13ce66" off-color="#ff4949" v-model="guestControl"></el-switch>
             </div>
           </div>
-          <div v-if="this.showType=='guestContinue'">
+          <div v-if="this.showType=='f'">
             <div class="item-form">
               <span style="width: 155px">续住</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guestContinue"></el-switch>
@@ -276,11 +289,7 @@
 </template>
 <script>
   import {mapActions,mapState} from 'vuex'
-
   export default {
-    components:{
-
-    },
     data(){
       return{
         facein: false,
@@ -305,17 +314,15 @@
         invoiceId: '',
         guestControl:false,
         guestControlId:'',
-        checkedServer1: [],
-        checkedServer2: [],
-        optionList1: [],
-        optionList2: [],
+        checkedServer2: [],    //选中的房间类型
+        optionList2: [],      //房间类型列表
         guestContinue:false,  //续住
         guestContinueId:'',
         guestCheckout:false,   //退房
         guestCheckoutId:'',
-        typeTitle:'',
-        showType:'',
-        showDialog:false,
+        typeTitle:'',     //弹框标题
+        showType:'',      //弹框类型
+        showDialog:false, //控制是否打开弹框
       }
     },
     methods:{
@@ -325,6 +332,55 @@
       },
       submitDialog(){
         this.showDialog = false;
+        var dataObj={};
+        switch(this.showType){
+           case 'facein':            dataObj={ id:this.faceinId, value:this.facein?1:0 }
+             break;
+           case 'guest':             dataObj={ id:this.guestId, value:this.guest?1:0 }
+             break;
+           case 'hotelinfo':         dataObj={ id:this.hotelinfoId, value:this.hotelinfo?1:0 }
+             break;
+           case 'wifi':              dataObj={ id:this.wifiId, value:this.wifi?1:0 }
+             break;
+           case 'activity':          dataObj={ id:this.activityId, value:this.activity?1:0 }
+             break;
+           case 'integral':          dataObj={ id:this.integralId, value:this.integral?1:0 }
+             break;
+           case 'roomService':
+             if(this.roomService){
+                this.getHotelServiceConfigs({
+                  data:{
+                    "hotelId":this.$route.params.hotelid,
+                    "ids": this.checkedServer2.toString(),// 房间类型id集合
+                    "type":2 // 默认为2，即房间类型
+                  },
+                  onsuccess:body=>{
+
+                  }
+                })
+             }
+             dataObj={ id:this.roomServiceId, value:this.roomService?1:0 }
+             break;
+           case 'roomRestricts':     dataObj={ id:this.roomRestrictsId, value:this.roomRestricts?1:0 }
+             break;
+           case 'car':               dataObj={ id:this.carId, value:this.car?1:0}
+             break;
+           case 'invoice':           dataObj={ id:this.invoiceId, value:this.invoice?1:0}
+             break;
+           case 'guestControl':      dataObj={ id:this.guestControlId, value:this.guestControl?1:0}
+             break;
+           case 'guestContinue':     dataObj={ id:this.guestContinueId, value:this.guestContinue?1:0 }
+             break;
+           case 'guestCheckout':     dataObj={ id:this.guestCheckoutId, value:this.guestCheckout?1:0}
+             break;
+        }
+        this.getHotelIdsStatus({
+          data:dataObj,
+          onsuccess:body=>{
+
+          }
+        })
+
       },
       dialogConfig(type,title){
         this.showType = type;
@@ -386,16 +442,6 @@
                   }
                 }
               }
-
-              this.optionList1 = body.data.roomServiceConfig
-              if(this.optionList1.length>0){
-                for(let i of this.optionList1){
-                  if(i.status == true){
-                    this.checkedServer1.push(i.id)
-                  }
-                }
-              }
-
               this.optionList2 = body.data.roomType
               if(this.optionList2.length>0){
                 for(let i of this.optionList2){
@@ -404,7 +450,6 @@
                   }
                 }
               }
-
             }
           }
         )
@@ -422,7 +467,6 @@
     },
     mounted(){
       this.hotelServer()
-      console.log('hotelListId', this.$route.params.hotelid)
     }
   }
 </script>
@@ -527,6 +571,7 @@
             color: #4A4A4A;
           }
         }
+
         .el-dialog__body {
           padding: 22px 20px 33px;
           .dialog-content {
@@ -541,7 +586,7 @@
               text-align: left;
               & > span {
                 display: inline-block;
-                min-width: 110px;
+                min-width: 130px;
                 text-align: left;
               }
               .el-input {
@@ -566,6 +611,58 @@
               }
               .el-radio {
                 margin-left: 16px;
+              }
+            }
+            .item-form-service{
+              display: flex;
+              min-height: 80px;
+              justify-content: space-between;
+              flex-direction: column;
+              .item-form-header{
+                & > span {
+                  display: inline-block;
+                  min-width: 110px;
+                  text-align: left;
+                }
+                .el-input {
+                  width: 60%;
+                }
+                .el-select {
+                  width:60%!important;
+                  margin-left:16px!important;
+                  .el-input{
+                    width:100%!important;
+                  }
+                }
+
+                .el-transfer{
+                  .el-input{
+                    width: 100%;
+                  }
+                }
+
+                .el-switch {
+                  margin-left: 16px;
+                }
+                .el-radio {
+                  margin-left: 16px;
+                }
+              }
+              .hotel_server_main_checkList{
+                padding: 10px 0 10px 0;
+                .hotel_server_main_checkList_span{
+                  display: inline-block;
+                  margin: 10px 0;
+                  font-family: PingFangSC-Medium;
+                  font-size: 12px;
+                  color: #000000;
+                }
+                .hotel_server_main_checkList_span2{
+                  display: inline-block;
+                  font-family: PingFangSC-Medium;
+                  font-size: 12px;
+                  color: #000000;
+                }
               }
             }
             article {
