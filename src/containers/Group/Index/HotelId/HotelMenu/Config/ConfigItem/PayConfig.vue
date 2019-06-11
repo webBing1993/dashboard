@@ -652,13 +652,13 @@ export default {
     wechatYuSubmit(){
       this.wechatYuDialog=false;
       let data={};
-      if (this.providerYu) {
+      if (this.providerYu) {//服务商模式是否开启
         data = {
           app_id: this.appIdYu,     // appId 必需
           mch_id: this.mchIdYu,     // mchId 必需
           provider: this.providerYu,     //子商户appId 非必需
-          sub_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
-          sub_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
+          provider_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
+          provider_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
         }
       } else {
         data = {
