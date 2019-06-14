@@ -396,6 +396,20 @@ module.exports = {
   },
 
 
+
+
+  /**********设备支付配置接口*************/
+  //微信配置项查询
+  getWechatpay(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/wechatpay/${param.key}`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
   //获取商户类型
   getMchNames(ctx, param){
     ctx.dispatch('resource', {

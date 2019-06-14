@@ -42,7 +42,7 @@
             <p class="payConfig_main_p2">开启后可选择设备支持支付宝支付</p>
           </div>
           <div class="payConfig_main_right">
-            <span class="payConfig_main_btn1" @click="alipayConfig">配置</span>
+            <span class="payConfig_main_btn1" @click="alipayConfig('alipay')">配置</span>
             <span :class="isAlipayUse?'noUse':'payConfig_main_btn2'" @click="useConfig('alipay')">{{isAlipayUse?'停用':'启用'}}</span>
           </div>
         </div>
@@ -88,23 +88,145 @@
           </div>
         </div>
       </div>
+      <!--微信预授权配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">微信预授权</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持微信预授权支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="wechatYuConfig">配置</span>
+            <p :class="isWechatYuUse ? 'noUse':'payConfig_main_btn2'" @click="useConfig('wechat_yu')">
+              <span v-if="isWechatYuUse">停用</span>
+              <span v-else>启用</span>
+            </p>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isWechatYuUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="wechatYuDeviceList"
+              @change="chooseDevice('wechatYu')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
+      <!--支付宝预授权配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">支付宝预授权</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持支付宝预授权</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="alipayConfig('alipay_yu')">配置</span>
+            <span :class="isAlipayYuUse?'noUse':'payConfig_main_btn2'" @click="useConfig('alipay_yu')">{{isAlipayYuUse?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isAlipayYuUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="alipayYuDeviceList"
+              @change="chooseDevice('alipayYu')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--微信支付配置弹框-->
       <el-dialog
-        title="微信支付参数配置"
-        :visible.sync="wechatDialog"
+      title="微信支付参数配置"
+      :visible.sync="wechatDialog"
+      width="50%"
+      center>
+      <div class="item-form">
+        <span>服务商模式</span>
+        <el-switch
+          v-model="provider"
+          on-color="#13ce66"
+          off-color="#ff4949">
+        </el-switch>
+      </div>
+      <div class="item-form">
+        <span>小程序app_id</span>
+        <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
+          <el-option
+            v-for="(obj, index) of miniAppList"
+            :key="obj.app_id"
+            :label="`${obj.app_id} | ${obj.app_name}`"
+            :value="`${obj.app_id} | ${obj.app_name}`">
+          </el-option>
+        </el-select>
+      </div>
+      <div class="item-form">
+        <span>商户mch_id</span>
+        <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
+          <el-option
+            v-for="(obj, index) of mchIdList"
+            :key="obj.value"
+            :label="obj.value"
+            :value="obj.value">
+          </el-option>
+        </el-select>
+      </div>
+      <div v-show="provider">
+        <div class="item-form">
+          <span>服务商app_id</span>
+          <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+            <el-option
+              v-for="(obj, index) of miniAppList"
+              :key="obj.app_id"
+              :label="`${obj.app_id} | ${obj.app_name}`"
+              :value="`${obj.app_id} | ${obj.app_name}`">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="item-form">
+          <span>服务商mch_id</span>
+          <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+            <el-option
+              v-for="(obj, index) of providerMchIdList"
+              :key="obj.value"
+              :label="obj.value"
+              :value="obj.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+            <el-button @click="hideDialog('wechat')">取 消</el-button>
+            <el-button :disabled="!wechatvalidate" type="primary" @click="wechatSubmit">确 定</el-button>
+      </span>
+    </el-dialog>
+      <!--微信预授权弹框-->
+      <el-dialog
+        title="微信支预授权参数配置"
+        :visible.sync="wechatYuDialog"
         width="50%"
         center>
         <div class="item-form">
           <span>服务商模式</span>
           <el-switch
-            v-model="provider"
+            v-model="providerYu"
             on-color="#13ce66"
             off-color="#ff4949">
           </el-switch>
         </div>
         <div class="item-form">
           <span>小程序app_id</span>
-          <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
+          <el-select class="el-right" v-model="appIdTempYu" filterable placeholder="请选择小程序">
             <el-option
               v-for="(obj, index) of miniAppList"
               :key="obj.app_id"
@@ -115,7 +237,7 @@
         </div>
         <div class="item-form">
           <span>商户mch_id</span>
-          <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
+          <el-select class="el-right" v-model="mchIdTempYu" filterable placeholder="请输入商户号">
             <el-option
               v-for="(obj, index) of mchIdList"
               :key="obj.value"
@@ -124,10 +246,10 @@
             </el-option>
           </el-select>
         </div>
-        <div v-show="provider">
+        <div v-show="providerYu">
           <div class="item-form">
             <span>服务商app_id</span>
-            <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+            <el-select class="el-right" v-model="providerAppIdTempYu" filterable placeholder="请选择服务商app_id">
               <el-option
                 v-for="(obj, index) of miniAppList"
                 :key="obj.app_id"
@@ -138,7 +260,7 @@
           </div>
           <div class="item-form">
             <span>服务商mch_id</span>
-            <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+            <el-select class="el-right" v-model="providerMchIdTempYu" filterable placeholder="请选择服务商mch_id">
               <el-option
                 v-for="(obj, index) of providerMchIdList"
                 :key="obj.value"
@@ -149,31 +271,42 @@
           </div>
         </div>
         <span slot="footer" class="dialog-footer">
-            <el-button @click="hideDialog('wechat')">取 消</el-button>
-            <el-button :disabled="!wechatvalidate" type="primary" @click="wechatSubmit">确 定</el-button>
+            <el-button @click="hideDialog('wechatYu')">取 消</el-button>
+            <el-button :disabled="!wechatYuvalidate" type="primary" @click="wechatYuSubmit">确 定</el-button>
       </span>
       </el-dialog>
       <!--支付宝支付配置弹框-->
       <el-dialog
-        title="支付宝参数配置"
+        :title="payType=='alipay'?'支付宝参数配置':'支付宝预授权参数配置'"
         :visible.sync="alipayDialog"
         width="50%"
         center>
-        <div class="item_large">
-          <span>商户账号</span>
-          <el-select v-model="account" slot="prepend" placeholder="请选择">
-            <el-option
-              v-for="(obj, index) of accountList"
-              :key="obj.id"
-              :label="obj.name"
-              :value="obj.id">
-            </el-option>
-          </el-select>
-        </div>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="hideDialog('alipay')">取 消</el-button>
-            <el-button :disabled="!alipayvalidate" type="primary" @click="alipaySubmit">确 定</el-button>
-      </span>
+          <div class="item_large" v-if="payType=='alipay'">
+            <span>商户账号</span>
+            <el-select v-model="account" slot="prepend" placeholder="请选择">
+              <el-option
+                v-for="(obj, index) of accountList"
+                :key="obj.id"
+                :label="obj.name"
+                :value="obj.id">
+              </el-option>
+            </el-select>
+          </div>
+          <div class="item_large" v-else>
+            <span>商户账号</span>
+            <el-select v-model="accountYu" slot="prepend" placeholder="请选择">
+              <el-option
+                v-for="(obj, index) of accountList"
+                :key="obj.id"
+                :label="obj.name"
+                :value="obj.id">
+              </el-option>
+            </el-select>
+          </div>
+          <span slot="footer" class="dialog-footer">
+              <el-button @click="hideDialog">取 消</el-button>
+              <el-button :disabled="!alipayvalidate" type="primary" @click="alipaySubmit">确 定</el-button>
+          </span>
       </el-dialog>
       <!--前台支付配置弹框-->
       <el-dialog
@@ -189,8 +322,8 @@
           <div>
             <el-switch
               v-model="inform"
-              active-color="#13ce66"
-              inactive-color="#E8E8E8"
+              on-color="#13ce66"
+              off-color="#E8E8E8"
               :width="40">
             </el-switch>
           </div>
@@ -223,19 +356,31 @@ export default {
   data () {
     return {
       wechatDialog: false, // 控制微信支付配置弹框
+      wechatYuDialog:false, //控制微信预授权配置弹框
       alipayDialog: false, // 控制支付宝支付配置弹框
       prosceniumDialog: false, // 控制前台支付配置弹框
       promptDialog: false, // 是否配置提示弹框
       inform: false,       //前台通知待办是否打开
-      deviceList: [],
+      deviceList: [],      //所有设备列表
+      noDerviceAlert:false,
+
       wechatDeviceList: [], // 微信支付设备列表
       alipayDeviceList: [], // 支付宝支付设备列表
       prosceniumDeviceList: [], // 前台支付设备列表
+      wechatYuDeviceList:[],  //微信预授权设备列表
+      alipayYuDeviceList:[],   //支付宝预授权设备列表
+
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
-      isProsceniumUse: false,
+      isProsceniumUse: false,    //前台支付是否启用
+      isWechatYuUse:false,      //微信预授权是否启用
+      isAlipayYuUse:false,      //支付宝预授权是否启用
+
       account:'',//商户账户
       accountList:[],//账户列表
+
+      accountYu:'',//商户账户
+
       //微信支付配置弹框参数
       miniAppList: [],
       provider: false,
@@ -245,13 +390,27 @@ export default {
       providerMchIdTemp: '',
       unProviderList:[],
       providerList:[],
+
+
+      //微信预授权弹框参数
+      providerYu: false,
+      appIdTempYu: '',
+      mchIdTempYu: '',
+      providerAppIdTempYu: '',
+      providerMchIdTempYu: '',
+      unProviderListYu:[],
+      providerListYu:[],
+
+      accountdata:'',
+      accountYudata:'',
       pay_config_key:'',
       payType:'',
-      accountdata:'',
+
+      wechatYudefault:{},
     }
   },
   methods: {
-    ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices','patchPayConfig','getDevicePayConfig']),
+    ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices','patchPayConfig','getDevicePayConfig','getWechatpay']),
     goConfig(){
       this.promptDialog=false;
       if(this.payType=='wechat'){
@@ -259,9 +418,20 @@ export default {
       }else if(this.payType=='alipay'){
         this.alipayDialog = true;
         this.initMchNames();
-      }else{
+      }else if(this.payType=="proscenium"){
         this.prosceniumDialog = true;
+      }else if(this.payType=="wechat_yu"){
+        this.wechatYuDialog = true;
+      } else if(this.payType=="alipay_yu"){
+        this.alipayDialog = true;
+        this.initMchNames();
       }
+    },
+    //打开微信预授权配置对话框
+    wechatYuConfig () {
+      this.wechatYuDialog = true;
+      this.getMiniAppLists();
+      this.wechatList();
     },
     //打开微信配置对话框
     wechatConfig () {
@@ -274,14 +444,18 @@ export default {
       this.wechatList();
     },
     //打开支付宝配置对话框
-    alipayConfig () {
-      this.alipayDialog = true
+    alipayConfig (type) {
+      this.alipayDialog = true;
+      console.log('弹框类型',type);
+      this.payType=type;
       this.initMchNames();
     },
     //打开前台支付配置对话框
     prosceniumConfig () {
       this.prosceniumDialog = true
     },
+
+    //选择设备
     chooseDevice (type) {
       let data={};
       if (type == 'wechat') {
@@ -297,11 +471,28 @@ export default {
         if(this.isProsceniumUse) {
           data = {"devices": this.prosceniumDeviceList, }// 设备
         }
+      }else if(type == 'wechatYu'){
+        this.pay_config_key='wechat_authority_config';
+        if(this.isWechatYuUse){
+          data={"devices":this.wechatYuDeviceList} // 设备
+        }
+      }else if (type == 'alipayYu'){
+        this.pay_config_key='alipay_authority_config';
+        if(this.isAlipayYuUse){
+          data={"devices":this.alipayYuDeviceList} // 设备
+        }
       }
       this.patchPayConfigData(data);
     },
     // 启用设备
     useConfig (type) {
+      if(this.deviceList.length==0){
+        this.$message({
+          message: ' 没有可用的设备',
+          type: 'warning'
+        });
+        return
+      }
       let data={};
       this.payType=type;
       if (type == 'wechat') {
@@ -328,21 +519,47 @@ export default {
         }
 
       }else if(type == 'alipay'){
-        console.log(this.account,this.isAlipayUse);
         if((this.account == ''||this.account == undefined) && this.isAlipayUse==false ){
           this.promptDialog=true;
           return;
         }
         this.isAlipayUse = !this.isAlipayUse;
         this.pay_config_key='alipay_config';
-        if(this.isAlipayUse){
+        data={
+          "enable":this.isAlipayUse, // 启用：true  停用：false
+        }
+      }else if(type == 'wechat_yu'){
+        if(this.appIdYu =='' && this.isWechatYuUse==false){
+          this.promptDialog=true;
+          return;
+        }
+        this.isWechatYuUse = !this.isWechatYuUse
+        this.pay_config_key='wechat_authority_config';
+        if(this.isWechatUse){
           data={
-            "enable":this.isAlipayUse, // 启用：true  停用：false
+            "enable":this.isWechatYuUse, // 启用：true  停用：false
+            "devices":this.wechatYuDeviceList, // 设备
+            "alipay_config_id":"", // 支付宝商户配置ID
+            "enable_todo_list":""  // 通知代办
           }
         }else{
           data={
-            "enable":this.isAlipayUse, // 启用：true  停用：false
+            "enable":this.isWechatUse, // 启用：true  停用：false
+            "devices":[], // 设备
+            "alipay_config_id":"", // 支付宝商户配置ID
+            "enable_todo_list":""  // 通知代办
           }
+        }
+
+      }else if(type == 'alipay_yu'){
+        if((this.accountYu == ''|| this.accountYu == undefined) && this.isAlipayYuUse==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isAlipayYuUse = !this.isAlipayYuUse;
+        this.pay_config_key='alipay_authority_config';
+        data={
+            "enable":this.isAlipayYuUse, // 启用：true  停用：false
         }
       }else if(type == 'proscenium'){
         this.isProsceniumUse = !this.isProsceniumUse;
@@ -412,11 +629,56 @@ export default {
          this.providerMchId=this.configData;
          this.provider = this.configData.provider ? true : false;
        }
-       if(type=='alipay'){
+       if(this.payType=='alipay'){
           this.alipayDialog=false;
           this.account=this.accountdata;
        }
+        if(this.payType=='alipay_yu'){
+          this.alipayDialog=false;
+          this.accountYu=this.accountYudata;
+        }
 
+        if( type == 'wechatYu'){
+          this.wechatYuDialog=false;
+          this.appIdYu=this.wechatYudefault;
+          this.mchIdYu = this.wechatYudefault;
+          this.providerYu = this.wechatYudefault.provider ? true : false;
+          this.providerAppIdYu=this.wechatYudefault;
+          this.providerMchIdYu=this.wechatYudefault;
+        }
+
+    },
+    //微信预授权保存
+    wechatYuSubmit(){
+      this.wechatYuDialog=false;
+      let data={};
+      if (this.providerYu) {//服务商模式是否开启
+        data = {
+          app_id: this.appIdYu,     // appId 必需
+          mch_id: this.mchIdYu,     // mchId 必需
+          provider: this.providerYu,     //子商户appId 非必需
+          provider_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
+          provider_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
+        }
+      } else {
+        data = {
+          app_id: this.appIdYu,
+          mch_id: this.mchIdYu,
+          provider: this.providerYu,
+        }
+      }
+      console.log(data);
+      this.patchPayConfig({
+        hotel_id: this.$route.params.hotelid,
+        pay_config_key:"wechat_authority_config",
+        data: {
+          "enable": this.isWechatYuUse, // 启用：true  停用：false
+          "devices": this.wechatYuDeviceList, // 设备
+          "wechat_pay": data,
+        },
+        onsuccess: body => {
+        }
+      })
     },
     //微信配置保存
     wechatSubmit(){
@@ -448,10 +710,20 @@ export default {
     //支付宝配置保存
     alipaySubmit(){
        this.alipayDialog=false;
-       this.pay_config_key='alipay_config';
-       let data={
-         "alipay_config_id":this.account, // 支付宝商户配置ID
+       let data={};
+       console.log("账户iD",this.accountYu);
+       if(this.payType=='alipay'){
+         this.pay_config_key='alipay_config';
+         data={
+           "alipay_config_id":this.account, // 支付宝商户配置ID
+         }
+       }else{
+         this.pay_config_key='alipay_authority_config';
+          data={
+           "alipay_config_id":this.accountYu, // 支付宝商户配置ID
+         }
        }
+
       this.patchPayConfigData(data);
     },
     proSubmit(){
@@ -464,7 +736,6 @@ export default {
     },
     //修改服务端数据
     patchConfigData(data) {
-      console.log('debug:------->patchConfigData：',data)
       this.patchConfig({
         hotel_id: this.$route.params.hotelid,
         data: data,
@@ -475,7 +746,6 @@ export default {
     },
     //设备列表
     initDevices(){
-      console.log("111",this.$route.params.hotelid);
       this.getDevices({
         hotelId: this.$route.params.hotelid,
         onsuccess: body => {
@@ -497,15 +767,32 @@ export default {
              }
            }
 
+           if(body.data.wechat_authority_config!=null){
+             this.isWechatYuUse=JSON.parse(body.data.wechat_authority_config.enable);      //微信预授权是否启用
+             if(body.data.wechat_authority_config.devices!=undefined){
+               this.wechatYuDeviceList=body.data.wechat_authority_config.devices; // 微信支付设备列表
+             }
+           }
+
            if(body.data.alipay_config!=null){
              this.isAlipayUse=JSON.parse(body.data.alipay_config.enable);          //支付宝设备是否启用
              if(body.data.alipay_config.devices!=undefined){
                this.alipayDeviceList=body.data.alipay_config.devices; // 支付宝支付设备列表
              }
-             console.log("this.alipayDeviceList",this.alipayDeviceList);
              this.accountdata=body.data.alipay_config.alipay_config_id;
              this.account=this.accountdata;
            }
+
+           if(body.data.alipay_authority_config!=null){
+             this.isAlipayYuUse=JSON.parse(body.data.alipay_authority_config.enable);          //支付宝预授权是否启用
+             if(body.data.alipay_authority_config.devices!=undefined){
+               this.alipayYuDeviceList=body.data.alipay_authority_config.devices; // 支付宝支付设备列表
+             }
+             this.accountYudata=body.data.alipay_authority_config.alipay_config_id;
+             this.accountYu=this.accountYudata;
+           }
+
+
            if(body.data.frontdesk_pay_config!=null){
              this.isProsceniumUse=JSON.parse(body.data.frontdesk_pay_config.enable);
              if(body.data.frontdesk_pay_config.enable_todo_list!=undefined){
@@ -515,7 +802,6 @@ export default {
                this.prosceniumDeviceList=body.data.frontdesk_pay_config.devices; // 前台支付设备列表
              }
            }
-           console.log("this.inform",this.inform);
          }
        })
     },
@@ -525,14 +811,72 @@ export default {
            this.accountList=body.data;
          }
       })
+    },
+    //获取微信预授权默认配置项
+    initWechatYuConfig(){
+      this.getWechatpay({
+        hotel_id: this.$route.params.hotelid,
+        key:"wechat_authority_config",
+        onsuccess:body=>{
+          if(body.data!=null){
+            this.wechatYudefault=body.data;
+            this.appIdYu=body.data;
+            this.mchIdYu = body.data;
+            this.providerYu = body.data.provider ? true : false;
+            this.providerAppIdYu=body.data;
+            this.providerMchIdYu=body.data;
+          }
+        }
+      })
     }
   },
   computed:{
     ...mapState({
       configData: state => state.enterprise.configData,
     }),
+    appIdYu: {
+      get() {
+        if (!this.appIdTempYu) return '';
+        return this.appIdTempYu.split(' | ')[0];
+      },
+      set(val) {
+        val.app_id ? this.appIdTempYu = `${val.app_id} | ${val.app_name}` : this.appIdTempYu = '';
+      }
+    },
+    mchIdYu: {
+      get() {
+        if (!this.mchIdTempYu) return '';
+        return this.mchIdTempYu.split(' | ')[0];
+      },
+      set(val) {
+        val.mch_id ? this.mchIdTempYu = `${val.mch_id} | ${val.mch_name}` : this.mchIdTempYu = '';
+      }
+    },
+    providerAppIdYu: {
+      get() {
+        if (!this.providerAppIdTempYu) return '';
+        return this.providerAppIdTempYu.split(' | ')[0];
+      },
+      set(val) {
+        val.provider_app_id ? this.providerAppIdTempYu = `${val.provider_app_id} | ${val.provider_app_name}` : this.providerAppIdTempYu = '';
+      }
+    },
+    providerMchIdYu: {
+      get() {
+        if (!this.providerMchIdTempYu) return '';
+        return this.providerMchIdTempYu.split(' | ')[0];
+      },
+      set(val) {
+        val.provider_mch_id ? this.providerMchIdTempYu = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTempYu = '';
+      }
+    },
+    wechatYuvalidate(){
+      if (!this.providerYu) {
+        return tool.isNotBlank(this.appIdYu) && tool.isNotBlank(this.mchIdYu);
+      }
+      return tool.isNotBlank(this.appIdYu) && tool.isNotBlank(this.mchIdYu) && tool.isNotBlank(this.providerAppIdYu) && tool.isNotBlank(this.providerMchIdYu);
+    },
     appName() {
-      console.log(this.appIdTemp);
       if (!this.appIdTemp) return '';
       return this.appIdTemp.split(' | ')[1];
     },
@@ -606,6 +950,7 @@ export default {
       }
       return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.providerAppId) && tool.isNotBlank(this.providerMchId);
     },
+
     alipayvalidate(){
       return tool.isNotBlank(this.account)
     },
@@ -613,6 +958,7 @@ export default {
   mounted() {
      this.initDevices();
      this.initDevicePayConfig();
+     this. initWechatYuConfig();
      this.appId = this.configData;
   }
 }

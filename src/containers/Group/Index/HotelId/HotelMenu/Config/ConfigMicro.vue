@@ -263,7 +263,7 @@
               <el-switch on-color="#13ce66" off-color="#ff4949" v-model="guestControl"></el-switch>
             </div>
           </div>
-          <div v-if="this.showType=='f'">
+          <div v-if="this.showType=='guestContinue'">
             <div class="item-form">
               <span style="width: 155px">续住</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guestContinue"></el-switch>
