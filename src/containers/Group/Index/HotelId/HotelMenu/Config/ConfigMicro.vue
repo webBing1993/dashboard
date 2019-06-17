@@ -44,19 +44,19 @@
                   :class="{'tag_text_red': !hotelinfo, 'tag_text_green':hotelinfo}">{{hotelinfo? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig('wifi','wifi管理配置')">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>WIFI管理</span>
-              <p>酒店企业微信关闭wifi管理权限，C端小程序不可点，提示“当前酒店暂未开通”</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !wifi, 'tag_text_green':wifi}">{{wifi? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig('wifi','wifi管理配置')">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/标签.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>WIFI管理</span>-->
+              <!--<p>酒店企业微信关闭wifi管理权限，C端小程序不可点，提示“当前酒店暂未开通”</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !wifi, 'tag_text_green':wifi}">{{wifi? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig('activity','活动广告配置')">
             <div class="item_img">
@@ -202,12 +202,12 @@
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="hotelinfo"></el-switch>
             </div>
           </div>
-          <div v-if="this.showType=='wifi'">
-            <div class="item-form">
-              <span style="width: 155px">WIFI管理</span>
-              <el-switch on-color="#13ce66"off-color="#ff4949" v-model="wifi"></el-switch>
-            </div>
-         </div>
+          <!--<div v-if="this.showType=='wifi'">-->
+            <!--<div class="item-form">-->
+              <!--<span style="width: 155px">WIFI管理</span>-->
+              <!--<el-switch on-color="#13ce66"off-color="#ff4949" v-model="wifi"></el-switch>-->
+            <!--</div>-->
+         <!--</div>-->
           <div v-if="this.showType=='activity'">
             <div class="item-form">
               <span style="width: 155px">活动广告</span>
