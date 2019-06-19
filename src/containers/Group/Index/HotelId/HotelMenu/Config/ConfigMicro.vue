@@ -354,9 +354,6 @@
                     "ids": this.checkedServer2.toString(),// 房间类型id集合
                     "type":2 // 默认为2，即房间类型
                   },
-                  onsuccess:body=>{
-
-                  }
                 })
              }
              dataObj={ id:this.roomServiceId, value:this.roomService?1:0 }
