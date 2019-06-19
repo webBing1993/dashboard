@@ -946,7 +946,7 @@
       this.getWxhotelCitysers();
       this.getPms();
       this.wechatList();
-      this.WxhotelRegisters();
+    //  this.WxhotelRegisters();
 //      this.getRCConfigeds();
       this.getAccessServiceType();
 //      this.getPADMarkConfigs();
