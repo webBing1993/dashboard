@@ -384,6 +384,20 @@
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                 </div>
               </div>
+              <div v-if="lvyeType=='SUZHOU'">
+                <div class="item-form">
+                  <span>旅业是否自动充值</span>
+                  <el-switch
+                    v-model="isLvyeAutoCharge"
+                    on-color="#13ce66"
+                    off-color="#ff4949">
+                  </el-switch>
+                </div>
+                <div class="item-form" v-if="isLvyeAutoCharge">
+                  <span>充值金额</span>
+                  <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
+                </div>
+              </div>
             </div>
           </div>
           <!--门锁配置弹框-->
@@ -878,6 +892,9 @@
         policeParam: '',
         LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
         isPoliceParam:false,
+        isLvyeAutoCharge:false, // 苏州旅业是否开启自动充值
+        lvyeAmount:100000,//充值金额
+
 //*********************门锁配置，暂无*********************
 
 //**********人脸识别配置**********************
@@ -936,6 +953,7 @@
 
         activeName2: 'first',
         isShowPMSDialog:true,
+
       }
 
     },
@@ -1106,16 +1124,17 @@
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.isPoliceParam) {
             console.log(999)
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
-            let flag = true;
-            try {
-              JSON.parse(this.policeParam);
-            } catch (e) {
-              flag = false;
-            }
-            return flag;
-          }
-          return false;
+          // if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
+          //   let flag = true;
+          //   try {
+          //     JSON.parse(this.policeParam);
+          //   } catch (e) {
+          //     flag = false;
+          //   }
+          //   return flag;
+          // }
+          // return false;
+          return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && tool.isNotBlank(+this.policeParam);
         } else if (this.lvyeType == 'NONE') {
             return true;
         } else {
@@ -1259,7 +1278,9 @@
           this.appSuspicious=wqtMainCtl.suspicious_person_view;
           this.appDirtyRoom=wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
-          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
+          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false;
+          this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
+          this.lvyeAmount=configData.lvye_auto_charge_amount;//充值金额
         };
       },
 
@@ -1732,11 +1753,12 @@
           }
             break;
           case enumShowType.lvyeReportType: {
+
             let tempData = {
               lvye_auto_report: this.singlelvyeAutoReport,
               lvye_report_type: this.lvyeType,
               hotel_ga_id: this.policeId,
-              police_type: this.policeType
+              police_type: this.policeType,
             }
             if (!this.isPoliceParam) {
               data = {
@@ -1937,12 +1959,20 @@
           }
         })
       },
-
       modifyLvyes(data) {
         this.modifyLvye({
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
+            let lvyeAmount1=0;
+            if(this.isLvyeAutoCharge==true){
+              lvyeAmount1=this.lvyeAmount;
+            }
+           data={
+             lvye_auto_charge: JSON.stringify(this.isLvyeAutoCharge), // 苏州旅业是否开启自动充值
+             lvye_auto_charge_amount:lvyeAmount1,//充值金额
+           }
+            this.patchConfigData(data);
             this.showDialog = false;
           }
         })

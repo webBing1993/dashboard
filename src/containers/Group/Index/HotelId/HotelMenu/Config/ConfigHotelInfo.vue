@@ -362,6 +362,20 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.deviceDeposit)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店设备是否缴纳押金及押金金额</span>
+              <p>配置酒店设备是否缴纳押金及押金金额</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !this.isDevicePaid , 'tag_text_green': this.isDevicePaid }">{{this.isDevicePaid ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -959,6 +973,20 @@
             <div class="more-room-tip">说明:客人在认证通设备上刷二代身份证后，查询到多房订单，根据配置项是否显示订单二维码</div>
 
           </div>
+          <div v-if="showType === enumShowType.deviceDeposit">
+            <div class="item-form">
+              <span>是否开启酒店押金配置</span>
+              <el-switch
+                v-model="isDevicePaid"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isDevicePaid">
+              <span>押金金额</span>
+              <el-input class="el-right" v-model="deviceAmount" placeholder="请输入押金金额"></el-input>
+            </div>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
@@ -1031,8 +1059,7 @@
     keyAccess: 23,//关键通道
     zftShowMoreRoom: 24,//关键通道
     advancedLiveIn:25,//入住规则配置
-
-
+    deviceDeposit:26,//酒店押金配置规则
   }
 
   //弹框标题类型
@@ -1061,7 +1088,8 @@
     '公安验证是否显示已处理记录',
     '关键通道配置',
     '值房通是否显示多房订单',
-    '入住规则配置'
+    '入住规则配置',
+    '酒店设备押金配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1266,6 +1294,10 @@
         showPoliceHandledList: false,
         enabledAdvancedLiveIn:false,  //入住规则
 
+
+        //酒店设备配置
+        isDevicePaid:false,  //是否酒店配置
+        deviceAmount:'',     //酒店押金金额
       }
     },
     mounted() {
@@ -1456,6 +1488,13 @@
       validateAppManage(){
         return (tool.isNotBlank(this.appValue))
       },
+      validateDeviceDeposit(){
+        if(this.isDevicePaid){
+          return (tool.isNotBlank(this.deviceAmount))
+        }else{
+           return true;
+        }
+      },
 
       validateAll() {
         let result = false;
@@ -1537,6 +1576,9 @@
             break;
           case enumShowType.zftShowMoreRoom:
             result = true;
+            break;
+          case enumShowType.deviceDeposit:
+            result=this.validateDeviceDeposit;
             break;
           default:
             result = false;
@@ -1676,8 +1718,13 @@
           this.appDirtyRoom = wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
           this.showPoliceHandledList = configData.enable_show_plice_processed == 'true' ? true : false
+
+
+          //酒店设备是否配置
+          let deviceDepositObj=JSON.parse(configData.device_deposit);
+          this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+           this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
         }
-        ;
       },
       getSingerConfig(){
         this.singerConfig({
@@ -2193,10 +2240,14 @@
             this.getSingerConfig();
 
             break;
+          case enumShowType.deviceDeposit:
+            let device_deposit=JSON.stringify({"paid":this.isDevicePaid,"amount":this.deviceAmount})
+            data = {device_deposit}
+            break;
           default:
             null
         }
-        ;
+        console.log(data);
         this.patchConfigData(data);
       },
 
