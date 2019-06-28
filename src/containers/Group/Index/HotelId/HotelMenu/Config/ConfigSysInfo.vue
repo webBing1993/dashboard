@@ -384,6 +384,20 @@
                   <el-input class="el-right" v-model="policeParam" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
                 </div>
               </div>
+              <div v-if="lvyeType=='SUZHOU'">
+                <div class="item-form">
+                  <span>旅业是否自动充值</span>
+                  <el-switch
+                    v-model="isLvyeAutoCharge"
+                    on-color="#13ce66"
+                    off-color="#ff4949">
+                  </el-switch>
+                </div>
+                <div class="item-form" v-if="isLvyeAutoCharge">
+                  <span>充值金额</span>
+                  <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
+                </div>
+              </div>
             </div>
           </div>
           <!--门锁配置弹框-->
@@ -565,6 +579,36 @@
                 </div>
               </el-tab-pane>
               <el-tab-pane label="支付宝预授权" name="four">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in statusa" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':''}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="好码齐支付" name="five">
                 <div class="item_large">
                   <span>支付方式</span>
                   <div>
@@ -878,6 +922,9 @@
         policeParam: '',
         LvyeConfigItemList:[{name:'全自动上传',value:'AUTO'},{name:'全手工上传',value:'MANUAL'},{name:'仅自动上传有房号的',value:'HAS_ROOM_NO'}],
         isPoliceParam:false,
+        isLvyeAutoCharge:false, // 苏州旅业是否开启自动充值
+        lvyeAmount:100000,//充值金额
+
 //*********************门锁配置，暂无*********************
 
 //**********人脸识别配置**********************
@@ -936,6 +983,7 @@
 
         activeName2: 'first',
         isShowPMSDialog:true,
+
       }
 
     },
@@ -1106,16 +1154,17 @@
           return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType);
         } else if (this.isPoliceParam) {
             console.log(999)
-          if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
-            let flag = true;
-            try {
-              JSON.parse(this.policeParam);
-            } catch (e) {
-              flag = false;
-            }
-            return flag;
-          }
-          return false;
+          // if (tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && isNaN(+this.policeParam)) {
+          //   let flag = true;
+          //   try {
+          //     JSON.parse(this.policeParam);
+          //   } catch (e) {
+          //     flag = false;
+          //   }
+          //   return flag;
+          // }
+          // return false;
+          return tool.isNotBlank(this.policeId) && tool.isNotBlank(this.policeType) && tool.isNotBlank(+this.policeParam);
         } else if (this.lvyeType == 'NONE') {
             return true;
         } else {
@@ -1259,7 +1308,9 @@
           this.appSuspicious=wqtMainCtl.suspicious_person_view;
           this.appDirtyRoom=wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
-          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false
+          this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false;
+          this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
+          this.lvyeAmount=configData.lvye_auto_charge_amount;//充值金额
         };
       },
 
@@ -1408,9 +1459,11 @@
           case 'second' :
             key='pms_alipay_config' ; break;
           case 'three' :
-            key='pms_wechat_authority_config'     ; break;
+            key='pms_wechat_authority_config';     break;
           case 'four' :
-            key='pms_alipay_authority_config'     ; break;
+            key='pms_alipay_authority_config';     break;
+          case 'five' :
+            key='pms_how_much_config';             break;
         }
         this.getPMSPayConfig({
           hotel_id: this.$route.params.hotelid,
@@ -1782,6 +1835,8 @@
                 key='pms_wechat_authority_config'     ; break;
               case 'four' :
                 key='pms_alipay_authority_config'     ; break;
+              case 'five' :
+                key='pms_how_much_config';             break;
             }
 
               data = {
@@ -1943,6 +1998,15 @@
           hotel_id: this.$route.params.hotelid,
           data: data,
           onsuccess: body => {
+            let lvyeAmount1=0;
+            if(this.isLvyeAutoCharge==true){
+              lvyeAmount1=this.lvyeAmount;
+            }
+           data={
+             lvye_auto_charge: JSON.stringify(this.isLvyeAutoCharge), // 苏州旅业是否开启自动充值
+             lvye_auto_charge_amount:lvyeAmount1,//充值金额
+           }
+            this.patchConfigData(data);
             this.showDialog = false;
           }
         })

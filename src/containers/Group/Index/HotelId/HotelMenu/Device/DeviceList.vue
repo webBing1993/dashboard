@@ -3,7 +3,17 @@
     <div class="module-wrapper">
       <div class="content_devicelist">
         <div class="devicelist_title">
-          <span>设备管理</span>
+          <div class="devicelist_title_left">
+            <span style="margin-right:90px">设备管理</span>
+            <div class="left_div" style="margin-right:30px">
+                <span>是否缴纳设备押金 : &nbsp; </span>
+                <span :class="isDevicePaid?'deviceAmount':'noDeviceAmoint'">{{isDevicePaid?'是':'否'}}</span>
+            </div>
+            <div class="left_div">
+                <span>押金金额 : &nbsp;  </span>
+                <span :class="isDevicePaid?'deviceAmount':'noDeviceAmoint'">{{deviceAmount?deviceAmount:0}}元</span>
+            </div>
+          </div>
           <div>
             <el-button type="success" @click.native="addOther">关联游离设备</el-button>
             <el-button type="success" @click.native="add">添加新设备</el-button>
@@ -34,15 +44,41 @@
         list: [],
         page: 1,
         size: 2,
-        total: 0
+        total: 0,
+        //酒店设备配置
+        isDevicePaid:false,  //是否酒店配置
+        deviceAmount:'',     //酒店押金金额
+      }
+    },
+    computed: {
+      ...mapState({
+        configData: state => state.enterprise.configData,
+      }),
+    },
+    watch: {
+      configData() {
+        console.log(33333333333333);
+        let configData = this.configData;
+        //酒店设备是否配置
+        console.log(configData);
+        let deviceDepositObj=JSON.parse(configData.device_deposit);
+        this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+        this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+        console.log("this.isDevicePaid",this.isDevicePaid);
+        console.log("this.isDevicePaid",this.deviceAmount);
       }
     },
     methods: {
       ...mapActions([
         'getDeviceList',
         'updateToALY',
-        'goto'
+        'goto','getConfig'
       ]),
+      getConfigs() {
+        this.getConfig({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
       add(obj) {
         this.goto({
           name: 'EditDevice'
@@ -98,6 +134,8 @@
     },
     mounted() {
       this.getList();
+      this.getConfigs()
+      console.log("222",this.configData);
     }
   }
 </script>
@@ -109,12 +147,30 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 7px;
+      .devicelist_title_left{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left_div{
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
       span {
         font-size: 16px;
         font-weight: normal;
         color: #4A4A4A;
         padding: 0;
         border-bottom: 0;
+      }
+      .deviceAmount{
+         color:#39C240;
+         font-size: 20px;
+      }
+      .noDeviceAmoint{
+         color:#ff2b1c;
+        font-size: 20px;
       }
       .el-button {
         min-width: 173px;
