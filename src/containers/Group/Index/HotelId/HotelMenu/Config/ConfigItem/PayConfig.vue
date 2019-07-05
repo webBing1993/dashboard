@@ -145,6 +145,33 @@
           </div>
         </div>
       </div>
+      <!--好码齐支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">好码齐支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持好码齐支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="howmuchConfig('howmuch')">配置</span>
+            <span :class="isHowmuchUse?'noUse':'payConfig_main_btn2'" @click="useConfig('howmuch')">{{isHowmuchUse?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isHowmuchUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="howmuchDeviceList"
+              @change="chooseDevice('howmuch')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--微信支付配置弹框-->
       <el-dialog
       title="微信支付参数配置"
@@ -332,7 +359,30 @@
          <el-button style="background-color:#00CD78;color:#ffffff" @click="proSubmit">保 存</el-button>
       </span>
       </el-dialog>
-      <!---->
+
+      <!--好码齐支付弹框-->
+      <el-dialog
+        title="好码齐支付参数配置"
+        :visible.sync="howmuchDialog"
+        width="50%"
+        center>
+        <div class="item_large">
+          <span>商户账号</span>
+          <el-select v-model="howmuchId" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of howmuchList"
+              :key="obj.id"
+              :label="obj.app_name"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+              <el-button @click="hideHowmuchDialog">取 消</el-button>
+              <el-button :disabled="!howmuchvalidate" type="primary" @click="howmuchSubmit">确 定</el-button>
+          </span>
+      </el-dialog>
+      <!---去配置弹框-->
       <el-dialog
         title="提示"
         :visible.sync="promptDialog"
@@ -359,6 +409,7 @@ export default {
       wechatYuDialog:false, //控制微信预授权配置弹框
       alipayDialog: false, // 控制支付宝支付配置弹框
       prosceniumDialog: false, // 控制前台支付配置弹框
+      howmuchDialog:false,   //好码齐支付配置弹框
       promptDialog: false, // 是否配置提示弹框
       inform: false,       //前台通知待办是否打开
       deviceList: [],      //所有设备列表
@@ -369,12 +420,14 @@ export default {
       prosceniumDeviceList: [], // 前台支付设备列表
       wechatYuDeviceList:[],  //微信预授权设备列表
       alipayYuDeviceList:[],   //支付宝预授权设备列表
+      howmuchDeviceList:[],   //好码齐设备列表
 
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
       isProsceniumUse: false,    //前台支付是否启用
       isWechatYuUse:false,      //微信预授权是否启用
       isAlipayYuUse:false,      //支付宝预授权是否启用
+      isHowmuchUse:false,        //好码齐是否启用
 
       account:'',//商户账户
       accountList:[],//账户列表
@@ -398,8 +451,7 @@ export default {
       mchIdTempYu: '',
       providerAppIdTempYu: '',
       providerMchIdTempYu: '',
-      unProviderListYu:[],
-      providerListYu:[],
+
 
       accountdata:'',
       accountYudata:'',
@@ -407,24 +459,32 @@ export default {
       payType:'',
 
       wechatYudefault:{},
+
+      howmuchList:[],    //所有好码齐支付列表
+      howmuchId:'',             //好码齐支付id
+      howmuchIdData:'',
     }
   },
   methods: {
-    ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices','patchPayConfig','getDevicePayConfig','getWechatpay']),
+    ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices','patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll']),
+    //去配置
     goConfig(){
       this.promptDialog=false;
       if(this.payType=='wechat'){
-         this.wechatDialog = true;
+         this.wechatConfig ()
       }else if(this.payType=='alipay'){
         this.alipayDialog = true;
         this.initMchNames();
       }else if(this.payType=="proscenium"){
         this.prosceniumDialog = true;
       }else if(this.payType=="wechat_yu"){
-        this.wechatYuDialog = true;
+        this.wechatConfig ();
       } else if(this.payType=="alipay_yu"){
         this.alipayDialog = true;
         this.initMchNames();
+      }else if(this.payType=="howmuch"){
+        this.howmuchDialog=true;
+        this.initHoemuchAll();
       }
     },
     //打开微信预授权配置对话框
@@ -443,10 +503,25 @@ export default {
       this.getMiniAppLists();
       this.wechatList();
     },
+
+    howmuchConfig(type){
+      this.howmuchDialog = true;
+      console.log('弹框类型',type);
+      this.payType=type;
+      this.initHoemuchAll();
+    },
+    //请求好码齐支付所有数据
+    initHoemuchAll(){
+      this.getHowmuchAll({
+        onsuccess: body => {
+          this.howmuchList=body.data;
+        }
+      })
+    },
+
     //打开支付宝配置对话框
     alipayConfig (type) {
       this.alipayDialog = true;
-      console.log('弹框类型',type);
       this.payType=type;
       this.initMchNames();
     },
@@ -480,6 +555,11 @@ export default {
         this.pay_config_key='alipay_authority_config';
         if(this.isAlipayYuUse){
           data={"devices":this.alipayYuDeviceList} // 设备
+        }
+      }else if (type == 'howmuch'){
+        this.pay_config_key='howmuch_pay_config';
+        if(this.isHowmuchUse){
+          data={"devices":this.howmuchDeviceList} // 设备
         }
       }
       this.patchPayConfigData(data);
@@ -535,7 +615,7 @@ export default {
         }
         this.isWechatYuUse = !this.isWechatYuUse
         this.pay_config_key='wechat_authority_config';
-        if(this.isWechatUse){
+        if(this.isWechatYuUse){
           data={
             "enable":this.isWechatYuUse, // 启用：true  停用：false
             "devices":this.wechatYuDeviceList, // 设备
@@ -544,7 +624,7 @@ export default {
           }
         }else{
           data={
-            "enable":this.isWechatUse, // 启用：true  停用：false
+            "enable":this.isWechatYuUse, // 启用：true  停用：false
             "devices":[], // 设备
             "alipay_config_id":"", // 支付宝商户配置ID
             "enable_todo_list":""  // 通知代办
@@ -573,8 +653,18 @@ export default {
             "enable":this.isProsceniumUse, // 启用：true  停用：false
           }
         }
-
+      }else if(type == 'howmuch'){
+        if((this.howmuchId== ''||this.howmuchId == undefined) && this.isHowmuchUse==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isHowmuchUse = !this.isHowmuchUse;
+        this.pay_config_key='howmuch_pay_config';
+        data={
+          "enable":this.isHowmuchUse, // 启用：true  停用：false
+        }
       }
+
       this.patchPayConfigData(data);
     },
     patchPayConfigData(data){
@@ -605,6 +695,7 @@ export default {
         }
       })
     },
+
     //获取小程序列表
     getMiniAppLists() {
       this.getMiniAppList({
@@ -760,22 +851,30 @@ export default {
        this.getDevicePayConfig({
          hotel_id: this.$route.params.hotelid,
          onsuccess: body => {
+           //微信支付默认配置
            if(body.data.wechat_pay_config!=null){
-             this.isWechatUse=JSON.parse(body.data.wechat_pay_config.enable);      //微信设备是否启用
+             if(body.data.wechat_pay_config.enable!=undefined){
+               this.isWechatUse=JSON.parse(body.data.wechat_pay_config.enable);      //微信设备是否启用
+             }
              if(body.data.wechat_pay_config.devices!=undefined){
                this.wechatDeviceList=body.data.wechat_pay_config.devices; // 微信支付设备列表
              }
            }
 
+           //微信预授权默认配置
            if(body.data.wechat_authority_config!=null){
-             this.isWechatYuUse=JSON.parse(body.data.wechat_authority_config.enable);      //微信预授权是否启用
+             if(body.data.wechat_authority_config.enable!=undefined) {
+               this.isWechatYuUse=JSON.parse(body.data.wechat_authority_config.enable);      //微信预授权是否启用
+             }
              if(body.data.wechat_authority_config.devices!=undefined){
                this.wechatYuDeviceList=body.data.wechat_authority_config.devices; // 微信支付设备列表
              }
            }
-
+           //支付宝设备默认配置
            if(body.data.alipay_config!=null){
-             this.isAlipayUse=JSON.parse(body.data.alipay_config.enable);          //支付宝设备是否启用
+             if(body.data.alipay_config.enable!=undefined){
+               this.isAlipayUse=JSON.parse(body.data.alipay_config.enable);          //支付宝设备是否启用
+             }
              if(body.data.alipay_config.devices!=undefined){
                this.alipayDeviceList=body.data.alipay_config.devices; // 支付宝支付设备列表
              }
@@ -783,8 +882,11 @@ export default {
              this.account=this.accountdata;
            }
 
+           //支付宝预授权默认配置
            if(body.data.alipay_authority_config!=null){
-             this.isAlipayYuUse=JSON.parse(body.data.alipay_authority_config.enable);          //支付宝预授权是否启用
+             if(body.data.alipay_authority_config.enable!=undefined) {
+               this.isAlipayYuUse=JSON.parse(body.data.alipay_authority_config.enable);          //支付宝预授权是否启用
+             }
              if(body.data.alipay_authority_config.devices!=undefined){
                this.alipayYuDeviceList=body.data.alipay_authority_config.devices; // 支付宝支付设备列表
              }
@@ -792,14 +894,31 @@ export default {
              this.accountYu=this.accountYudata;
            }
 
-
+          //前台支付默认配置
            if(body.data.frontdesk_pay_config!=null){
-             this.isProsceniumUse=JSON.parse(body.data.frontdesk_pay_config.enable);
+             if(body.data.frontdesk_pay_config.enable!=undefined){
+               this.isProsceniumUse=JSON.parse(body.data.frontdesk_pay_config.enable);
+             }
              if(body.data.frontdesk_pay_config.enable_todo_list!=undefined){
                this.inform=JSON.parse(body.data.frontdesk_pay_config.enable_todo_list);
              }
              if(body.data.frontdesk_pay_config.devices!=undefined){
                this.prosceniumDeviceList=body.data.frontdesk_pay_config.devices; // 前台支付设备列表
+             }
+           }
+
+           //好码齐默认配置
+
+           if(body.data.howmuch_pay_config!=null){
+             if(body.data.howmuch_pay_config.enable!=undefined){
+               this.isHowmuchUse=JSON.parse(body.data.howmuch_pay_config.enable);
+             }
+             if(body.data.howmuch_pay_config.devices!=undefined){
+               this.howmuchDeviceList=body.data.howmuch_pay_config.devices; // 支付宝支付设备列表
+             }
+             if(body.data.howmuch_pay_config.howmuch_pay_config_id!=undefined){
+               this.howmuchId=body.data.howmuch_pay_config.howmuch_pay_config_id;
+               this.howmuchIdData=this.howmuchId;
              }
            }
          }
@@ -811,6 +930,20 @@ export default {
            this.accountList=body.data;
          }
       })
+    },
+    //取消好码齐弹框
+    hideHowmuchDialog(){
+      this.howmuchDialog=false;
+      this.howmuchId=this.howmuchIdData;
+    },
+    //好码齐确认配置
+    howmuchSubmit(){
+      this.howmuchDialog=false;
+      this.pay_config_key='howmuch_pay_config';
+      let data={
+        "howmuch_pay_config_id":this.howmuchId, // 好码齐商户配置ID
+      }
+      this.patchPayConfigData(data);
     },
     //获取微信预授权默认配置项
     initWechatYuConfig(){
@@ -953,6 +1086,9 @@ export default {
 
     alipayvalidate(){
       return tool.isNotBlank(this.account)
+    },
+    howmuchvalidate(){
+      return tool.isNotBlank(this.howmuchId)
     },
   },
   mounted() {

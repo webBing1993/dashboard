@@ -1309,8 +1309,10 @@
           this.appDirtyRoom=wqtMainCtl.dirty_room_view;
           //公安验证是否显示已处理列表配置
           this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false;
-          this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
-          this.lvyeAmount=configData.lvye_auto_charge_amount;//充值金额
+          if(configData.lvye_auto_charge!=undefined){
+            this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
+            this.lvyeAmount=configData.lvye_auto_charge_amount;//充值金额
+          }
         };
       },
 
