@@ -239,7 +239,7 @@
     </el-dialog>
       <!--微信预授权弹框-->
       <el-dialog
-        title="微信支预授权参数配置"
+        title="微信预授权参数配置"
         :visible.sync="wechatYuDialog"
         width="50%"
         center>
