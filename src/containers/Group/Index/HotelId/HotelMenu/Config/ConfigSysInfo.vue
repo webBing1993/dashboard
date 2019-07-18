@@ -217,11 +217,11 @@
             <div  v-show="pmsType == '17' ">
               <div class="item-form">
                 <span>key</span>
-                <el-input class="el-right" v-model="userCode" placeholder="请输入key，选填"></el-input>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入key"></el-input>
               </div>
               <div class="item-form">
                 <span>appKey</span>
-                <el-input class="el-right" v-model="appKey" placeholder="请输入appkey，选填"></el-input>
+                <el-input class="el-right" v-model="appKey" placeholder="请输入appKey"></el-input>
               </div>
             </div>
             <div v-show="pmsType == '1'">
@@ -1844,7 +1844,7 @@
             }else if (this.pmsType == '16' ){
               data = {
                 ...paramData,
-                "shift":"a",  //shift
+                "shift":"A",  //shift
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
               }
