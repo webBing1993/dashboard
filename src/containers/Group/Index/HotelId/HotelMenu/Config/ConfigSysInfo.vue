@@ -168,12 +168,13 @@
           <div v-if="showType === enumShowType.PMS">
             <div class="item-form">
               <span>PMS品牌</span>
-              <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌">
+              <el-select class="el-right" v-model="pmsId" placeholder="请选择PMS品牌"  @change="changeOption">
                 <el-option
                   v-for="(obj, index) of PMSBrandList"
                   :key="obj.id"
                   :label="obj.name"
-                  :value="obj.id">
+                  :value="obj.id"
+                 >
                 </el-option>
               </el-select>
             </div>
@@ -187,7 +188,7 @@
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
-            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14'">
+            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14' ">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -213,23 +214,33 @@
                 <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
               </div>
             </div>
+            <div  v-show="pmsType == '17' ">
+              <div class="item-form">
+                <span>用户名</span>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入用户名，选填"></el-input>
+              </div>
+              <div class="item-form">
+                <span>密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
+              </div>
+            </div>
             <div v-show="pmsType == '1'">
-              <!--<div class="item-form">-->
-                <!--<span>账单服务地址</span>-->
-                <!--<el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>-->
-              <!--</div>-->
-              <!--<div class="item-form">-->
-                <!--<span>CRM服务地址</span>-->
-                <!--<el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>-->
-              <!--</div>-->
-              <!--<div class="item-form">-->
-                <!--<span>订单服务地址</span>-->
-                <!--<el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>-->
-              <!--</div>-->
-              <!--<div class="item-form">-->
-                <!--<span>安全服务地址</span>-->
-                <!--<el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>-->
-              <!--</div>-->
+              <div class="item-form">
+                <span>账单服务地址</span>
+                <el-input class="el-right" v-model="billServiceUrl" placeholder="请输入账单服务地址"></el-input>
+              </div>
+              <div class="item-form">
+                <span>CRM服务地址</span>
+                <el-input class="el-right" v-model="crmServiceUrl" placeholder="请输入CRM服务地址"></el-input>
+              </div>
+              <div class="item-form">
+                <span>订单服务地址</span>
+                <el-input class="el-right" v-model="orderServiceUrl" placeholder="请输入订单服务地址"></el-input>
+              </div>
+              <div class="item-form">
+                <span>安全服务地址</span>
+                <el-input class="el-right" v-model="secServiceUrl" placeholder="请输入安全服务地址"></el-input>
+              </div>
               <div class="item-form">
                 <span>渠道名称</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
@@ -311,7 +322,7 @@
               </div>
             </div>
             <!--伯乐相马-->
-            <div v-show="pmsType == '16'">
+            <div v-show="pmsType == '16' ">
               <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名，选填"></el-input>
@@ -1441,6 +1452,48 @@
 //        "editReviewRoomNum"
        'getPMSPayConfig'
       ]),
+      changeOption(){
+        this.wqtPublicNo='';
+        //捷信达
+        this.checkout =  false;
+        // this.pmsType = this.pmsData.pms_type; //放在计算属性
+        this.hotelPmsCode = "";
+        this.remark = "";
+        this.hotelServiceUrl = "";
+        //绿云,西软
+        this.crsURL = "";
+        this.hotelGroupCode = "";
+        this.appKey = "";
+        this.PMSAppSecret = "";
+        this.userCode = "";
+        this.password = ""
+        //别样红
+        this.billServiceUrl = "";
+        this.crmServiceUrl = "";
+        this.orderServiceUrl = "";
+        this.secServiceUrl ="";
+        this.userName = "";
+        this.userPass = "";
+        //住哲
+        this.cid = "";
+        this.key = "";
+        this.dataKey = "";
+        this.adminName ="";
+        this.adminPassword = "";
+        this.brandId = "";
+        //东呈
+        this.dcKey = "";
+        //西软BS
+        this.xrbs_groupCode="";
+        this.xrbs_appkey="";
+        this.xrbs_authCode="";
+        this.xrbs_serviceVersion="";
+        this.xrbs_infoLanguage="";
+        this.xrbs_CRM="";
+        this.xrbs_siteId="";
+        this.xrbs_employeeNum="";
+        this.xrbs_moduleNum="";
+      },
       initPMSPayConfig(){
         this.getPMSPayConfig({
           hotel_id: this.$route.params.hotelid,
@@ -1741,7 +1794,7 @@
               pms_worker_id:this.wqtPublicNo,
               pms_enable_extension:this.pmsCheckIn
             };
-            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14') {
+            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14' || this.pmsType == '17') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
@@ -1751,13 +1804,13 @@
                 usercode: this.userCode,
                 password: this.password,
               }
-            } else if (this.pmsType == '1') {
+            } else if (this.pmsType == '1' ) {
               data = {
                 ...paramData,
-                // bill_service_url: this.billServiceUrl,
-                // crm_service_url: this.crmServiceUrl,
-                // order_service_url: this.orderServiceUrl,
-                // sec_service_url: this.secServiceUrl,
+                bill_service_url: this.billServiceUrl,
+                crm_service_url: this.crmServiceUrl,
+                order_service_url: this.orderServiceUrl,
+                sec_service_url: this.secServiceUrl,
                 user_name: this.userName,
                 user_pass: this.userPass,
               }
@@ -1789,7 +1842,7 @@
                   empno:this.xrbs_employeeNum,
                   modu:this.xrbs_moduleNum
               }
-            }else if (this.pmsType == '16'){
+            }else if (this.pmsType == '16' ){
               data = {
                 ...paramData,
                 "shift":"a",  //shift
