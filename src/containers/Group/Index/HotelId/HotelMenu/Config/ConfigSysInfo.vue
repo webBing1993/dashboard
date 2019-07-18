@@ -216,12 +216,12 @@
             </div>
             <div  v-show="pmsType == '17' ">
               <div class="item-form">
-                <span>用户名</span>
-                <el-input class="el-right" v-model="userCode" placeholder="请输入用户名，选填"></el-input>
+                <span>key</span>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入key，选填"></el-input>
               </div>
               <div class="item-form">
-                <span>密码</span>
-                <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
+                <span>appKey</span>
+                <el-input class="el-right" v-model="appKey" placeholder="请输入appkey，选填"></el-input>
               </div>
             </div>
             <div v-show="pmsType == '1'">
