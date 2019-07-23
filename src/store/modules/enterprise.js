@@ -12,6 +12,7 @@ const state = {
   showReception:false,
   showMoreLvyeConfig:false,
   moreLvyeData:[] ,
+  hotelList:[],
 }
 
 // mutations
@@ -51,6 +52,9 @@ const mutations = {
   },
   SHOWMORELVYE(state,payload){
     state.showMoreLvyeConfig=payload;
+  },
+  HOTELLIST(state,payload){
+    state.hotelList = payload;
   }
 }
 

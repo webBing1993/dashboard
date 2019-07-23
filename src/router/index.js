@@ -22,6 +22,8 @@ import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
 import OperateMenu from '@/containers/Operate/Index/OperateMenu.vue'
 
+
+
 // import OrderStatistics from '@/containers/Statistics/Index/OrderStatistics.vue'
 // import BrandManage from '@/containers/Statistics/Index/BrandManage.vue'
 
@@ -43,6 +45,11 @@ import ProdVersion from '@/containers/System/Index/SystemMenu/ProdVersion.vue'
 import serve_message from '@/containers/System/Index/SystemMenu/ServeMessage.vue'
 import prodBaseConfig from '@/containers/System/Index/SystemMenu/ProdBaseConfig.vue'
 import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue'
+
+import OrderCheckIn from '@/containers/Operate/Index/OperateMenu/orderCheckIn.vue'
+import RZTStatistics from '@/containers/Operate/Index/OperateMenu/RZTStatistics.vue'
+import XcxHotel from '@/containers/Operate/Index/OperateMenu/xcxHotel.vue'
+
 import lvye_Cop from '@/containers/System/Index/SystemMenu/LvyeCop.vue'
 import lvye_Staff from '@/containers/System/Index/SystemMenu/LvyeStaff.vue'
 
@@ -509,7 +516,22 @@ const main = [
                 path: 'hotel',
                 name: 'GroupHotel',
                 component: GroupHotel
-              }
+              },
+              {
+                path: 'orderCheckIn',
+                name: 'orderCheckIn',
+                component: OrderCheckIn
+              },
+              {
+                path: 'RZTStatistics',
+                name: 'RZTStatistics',
+                component: RZTStatistics
+              },
+              {
+                path: 'xcxHotel',
+                name: 'xcxHotel',
+                component: XcxHotel
+              },
             ]
           },
         ]
