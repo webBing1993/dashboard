@@ -188,9 +188,9 @@ module.exports = {
   },
   modifyPMS(ctx, param) {
     let urlQuery = ``;
-    if (param.data.pms_type == 1) {
+    if (param.data.pms_type == 1 ) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBYH`;
-    } else if (param.data.pms_type == 2 || param.data.pms_type == 7 || param.data.pms_type == 11 || param.data.pms_type == 14) {
+    } else if (param.data.pms_type == 2 || param.data.pms_type == 7 || param.data.pms_type == 11 || param.data.pms_type == 14 || param.data.pms_type == 17) {
       urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }
     else if (param.data.pms_type == 3) {
@@ -201,6 +201,9 @@ module.exports = {
     }
     else if (param.data.pms_type == 12) {
       urlQuery = `/hotel/${param.hotel_id}/pmsCloudXr`;
+    }
+    else if (param.data.pms_type == 16) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsBole`;
     }
     else {
       urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;

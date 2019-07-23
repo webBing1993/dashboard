@@ -248,7 +248,7 @@ module.exports = {
         ctx.commit('LOADING')
         if (+response.data.errcode === 0 || +response.status == 204) {
           //console.log('11',  param.method != 'GET' && !param.url.match(/getInfo/) && !param.url.match(/login/)&& !param.url.match(/hotelConfigDetail/)&& !param.url.match(/hotelFunItemConfig/)&& !param.url.match(/hotelRoomTypeConfig/) && !param.url.match(/\/cos\/get_sign/));
-          param.method != 'GET' && !param.url.match(/getInfo/)&& !param.url.match(/lvye/) && !param.url.match(/login/)&& !param.url.match(/hotelConfigDetail/)&& !param.url.match(/hotelFunItemConfig/)&& !param.url.match(/hotelRoomTypeConfig/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null
+          param.method != 'GET' && !param.url.match(/getInfo/)&& !param.url.match(/lvye/) && !param.url.match(/login/)&& !param.url.match(/howmuchPayConfig\/all/)&& !param.url.match(/hotelConfigDetail/)&& !param.url.match(/hotelFunItemConfig/)&& !param.url.match(/hotelRoomTypeConfig/) && !param.url.match(/\/cos\/get_sign/) ? ctx.dispatch('showtoast',{type: 'success'}) : null
           param.onSuccess ? param.onSuccess(response.data, response.headers) : null
         } else {
           ctx.dispatch('showtoast', {text: response.data.errmsg, type:'warning'});

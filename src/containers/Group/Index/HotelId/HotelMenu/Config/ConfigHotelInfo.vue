@@ -1721,9 +1721,11 @@
 
 
           //酒店设备是否配置
-          let deviceDepositObj=JSON.parse(configData.device_deposit);
-          this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
-           this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+          if(configData.device_deposit!=undefined){
+            let deviceDepositObj=JSON.parse(configData.device_deposit);
+            this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+            this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+          }
         }
       },
       getSingerConfig(){

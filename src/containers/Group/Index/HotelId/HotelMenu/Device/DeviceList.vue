@@ -57,15 +57,14 @@
     },
     watch: {
       configData() {
-        console.log(33333333333333);
         let configData = this.configData;
         //酒店设备是否配置
-        console.log(configData);
-        let deviceDepositObj=JSON.parse(configData.device_deposit);
-        this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
-        this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
-        console.log("this.isDevicePaid",this.isDevicePaid);
-        console.log("this.isDevicePaid",this.deviceAmount);
+        if(configData.device_deposit!=undefined){
+          let deviceDepositObj=JSON.parse(configData.device_deposit);
+          this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+          this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+        }
+
       }
     },
     methods: {

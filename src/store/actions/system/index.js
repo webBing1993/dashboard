@@ -13,4 +13,5 @@ module.exports = {
     ...require('./rztTemplate'),
     ...require('./advConfig/aboutAdv'),
     ...require('./alipay'),
+    ...require('./howmuch'),
 }
