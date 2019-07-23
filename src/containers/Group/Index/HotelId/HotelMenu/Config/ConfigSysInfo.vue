@@ -417,7 +417,7 @@
                 </div>
                 <div class="item-form" v-if="isLvyeAutoCharge">
                   <span>充值金额</span>
-                  <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入公安参数,正确的JSON字符串"></el-input>
+                  <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入充值金额"></el-input>
                 </div>
               </div>
             </div>
@@ -1333,7 +1333,7 @@
           this.showPoliceHandledList=configData.enable_show_plice_processed== 'true' ? true : false;
           if(configData.lvye_auto_charge!=undefined){
             this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
-            this.lvyeAmount=configData.lvye_auto_charge_amount;//充值金额
+            this.lvyeAmount=configData.lvye_auto_charge_amount/100;//充值金额
           }
         };
       },
@@ -2073,7 +2073,7 @@
           onsuccess: body => {
             let lvyeAmount1=0;
             if(this.isLvyeAutoCharge==true){
-              lvyeAmount1=this.lvyeAmount;
+              lvyeAmount1=this.lvyeAmount*100;
             }
            data={
              lvye_auto_charge: JSON.stringify(this.isLvyeAutoCharge), // 苏州旅业是否开启自动充值
