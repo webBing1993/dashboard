@@ -2,7 +2,7 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row>
+      <el-row style="margin-bottom:20px;">
         <el-col :span="2">
           <div class="hotelitle" style="text-align: left">
             <span>酒店名称</span>
@@ -55,28 +55,38 @@
           </div>
         </el-col>
       </el-row>
-      <el-table :data="tableData">
-        <el-table-column prop="date" label="日期">
-        </el-table-column>
-        <el-table-column prop="name" label="酒店名称">
-        </el-table-column>
-        <el-table-column prop="groupName" label="所属集团">
-        </el-table-column>
-        <el-table-column prop="city" label="所在城市">
-        </el-table-column>
-        <el-table-column prop="ecardCount" label="开门梯控">
-        </el-table-column>
-        <el-table-column prop="roomServiceCount" label="客房服务申请">
-        </el-table-column>
-        <el-table-column prop="houseKeeperCount" label="在线客户管家">
-        </el-table-column>
-        <el-table-column prop="invoiceApplCount" label="发票申请">
-        </el-table-column>
-        <el-table-column prop="checkOutCount" label="退房申请">
-        </el-table-column>
-        <el-table-column prop="continueLiveCount" label="续住申请">
-        </el-table-column>
-      </el-table>
+      <div class="v-table">
+        <table border="0">
+          <thead>
+          <tr>
+            <th>日期</th>
+            <th>酒店名称</th>
+            <th>所属集团</th>
+            <th>所在城市</th>
+            <th>开门梯控</th>
+            <th>客房服务申请</th>
+            <th>在线客房管家</th>
+            <th>发票申请</th>
+            <th>退房申请</th>
+            <th>续住申请</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(obj, index) of tableData">
+            <td>{{ obj.date }}</td>
+            <td>{{ obj.name }}</td>
+            <td>{{ obj.groupName }}</td>
+            <td>{{ obj.city }}</td>
+            <td>{{ obj.ecardCount }}</td>
+            <td>{{ obj.roomServiceCount }}</td>
+            <td>{{ obj.houseKeeperCount }}</td>
+            <td>{{ obj.invoiceApplCount }}</td>
+            <td>{{ obj.checkOutCount }}</td>
+            <td>{{ obj.continueLiveCount }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </el-main>
 </template>
@@ -109,7 +119,7 @@
     },
     methods:{
       ...mapActions([
-        'getxcxHotelList','getPMSHotelList'
+        'getxcxHotelList','getPMSHotelList','showtoast'
       ]),
       initXCXHotelList(){
         this.getPMSHotelList({
@@ -130,6 +140,21 @@
         });
       },
       selectClick(){
+
+        if(this.selectHotel=='' ){
+          this.showtoast({
+            text: '请选择酒店',
+            type: 'warning'
+          })
+          return;
+        }
+        if(this.datatime1=='' ||this.datatime2=='' ){
+          this.showtoast({
+            text: '请选择时间',
+            type: 'warning'
+          })
+          return;
+        }
         this.datatime1 = timestampToTime(this.datatime1);
         this.datatime2 = timestampToTime(this.datatime2);
         this.initStatistics();
@@ -187,7 +212,7 @@
       span{
         width:90px;
         height:44px;
-        background-color: #4378BA;
+        background-color: #39C240;
         color: #ffffff;
         border-radius: 5px;
       }
@@ -195,5 +220,83 @@
     .mcenter{
       text-align:center;
     }
+  }
+  .v-table {
+    clear: both;
+    padding: 0 0 30px 0;
+  }
+
+  .v-table table {
+    margin: 0;
+    width: 100%;
+    border-spacing: 0;
+  }
+
+  .v-table td,
+  .v-table th {
+    height: 38px;
+    text-align: center;
+  }
+
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
+  }
+
+  .v-table tr {
+    &:hover {
+      background-color: #E1E1E1;
+    }
+  }
+
+  .v-table th {
+    padding-left: 10px;
+    font-size: 14px;
+    color: #3e3e3e;
+    background-color: #9B9B9B;
+    word-break: keep-all;
+    white-space: nowrap;
+    cursor: default;
+  }
+
+  .v-table td {
+    padding-left: 10px;
+    color: #757575;
+    font-size: 12px;
+    word-break: keep-all;
+    white-space: nowrap;
+    line-height: 44px;
+  }
+
+  .v-table td a {
+    font-size: 12px;
+  }
+
+  .v-table .checkbox {
+    width: 14px;
+    height: 14px;
+    margin-left: 15px;
+    z-index: 0;
+    position: relative;
+  }
+
+  .v-table td > label {
+    height: 31px;
+  }
+
+  .v-table td > label > span {
+    margin-left: 10px;
+  }
+
+  .v-options {
+    color: #39C240;
+    padding-left: 10px;
+  }
+
+  .v-options:first-child {
+    padding-left: 0;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 </style>

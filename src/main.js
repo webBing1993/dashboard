@@ -44,10 +44,10 @@ import tableProdVersion from '@/modules/Tables/tabel-prodVersion.vue'
 import tableRoomNumReview from '@/modules/Tables/table-roomNumReview.vue'
 import tableLvyeCop from '@/modules/Tables/table-lvyeCop.vue'
 import tableLvyeStaff from '@/modules/Tables/table-lvyeStaff.vue'
-
 import tableProdBaseConfig from '@/modules/Tables/table-prodBaseConfig.vue'
 // 运营中心
 import tableLinkList from '@/modules/Tables/operate/table-LinkList.vue'
+import tableOrderCheckIn from '@/modules/Tables/table-orderCheckIn.vue'
 // 充值
 import tableRechargeDetail from '@/modules/Tables/recharge/table-rechargedetail.vue'
 import tableWithoutcard from '@/modules/Tables/recharge/table-withoutcard.vue'
@@ -78,6 +78,7 @@ Vue.component('table-lvyeStaff',tableLvyeStaff)
 Vue.component('table-prodBaseConfig',tableProdBaseConfig)
 // 运营中心
 Vue.component('table-LinkList',tableLinkList)
+Vue.component('table-OrderCheckIn',tableOrderCheckIn)
 // 充值
 Vue.component('table-RechargeDetail',tableRechargeDetail)
 Vue.component('table-Withoutcard',tableWithoutcard)

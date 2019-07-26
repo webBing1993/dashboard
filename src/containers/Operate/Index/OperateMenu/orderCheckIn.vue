@@ -2,7 +2,7 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row>
+      <el-row  style="margin-bottom:20px;">
         <el-col :span="2">
           <div class="hotelitle" style="text-align: left">
             <span>酒店名称</span>
@@ -29,7 +29,6 @@
           <div class="firstdate">
             <el-date-picker
               v-model="datatime1"
-
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -55,34 +54,7 @@
           </div>
         </el-col>
       </el-row>
-      <el-table :data="tableData">
-        <el-table-column prop="cd" label="日期">
-        </el-table-column>
-        <el-table-column prop="name" label="酒店名称">
-        </el-table-column>
-        <el-table-column prop="groupName" label="所属集团">
-        </el-table-column>
-        <el-table-column prop="city" label="所在城市">
-        </el-table-column>
-        <el-table-column prop="total" label="订单数量">
-        </el-table-column>
-        <el-table-column prop="numberTotal" label="有手机号的订单数">
-        </el-table-column>
-        <el-table-column prop="singleRoom" label="单房订单">
-        </el-table-column>
-        <el-table-column prop="multiRoom" label="多房订单">
-        </el-table-column>
-        <el-table-column prop="payment" label="需要支付订单">
-        </el-table-column>
-        <el-table-column prop="prepaida" label="不需要支付订单">
-        </el-table-column>
-        <el-table-column prop="zft_scan_times" label="扫值房通二维码次数">
-        </el-table-column>
-        <el-table-column prop="check_in_person_times" label="入住人次">
-        </el-table-column>
-        <el-table-column prop="check_in_order" label="转入住订单数">
-        </el-table-column>
-      </el-table>
+      <table-OrderCheckIn :list="tableData"></table-OrderCheckIn>
     </div>
   </el-main>
 </template>
@@ -90,7 +62,6 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   function timestampToTime(timestamp) {
     var date = new Date(timestamp);
-    console.log(date);
     var Y = date.getFullYear() + '-';
     var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
     var D = date.getDate()<10 ? '0'+date.getDate() : date.getDate() + '';
@@ -108,14 +79,9 @@
         pmsHotelList:'',
       }
     },
-    computed:{
-      ...mapState([
-        'hotelList',//获得酒店列表
-      ]),
-    },
     methods:{
       ...mapActions([
-        'getList','getStatistics','showLoading','getPMSHotelList'
+        'getList','getStatistics','getPMSHotelList','showtoast'
       ]),
       initPMSHotelList(){
         this.getPMSHotelList({
@@ -130,6 +96,17 @@
               console.log(body);
             }
          });
+
+        var str='abcdaac';
+        var obj=new Object();
+        for(var i=0;i<str.length;i++){
+          var value=str.charAt(i);
+          if(obj[value]>0){obj[value]++}
+          else{obj[value]=1;}
+        }
+        for(var a in obj){
+          console.log(a+'出现的次数'+obj[a])
+        }
       },
       initStatistics(){
         this.getStatistics({
@@ -143,15 +120,28 @@
         });
       },
       selectClick(){
+        if(this.selectHotel=='' ){
+          this.showtoast({
+            text: '请选择酒店',
+            type: 'warning'
+          })
+          return;
+        }
+        if(this.datatime1=='' ||this.datatime2=='' ){
+          this.showtoast({
+            text: '请选择时间',
+            type: 'warning'
+          })
+          return;
+        }
+
           this.datatime1=timestampToTime(this.datatime1);
           this.datatime2 = timestampToTime(this.datatime2);
-          console.log("this.datatime1"+this.datatime1);
+
           this.initStatistics();
       }
     },
     mounted(){
-//       this.getTableList();
-//       this.initStatistics();
        this.initPMSHotelList();
     }
 
@@ -210,7 +200,7 @@
       span {
         width: 90px;
         height: 44px;
-        background-color: #4378BA;
+        background-color: #39C240;
         color: #ffffff;
         border-radius: 5px;
       }

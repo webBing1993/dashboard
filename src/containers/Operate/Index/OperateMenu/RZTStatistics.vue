@@ -2,7 +2,7 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row>
+      <el-row style="margin-bottom:20px;">
         <el-col :span="2">
           <div class="hotelitle" style="text-align: left">
             <span>酒店名称</span>
@@ -26,17 +26,28 @@
           </div>
         </el-col>
       </el-row>
-      <el-table :data="tableData">
-        <el-table-column prop="createdTime" label="日期">
-        </el-table-column>
-        <el-table-column prop="total" label="总条数">
-        </el-table-column>
-      </el-table>
+
+      <div class="v-table">
+        <table border="0">
+          <thead>
+          <tr>
+            <th>日期</th>
+            <th>总条数</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(obj, index) of tableData">
+            <td>{{ obj.createdTime }}</td>
+            <td>{{ obj.total }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </el-main>
 </template>
 <script>
-  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   export default {
     components: {
     },
@@ -44,15 +55,11 @@
       return {
         tableData:[],
         selectHotel:'',
+        hotelList:[],
       }
     },
-    computed:{
-      ...mapState([
-        'hotelList',//获得酒店列表
-      ]),
-    },
     methods:{
-      ...mapActions(['getRZTStatistics']),
+      ...mapActions(['getRZTStatistics','getHotelList1','showtoast']),
       initRZTStatistics(){
          this.getRZTStatistics({
            hotelId:this.selectHotel,
@@ -63,10 +70,30 @@
          });
       },
       selectClick(){
+        if(this.selectHotel=='' ){
+          this.showtoast({
+            text: '请选择酒店',
+            type: 'warning'
+          })
+          return;
+        }
          this.initRZTStatistics();
-      }
+      },
+      initHotelList(){
+        this.getHotelList1({
+          page:1,
+          pageSize:3000,
+          onsuccess: body => {
+            if(body.data!=null && body.data!=''){
+                this.hotelList=body.data.list;
+            }
+          }
+        });
+      },
+
     },
     mounted(){
+      this.initHotelList();
     }
 
   }
@@ -114,7 +141,7 @@
       span{
         width:90px;
         height:44px;
-        background-color: #4378BA;
+        background-color: #39C240;
         color: #ffffff;
         border-radius: 5px;
       }
@@ -122,5 +149,83 @@
     .mcenter{
       text-align:center;
     }
+  }
+  .v-table {
+    clear: both;
+    padding: 0 0 30px 0;
+  }
+
+  .v-table table {
+    margin: 0;
+    width: 100%;
+    border-spacing: 0;
+  }
+
+  .v-table td,
+  .v-table th {
+    height: 38px;
+    text-align: center;
+  }
+
+  table tr:nth-child(odd) {
+    background: #FAFAFA;
+  }
+
+  .v-table tr {
+    &:hover {
+      background-color: #E1E1E1;
+    }
+  }
+
+  .v-table th {
+    padding-left: 10px;
+    font-size: 14px;
+    color: #3e3e3e;
+    background-color: #9B9B9B;
+    word-break: keep-all;
+    white-space: nowrap;
+    cursor: default;
+  }
+
+  .v-table td {
+    padding-left: 10px;
+    color: #757575;
+    font-size: 12px;
+    word-break: keep-all;
+    white-space: nowrap;
+    line-height: 44px;
+  }
+
+  .v-table td a {
+    font-size: 12px;
+  }
+
+  .v-table .checkbox {
+    width: 14px;
+    height: 14px;
+    margin-left: 15px;
+    z-index: 0;
+    position: relative;
+  }
+
+  .v-table td > label {
+    height: 31px;
+  }
+
+  .v-table td > label > span {
+    margin-left: 10px;
+  }
+
+  .v-options {
+    color: #39C240;
+    padding-left: 10px;
+  }
+
+  .v-options:first-child {
+    padding-left: 0;
+  }
+
+  .pointer {
+    cursor: pointer;
   }
 </style>
