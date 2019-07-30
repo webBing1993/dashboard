@@ -55,6 +55,9 @@
         </el-col>
       </el-row>
       <table-OrderCheckIn :list="tableData"></table-OrderCheckIn>
+      <div v-if="tableData.length==0">
+          暂无数据
+      </div>
     </div>
   </el-main>
 </template>

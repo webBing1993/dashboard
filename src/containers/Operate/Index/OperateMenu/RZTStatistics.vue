@@ -43,6 +43,9 @@
           </tbody>
         </table>
       </div>
+      <div v-if="tableData.length==0">
+        暂无数据
+      </div>
     </div>
   </el-main>
 </template>
