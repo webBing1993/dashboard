@@ -223,6 +223,10 @@
                 <span>appKey</span>
                 <el-input class="el-right" v-model="appKey" placeholder="请输入appKey"></el-input>
               </div>
+              <div class="item-form">
+                <span>domain</span>
+                <el-input class="el-right" v-model="hotelGroupCode" placeholder="请输入domain"></el-input>
+              </div>
             </div>
             <div v-show="pmsType == '1'">
               <div class="item-form">
@@ -1161,6 +1165,8 @@
             return tool.isNotBlank(this.cid) && tool.isNotBlank(this.key) && tool.isNotBlank(this.dataKey)
           } else if (this.pmsType == '8') {
             return tool.isNotBlank(this.dcKey)
+          } else if (this.pmsType == '17') {
+            return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.appKey) && tool.isNotBlank(this.hotelGroupCode)
           }
           else {
             return true;
