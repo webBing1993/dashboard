@@ -7,32 +7,6 @@
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.sign)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/签名.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电子签名</span>
-              <p>客人是否需要在支付后签名。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enabledCancelTime)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/cancel.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电话取消订单</span>
-              <p>客人是否可以电话取消订单，如果可以，最晚在几点之前可以取消。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !isEnabledCancelTime, 'tag_text_green': isEnabledCancelTime}">{{isEnabledCancelTime ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.invoice)">
             <div class="item_img">
               <img src="../../../../../../assets/images/发票.png" alt="a">
@@ -59,41 +33,29 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckinSms)">
+          <button @click="goto('/group/' + groupId + '/hotel/' + hotelId + '/payConfig')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/登记.png" alt="a">
+              <img src="../../../../../../assets/images/小程序.png" alt="a">
             </div>
             <div class="item-text">
-              <span>预登记短信</span>
-              <p>配置客人是否可以受到预登记短信提醒。</p>
+              <span>设备支付配置</span>
+              <p>关联设备支付配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.delayedPayment)">
+          <button @click="dialogConfig(enumShowType.miniApp)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/到店.png" alt="a">
+              <img src="../../../../../../assets/images/小程序.png" alt="a">
             </div>
             <div class="item-text">
-              <span>到店支付</span>
-              <p>开通后客人可以免支付完成预登记</p>
+              <span>小程序支付配置</span>
+              <p>关联小程序支付配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledDelayedPayment, 'tag_text_green': enabledDelayedPayment}">{{enabledDelayedPayment ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoCheckout)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/退房.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>自动退房</span>
-              <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
-            </div>
-            <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -109,30 +71,232 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckin)">
+          <button @click="dialogConfig(enumShowType.autoCheckout)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
+              <img src="../../../../../../assets/images/退房.png" alt="a">
             </div>
             <div class="item-text">
-              <span>无证入住</span>
-              <p>酒店是否支持无证入住</p>
+              <span>自动退房</span>
+              <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
             </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledPreCheckin, 'tag_text_green': enabledPreCheckin}">{{enabledPreCheckin ? '已开通' : '未开通'}}</span>
+            <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.mobileCheckin)">
+          <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
             <div class="item-text">
-              <span>启用移动端办理入住</span>
-              <p>启用后可在微前台小程序中进行选房、登记入住人信息、支付等操作
-              </p>
+              <span>退离规则配置</span>
+              <p>是否允许提前退房</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enabledMobileCheckin, 'tag_text_green': enabledMobileCheckin}">{{enabledMobileCheckin ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red':!enabledAdvancedCheckout||!enabledPMScheckout||!enabledSameDateIO, 'tag_text_green':enabledAdvancedCheckout||enabledPMScheckout||enabledSameDateIO}">{{enabledAdvancedCheckout||enabledPMScheckout||enabledSameDateIO ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.supportVd)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/打扫.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>脏房配置</span>
+              <p>配置酒店对脏房的态度</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoGiveRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>分房配置</span>
+              <p>是否自动分房</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!autoGiveRoomVal, 'tag_text_green':autoGiveRoomVal}">{{autoGiveRoomVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.roomTags)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>房间标签配置</span>
+              <p>配置酒店对脏房的态度</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/列表.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>可选房数量</span>
+              <p>展示给用户看的最大房间数量</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.cashPledge)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/押金.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>押金配置</span>
+              <p>配置酒店押金规则</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !cashPledgeType, 'tag_text_green':cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.breakfastStemFrom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡券.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>早餐券配置</span>
+              <p>配置早餐券规则</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.customization)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>定制化配置</span>
+              <p>酒店LOGO、酒店介绍</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.keyAccess)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>关键通道配置</span>
+              <p>配置关键通道</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enableKeyAccess , 'tag_text_green': enableKeyAccess }">{{enableKeyAccess ? '已开通' : '未开通'}}
+            </span>
+            <!--<span class="tag_text"-->
+            <!--:class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}-->
+            <!--</span>-->
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.qrCodeCreate)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店二维码配置</span>
+              <p>完善线下业务使用，当前可配置发票与mobile-checkin</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!configData.QR_CodeVal, 'tag_text_green':configData.QR_CodeVal}">{{configData.QR_CodeVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.deviceDeposit)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店设备是否缴纳押金及押金金额</span>
+              <p>配置酒店设备是否缴纳押金及押金金额</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !this.isDevicePaid , 'tag_text_green': this.isDevicePaid }">{{this.isDevicePaid ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/自动投标.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>自动确认预付款</span>
+              <p>配置预付款确认关键字</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.preCheckinSms)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/登记.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>预登记短信</span>
+              <p>配置客人是否可以受到预登记短信提醒。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>值房通是否显示多房订单</span>
+              <p>配置值房通是否显示多房订单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !showMoreRoomOrder , 'tag_text_green': showMoreRoomOrder }">{{showMoreRoomOrder ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.advancedLiveIn)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>入住规则配置</span>
+              <p>入住手机号配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.sign)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/签名.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>电子签名</span>
+              <p>客人是否需要在支付后签名。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -176,41 +340,7 @@
         <div class="dialog-content">
 
           <!--<span class="tip" v-if="setTip">* 旅业信息不能为空</span>-->
-
-
-
-
-          <div v-if="showType === enumShowType.sign">
-            <div class="item-form">
-              <span>是否开通电子签名？</span>
-              <el-switch
-                v-model="enabledSign"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
-          <div v-if="showType === enumShowType.enabledCancelTime">
-            <div class="item-form">
-              <span>是否支持电话取消订单？</span>
-              <el-switch
-                v-model="isEnabledCancelTime"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div v-show="isEnabledCancelTime">
-              <span>允许最晚取消时间</span>
-              <el-select class="el-right" v-model="enabledCancelTime">
-                <el-option
-                  v-for="(obj, index) of enabledCancelTimeList"
-                  :key="index"
-                  :label="obj"
-                  :value="obj">
-                </el-option>
-              </el-select>
-            </div>
-          </div>
+          <!--发票配置弹框-->
           <div v-if="showType === enumShowType.invoice">
             <div class="item-form">
               <span>是否支持申请发票？</span>
@@ -237,6 +367,7 @@
               </div>
             </div>
           </div>
+          <!---闪开发票配置弹框-->
           <div v-if="showType === enumShowType.fastInvoice">
             <div class="item-form">
               <span>是否开启闪开发票？</span>
@@ -274,36 +405,64 @@
               <el-input class="el-right" v-model="plugCode" placeholder="请输入发票插件ID"></el-input>
             </div>
           </div>
-          <div v-if="showType === enumShowType.preCheckinSms">
+          <!--微信配置弹框-->
+          <div v-if="showType === enumShowType.miniApp">
             <div class="item-form">
-              <span>预登记是否发送短信？</span>
+              <span>服务商模式</span>
               <el-switch
-                v-model="enabledPreCheckinSms"
+                v-model="provider"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </div>
-          </div>
-          <div v-if="showType === enumShowType.delayedPayment">
             <div class="item-form">
-              <span>是否开通到店支付？</span>
-              <el-switch
-                v-model="enabledDelayedPayment"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
+              <span>小程序app_id</span>
+              <el-select class="el-right" v-model="appIdTemp" filterable placeholder="请选择小程序">
+                <el-option
+                  v-for="(obj, index) of miniAppList"
+                  :key="obj.app_id"
+                  :label="`${obj.app_id} | ${obj.app_name}`"
+                  :value="`${obj.app_id} | ${obj.app_name}`">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>商户mch_id</span>
+              <el-select class="el-right" v-model="mchIdTemp" filterable placeholder="请输入商户号">
+                <el-option
+                  v-for="(obj, index) of mchIdList"
+                  :key="obj.value"
+                  :label="obj.value"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div v-show="provider">
+              <div class="item-form">
+                <span>服务商app_id</span>
+                <el-select class="el-right" v-model="providerAppIdTemp" filterable placeholder="请选择服务商app_id">
+                  <el-option
+                    v-for="(obj, index) of miniAppList"
+                    :key="obj.app_id"
+                    :label="`${obj.app_id} | ${obj.app_name}`"
+                    :value="`${obj.app_id} | ${obj.app_name}`">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="item-form">
+                <span>服务商mch_id</span>
+                <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+                  <el-option
+                    v-for="(obj, index) of providerMchIdList"
+                    :key="obj.value"
+                    :label="obj.value"
+                    :value="obj.value">
+                  </el-option>
+                </el-select>
+              </div>
             </div>
           </div>
-          <div v-if="showType === enumShowType.autoCheckout">
-            <div class="item-form">
-              <span>是否开通自动退房服务？</span>
-              <el-switch
-                v-model="enableAutoCheckout"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-          </div>
+          <!--退款业务配置-->
           <div v-if="showType === enumShowType.autoRefund">
             <div class="item-form">
               <span>退款方式</span>
@@ -341,21 +500,362 @@
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.preCheckin">
+          <!--自动退房配置-->
+          <div v-if="showType === enumShowType.autoCheckout">
             <div class="item-form">
-              <span>是否开通无证入住业务？</span>
+              <span>是否开通自动退房服务？</span>
               <el-switch
-                v-model="enabledPreCheckin"
+                v-model="enableAutoCheckout"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </div>
           </div>
-          <div v-if="showType === enumShowType.mobileCheckin">
+          <!--退离规则配置-->
+          <div v-if="showType === enumShowType.advancedCheckout">
             <div class="item-form">
-              <span>是否支持手机入住？</span>
+              <span>是否允许提前退房</span>
               <el-switch
-                v-model="enabledMobileCheckin"
+                v-model="enabledAdvancedCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许PMS入住用户离店</span>
+              <el-switch
+                v-model="enabledPMScheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否允许当日抵离</span>
+              <el-switch
+                v-model="enabledSameDateIO"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>客人退房提醒时间</span>
+              <!--<el-time-picker class="el-right" value-format="H"-->
+              <!--v-model="setCheckoutHouseTime"-->
+              <!--placeholder="选择时间">-->
+              <!--</el-time-picker>-->
+              <el-time-select
+                v-model="setCheckoutHouseTime"
+                :picker-options="{
+                 start: '00:00',
+                 step: '00:60',
+                 end: '24:00'
+                 }"
+                placeholder="选择时间">
+              </el-time-select>
+            </div>
+            <div class="item-form">
+              <span>账单是否需要签名</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutName"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>平帐帐单是否需要签名</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutNameSure"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否判断客房消费</span>
+              <el-switch
+                v-model="enabledAdvancedCheckoutHouse"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--脏房配置-->
+          <div v-if="showType === enumShowType.supportVd">
+            <div class="item-form">
+              <span>是否支持分脏房？</span>
+              <el-switch
+                v-model="isSupportVd"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--分房配置-->
+          <div v-if="showType === enumShowType.autoGiveRoom">
+            <div class="item-form">
+              <span>是否自动分房</span>
+              <el-switch
+                v-model="autoGiveRoomVal"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--房间标签-->
+          <div v-if="showType === enumShowType.roomTags">
+            <div class="item-tag">
+              <span>房间标签</span>
+              <div class="tag-input">
+                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
+                  <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+                </div>
+                <div class="tag-btn">
+                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
+                          @click="subtractRoomTags">-
+                  </button>
+                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--可选房配置-->
+          <div v-if="showType === enumShowType.maxAllowRoomcount">
+            <div class="item-form">
+              <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
+              <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="min-width: 210px; ">开启选房时间</span>
+              <el-time-picker class="el-right" value-format="HH:mm:ss"
+                              v-model="setHouseTime"
+                              placeholder="选择时间">
+              </el-time-picker>
+            </div>
+            <!--<div class="item-form">-->
+            <!--<span style="min-width: 210px; ">是否允许选房</span>-->
+            <!--<el-switch-->
+            <!--v-model="selectHouseSure"-->
+            <!--on-color="#13ce66"-->
+            <!--off-color="#ff4949">-->
+            <!--</el-switch>-->
+            <!--</div>-->
+          </div>
+          <!--押金配置-->
+          <div v-if="showType === enumShowType.cashPledge">
+            <div class="item-form">
+              <span>押金类型</span>
+              <el-select class="el-right" v-model="cashPledgeType" placeholder="请选择押金类型">
+                <el-option
+                  v-for="(obj, index) of cashPledgeTypeList"
+                  :key="index"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
+                <span>固定押金金额</span>
+                <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
+                (分)
+              </div>
+              <div class="item-form" v-show="cashPledgeType == 'multiple_of_cash_pledge'">
+                <span>放大系数</span>
+                <el-input class="el-right" v-model="multipleOfCashPledge" placeholder="请输入放大系数(0到1之间,例如0.2)"></el-input>
+              </div>
+              <div class="item-form">
+                <span>是否向上取整</span>
+                <el-switch
+                  v-model="roundUpToInteger"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+              <div class="item-form">
+                <span>是否有日杂费</span>
+                <el-switch
+                  v-model="hasDayOfIncidentals"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+              <div class="item-form" v-show="hasDayOfIncidentals">
+                <span>日杂费金额</span>
+                <el-input class="el-right" v-model="dayOfIncidentals" placeholder="请输入日杂费金额"></el-input>
+              </div>
+            </div>
+          </div>
+          <!--早餐券配置-->
+          <div v-if="showType === enumShowType.breakfastStemFrom">
+            <div class="item-form">
+              <span>早餐券规则</span>
+              <el-select class="el-right" v-model="breakfastStemFrom" placeholder="请选择早餐券规则">
+                <el-option
+                  v-for="(obj, index) in breakfastStemFromList"
+                  :key="index"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+          </div>
+          <!--定制化配置弹框-->
+          <div v-if="showType === enumShowType.customization">
+            <div class="item-form">
+              <span>是否显示酒店的介绍</span>
+              <el-switch
+                v-model="mirrorIntro"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>显示酒店品牌的logo</span>
+              <el-switch
+                v-model="mirrorBrand"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--关键通道配置-->
+          <div v-if="showType === enumShowType.keyAccess">
+            <div class="item-form">
+              <span>关键通道开关</span>
+              <el-switch
+                v-model="enableKeyAccess"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--酒店二维码配置-->
+          <div v-if="showType === enumShowType.qrCodeCreate">
+            <div class="item-form">
+              <span>选择业务类型</span>
+              <el-select class="el-right" v-model="serviceType">
+                <el-option
+                  v-for="(item, index) in serviceTypeList"
+                  :key="index"
+                  :label="item.name"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>二维码名称</span>
+              <el-input class="el-right" v-model="qrName" placeholder="请填写二维码名称"></el-input>
+            </div>
+            <div class="item-form">
+              <span>二维码code</span>
+              <el-input class="el-right" v-model="qrCode" style="display:block"></el-input>
+            </div>
+            <div class="item-form" style="margin-left: 9rem;margin-top: -0.5rem">
+              <p style="color: #868686;">运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
+            </div>
+            <div class="item-form">
+              <span>备注</span>
+              <el-input class="el-right" v-model="remark"></el-input>
+            </div>
+          </div>
+          <!--酒店设备押金配置-->
+          <div v-if="showType === enumShowType.deviceDeposit">
+            <div class="item-form">
+              <span>是否开启酒店押金配置</span>
+              <el-switch
+                v-model="isDevicePaid"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isDevicePaid">
+              <span>押金金额</span>
+              <el-input class="el-right" v-model="deviceAmount" placeholder="请输入押金金额"></el-input>
+            </div>
+          </div>
+          <!--自动确认预付款配置-->
+          <div v-if="showType === enumShowType.autoConfirmPrePay">
+            <div class="item-form">
+              <span>自动确认预付关键字</span>
+              <el-input class="el-right" v-model="prepayKeyword" placeholder="预付|预付款|已付款"></el-input>
+            </div>
+            <div class="item-form">
+              <span>自动确认预付冲突字</span>
+              <el-input class="el-right" v-model="prepayExclusionKeyword" placeholder="现付|未预付"></el-input>
+            </div>
+            <div class="item-form">
+              <span>自动确认后付关键字</span>
+              <el-input class="el-right" v-model="postpayKeyword" placeholder="挂帐|公付|公司付费|公司已付"></el-input>
+            </div>
+            <div class="item-form">
+              <span>自动确认后付冲突字</span>
+              <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 126px">现付</span>
+              <el-input class="el-right" v-model="nowpayKeyword" placeholder="现付"></el-input>
+            </div>
+            <div class="item-form">
+              <span style="width: 126px">现付例外</span>
+              <el-input class="el-right" v-model="nowpayExclusionKeyword" placeholder="现付"></el-input>
+            </div>
+            <div class="item-form">
+              <span>自动确认免押关键字 </span>
+              <el-input class="el-right" v-model="freeDepositKeyword" placeholder="免押金|免押"></el-input>
+            </div>
+            <div class="item-form">
+              <span>自动确认免押冲突字 </span>
+              <el-input class="el-right" v-model="needDepositKeyword" placeholder=""></el-input>
+            </div>
+            <div class="item-form">
+              <span>是否开启</span>
+              <el-switch
+                v-model="isOpenAutoConfirmPrePay"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--预登记短信配置-->
+          <div v-if="showType === enumShowType.preCheckinSms">
+            <div class="item-form">
+              <span>预登记是否发送短信？</span>
+              <el-switch
+                v-model="enabledPreCheckinSms"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--是否显示多房订单配置-->
+          <div v-if="showType === enumShowType.zftShowMoreRoom">
+            <div class="item-form">
+              <span>显示多房订单</span>
+              <el-switch
+                v-model="showMoreRoomOrder"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="more-room-tip">说明:客人在认证通设备上刷二代身份证后，查询到多房订单，根据配置项是否显示订单二维码</div>
+
+          </div>
+          <!--入住规则配置-->
+          <div v-if="showType === enumShowType.advancedLiveIn">
+            <div class="item-form">
+              <span>办理入住时，需要用户填写订单手机号</span>
+              <el-switch
+                v-model="enabledAdvancedLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--电子签名配置-->
+          <div v-if="showType === enumShowType.sign">
+            <div class="item-form">
+              <span>是否开通电子签名？</span>
+              <el-switch
+                v-model="enabledSign"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -404,15 +904,9 @@
               </el-switch>
             </div>
           </div>
-
-
-
-
-
-
         </div>
         <!--footer-->
-        <div slot="footer" class="dialog-footer" v-if="switchName === 'close' && delName==='close'">
+        <div slot="footer" class="dialog-footer">
             <el-button @click="hideDialog">取 消</el-button>
             <el-button :disabled="!validateAll" type="primary" @click="submitDialog">确 定</el-button>
         </div>
@@ -430,20 +924,6 @@
           <el-radio class="radio" v-model="isBigQrImg" :label="false">小图 140</el-radio>
         </div>
       </el-dialog>
-      <!--<el-dialog-->
-        <!--:title="typeTitles[showType]"-->
-        <!--:visible.sync="queryDel"-->
-        <!--:close-on-click-modal="false"-->
-        <!--:close-on-press-escape="false"-->
-        <!--:show-close="true"-->
-        <!--@close="handleClose"-->
-        <!--center>-->
-        <!--<span>是否删除</span>-->
-        <!--<div slot="footer" class="dialog-footer">-->
-          <!--<el-button @click="deleteWxHotels(false)">取 消</el-button>-->
-          <!--<el-button type="primary" @click="deleteWxHotels(true)">确 定</el-button>-->
-        <!--</div>-->
-      <!--</el-dialog>-->
     </div>
   </div>
 </template>
@@ -458,36 +938,39 @@
   //弹框类型
   const enumShowType = {
     checkDel: 0,
-    sign: 1, //电子签名配置
-    enabledCancelTime: 2, //电话取消订单配置
-    invoice: 3,  //发票配置
-    fastInvoice: 4,  //闪开发票配置
-    preCheckinSms: 5,  //预登记短信配置
-    delayedPayment: 6, //到店支付配置
-    autoCheckout: 7, //自动退房配置
-    autoRefund: 8, //退款业务配置配置
-    preCheckin: 9, //无证入住配置
-    mobileCheckin: 10,//启用移动端办理入住
-    rcPrint: 11,
-    enableRCstatus :12,
-
-
+    invoice: 1,  //发票配置
+    fastInvoice: 2,  //闪开发票配置
+    miniApp: 3,  //小程序配置
+    autoRefund: 4, //退款业务配置配置
+    autoCheckout: 5, //自动退房配置
+    advancedCheckout: 6,//是否允许提前退房
+    supportVd: 7,  //脏房配置
+    autoGiveRoom: 8,//自动分房
+    roomTags: 9,  //房间标签配置
+    maxAllowRoomcount: 10,  //最大房间数量配置
+    cashPledge: 11, //押金配置
+    breakfastStemFrom: 12,  //早餐券配置
+    customization:13, //定制化配置
+    keyAccess: 14,//关键通道
+    qrCodeCreate: 15,//酒店二维码配置
+    deviceDeposit:16,//酒店押金配置规则
+    autoConfirmPrePay: 17,  //自动确认预付款配置
+    preCheckinSms: 18,  //预登记短信配置
+    zftShowMoreRoom: 19,//是否显示多房订单
+    advancedLiveIn:20,//入住规则配置
+    sign: 21, //电子签名配置
+    rcPrint: 22,//RC单打印
+    enableRCstatus :23,//RC单是否开启字段
   }
 
   //弹框标题类型
   const typeTitles = ['是否删除',
-    '电子签名配置',
-    '电话取消订单配置',
     '发票配置',
     '闪开发票配置',
-    '预登记短信配置',
-    '到店支付配置',
-    '自动退房配置',
-    '退款业务配置',
-    '无证入住配置',
-    '订单操作配置',
-    'RC单打印',
-    'RC单是否开启字段',]
+    '','退款业务配置配置', '自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
+    '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段'
+  ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
@@ -500,28 +983,10 @@
     name: 'ConfigInfo',
     data() {
       return {
-        switchName: 'close',//微信生态酒店配置按钮
-        delName: 'close',
-//        RegisterOk: true,
         enumShowType: enumShowType,
         typeTitles: typeTitles,
         showType: '',
         showDialog: false,
-
-//          singlelvyeAutoReport: '',
-//        lvyeType: '',
-//
-        //电子签名
-        enabledSign: false,
-        //电话取消订单
-        isEnabledCancelTime: false,
-        enabledCancelTime: '18:00',
-        enabledCancelTimeList: ['12:00', '12:30', '13:00',
-          '13:30', '14:00', '14:30', '15:00', '15:30',
-          '16:00', '16:30', '17:00', '17:30', '18:00',
-          '18:30', '19:00', '19:30', '20:00', '20:30',
-          '21:00', '21:30', '22:00', '22:30', '23:00',
-          '23:30', '24:00'],
         //发票配置
         enabledInvoice: true,
         invoiceName: [''],
@@ -535,25 +1000,112 @@
         isBigQrImg: true,
         showQrImgContent: false,
         plugCode: '',
-        //预登记短信配置
-        enabledPreCheckinSms: false,
-        //到店支付配置
-        enabledDelayedPayment: true,
-        //自动退房
-        enableAutoCheckout: false,
-        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
-        refundVal:'',
+        //**********************小程序配置**********************
+        miniAppList: [],
+        provider: false,
+        appIdTemp: '',
+        mchIdTemp: '',
+        providerAppIdTemp: '',
+        providerMchIdTemp: '',
+        unProviderList:[],
+        providerList:[],
+
         //退款业务配置
         enabledAutoRefund: true,
         operateOverDeposit:false,
         isAccessAutoCheckout:false,
-        isAccessAutoRefund:false, //无证入住
-        enabledPreCheckin: true,
-        //是否指出手机入住
-        enabledMobileCheckin: false,
-        enabledRCPrint: false,
-        queryDel: false,
-  //RC单打印
+        //自动退房
+        enableAutoCheckout: false,
+        refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
+        refundVal:'',
+
+        //是否允许提前退房
+        enabledAdvancedCheckout: false,
+        enabledPMScheckout: false,
+        enabledSameDateIO: false,
+        setCheckoutHouseTime:'',  //客人退房时间提醒
+        enabledAdvancedCheckoutName:false,//账单是否需要签名
+        enabledAdvancedCheckoutNameSure:false,  //平张帐单是否需要签名
+        enabledAdvancedCheckoutHouse:false, //是否判断客房消费
+
+        //脏房配置
+        isSupportVd: true,
+        //自动分房配置
+        autoGiveRoomVal:false,
+        //酒店标签配置
+        roomTags: [''],
+        wechatpayList: [],
+
+        //可选房数量
+        maxAllowRoomcount: '10',
+        setHouseTime:'',//选房时间
+        // selectHouseSure:false,//是否允许选房
+
+        //押金配置
+        cashPledgeType: '',
+        cashPledgeTypeList: [
+          {name: '无押金', value: 'none_cash_pledge'},
+          {name: '固定押金', value: 'fixed_cash_pledge'},
+          {name: '首晚房费', value: 'first_day_of_room_price'},
+          {name: '最大系数', value: 'multiple_of_cash_pledge'}],
+        fixedCashPledge: '',
+        multipleOfCashPledge: '',
+        roundUpToInteger: false,
+        hasDayOfIncidentals: false,
+        dayOfIncidentals: '',
+        //早餐券配置
+        breakfastStemFrom: 'MANKE',
+        breakfastStemFromList: [
+          {name: '无早', value: 'NONE'},
+          {name: '同步PMS早餐券', value: 'PMS'},
+          {name: '漫客平台定义,人/张', value: 'MANKE'}],
+        //**********************定制化配置**********************
+        mirrorIntro:false,
+        mirrorBrand:false,
+        //关键通道配置
+        enableKeyAccess: false,
+
+        //酒店二维码配置
+        QR_CodeVal: false,
+        serviceTypeList: [
+          {name: '发票', value: 'invoice'},
+          {name: 'mobile-checkin二维码', value: 'mobileCheckin'}
+        ],
+        serviceType: '',
+        qrCode: '',
+        qrName: '',
+        remark:'',
+
+        //酒店设备配置
+        isDevicePaid:false,  //是否酒店配置
+        deviceAmount:'',     //酒店押金金额
+
+        //自动预付款确认
+        prepayKeyword: '',
+        prepayExclusionKeyword: '',
+        postpayKeyword: '',
+        postpayExclusionKeyword: '',
+        nowpayKeyword: '',
+        nowpayExclusionKeyword: '',
+        freeDepositKeyword: '',
+        needDepositKeyword: '',
+        isOpenAutoConfirmPrePay: false,
+
+        //预登记短信配置
+        enabledPreCheckinSms: false,
+        //显示多房订单
+        showMoreRoomOrder: false,
+        showMoreRoomOrderKey: 'support_zft_mroom',
+         //入住规则
+        enabledAdvancedLiveIn:false,
+
+        //电子签名
+        enabledSign: false,
+
+        //RC单是否开启字段
+        rcStatus:false,
+
+        //RC单打印
         rcTypeList: [],
         rcTemplateVal: '',
         autoPrintVal: 1,
@@ -567,16 +1119,6 @@
         hasSetRc: false,
 //        mirrorIntro:false,
 //        mirrorBrand:false,
-        rcStatus:false,
-//        inteRoomLock:false,
-        isPoliceParam:false,
-//        notFoundMark:'',
-//        checkOutMark:'',
-//        noDeviceCheckInMark:'',
-//        failedCheckOutMark:'',
-//        hotelServiceTelMark:'',
-//        hotelMark:false,
-        enableNoCertificateCheck:false,
 
       }
     },
@@ -609,21 +1151,35 @@
 //           Access-Control-Allow-Origin: *
         }
       },
+      roomTagsList() {
+        return this.roomTags.filter(v => v != '');
+      },
+      groupId(){
+        return this.$route.params.id
+      },
+      hotelId(){
+        return this.$route.params.hotelid
+      },
       providerMchIdList() {
-        return this.providerList.map(v => {
-          let obj = {
-            value: `${v.mch_id} | ${v.mch_name}`
-          }
-          return obj
-        })
+        if(this.providerList.length>0) {
+          return this.providerList.map(v => {
+            let obj = {
+              value: `${v.mch_id} | ${v.mch_name}`
+            }
+            return obj
+          })
+        }
       },
       mchIdList() {
-        return this.unProviderList.map(v => {
-          let obj = {
-            value: `${v.mch_id} | ${v.mch_name}`
-          }
-          return obj
-        })
+       if(this.unProviderList.length>0){
+         return this.unProviderList.map(v => {
+           let obj = {
+             value: `${v.mch_id} | ${v.mch_name}`
+           }
+           return obj
+         })
+       }
+
       },
       appName() {
         if (!this.appIdTemp) return '';
@@ -677,23 +1233,12 @@
           val.provider_app_id ? this.providerMchIdTemp = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTemp = '';
         }
       },
-//      pmsType() {
-//        let obj = this.PMSBrandList.find(v => v.id == this.pmsId);
-//        if (tool.isNotBlank(obj))
-//          return obj.type;
-//        return '';
-//      },
       invoiceNameList() {
         return this.invoiceName.filter(v => v != '');
       },
       invoiceCodeList() {
         return this.invoiceCode.filter(v => v != '');
       },
-//      roomTagsList() {
-//        return this.roomTags.filter(v => v != '');
-//      },
-
-      //无数个validate
       validateinvoice() {
         if (this.enabledInvoice) {
           return (this.invoiceNameList.length > 0);
@@ -706,42 +1251,116 @@
         }
         return true;
       },
-      validateRcPrint() {
-        return (tool.isNotBlank(this.rcTemplateVal) && (tool.isNotBlank(this.perRoom) && tool.isNotBlank(this.perGuest) && tool.isNotBlank(this.autoPrintVal)))
+      validateminiApp() {
+        if (!this.provider) {
+          return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId);
+        }
+        return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.providerAppId) && tool.isNotBlank(this.providerMchId);
       },
-
-
+      validatemaxAllowRoomcount() {
+        return tool.isNotBlank(this.maxAllowRoomcount) && !isNaN(+this.maxAllowRoomcount)
+      },
+      validatecashPledge() {
+        if (this.cashPledgeType == 'none_cash_pledge') {
+          return true;
+        } else if (this.cashPledgeType == 'fixed_cash_pledge') {
+          if (tool.isBlank(this.fixedCashPledge) || isNaN(+this.fixedCashPledge))
+            return false;
+          if (this.hasDayOfIncidentals) {
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
+          }
+          return true;
+        } else if (this.cashPledgeType == 'first_day_of_room_price') {
+          if (this.hasDayOfIncidentals) {
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
+          }
+          return true;
+        } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
+          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1)
+            return false;
+          if (this.hasDayOfIncidentals) {
+            return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
+          }
+          return true;
+        }
+      },
+      validateQrcodeCreate() {
+        return (tool.isNotBlank(this.serviceType) && tool.isNotBlank(this.qrName) && tool.isNotBlank(this.qrCode))
+      },
+      validateDeviceDeposit(){
+        if(this.isDevicePaid){
+          return (tool.isNotBlank(this.deviceAmount))
+        }else{
+          return true;
+        }
+      },
+      validateautoConfirmPrePay() {
+        return tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword)
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
-          case enumShowType.sign:
-            result = true;
-            break;
-          case enumShowType.enabledCancelTime:
-            result = true;
-            break;
           case enumShowType.invoice:
             result = this.validateinvoice;
             break;
           case enumShowType.fastInvoice:
             result = this.validatefastinvoice;
             break;
-          case enumShowType.preCheckinSms:
-            result = true;
+          case enumShowType.miniApp:
+            result = this.validateminiApp;
             break;
-          case enumShowType.delayedPayment:
+          case enumShowType.autoRefund:
             result = true;
             break;
           case enumShowType.autoCheckout:
             result = true;
             break;
-          case enumShowType.autoRefund:
+          case enumShowType.advancedCheckout:
             result = true;
             break;
-          case enumShowType.preCheckin:
-            result = this.validatepreCheckin;
+          case enumShowType.supportVd:
+            result = true;
             break;
-          case enumShowType.mobileCheckin:
+          case enumShowType.autoGiveRoom:
+            result = true;
+            break;
+          case enumShowType.roomTags:
+            result = true;
+            break;
+          case enumShowType.maxAllowRoomcount:
+            result = this.validatemaxAllowRoomcount;
+            break;
+          case enumShowType.cashPledge:
+            result = this.validatecashPledge;
+            break;
+          case enumShowType.breakfastStemFrom:
+            result = true;
+            break;
+          case enumShowType.customization:
+            result = true;
+            break;
+          case enumShowType.keyAccess:
+            result = true;
+            break;
+          case enumShowType.qrCodeCreate:
+            result = this.validateQrcodeCreate;
+            break;
+          case enumShowType.deviceDeposit:
+            result=this.validateDeviceDeposit;
+            break;
+          case enumShowType.autoConfirmPrePay:
+            result = this.validateautoConfirmPrePay;
+            break;
+          case enumShowType.preCheckinSms:
+            result = true;
+            break;
+          case enumShowType.zftShowMoreRoom:
+            result = true;
+            break;
+          case enumShowType.advancedLiveIn:
+            result = true;
+            break;
+          case enumShowType.sign:
             result = true;
             break;
           case enumShowType.rcPrint:
@@ -761,22 +1380,27 @@
 //      renderRoomNumReviewList(val){
 //          console.log(val)
 //      },
+      enabledAdvancedCheckoutName(newval,oldval){
+        this.signAdvancedCheckoutName = newval
+        if(newval == false){
+          this.enabledAdvancedCheckoutNameSure = false
+        }
+      },
+      enabledAdvancedCheckoutNameSure(newval,oldval){
+        // this.signAdvancedCheckoutNameSure = newval
+        if(this.signAdvancedCheckoutName == false){
+          this.enabledAdvancedCheckoutNameSure = false
+          this.showtoast({
+            text: '如需要使用平帐帐单开关需要先打开账单总开关',
+            type: 'error'
+          })
+        }
+
+      },
       configData(){
         let configData = this.configData;
         console.log('configData:',configData)
         if (tool.isNotBlank(configData)) {
-
-          //电子签名
-          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
-          //电话取消订单
-          this.isEnabledCancelTime = tool.isNotBlank(configData.enabled_cancel_time);
-          if (this.isEnabledCancelTime) {
-            let date = new Date(parseInt(configData.enabled_cancel_time));
-            let hours = date.getHours();
-            let min = date.getMinutes();
-            let minStr = min > 9 ? min : `0${min}`;
-            this.enabledCancelTime = `${hours}:${minStr}`;
-          }
           //发票配置
           this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
           if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
@@ -787,63 +1411,181 @@
           if (tool.isNotBlank(configData.invoice_type) && configData.invoice_type.length > 0) {
             this.invoiceType = [...configData.invoice_type];
           }
-          if (tool.isNotBlank(configData.code) && configData.code.length > 0) {
-            this.invoiceCode = [...configData.code];
-          }
-          this.plugCode = configData.plug_code;
-          //预登记短信配置
-          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
-          //到店支付配置
-          this.enabledDelayedPayment = configData.enabled_delayed_payment == 'true' ? true : false;
-          //自动退房
-          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
+          this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
+          this.plugCode = this.configData.plug_code;
+
+          //微信支付配置
+          this.mchId = configData;
+          //小程序配置
+          this.appId = configData;
+          this.providerAppId = configData;
+          this.providerMchId = configData;
+          this.provider = configData.provider ? true : false;
+
           //退款业务配置
           this.operateOverDeposit=configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
           this.isAccessAutoCheckout=configData.enable_auto_checkout == 'true' ? true : false;
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
-           this.refundVal= configData.refund_amount_source;
-          //无证入住
-          this.enabledPreCheckin = configData.enabled_pre_checkin == 'true' ? true : false;
-          //是否支持手机入住
-          this.enabledMobileCheckin = configData.enabled_mobile_checkin == 'true' ? true : false;
+          this.refundVal= configData.refund_amount_source;
 
-          //无证核验
-          this.enableNoCertificateCheck= configData.enable_identity_check_undocumented == 'true' ? true : false;
-          this.enableKeyAccess=configData.enable_pull_identity_guest_info == 'true' ? true : false
-          //应用功能配置
-          this.appValue=configData.business_mode;
-           };
-        this.rcStatus=configData.rc_status=='true'?true:false;
+          //自动退房
+          this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
 
+          //是否允许提前退房配置
+          this.enabledAdvancedCheckout = configData.advanced_checkout == 'true' ? true : false;
+          this.enabledPMScheckout = configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+          this.enabledSameDateIO = configData.enabled_same_date_io == 'true' ? true : false;
+          this.setCheckoutHouseTime = configData.checkout_remind_time
+          this.enabledAdvancedCheckoutName = configData.bill_need_sign== 'true' ? true : false;
+          this.enabledAdvancedCheckoutNameSure = configData.bill_equal_need_sign == 'true' ? true : false;
+          this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
+          //脏房配置
+          this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+
+          //是否自动分房配置
+          this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
+
+          //酒店标签配置
+          if (tool.isNotBlank(configData.room_tags)) {
+            this.roomTags = configData.room_tags.length > 0 ? [...configData.room_tags] : [''];
+          }
+          this.enabledSpeedCard = configData.enabled_speed_card == 'true' ? true : false;
+
+          //可选房数量
+          this.maxAllowRoomcount = configData.max_allow_roomcount;
+          this.setHouseTime = configData.allow_give_room
+          // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
+
+          //押金配置
+          if (tool.isNotBlank(configData.cash_pledge_config)) {
+            this.cashPledgeType = configData.cash_pledge_config.cash_pledge_type;
+            this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
+            ;
+            this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
+            ;
+            this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+          }
+          //早餐券配置
+          this.breakfastStemFrom = configData.breakfast_stem_from;
+          //定制化配置
+          this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
+          this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
+          //关键通道配置
+          this.enableKeyAccess = configData.enable_pull_identity_guest_info == 'true' ? true : false
+
+          //酒店设备是否配置
+          if(configData.device_deposit!=undefined){
+            let deviceDepositObj=JSON.parse(configData.device_deposit);
+            this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+            this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+          }
+
+          //自动预付款确认
+          this.prepayKeyword = configData.prepay_keyword;
+          this.prepayExclusionKeyword = configData.prepay_exclusion_keyword;
+          this.postpayKeyword = configData.postpay_keyword;
+          this.postpayExclusionKeyword = configData.postpay_exclusion_keyword;
+          this.nowpayKeyword = configData.nowpay_keyword;
+          this.nowpayExclusionKeyword = configData.nowpay_exclusion_keyword;
+          this.freeDepositKeyword = configData.free_deposit_keyword;
+          this.isOpenAutoConfirmPrePay = configData.enabled_autoprepay == 'true' ? true : false;
+          this.needDepositKeyword = configData.need_deposit_keyword;
+
+          //预登记短信配置
+          this.enabledPreCheckinSms = configData.enabled_pre_checkin_sms == 'true' ? true : false;
+
+          //值房通是否显示多房订单
+          this.showMoreRoomOrder=configData.support_zft_mroom=='true' ? true : false;
+
+          //入住规则配置
+          this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
+
+          //电子签名
+          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+
+
+          //rc是否开启配置字段
+          this.rcStatus=configData.rc_status=='true'?true:false;
+        };
       },
-//      lvyeType(val){
-//          this.lvyeTypeList.forEach(obj=>{
-//              if(val==obj.lvye_report_type){
-//                  this.isPoliceParam=obj.enable_police_param;
-//                  console.log(this.isPoliceParam)
-//              };
-//          })
-//      },
     },
     methods: {
       ...mapActions([
-        'getConfig',
+        'getConfig','getMiniAppList','getWechatpayProvider',
         'patchConfig',
         'showtoast',
         'showalert',
         'goto',
         'RCconfig',
         "setRCconfig",
-        "getRCConfiged",
+        "getRCConfiged",'updateSingerConfig','getSingerConfig'
 
       ]),
       dialogConfig(type) {
         console.log('------>',type)
         this.showType = type;
         this.showDialog = true;
+        if (type === enumShowType.miniApp) {
+          this.getMiniAppLists();
+          this.wechatList();
+        }
+      },
+      wechatList() {
+//        this.getWechatpayList({
+//          onsuccess: (body, headers) => {
+//            if (body.data && Array.isArray(body.data)) {
+//              this.wechatpayList = body.data;
+//            }
+//          }
+//        })
+        this.getWechatpayProvider({
+          provider: '0',
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              this.unProviderList = body.data;
+            }
+          }
+        })
+        this.getWechatpayProvider({
+          provider: '1',
+          onsuccess: (body, headers) => {
+            if (body.data && Array.isArray(body.data)) {
+              this.providerList = body.data;
+            }
+          }
+        })
+
+      },
+      getMiniAppLists() {
+        this.getMiniAppList({
+          onsuccess: (body, headers) => {
+            this.miniAppList = body.data;
+            if (this.miniAppList.length === 0) {
+              this.showalert({
+                code: 0,
+                content: '小程序列表为空，请先添加小程序!'
+              });
+            }
+          }
+        })
+      },
+      closeMorelvye(type){
+        if(type===enumShowType.moreLvyeReportType){
+          // this.getMoreLvyes();
+          this.setTip=false;
+        }
       },
 
-
+      //rc单打印开始
+      getUploadData(res) {
+        this.UploadResponData = res.data
+        console.log('---->', this.UploadResponData)
+      },
+      submitUpload() {
+        this.$refs.upload.submit();
+      },
       //拉已配置的RC数据
       getRCConfigeds() {
         this.getRCConfiged({
@@ -859,14 +1601,6 @@
           }
         })
       },
-      getUploadData(res) {
-        this.UploadResponData = res.data
-        console.log('---->', this.UploadResponData)
-      },
-
-      submitUpload() {
-        this.$refs.upload.submit();
-      },
       RCconfigs(pre) {
         console.log(111)
         this.RCconfig({
@@ -876,7 +1610,17 @@
         })
 
       },
-
+      //上传已配置数据
+      mySetRCconfig(data) {
+        this.setRCconfig({
+          data: data,
+          onsuccess: body => {
+            body.errmsg == 'ok' ? this.hasSetRc = true : this.hasSetRc = false
+            this.showDialog = false;
+          }
+        })
+      },
+      // rc单打印结束
       addInvoiceName() {
         this.invoiceName.push('');
       },
@@ -885,33 +1629,17 @@
         this.invoiceName.pop();
       },
 
-      handleClose() {
-        this.delName = 'close';
-        this.switchName = 'close';
+      addRoomTags() {
+        this.roomTags.push('');
       },
-      closeMorelvye(type){
-        if(type===enumShowType.moreLvyeReportType){
-              // this.getMoreLvyes();
-              this.setTip=false;
-          }
+      subtractRoomTags() {
+        if (this.roomTags.length == 1) return;
+        this.roomTags.pop();
       },
         //弹框取消按钮
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
-          case enumShowType.sign:
-            this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
-            break;
-          case enumShowType.enabledCancelTime:
-            this.isEnabledCancelTime = tool.isNotBlank(this.configData.enabled_cancel_time);
-            if (this.isEnabledCancelTime) {
-              let date = new Date(parseInt(this.configData.enabled_cancel_time));
-              let hours = date.getHours();
-              let min = date.getMinutes();
-              let minStr = min > 9 ? min : `0${min}`;
-              this.enabledCancelTime = `${hours}:${minStr}`;
-            }
-            break;
           case enumShowType.invoice:
             this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
             this.configData.invoice_name ? this.invoiceName = [...this.configData.invoice_name] : null;
@@ -922,14 +1650,12 @@
             this.configData.code ? this.invoiceCode = [...this.configData.code] : null;
             this.plugCode = this.configData.plug_code;
             break;
-          case enumShowType.preCheckinSms:
-            this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
-            break;
-          case enumShowType.delayedPayment:
-            this.enabledDelayedPayment = this.configData.enabled_delayed_payment == 'true' ? true : false;
-            break;
-          case enumShowType.autoCheckout:
-            this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
+          case enumShowType.miniApp:
+            this.appId = this.configData;
+            this.mchId = this.configData;
+            this.providerAppId = this.configData;
+            this.providerMchId = this.configData;
+            this.provider = this.configData.provider ? true : false;
             break;
           case enumShowType.autoRefund:
             this.operateOverDeposit=this.configData.enable_out_of_cash_pledge_refund == 'true' ? true : false;
@@ -937,11 +1663,81 @@
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
             this.refundVal=this.configData.refund_amount_source;
             break;
-          case enumShowType.preCheckin:
-            this.enabledPreCheckin = this.configData.enabled_pre_checkin == 'true' ? true : false;
+          case enumShowType.autoCheckout:
+            this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             break;
-          case enumShowType.mobileCheckin:
-            this.enabledMobileCheckin = this.configData.enabled_mobile_checkin == 'true' ? true : false;
+          case enumShowType.advancedCheckout:
+            this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
+            this.enabledPMScheckout = this.configData.enabled_pms_in_guest_checkout == 'true' ? true : false;
+            this.enabledSameDateIO = this.configData.enabled_same_date_io == 'true' ? true : false;
+            this.setCheckoutHouseTime = this.configData.checkout_remind_time
+            this.enabledAdvancedCheckoutName = this.configData.bill_need_sign== 'true' ? true : false;
+            this.enabledAdvancedCheckoutNameSure = this.configData.bill_equal_need_sign == 'true' ? true : false;
+            this.enabledAdvancedCheckoutHouse = this.configData.need_check_expense == 'true' ? true : false;
+            break;
+          case enumShowType.supportVd:
+            this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+            break;
+          case enumShowType.autoGiveRoom:
+            this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
+            break;
+          case enumShowType.roomTags:
+            this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
+            break;
+          case enumShowType.maxAllowRoomcount:
+            this.maxAllowRoomcount = this.configData.max_allow_roomcount;
+            this.setHouseTime = this.configData.allow_give_room
+            // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
+
+            break;
+          case enumShowType.cashPledge:
+            this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
+            this.fixedCashPledge = this.configData.cash_pledge_config.fixed_cash_pledge;
+            this.multipleOfCashPledge = this.configData.cash_pledge_config.multiple_of_cash_pledge;
+            this.roundUpToInteger = this.configData.cash_pledge_config.round_up_to_integer;
+            this.hasDayOfIncidentals = this.configData.cash_pledge_config.has_day_of_incidentals;
+            this.dayOfIncidentals = this.configData.cash_pledge_config.day_of_incidentals;
+            break;
+          case enumShowType.breakfastStemFrom:
+            this.breakfastStemFrom = this.configData.breakfast_stem_from;
+            break;
+          case enumShowType.customization:
+            this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
+            this.mirrorBrand=this.configData.enabled_mirror_brand=='true'?true:false;
+            break;
+          case enumShowType.keyAccess:
+            this.enableKeyAccess = this.configData.enable_pull_identity_guest_info == 'true' ? true : false
+            break;
+          case enumShowType.deviceDeposit:
+            //酒店设备是否配置
+            if(this.configData.device_deposit!=undefined){
+              let deviceDepositObj=JSON.parse(this.configData.device_deposit);
+              this.isDevicePaid=deviceDepositObj.paid;       //是否酒店配置
+              this.deviceAmount=deviceDepositObj.amount     //酒店押金金额
+            }
+            break;
+          case enumShowType.autoConfirmPrePay:
+            this.prepayKeyword = this.configData.prepay_keyword;
+            this.prepayExclusionKeyword = this.configData.prepay_exclusion_keyword;
+            this.postpayKeyword = this.configData.postpay_keyword;
+            this.postpayExclusionKeyword = this.configData.postpay_exclusion_keyword;
+            this.nowpayKeyword = this.configData.nowpay_keyword;
+            this.nowpayExclusionKeyword = this.configData.nowpay_exclusion_keyword;
+            this.freeDepositKeyword = this.configData.free_deposit_keyword;
+            this.needDepositKeyword = this.configData.need_deposit_keyword;
+            this.isOpenAutoConfirmPrePay = this.configData.enabled_autoprepay == 'true' ? true : false;
+            break;
+          case enumShowType.preCheckinSms:
+            this.enabledPreCheckinSms = this.configData.enabled_pre_checkin_sms == 'true' ? true : false;
+            break;
+          case enumShowType.zftShowMoreRoom:
+            this.showMoreRoomOrder=this.configData.support_zft_mroom=='true' ? true : false;
+            break;
+          case enumShowType.advancedLiveIn:
+            this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
+            break;
+          case enumShowType.sign:
+            this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
             break;
           case enumShowType.enableRCstatus:
             this.rcStatus=this.configData.rc_status=='true'?true:false;
@@ -952,23 +1748,6 @@
       submitDialog() {
         let data;
         switch (this.showType) {
-          case enumShowType.sign:
-            data = {
-              enabled_sign: this.enabledSign.toString()
-            }
-            break;
-          case enumShowType.enabledCancelTime:
-            if (this.isEnabledCancelTime) {
-              let date = `${new Date().toLocaleDateString()} ${this.enabledCancelTime}`
-              data = {
-                enabled_cancel_time: new Date(date).getTime()
-              }
-            } else {
-              data = {
-                enabled_cancel_time: ''
-              }
-            }
-            break;
           case enumShowType.invoice:
             data = {
               enabled_invoice: this.enabledInvoice.toString(),
@@ -986,20 +1765,29 @@
               plug_code: this.plugCode
             }
             break;
-          case enumShowType.preCheckinSms:
-            data = {
-              enabled_pre_checkin_sms: this.enabledPreCheckinSms.toString()
+          case enumShowType.miniApp: {
+            if (this.provider) {
+              data = {
+                app_id: this.appId,
+                mch_id: this.mchId,
+                provider: this.provider,
+                provider_app_id: this.providerAppId,
+                provider_mch_id: this.providerMchId,
+                app_name: this.appName,
+                mch_name: this.mchName,
+                provider_app_name: this.providerAppName,
+                provider_mch_name: this.providerMchName
+              }
+            } else {
+              data = {
+                app_id: this.appId,
+                mch_id: this.mchId,
+                provider: this.provider,
+                app_name: this.appName,
+                mch_name: this.mchName
+              }
             }
-            break;
-          case enumShowType.delayedPayment:
-            data = {
-              enabled_delayed_payment: this.enabledDelayedPayment.toString()
-            }
-            break;
-          case enumShowType.autoCheckout:
-            data = {
-              enable_auto_checkout: this.enableAutoCheckout.toString()
-            }
+          }
             break;
           case enumShowType.autoRefund:
             data = {
@@ -1009,15 +1797,145 @@
               enable_auto_checkout:  this.isAccessAutoCheckout.toString()
             }
             break;
-          case enumShowType.preCheckin:
+          case enumShowType.autoCheckout:
             data = {
-              enabled_pre_checkin: this.enabledPreCheckin.toString(),
+              enable_auto_checkout: this.enableAutoCheckout.toString()
+            }
+            break;
+          case enumShowType.advancedCheckout:
+            data = {
+              advanced_checkout: this.enabledAdvancedCheckout.toString(),
+              enabled_pms_in_guest_checkout: this.enabledPMScheckout.toString(),
+              enabled_same_date_io: this.enabledSameDateIO.toString(),
+              checkout_remind_time: this.setCheckoutHouseTime,
+              bill_need_sign:this.enabledAdvancedCheckoutName.toString(),
+              bill_equal_need_sign:this.enabledAdvancedCheckoutNameSure,
+              need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
 
             }
             break;
-          case enumShowType.mobileCheckin:
+          case enumShowType.supportVd:
             data = {
-              enabled_mobile_checkin: this.enabledMobileCheckin.toString()
+              is_support_vd: this.isSupportVd ? '1' : '0'
+            }
+            break;
+          case enumShowType.autoGiveRoom:
+            data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
+            break;
+          case enumShowType.roomTags:
+            data = {
+              room_tags: Array.from(new Set(this.roomTagsList))
+            }
+            break;
+          case enumShowType.maxAllowRoomcount:
+            data = {
+              max_allow_roomcount: this.maxAllowRoomcount,
+              allow_give_room:this.setHouseTime,
+              // enable_select_house:this.selectHouseSure
+            }
+            break;
+          case enumShowType.cashPledge: {
+            let cash_pledge_config = {};
+            let tempData = {
+              cash_pledge_type: this.cashPledgeType
+            }
+            if (this.cashPledgeType == 'none_cash_pledge') {
+              cash_pledge_config = {
+                ...tempData
+              }
+            } else if (this.cashPledgeType == 'fixed_cash_pledge') {
+              cash_pledge_config = {
+                ...tempData,
+                fixed_cash_pledge: +this.fixedCashPledge,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
+              }
+            } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
+              cash_pledge_config = {
+                ...tempData,
+                multiple_of_cash_pledge: +this.multipleOfCashPledge,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
+              }
+            } else if (this.cashPledgeType == 'first_day_of_room_price') {
+              cash_pledge_config = {
+                ...tempData,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
+              }
+            }
+            data = {
+              cash_pledge_config
+            }
+          }
+            break;
+          case enumShowType.breakfastStemFrom:
+            data = {
+              breakfast_stem_from: this.breakfastStemFrom
+            }
+            break;
+          case enumShowType.customization:
+            data = {
+              "enabled_mirror_introduce": this.mirrorIntro.toString(),
+              "enabled_mirror_brand": this.mirrorBrand.toString()
+            }
+            break;
+          case enumShowType.keyAccess:
+            data = {
+              enable_pull_identity_guest_info: this.enableKeyAccess.toString()
+            }
+            break;
+          case enumShowType.qrCodeCreate:
+            data = {
+//                qrcode:this.serviceType,
+//                qrcode:this.qrcode,
+//                qrcode:this.qrName,
+//                qrcode:this.remark
+            }
+            break;
+          case enumShowType.deviceDeposit:
+            let device_deposit=JSON.stringify({"paid":this.isDevicePaid,"amount":this.deviceAmount})
+            data = {device_deposit}
+            break;
+          case enumShowType.autoConfirmPrePay:
+            data = {
+              prepay_keyword: this.prepayKeyword,
+              prepay_exclusion_keyword: this.prepayExclusionKeyword,
+              postpay_keyword: this.postpayKeyword,
+              postpay_exclusion_keyword: this.postpayExclusionKeyword,
+              nowpay_keyword: this.nowpayKeyword,
+              nowpay_exclusion_keyword: this.nowpayExclusionKeyword,
+              free_deposit_keyword: this.freeDepositKeyword,
+              need_deposit_keyword: this.needDepositKeyword,
+              enabled_autoprepay: this.isOpenAutoConfirmPrePay.toString()
+            }
+            break;
+          case enumShowType.preCheckinSms:
+            data = {
+              enabled_pre_checkin_sms: this.enabledPreCheckinSms.toString()
+            }
+            break;
+          case enumShowType.zftShowMoreRoom:
+            this._updateSingerConfig(this.showMoreRoomOrder);
+            this.getSingerConfig();
+            break;
+          case enumShowType.advancedLiveIn:
+            data = {
+              no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
+            }
+            break;
+          case enumShowType.sign:
+            data = {
+              enabled_sign: this.enabledSign.toString()
             }
             break;
           case enumShowType.rcPrint:
@@ -1037,28 +1955,21 @@
         };
         this.patchConfigData(data);
       },
-
+      //时间格式处理
+      _updateSingerConfig(pre){
+        this.updateSingerConfig({
+          hotel_id: this.$route.params.hotelid,
+          key: this.showMoreRoomOrderKey,
+          value: pre,
+          onsuccess: (body) => {
+            console.log('修改了')
+            this.showDialog = false;
+          }
+        })
+      },
       getConfigs() {
         this.getConfig({
           hotel_id: this.$route.params.hotelid
-        })
-      },
-      getWxhotelCitysers() {
-        this.getWxhotelCityser({
-          onsuccess: body => (this.wxhotelCityserList = [...body.data])
-        })
-      },
-
-
-
-      //上传已配置数据
-      mySetRCconfig(data) {
-        this.setRCconfig({
-          data: data,
-          onsuccess: body => {
-            body.errmsg == 'ok' ? this.hasSetRc = true : this.hasSetRc = false
-            this.showDialog = false;
-          }
         })
       },
       //修改服务端数据

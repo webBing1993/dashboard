@@ -2,7 +2,7 @@
   <div class="module-wrapper">
     <div class="content-configinfo">
       <div class="content-title">
-        <span>微前台2.0配置</span>
+        <span>小程序配置</span>
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
