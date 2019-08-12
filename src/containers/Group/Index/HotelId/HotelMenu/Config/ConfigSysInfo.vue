@@ -12,9 +12,9 @@
             <div class="item_img">
               <img src="../../../../../../assets/images/标签.png" alt="a">
             </div>
-            <div class="item-text">
+            <div class="item-text" style="color:#D0011B;">
               <span>清除缓存</span>
-              <p>是否要清除缓存</p>
+              <p>更改配置后请清除缓存</p>
             </div>
           </button>
         </el-col>
