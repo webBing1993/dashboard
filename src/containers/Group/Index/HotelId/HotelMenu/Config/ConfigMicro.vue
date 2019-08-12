@@ -6,6 +6,17 @@
       </div>
       <el-row :gutter="20">
         <el-col :span="8">
+          <button @click="isWipeCatch">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>清除缓存</span>
+              <p>是否要清除缓存</p>
+            </div>
+          </button>
+        </el-col>
+        <el-col :span="8">
           <button @click="dialogConfig('facein','优图面部通行证配置')">
             <div class="item_img">
               <img src="../../../../../../assets/images/公安.png" alt="a">
@@ -326,7 +337,7 @@
       }
     },
     methods:{
-      ...mapActions(['getHotelServer','getHotelServiceConfigs','getHotelIdsStatus']),
+      ...mapActions(['getHotelServer','getHotelServiceConfigs','getHotelIdsStatus','isDeleteCatch']),
       hideDialog(){
         this.showDialog = false;
       },
@@ -378,6 +389,37 @@
           }
         })
 
+      },
+      //是否清除缓存
+      isWipeCatch(){
+        this.$confirm('是否要清除缓存?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.isDeleteCatch({
+            hotel_id: this.$route.params.hotelid,
+            onsuccess: body => {
+              if (body.errcode == '0') {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                })
+              }else{
+                this.$message({
+                  type: 'error',
+                  message: '删除失败'
+                })
+              }
+            }
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
       },
       dialogConfig(type,title){
         this.showType = type;
