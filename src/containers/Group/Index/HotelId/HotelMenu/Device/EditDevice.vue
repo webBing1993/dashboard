@@ -14,7 +14,7 @@
       </div>
       <div class="content-item">
         <span>设备ID</span>
-        <el-input :disabled="!isAdd" class="el-right" v-model="deviceId" placeholder="请输入该设备ID"></el-input>
+        <el-input :disabled="!isAdd" class="el-right" v-model="deviceId" placeholder="请输入该设备ID（32位）"></el-input>
       </div>
       <div class="content-item">
         <span>设备名称</span>
@@ -277,6 +277,13 @@
       },
 
       addDevices() {
+        if(this.deviceId.length!=32){
+          this.$message({
+            message: '你输入的设备ID不正确',
+            type: 'warning'
+          });
+          return
+        }
         if (this.submitDisabled) return;
         this.saveIsShowPadName({
           hotel_id: this.hotelId,
