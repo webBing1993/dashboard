@@ -2190,7 +2190,7 @@
           this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
         }
 
-        this.tempCode = `http://jskp.qa.fortrun.cn/index.html?code=${code}`;
+        this.tempCode = `https://jskp.fortrun.cn/index.html?code=${code}`;
 
         QRCode.toDataURL(this.tempCode, (err, url) => {
           console.log('url=======',url)
