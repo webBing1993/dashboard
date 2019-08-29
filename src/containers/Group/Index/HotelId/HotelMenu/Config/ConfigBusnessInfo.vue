@@ -6,6 +6,7 @@
         <span>业务配置 <i>（选择酒店开启业务）</i></span>
       </div>
       <el-row :gutter="20">
+        <!--清除缓存-->
         <el-col :span="8">
           <button @click="isWipeCatch">
             <div class="item_img">
@@ -17,6 +18,7 @@
             </div>
           </button>
         </el-col>
+        <!--发票配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.invoice)">
             <div class="item_img">
@@ -30,6 +32,7 @@
                   :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--闪开发票配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.fastInvoice)">
             <div class="item_img">
@@ -43,6 +46,7 @@
                   :class="{'tag_text_red': !enabledSpeedInvoice, 'tag_text_green': enabledSpeedInvoice}">{{enabledSpeedInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--发票支付配置-->
         <el-col :span="8">
           <button @click="goto('/group/' + groupId + '/hotel/' + hotelId + '/payConfig')">
             <div class="item_img">
@@ -56,6 +60,7 @@
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+         <!--小程序支付配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.miniApp)">
             <div class="item_img">
@@ -69,6 +74,7 @@
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--退款业务配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoRefund)">
             <div class="item_img">
@@ -81,6 +87,20 @@
             <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--预授权打印结算单配置-->
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.prePrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/退款.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>预授权打印结算单配置</span>
+              <p>配置是否打印结算单以及份数</p>
+            </div>
+            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <!--自动退房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoCheckout)">
             <div class="item_img">
@@ -93,6 +113,7 @@
             <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--退离规则配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
@@ -107,6 +128,7 @@
             </span>
           </button>
         </el-col>
+        <!--脏房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.supportVd)">
             <div class="item_img">
@@ -120,6 +142,7 @@
                   :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--分房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
@@ -134,6 +157,7 @@
             </span>
           </button>
         </el-col>
+        <!--房间标签配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
             <div class="item_img">
@@ -147,6 +171,7 @@
                   :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--可选房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">
             <div class="item_img">
@@ -160,6 +185,7 @@
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--押金配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.cashPledge)">
             <div class="item_img">
@@ -173,6 +199,7 @@
                   :class="{'tag_text_red': !cashPledgeType, 'tag_text_green':cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--早餐券配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.breakfastStemFrom)">
             <div class="item_img">
@@ -186,6 +213,7 @@
                   :class="{'tag_text_red':breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--定制化配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.customization)">
             <div class="item_img">
@@ -199,6 +227,7 @@
                   :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--关键通道配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.keyAccess)">
             <div class="item_img">
@@ -216,6 +245,7 @@
             <!--</span>-->
           </button>
         </el-col>
+        <!--酒店二维码配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.qrCodeCreate)">
             <div class="item_img">
@@ -230,6 +260,7 @@
             </span>
           </button>
         </el-col>
+        <!--酒店设备押金配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.deviceDeposit)">
             <div class="item_img">
@@ -244,6 +275,7 @@
             </span>
           </button>
         </el-col>
+        <!--自动确认预付款配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
             <div class="item_img">
@@ -257,6 +289,7 @@
                   :class="{'tag_text_red': prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--预登记短信配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.preCheckinSms)">
             <div class="item_img">
@@ -270,6 +303,7 @@
                   :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--是否显示多房订单配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
             <div class="item_img">
@@ -284,6 +318,7 @@
             </span>
           </button>
         </el-col>
+        <!--入住规则配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedLiveIn)">
             <div class="item_img">
@@ -297,6 +332,7 @@
                   :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--电子签名配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.sign)">
             <div class="item_img">
@@ -310,6 +346,7 @@
                   :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!-- RC单打印 -->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.rcPrint)">
             <div class="item_img">
@@ -324,6 +361,7 @@
                   :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <!--RC单是否开启字段-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.enableRCstatus)">
             <div class="item_img">
@@ -335,6 +373,20 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <!--推送白名单到餐券设备-->
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.enablebreakfast)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>推送白名单到餐券设备配置</span>
+              <p>配置是否推送白名单到餐券设备</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -511,6 +563,21 @@
               </el-switch>
             </div>
           </div>
+          <!--预授权打印结算单配置-->
+          <div v-if="showType === enumShowType.prePrint">
+            <div class="item-form">
+              <span>是否开启打印小票配置？</span>
+              <el-switch
+                v-model="enablePrePrint"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="enablePrePrint">
+              <span>打印份数</span>
+              <el-input class="el-right" v-model="prePrintNumber" placeholder="请输入打印份数"></el-input>
+            </div>
+          </div>
           <!--自动退房配置-->
           <div v-if="showType === enumShowType.autoCheckout">
             <div class="item-form">
@@ -584,6 +651,14 @@
               <span>是否判断客房消费</span>
               <el-switch
                 v-model="enabledAdvancedCheckoutHouse"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>设备账单是否需要签名</span>
+              <el-switch
+                v-model="enabledDeviceNeedSign"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -905,11 +980,23 @@
               </el-switch>
             </div>
           </div>
+          <!--RC单是否开启字段-->
           <div v-if="showType === enumShowType.enableRCstatus">
             <div class="item-form">
               <span>RC单是否开启字段</span>
               <el-switch
                 v-model="rcStatus"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--推送白名单到餐券设备-->
+          <div v-if="showType === enumShowType.enablebreakfast">
+            <div class="item-form">
+              <span>是否推送白名单到餐券设备</span>
+              <el-switch
+                v-model="enablebreakfast"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -953,34 +1040,36 @@
     fastInvoice: 2,  //闪开发票配置
     miniApp: 3,  //小程序配置
     autoRefund: 4, //退款业务配置配置
-    autoCheckout: 5, //自动退房配置
-    advancedCheckout: 6,//是否允许提前退房
-    supportVd: 7,  //脏房配置
-    autoGiveRoom: 8,//自动分房
-    roomTags: 9,  //房间标签配置
-    maxAllowRoomcount: 10,  //最大房间数量配置
-    cashPledge: 11, //押金配置
-    breakfastStemFrom: 12,  //早餐券配置
-    customization:13, //定制化配置
-    keyAccess: 14,//关键通道
-    qrCodeCreate: 15,//酒店二维码配置
-    deviceDeposit:16,//酒店押金配置规则
-    autoConfirmPrePay: 17,  //自动确认预付款配置
-    preCheckinSms: 18,  //预登记短信配置
-    zftShowMoreRoom: 19,//是否显示多房订单
-    advancedLiveIn:20,//入住规则配置
-    sign: 21, //电子签名配置
-    rcPrint: 22,//RC单打印
-    enableRCstatus :23,//RC单是否开启字段
+    prePrint: 5,    //预授权打印结算单配置
+    autoCheckout: 6, //自动退房配置
+    advancedCheckout: 7,//是否允许提前退房
+    supportVd: 8,  //脏房配置
+    autoGiveRoom: 9,//自动分房
+    roomTags: 10,  //房间标签配置
+    maxAllowRoomcount: 11,  //最大房间数量配置
+    cashPledge: 12, //押金配置
+    breakfastStemFrom: 13,  //早餐券配置
+    customization:14, //定制化配置
+    keyAccess: 15,//关键通道
+    qrCodeCreate: 16,//酒店二维码配置
+    deviceDeposit:17,//酒店押金配置规则
+    autoConfirmPrePay: 18,  //自动确认预付款配置
+    preCheckinSms: 19,  //预登记短信配置
+    zftShowMoreRoom: 20,//是否显示多房订单
+    advancedLiveIn:  21,//入住规则配置
+    sign: 22, //电子签名配置
+    rcPrint: 23,//RC单打印
+    enableRCstatus :24,//RC单是否开启字段
+    enablebreakfast:25  //推送白名单到餐券设备
   }
 
   //弹框标题类型
   const typeTitles = ['是否删除',
     '发票配置',
     '闪开发票配置',
-    '','退款业务配置配置', '自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
+    '','退款业务配置配置', '预授权打印结算单配置','自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1025,6 +1114,10 @@
         enabledAutoRefund: true,
         operateOverDeposit:false,
         isAccessAutoCheckout:false,
+
+        //预授权打印结算单配置
+        enablePrePrint:false,
+        prePrintNumber:'',
         //自动退房
         enableAutoCheckout: false,
         refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
@@ -1034,10 +1127,11 @@
         enabledAdvancedCheckout: false,
         enabledPMScheckout: false,
         enabledSameDateIO: false,
-        setCheckoutHouseTime:'',  //客人退房时间提醒
-        enabledAdvancedCheckoutName:false,//账单是否需要签名
+        setCheckoutHouseTime:'',                //客人退房时间提醒
+        enabledAdvancedCheckoutName:false,      //账单是否需要签名
         enabledAdvancedCheckoutNameSure:false,  //平张帐单是否需要签名
-        enabledAdvancedCheckoutHouse:false, //是否判断客房消费
+        enabledAdvancedCheckoutHouse:false,    //是否判断客房消费
+        enabledDeviceNeedSign:false,// 设备账单是否签名
 
         //脏房配置
         isSupportVd: true,
@@ -1130,6 +1224,9 @@
         hasSetRc: false,
 //        mirrorIntro:false,
 //        mirrorBrand:false,
+
+        //是否推送白名单到餐券设备
+        enablebreakfast:false,
 
       }
     },
@@ -1308,6 +1405,14 @@
       validateautoConfirmPrePay() {
         return tool.isNotBlank(this.prepayKeyword) && tool.isNotBlank(this.prepayExclusionKeyword) && tool.isNotBlank(this.postpayKeyword) && tool.isNotBlank(this.postpayExclusionKeyword) && tool.isNotBlank(this.freeDepositKeyword) && tool.isNotBlank(this.needDepositKeyword)
       },
+      validatePrePrint(){
+        console.log('this.prePrintNumber',this.prePrintNumber);
+        if(this.enablePrePrint){
+          return tool.isNotBlank(this.prePrintNumber)
+        }else{
+          return true
+        }
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1322,6 +1427,9 @@
             break;
           case enumShowType.autoRefund:
             result = true;
+            break;
+          case enumShowType.prePrint:
+            result = this.validatePrePrint;
             break;
           case enumShowType.autoCheckout:
             result = true;
@@ -1379,6 +1487,9 @@
             break;
           case enumShowType.enableRCstatus:
 //            result = this.validateRCStatus ;
+            result = true;
+            break;
+          case  enumShowType.enablebreakfast :
             result = true;
             break;
           default:
@@ -1450,6 +1561,7 @@
           this.enabledAdvancedCheckoutName = configData.bill_need_sign== 'true' ? true : false;
           this.enabledAdvancedCheckoutNameSure = configData.bill_equal_need_sign == 'true' ? true : false;
           this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
+          this.enabledDeviceNeedSign=configData.bill_device_need_sign == 'true' ?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
 
@@ -1518,7 +1630,10 @@
 
 
           //rc是否开启配置字段
+          //rc是否开启配置字段
           this.rcStatus=configData.rc_status=='true'?true:false;
+          //推送白名单到餐券设备
+          this.enablebreakfast = configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
         };
       },
     },
@@ -1716,6 +1831,7 @@
             this.enabledAdvancedCheckoutName = this.configData.bill_need_sign== 'true' ? true : false;
             this.enabledAdvancedCheckoutNameSure = this.configData.bill_equal_need_sign == 'true' ? true : false;
             this.enabledAdvancedCheckoutHouse = this.configData.need_check_expense == 'true' ? true : false;
+            this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
@@ -1730,7 +1846,6 @@
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             this.setHouseTime = this.configData.allow_give_room
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
-
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
@@ -1784,6 +1899,9 @@
           case enumShowType.enableRCstatus:
             this.rcStatus=this.configData.rc_status=='true'?true:false;
             break;
+          case enumShowType.enablebreakfast:
+            this.enablebreakfast = this.configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
+            break
           default:
         }
       },
@@ -1853,7 +1971,7 @@
               bill_need_sign:this.enabledAdvancedCheckoutName.toString(),
               bill_equal_need_sign:this.enabledAdvancedCheckoutNameSure,
               need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
-
+              bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
             }
             break;
           case enumShowType.supportVd:
@@ -1865,9 +1983,7 @@
             data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
             break;
           case enumShowType.roomTags:
-            data = {
-              room_tags: Array.from(new Set(this.roomTagsList))
-            }
+            data = { room_tags: Array.from(new Set(this.roomTagsList))    }
             break;
           case enumShowType.maxAllowRoomcount:
             data = {
@@ -1993,6 +2109,11 @@
               "rc_status": this.rcStatus
             }
             break;
+          case enumShowType.enablebreakfast:
+            data = {
+              "enable_pull_identity_info_breakfast":this.enablebreakfast.toString()
+            }
+            break
           default:null
         };
         this.patchConfigData(data);
