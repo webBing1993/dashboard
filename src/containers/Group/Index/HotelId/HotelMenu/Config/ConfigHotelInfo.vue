@@ -1160,7 +1160,7 @@
           {name: '首晚房费', value: 'first_day_of_room_price'},
           {name: '最大系数', value: 'multiple_of_cash_pledge'}],
         fixedCashPledge: '',
-        multipleOfCashPledge: '',
+        multipleOfCashPledge: 0,
         roundUpToInteger: false,
         hasDayOfIncidentals: false,
         dayOfIncidentals: '',
@@ -1453,7 +1453,7 @@
           }
           return true;
         } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
-          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1)
+          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <=0 || this.multipleOfCashPledge >10)
             return false;
           if (this.hasDayOfIncidentals) {
             return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
