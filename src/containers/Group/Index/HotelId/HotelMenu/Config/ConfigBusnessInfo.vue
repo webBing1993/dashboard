@@ -97,7 +97,7 @@
               <span>预授权打印结算单配置</span>
               <p>配置是否打印结算单以及份数</p>
             </div>
-            <span class="tag_text" :class="{'tag_text_red': !enabledAutoRefund, 'tag_text_green': enabledAutoRefund}">{{enabledAutoRefund ? '已开通' : '未开通'}}</span>
+            <span class="tag_text" :class="{'tag_text_red': !enablePrePrint, 'tag_text_green': enablePrePrint}">{{enablePrePrint ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <!--自动退房配置-->
@@ -663,6 +663,14 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>是否支持插卡退房</span>
+              <el-switch
+                v-model="enabledRoomCardCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--脏房配置-->
           <div v-if="showType === enumShowType.supportVd">
@@ -1132,7 +1140,7 @@
         enabledAdvancedCheckoutNameSure:false,  //平张帐单是否需要签名
         enabledAdvancedCheckoutHouse:false,    //是否判断客房消费
         enabledDeviceNeedSign:false,// 设备账单是否签名
-
+        enabledRoomCardCheckout:false,//是否支持插卡退房
         //脏房配置
         isSupportVd: true,
         //自动分房配置
@@ -1550,6 +1558,10 @@
           this.enabledAutoRefund = configData.enabled_auto_refund == 'true' ? true : false;
           this.refundVal= configData.refund_amount_source;
 
+          //预授权打印结算单配置
+          this.enablePrePrint=JSON.parse(configData.payment_ticket).open;
+          this.prePrintNumber=JSON.parse(configData.payment_ticket).printedNum;
+
           //自动退房
           this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
 
@@ -1562,6 +1574,7 @@
           this.enabledAdvancedCheckoutNameSure = configData.bill_equal_need_sign == 'true' ? true : false;
           this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
           this.enabledDeviceNeedSign=configData.bill_device_need_sign == 'true' ?true:false;
+          this.enabledRoomCardCheckout=configData.enabled_room_card_checkout=='true'?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
 
@@ -1820,6 +1833,10 @@
             this.enabledAutoRefund = this.configData.enabled_auto_refund == 'true' ? true : false;
             this.refundVal=this.configData.refund_amount_source;
             break;
+          case enumShowType.prePrint:
+            this.enablePrePrint=JSON.parse(this.configData.payment_ticket).open=='true'?true:false;
+            this.prePrintNumber=JSON.parse(this.configData.payment_ticket).printedNum;
+            break;
           case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             break;
@@ -1832,6 +1849,7 @@
             this.enabledAdvancedCheckoutNameSure = this.configData.bill_equal_need_sign == 'true' ? true : false;
             this.enabledAdvancedCheckoutHouse = this.configData.need_check_expense == 'true' ? true : false;
             this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
+            this.enabledRoomCardCheckout=this.configData.enabled_room_card_checkout=='true'?true:false;
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
@@ -1957,6 +1975,15 @@
               enable_auto_checkout:  this.isAccessAutoCheckout.toString()
             }
             break;
+          case enumShowType.prePrint:
+            let  payment_ticket={
+              open:this.enablePrePrint,
+              printedNum:this.prePrintNumber
+            }
+            data ={
+              payment_ticket:JSON.stringify(payment_ticket)
+            }
+            break;
           case enumShowType.autoCheckout:
             data = {
               enable_auto_checkout: this.enableAutoCheckout.toString()
@@ -1972,6 +1999,7 @@
               bill_equal_need_sign:this.enabledAdvancedCheckoutNameSure,
               need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
               bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
+              enabled_room_card_checkout:this.enabledRoomCardCheckout.toString(),
             }
             break;
           case enumShowType.supportVd:
