@@ -389,6 +389,19 @@
                   :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.accessServiceType)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>订单关键字脚本配置</span>
+              <p>业务类型配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -988,7 +1001,6 @@
               </el-switch>
             </div>
           </div>
-          <!--RC单是否开启字段-->
           <div v-if="showType === enumShowType.enableRCstatus">
             <div class="item-form">
               <span>RC单是否开启字段</span>
@@ -1005,6 +1017,47 @@
               <span>是否推送白名单到餐券设备</span>
               <el-switch
                 v-model="enablebreakfast"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
+          <!--开通酒店业务类型配置-->
+          <div v-if="showType === enumShowType.accessServiceType">
+            <div class="item-form">
+              <span>格式化脚本</span>
+              <el-input class="el-right" v-model="formatScript"></el-input>
+              <el-upload
+                class="upload-demo el-right"
+                :action="scriptUpload"
+                :headers="setHeader"
+                :data="{'script_type':'format'}"
+                :on-success="formatScriptSuccess"
+                :before-upload='beforeUploadformat'
+                :show-file-list=false
+                :limit=1>
+                <el-button size="small" type="primary">{{formatScript?'重新上传':'选择上传文件'}}</el-button>
+              </el-upload>
+            </div>
+            <div class="item-form">
+              <span>过滤脚本</span>
+              <el-input class="el-right" v-model="filterScript"></el-input>
+              <el-upload
+                class="upload-demo el-right"
+                :action="scriptUpload"
+                :headers="setHeader"
+                :data="{'script_type':'filter'}"
+                :show-file-list=false
+                :before-upload='beforeUploadfilter'
+                :on-success="filterScriptSuccess"
+                :limit=1>
+                <el-button size="small" type="primary">{{filterScript?'重新上传':'选择上传文件'}}</el-button>
+              </el-upload>
+            </div>
+            <div class="item-form">
+              <span>是否开启</span>
+              <el-switch
+                v-model="enableAccessService"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1068,7 +1121,9 @@
     sign: 22, //电子签名配置
     rcPrint: 23,//RC单打印
     enableRCstatus :24,//RC单是否开启字段
-    enablebreakfast:25  //推送白名单到餐券设备
+    enablebreakfast:25, //推送白名单到餐券设备
+    accessServiceType:26,  //订单关键字脚本配置
+
   }
 
   //弹框标题类型
@@ -1077,7 +1132,7 @@
     '闪开发票配置',
     '','退款业务配置配置', '预授权打印结算单配置','自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备配置'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备配置','订单关键字脚本配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1232,6 +1287,14 @@
         hasSetRc: false,
 //        mirrorIntro:false,
 //        mirrorBrand:false,
+        //**********************酒店开通业务类型配置**********************
+        filter:'',
+        format:'',
+        formatScript:"",
+        filterScript:"",
+        filterScript:"",
+        enableAccessService:false,
+        accessService:false,
 
         //是否推送白名单到餐券设备
         enablebreakfast:false,
@@ -1241,6 +1304,7 @@
     mounted() {
       this.getConfigs();
       this.getRCConfigeds();
+      this.getAccessServiceType();
     },
     computed: {
       ...mapState({
@@ -1421,6 +1485,9 @@
           return true
         }
       },
+      validateAccessService(){
+        return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1499,6 +1566,9 @@
             break;
           case  enumShowType.enablebreakfast :
             result = true;
+            break;
+          case enumShowType.accessServiceType:
+            result=this.validateAccessService;
             break;
           default:
             result = false;
@@ -1641,8 +1711,6 @@
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
 
-
-          //rc是否开启配置字段
           //rc是否开启配置字段
           this.rcStatus=configData.rc_status=='true'?true:false;
           //推送白名单到餐券设备
@@ -1659,9 +1727,50 @@
         'goto',
         'RCconfig',
         "setRCconfig",
-        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch'
+        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload'
 
       ]),
+      getAccessServiceType(){
+        this.getServiceTypeScript({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+            this.filterScript=body.data.filter_script_name ;
+            this.formatScript=body.data.format_script_name ;
+            this.enableAccessService=body.data.enabled_script;
+            if(this.filterScript||this.formatScript){
+              this.accessService=true;
+
+            }
+          }
+        })
+      },
+      saveAccessServiceType(data){
+        this.saveScriptUpload({
+          hotel_id: this.$route.params.hotelid,
+          body:data,
+          onsuccess: body => {
+            this.showDialog = false;
+            this.accessService=true;
+
+          }
+        });
+      },
+      beforeUploadformat(){
+        this.fileList1=[]
+      },
+      beforeUploadfilter(){
+        this.fileList2=[]
+      },
+      filterScriptSuccess(res,file,list){
+        if(res.data) {
+          this.filterScript = res.data.script_name;
+        }
+      },
+      formatScriptSuccess(res,file,list){
+        if(res.data) {
+          this.formatScript = res.data.script_name;
+        }
+      },
       dialogConfig(type) {
         console.log('------>',type)
         this.showType = type;
@@ -2135,6 +2244,19 @@
           case enumShowType.enableRCstatus:
             data = {
               "rc_status": this.rcStatus
+            }
+            break;
+          case enumShowType.accessServiceType:
+            let tempData={
+              enabled_script:this.enableAccessService
+            };
+            this.saveAccessServiceType(tempData);
+            return;
+            data = {
+//                qrcode:this.serviceType,
+//                qrcode:this.qrcode,
+//                qrcode:this.qrName,
+//                qrcode:this.remark
             }
             break;
           case enumShowType.enablebreakfast:
