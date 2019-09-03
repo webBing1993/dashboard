@@ -297,7 +297,7 @@
             </div>
             <div class="item-text">
               <span>预登记短信</span>
-              <p>配置客人是否可以受到预登记短信提醒。</p>
+              <p>配置客人是否可以收到预登记短信提醒。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
