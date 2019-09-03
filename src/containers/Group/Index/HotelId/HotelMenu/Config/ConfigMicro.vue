@@ -81,19 +81,19 @@
                   :class="{'tag_text_red': !activity, 'tag_text_green':activity}">{{activity? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig('integral','摇一摇获取积分配置')">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>摇一摇获取积分</span>
-              <p>C端小程序关闭摇一摇获取积分功能</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !integral, 'tag_text_green':integral}">{{integral? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig('integral','摇一摇获取积分配置')">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/标签.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>摇一摇获取积分</span>-->
+              <!--<p>C端小程序关闭摇一摇获取积分功能</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !integral, 'tag_text_green':integral}">{{integral? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig('roomService','专属管家配置')">
             <div class="item_img">

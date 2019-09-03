@@ -17,19 +17,19 @@
             </div>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.invoice)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/发票.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>发票配置</span>
-              <p>配置客人是否可以申请发票。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.invoice)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/发票.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>发票配置</span>-->
+              <!--<p>配置客人是否可以申请发票。</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.fastInvoice)">
             <div class="item_img">
