@@ -8,7 +8,7 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/receptionArea'" v-if="showReception">接待区</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">配置管理</a>
       <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config'">门店配置</router-link>-->
-      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigMicro'">小程序功能配置</router-link>
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigMicro'">小程序/企业微信配置</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigSysInfo'">酒店系统配置</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigBusnessInfo'">酒店业务配置</router-link>
       <!--<router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/ConfigHotelInfo'">门店酒店配置</router-link>-->

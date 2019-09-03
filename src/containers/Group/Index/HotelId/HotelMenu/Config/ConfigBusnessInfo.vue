@@ -17,6 +17,12 @@
             </div>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig(enumShowType.invoice)">-->
             <!--<div class="item_img">-->
@@ -141,7 +147,7 @@
             </div>
             <div class="item-text">
               <span>房间标签配置</span>
-              <p>配置酒店对脏房的态度</p>
+              <p>可对酒店房间设置多个标签</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>

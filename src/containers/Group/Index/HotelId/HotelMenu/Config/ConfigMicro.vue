@@ -1,9 +1,9 @@
 <template>
   <div class="module-wrapper">
     <div class="content-configinfo">
-      <div class="content-title">
-        <span>小程序配置</span>
-      </div>
+      <!--<div class="content-title">-->
+        <!--<span>小程序配置</span>-->
+      <!--</div>-->
       <el-row :gutter="20">
         <el-col :span="8">
           <button @click="isWipeCatch">
@@ -15,6 +15,12 @@
               <p>更改配置后请清除缓存</p>
             </div>
           </button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
         </el-col>
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig('facein','优图面部通行证配置')">-->
@@ -29,6 +35,9 @@
                   <!--:class="{'tag_text_red': !facein, 'tag_text_green':facein}">{{facein? '已配置' : '未配置'}}</span>-->
           <!--</button>-->
         <!--</el-col>-->
+        <div class="content-title">
+          <span>企业微信配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig('guest','客史记录配置')">
             <div class="item_img">
@@ -94,6 +103,9 @@
                   <!--:class="{'tag_text_red': !integral, 'tag_text_green':integral}">{{integral? '已配置' : '未配置'}}</span>-->
           <!--</button>-->
         <!--</el-col>-->
+        <div class="content-title">
+          <span>小程序配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig('roomService','专属管家配置')">
             <div class="item_img">
