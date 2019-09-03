@@ -183,6 +183,19 @@
             </span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.facein)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>优图面部通行证</span>
+              <p>支持刷脸入住、吃早餐</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !facein, 'tag_text_green':facein}">{{facein? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -371,7 +384,13 @@
             </div>
           </div>
         </div>
-
+        <!--优图面部通行证配置-->
+        <div v-if="showType === enumShowType.facein">
+          <div class="item-form">
+            <span style="width: 155px">优图面部通行证</span>
+            <el-switch on-color="#13ce66"off-color="#ff4949" v-model="facein"></el-switch>
+          </div>
+        </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="showType != enumShowType.wxHotel && showType !=enumShowType.WxHotelRegister">
             <el-button @click="hideDialog">取 消</el-button>
@@ -417,6 +436,7 @@
     enabledCancelTime: 11, //电话取消订单配置
     delayedPayment: 12, //到店支付配置
     ticketPrint: 13,//是否启用小票打印
+    facein:14 //优图面部通行证配置
   }
 
   //弹框标题类型
@@ -426,7 +446,7 @@
      '门锁配置',
      '无证入住',
     '开启身份核验功能','极速领卡配置',
-    '禁止顾客操作订单配置','无证核验','酒店行政区划代码配置', 'PAD界面内容显示配置','同住人未到提醒配置','电话取消订单配置','到店支付配置','是否打印小票配置',
+    '禁止顾客操作订单配置','无证核验','酒店行政区划代码配置', 'PAD界面内容显示配置','同住人未到提醒配置','电话取消订单配置','到店支付配置','是否打印小票配置','优图面部通行证配置'
 
   ]
 
@@ -494,6 +514,9 @@
         enabledDelayedPayment: true,
         ////是否打印小票配置
         enabledTicketPrint: false,
+        //优图面部通行证配置
+        facein: false,
+        faceinId:'',
       }
     },
 
@@ -553,7 +576,7 @@
         'goto',
         'patchConfig',
         'isDeleteCatch','showtoast',
-        'getWxhotelCityser','WxhotelRegister','deleteWxHotel','savePADMarkConfig','getPADMarkConfig'
+        'getWxhotelCityser','WxhotelRegister','deleteWxHotel','savePADMarkConfig','getPADMarkConfig','getHotelIdsStatus','getHotelServer'
       ]),
       dialogConfig(type) {
          this.showType = type;
@@ -755,7 +778,17 @@
             break;
           default:null
         };
-        this.patchConfigData(data);
+        if(this.showType==enumShowType.facein){
+          this.showDialog = false;
+          data={ id:this.faceinId, value:this.facein?1:0 }
+          this.getHotelIdsStatus({
+            data:data,
+            onsuccess:body=>{
+            }
+          })
+        }else{
+          this.patchConfigData(data);
+        }
       },
       //新增酒店提示语
       savePADMarkConfigs(){
@@ -825,11 +858,33 @@
           }
         })
       },
+      hotelServer(){
+        this.getHotelServer(
+          {
+            data:{
+              hotelId:this.$route.params.hotelid,
+            },
+            onsuccess:body=>{
+              console.log(body.data)
+              let hotelStatusList = body.data.hotelConfig
+              if(hotelStatusList.length >0){
+                for (let i of hotelStatusList) {
+                  if(i.key == 'facein'){
+                    this.facein = i.value==0?false:true
+                    this.faceinId = i.id
+                  }
+                }
+              }
+            }
+          }
+        )
+      },
     },
 
     mounted() {
       this.getConfigs();
       this.getPADMarkConfigs();
+      this.hotelServer();
 
     },
     watch: {

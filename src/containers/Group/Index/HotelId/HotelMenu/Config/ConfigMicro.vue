@@ -16,19 +16,19 @@
             </div>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig('facein','优图面部通行证配置')">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>优图面部通行证</span>
-              <p>支持刷脸入住、吃早餐</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !facein, 'tag_text_green':facein}">{{facein? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig('facein','优图面部通行证配置')">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/公安.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>优图面部通行证</span>-->
+              <!--<p>支持刷脸入住、吃早餐</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !facein, 'tag_text_green':facein}">{{facein? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig('guest','客史记录配置')">
             <div class="item_img">

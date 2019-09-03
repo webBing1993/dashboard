@@ -57,19 +57,19 @@
                   :class="{'tag_text_red': !syncSpaceTime, 'tag_text_green': syncSpaceTime}">{{syncSpaceTime ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.accessServiceType)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>酒店开通业务类型配置</span>
-              <p>业务类型配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.accessServiceType)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/公安.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>酒店开通业务类型配置</span>-->
+              <!--<p>业务类型配置</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.withoutCard)">
             <div class="item_img">
