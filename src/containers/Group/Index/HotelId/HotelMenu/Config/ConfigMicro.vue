@@ -197,6 +197,19 @@
                   :class="{'tag_text_red': !guestCheckout, 'tag_text_green':guestCheckout}">{{guestCheckout? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig('sign','电子签名')">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/签名.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>电子签名</span>
+              <p>客人是否需要在支付后签名。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -299,6 +312,17 @@
             </div>
           </div>
         </div>
+        <!--电子签名配置-->
+        <div v-if="showType === 'sign'">
+          <div class="item-form">
+            <span>是否开通电子签名？</span>
+            <el-switch
+              v-model="enabledSign"
+              on-color="#13ce66"
+              off-color="#ff4949">
+            </el-switch>
+          </div>
+        </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
@@ -312,6 +336,7 @@
 </template>
 <script>
   import {mapActions,mapState} from 'vuex'
+  import tool from '@/assets/tools/tool.js'
   export default {
     data(){
       return{
@@ -346,16 +371,20 @@
         typeTitle:'',     //弹框标题
         showType:'',      //弹框类型
         showDialog:false, //控制是否打开弹框
+
+        //电子签名
+        enabledSign: false,
+
       }
     },
     methods:{
-      ...mapActions(['getHotelServer','getHotelServiceConfigs','getHotelIdsStatus','isDeleteCatch']),
+      ...mapActions(['getHotelServer','getHotelServiceConfigs','getHotelIdsStatus','isDeleteCatch','patchConfig','getConfig']),
       hideDialog(){
         this.showDialog = false;
       },
       submitDialog(){
         this.showDialog = false;
-        var dataObj={};
+        var dataObj={}
         switch(this.showType){
            case 'facein':            dataObj={ id:this.faceinId, value:this.facein?1:0 }
              break;
@@ -393,14 +422,28 @@
              break;
            case 'guestCheckout':     dataObj={ id:this.guestCheckoutId, value:this.guestCheckout?1:0}
              break;
+           case 'sign':               dataObj={ enabled_sign: this.enabledSign.toString()}
+             break;
         }
-        this.getHotelIdsStatus({
-          data:dataObj,
-          onsuccess:body=>{
-
+        if(this.showType=='sign'){
+          this.patchConfigData(dataObj)
+        }else{
+          this.getHotelIdsStatus({
+            data:dataObj,
+            onsuccess:body=>{
+            }
+          })
+        }
+      },
+      //修改服务端数据
+      patchConfigData(data) {
+        this.patchConfig({
+          hotel_id: this.$route.params.hotelid,
+          data: data,
+          onsuccess: body => {
+            this.showDialog = false;
           }
         })
-
       },
       //是否清除缓存
       isWipeCatch(){
@@ -505,19 +548,35 @@
           }
         )
       },
+      getConfigs() {
+        this.getConfig({
+          hotel_id: this.$route.params.hotelid
+        })
+      },
 
     },
     watch:{
-
+      configData(){
+        let configData = this.configData;
+        console.log('configData:',configData)
+        if (tool.isNotBlank(configData)) {
+          //电子签名
+          this.enabledSign = configData.enabled_sign == 'true' ? true : false;
+        };
+      },
     },
     computed:{
       ...mapState([
         'route',
         'Interface'
-      ])
+      ]),
+      ...mapState({
+        configData: state => state.enterprise.configData,
+      }),
     },
     mounted(){
-      this.hotelServer()
+      this.hotelServer();
+      this.getConfigs();
     }
   }
 </script>
