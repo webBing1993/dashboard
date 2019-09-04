@@ -2,11 +2,10 @@
 <template>
   <div class="module-wrapper">
     <div class="content-configinfo">
-      <div class="content-title">
-        <span>业务配置 <i>（选择酒店开启业务）</i></span>
-      </div>
+      <!--<div class="content-title">-->
+        <!--<span>业务配置 <i>（选择酒店开启业务）</i></span>-->
+      <!--</div>-->
       <el-row :gutter="20">
-        <!--清除缓存-->
         <el-col :span="8">
           <button @click="isWipeCatch">
             <div class="item_img">
@@ -18,35 +17,29 @@
             </div>
           </button>
         </el-col>
-        <!--发票配置-->
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.invoice)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/发票.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>发票配置</span>
-              <p>配置客人是否可以申请发票。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
-          </button>
+          <button style="border:0;"></button>
         </el-col>
-        <!--闪开发票配置-->
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.fastInvoice)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/发票.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>闪开发票配置</span>
-              <p>配置客人是否可以申请闪开发票。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSpeedInvoice, 'tag_text_green': enabledSpeedInvoice}">{{enabledSpeedInvoice ? '已开通' : '未开通'}}</span>
-          </button>
+          <button style="border:0;"></button>
         </el-col>
-        <!--发票支付配置-->
+
+        <div class="content-title">
+          <span>支付业务配置</span>
+        </div>
+        <!--<el-col :span="8">-->
+        <!--<button @click="dialogConfig(enumShowType.invoice)">-->
+        <!--<div class="item_img">-->
+        <!--<img src="../../../../../../assets/images/发票.png" alt="a">-->
+        <!--</div>-->
+        <!--<div class="item-text">-->
+        <!--<span>发票配置</span>-->
+        <!--<p>配置客人是否可以申请发票。</p>-->
+        <!--</div>-->
+        <!--<span class="tag_text"-->
+        <!--:class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>-->
+        <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="goto('/group/' + groupId + '/hotel/' + hotelId + '/payConfig')">
             <div class="item_img">
@@ -60,7 +53,6 @@
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-         <!--小程序支付配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.miniApp)">
             <div class="item_img">
@@ -74,7 +66,6 @@
                   :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--退款业务配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoRefund)">
             <div class="item_img">
@@ -100,7 +91,16 @@
             <span class="tag_text" :class="{'tag_text_red': !enablePrePrint, 'tag_text_green': enablePrePrint}">{{enablePrePrint ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <!--自动退房配置-->
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+
+        <div class="content-title">
+          <span>房间配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoCheckout)">
             <div class="item_img">
@@ -113,7 +113,6 @@
             <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <!--退离规则配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
@@ -128,7 +127,6 @@
             </span>
           </button>
         </el-col>
-        <!--脏房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.supportVd)">
             <div class="item_img">
@@ -142,7 +140,6 @@
                   :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--分房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
@@ -157,7 +154,6 @@
             </span>
           </button>
         </el-col>
-        <!--房间标签配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
             <div class="item_img">
@@ -165,13 +161,12 @@
             </div>
             <div class="item-text">
               <span>房间标签配置</span>
-              <p>配置酒店对脏房的态度</p>
+              <p>可对酒店房间设置多个标签</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !configData.room_tags || configData.room_tags.length == 0, 'tag_text_green': configData.room_tags && configData.room_tags.length > 0}">{{configData.room_tags && configData.room_tags.length > 0 ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--可选房配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.maxAllowRoomcount)">
             <div class="item_img">
@@ -185,21 +180,131 @@
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--押金配置-->
+
+
+        <div class="content-title">
+          <span>订单相关配置</span>
+        </div>
+
+          <el-col :span="8">
+            <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
+              <div class="item_img">
+                <img src="../../../../../../assets/images/自动投标.png" alt="a">
+              </div>
+              <div class="item-text">
+                <span>自动确认预付款</span>
+                <p>配置预付款确认关键字</p>
+              </div>
+              <span class="tag_text"
+                    :class="{'tag_text_red': prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
+            </button>
+          </el-col>
+          <el-col :span="8">
+            <button @click="dialogConfig(enumShowType.cashPledge)">
+              <div class="item_img">
+                <img src="../../../../../../assets/images/押金.png" alt="a">
+              </div>
+              <div class="item-text">
+                <span>押金配置</span>
+                <p>配置酒店押金规则</p>
+              </div>
+              <span class="tag_text"
+                    :class="{'tag_text_red': !cashPledgeType, 'tag_text_green':cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
+            </button>
+          </el-col>
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.cashPledge)">
+          <button @click="dialogConfig(enumShowType.preCheckinSms)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/押金.png" alt="a">
+              <img src="../../../../../../assets/images/登记.png" alt="a">
             </div>
             <div class="item-text">
-              <span>押金配置</span>
-              <p>配置酒店押金规则</p>
+              <span>预登记短信</span>
+              <p>配置客人是否可以受到预登记短信提醒。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !cashPledgeType, 'tag_text_green':cashPledgeType}">{{cashPledgeType ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <!--早餐券配置-->
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.advancedLiveIn)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>入住规则配置</span>
+              <p>入住手机号配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>值房通是否显示多房订单</span>
+              <p>配置值房通是否显示多房订单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !showMoreRoomOrder , 'tag_text_green': showMoreRoomOrder }">{{showMoreRoomOrder ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.sign)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/签名.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>电子签名</span>
+              <p>客人是否需要在支付后签名。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.rcPrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>RC单打印</span>
+              <p>酒店是否支持RC单打印，选择开启一房一签或一人一签
+              </p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.enableRCstatus)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>RC单是否开启字段</span>
+              <p>RC单是否开启字段</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.accessServiceType)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/公安.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>订单关键字脚本配置</span>
+              <p>业务类型配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.breakfastStemFrom)">
             <div class="item_img">
@@ -213,7 +318,15 @@
                   :class="{'tag_text_red':breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--定制化配置-->
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <div class="content-title">
+          <span>其他配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.customization)">
             <div class="item_img">
@@ -227,7 +340,6 @@
                   :class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--关键通道配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.keyAccess)">
             <div class="item_img">
@@ -245,7 +357,6 @@
             <!--</span>-->
           </button>
         </el-col>
-        <!--酒店二维码配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.qrCodeCreate)">
             <div class="item_img">
@@ -260,7 +371,6 @@
             </span>
           </button>
         </el-col>
-        <!--酒店设备押金配置-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.deviceDeposit)">
             <div class="item_img">
@@ -275,104 +385,17 @@
             </span>
           </button>
         </el-col>
-        <!--自动确认预付款配置-->
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.autoConfirmPrePay)">
+          <button @click="dialogConfig(enumShowType.fastInvoice)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/自动投标.png" alt="a">
+              <img src="../../../../../../assets/images/发票.png" alt="a">
             </div>
             <div class="item-text">
-              <span>自动确认预付款</span>
-              <p>配置预付款确认关键字</p>
+              <span>闪开发票配置</span>
+              <p>配置客人是否可以申请闪开发票。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': prepayKeyword, 'tag_text_green': prepayKeyword}">{{prepayKeyword ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <!--预登记短信配置-->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.preCheckinSms)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/登记.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>预登记短信</span>
-              <p>配置客人是否可以收到预登记短信提醒。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledPreCheckinSms, 'tag_text_green': enabledPreCheckinSms}">{{enabledPreCheckinSms ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <!--是否显示多房订单配置-->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>值房通是否显示多房订单</span>
-              <p>配置值房通是否显示多房订单</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !showMoreRoomOrder , 'tag_text_green': showMoreRoomOrder }">{{showMoreRoomOrder ? '已配置' : '未配置'}}
-            </span>
-          </button>
-        </el-col>
-        <!--入住规则配置-->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.advancedLiveIn)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>入住规则配置</span>
-              <p>入住手机号配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <!--电子签名配置-->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.sign)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/签名.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电子签名</span>
-              <p>客人是否需要在支付后签名。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <!-- RC单打印 -->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.rcPrint)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>RC单打印</span>
-              <p>酒店是否支持RC单打印，选择开启一房一签或一人一签
-              </p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <!--RC单是否开启字段-->
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enableRCstatus)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>RC单是否开启字段</span>
-              <p>RC单是否开启字段</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
+                  :class="{'tag_text_red': !enabledSpeedInvoice, 'tag_text_green': enabledSpeedInvoice}">{{enabledSpeedInvoice ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
         <!--推送白名单到餐券设备-->
@@ -387,19 +410,6 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.accessServiceType)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/公安.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>订单关键字脚本配置</span>
-              <p>业务类型配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>
@@ -1123,16 +1133,15 @@
     enableRCstatus :24,//RC单是否开启字段
     enablebreakfast:25, //推送白名单到餐券设备
     accessServiceType:26,  //订单关键字脚本配置
-
   }
 
   //弹框标题类型
   const typeTitles = ['是否删除',
     '发票配置',
     '闪开发票配置',
-    '','退款业务配置配置', '预授权打印结算单配置','自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
+    '小程序配置','退款业务配置配置', '预授权打印结算单配置','自动退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备配置','订单关键字脚本配置'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'

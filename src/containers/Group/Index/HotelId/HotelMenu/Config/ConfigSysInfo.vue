@@ -2,10 +2,10 @@
 <template>
   <div class="module-wrapper">
     <div class="content-configinfo">
-      <div class="content-title">
-        <span>系统配置</span>
-        <a @click="goSummary">查看配置汇总</a>
-      </div>
+      <!--<div class="content-title">-->
+        <!--&lt;!&ndash;<span>系统配置</span>&ndash;&gt;-->
+        <!--<a @click="goSummary">查看配置汇总</a>-->
+      <!--</div>-->
       <el-row :gutter="20">
         <el-col :span="8">
           <button @click="isWipeCatch">
@@ -18,6 +18,15 @@
             </div>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <div class="content-title">
+           <span>PMS配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.PMS)">
             <div class="item_img">
@@ -70,6 +79,9 @@
                   <!--:class="{'tag_text_red': !accessService, 'tag_text_green':accessService}">{{accessService? '已配置' : '未配置'}}</span>-->
           <!--</button>-->
         <!--</el-col>-->
+        <div class="content-title">
+          <span>旅业配置</span>
+        </div>
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.withoutCard)">
             <div class="item_img">
@@ -83,19 +95,19 @@
                   :class="{'tag_text_red': !withoutCardConfig, 'tag_text_green': withoutCardConfig}">{{withoutCardConfig ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.facein)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>人脸识别配置</span>
-              <p>必须开通该配置。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.facein)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>人脸识别配置</span>-->
+              <!--<p>必须开通该配置。</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.isShowPoliceHandeld)">
             <div class="item_img">
@@ -124,19 +136,7 @@
             </span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.roomCard)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/卡.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>房卡配置</span>
-              <p>酒店房卡,对接门锁配置</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !supportRoomCard||issuedCardRuleVal, 'tag_text_green': supportRoomCard||issuedCardRuleVal}">{{supportRoomCard||issuedCardRuleVal ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+
         <el-col :span="8" v-if="!showReception">
           <button @click="dialogConfig(enumShowType.lvyeReportType)">
             <div class="item_img">
@@ -161,6 +161,28 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !showMoreLvyeConfig, 'tag_text_green':showMoreLvyeConfig}">{{showMoreLvyeConfig ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <div class="content-title">
+          <span>房卡配置</span>
+        </div>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.roomCard)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>房卡配置</span>
+              <p>酒店房卡,对接门锁配置</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !supportRoomCard||issuedCardRuleVal, 'tag_text_green': supportRoomCard||issuedCardRuleVal}">{{supportRoomCard||issuedCardRuleVal ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
       </el-row>

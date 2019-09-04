@@ -196,6 +196,45 @@
                   :class="{'tag_text_red': !facein, 'tag_text_green':facein}">{{facein? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.invoice)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/发票.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>发票配置</span>
+              <p>配置客人是否可以申请发票。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enabledInvoice, 'tag_text_green': enabledInvoice}">{{enabledInvoice ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.customization)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/公安.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>定制化配置</span>-->
+              <!--<p>酒店LOGO、酒店介绍</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !mirrorBrand||mirrorIntro, 'tag_text_green':mirrorBrand||mirrorIntro}">{{mirrorBrand||mirrorIntro ? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.integral)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>摇一摇获取积分</span>
+              <p>C端小程序关闭摇一摇获取积分功能</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !integral, 'tag_text_green':integral}">{{integral? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
       <!--/弹框页-->
       <el-dialog
@@ -391,6 +430,59 @@
             <el-switch on-color="#13ce66"off-color="#ff4949" v-model="facein"></el-switch>
           </div>
         </div>
+        <!--发票配置弹框-->
+        <div v-if="showType === enumShowType.invoice">
+          <div class="item-form">
+            <span>是否支持申请发票？</span>
+            <el-switch
+              v-model="enabledInvoice"
+              on-color="#13ce66"
+              off-color="#ff4949">
+            </el-switch>
+          </div>
+          <div v-show="enabledInvoice">
+            <div class="item-tag2">
+              <span style="min-width: 102px;">发票类型</span>
+              <div class="tag-input">
+                <div v-for="(obj, index) of invoiceName">
+                  <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
+                </div>
+                <div class="tag-btn">
+                  <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
+                          @click="subtractInvoiceName">-
+                  </button>
+                  <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div v-if="showType === enumShowType.customization">
+          <div class="item-form">
+            <span>是否显示酒店的介绍</span>
+            <el-switch
+              v-model="mirrorIntro"
+              on-color="#13ce66"
+              off-color="#ff4949">
+            </el-switch>
+          </div>
+          <div class="item-form">
+            <span>显示酒店品牌的logo</span>
+            <el-switch
+              v-model="mirrorBrand"
+              on-color="#13ce66"
+              off-color="#ff4949">
+            </el-switch>
+          </div>
+
+        </div>
+        <div v-if="showType === enumShowType.integral">
+          <div class="item-form">
+            <span style="width: 155px">摇一摇获取积分</span>
+            <el-switch on-color="#13ce66"off-color="#ff4949" v-model="integral"></el-switch>
+          </div>
+        </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer" v-if="showType != enumShowType.wxHotel && showType !=enumShowType.WxHotelRegister">
             <el-button @click="hideDialog">取 消</el-button>
@@ -436,7 +528,10 @@
     enabledCancelTime: 11, //电话取消订单配置
     delayedPayment: 12, //到店支付配置
     ticketPrint: 13,//是否启用小票打印
-    facein:14 //优图面部通行证配置
+    facein:14, //优图面部通行证配置
+    invoice: 15,  //发票配置
+    customization:16, //定制化配置
+    integral: 17, //摇一摇积分配置
   }
 
   //弹框标题类型
@@ -447,7 +542,7 @@
      '无证入住',
     '开启身份核验功能','极速领卡配置',
     '禁止顾客操作订单配置','无证核验','酒店行政区划代码配置', 'PAD界面内容显示配置','同住人未到提醒配置','电话取消订单配置','到店支付配置','是否打印小票配置','优图面部通行证配置'
-
+    ,'发票配置','定制化配置','摇一摇获取积分配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -517,6 +612,15 @@
         //优图面部通行证配置
         facein: false,
         faceinId:'',
+        //发票配置
+        enabledInvoice: true,
+        invoiceName: [''],
+        //**********************定制化配置**********************
+        mirrorIntro:false,
+        mirrorBrand:false,
+        //摇一摇积分
+        integral: false,
+        integralId: '',
       }
     },
 
@@ -524,11 +628,20 @@
       ...mapState({
         configData: state => state.enterprise.configData,
       }),
+      invoiceNameList() {
+        return this.invoiceName.filter(v => v != '');
+      },
       renderList() {
         return this.wxhotelCityserList;
       },
       validateInformCoResident(){
         return (tool.isNotBlank(this.timeStep))
+      },
+      validatefastinvoice() {
+        if (this.enabledSpeedInvoice) {
+          return (this.invoiceCodeList.length > 0) && tool.isNotBlank(this.invoiceType) && tool.isNotBlank(this.plugCode)
+        }
+        return true;
       },
       validateAll() {
         let result = false;
@@ -562,6 +675,9 @@
             break;
           case enumShowType.ticketPrint:
             result = true;
+            break;
+          case enumShowType.invoice:
+            result = this.validateinvoice;
             break;
           default:
             result = false;
@@ -655,6 +771,13 @@
           onsuccess: body => (this.wxhotelCityserList = [...body.data])
         })
       },
+      subtractInvoiceName() {
+        if (this.invoiceName.length == 1) return;
+        this.invoiceName.pop();
+      },
+      addInvoiceName() {
+        this.invoiceName.push('');
+      },
         //弹框取消按钮
       hideDialog() {
         this.showDialog = false;
@@ -698,6 +821,14 @@
             break;
           case enumShowType.ticketPrint:
             this.enabledTicketPrint = this.configData.enabled_ticket_print == 'true' ? true : false;
+            break;
+          case enumShowType.invoice:
+            this.enabledInvoice = this.configData.enabled_invoice == 'true' ? true : false;
+            this.configData.invoice_name ? this.invoiceName = [...this.configData.invoice_name] : null;
+            break;
+          case enumShowType.customization:
+            this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
+            this.mirrorBrand=this.configData.enabled_mirror_brand=='true'?true:false;
             break;
           default:
         }
@@ -776,6 +907,21 @@
               enabled_ticket_print: this.enabledTicketPrint.toString()
             }
             break;
+          case enumShowType.invoice:
+            data = {
+              enabled_invoice: this.enabledInvoice.toString(),
+              // invoice_name: this.invoiceNameList
+            }
+            if (this.enabledInvoice) {
+              data.invoice_name = this.invoiceNameList;
+            }
+            break;
+          case enumShowType.customization:
+            data = {
+              "enabled_mirror_introduce": this.mirrorIntro.toString(),
+              "enabled_mirror_brand": this.mirrorBrand.toString()
+            }
+            break;
           default:null
         };
         if(this.showType==enumShowType.facein){
@@ -786,6 +932,14 @@
             onsuccess:body=>{
             }
           })
+        }else if(this.showType==enumShowType.integral){
+             data={ id:this.integralId, value:this.integral?1:0 }
+             this.showDialog = false;
+            this.getHotelIdsStatus({
+              data:data,
+              onsuccess:body=>{
+              }
+            })
         }else{
           this.patchConfigData(data);
         }
@@ -872,6 +1026,9 @@
                   if(i.key == 'facein'){
                     this.facein = i.value==0?false:true
                     this.faceinId = i.id
+                  }else if(i.key == 'integral'){
+                    this.integral = i.value==0?false:true
+                    this.integralId = i.id
                   }
                 }
               }
@@ -925,7 +1082,14 @@
           //是否打印小票配置
           this.enabledTicketPrint = configData.enabled_ticket_print == 'true' ? true : false;
 
-
+          //发票配置
+          this.enabledInvoice = configData.enabled_invoice == 'true' ? true : false;
+          if (tool.isNotBlank(configData.invoice_name) && configData.invoice_name.length > 0) {
+            this.invoiceName = [...configData.invoice_name];
+          }
+          //定制化配置
+          this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
+          this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
         }
       }
     },
@@ -1049,6 +1213,75 @@
         }
         .el-dialog__body {
           padding: 22px 20px 33px;
+          .item-tag2 {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            & > span {
+              display: inline-block;
+              min-width: 110px;
+              text-align: end;
+            }
+            .tag-input {
+              position: relative;
+              margin-left: 16px;
+              width: 70%;
+              .el-input {
+                width: 100%;
+                margin: 0 0 12px 0;
+              }
+              .tag-btn {
+                position: absolute;
+                bottom: 20px;
+                right: -62px;
+                button {
+                  border-radius: 50px;
+                  outline: none;
+                  border: solid 1px;
+                  margin-left: 5px;
+                  padding-bottom: 2px;
+                  background-color: #ffffff;
+                  height: 20px;
+                  width: 20px;
+                }
+              }
+            }
+          }
+          .item-form {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            text-align: left;
+            & > span {
+              display: inline-block;
+              min-width: 110px;
+              text-align: left;
+            }
+            .el-input {
+              width: 60%;
+            }
+            .el-select {
+              width:60%!important;
+              margin-left:16px!important;
+              .el-input{
+                width:100%!important;
+              }
+            }
+
+            .el-transfer{
+              .el-input{
+                width: 100%;
+              }
+            }
+
+            .el-switch {
+              margin-left: 16px;
+            }
+            .el-radio {
+              margin-left: 16px;
+            }
+          }
           .dialog-content {
             font-size: 14px;
             font-weight: 400;
