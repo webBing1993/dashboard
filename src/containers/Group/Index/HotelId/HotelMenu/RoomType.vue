@@ -232,10 +232,12 @@
 
       handleSizeChange(val) {
         this.size = val;
+        this.getList();
       },
 
       handleCurrentChange(val) {
         this.page = val;
+        this.getList();
       },
 
       hideDialog() {

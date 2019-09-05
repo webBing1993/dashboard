@@ -241,7 +241,7 @@ module.exports = {
       headers: headers,
       params: param.params || null,
       data: param.body || null,
-      timeout: param.timeout || 5000,
+      timeout: param.timeout || 30000,
     }).then(
       response => {
         // console.log(response.status)
