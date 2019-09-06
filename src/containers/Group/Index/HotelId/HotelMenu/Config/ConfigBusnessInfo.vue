@@ -107,7 +107,7 @@
               <img src="../../../../../../assets/images/退房.png" alt="a">
             </div>
             <div class="item-text">
-              <span>自动退房</span>
+              <span>插卡退房</span>
               <p>插回房卡自动操作PMS退房，旅业退房，不需要营业员参与。</p>
             </div>
             <span class="tag_text" :class="{'tag_text_red': !enableAutoCheckout, 'tag_text_green': enableAutoCheckout}">{{enableAutoCheckout ? '已开通' : '未开通'}}</span>
@@ -611,6 +611,22 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>设备账单是否需要签名</span>
+              <el-switch
+                v-model="enabledDeviceNeedSign"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否支持插卡退房（新）</span>
+              <el-switch
+                v-model="enabledRoomCardCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--退离规则配置-->
           <div v-if="showType === enumShowType.advancedCheckout">
@@ -674,22 +690,6 @@
               <span>是否判断客房消费</span>
               <el-switch
                 v-model="enabledAdvancedCheckoutHouse"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>设备账单是否需要签名</span>
-              <el-switch
-                v-model="enabledDeviceNeedSign"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
-              <span>是否支持插卡退房</span>
-              <el-switch
-                v-model="enabledRoomCardCheckout"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1957,6 +1957,8 @@
             break;
           case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
+            this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
+            this.enabledRoomCardCheckout=this.configData.enabled_room_card_checkout=='true'?true:false;
             break;
           case enumShowType.advancedCheckout:
             this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
@@ -1966,8 +1968,6 @@
             this.enabledAdvancedCheckoutName = this.configData.bill_need_sign== 'true' ? true : false;
             this.enabledAdvancedCheckoutNameSure = this.configData.bill_equal_need_sign == 'true' ? true : false;
             this.enabledAdvancedCheckoutHouse = this.configData.need_check_expense == 'true' ? true : false;
-            this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
-            this.enabledRoomCardCheckout=this.configData.enabled_room_card_checkout=='true'?true:false;
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
@@ -2104,7 +2104,9 @@
             break;
           case enumShowType.autoCheckout:
             data = {
-              enable_auto_checkout: this.enableAutoCheckout.toString()
+              enable_auto_checkout: this.enableAutoCheckout.toString(),
+              bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
+              enabled_room_card_checkout:this.enabledRoomCardCheckout.toString(),
             }
             break;
           case enumShowType.advancedCheckout:
@@ -2116,8 +2118,6 @@
               bill_need_sign:this.enabledAdvancedCheckoutName.toString(),
               bill_equal_need_sign:this.enabledAdvancedCheckoutNameSure,
               need_check_expense:this.enabledAdvancedCheckoutHouse.toString(),
-              bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
-              enabled_room_card_checkout:this.enabledRoomCardCheckout.toString(),
             }
             break;
           case enumShowType.supportVd:
