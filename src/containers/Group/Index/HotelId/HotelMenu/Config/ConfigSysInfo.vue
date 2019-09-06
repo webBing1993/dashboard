@@ -164,7 +164,17 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button @click="dialogConfig(enumShowType.facein)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/人脸识别 BFR.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>人脸识别配置</span>
+              <p>必须开通该配置。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !configData.facein_pass_value, 'tag_text_green': configData.facein_pass_value}">{{configData.facein_pass_value ? '已配置' : '未配置'}}</span>
+          </button>
         </el-col>
         <el-col :span="8">
           <button style="border:0;"></button>
