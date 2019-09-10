@@ -1952,7 +1952,7 @@
             this.refundVal=this.configData.refund_amount_source;
             break;
           case enumShowType.prePrint:
-            this.enablePrePrint=JSON.parse(this.configData.payment_ticket).open=='true'?true:false;
+            this.enablePrePrint=JSON.parse(this.configData.payment_ticket).open;
             this.prePrintNumber=JSON.parse(this.configData.payment_ticket).printedNum;
             break;
           case enumShowType.autoCheckout:
