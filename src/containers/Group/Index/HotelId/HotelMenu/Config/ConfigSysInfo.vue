@@ -584,12 +584,12 @@
                   </div>
                 </div>
                 <div class="item_large">
-                  <span>账务收款代码</span>
-                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                  <span>微信授权代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信授权代码"></el-input>
                 </div>
                 <div class="item_large">
-                  <span>账务退款代码</span>
-                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                  <span>微信授权取消代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信授权取消代码"></el-input>
                 </div>
                 <div class="item_large">
                   <span>房租房费关键词</span>
@@ -614,12 +614,12 @@
                   </div>
                 </div>
                 <div class="item_large">
-                  <span>账务收款代码</span>
-                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                  <span>支付宝授权代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店支付宝授权代码"></el-input>
                 </div>
                 <div class="item_large">
-                  <span>账务退款代码</span>
-                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                  <span>支付宝授权取消代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店支付宝授权取消代码"></el-input>
                 </div>
                 <div class="item_large">
                   <span>房租房费关键词</span>
