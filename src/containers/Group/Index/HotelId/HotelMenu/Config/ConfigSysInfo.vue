@@ -883,14 +883,14 @@
                   <span>充值金额</span>
                   <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入充值金额"></el-input>
                 </div>
-                <!--<div class="item-form">-->
-                  <!--<span>是否启用队列上传</span>-->
-                  <!--<el-switch-->
-                    <!--v-model="isCmqReport"-->
-                    <!--on-color="#13ce66"-->
-                    <!--off-color="#ff4949">-->
-                  <!--</el-switch>-->
-                <!--</div>-->
+                <div class="item-form">
+                  <span>是否启用队列上传</span>
+                  <el-switch
+                    v-model="isCmqReport"
+                    on-color="#13ce66"
+                    off-color="#ff4949">
+                  </el-switch>
+                </div>
               </div>
             </div>
           </div>
@@ -1518,6 +1518,9 @@
             this.isLvyeAutoCharge=JSON.parse(configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
             this.lvyeAmount=configData.lvye_auto_charge_amount/100;//充值金额
           }
+          if(configData.enable_cmq_lvye_report!=undefined){
+            this.isCmqReport=JSON.parse(configData.enable_cmq_lvye_report); // 苏州旅业是否开启自动充值
+          }
 
         }
       },
@@ -1969,7 +1972,13 @@
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
-
+            if(this.configData.lvye_auto_charge!=undefined){
+              this.isLvyeAutoCharge=JSON.parse(this.configData.lvye_auto_charge); // 苏州旅业是否开启自动充值
+              this.lvyeAmount=this.configData.lvye_auto_charge_amount/100;//充值金额
+            }
+            if(this.configData.enable_cmq_lvye_report!=undefined){
+              this.isCmqReport=JSON.parse(this.configData.enable_cmq_lvye_report); // 苏州旅业是否开启自动充值
+            }
             break;
 
 
