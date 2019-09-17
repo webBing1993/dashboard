@@ -883,6 +883,14 @@
                   <span>充值金额</span>
                   <el-input class="el-right" v-model="lvyeAmount" placeholder="请输入充值金额"></el-input>
                 </div>
+                <!--<div class="item-form">-->
+                  <!--<span>是否启用队列上传</span>-->
+                  <!--<el-switch-->
+                    <!--v-model="isCmqReport"-->
+                    <!--on-color="#13ce66"-->
+                    <!--off-color="#ff4949">-->
+                  <!--</el-switch>-->
+                <!--</div>-->
               </div>
             </div>
           </div>
@@ -1035,6 +1043,7 @@
         isPoliceParam:false,
         isLvyeAutoCharge:false, // 苏州旅业是否开启自动充值
         lvyeAmount:100000,//充值金额
+        isCmqReport:false,//启用队列上传
 //        值房通是否显示多房订单
         no_support_zft_mroom: false,
         showMoreRoomOrderKey: 'support_zft_mroom',
@@ -1960,6 +1969,7 @@
             this.policeId = this.lvyeData.hotel_ga_id;
             this.policeType = this.lvyeData.police_type;
             this.policeParam = JSON.stringify(this.lvyeData.police_param);
+
             break;
 
 
@@ -2302,6 +2312,7 @@
            data={
              lvye_auto_charge: JSON.stringify(this.isLvyeAutoCharge), // 苏州旅业是否开启自动充值
              lvye_auto_charge_amount:lvyeAmount1,//充值金额
+             enable_cmq_lvye_report:JSON.stringify(this.isCmqReport)
            }
             this.patchConfigData(data);
             this.showDialog = false;
