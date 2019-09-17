@@ -162,6 +162,19 @@
                   :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.enablebreakfast)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>推送白名单到餐券设备配置</span>
+              <p>配置是否推送白名单到餐券设备</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -404,7 +417,17 @@
               </el-switch>
             </div>
           </div>
-
+          <!--推送白名单到餐券设备-->
+          <div v-if="showType === enumShowType.enablebreakfast">
+            <div class="item-form">
+              <span>是否推送白名单到餐券设备</span>
+              <el-switch
+                v-model="enablebreakfast"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
 
 
 
@@ -470,7 +493,7 @@
     mobileCheckin: 10,//启用移动端办理入住
     rcPrint: 11,
     enableRCstatus :12,
-
+    enablebreakfast:13, //推送白名单到餐券设备
 
   }
 
@@ -487,7 +510,7 @@
     '无证入住配置',
     '订单操作配置',
     'RC单打印',
-    'RC单是否开启字段',]
+    'RC单是否开启字段','推送白名单到餐券设备']
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
   import ElInput from "../../../../../../../node_modules/element-ui/packages/input/src/input";
@@ -577,7 +600,8 @@
 //        hotelServiceTelMark:'',
 //        hotelMark:false,
         enableNoCertificateCheck:false,
-
+        //是否推送白名单到餐券设备
+        enablebreakfast:false,
       }
     },
     mounted() {
@@ -751,6 +775,9 @@
 //            result = this.validateRCStatus ;
             result = true;
             break;
+          case  enumShowType.enablebreakfast :
+            result = true;
+            break;
           default:
             result = false;
         }
@@ -812,6 +839,8 @@
           this.enableKeyAccess=configData.enable_pull_identity_guest_info == 'true' ? true : false
           //应用功能配置
           this.appValue=configData.business_mode;
+          //推送白名单到餐券设备
+          this.enablebreakfast = configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
            };
         this.rcStatus=configData.rc_status=='true'?true:false;
 
@@ -946,6 +975,10 @@
           case enumShowType.enableRCstatus:
             this.rcStatus=this.configData.rc_status=='true'?true:false;
             break;
+          case enumShowType.enablebreakfast:
+            this.enablebreakfast = this.configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
+            break
+
           default:
         }
       },
@@ -1033,6 +1066,11 @@
               "rc_status": this.rcStatus
             }
             break;
+          case enumShowType.enablebreakfast:
+            data = {
+              "enable_pull_identity_info_breakfast":this.enablebreakfast.toString()
+            }
+            break
           default:null
         };
         this.patchConfigData(data);
