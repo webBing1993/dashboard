@@ -1492,7 +1492,7 @@
       validatePrePrint(){
         console.log('this.prePrintNumber',this.prePrintNumber);
         if(this.enablePrePrint){
-          if(this.prePrintNumber!=''&& this.prePrintNumber>0){
+          if(this.prePrintNumber!=''){
             return true;
           }else{
             return false;
