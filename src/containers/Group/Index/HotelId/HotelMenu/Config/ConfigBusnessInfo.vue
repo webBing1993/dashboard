@@ -598,7 +598,10 @@
             </div>
             <div class="item-form" v-if="enablePrePrint">
               <span>打印份数</span>
-              <el-input class="el-right" v-model="prePrintNumber" placeholder="请输入打印份数"></el-input>
+              <el-input class="el-right" v-model="prePrintNumber"
+                        onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                        onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                        placeholder="请输入打印份数（大于0的整数）"></el-input>
             </div>
           </div>
           <!--自动退房配置-->
@@ -1189,7 +1192,7 @@
 
         //预授权打印结算单配置
         enablePrePrint:false,
-        prePrintNumber:'',
+        prePrintNumber:1,
         //自动退房
         enableAutoCheckout: false,
         refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
@@ -1489,7 +1492,11 @@
       validatePrePrint(){
         console.log('this.prePrintNumber',this.prePrintNumber);
         if(this.enablePrePrint){
-          return tool.isNotBlank(this.prePrintNumber)
+          if(this.prePrintNumber!=''&& this.prePrintNumber>0){
+            return true;
+          }else{
+            return false;
+          }
         }else{
           return true
         }
