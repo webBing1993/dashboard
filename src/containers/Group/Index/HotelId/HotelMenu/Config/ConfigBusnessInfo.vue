@@ -817,6 +817,9 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form" style="padding-top:30px;" v-if="breakfastStemFrom=='PMS'">
+              <table-breakfast :list="breakfastList" @delBreakfast="delBreakfast" @addBreakfast="addBreakfast"></table-breakfast>
+            </div>
           </div>
           <!--定制化配置弹框-->
           <div v-if="showType === enumShowType.customization">
@@ -1153,7 +1156,7 @@
   export default {
     components: {
       ElDialog,
-      ElInput
+      ElInput,
     },
     name: 'ConfigInfo',
     data() {
@@ -1239,6 +1242,7 @@
           {name: '无早', value: 'NONE'},
           {name: '同步PMS早餐券', value: 'PMS'},
           {name: '漫客平台定义,人/张', value: 'MANKE'}],
+        breakfastList: [{"code":"BF2","breakfast":"2","description":"早餐两份"},{"code":"BF1","breakfast":"1","description":"早餐一份"}],
         //**********************定制化配置**********************
         mirrorIntro:false,
         mirrorBrand:false,
@@ -1691,6 +1695,9 @@
           }
           //早餐券配置
           this.breakfastStemFrom = configData.breakfast_stem_from;
+          if(configData.contain_price_info!=null&&configData.contain_price_info!=''){
+             this.breakfastList=JSON.parse(configData.contain_price_info)
+          }
           //定制化配置
           this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
           this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
@@ -1746,6 +1753,13 @@
         "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload'
 
       ]),
+      delBreakfast(obj,index){
+        this.breakfastList.splice(index, 1);
+        console.log("1111",this.breakfastList)
+      },
+      addBreakfast(obj,index){
+        this.breakfastList.push({"code":"","breakfast":"","description":""});
+      },
       getAccessServiceType(){
         this.getServiceTypeScript({
           hotel_id: this.$route.params.hotelid,
@@ -2190,8 +2204,16 @@
           }
             break;
           case enumShowType.breakfastStemFrom:
-            data = {
-              breakfast_stem_from: this.breakfastStemFrom
+
+            if(this.breakfastStemFrom=='PMS'){
+              data = {
+                breakfast_stem_from: this.breakfastStemFrom,
+                contain_price_info:JSON.stringify(this.breakfastList)
+              }
+            }else{
+              data = {
+                breakfast_stem_from: this.breakfastStemFrom
+              }
             }
             break;
           case enumShowType.customization:

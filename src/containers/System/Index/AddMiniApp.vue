@@ -18,7 +18,7 @@
             </div>
             <div class="content-msg">
               <span>小程序密钥</span>
-              <el-input class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
+              <el-input type="password" class="el-right" v-model="appSecret" name="appSecret" v-validate="'required'"
                         :class="{'is-danger': errors.has('appSecret') }" placeholder="请输入小程序密钥"></el-input>
               <span class="help is-danger" v-show="errors.has('appSecret')">小程序密钥不能为空!</span>
             </div>

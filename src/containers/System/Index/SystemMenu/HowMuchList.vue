@@ -42,7 +42,7 @@
 
           <div class="dialog_item">
             <span>密钥</span>
-            <el-input class="el-right" v-model="secret" name="secret" v-validate="'required'" type="textarea"  :autosize="{ minRows: 1, maxRows: 5}"
+            <el-input class="el-right" v-model="secret" name="secret" v-validate="'required'" type="password"  :autosize="{ minRows: 1, maxRows: 5}"
                       :class="{'is-danger': errors.has('secret') }" placeholder="请输入好码齐支付密钥"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('secret')">密钥不能为空!</span>

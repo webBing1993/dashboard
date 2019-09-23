@@ -19,7 +19,7 @@
             </div>
             <div class="content-msg">
               <span>密钥</span>
-              <el-input class="el-right" v-model="secret" name="secret" v-validate="'required'"  type="textarea" :autosize="{ minRows: 1, maxRows: 5}"
+              <el-input class="el-right" v-model="secret" name="secret" v-validate="'required'"  type="password" :autosize="{ minRows: 1, maxRows: 5}"
                         :class="{'is-danger': errors.has('secret') }" placeholder="请输入好码齐支付应用公钥"></el-input>
               <span class="help is-danger" v-show="errors.has('secret')">应用公钥不能为空!</span>
             </div>

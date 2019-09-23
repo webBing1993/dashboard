@@ -63,7 +63,7 @@
 
           <div class="dialog_item">
             <span>商户号密钥</span>
-            <el-input class="el-right" v-model="mchKey" name="mchKey" v-validate="'required'"
+            <el-input type="password" class="el-right" v-model="mchKey" name="mchKey" v-validate="'required'"
                       :class="{'is-danger': errors.has('mchKey') }" placeholder="请输入微信支付商户号密钥"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('mchKey')">商户号密钥不能为空!</span>
