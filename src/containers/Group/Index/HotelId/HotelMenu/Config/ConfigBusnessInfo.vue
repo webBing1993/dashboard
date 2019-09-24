@@ -708,6 +708,22 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>是否允许住脏？</span>
+              <el-switch
+                v-model="isSupportVd"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>住脏是否允许发卡？</span>
+              <el-switch
+                v-model="isSupportVd"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
@@ -718,6 +734,17 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+            <div class="item-form" v-if="autoGiveRoomVal">
+              <span>分房规则</span>
+              <el-select class="el-right" v-model="autoGiveRoomRule" placeholder="请选择分房规则">
+                <el-option
+                  :key="index"
+                  v-for="(obj, index) of autoGiveRoomRuleList"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
             </div>
           </div>
           <!--房间标签-->
@@ -1215,6 +1242,8 @@
         isSupportVd: true,
         //自动分房配置
         autoGiveRoomVal:false,
+        autoGiveRoomRule:'',
+        autoGiveRoomRuleList:[{name:'从小到大',value:'1'},{name:'从大到小',value:'2'},{name:'楼层从高到低',value:'3'},{name:'楼层从低到高',value:'4'}],
         //酒店标签配置
         roomTags: [''],
         wechatpayList: [],
