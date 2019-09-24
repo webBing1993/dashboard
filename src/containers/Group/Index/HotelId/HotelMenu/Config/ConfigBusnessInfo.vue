@@ -1697,6 +1697,8 @@
           this.breakfastStemFrom = configData.breakfast_stem_from;
           if(configData.contain_price_info!=null&&configData.contain_price_info!=''){
              this.breakfastList=JSON.parse(configData.contain_price_info)
+          }else{
+             this.breakfastList.push({"code":"","breakfast":"","description":""});
           }
           //定制化配置
           this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
@@ -2016,6 +2018,8 @@
             this.breakfastStemFrom = this.configData.breakfast_stem_from;
             if(this.configData.contain_price_info!=null&&this.configData.contain_price_info!=''){
               this.breakfastList=JSON.parse(this.configData.contain_price_info);
+            }else{
+              this.breakfastList=[{"code":"","breakfast":"","description":""}]
             }
 
             break;
@@ -2218,7 +2222,8 @@
               }
             }else{
               data = {
-                breakfast_stem_from: this.breakfastStemFrom
+                breakfast_stem_from: this.breakfastStemFrom,
+                contain_price_info:''
               }
             }
             break;
