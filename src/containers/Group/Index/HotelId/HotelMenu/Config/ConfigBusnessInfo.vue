@@ -708,6 +708,22 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>是否允许住脏？</span>
+              <el-switch
+                v-model="isSupportDirtyCheckin"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isSupportDirtyCheckin">
+              <span>住脏是否允许发卡？</span>
+              <el-switch
+                v-model="isDirtyCheckinSendCard"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
@@ -718,6 +734,17 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+            <div class="item-form" v-if="autoGiveRoomVal">
+              <span>分房规则</span>
+              <el-select class="el-right" v-model="autoGiveRoomRule" placeholder="请选择分房规则">
+                <el-option
+                  :key="index"
+                  v-for="(obj, index) of autoGiveRoomRuleList"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
             </div>
           </div>
           <!--房间标签-->
@@ -995,9 +1022,13 @@
                 :action="rcgethotelid"
                 :on-success="getUploadData"
                 :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if="!templateUrl">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if="templateUrl">重新选择</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
               </el-upload>
+              <div>
+                <a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>
+              </div>
             </div>
             <div class="item-form">
               <span>电子签名</span>
@@ -1213,8 +1244,12 @@
         enabledRoomCardCheckout:false,//是否支持插卡退房
         //脏房配置
         isSupportVd: true,
+        isSupportDirtyCheckin:false,
+        isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
+        autoGiveRoomRule:'',
+        autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
         roomTags: [''],
         wechatpayList: [],
@@ -1295,6 +1330,7 @@
         autoPrintVal: 1,
         perRoom: "1",
         perGuest: '2',
+        templateUrl:'',
 //        moreLvyeReportVal: '',
 //        actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData: '',
@@ -1667,9 +1703,12 @@
           this.enabledRoomCardCheckout=configData.enabled_room_card_checkout=='true'?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+          this.isSupportDirtyCheckin=configData.is_support_dirty_checkin=='true'?true:false;
+          this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
+          this.autoGiveRoomRule= configData.assign_room_no_rules;
 
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
@@ -1871,11 +1910,12 @@
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            // console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
+             console.log("拉已配置的RC数据:",body.data)
             if (body.data) {
               this.hasSetRc = true;
               this.UploadResponData = body.data.hotel_id;
               this.perRoom = body.data.electron_sign.toString();
+              this.templateUrl=body.data.templateUrl;
               this.autoPrintVal = body.data.auto_print == 1 ? true : false
             }
           }
@@ -1994,9 +2034,12 @@
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+            this.isSupportDirtyCheckin=this.configData.is_support_dirty_checkin=='true'?true:false;
+            this.isDirtyCheckinSendCard=this.configData.dirty_checkin_send_card=='true'?true:false;
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
+            this.autoGiveRoomRule= this.configData.assign_room_no_rules;
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
@@ -2066,8 +2109,6 @@
             break;
           case enumShowType.enablebreakfast:
             this.enablebreakfast = this.configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
-
-
             break
           default:
         }
@@ -2152,12 +2193,33 @@
             }
             break;
           case enumShowType.supportVd:
-            data = {
-              is_support_vd: this.isSupportVd ? '1' : '0'
+            if(this.isSupportDirtyCheckin){
+              data = {
+                is_support_vd: this.isSupportVd ? '1' : '0',
+                'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
+                'dirty_checkin_send_card':this.isDirtyCheckinSendCard.toString(),
+              }
+            }else{
+              data = {
+                is_support_vd: this.isSupportVd ? '1' : '0',
+                'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
+                'dirty_checkin_send_card':'false',
+              }
             }
             break;
           case enumShowType.autoGiveRoom:
-            data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
+            if(this.autoGiveRoomVal){
+              data = {
+                'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'assign_room_no_rules':this.autoGiveRoomRule
+              };
+            }else{
+              data = {
+                'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'assign_room_no_rules':''
+              };
+            }
+
             break;
           case enumShowType.roomTags:
             data = { room_tags: Array.from(new Set(this.roomTagsList))    }
