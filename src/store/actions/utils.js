@@ -294,7 +294,54 @@ module.exports = {
         }
       }
     )
-  }
+  },
+  request: (ctx, param) => {
+    // ctx.dispatch ('showLoading', true);
+    ctx.commit('LOADING', 1)
+    let headers = param.headers || {};
+    // headers.Session = sessionStorage.getItem('session_id');
+    axios({
+      url: '/report-service'+param.url,  //本地测试'/cur',推到远程'/report-service'
+      method: param.method || 'GET',
+      baseURL: '',
+      // baseURL: ':9201',
+      headers: headers,
+      params: param.params || null,
+      data: param.body || null,
+      timeout: param.timeout || 60000,
+    }).then(response => {
+      console.log("response",response);
+      ctx.commit('LOADING')
+      // ctx.dispatch ('showLoading', false);
+      if (response.config.url.match('export')) {
+        param.onSuccess && param.onSuccess(response)
+      }
+      else if (+response.data.errcode === 0 || +response.status === 204) {
+        param.onSuccess && param.onSuccess(response.data, response.headers)
+      } else if(response.data.errcode ==2){
+        param.onSuccess && param.onSuccess(response.data, response.headers)
+
+      }
+      else if (response.data.errcode !== 0) {
+        param.onFail && param.onFail(response)
+      }
+      else {
+        param.onFail && param.onFail(response)
+      }
+    }).catch(
+      error => {
+        // ctx.dispatch ('showLoading', false);
+        ctx.commit('LOADING')
+        if(error){
+          console.log("error",error)
+        }
+        let status = error.response.status;
+        if (status === 401) {
+          router.push('/login')
+        }
+      }
+    )
+  },
 }
 
 

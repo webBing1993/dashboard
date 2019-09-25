@@ -3,4 +3,5 @@
  */
 module.exports = {
     ...require('./operateLink'),
+    ...require('./reportUi'),
 }

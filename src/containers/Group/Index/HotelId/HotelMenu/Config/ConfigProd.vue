@@ -1,9 +1,9 @@
 <!--门店配置页-->
 <template>
   <div class="wrapper">
-    <div class="title">开通产品配置</div>
+    <div class="title">微前台产品开通</div>
     <div class="switchContent">
-      <div v-for="(item,index)  of  prodConfigList" class="switchList">
+      <div v-for="(item,index)  of  prodConfigList" class="switchList" v-if="item.name=='E卡通' ||item.name=='人证通' || item.name=='值房2.0'">
         <span>{{item.name}}</span>
         <el-switch
           v-model="item.status"

@@ -51,7 +51,7 @@ const mutations = {
   },
   SHOWMORELVYE(state,payload){
     state.showMoreLvyeConfig=payload;
-  }
+  },
 }
 
 module.exports = {

@@ -1175,7 +1175,7 @@
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
         //PMS同步频率
-        syncSpaceTime: '30',
+       syncSpaceTime: '30',
         scheduledSure: true,
         syncSpaceTimeList: [
           {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
@@ -1268,6 +1268,7 @@
           name: '仅自动上传有房号的',
           value: 'HAS_ROOM_NO'
         }],
+        //关键通道配置
         enableKeyAccess: false,
 //        值房通是否显示多房订单
         no_support_zft_mroom: false,
@@ -1652,11 +1653,11 @@
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //PMS同步频率
-          this.syncSpaceTime = configData.sync_space_time;
-          this.scheduledSure = configData.scheduled;
-          this.inputOrderId = configData.max_order_day
-          let extract_time = configData.extract_start_time+','+configData.extract_end_time
-          this.syncTime =extract_time.split(',')
+          // this.syncSpaceTime = configData.sync_space_time;
+          // this.scheduledSure = configData.scheduled;
+          // this.inputOrderId = configData.max_order_day
+          // let extract_time = configData.extract_start_time+','+configData.extract_end_time
+          // this.syncTime =extract_time.split(',')
           //顾客配置
 //          this.curstomDeploy = configData.enabled_auto_give_room == 'true' ? true : false;
           this.curstomDeploy = configData.user_disable_order == 'true' ? true : false;
@@ -2183,10 +2184,10 @@
             break;
           case enumShowType.qrCodeCreate:
             data = {
-//                qrcode:this.serviceType,
-//                qrcode:this.qrcode,
-//                qrcode:this.qrName,
-//                qrcode:this.remark
+               // qrcode:this.serviceType,
+               // qrcode:this.qrcode,
+               // qrcode:this.qrName,
+               // qrcode:this.remark
             }
             break;
           case enumShowType.autoGiveRoom:
