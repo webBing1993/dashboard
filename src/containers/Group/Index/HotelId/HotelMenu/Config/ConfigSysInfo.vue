@@ -1328,13 +1328,18 @@
         this.optionvalue && this.optionvalue.length > 0 ? true : false;
       },
       validateWithoutCard(){
-        if(
-          // tool.isNotBlank(this.rangeMoney)&&
-          tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
-          return false;
-        }else {
+        // console.log();
+        // console.log("111",tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip));
+        if(this.withoutCardConfig){
+          if(tool.isNotBlank(this.checkMoney)&&tool.isNotBlank(this.balanceTip)){
+            return true
+          }else {
+            return false;
+          }
+        }else{
           return true
         }
+
       },
       validateroomCard() {
         return tool.isNotBlank(this.issuedCardRuleVal);
