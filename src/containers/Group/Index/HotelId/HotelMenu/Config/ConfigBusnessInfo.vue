@@ -711,15 +711,15 @@
             <div class="item-form">
               <span>是否允许住脏？</span>
               <el-switch
-                v-model="isSupportVd"
+                v-model="isSupportDirtyCheckin"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-if="isSupportDirtyCheckin">
               <span>住脏是否允许发卡？</span>
               <el-switch
-                v-model="isSupportVd"
+                v-model="isDirtyCheckinSendCard"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -766,14 +766,6 @@
           </div>
           <!--可选房配置-->
           <div v-if="showType === enumShowType.maxAllowRoomcount">
-            <!--<div class="item-form">-->
-              <!--<span>是否开启在线选房？</span>-->
-              <!--<el-switch-->
-                <!--v-model="isMaxAllow"-->
-                <!--on-color="#13ce66"-->
-                <!--off-color="#ff4949">-->
-              <!--</el-switch>   v-if="isMaxAllow"-->
-            <!--</div>-->
             <div class="item-form">
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
@@ -1030,9 +1022,13 @@
                 :action="rcgethotelid"
                 :on-success="getUploadData"
                 :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if="!templateUrl">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if="templateUrl">重新选择</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
               </el-upload>
+              <div>
+                <a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>
+              </div>
             </div>
             <div class="item-form">
               <span>电子签名</span>
@@ -1248,10 +1244,12 @@
         enabledRoomCardCheckout:false,//是否支持插卡退房
         //脏房配置
         isSupportVd: true,
+        isSupportDirtyCheckin:false,
+        isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
         autoGiveRoomRule:'',
-        autoGiveRoomRuleList:[{name:'从小到大',value:'1'},{name:'从大到小',value:'2'},{name:'楼层从高到低',value:'3'},{name:'楼层从低到高',value:'4'}],
+        autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
         roomTags: [''],
         wechatpayList: [],
@@ -1260,7 +1258,7 @@
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
-        isMaxAllow :false,
+
         //押金配置
         cashPledgeType: '',
         cashPledgeTypeList: [
@@ -1279,7 +1277,7 @@
           {name: '无早', value: 'NONE'},
           {name: '同步PMS早餐券', value: 'PMS'},
           {name: '漫客平台定义,人/张', value: 'MANKE'}],
-        breakfastList: [{"code":"BF2","breakfast":"2","description":"早餐两份"},{"code":"BF1","breakfast":"1","description":"早餐一份"}],
+        breakfastList: [],
         //**********************定制化配置**********************
         mirrorIntro:false,
         mirrorBrand:false,
@@ -1332,6 +1330,7 @@
         autoPrintVal: 1,
         perRoom: "1",
         perGuest: '2',
+        templateUrl:'',
 //        moreLvyeReportVal: '',
 //        actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData: '',
@@ -1509,7 +1508,7 @@
           }
           return true;
         } else if (this.cashPledgeType == 'multiple_of_cash_pledge') {
-          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <= 0 || this.multipleOfCashPledge >= 1)
+          if (tool.isBlank(this.multipleOfCashPledge) || isNaN(+this.multipleOfCashPledge) || this.multipleOfCashPledge <=0 || this.multipleOfCashPledge >10)
             return false;
           if (this.hasDayOfIncidentals) {
             return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
@@ -1704,9 +1703,12 @@
           this.enabledRoomCardCheckout=configData.enabled_room_card_checkout=='true'?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
+          this.isSupportDirtyCheckin=configData.is_support_dirty_checkin=='true'?true:false;
+          this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
+          this.autoGiveRoomRule= configData.assign_room_no_rules;
 
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
@@ -1734,6 +1736,8 @@
           this.breakfastStemFrom = configData.breakfast_stem_from;
           if(configData.contain_price_info!=null&&configData.contain_price_info!=''){
              this.breakfastList=JSON.parse(configData.contain_price_info)
+          }else{
+             this.breakfastList.push({"code":"","breakfast":"","description":""});
           }
           //定制化配置
           this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
@@ -1906,11 +1910,12 @@
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
           onsuccess: body => {
-            // console.log("拉已配置的RC数据:", this.UploadResponData, this.perRoom, this.autoPrintVal)
+             console.log("拉已配置的RC数据:",body.data)
             if (body.data) {
               this.hasSetRc = true;
               this.UploadResponData = body.data.hotel_id;
               this.perRoom = body.data.electron_sign.toString();
+              this.templateUrl=body.data.templateUrl;
               this.autoPrintVal = body.data.auto_print == 1 ? true : false
             }
           }
@@ -2029,9 +2034,12 @@
             break;
           case enumShowType.supportVd:
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
+            this.isSupportDirtyCheckin=this.configData.is_support_dirty_checkin=='true'?true:false;
+            this.isDirtyCheckinSendCard=this.configData.dirty_checkin_send_card=='true'?true:false;
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
+            this.autoGiveRoomRule= this.configData.assign_room_no_rules;
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
@@ -2051,6 +2059,12 @@
             break;
           case enumShowType.breakfastStemFrom:
             this.breakfastStemFrom = this.configData.breakfast_stem_from;
+            if(this.configData.contain_price_info!=null&&this.configData.contain_price_info!=''){
+              this.breakfastList=JSON.parse(this.configData.contain_price_info);
+            }else{
+              this.breakfastList=[{"code":"","breakfast":"","description":""}]
+            }
+
             break;
           case enumShowType.customization:
             this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
@@ -2179,12 +2193,33 @@
             }
             break;
           case enumShowType.supportVd:
-            data = {
-              is_support_vd: this.isSupportVd ? '1' : '0'
+            if(this.isSupportDirtyCheckin){
+              data = {
+                is_support_vd: this.isSupportVd ? '1' : '0',
+                'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
+                'dirty_checkin_send_card':this.isDirtyCheckinSendCard.toString(),
+              }
+            }else{
+              data = {
+                is_support_vd: this.isSupportVd ? '1' : '0',
+                'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
+                'dirty_checkin_send_card':'false',
+              }
             }
             break;
           case enumShowType.autoGiveRoom:
-            data = {'enabled_auto_give_room': this.autoGiveRoomVal.toString()};
+            if(this.autoGiveRoomVal){
+              data = {
+                'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'assign_room_no_rules':this.autoGiveRoomRule
+              };
+            }else{
+              data = {
+                'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'assign_room_no_rules':''
+              };
+            }
+
             break;
           case enumShowType.roomTags:
             data = { room_tags: Array.from(new Set(this.roomTagsList))    }
@@ -2249,7 +2284,8 @@
               }
             }else{
               data = {
-                breakfast_stem_from: this.breakfastStemFrom
+                breakfast_stem_from: this.breakfastStemFrom,
+                contain_price_info:''
               }
             }
             break;
