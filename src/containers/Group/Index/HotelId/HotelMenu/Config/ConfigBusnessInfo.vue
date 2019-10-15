@@ -173,7 +173,7 @@
               <img src="../../../../../../assets/images/列表.png" alt="a">
             </div>
             <div class="item-text">
-              <span>可选房数量</span>
+              <span>在线选房配置</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
             <span class="tag_text"
@@ -766,6 +766,14 @@
           </div>
           <!--可选房配置-->
           <div v-if="showType === enumShowType.maxAllowRoomcount">
+            <!--<div class="item-form">-->
+              <!--<span>是否开启在线选房？</span>-->
+              <!--<el-switch-->
+                <!--v-model="isMaxAllow"-->
+                <!--on-color="#13ce66"-->
+                <!--off-color="#ff4949">-->
+              <!--</el-switch>   v-if="isMaxAllow"-->
+            <!--</div>-->
             <div class="item-form">
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
@@ -1172,7 +1180,7 @@
   const typeTitles = ['是否删除',
     '发票配置',
     '闪开发票配置',
-    '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
+    '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
     '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置'
   ]
@@ -1252,7 +1260,7 @@
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
-
+        isMaxAllow :false,
         //押金配置
         cashPledgeType: '',
         cashPledgeTypeList: [
