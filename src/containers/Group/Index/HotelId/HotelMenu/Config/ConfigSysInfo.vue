@@ -380,6 +380,37 @@
                 <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
               </div>
             </div>
+            <!--中软好泰慧云版PMS测试酒店-->
+            <div v-show="pmsType == '18' ">
+              <div class="item-form">
+                <span>集团代码</span>
+                <el-input class="el-right" v-model="groupCode" placeholder="请输入集团代码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>操作员账号</span>
+                <el-input class="el-right" v-model="userName" placeholder="请输入操作员账号"></el-input>
+              </div>
+              <div class="item-form">
+                <span>操作员密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入操作员密码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>令牌账号</span>
+                <el-input class="el-right" v-model="tokenUsername" placeholder="请输入令牌账号"></el-input>
+              </div>
+              <div class="item-form">
+                <span>令牌密码</span>
+                <el-input class="el-right" v-model="tokenPassword" placeholder="请输入令牌密码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>是否用正式库</span>
+                <el-switch
+                  v-model="isFormal"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+            </div>
             <div class="item-form">
               <span>备注</span>
               <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
@@ -406,7 +437,7 @@
                 <el-button plain @click="addAlterUrl"> 添加一个备选网址</el-button>
               </div>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-show="pmsType != '18'">
               <span>pms接口是否支持续住</span>
               <el-switch
                 v-model="pmsCheckIn"
@@ -999,6 +1030,16 @@
         //东呈
         dcKey: '',
         pmsCheckIn:false,
+
+        // 中软慧云版pms
+        groupCode:"",           //集团代码
+        password:"",            // 操作员密码
+        tokenUsername:"",       //令牌账号
+        tokenPassword:"",       //令牌密码
+        isFormal:false,            // 是否用正式库: true:正式库，false：练习库
+
+
+
  // **********pms同步频率*********************
         syncSpaceTime: '30',
         scheduledSure: true,
@@ -1437,6 +1478,13 @@
           this.xrbs_siteId=this.pmsData.pcid;
           this.xrbs_employeeNum=this.pmsData.empno;
           this.xrbs_moduleNum=this.pmsData.modu;
+
+          //中软好泰慧云版
+          this.groupCode=this.pmsData.groupCode;         //集团代码
+          this.tokenUsername=this.pmsData.tokenUsername;       //令牌账号
+          this.tokenPassword=this.pmsData.tokenPassword;       //令牌密码
+          this.isFormal=this.pmsData.isFormal == 'true' ? true : false;;            // 是否用正式库: true:正式库，false：练习库
+
         }
       },
       configData(){
@@ -1960,12 +2008,7 @@
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
-            ;
             break;
-
-
-
-
           case enumShowType.lvyeReportType:
             this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
             this.lvyeType = this.lvyeData.lvye_report_type;
@@ -2068,6 +2111,18 @@
                 "shift":"A",  //shift
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
+              }
+            }else if (this.pmsType == '18' ){
+              data = {
+                ...paramData,
+                id:'',
+                "user_name":this.userName, // 用户名
+                "password":this.password, // 密码
+                groupCode:this.groupCode,           //集团代码
+                tokenUsername:this.tokenUsername,       //令牌账号
+                tokenPassword:this.tokenPassword,       //令牌密码
+                isFormal:this.isFormal.toString(),            // 是否用正式库: true:正式库，false：练习库
+                hotel_id:this.hotelId,
               }
             }
             else {
