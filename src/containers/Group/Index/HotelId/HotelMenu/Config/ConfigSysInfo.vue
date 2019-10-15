@@ -1000,12 +1000,14 @@
         dcKey: '',
         pmsCheckIn:false,
  // **********pms同步频率*********************
-        syncSpaceTime: '30',
+        syncSpaceTime: '10',
         scheduledSure: true,
         syncSpaceTimeList: [
-          {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
-          {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
-          {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
+          {name: '10分钟', value: '10'},
+          // {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
+          // {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
+          // {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}
+          ],
         inputOrderId:'1',  //同步几天内的订单
         syncTime:'', //同步时间
         startTime:'',//开始时间
@@ -1459,7 +1461,7 @@
           this.provider = configData.provider ? true : false;
 
           //pms同步频率
-          this.syncSpaceTime = configData.sync_space_time;
+         // this.syncSpaceTime = configData.sync_space_time;
           this.scheduledSure = configData.scheduled;
           this.inputOrderId = configData.max_order_day
           let extract_time = configData.extract_start_time+','+configData.extract_end_time
@@ -1943,7 +1945,7 @@
             this.initPMSPayConfig();
             break;
           case enumShowType.syncSpaceTime:
-            this.syncSpaceTime = this.configData.sync_space_time;
+            //this.syncSpaceTime = this.configData.sync_space_time;
             let extract_time = this.configData.extract_start_time+','+this.configData.extract_end_time
             this.syncTime = extract_time.split(',')
             this.inputOrderId = this.configData.max_order_day
