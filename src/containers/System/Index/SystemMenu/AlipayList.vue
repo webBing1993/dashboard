@@ -42,7 +42,7 @@
 
           <div class="dialog_item">
             <span>商户PID</span>
-            <el-input  class="el-right" v-model="mchPid" name="mchPid" v-validate="'required'"
+            <el-input class="el-right" v-model="mchPid" name="mchPid" v-validate="'required'"
                       :class="{'is-danger': errors.has('mchPid') }" placeholder="请输入支付宝支付商户PID"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('mchPid')">商户PID不能为空!</span>
@@ -56,21 +56,21 @@
 
           <div class="dialog_item">
             <span>商户私钥</span>
-            <el-input class="el-right" v-model="mchPriKey" name="mchPriKey" v-validate="'required'" type="password"   :autosize="{ minRows: 1, maxRows: 5}"
+            <el-input class="el-right" v-model="mchPriKey" name="mchPriKey" v-validate="'required'" type="textarea"   :autosize="{ minRows: 1, maxRows: 5}"
                       :class="{'is-danger': errors.has('mchPriKey') }" placeholder="请输入支付宝支付商户私钥"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('mchPriKey')">商户私钥不能为空!</span>
 
           <div class="dialog_item">
             <span>应用公钥</span>
-            <el-input class="el-right" v-model="mchPubKey" name="mchPubKey" v-validate="'required'" type="password" :autosize="{ minRows: 1, maxRows: 5}"
+            <el-input class="el-right" v-model="mchPubKey" name="mchPubKey" v-validate="'required'" type="textarea"  :autosize="{ minRows: 1, maxRows: 5}"
                       :class="{'is-danger': errors.has('mchPubKey') }" placeholder="请输入支付宝支付应用公钥"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('mchPubKey')">应用公钥不能为空!</span>
 
           <div class="dialog_item">
             <span>支付宝公钥</span>
-            <el-input class="el-right" v-model="alipayPubKey" name="alipayPubKey" v-validate="'required'" type="password"  :autosize="{ minRows: 1, maxRows: 5}"
+            <el-input class="el-right" v-model="alipayPubKey" name="alipayPubKey" v-validate="'required'" type="textarea"  :autosize="{ minRows: 1, maxRows: 5}"
                       :class="{'is-danger': errors.has('alipayPubKey') }" placeholder="请输入支付宝公钥"></el-input>
           </div>
           <span class="help is-danger" v-show="errors.has('alipayPubKey')">支付宝公钥不能为空!</span>
