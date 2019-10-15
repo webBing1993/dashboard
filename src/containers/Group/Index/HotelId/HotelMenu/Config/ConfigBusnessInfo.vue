@@ -2152,7 +2152,11 @@
                 mch_id: this.mchId,
                 provider: this.provider,
                 app_name: this.appName,
-                mch_name: this.mchName
+                mch_name: this.mchName,
+                provider_app_id: this.providerAppId,
+                provider_mch_id: this.providerMchId,
+                provider_app_name: this.providerAppName,
+                provider_mch_name: this.providerMchName
               }
             }
           }
