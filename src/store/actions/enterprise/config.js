@@ -205,6 +205,9 @@ module.exports = {
     else if (param.data.pms_type == 16) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBole`;
     }
+    else if (param.data.pms_type == 18) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsZhongRuan`;
+    }
     else {
       urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;
     }
