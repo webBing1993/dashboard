@@ -767,10 +767,18 @@
           <!--可选房配置-->
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
+              <span style="margin-right:80px">是否开启在线选房？</span>
+              <el-switch
+                v-model="isMaxAllow"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isMaxAllow">
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-if="isMaxAllow">
               <span style="min-width: 210px; ">开启选房时间</span>
               <el-time-picker class="el-right" value-format="HH:mm:ss"
                               v-model="setHouseTime"
@@ -1258,7 +1266,7 @@
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
-
+        isMaxAllow:false,
         //押金配置
         cashPledgeType: '',
         cashPledgeTypeList: [
@@ -1718,7 +1726,8 @@
 
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
-          this.setHouseTime = configData.allow_give_room
+          this.isMaxAllow=configData.enabled_self_selected_room == 'true' ? true : false;
+          this.setHouseTime = configData.allow_give_room;
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //押金配置
@@ -2045,6 +2054,7 @@
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           case enumShowType.maxAllowRoomcount:
+            this.isMaxAllow=this.configData.enabled_self_selected_room == 'true' ? true : false;
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             this.setHouseTime = this.configData.allow_give_room
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
@@ -2230,6 +2240,7 @@
             break;
           case enumShowType.maxAllowRoomcount:
             data = {
+              enabled_self_selected_room: this.isMaxAllow.toString(),
               max_allow_roomcount: this.maxAllowRoomcount,
               allow_give_room:this.setHouseTime,
               // enable_select_house:this.selectHouseSure
