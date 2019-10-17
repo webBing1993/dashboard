@@ -3,8 +3,6 @@
   <div class="module-wrapper">
     <div class="content-configinfo">
       <ConfigSysInfo></ConfigSysInfo>
-      <ConfigBusnessInfo></ConfigBusnessInfo>
-      <ConfigHotelInfo></ConfigHotelInfo>
     </div>
   </div>
 </template>
