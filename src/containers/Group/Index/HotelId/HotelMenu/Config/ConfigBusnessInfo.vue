@@ -137,7 +137,7 @@
               <p>配置酒店对脏房的态度</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!(isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard), 'tag_text_green': (isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard)}">{{ isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
