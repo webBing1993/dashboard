@@ -2119,6 +2119,8 @@
             break;
           case enumShowType.enablebreakfast:
             this.enablebreakfast = this.configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
+
+
             break
           default:
         }
