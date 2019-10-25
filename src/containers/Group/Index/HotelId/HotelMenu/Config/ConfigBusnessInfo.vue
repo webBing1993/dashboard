@@ -137,7 +137,7 @@
               <p>配置酒店对脏房的态度</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!isSupportVd, 'tag_text_green': isSupportVd}">{{isSupportVd ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!(isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard), 'tag_text_green': (isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard)}">{{ isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -173,7 +173,7 @@
               <img src="../../../../../../assets/images/列表.png" alt="a">
             </div>
             <div class="item-text">
-              <span>可选房数量</span>
+              <span>在线选房配置</span>
               <p>展示给用户看的最大房间数量</p>
             </div>
             <span class="tag_text"
@@ -767,10 +767,18 @@
           <!--可选房配置-->
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
+              <span style="margin-right:80px">是否开启在线选房？</span>
+              <el-switch
+                v-model="isMaxAllow"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isMaxAllow">
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-if="isMaxAllow">
               <span style="min-width: 210px; ">开启选房时间</span>
               <el-time-picker class="el-right" value-format="HH:mm:ss"
                               v-model="setHouseTime"
@@ -1176,7 +1184,7 @@
   const typeTitles = ['是否删除',
     '发票配置',
     '闪开发票配置',
-    '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','最大房间数量配置', '押金配置',
+    '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
     '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置'
   ]
@@ -1258,7 +1266,7 @@
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
-
+        isMaxAllow:false,
         //押金配置
         cashPledgeType: '',
         cashPledgeTypeList: [
@@ -1718,7 +1726,8 @@
 
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
-          this.setHouseTime = configData.allow_give_room
+          this.isMaxAllow=configData.enabled_self_selected_room == 'true' ? true : false;
+          this.setHouseTime = configData.allow_give_room;
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //押金配置
@@ -2045,6 +2054,7 @@
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
           case enumShowType.maxAllowRoomcount:
+            this.isMaxAllow=this.configData.enabled_self_selected_room == 'true' ? true : false;
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
             this.setHouseTime = this.configData.allow_give_room
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
@@ -2152,7 +2162,11 @@
                 mch_id: this.mchId,
                 provider: this.provider,
                 app_name: this.appName,
-                mch_name: this.mchName
+                mch_name: this.mchName,
+                provider_app_id: this.providerAppId,
+                provider_mch_id: this.providerMchId,
+                provider_app_name: this.providerAppName,
+                provider_mch_name: this.providerMchName
               }
             }
           }
@@ -2226,6 +2240,7 @@
             break;
           case enumShowType.maxAllowRoomcount:
             data = {
+              enabled_self_selected_room: this.isMaxAllow.toString(),
               max_allow_roomcount: this.maxAllowRoomcount,
               allow_give_room:this.setHouseTime,
               // enable_select_house:this.selectHouseSure

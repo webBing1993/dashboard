@@ -141,7 +141,7 @@
         this.wechatpayId = obj.id;
         this.mchName = obj.mch_name;
         this.mchId = obj.mch_id;
-        this.mchKey = obj.mch_key;
+        this.mchKey = '********';
         this.contactName = obj.contact_name;
         this.contactPhone = obj.contact_phone;
       },

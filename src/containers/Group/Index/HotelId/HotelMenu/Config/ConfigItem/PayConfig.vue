@@ -756,6 +756,9 @@ export default {
           app_id: this.appIdYu,
           mch_id: this.mchIdYu,
           provider: this.providerYu,
+          provider_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
+          provider_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
+
         }
       }
       console.log(data);
@@ -793,7 +796,11 @@ export default {
           mch_id: this.mchId,
           provider: this.provider,
           app_name: this.appName,
-          mch_name: this.mchName
+          mch_name: this.mchName,
+          provider_app_id: this.providerAppId,
+          provider_mch_id: this.providerMchId,
+          provider_app_name: this.providerAppName,
+          provider_mch_name: this.providerMchName
         }
       }
       this.patchConfigData(data);
