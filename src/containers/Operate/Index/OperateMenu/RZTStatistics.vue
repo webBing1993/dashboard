@@ -98,7 +98,6 @@
     mounted(){
       this.initHotelList();
     }
-
   }
 </script>
 

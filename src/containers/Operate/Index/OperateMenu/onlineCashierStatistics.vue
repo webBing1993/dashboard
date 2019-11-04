@@ -12,7 +12,7 @@
           <div>
             <el-select v-model="selectHotel" filterable placeholder="请选择">
               <el-option
-                v-for="item in pmsHotelList"
+                v-for="item in hotelList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id">
@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="2">
           <div class="datetitle">
-            <span>日期</span>
+            <span>交易日期</span>
           </div>
         </el-col>
         <el-col :span="3">
@@ -48,21 +48,62 @@
             </el-date-picker>
           </div>
         </el-col>
+        <el-col :span="2">
+          <div class="datetitle">
+            <span>交易类型</span>
+          </div>
+        </el-col>
+        <el-col :span="4" style="text-align: left">
+          <div>
+            <el-select v-model="selectTradeType" filterable placeholder="请选择">
+              <el-option
+                v-for="item in tradeTypeList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </div>
+        </el-col>
+      </el-row>
+      <el-row  style="margin-bottom:20px;">
+        <el-col :span="2">
+          <div class="hotelitle" style="text-align: left">
+            <span>订单号</span>
+          </div>
+        </el-col>
+        <el-col :span="4" style="text-align: left">
+          <div>
+            <el-input v-model="orderId"  placeholder="请输入订单号"></el-input>
+          </div>
+        </el-col>
+        <el-col :span="2">
+          <div class="datetitle">
+            <span>交易状态</span>
+          </div>
+        </el-col>
+        <el-col :span="4" style="text-align: left">
+          <div>
+            <el-input v-model="tradeStatus"  placeholder="请输入交易状态"></el-input>
+          </div>
+        </el-col>
         <el-col :span="9">
           <div class="selectButton">
             <span @click="selectClick">查询</span>
           </div>
         </el-col>
       </el-row>
-      <table-OrderCheckIn :list="tableData"></table-OrderCheckIn>
+      <tableOnlineCashierStatistics :list="tableData"></tableOnlineCashierStatistics>
       <div v-if="tableData.length==0">
-          暂无数据
+        暂无数据
       </div>
     </div>
   </el-main>
 </template>
 <script>
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
+  import tableOnlineCashierStatistics from '@/modules/Tables/table-onlineCashierStatistics.vue'
+
   function timestampToTime(timestamp) {
     var date = new Date(timestamp);
     var Y = date.getFullYear() + '-';
@@ -72,6 +113,7 @@
   }
   export default {
     components: {
+      tableOnlineCashierStatistics
     },
     data () {
       return {
@@ -79,17 +121,25 @@
         datatime1:'',
         datatime2:'',
         selectHotel:'',
-        pmsHotelList:'',
+        hotelList:'',
+        selectTradeType:'',  //交易类型
+        tradeTypeList:[{id:'1',name:'微信'},{id:'2',name:'支付宝'},{id:'3',name:'微信预授权'},{id:'4',name:'支付宝预授权'}],    //交易类型列表
+        orderId:'',   //订单号
+        tradeStatus:'',// 交易状态  (支付/预授权完成/预授权撤销/退款/预授权冻结)
       }
     },
     methods:{
       ...mapActions([
-       'getStatistics','getPMSHotelList','showtoast'
+        'getList','getStatistics','getHotelList1','showtoast'
       ]),
-      initPMSHotelList(){
-        this.getPMSHotelList({
+      initHotelList(){
+        this.getHotelList1({
+          page:1,
+          pageSize:3000,
           onsuccess: body => {
-            this.pmsHotelList=body.data;
+            if(body.data!=null && body.data!=''){
+              this.hotelList=body.data.list;
+            }
           }
         });
       },
@@ -119,15 +169,14 @@
           })
           return;
         }
-
-          this.datatime1=timestampToTime(this.datatime1);
-          this.datatime2 = timestampToTime(this.datatime2);
-
-          this.initStatistics();
+        this.datatime1=timestampToTime(this.datatime1);
+        this.datatime2 = timestampToTime(this.datatime2);
+        this.initStatistics();
       }
     },
-    mounted(){
-       this.initPMSHotelList();
+    created(){
+      this.initHotelList();
+
     }
 
   }
