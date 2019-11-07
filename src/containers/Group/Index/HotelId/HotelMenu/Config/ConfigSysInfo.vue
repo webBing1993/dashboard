@@ -804,6 +804,14 @@
           <!--房卡配置-->
           <div v-if="showType === enumShowType.roomCard">
             <div class="item-form">
+              <span>局域网发卡？</span>
+              <el-switch
+                v-model="send_card_by_lan"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
               <span>是否支持吞吐门卡？</span>
               <el-switch
                 v-model="supportRoomCard"
@@ -1034,6 +1042,7 @@
           {name: '一房一卡', value: 'OTO'},
           {name: '一房多卡', value: 'OTM'}
         ],
+        send_card_by_lan:false,
 // **********旅业配置*********************
         lvyeTypeList: [],
         singlelvyeAutoReport: '',
@@ -1494,6 +1503,7 @@
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
           this.inteRoomLock = configData.integration_room_lock == 'true' ? true : false;
+          this.send_card_by_lan=configData.send_card_by_lan == 'true' ? true : false;
 
 
           //是否续住
@@ -1967,11 +1977,8 @@
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
-            ;
+            this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
             break;
-
-
-
 
           case enumShowType.lvyeReportType:
             this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
@@ -2163,13 +2170,10 @@
             data = {
               support_room_card: this.supportRoomCard.toString(),
               issued_card_rule: this.issuedCardRuleVal,
-              integration_room_lock: this.inteRoomLock.toString()
+              integration_room_lock: this.inteRoomLock.toString(),
+              send_card_by_lan:this.send_card_by_lan .toString(),
             };
             break;
-
-
-
-
           case enumShowType.lvyeReportType: {
             let tempData = {
               lvye_auto_report: this.singlelvyeAutoReport,
@@ -2192,8 +2196,6 @@
           }
           case enumShowType.doorLock_unknown:
             break;
-
-
           case enumShowType.wxHotel:
             data = {
               wx_hotel_id: this.wxHotelId

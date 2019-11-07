@@ -728,6 +728,14 @@
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
+              <span>是否优先干净房?</span>
+              <el-switch
+                v-model="check_in_room_order"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
               <span>是否自动分房</span>
               <el-switch
                 v-model="autoGiveRoomVal"
@@ -1256,6 +1264,7 @@
         isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
+        check_in_room_order:false,
         autoGiveRoomRule:'',
         autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
@@ -1715,6 +1724,7 @@
           this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
+          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
           this.autoGiveRoomRule= configData.assign_room_no_rules;
 
@@ -2048,6 +2058,7 @@
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
+            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
             this.autoGiveRoomRule= this.configData.assign_room_no_rules;
             break;
           case enumShowType.roomTags:
@@ -2227,11 +2238,13 @@
             if(this.autoGiveRoomVal){
               data = {
                 'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'check_in_room_order':this.check_in_room_order.toString(),
                 'assign_room_no_rules':this.autoGiveRoomRule
               };
             }else{
               data = {
                 'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
+                'check_in_room_order':this.check_in_room_order.toString(),
                 'assign_room_no_rules':''
               };
             }
