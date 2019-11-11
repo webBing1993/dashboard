@@ -690,17 +690,17 @@
           </div>
           <!--人脸识别配置弹框-->
           <div v-if="showType === enumShowType.facein">
-            <div class="item-form">
-              <span>人脸识别通道</span>
-              <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
-                <el-option
-                  v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
-                  :key="index"
-                  :label="obj.name"
-                  :value="obj.name">
-                </el-option>
-              </el-select>
-            </div>
+            <!--<div class="item-form">-->
+              <!--<span>人脸识别通道</span>-->
+              <!--<el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">-->
+                <!--<el-option-->
+                  <!--v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"-->
+                  <!--:key="index"-->
+                  <!--:label="obj.name"-->
+                  <!--:value="obj.name">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</div>-->
             <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
               <span>身份宝账号</span>
               <el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>
