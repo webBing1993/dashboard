@@ -301,7 +301,7 @@ module.exports = {
     let headers = param.headers || {};
     // headers.Session = sessionStorage.getItem('session_id');
     axios({
-      url: '/report-service'+param.url,  //本地测试'/cur',推到远程'/report-service'
+      url: '/report-service'+param.url,
       method: param.method || 'GET',
       baseURL: '',
       // baseURL: ':9201',

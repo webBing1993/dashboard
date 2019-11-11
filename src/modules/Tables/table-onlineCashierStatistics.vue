@@ -3,6 +3,7 @@
     <table border="0">
       <thead>
       <tr>
+        <th>序号</th>
         <th>交易时间</th>
         <th>酒店名称</th>
         <th>交易类型</th>
@@ -13,12 +14,13 @@
       </thead>
       <tbody>
       <tr v-for="(obj, index) of list">
-        <td>{{ obj.cd }}</td>
-        <td>{{ obj.name }}</td>
-        <td>{{ obj.groupName }}</td>
-        <td>{{ obj.city }}</td>
-        <td>{{ obj.total }}</td>
-        <td>{{ obj.numberTotal}}</td>
+        <td>{{ ++index + (page - 1) * size }}</td>
+        <td>{{ obj.tradeTime | dataFormat }}</td>
+        <td>{{ obj.hotelId }}</td>
+        <td>{{ obj.tradeType | tradeTypeFilter }}</td>
+        <td>{{ obj.orderId }}</td>
+        <td>{{ obj.tradeFee }}</td>
+        <td>{{ obj.tradeStatus | tradeStatusFilter}}</td>
       </tr>
       </tbody>
     </table>
@@ -34,8 +36,62 @@
         type: Array,
         default: []
       },
+      page: {
+        type: Number,
+        default: 1
+      },
+      size: {
+        type: Number,
+        default: 10
+      }
     },
     methods: {
+    },
+    filters: {
+      dataFormat(msg) {
+        var date = new Date(msg);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = date.getDate()<10 ? '0'+date.getDate() : date.getDate() + '';
+        return Y+M+D;
+      },
+      tradeTypeFilter(msg){
+        let result='';
+        switch(msg){
+          case 'WEIXINPAY':   result='微信支付'; break;
+          case 'ALIPAY':      result='支付宝支付'; break;
+          case 'WX_PREPAY':   result='微信预授权'; break;
+          case 'ALI_PREPAY':  result='支付宝预授权'; break;
+          default:
+            result=msg;
+          return result;
+        }
+      },
+      tradeStatusFilter(msg){
+        let result='';
+        switch(msg){
+          case 'NORMAL':   result='正常'; break;                          //    NORMAL,正常
+          case 'PAYING':      result='支付中'; break;                     //    PAYING,支付中
+          case 'AUTH_FAILED':   result='授权失败'; break;                 //   AUTH_FAILED,授权失败
+          case 'AUTH_SUCCESS':  result='授权成功'; break;                 //    AUTH_SUCCESS,授权成功
+          case 'PAY_FAILED':   result=' 支付失败'; break;                 //    PAY_FAILED,支付失败
+          case 'PAY_SUCCESS':      result='支付成功'; break;              //    PAY_SUCCESS,支付成功
+          case 'DEPOSIT_CONSUME_FAILED':   result='押金消费失败'; break;  //    DEPOSIT_CONSUME_FAILED,押金消费失败
+          case 'DEPOSIT_CONSUME_SUCCESS':  result='押金消费成功'; break;  //    DEPOSIT_CONSUME_SUCCESS,押金消费成功
+          case 'UNFREEZE_FAILED':   result='解冻失败'; break;             //    UNFREEZE_FAILED,解冻失败
+          case 'AUTH_CANCEL_FAILED':      result=',授权撤销失败'; break;  //    AUTH_CANCEL_FAILED,授权撤销失败
+          case 'AUTH_CANCEL_SUCCESS':   result='授权撤销成功'; break;     //    AUTH_CANCEL_SUCCESS,授权撤销成功
+          case 'DEPOSIT_REFUND_FAILED':  result='押金退款失败'; break;    //    DEPOSIT_REFUND_FAILED,押金退款失败
+          case 'DEPOSIT_REFUND_SUCCESS':   result='押金退款成功'; break;  //    DEPOSIT_REFUND_SUCCESS,押金退款成功
+          case 'REFUND_FAILED':      result='退款失败'; break;             //   REFUND_FAILED,退款失败
+          case 'REFUND_SUCCESS':   result='退款成功'; break;               //   REFUND_SUCCESS,退款成功
+          case ' FAILED':  result='失败'; break;                           //   FAILED，失败
+          default:
+            result=msg;
+            return result;
+        }
+      }
+
     }
   }
 </script>
