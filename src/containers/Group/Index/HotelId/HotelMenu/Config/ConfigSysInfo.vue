@@ -701,11 +701,11 @@
                 <!--</el-option>-->
               <!--</el-select>-->
             <!--</div>-->
-            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span>身份宝账号</span>
-              <el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>
-              <span></span>
-            </div>
+            <!--<div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">-->
+              <!--<span>身份宝账号</span>-->
+              <!--<el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>-->
+              <!--<span></span>-->
+            <!--</div>-->
             <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
