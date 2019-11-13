@@ -84,7 +84,7 @@
     },
     methods:{
       ...mapActions([
-        'getList','getStatistics','getPMSHotelList','showtoast'
+       'getStatistics','getPMSHotelList','showtoast'
       ]),
       initPMSHotelList(){
         this.getPMSHotelList({
@@ -92,24 +92,6 @@
             this.pmsHotelList=body.data;
           }
         });
-      },
-      getTableList(){
-         this.getList({
-            onsuccess: body => {
-              console.log(body);
-            }
-         });
-
-        var str='abcdaac';
-        var obj=new Object();
-        for(var i=0;i<str.length;i++){
-          var value=str.charAt(i);
-          if(obj[value]>0){obj[value]++}
-          else{obj[value]=1;}
-        }
-        for(var a in obj){
-          console.log(a+'出现的次数'+obj[a])
-        }
       },
       initStatistics(){
         this.getStatistics({
