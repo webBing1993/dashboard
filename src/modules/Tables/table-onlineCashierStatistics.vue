@@ -16,11 +16,11 @@
       <tr v-for="(obj, index) of list">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.tradeTime | dataFormat }}</td>
-        <td>{{ obj.hotelId }}</td>
+        <td>{{ obj.hotelName }}</td>
         <td>{{ obj.tradeType | tradeTypeFilter }}</td>
-        <td>{{ obj.orderId }}</td>
+        <td>{{ obj.flowId }}</td>
         <td>{{ obj.tradeFee }}</td>
-        <td>{{ obj.tradeStatus | tradeStatusFilter}}</td>
+        <td>{{ obj.status| tradeStatusFilter}}</td>
       </tr>
       </tbody>
     </table>
@@ -88,8 +88,9 @@
           case ' FAILED':  result='失败'; break;                           //   FAILED，失败
           default:
             result=msg;
-            return result;
+
         }
+        return result;
       }
 
     }

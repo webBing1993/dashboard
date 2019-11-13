@@ -159,7 +159,7 @@
         tradeStatus:'',// 交易状态  (支付/预授权完成/预授权撤销/退款/预授权冻结)
         tradeStatusList:[
           {id:'',name:'全部'},
-          {id:'NORMAL',name:'正常'},
+          // {id:'NORMAL',name:'正常'},
           {id:'PAYING',name:'支付中'},
           {id:'AUTH_FAILED',name:'授权失败'},
           {id:'AUTH_SUCCESS',name:'授权成功'},
@@ -200,13 +200,15 @@
         this.initTradeList();
       },
       initTradeList(){
+
+
         this.getTradeList({
           data:{
             "hotelId":this.selectHotel, // 酒店ID，必须
             "tradeStartDay":this.datatime1, // 查询起始日期
             "tradeEndDay":this.datatime2, // 查询结束日期
             "tradeType":this.selectTradeType, // 交易类型：ALIPAY-支付宝，WEIXINPAY-微信支付；不传，则默认查询所有
-            "orderId":this.orderId, //交易流水号
+            "flowId":this.orderId, //交易流水号
              status:this.tradeStatus,
              page: this.page.toString(),
              pageSize: this.size.toString(),
@@ -251,8 +253,6 @@
             "tradeType":this.selectTradeType, // 交易类型：ALIPAY-支付宝，WEIXINPAY-微信支付；不传，则默认查询所有
             "flowId":this.orderId, //交易流水号
             status:this.tradeStatus,
-            page: this.page.toString(),
-            pageSize: this.size.toString(),
           },
           headers: {
             Session: sessionStorage.getItem('session_id'),
@@ -289,6 +289,7 @@
         });
       },
       selectClick(){
+        this.page=1;
         this.datatime1=timestampToTime(this.datatime1);
         this.datatime2 = timestampToTime(this.datatime2);
         var time1 = Date.parse(new Date( this.datatime1));
@@ -307,7 +308,7 @@
     },
     created(){
       this.initHotelList();
-      //this.initTradeList();
+      this.selectClick();
     }
 
   }
