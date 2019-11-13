@@ -1561,6 +1561,22 @@
       validateAccessService(){
         return (tool.isNotBlank(this.filterScript)||tool.isNotBlank(this.formatScript));
       },
+      validatebreakfastStemFrom(){
+          if(this.breakfastStemFrom=='PMS'){
+            for(let item  of  this.breakfastList){
+               console.log("i",item);
+               for(let key in item){
+                 console.log("key",item[key]);
+                  if(item[key]==''){
+                    return false;
+                  }
+               }
+            }
+            return true
+          }else{
+            return true;
+          }
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1601,7 +1617,7 @@
             result = this.validatecashPledge;
             break;
           case enumShowType.breakfastStemFrom:
-            result = true;
+            result = this.validatebreakfastStemFrom;
             break;
           case enumShowType.customization:
             result = true;
