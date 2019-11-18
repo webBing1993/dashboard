@@ -50,7 +50,7 @@
               <p>关联设备支付配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!enableDevicePayConfig , 'tag_text_green':appId}">{{enableDevicePayConfig ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -1368,12 +1368,15 @@
         //是否推送白名单到餐券设备
         enablebreakfast:false,
 
+        //设备支付配置是否配置
+        enableDevicePayConfig:false,
       }
     },
     mounted() {
       this.getConfigs();
       this.getRCConfigeds();
       this.getAccessServiceType();
+      this.initDevicePayConfig();
     },
     computed: {
       ...mapState({
@@ -1826,9 +1829,33 @@
         'goto',
         'RCconfig',
         "setRCconfig",
-        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload'
+        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload','getDevicePayConfig'
 
       ]),
+      //获取支付设备配置是否已配置
+      initDevicePayConfig(){
+
+        this.getDevicePayConfig({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+              let  obj=body.data;
+              if(body.errcode==0 && body.data!= null ){
+                  for(let key in obj){
+                      console.log('key',obj[key]);
+                      if(obj[key]!=null){
+                        for(let kk in obj[key]) {
+                            if(kk=='enable'&&obj[key][kk]=='true'){
+                              this.enableDevicePayConfig=true;
+                              return;
+                            }
+                        }
+                      }
+                  }
+              }
+          }
+        })
+      },
+
       delBreakfast(obj,index){
         this.breakfastList.splice(index, 1);
         console.log("1111",this.breakfastList)
