@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="4" style="text-align: left">
           <div>
-            <el-select v-model="selectHotel" filterable placeholder="请选择">
+            <el-select v-model="selectHotel" filterable clearable placeholder="请选择">
               <el-option
                 v-for="item in hotelList"
                 :key="item.id"
