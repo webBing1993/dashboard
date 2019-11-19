@@ -267,9 +267,10 @@
               console.log()
               let resData = JSON.parse(this.result) // this.result为FileReader获取blob数据转换为json后的数据，即后台返回的原始数据
               if (resData && resData['errcode'] && resData['errcode'] === '467002') {
-                athat.$message('暂无数据');
+                that.$message('暂无数据');
               }
             } catch (err) {
+              console.log('11111');
               var csvData = new Blob([res.data],{type: "application/vnd.ms-excel"});
               var url = window.URL.createObjectURL(csvData);
               var link = document.createElement('a');
@@ -278,7 +279,6 @@
               link.download = 'excel.xls';
               // link.setAttribute('download', 'excel.xls');
               document.body.appendChild(link);
-              link.click();
               link.click();
               window.URL.revokeObjectURL(url);
             }
