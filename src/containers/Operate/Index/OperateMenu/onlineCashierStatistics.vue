@@ -108,6 +108,7 @@
       </el-row>
       <tableOnlineCashierStatistics :list="tableData" :page="page" :size="size"></tableOnlineCashierStatistics>
       <el-pagination
+        v-show="total>0"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="page"
