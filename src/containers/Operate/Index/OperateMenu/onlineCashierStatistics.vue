@@ -295,7 +295,8 @@
         var time1 = Date.parse(new Date( this.datatime1));
         var time2 = Date.parse(new Date(this.datatime2));
         var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
-        if(nDays>31){
+        console.log(nDays+1);
+        if(nDays+1>31){
           this.$message({
             message: '日期仅限31天内，请重新选择',
             center: true,
