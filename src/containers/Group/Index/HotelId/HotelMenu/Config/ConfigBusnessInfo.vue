@@ -180,8 +180,25 @@
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-
-
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.xiezhuRoomNos)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/列表.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>房间同步列表配置</span>
+              <p>房间同步列表</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !xiezhuRoomNos, 'tag_text_green':xiezhuRoomNos}">{{xiezhuRoomNos ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
+        <el-col :span="8">
+          <button style="border:0;"></button>
+        </el-col>
         <div class="content-title">
           <span>订单相关配置</span>
         </div>
@@ -315,11 +332,21 @@
               <p>配置早餐券规则</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button @click="dialogConfig(enumShowType.enabled_send_to_xiezhu)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡券.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>同步到携程系统配置</span>
+              <p>是否同步到携程系统</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>
+          </button>
         </el-col>
         <el-col :span="8">
           <button style="border:0;"></button>
@@ -1126,6 +1153,24 @@
               </el-switch>
             </div>
           </div>
+           <!--房间同步列表配置-->
+          <div v-if="showType === enumShowType.xiezhuRoomNos">
+            <div class="item-form">
+              <span>房间列表</span>
+              <el-input class="el-right" v-model="xiezhuRoomNos" placeholder="请输入房间号，房间号之间用#隔开"></el-input>
+            </div>
+          </div>
+          <!--是否同步到携程系统-->
+          <div v-if="showType === enumShowType.enabled_send_to_xiezhu">
+            <div class="item-form">
+              <span> 是否同步到携程系统</span>
+              <el-switch
+                v-model="enabled_send_to_xiezhu"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer">
@@ -1186,6 +1231,8 @@
     enableRCstatus :24,//RC单是否开启字段
     enablebreakfast:25, //推送白名单到餐券设备
     accessServiceType:26,  //订单关键字脚本配置
+    xiezhuRoomNos:27,       //房间同步列表配置
+    enabled_send_to_xiezhu:28   // 是否同步到携程配置
   }
 
   //弹框标题类型
@@ -1194,7 +1241,7 @@
     '闪开发票配置',
     '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1370,6 +1417,12 @@
 
         //设备支付配置是否配置
         enableDevicePayConfig:false,
+
+        //房间同步列表配置
+        xiezhuRoomNos:'',
+
+        //是否同步到携程配置
+        enabled_send_to_xiezhu:false
       }
     },
     mounted() {
@@ -1377,6 +1430,8 @@
       this.getRCConfigeds();
       this.getAccessServiceType();
       this.initDevicePayConfig();
+      var arr = new Set([ [1,2],[1,2],[3,4]]);
+      console.log(arr);
     },
     computed: {
       ...mapState({
@@ -1580,6 +1635,13 @@
             return true;
           }
       },
+      validateXiezhuRoomNos(){
+        if(this.xiezhuRoomNos==''){
+           return false;
+        }else{
+          return true;
+        }
+      },
       validateAll() {
         let result = false;
         switch (this.showType) {
@@ -1661,6 +1723,12 @@
             break;
           case enumShowType.accessServiceType:
             result=this.validateAccessService;
+            break;
+          case enumShowType.xiezhuRoomNos:
+            result=this.validateXiezhuRoomNos;
+            break;
+          case enumShowType.enabled_send_to_xiezhu:
+            result = true;
             break;
           default:
             result = false;
@@ -1817,7 +1885,13 @@
           this.rcStatus=configData.rc_status=='true'?true:false;
           //推送白名单到餐券设备
           this.enablebreakfast = configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
-        };
+
+          //房间同步列表配置
+          this.xiezhuRoomNos = configData.xiezhu_roomNos;
+
+          // 是否同步到携程系统
+          this.enabled_send_to_xiezhu=configData.enabled_send_to_xiezhu== 'true' ? true : false;
+        }
       },
     },
     methods: {
@@ -2173,9 +2247,13 @@
             break;
           case enumShowType.enablebreakfast:
             this.enablebreakfast = this.configData.enable_pull_identity_info_breakfast  == 'true' ? true : false;
-
-
             break
+          case enumShowType.xiezhuRoomNos:
+            this.xiezhuRoomNos =this.configData.xiezhu_roomNos;
+            break;
+          case enumShowType.enabled_send_to_xiezhu:
+            this.enabled_send_to_xiezhu=this.configData.enabled_send_to_xiezhu== 'true' ? true : false;
+            break;
           default:
         }
       },
@@ -2447,6 +2525,33 @@
             data = {
               "enable_pull_identity_info_breakfast":this.enablebreakfast.toString()
             }
+            break
+          case enumShowType.xiezhuRoomNos:
+            data={};
+            console.log('this.xiezhuRoomNos',this.xiezhuRoomNos.toString());
+            let result=this.xiezhuRoomNos
+            result = result.replace(/#/g, '%23');
+            this.updateSingerConfig({
+              hotel_id: this.$route.params.hotelid,
+              key: 'xiezhu_roomNos',
+              value: result,
+              onsuccess: (body) => {
+                console.log('修改了')
+                this.showDialog = false;
+                this.getConfigs();
+              }
+            })
+            break
+          case enumShowType.enabled_send_to_xiezhu:
+            this.updateSingerConfig({
+              hotel_id: this.$route.params.hotelid,
+              key: 'enabled_send_to_xiezhu',
+              value: this.enabled_send_to_xiezhu.toString(),
+              onsuccess: (body) => {
+                console.log('修改了')
+                this.showDialog = false;
+              }
+            })
             break
           default:null
         };
