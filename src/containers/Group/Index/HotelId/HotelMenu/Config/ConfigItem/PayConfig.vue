@@ -411,7 +411,7 @@
           </el-select>
         </div>
         <span slot="footer" class="dialog-footer">
-              <el-button @click="defaultDialog=false">取 消</el-button>
+              <el-button @click="defaultDialogCancel">取 消</el-button>
               <el-button type="primary"   @click="defaultDialogSubmit">确 定</el-button>
           </span>
       </el-dialog>
@@ -499,8 +499,8 @@ export default {
       howmuchIdData:'',
 
       defaultConfigList:[{id:'0',name:'无'},{id:'1',name:'预授权'},{id:'2',name:'支付'}],
-      defaultPayMode:0
-
+      defaultPayMode:0,
+      defaultPayModeData:0
     }
   },
   methods: {
@@ -532,6 +532,11 @@ export default {
     defaultConfig(){
       this.defaultDialog=true;
 
+
+    },
+    defaultDialogCancel(){
+      this.defaultDialog=false;
+      this.defaultPayMode=this.defaultPayModeData;
     },
     defaultDialogSubmit(){
       if(this.defaultPayMode=='2'){
@@ -1031,8 +1036,10 @@ export default {
            //默认支付方式
            if(body.data.default_pay_mode==''){
              this.defaultPayMode='0'
+             this.defaultPayModeData='0'
            }else{
              this.defaultPayMode=body.data.default_pay_mode
+             this.defaultPayModeData=this.defaultPayMode
            }
          }
        })
