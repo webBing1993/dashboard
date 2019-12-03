@@ -462,7 +462,16 @@ module.exports = {
       }
     })
   },
-
+  //设备支付中配置默认支付方式
+  defaultPayModeConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/defaultPayMode/${param.default_pay_mode}`,
+      method: 'PATCH',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
   //pms配置查询
   getPMSPayConfig(ctx, param){
     ctx.dispatch('resource', {
