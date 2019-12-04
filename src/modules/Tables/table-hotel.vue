@@ -93,7 +93,6 @@
     clear: both;
     /*padding: 0 23px 30px 25px;*/
     position: relative;
-    min-height: 300px;
     margin-bottom: 16px;
   }
 

@@ -373,11 +373,53 @@
             <div v-show="pmsType == '16' ">
               <div class="item-form">
                 <span>用户名</span>
-                <el-input class="el-right" v-model="userName" placeholder="请输入用户名，选填"></el-input>
+                <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
               </div>
               <div class="item-form">
                 <span>密码</span>
-                <el-input class="el-right" v-model="password" placeholder="请输入密码，选填"></el-input>
+                <el-input class="el-right" v-model="password" placeholder="请输入密码"></el-input>
+              </div>
+            </div>
+            <!--中软好泰慧云版PMS测试酒店-->
+            <div v-show="pmsType == '18' ">
+              <div class="item-form">
+                <span>集团代码</span>
+                <el-input class="el-right" v-model="groupCode" placeholder="请输入集团代码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>操作员账号</span>
+                <el-input class="el-right" v-model="userName" placeholder="请输入操作员账号"></el-input>
+              </div>
+              <div class="item-form">
+                <span>操作员密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入操作员密码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>令牌账号</span>
+                <el-input class="el-right" v-model="tokenUsername" placeholder="请输入令牌账号"></el-input>
+              </div>
+              <div class="item-form">
+                <span>令牌密码</span>
+                <el-input class="el-right" v-model="tokenPassword" placeholder="请输入令牌密码"></el-input>
+              </div>
+              <div class="item-form">
+                <span>是否用正式库</span>
+                <el-switch
+                  v-model="isFormal"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+            </div>
+            <!--罗盘PMS-->
+            <div v-show="pmsType == '20' ">
+              <div class="item-form">
+                <span>用户名</span>
+                <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
+              </div>
+              <div class="item-form">
+                <span>密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入密码"></el-input>
               </div>
             </div>
             <div class="item-form">
@@ -690,22 +732,22 @@
           </div>
           <!--人脸识别配置弹框-->
           <div v-if="showType === enumShowType.facein">
-            <div class="item-form">
-              <span>人脸识别通道</span>
-              <el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">
-                <el-option
-                  v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"
-                  :key="index"
-                  :label="obj.name"
-                  :value="obj.name">
-                </el-option>
-              </el-select>
-            </div>
-            <div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">
-              <span>身份宝账号</span>
-              <el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>
-              <span></span>
-            </div>
+            <!--<div class="item-form">-->
+              <!--<span>人脸识别通道</span>-->
+              <!--<el-select class="el-right" v-model="faceTongdao" placeholder="请选择自动通过值">-->
+                <!--<el-option-->
+                  <!--v-for="(obj, index) of [{name:'腾讯优图',val:'YOUTO'},{name:'厦门身份宝',val:'SHENFENBAO'}]"-->
+                  <!--:key="index"-->
+                  <!--:label="obj.name"-->
+                  <!--:value="obj.name">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</div>-->
+            <!--<div class="item-form" v-if="faceTongdao!=='腾讯优图' && faceTongdao==='厦门身份宝'">-->
+              <!--<span>身份宝账号</span>-->
+              <!--<el-input class="el-right" placeholder="请输入内容" v-model="identityAccount"></el-input>-->
+              <!--<span></span>-->
+            <!--</div>-->
             <div class="item-form" v-if="faceTongdao==='腾讯优图' && faceTongdao!=='厦门身份宝'">
               <span>自动通过值</span>
               <el-select class="el-right" v-model="faceinPassValue" placeholder="请选择自动通过值">
@@ -803,6 +845,14 @@
           </div>
           <!--房卡配置-->
           <div v-if="showType === enumShowType.roomCard">
+            <div class="item-form">
+              <span>局域网发卡？</span>
+              <el-switch
+                v-model="send_card_by_lan"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
             <div class="item-form">
               <span>是否支持吞吐门卡？</span>
               <el-switch
@@ -999,13 +1049,25 @@
         //东呈
         dcKey: '',
         pmsCheckIn:false,
+
+        // 中软慧云版pms
+        groupCode:"",           //集团代码
+        password:"",            // 操作员密码
+        tokenUsername:"",       //令牌账号
+        tokenPassword:"",       //令牌密码
+        isFormal:false,            // 是否用正式库: true:正式库，false：练习库
+
+
+
  // **********pms同步频率*********************
-        syncSpaceTime: '30',
+        syncSpaceTime: '10',
         scheduledSure: true,
         syncSpaceTimeList: [
-          {name: '10分钟', value: '10'}, {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
-          {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
-          {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}],
+          {name: '10分钟', value: '10'},
+          // {name: '20分钟', value: '20'}, {name: '30分钟', value: '30'},
+          // {name: '1小时', value: '60'}, {name: '2小时', value: '120'}, {name: '3小时', value: '180'},
+          // {name: '6小时', value: '360'}, {name: '12小时', value: '720'}, {name: '24小时', value: '1440'}
+          ],
         inputOrderId:'1',  //同步几天内的订单
         syncTime:'', //同步时间
         startTime:'',//开始时间
@@ -1032,6 +1094,7 @@
           {name: '一房一卡', value: 'OTO'},
           {name: '一房多卡', value: 'OTM'}
         ],
+        send_card_by_lan:false,
 // **********旅业配置*********************
         lvyeTypeList: [],
         singlelvyeAutoReport: '',
@@ -1254,6 +1317,9 @@
             return tool.isNotBlank(this.dcKey)
           } else if (this.pmsType == '17') {
             return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.appKey) && tool.isNotBlank(this.hotelGroupCode)
+          }else if ( this.pmsType == '20'|| this.pmsType == '16') {
+            console.log("1111",this.user_name,this.password);
+            return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }
           else {
             return true;
@@ -1442,6 +1508,13 @@
           this.xrbs_siteId=this.pmsData.pcid;
           this.xrbs_employeeNum=this.pmsData.empno;
           this.xrbs_moduleNum=this.pmsData.modu;
+
+          //中软好泰慧云版
+          this.groupCode=this.pmsData.groupCode;         //集团代码
+          this.tokenUsername=this.pmsData.tokenUsername;       //令牌账号
+          this.tokenPassword=this.pmsData.tokenPassword;       //令牌密码
+          this.isFormal=this.pmsData.isFormal == 'true' ? true : false;;            // 是否用正式库: true:正式库，false：练习库
+
         }
       },
       configData(){
@@ -1459,7 +1532,7 @@
           this.provider = configData.provider ? true : false;
 
           //pms同步频率
-          this.syncSpaceTime = configData.sync_space_time;
+         // this.syncSpaceTime = configData.sync_space_time;
           this.scheduledSure = configData.scheduled;
           this.inputOrderId = configData.max_order_day
           let extract_time = configData.extract_start_time+','+configData.extract_end_time
@@ -1492,6 +1565,7 @@
           this.supportRoomCard = configData.support_room_card == 'true' ? true : false;
           this.issuedCardRuleVal = configData.issued_card_rule;
           this.inteRoomLock = configData.integration_room_lock == 'true' ? true : false;
+          this.send_card_by_lan=configData.send_card_by_lan == 'true' ? true : false;
 
 
           //是否续住
@@ -1943,7 +2017,7 @@
             this.initPMSPayConfig();
             break;
           case enumShowType.syncSpaceTime:
-            this.syncSpaceTime = this.configData.sync_space_time;
+            //this.syncSpaceTime = this.configData.sync_space_time;
             let extract_time = this.configData.extract_start_time+','+this.configData.extract_end_time
             this.syncTime = extract_time.split(',')
             this.inputOrderId = this.configData.max_order_day
@@ -1965,11 +2039,8 @@
             this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
-            ;
+            this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
             break;
-
-
-
 
           case enumShowType.lvyeReportType:
             this.singlelvyeAutoReport = this.lvyeData.lvye_auto_report;
@@ -2074,6 +2145,24 @@
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
               }
+            }else if (this.pmsType == '18' ){
+              data = {
+                ...paramData,
+                id:'',
+                "user_name":this.userName, // 用户名
+                "password":this.password, // 密码
+                groupCode:this.groupCode,           //集团代码
+                tokenUsername:this.tokenUsername,       //令牌账号
+                tokenPassword:this.tokenPassword,       //令牌密码
+                isFormal:this.isFormal.toString(),            // 是否用正式库: true:正式库，false：练习库
+                hotel_id:this.hotelId,
+              }
+            }else if (this.pmsType == '20' ){
+              data = {
+                ...paramData,
+                "user_name":this.userName, // 用户名
+                "password":this.password, // 密码
+              }
             }
             else {
               data = {
@@ -2161,13 +2250,10 @@
             data = {
               support_room_card: this.supportRoomCard.toString(),
               issued_card_rule: this.issuedCardRuleVal,
-              integration_room_lock: this.inteRoomLock.toString()
+              integration_room_lock: this.inteRoomLock.toString(),
+              send_card_by_lan:this.send_card_by_lan .toString(),
             };
             break;
-
-
-
-
           case enumShowType.lvyeReportType: {
             let tempData = {
               lvye_auto_report: this.singlelvyeAutoReport,
@@ -2190,8 +2276,6 @@
           }
           case enumShowType.doorLock_unknown:
             break;
-
-
           case enumShowType.wxHotel:
             data = {
               wx_hotel_id: this.wxHotelId

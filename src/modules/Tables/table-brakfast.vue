@@ -12,7 +12,7 @@
       <tbody>
       <tr v-for="(obj, index) of list">
         <td><input type="text" placeholder="请输入" v-model="obj.code"> </td>
-        <td><input type="text" placeholder="请输入" v-model="obj.breakfast"></td>
+        <td><input  type="text" @keyup="obj.breakfast=obj.breakfast.replace(/[^\d]/g,'')"  placeholder="请输入（只能输数字）"   v-model="obj.breakfast"></td>
         <td><input type="text" placeholder="请输入" v-model="obj.description"></td>
         <td>
           <a class="v-options pointer" @click="edit(obj,index)" v-if="index==0">添加</a>

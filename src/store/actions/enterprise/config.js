@@ -205,6 +205,12 @@ module.exports = {
     else if (param.data.pms_type == 16) {
       urlQuery = `/hotel/${param.hotel_id}/pmsBole`;
     }
+    else if (param.data.pms_type == 18) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsZhongRuan`;
+    }
+    else if (param.data.pms_type == 20) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsLuoPan`;
+    }
     else {
       urlQuery = `/hotel/${param.hotel_id}/pmsJxdQlmYst`;
     }
@@ -456,7 +462,16 @@ module.exports = {
       }
     })
   },
-
+  //设备支付中配置默认支付方式
+  defaultPayModeConfig(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/hotel/${param.hotel_id}/defaultPayMode/${param.default_pay_mode}`,
+      method: 'PATCH',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
   //pms配置查询
   getPMSPayConfig(ctx, param){
     ctx.dispatch('resource', {
