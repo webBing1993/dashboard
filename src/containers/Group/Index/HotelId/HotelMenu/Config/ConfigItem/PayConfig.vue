@@ -7,7 +7,7 @@
       <div class="payConfig_main">
         <div class="payConfig_main_top">
           <div>
-            <p class="payConfig_main_p1">默认支付方式:{{defaultPayMode == '1'?'预授权':(defaultPayMode=='2'?'支付':'无')}}</p>
+            <p class="payConfig_main_p1">默认支付方式:{{defaultPayMode == '2'?'预授权':(defaultPayMode=='1'?'支付':'无')}}</p>
             <p class="payConfig_main_p2">可以配置默认的支付方式</p>
           </div>
           <div class="payConfig_main_right">
@@ -73,32 +73,32 @@
         </div>
       </div>
       <!--前台支付配置-->
-      <div class="payConfig_main">
-        <div class="payConfig_main_top">
-          <div>
-            <p class="payConfig_main_p1">前台支付</p>
-            <p class="payConfig_main_p2">开启后可选择设备支持前台支付</p>
-          </div>
-          <div class="payConfig_main_right">
-            <span class="payConfig_main_btn1" @click="prosceniumConfig">配置</span>
-            <span :class="isProsceniumUse? 'noUse':'payConfig_main_btn2'" @click="useConfig('proscenium')">{{isProsceniumUse?'停用':'启用'}}</span>
-          </div>
-        </div>
-        <div class="chooseDevice" v-if="isProsceniumUse">
-          <div class="chooseDevice_div">
-            <p class="chooseDevice_p1">选择需要启用的设备</p>
-            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
-          </div>
-          <div class="deviceList">
-            <el-checkbox-group
-              v-model="prosceniumDeviceList"
-              @change="chooseDevice('proscenium')"
-            >
-              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
-            </el-checkbox-group>
-          </div>
-        </div>
-      </div>
+      <!--<div class="payConfig_main">-->
+        <!--<div class="payConfig_main_top">-->
+          <!--<div>-->
+            <!--<p class="payConfig_main_p1">前台支付</p>-->
+            <!--<p class="payConfig_main_p2">开启后可选择设备支持前台支付</p>-->
+          <!--</div>-->
+          <!--<div class="payConfig_main_right">-->
+            <!--<span class="payConfig_main_btn1" @click="prosceniumConfig">配置</span>-->
+            <!--<span :class="isProsceniumUse? 'noUse':'payConfig_main_btn2'" @click="useConfig('proscenium')">{{isProsceniumUse?'停用':'启用'}}</span>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="chooseDevice" v-if="isProsceniumUse">-->
+          <!--<div class="chooseDevice_div">-->
+            <!--<p class="chooseDevice_p1">选择需要启用的设备</p>-->
+            <!--<p class="chooseDevice_p2">更改配置，需重启设备生效</p>-->
+          <!--</div>-->
+          <!--<div class="deviceList">-->
+            <!--<el-checkbox-group-->
+              <!--v-model="prosceniumDeviceList"-->
+              <!--@change="chooseDevice('proscenium')"-->
+            <!--&gt;-->
+              <!--<el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>-->
+            <!--</el-checkbox-group>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
       <!--微信预授权配置-->
       <div class="payConfig_main">
         <div class="payConfig_main_top">
@@ -498,7 +498,7 @@ export default {
       howmuchId:'',             //好码齐支付id
       howmuchIdData:'',
 
-      defaultConfigList:[{id:'0',name:'无'},{id:'1',name:'预授权'},{id:'2',name:'支付'}],
+      defaultConfigList:[{id:'0',name:'无'},{id:'1',name:'支付'},{id:'2',name:'预授权'}],
       defaultPayMode:0,
       defaultPayModeData:0
     }
@@ -539,7 +539,7 @@ export default {
       this.defaultPayMode=this.defaultPayModeData;
     },
     defaultDialogSubmit(){
-      if(this.defaultPayMode=='2'){
+      if(this.defaultPayMode=='1'){
         console.log(this.isWechatUse,this.wechatDeviceList);
         console.log(this.isAlipayUse,this.alipayDeviceList);
         if( !((this.isWechatUse&&this.wechatDeviceList.length>0) ||(this.isAlipayUse&&this.alipayDeviceList.length>0))  ){
@@ -549,7 +549,7 @@ export default {
           });
           return
         }
-      }else if(this.defaultPayMode=='1'){
+      }else if(this.defaultPayMode=='2'){
         if(this.isWechatYuUse&&this.wechatYuDeviceList.length>0){
 
         }else if(this.isAlipayYuUse&&this.alipayYuDeviceList.length>0){
