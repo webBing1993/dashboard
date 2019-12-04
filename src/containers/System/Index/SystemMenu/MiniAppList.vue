@@ -137,7 +137,7 @@
         this.showDialog = true;
 
         this.appId = obj.app_id;
-        this.appSecret = '********';
+        this.appSecret = obj.app_secret;
         this.originalId = obj.original_id;
         this.appName = obj.app_name;
         this.contactName = obj.contact_name;

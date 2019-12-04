@@ -180,25 +180,25 @@
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.xiezhuRoomNos)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/列表.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>房间同步列表配置</span>
-              <p>房间同步列表</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !xiezhuRoomNos, 'tag_text_green':xiezhuRoomNos}">{{xiezhuRoomNos ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
-        <el-col :span="8">
-          <button style="border:0;"></button>
-        </el-col>
-        <el-col :span="8">
-          <button style="border:0;"></button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.xiezhuRoomNos)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/列表.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>房间同步列表配置</span>-->
+              <!--<p>房间同步列表</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !xiezhuRoomNos, 'tag_text_green':xiezhuRoomNos}">{{xiezhuRoomNos ? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
+        <!--<el-col :span="8">-->
+          <!--<button style="border:0;"></button>-->
+        <!--</el-col>-->
+        <!--<el-col :span="8">-->
+          <!--<button style="border:0;"></button>-->
+        <!--</el-col>-->
         <div class="content-title">
           <span>订单相关配置</span>
         </div>
@@ -335,18 +335,21 @@
                   :class="{'tag_text_red':!breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.enabled_send_to_xiezhu)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/卡券.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>同步到携程系统配置</span>-->
+              <!--<p>是否同步到携程系统</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enabled_send_to_xiezhu)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/卡券.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>同步到携程系统配置</span>
-              <p>是否同步到携程系统</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>
-          </button>
+          <button style="border:0;"></button>
         </el-col>
         <el-col :span="8">
           <button style="border:0;"></button>

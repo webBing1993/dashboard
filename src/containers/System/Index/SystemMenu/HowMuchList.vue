@@ -98,7 +98,7 @@
             this.howmuchId=obj.id;
             this.appid=body.data.app_id;
             this.appName=body.data.app_name;
-            this.secret='********';
+            this.secret=body.data.secret;
           }
         })
 
