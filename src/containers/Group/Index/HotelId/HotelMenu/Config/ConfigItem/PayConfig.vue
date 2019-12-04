@@ -505,21 +505,21 @@ export default {
   },
   methods: {
     ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices',
-      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll',
+      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig',
       'defaultPayModeConfig'//默认支付方式配置
     ]),
     //去配置
     goConfig(){
       this.promptDialog=false;
       if(this.payType=='wechat'){
-         this.wechatConfig ()
+         this.wechatConfig()
       }else if(this.payType=='alipay'){
         this.alipayDialog = true;
         this.initMchNames();
       }else if(this.payType=="proscenium"){
         this.prosceniumDialog = true;
       }else if(this.payType=="wechat_yu"){
-        this.wechatConfig ();
+        this.wechatConfig();
       } else if(this.payType=="alipay_yu"){
         this.alipayDialog = true;
         this.initMchNames();
@@ -581,6 +581,7 @@ export default {
     wechatConfig () {
       this.wechatDialog = true;
       this.mchId = this.configData;
+      this.appId = this.configData;
       this.providerAppId=this.configData;
       this.providerMchId=this.configData;
       this.provider = this.configData.provider ? true : false;
@@ -1081,7 +1082,12 @@ export default {
           }
         }
       })
-    }
+    },
+    getConfigs() {
+      this.getConfig({
+        hotel_id: this.$route.params.hotelid
+      })
+    },
   },
   computed:{
     ...mapState({
@@ -1139,6 +1145,7 @@ export default {
         return this.appIdTemp.split(' | ')[0];
       },
       set(val) {
+        console.log('app_id ',val.app_id,val.app_name);
         val.app_id ? this.appIdTemp = `${val.app_id} | ${val.app_name}` : this.appIdTemp = '';
       }
     },
@@ -1152,6 +1159,7 @@ export default {
         return this.mchIdTemp.split(' | ')[0];
       },
       set(val) {
+        console.log('mch_id',val.mch_id,val.mch_name);
         val.mch_id ? this.mchIdTemp = `${val.mch_id} | ${val.mch_name}` : this.mchIdTemp = '';
       }
     },
@@ -1215,8 +1223,10 @@ export default {
   mounted() {
      this.initDevices();
      this.initDevicePayConfig();
-     this. initWechatYuConfig();
+     this.initWechatYuConfig();
+      this.getConfigs();
      this.appId = this.configData;
+
   }
 }
 </script>
