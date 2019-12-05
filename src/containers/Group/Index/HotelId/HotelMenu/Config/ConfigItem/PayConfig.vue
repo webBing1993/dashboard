@@ -935,12 +935,15 @@ export default {
           if(body.data!=null){
             this.deviceList=body.data;
           }
+          this.initDevicePayConfig();
         }
       })
     },
     //把删除的设备过滤掉
     deviceFilter(list){
       let filterList=[];
+      // console.log("勾选",list);
+      // console.log("所有",this.deviceList);
       for(let item of list){
         for(let allItem of this.deviceList){
           if(item==allItem.id){
@@ -1222,7 +1225,7 @@ export default {
   },
   mounted() {
      this.initDevices();
-     this.initDevicePayConfig();
+
      this.initWechatYuConfig();
       this.getConfigs();
      this.appId = this.configData;
