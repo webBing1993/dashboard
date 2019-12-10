@@ -249,7 +249,7 @@
             </div>
             <div class="item-text">
               <span>入住规则配置</span>
-              <p>入住手机号配置</p>
+              <p>订单办理入住的相关规则</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
@@ -755,14 +755,6 @@
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
-              <span>是否优先干净房?</span>
-              <el-switch
-                v-model="check_in_room_order"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
               <span>是否自动分房</span>
               <el-switch
                 v-model="autoGiveRoomVal"
@@ -1041,10 +1033,19 @@
           </div>
           <!--入住规则配置-->
           <div v-if="showType === enumShowType.advancedLiveIn">
+
             <div class="item-form">
               <span>办理入住时，需要用户填写订单手机号</span>
               <el-switch
                 v-model="enabledAdvancedLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否优先办理干净房?</span>
+              <el-switch
+                v-model="check_in_room_order"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1318,7 +1319,7 @@
         isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
-        check_in_room_order:false,
+
         autoGiveRoomRule:'',
         autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
@@ -1388,7 +1389,7 @@
         showMoreRoomOrderKey: 'support_zft_mroom',
          //入住规则
         enabledAdvancedLiveIn:false,
-
+        check_in_room_order:false,
         //电子签名
         enabledSign: false,
 
@@ -1818,7 +1819,7 @@
           this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
-          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
+
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
           this.autoGiveRoomRule= configData.assign_room_no_rules;
           this.setHouseTime = configData.allow_give_room;
@@ -1885,7 +1886,7 @@
 
           //入住规则配置
           this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
-
+          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
 
@@ -2183,7 +2184,7 @@
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
-            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
+
             this.autoGiveRoomRule= this.configData.assign_room_no_rules;
             this.setHouseTime = this.configData.allow_give_room
             break;
@@ -2247,6 +2248,7 @@
             break;
           case enumShowType.advancedLiveIn:
             this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
+            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -2371,7 +2373,7 @@
               }
               data = {
                 'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
-                'check_in_room_order':this.check_in_room_order.toString(),
+
                 'assign_room_no_rules':this.autoGiveRoomRule,
                 'allow_give_room':this.setHouseTime
               };
@@ -2501,6 +2503,7 @@
           case enumShowType.advancedLiveIn:
             data = {
               no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
+              'check_in_room_order':this.check_in_room_order.toString(),
             }
             break;
           case enumShowType.sign:
