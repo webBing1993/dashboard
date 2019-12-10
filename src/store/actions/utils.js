@@ -279,6 +279,7 @@ module.exports = {
             code: status,
             content: '登录失效!'
           });
+          router.push('/auth')
         } else if (status === 400) {
           ctx.dispatch('showtoast', {text: 'Bad Request', type: 'error'});
         } else if (status === 404) {
