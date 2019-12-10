@@ -791,7 +791,7 @@
               <span>房间标签</span>
               <div class="tag-input">
                 <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
-                  <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
+                  <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签(不能超过3个汉字)" maxlength="3"></el-input>
                 </div>
                 <div class="tag-btn">
                   <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"

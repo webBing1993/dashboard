@@ -133,6 +133,14 @@
         let data = {}
         switch (this.showType) {
           case enumShowType.edit:
+            console.log(this.roomfeatureDesc);
+            if(this.roomfeatureDesc.length>3){
+              this.$message({
+                type: 'error',
+                message: '房间标签不能选择超过3个'
+              })
+              return
+            }
             data = {
               roomfeature_desc: this.roomfeatureDesc.join(),
               room_lock_sn: this.tempObj.room_lock_sn,
