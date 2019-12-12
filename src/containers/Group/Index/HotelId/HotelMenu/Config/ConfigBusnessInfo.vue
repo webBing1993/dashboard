@@ -893,6 +893,24 @@
             <div class="item-form" style="padding-top:30px;" v-if="breakfastStemFrom=='PMS'">
               <table-breakfast :list="breakfastList" @delBreakfast="delBreakfast" @addBreakfast="addBreakfast"></table-breakfast>
             </div>
+            <div class="item-form">
+              <span>生成EXCEL餐券报表(可在企业微信下载)</span>
+              <el-switch
+                v-model="enabled_download_breakfastexcel"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="enabled_download_breakfastexcel">
+              <span style="opacity: 0.4;font-family: PingFangSC-Regular;color: #000000;">请选择需要显示的字段</span>
+            </div>
+            <div class="deviceList" v-if="enabled_download_breakfastexcel">
+              <el-checkbox-group
+                v-model="excelfield"
+              >
+                <el-checkbox v-for="item in  excelfieldList" :label="item.id" :key="item.id">{{item.des}}</el-checkbox>
+              </el-checkbox-group>
+            </div>
           </div>
           <!--定制化配置弹框-->
           <div v-if="showType === enumShowType.customization">
@@ -1037,6 +1055,7 @@
           </div>
           <!--入住规则配置-->
           <div v-if="showType === enumShowType.advancedLiveIn">
+
             <div class="item-form">
               <span>办理入住时，需要用户填写订单手机号</span>
               <el-switch
@@ -1345,6 +1364,9 @@
           {name: '同步PMS早餐券', value: 'PMS'},
           {name: '漫客平台定义,人/张', value: 'MANKE'}],
         breakfastList: [],
+        enabled_download_breakfastexcel:false,
+        excelfield:[],
+        excelfieldList:[{id:1,name:'房间码'},{id:2,name:'报价码'}],
         //**********************定制化配置**********************
         mirrorIntro:false,
         mirrorBrand:false,
@@ -1848,6 +1870,16 @@
           }else{
              this.breakfastList.push({"code":"","breakfast":"","description":""});
           }
+          this.enabled_download_breakfastexcel=configData.enabled_download_breakfastexcel == 'true' ? true : false;
+          this.excelfieldList=JSON.parse(configData.breakfast_excel_row);
+          console.log("this.excelfieldList",this.excelfieldList);
+          this.excelfield=[];
+          for(let i=0;i<this.excelfieldList.length;i++){
+            if(this.excelfieldList[i].enableShow=='1'){
+              let a=this.excelfieldList[i].id;
+              this.excelfield.push(a);
+            }
+          }
           //定制化配置
           this.mirrorIntro=configData.enabled_mirror_introduce=='true'?true:false;
           this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
@@ -2205,7 +2237,15 @@
             }else{
               this.breakfastList=[{"code":"","breakfast":"","description":""}]
             }
-
+            this.enabled_download_breakfastexcel=this.configData.enabled_download_breakfastexcel == 'true' ? true : false;
+            this.excelfieldList=JSON.parse(this.configData.breakfast_excel_row);
+            this.excelfield=[];
+            for(let i=0;i<this.excelfieldList.length;i++){
+              if(this.excelfieldList[i].enableShow=='1'){
+                let a=this.excelfieldList[i].id;
+                this.excelfield.push(a);
+              }
+            }
             break;
           case enumShowType.customization:
             this.mirrorIntro=this.configData.enabled_mirror_introduce=='true'?true:false;
@@ -2430,14 +2470,31 @@
           }
             break;
           case enumShowType.breakfastStemFrom:
-
+            console.log("this.excelfield",this.excelfield);
+            if(this.enabled_download_breakfastexcel) {
+              for (let i = 0; i < this.excelfieldList.length; i++) {
+                this.excelfieldList[i].enableShow = '0';
+              }
+              for (let i = 0; i < this.excelfieldList.length; i++) {
+                for (let value of this.excelfield) {
+                  if (this.excelfieldList[i].id == value) {
+                    this.excelfieldList[i].enableShow = '1';
+                  }
+                }
+              }
+            }
+            console.log("this.excelfieldList",this.excelfieldList);
             if(this.breakfastStemFrom=='PMS'){
               data = {
+                enabled_download_breakfastexcel:this.enabled_download_breakfastexcel.toString(),
+                breakfast_excel_row:JSON.stringify(this.excelfieldList),
                 breakfast_stem_from: this.breakfastStemFrom,
                 contain_price_info:JSON.stringify(this.breakfastList)
               }
             }else{
               data = {
+                enabled_download_breakfastexcel:this.enabled_download_breakfastexcel.toString(),
+                breakfast_excel_row:JSON.stringify(this.excelfieldList),
                 breakfast_stem_from: this.breakfastStemFrom,
                 contain_price_info:''
               }
