@@ -13,9 +13,9 @@
             <el-select v-model="selectHotel" filterable placeholder="请选择">
               <el-option
                 v-for="item in xcxHotelList"
-                :key="item.id"
+                :key="item.hotelId"
                 :label="item.name"
-                :value="item.id">
+                :value="item.hotelId">
               </el-option>
             </el-select>
           </div>
@@ -59,30 +59,32 @@
         <table border="0">
           <thead>
           <tr>
+            <th>序号</th>
             <th>日期</th>
-            <th>酒店名称</th>
-            <th>所属集团</th>
-            <th>所在城市</th>
-            <th>开门梯控</th>
-            <th>客房服务申请</th>
-            <th>在线客房管家</th>
-            <th>发票申请</th>
-            <th>退房申请</th>
-            <th>续住申请</th>
+            <th>总房间数</th>
+            <th>订单总数</th>
+            <th>订单总房数</th>
+            <th>微前台办理订单数</th>
+            <th>微前台办理入住房间数</th>
+            <th>微前台办理入住人数</th>
+            <th>身份核验人数</th>
+            <th>旅业上传人数</th>
+            <th>旅业上传房间数</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="(obj, index) of tableData">
-            <td>{{ obj.date }}</td>
-            <td>{{ obj.name }}</td>
-            <td>{{ obj.groupName }}</td>
-            <td>{{ obj.city }}</td>
-            <td>{{ obj.ecardCount }}</td>
-            <td>{{ obj.roomServiceCount }}</td>
-            <td>{{ obj.houseKeeperCount }}</td>
-            <td>{{ obj.invoiceApplCount }}</td>
-            <td>{{ obj.checkOutCount }}</td>
-            <td>{{ obj.continueLiveCount }}</td>
+            <td>{{ index+1}}</td>
+            <td>{{ obj.dateTime}}</td>
+            <td>{{ obj.roomTotalCount }}</td>
+            <td>{{ obj.orderTotalCount }}</td>
+            <td>{{ obj.orderRoomTotalCount}}</td>
+            <td>{{ obj.wqtOrderTotalCount }}</td>
+            <td>{{ obj.wqtRoomTotalCount }}</td>
+            <td>{{ obj.wqtCheckInTotalCount }}</td>
+            <td>{{ obj.identityCheckCount}}</td>
+            <td>{{ obj.lvyeUploadCount}}</td>
+            <td>{{ obj.lvyeRoomUploadCount}}</td>
           </tr>
           </tbody>
         </table>
@@ -97,20 +99,29 @@
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex';
   function timestampToTime(timestamp) {
     var date = new Date(timestamp);
-    console.log(date);
     var Y = date.getFullYear() + '-';
     var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
     var D = date.getDate()<10 ? '0'+date.getDate() : date.getDate() + '';
     return Y+M+D;
   }
+  var date = new Date();
+  var day = date.getDay();
+  var prevMonday;
+  if(date.getDay() == 0){
+    prevMonday = new Date().setDate(date.getDate() - 7-6);
+  }
+  else{
+    prevMonday = new Date().setDate(date.getDate() - day-6);
+  }
+  var yes=(new Date()).getTime()-24*60*60*1000;
   export default {
     components: {
     },
     data () {
       return {
         tableData: [],
-        datatime1:'',
-        datatime2:'',
+        datatime1:timestampToTime(prevMonday),
+        datatime2:timestampToTime(yes),
         selectHotel:'',
         xcxHotelList:'',
       }
@@ -122,10 +133,10 @@
     },
     methods:{
       ...mapActions([
-        'getxcxHotelList','getPMSHotelList','showtoast'
+        'getHotelOperateSta','getHotelListSta','showtoast'
       ]),
-      initXCXHotelList(){
-        this.getPMSHotelList({
+      initHotelList(){
+        this.getHotelListSta({
           onsuccess: body => {
             this.xcxHotelList = body.data;
           }
@@ -133,12 +144,16 @@
       },
 
       initStatistics(){
-        this.getxcxHotelList({
-          startTime:this.datatime1,
-          endTime:this.datatime2,
-          hotelId:this.selectHotel,
+        this.getHotelOperateSta({
+          data: {
+            beginTime: this.datatime1,
+            endTime: this.datatime2,
+            hotelId: this.selectHotel,
+          },
           onsuccess: body => {
-            this.tableData = body.data;
+            if(body.errcode==0&&body.data!=null){
+              this.tableData = body.data;
+            }
           }
         });
       },
@@ -151,7 +166,7 @@
           })
           return;
         }
-        if(this.datatime1=='' ||this.datatime2==''||this.datatime1==null ||this.datatime2==null ){
+        if(this.datatime1=='' ||this.datatime2=='' ||this.datatime1==null ||this.datatime2==null){
           this.showtoast({
             text: '请选择时间',
             type: 'warning'
@@ -160,11 +175,37 @@
         }
         this.datatime1 = timestampToTime(this.datatime1);
         this.datatime2 = timestampToTime(this.datatime2);
+        var time1 =new Date(this.datatime1).getTime();
+        var time2 = new Date(this.datatime2).getTime();
+        var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+        console.log(nDays);
+        if(nDays>30){
+          this.$message({
+            message: '日期仅限31天内，请重新选择',
+            center: true,
+            type: 'error'
+          })
+          return
+        }
         this.initStatistics();
       }
     },
+    filters: {
+      payFlagFilter(msg){
+        let result='';
+        switch(msg){
+          case '1':      result='微信'; break;
+          case '2':      result='支付宝'; break;
+          case '':       result=''; break;
+          default:
+            result='未知';
+
+        }
+        return result;
+      },
+    },
     mounted(){
-      this.initXCXHotelList();
+      this.initHotelList();
     }
 
   }

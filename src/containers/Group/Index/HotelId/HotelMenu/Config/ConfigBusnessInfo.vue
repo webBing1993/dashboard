@@ -249,7 +249,7 @@
             </div>
             <div class="item-text">
               <span>入住规则配置</span>
-              <p>入住手机号配置</p>
+              <p>订单办理入住的相关规则</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
@@ -758,14 +758,6 @@
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
-              <span>是否优先干净房?</span>
-              <el-switch
-                v-model="check_in_room_order"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
               <span>是否自动分房</span>
               <el-switch
                 v-model="autoGiveRoomVal"
@@ -783,6 +775,13 @@
                   :value="obj.value">
                 </el-option>
               </el-select>
+            </div>
+            <div class="item-form"  v-if="autoGiveRoomVal">
+              <span>自动分房时间</span>
+              <el-time-picker class="el-right" value-format="HH:mm:ss"
+                              v-model="setHouseTime"
+                              placeholder="选择时间">
+              </el-time-picker>
             </div>
           </div>
           <!--房间标签-->
@@ -816,13 +815,13 @@
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
-            <div class="item-form" v-if="isMaxAllow">
-              <span style="min-width: 210px; ">开启选房时间</span>
-              <el-time-picker class="el-right" value-format="HH:mm:ss"
-                              v-model="setHouseTime"
-                              placeholder="选择时间">
-              </el-time-picker>
-            </div>
+            <!--<div class="item-form" v-if="isMaxAllow">-->
+              <!--<span style="min-width: 210px; ">开启选房时间</span>-->
+              <!--<el-time-picker class="el-right" value-format="HH:mm:ss"-->
+                              <!--v-model="setHouseTime"-->
+                              <!--placeholder="选择时间">-->
+              <!--</el-time-picker>-->
+            <!--</div>-->
             <!--<div class="item-form">-->
             <!--<span style="min-width: 210px; ">是否允许选房</span>-->
             <!--<el-switch-->
@@ -1060,6 +1059,14 @@
               <span>办理入住时，需要用户填写订单手机号</span>
               <el-switch
                 v-model="enabledAdvancedLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否优先办理干净房?</span>
+              <el-switch
+                v-model="check_in_room_order"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1333,7 +1340,7 @@
         isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
-        check_in_room_order:false,
+
         autoGiveRoomRule:'',
         autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
@@ -1406,7 +1413,7 @@
         showMoreRoomOrderKey: 'support_zft_mroom',
          //入住规则
         enabledAdvancedLiveIn:false,
-
+        check_in_room_order:false,
         //电子签名
         enabledSign: false,
 
@@ -1836,9 +1843,10 @@
           this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
-          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
+
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
           this.autoGiveRoomRule= configData.assign_room_no_rules;
+          this.setHouseTime = configData.allow_give_room;
 
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
@@ -1849,7 +1857,7 @@
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
           this.isMaxAllow=configData.enabled_self_selected_room == 'true' ? true : false;
-          this.setHouseTime = configData.allow_give_room;
+
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //押金配置
@@ -1912,7 +1920,7 @@
 
           //入住规则配置
           this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
-
+          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
 
@@ -1950,7 +1958,6 @@
               let  obj=body.data;
               if(body.errcode==0 && body.data!= null ){
                   for(let key in obj){
-                      console.log('key',obj[key]);
                       if(obj[key]!=null){
                         for(let kk in obj[key]) {
                             if(kk=='enable'&&obj[key][kk]=='true'){
@@ -2210,8 +2217,9 @@
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
-            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
+
             this.autoGiveRoomRule= this.configData.assign_room_no_rules;
+            this.setHouseTime = this.configData.allow_give_room
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
@@ -2219,7 +2227,7 @@
           case enumShowType.maxAllowRoomcount:
             this.isMaxAllow=this.configData.enabled_self_selected_room == 'true' ? true : false;
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
-            this.setHouseTime = this.configData.allow_give_room
+
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
             break;
           case enumShowType.cashPledge:
@@ -2281,6 +2289,7 @@
             break;
           case enumShowType.advancedLiveIn:
             this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
+            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -2400,10 +2409,14 @@
             break;
           case enumShowType.autoGiveRoom:
             if(this.autoGiveRoomVal){
+              if(!this.setHouseTime){
+                this.setHouseTime=''
+              }
               data = {
                 'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
-                'check_in_room_order':this.check_in_room_order.toString(),
-                'assign_room_no_rules':this.autoGiveRoomRule
+
+                'assign_room_no_rules':this.autoGiveRoomRule,
+                'allow_give_room':this.setHouseTime
               };
             }else{
               data = {
@@ -2421,7 +2434,7 @@
             data = {
               enabled_self_selected_room: this.isMaxAllow.toString(),
               max_allow_roomcount: this.maxAllowRoomcount,
-              allow_give_room:this.setHouseTime,
+
               // enable_select_house:this.selectHouseSure
             }
             break;
@@ -2548,6 +2561,7 @@
           case enumShowType.advancedLiveIn:
             data = {
               no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
+              'check_in_room_order':this.check_in_room_order.toString(),
             }
             break;
           case enumShowType.sign:

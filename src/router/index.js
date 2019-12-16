@@ -48,7 +48,11 @@ import OperateLinkList from '@/containers/Operate/Index/OperateMenu/Linklist.vue
 
 import OrderCheckIn from '@/containers/Operate/Index/OperateMenu/orderCheckIn.vue'
 import RZTStatistics from '@/containers/Operate/Index/OperateMenu/RZTStatistics.vue'
+import RZTAddStatistics from '@/containers/Operate/Index/OperateMenu/RZTAddStatistics.vue'
 import XcxHotel from '@/containers/Operate/Index/OperateMenu/xcxHotel.vue'
+import payStatistics from '@/containers/Operate/Index/OperateMenu/payStatistics.vue'
+import operateStatistics from '@/containers/Operate/Index/OperateMenu/operateStatistics.vue'
+
 import OnlineCashierStatistics from '@/containers/Operate/Index/OperateMenu/onlineCashierStatistics.vue'
 
 import lvye_Cop from '@/containers/System/Index/SystemMenu/LvyeCop.vue'
@@ -529,10 +533,26 @@ const main = [
                 component: RZTStatistics
               },
               {
+                path: 'payStatistics',
+                name: 'payStatistics',
+                component: payStatistics
+              },
+              {
+                path: 'operateStatistics',
+                name: 'operateStatistics',
+                component: operateStatistics
+              },
+              {
                 path: 'xcxHotel',
                 name: 'xcxHotel',
                 component: XcxHotel
               },
+              {
+                path: 'RZTAddStatistics',
+                name: 'RZTAddStatistics',
+                component: RZTAddStatistics
+              },
+
               {
                 path: 'onlineCashierStatistics',
                 name: 'onlineCashierStatistics',

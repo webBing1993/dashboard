@@ -289,6 +289,13 @@
         });
       },
       selectClick(){
+        if(this.datatime1==''|| this.datatime1==null ||this.datatime2==''||this.datatime2==null ){
+          this.showtoast({
+            text: '请选择时间',
+            type: 'warning'
+          })
+          return;
+        }
         this.page=1;
         this.datatime1=timestampToTime(this.datatime1);
         this.datatime2 = timestampToTime(this.datatime2);
