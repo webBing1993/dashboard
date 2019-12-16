@@ -4,5 +4,5 @@
 module.exports = {
     ...require('./operateLink'),
     ...require('./reportUi'),
-    ...require('./onlineCashierStatistics'),
+    ...require('./statistics'),
 }

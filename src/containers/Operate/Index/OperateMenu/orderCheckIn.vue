@@ -112,7 +112,7 @@
           })
           return;
         }
-        if(this.datatime1=='' ||this.datatime2=='' ){
+        if(this.datatime1=='' ||this.datatime2==''||this.datatime1==null ||this.datatime2==null  ){
           this.showtoast({
             text: '请选择时间',
             type: 'warning'

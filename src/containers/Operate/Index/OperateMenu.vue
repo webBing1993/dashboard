@@ -7,6 +7,9 @@
       <router-link to="/operate/RZTStatistics" class="">人证通统计</router-link>
       <router-link to="/operate/xcxHotel" class="">小程序使用统计</router-link>
       <router-link to="/operate/onlineCashierStatistics" class="">在线收银统计</router-link>
+      <router-link to="/operate/RZTAddStatistics" class="">人证通新增统计</router-link>
+      <router-link to="/operate/operateStatistics" class="">酒店运营数据统计</router-link>
+      <router-link to="/operate/payStatistics" class="">酒店支付统计</router-link>
       <!--<router-link to="/system/wechatpay">微信支付</router-link>-->
       <!--&lt;!&ndash;<router-link to="/system/miniappmsg">小程序消息模板</router-link>&ndash;&gt;-->
       <!--<router-link to="/system/servemessage">服务消息模板管理</router-link>-->

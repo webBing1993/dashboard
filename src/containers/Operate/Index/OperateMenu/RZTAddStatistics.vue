@@ -4,23 +4,6 @@
       <div class="title">筛选</div>
       <el-row style="margin-bottom:20px;">
         <el-col :span="2">
-          <div class="hotelitle" style="text-align: left">
-            <span>酒店名称</span>
-          </div>
-        </el-col>
-        <el-col :span="4" style="text-align: left">
-          <div>
-            <el-select v-model="selectHotel" filterable placeholder="请选择">
-              <el-option
-                v-for="item in xcxHotelList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id">
-              </el-option>
-            </el-select>
-          </div>
-        </el-col>
-        <el-col :span="2">
           <div class="datetitle">
             <span>日期</span>
           </div>
@@ -29,7 +12,6 @@
           <div class="firstdate">
             <el-date-picker
               v-model="datatime1"
-
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -59,30 +41,28 @@
         <table border="0">
           <thead>
           <tr>
-            <th>日期</th>
+            <th>序号</th>
+            <th>酒店ID</th>
             <th>酒店名称</th>
-            <th>所属集团</th>
-            <th>所在城市</th>
-            <th>开门梯控</th>
-            <th>客房服务申请</th>
-            <th>在线客房管家</th>
-            <th>发票申请</th>
-            <th>退房申请</th>
-            <th>续住申请</th>
+            <th>酒店创建时间</th>
+            <th>旅业ID</th>
+            <th>设备名称</th>
+            <th>设备ID</th>
+            <th>设备类型</th>
+            <th>设备创建时间</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="(obj, index) of tableData">
-            <td>{{ obj.date }}</td>
-            <td>{{ obj.name }}</td>
-            <td>{{ obj.groupName }}</td>
-            <td>{{ obj.city }}</td>
-            <td>{{ obj.ecardCount }}</td>
-            <td>{{ obj.roomServiceCount }}</td>
-            <td>{{ obj.houseKeeperCount }}</td>
-            <td>{{ obj.invoiceApplCount }}</td>
-            <td>{{ obj.checkOutCount }}</td>
-            <td>{{ obj.continueLiveCount }}</td>
+            <td>{{ index+1}}</td>
+            <td>{{ obj.id }}</td>
+            <td>{{ obj.hotelName }}</td>
+            <td>{{ obj.hotelCreateTime}}</td>
+            <td>{{ obj.lvyeId }}</td>
+            <td>{{ obj.deviceName  }}</td>
+            <td>{{ obj.deviceId }}</td>
+            <td>{{ obj.deviceType }}</td>
+            <td>{{ obj.createTime }}</td>
           </tr>
           </tbody>
         </table>
@@ -103,14 +83,18 @@
     var D = date.getDate()<10 ? '0'+date.getDate() : date.getDate() + '';
     return Y+M+D;
   }
+   var yes=(new Date).getTime()-24*60*60*1000;
+   let now = new Date()
   export default {
     components: {
     },
     data () {
       return {
-        tableData: [],
-        datatime1:'',
-        datatime2:'',
+        tableData: [
+
+        ],
+        datatime1:timestampToTime(yes),
+        datatime2:timestampToTime(yes),
         selectHotel:'',
         xcxHotelList:'',
       }
@@ -122,36 +106,23 @@
     },
     methods:{
       ...mapActions([
-        'getxcxHotelList','getPMSHotelList','showtoast'
+        'getRZTAddSta','showtoast'
       ]),
-      initXCXHotelList(){
-        this.getPMSHotelList({
-          onsuccess: body => {
-            this.xcxHotelList = body.data;
-          }
-        });
-      },
-
-      initStatistics(){
-        this.getxcxHotelList({
-          startTime:this.datatime1,
-          endTime:this.datatime2,
-          hotelId:this.selectHotel,
+      initRZTAddSta(){
+         console.log(this.datatime1,this.datatime2);
+        this.getRZTAddSta({
+         data:{
+            beginTime:this.datatime1,
+            endTime:this.datatime2,
+          },
           onsuccess: body => {
             this.tableData = body.data;
           }
         });
       },
       selectClick(){
-
-        if(this.selectHotel=='' ){
-          this.showtoast({
-            text: '请选择酒店',
-            type: 'warning'
-          })
-          return;
-        }
-        if(this.datatime1=='' ||this.datatime2==''||this.datatime1==null ||this.datatime2==null ){
+        console.log(this.datatime1,this.datatime2);
+        if(this.datatime1==''|| this.datatime1==null ||this.datatime2==''||this.datatime2==null ){
           this.showtoast({
             text: '请选择时间',
             type: 'warning'
@@ -160,11 +131,23 @@
         }
         this.datatime1 = timestampToTime(this.datatime1);
         this.datatime2 = timestampToTime(this.datatime2);
-        this.initStatistics();
+        var time1 =new Date(this.datatime1).getTime();
+        var time2 = new Date(this.datatime2).getTime();
+        var nDays = Math.abs(parseInt((time2 - time1)/1000/3600/24));
+        console.log(nDays+1);
+        if(nDays+1>31){
+          this.$message({
+            message: '日期仅限31天内，请重新选择',
+            center: true,
+            type: 'error'
+          })
+          return
+        }
+        this.initRZTAddSta();
       }
     },
     mounted(){
-      this.initXCXHotelList();
+      this.selectClick();
     }
 
   }
