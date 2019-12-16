@@ -145,9 +145,9 @@
             this.mchName=body.data.mchName;
             this.mchPid = body.data.mchPid;
             this.appid = body.data.appId;
-            this.mchPriKey =body.data.mchPrivateKey;
-            this.mchPubKey = body.data.mchPublicKey;
-            this.alipayPubKey=body.data.aliPublicKey
+            this.mchPriKey ='********';
+            this.mchPubKey = '********';
+            this.alipayPubKey= '********';
             this.contactName=body.data.contactName;
             this.contactPhone=body.data.contactPhone;
           }
