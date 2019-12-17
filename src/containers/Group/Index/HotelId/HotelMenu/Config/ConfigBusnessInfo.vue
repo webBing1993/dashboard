@@ -439,6 +439,19 @@
                   :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.checkInPrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>入住单配置</span>
+              <p>配置是否打印入住单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -629,6 +642,10 @@
                         onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                         onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                         placeholder="请输入打印份数（大于0的整数）"></el-input>
+            </div>
+            <div class="item-form" v-if="enablePrePrint">
+              <span>打印机名称</span>
+              <el-input class="el-right" v-model="prePrintDeviceName"></el-input>
             </div>
           </div>
           <!--自动退房配置-->
@@ -1116,6 +1133,10 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>打印机名称</span>
+              <el-input class="el-right" v-model="rcPrintDeviceName" placeholder="请输入打印机名称"></el-input>
+            </div>
           </div>
           <div v-if="showType === enumShowType.enableRCstatus">
             <div class="item-form">
@@ -1197,6 +1218,39 @@
               </el-switch>
             </div>
           </div>
+
+          <!--入住单配置弹框-->
+          <div v-if="showType === enumShowType.checkInPrint">
+            <div class="item-form">
+              <span>开启打印入住单</span>
+              <el-switch
+                v-model="checkInPrint"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>模版名称</span>
+              <el-upload
+                ref="upload"
+                class="upload-demo el-right"
+                :headers="setHeader"
+                :action="checkInPrintUpload"
+                :on-success="getUploadDataCheckIn"
+                :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary" v-if="! UploadCheckInPrint">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if=" UploadCheckInPrint">重新选择</el-button>
+                <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
+              </el-upload>
+              <!--<div>-->
+                <!--<a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>-->
+              <!--</div>-->
+            </div>
+            <div class="item-form">
+              <span>打印机名称</span>
+              <el-input class="el-right" v-model="checkInPrintName" placeholder="请输入打印机名称"></el-input>
+            </div>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer">
@@ -1258,7 +1312,9 @@
     enablebreakfast:25, //推送白名单到餐券设备
     accessServiceType:26,  //订单关键字脚本配置
     xiezhuRoomNos:27,       //房间同步列表配置
-    enabled_send_to_xiezhu:28   // 是否同步到携程配置
+    enabled_send_to_xiezhu:28 ,  // 是否同步到携程配置
+    checkInPrint:29,   //入住单配置
+
   }
 
   //弹框标题类型
@@ -1267,7 +1323,7 @@
     '闪开发票配置',
     '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置','入住单配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1316,6 +1372,7 @@
         //预授权打印结算单配置
         enablePrePrint:false,
         prePrintNumber:1,
+        prePrintDeviceName:'',//打印机名称
         //自动退房
         enableAutoCheckout: false,
         refundList:[{name:'PMS挂帐',value:'PMS'},{name:'退款入账',value:'ORDER_BILL'},{ name:'企业微信退款',value:'MANUAL'}],
@@ -1424,6 +1481,7 @@
         perRoom: "1",
         perGuest: '2',
         templateUrl:'',
+        rcPrintDeviceName:'',
 //        moreLvyeReportVal: '',
 //        actionUrl: 'http://localhost:8080/virgo/fileUpload',
         UploadResponData: '',
@@ -1451,7 +1509,11 @@
         xiezhuRoomNos:'',
 
         //是否同步到携程配置
-        enabled_send_to_xiezhu:false
+        enabled_send_to_xiezhu:false,
+        //入住单配置
+        checkInPrint:false,   //是否开启入住单配置
+        UploadCheckInPrint:'',//模板路径
+        checkInPrintName:'',//打印机名称
       }
     },
     mounted() {
@@ -1477,6 +1539,9 @@
       },
       scriptUpload(){
         return "/virgo/scriptupload/"+ this.$route.params.hotelid
+      },
+      checkInPrintUpload(){
+        return "/virgo/files/checkinrc/upload/"+ this.$route.params.hotelid
       },
       setHeader() {
 //        Session:1D280EA65D624BC1B84B73443D8BC6AA
@@ -1759,6 +1824,9 @@
           case enumShowType.enabled_send_to_xiezhu:
             result = true;
             break;
+          case enumShowType.checkInPrint:
+            result = true;
+            break;
           default:
             result = false;
         }
@@ -1820,6 +1888,7 @@
           //预授权打印结算单配置
           this.enablePrePrint=JSON.parse(configData.payment_ticket).open;
           this.prePrintNumber=JSON.parse(configData.payment_ticket).printedNum;
+          this.prePrintDeviceName=JSON.parse(configData.payment_ticket).deviceName;
 
           //自动退房
           this.enableAutoCheckout = configData.enable_auto_checkout == 'true' ? true : false;
@@ -1931,6 +2000,14 @@
 
           // 是否同步到携程系统
           this.enabled_send_to_xiezhu=configData.enabled_send_to_xiezhu== 'true' ? true : false;
+
+            if(configData.guest_checkin_rc){
+                let obj=JSON.parse(configData.guest_checkin_rc);
+                this.UploadCheckInPrint=obj.templateUrl;
+                this.checkInPrintName=obj.printDeviceName;
+                this.checkInPrint=obj.openCheckinRc== 'true' ? true : false;
+                console.log("this.UploadCheckInPrint",this.UploadCheckInPrint);
+            }
         }
       },
     },
@@ -2077,10 +2154,14 @@
         this.UploadResponData = res.data
         console.log('---->', this.UploadResponData)
       },
+      getUploadDataCheckIn(res){
+        this.UploadCheckInPrint = res.data
+        console.log('---->', this.UploadCheckInPrint)
+      },
       submitUpload() {
         this.$refs.upload.submit();
       },
-      //拉已配置的RC数据
+      //拉已配置的RC数据v
       getRCConfigeds() {
         this.getRCConfiged({
           hotel_id: this.$route.params.hotelid,
@@ -2091,7 +2172,8 @@
               this.UploadResponData = body.data.hotel_id;
               this.perRoom = body.data.electron_sign.toString();
               this.templateUrl=body.data.templateUrl;
-              this.autoPrintVal = body.data.auto_print == 1 ? true : false
+              this.autoPrintVal = body.data.auto_print == 1 ? true : false;
+              this.rcPrintDeviceName = body.data.deviceName;
             }
           }
         })
@@ -2192,6 +2274,7 @@
           case enumShowType.prePrint:
             this.enablePrePrint=JSON.parse(this.configData.payment_ticket).open;
             this.prePrintNumber=JSON.parse(this.configData.payment_ticket).printedNum;
+            this.this.prePrintDeviceName=JSON.parse(this.configData.payment_ticket).deviceName;
             break;
           case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
@@ -2303,6 +2386,14 @@
           case enumShowType.enabled_send_to_xiezhu:
             this.enabled_send_to_xiezhu=this.configData.enabled_send_to_xiezhu== 'true' ? true : false;
             break;
+          case enumShowType.checkInPrint:
+            if(this.configData.guest_checkin_rc){
+              let obj=JSON.parse(this.configData.guest_checkin_rc);
+              this.UploadCheckInPrint=obj.templateUrl;
+              this.checkInPrintName=obj.printDeviceName;
+              this.checkInPrint=obj.openCheckinRc== 'true' ? true : false;
+            }
+            break;
           default:
         }
       },
@@ -2365,7 +2456,8 @@
           case enumShowType.prePrint:
             let  payment_ticket={
               open:this.enablePrePrint,
-              printedNum:this.prePrintNumber
+              printedNum:this.prePrintNumber,
+              deviceName:this.prePrintDeviceName,
             }
             data ={
               payment_ticket:JSON.stringify(payment_ticket)
@@ -2570,7 +2662,8 @@
             data = {
               "id": this.$route.params.hotelid,
               "electron_sign": parseInt(this.perRoom),
-              "auto_print": this.autoPrintVal ? 1 : 0
+              "auto_print": this.autoPrintVal ? 1 : 0,
+              'deviceName':this.rcPrintDeviceName,
             }
             this.mySetRCconfig(data);
             return;
@@ -2623,6 +2716,16 @@
                 this.showDialog = false;
               }
             })
+            break
+          case enumShowType.checkInPrint:
+            let obj={
+              templateUrl:this.UploadCheckInPrint,
+              printDeviceName:this.checkInPrintName,
+              openCheckinRc:this.checkInPrint.toString(),
+            }
+            data = {
+              "guest_checkin_rc": JSON.stringify(obj)
+            }
             break
           default:null
         };
