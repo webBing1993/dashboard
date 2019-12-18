@@ -2274,7 +2274,7 @@
           case enumShowType.prePrint:
             this.enablePrePrint=JSON.parse(this.configData.payment_ticket).open;
             this.prePrintNumber=JSON.parse(this.configData.payment_ticket).printedNum;
-            this.this.prePrintDeviceName=JSON.parse(this.configData.payment_ticket).deviceName;
+            this.prePrintDeviceName=JSON.parse(this.configData.payment_ticket).deviceName;
             break;
           case enumShowType.autoCheckout:
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
