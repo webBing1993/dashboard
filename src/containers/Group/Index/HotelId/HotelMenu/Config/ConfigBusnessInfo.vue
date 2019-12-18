@@ -1242,9 +1242,9 @@
                 <el-button slot="trigger" size="small" type="primary" v-if=" UploadCheckInPrint">重新选择</el-button>
                 <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
               </el-upload>
-              <!--<div>-->
-                <!--<a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>-->
-              <!--</div>-->
+              <div>
+                <a :href="UploadCheckInPrint" v-if="UploadCheckInPrint">入住单模板预览</a>
+              </div>
             </div>
             <div class="item-form">
               <span>打印机名称</span>
