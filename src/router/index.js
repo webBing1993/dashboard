@@ -128,6 +128,10 @@ const main = [
         component: Home
       },
       {
+        path: '',
+        redirect: '/group'
+      },
+      {
         path: 'group',
         component: Group,
         children: [
