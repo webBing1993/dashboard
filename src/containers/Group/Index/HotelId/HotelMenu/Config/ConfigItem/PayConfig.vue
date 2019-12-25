@@ -183,6 +183,32 @@
           </div>
         </div>
       </div>
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">PMS支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持PMS支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <!--<span class="payConfig_main_btn1" @click="howmuchConfig('howmuch')">配置</span>-->
+            <span :class="isPmsUse?'noUse':'payConfig_main_btn2'" @click="useConfig('pms')">{{isPmsUse?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isPmsUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="pmsDeviceList"
+              @change="chooseDevice('pms')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--微信支付配置弹框-->
       <el-dialog
       title="微信支付参数配置"
@@ -455,6 +481,7 @@ export default {
       wechatYuDeviceList:[],  //微信预授权设备列表
       alipayYuDeviceList:[],   //支付宝预授权设备列表
       howmuchDeviceList:[],   //好码齐设备列表
+      pmsDeviceList:[],       //pms设备列表
 
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
@@ -462,6 +489,7 @@ export default {
       isWechatYuUse:false,      //微信预授权是否启用
       isAlipayYuUse:false,      //支付宝预授权是否启用
       isHowmuchUse:false,        //好码齐是否启用
+      isPmsUse:false,//PMS支付
 
       account:'',//商户账户
       accountList:[],//账户列表
@@ -646,6 +674,11 @@ export default {
         if(this.isHowmuchUse){
           data={"devices":this.howmuchDeviceList} // 设备
         }
+      }else if (type == 'pms'){
+        this.pay_config_key='pms_pay_config';
+        if(this.isPmsUse){
+          data={"devices":this.pmsDeviceList} // 设备
+        }
       }
       this.patchPayConfigData(data);
     },
@@ -747,6 +780,12 @@ export default {
         this.pay_config_key='howmuch_pay_config';
         data={
           "enable":this.isHowmuchUse, // 启用：true  停用：false
+        }
+      }else if(type == 'pms'){
+        this.isPmsUse = !this.isPmsUse;
+        this.pay_config_key='pms_pay_config';
+        data={
+          "enable":this.isPmsUse, // 启用：true  停用：false
         }
       }
 
@@ -1034,6 +1073,15 @@ export default {
              if(body.data.howmuch_pay_config.howmuch_pay_config_id!=undefined){
                this.howmuchId=body.data.howmuch_pay_config.howmuch_pay_config_id;
                this.howmuchIdData=this.howmuchId;
+             }
+           }
+           if(body.data.pms_pay_config!=null){
+             if(body.data.pms_pay_config.enable!=undefined){
+               this.isPmsUse=JSON.parse(body.data.pms_pay_config.enable);
+             }
+             if(body.data.pms_pay_config.devices!=undefined){
+               this.pmsDeviceList=body.data.pms_pay_config.devices; // 支付宝支付设备列表
+               this.pmsDeviceList=this.deviceFilter(this.pmsDeviceList);
              }
            }
 
