@@ -684,6 +684,26 @@ export default {
     },
     // 启用设备
     useConfig (type) {
+      if(type == 'pms'){
+          console.log('this.isPmsUse',this.isPmsUse);
+          if(!this.isPmsUse){
+            if( this.isWechatUse || this.isAlipayUse || this.isWechatYuUse || this.isAlipayYuUse  ||this.isHowmuchUse){
+              this.$message({
+                message: ' 请停用其他支付方式',
+                type: 'warning'
+              });
+              return;
+            }
+          }
+      }else{
+        if(this.isPmsUse){
+          this.$message({
+            message: ' 请停用PMS方式',
+            type: 'warning'
+          });
+          return;
+        }
+      }
       if(this.deviceList.length==0){
         this.$message({
           message: ' 没有可用的设备',
