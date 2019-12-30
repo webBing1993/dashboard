@@ -626,10 +626,9 @@ export default {
       this.defaultPayMode=this.defaultPayModeData;
     },
     defaultDialogSubmit(){
+      console.log(this.isPmsUse,this.pmsDeviceList);
       if(this.defaultPayMode=='1'){
-        console.log(this.isWechatUse,this.wechatDeviceList);
-        console.log(this.isAlipayUse,this.alipayDeviceList);
-        if( !((this.isWechatUse&&this.wechatDeviceList.length>0) ||(this.isAlipayUse&&this.alipayDeviceList.length>0))  ){
+        if( !((this.isWechatUse&&this.wechatDeviceList.length>0) ||(this.isAlipayUse&&this.alipayDeviceList.length>0)||(this.isPmsUse && this.pmsDeviceList.length>0)||(this.isPmsWechatUse && this.pmsWechatDeviceList.length>0))){
           this.$message({
             message: '请选择可以支付的设备',
             type: 'warning'
@@ -637,11 +636,7 @@ export default {
           return
         }
       }else if(this.defaultPayMode=='2'){
-        if(this.isWechatYuUse&&this.wechatYuDeviceList.length>0){
-
-        }else if(this.isAlipayYuUse&&this.alipayYuDeviceList.length>0){
-
-        }else{
+        if(!((this.isWechatYuUse&&this.wechatYuDeviceList.length>0)||(this.isAlipayYuUse&&this.alipayYuDeviceList.length>0)||(this.isPmsAlipayYuUse&&this.pmsAlipayYuDeviceList.length>0))){
           this.$message({
             message: '请选择可以预授权支付的设备',
             type: 'warning'
