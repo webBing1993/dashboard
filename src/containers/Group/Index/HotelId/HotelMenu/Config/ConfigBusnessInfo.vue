@@ -802,16 +802,17 @@
           <div v-if="showType === enumShowType.roomTags">
             <div class="item-tag">
               <span>房间标签</span>
-              <div class="tag-input">
-                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
+              <div class="tag-input1">
+                <div style="height: 40px; margin-bottom: 12px;display:flex;align-items: center" v-for="(obj, index) in roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签(不能超过3个汉字)" maxlength="3"></el-input>
+                  <div class="tag-btn">
+                    <button class="button1" style="color: #D0011B;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #D0011B; margin-left: 5px;padding-bottom: 2px;background-color: #fff;"
+                            @click="subtractRoomTags(index)">-
+                    </button>
+                    <button v-if="index==roomTags.length-1" style="color: #39C240;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #39C240; margin-left: 5px;padding-bottom: 2px;background-color: #fff;" @click="addRoomTags">+</button>
+                  </div>
                 </div>
-                <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
-                          @click="subtractRoomTags">-
-                  </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -2240,9 +2241,9 @@
       addRoomTags() {
         this.roomTags.push('');
       },
-      subtractRoomTags() {
+      subtractRoomTags(index) {
         if (this.roomTags.length == 1) return;
-        this.roomTags.pop();
+        this.roomTags.splice(index, 1);
       },
         //弹框取消按钮
       hideDialog() {
@@ -3023,6 +3024,29 @@
                   position: absolute;
                   bottom: 20px;
                   right: -62px;
+                   .button1{
+                    border-radius: 50px;
+                    outline: none;
+                    border: solid 1px;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #ffffff;
+                    height: 20px;
+                    width: 20px;
+                  }
+                }
+              }
+              .tag-input1 {
+                margin-left: 16px;
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                  margin: 0 0 12px 0;
+                }
+                .tag-btn {
+                  /*position: absolute;*/
+                  /*bottom: 20px;*/
+                  /*right: -62px;*/
                   button {
                     border-radius: 50px;
                     outline: none;
