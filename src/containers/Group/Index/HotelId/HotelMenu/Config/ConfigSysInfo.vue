@@ -370,7 +370,7 @@
               </div>
             </div>
             <!--伯乐相马-->
-            <div v-show="pmsType == '16' ">
+            <div v-show="pmsType == '16'">
               <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="userName" placeholder="请输入用户名"></el-input>
@@ -378,6 +378,16 @@
               <div class="item-form">
                 <span>密码</span>
                 <el-input class="el-right" v-model="password" placeholder="请输入密码"></el-input>
+              </div>
+            </div>
+            <div v-show="pmsType == '21'">
+              <div class="item-form">
+                <span>app_key</span>
+                <el-input class="el-right" v-model="app_key" placeholder="请输入app_key"></el-input>
+              </div>
+              <div class="item-form">
+                <span>app_secret</span>
+                <el-input class="el-right" v-model="app_secret" placeholder="请输入app_secret"></el-input>
               </div>
             </div>
             <!--中软好泰慧云版PMS测试酒店-->
@@ -1057,7 +1067,9 @@
         tokenPassword:"",       //令牌密码
         isFormal:false,            // 是否用正式库: true:正式库，false：练习库
 
-
+        //订单来了
+        app_key:'',
+        app_secret:'',
 
  // **********pms同步频率*********************
         syncSpaceTime: '10',
@@ -1318,10 +1330,10 @@
           } else if (this.pmsType == '17') {
             return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.appKey) && tool.isNotBlank(this.hotelGroupCode)
           }else if ( this.pmsType == '20'|| this.pmsType == '16') {
-            console.log("1111",this.user_name,this.password);
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
-          }
-          else {
+          }else if( this.pmsType == '21'){
+            return tool.isNotBlank(this.app_key) && tool.isNotBlank(this.app_secret)
+          }else {
             return true;
           }
         } else {
@@ -1514,7 +1526,9 @@
           this.tokenUsername=this.pmsData.tokenUsername;       //令牌账号
           this.tokenPassword=this.pmsData.tokenPassword;       //令牌密码
           this.isFormal=this.pmsData.isFormal == 'true' ? true : false;;            // 是否用正式库: true:正式库，false：练习库
-
+          //订单来了
+          this.app_key=this.pmsData.app_key;
+          this.app_secret=this.pmsData.app_secret;
         }
       },
       configData(){
@@ -1742,6 +1756,8 @@
         this.xrbs_siteId="";
         this.xrbs_employeeNum="";
         this.xrbs_moduleNum="";
+        this.app_key='';
+        this.app_secret='';
       },
       initPMSPayConfig(){
         this.getPMSPayConfig({
@@ -2162,6 +2178,12 @@
                 ...paramData,
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
+              }
+            }else if(this.pmsType == '21'){
+              data = {
+                ...paramData,
+                "app_key":this.app_key, // 用户名
+                "app_secret":this.app_secret, // 密码
               }
             }
             else {
