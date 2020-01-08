@@ -249,7 +249,7 @@
             </div>
             <div class="item-text">
               <span>入住规则配置</span>
-              <p>入住手机号配置</p>
+              <p>订单办理入住的相关规则</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':!enabledAdvancedLiveIn, 'tag_text_green':enabledAdvancedLiveIn}">{{enabledAdvancedLiveIn ? '已配置' : '未配置'}}</span>
@@ -775,14 +775,6 @@
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
             <div class="item-form">
-              <span>是否优先干净房?</span>
-              <el-switch
-                v-model="check_in_room_order"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
-            <div class="item-form">
               <span>是否自动分房</span>
               <el-switch
                 v-model="autoGiveRoomVal"
@@ -801,21 +793,29 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form"  v-if="autoGiveRoomVal">
+              <span>自动分房时间</span>
+              <el-time-picker class="el-right" value-format="HH:mm:ss"
+                              v-model="setHouseTime"
+                              placeholder="选择时间">
+              </el-time-picker>
+            </div>
           </div>
           <!--房间标签-->
           <div v-if="showType === enumShowType.roomTags">
             <div class="item-tag">
               <span>房间标签</span>
-              <div class="tag-input">
-                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
+              <div class="tag-input1">
+                <div style="height: 40px; margin-bottom: 12px;display:flex;align-items: center" v-for="(obj, index) in roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签(不能超过3个汉字)" maxlength="3"></el-input>
+                  <div class="tag-btn">
+                    <button class="button1" style="color: #D0011B;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #D0011B; margin-left: 5px;padding-bottom: 2px;background-color: #fff;"
+                            @click="subtractRoomTags(index)">-
+                    </button>
+                    <button v-if="index==roomTags.length-1" style="color: #39C240;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #39C240; margin-left: 5px;padding-bottom: 2px;background-color: #fff;" @click="addRoomTags">+</button>
+                  </div>
                 </div>
-                <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
-                          @click="subtractRoomTags">-
-                  </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
-                </div>
+
               </div>
             </div>
           </div>
@@ -833,13 +833,13 @@
               <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
-            <div class="item-form" v-if="isMaxAllow">
-              <span style="min-width: 210px; ">开启选房时间</span>
-              <el-time-picker class="el-right" value-format="HH:mm:ss"
-                              v-model="setHouseTime"
-                              placeholder="选择时间">
-              </el-time-picker>
-            </div>
+            <!--<div class="item-form" v-if="isMaxAllow">-->
+              <!--<span style="min-width: 210px; ">开启选房时间</span>-->
+              <!--<el-time-picker class="el-right" value-format="HH:mm:ss"-->
+                              <!--v-model="setHouseTime"-->
+                              <!--placeholder="选择时间">-->
+              <!--</el-time-picker>-->
+            <!--</div>-->
             <!--<div class="item-form">-->
             <!--<span style="min-width: 210px; ">是否允许选房</span>-->
             <!--<el-switch-->
@@ -1077,6 +1077,14 @@
               <span>办理入住时，需要用户填写订单手机号</span>
               <el-switch
                 v-model="enabledAdvancedLiveIn"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否优先办理干净房?</span>
+              <el-switch
+                v-model="check_in_room_order"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1390,7 +1398,7 @@
         isDirtyCheckinSendCard:false,
         //自动分房配置
         autoGiveRoomVal:false,
-        check_in_room_order:false,
+
         autoGiveRoomRule:'',
         autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
         //酒店标签配置
@@ -1463,7 +1471,7 @@
         showMoreRoomOrderKey: 'support_zft_mroom',
          //入住规则
         enabledAdvancedLiveIn:false,
-
+        check_in_room_order:false,
         //电子签名
         enabledSign: false,
 
@@ -1905,9 +1913,10 @@
           this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
 
           //是否自动分房配置
-          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
+
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
           this.autoGiveRoomRule= configData.assign_room_no_rules;
+          this.setHouseTime = configData.allow_give_room;
 
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
@@ -1918,7 +1927,7 @@
           //可选房数量
           this.maxAllowRoomcount = configData.max_allow_roomcount;
           this.isMaxAllow=configData.enabled_self_selected_room == 'true' ? true : false;
-          this.setHouseTime = configData.allow_give_room;
+
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //押金配置
@@ -1981,7 +1990,7 @@
 
           //入住规则配置
           this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
-
+          this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
 
@@ -2235,9 +2244,9 @@
       addRoomTags() {
         this.roomTags.push('');
       },
-      subtractRoomTags() {
+      subtractRoomTags(index) {
         if (this.roomTags.length == 1) return;
-        this.roomTags.pop();
+        this.roomTags.splice(index, 1);
       },
         //弹框取消按钮
       hideDialog() {
@@ -2292,8 +2301,9 @@
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
-            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
+
             this.autoGiveRoomRule= this.configData.assign_room_no_rules;
+            this.setHouseTime = this.configData.allow_give_room
             break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
@@ -2301,7 +2311,7 @@
           case enumShowType.maxAllowRoomcount:
             this.isMaxAllow=this.configData.enabled_self_selected_room == 'true' ? true : false;
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
-            this.setHouseTime = this.configData.allow_give_room
+
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
             break;
           case enumShowType.cashPledge:
@@ -2363,6 +2373,7 @@
             break;
           case enumShowType.advancedLiveIn:
             this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
+            this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -2491,10 +2502,14 @@
             break;
           case enumShowType.autoGiveRoom:
             if(this.autoGiveRoomVal){
+              if(!this.setHouseTime){
+                this.setHouseTime=''
+              }
               data = {
                 'enabled_auto_give_room': this.autoGiveRoomVal.toString(),
-                'check_in_room_order':this.check_in_room_order.toString(),
-                'assign_room_no_rules':this.autoGiveRoomRule
+
+                'assign_room_no_rules':this.autoGiveRoomRule,
+                'allow_give_room':this.setHouseTime
               };
             }else{
               data = {
@@ -2512,7 +2527,7 @@
             data = {
               enabled_self_selected_room: this.isMaxAllow.toString(),
               max_allow_roomcount: this.maxAllowRoomcount,
-              allow_give_room:this.setHouseTime,
+
               // enable_select_house:this.selectHouseSure
             }
             break;
@@ -2639,6 +2654,7 @@
           case enumShowType.advancedLiveIn:
             data = {
               no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
+              'check_in_room_order':this.check_in_room_order.toString(),
             }
             break;
           case enumShowType.sign:
@@ -3011,6 +3027,29 @@
                   position: absolute;
                   bottom: 20px;
                   right: -62px;
+                   .button1{
+                    border-radius: 50px;
+                    outline: none;
+                    border: solid 1px;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #ffffff;
+                    height: 20px;
+                    width: 20px;
+                  }
+                }
+              }
+              .tag-input1 {
+                margin-left: 16px;
+                width: 70%;
+                .el-input {
+                  width: 100%;
+                  margin: 0 0 12px 0;
+                }
+                .tag-btn {
+                  /*position: absolute;*/
+                  /*bottom: 20px;*/
+                  /*right: -62px;*/
                   button {
                     border-radius: 50px;
                     outline: none;

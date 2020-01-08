@@ -54,6 +54,20 @@
               <span class="help is-danger" v-show="errors.has('hotelCode')">门店编码不能为空!</span>
 
               <div class="item">
+                <span>酒店注册名</span>
+                <el-input class="el-right" v-model="alias" :maxlength="100" name="alias" v-validate="'required'"
+                          :class="{'is-danger': errors.has('alias') }" placeholder="请输入酒店注册名"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('alias')">酒店注册名不能为空!</span>
+
+              <div class="item">
+                <span>酒店设备号</span>
+                <el-input class="el-right" v-model="deviceNumbers" :maxlength="100" name="deviceNumbers" v-validate="'required'"
+                          :class="{'is-danger': errors.has('deviceNumbers') }" placeholder="请输入酒店设备号"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('deviceNumbers')">酒店设备号不能为空!</span>
+
+              <div class="item">
                 <span>企业微信id</span>
                 <el-select class="el-right" v-model="corpId" placeholder="请输入企业微信id">
                   <el-option
@@ -169,6 +183,8 @@
         hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         brandId: '',
         hotelCode: '',
+        alias:'',//酒店注册名
+        deviceNumbers:'',//酒店设备号
         corpId: '',
         storeName: '',
         storePhone: '',
@@ -296,6 +312,8 @@
           group_id: this.groupId,
           brand_id: this.brandId,
           code: this.hotelCode,
+          device_numbers:this.deviceNumbers,
+          alias:this.alias,
           corp_id: this.corpId,
           name: this.storeName,
           tel: this.storePhone,

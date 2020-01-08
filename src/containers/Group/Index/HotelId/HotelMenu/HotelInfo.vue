@@ -58,6 +58,21 @@
               <span class="help is-danger" v-show="errors.has('code')">门店编码不能为空!</span>
 
               <div class="item">
+                <span>酒店注册名</span>
+                <el-input class="el-right" :disabled="!isEditInfo" v-model="alias" :maxlength="100" name="alias" v-validate="'required'"
+                          :class="{'is-danger': errors.has('alias') }" placeholder="请输入酒店注册名"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('alias')">酒店注册名不能为空!</span>
+
+              <div class="item">
+                <span>酒店设备号</span>
+                <el-input class="el-right" :disabled="!isEditInfo"  v-model="deviceNumbers" :maxlength="100" name="deviceNumbers" v-validate="'required'"
+                          :class="{'is-danger': errors.has('deviceNumbers') }" placeholder="请输入酒店设备号"></el-input>
+              </div>
+              <span class="help is-danger" v-show="errors.has('deviceNumbers')">酒店设备号不能为空!</span>
+
+
+              <div class="item">
                 <span>企业微信id</span>
                 <el-select class="el-right" :disabled="!isEditInfo" v-model="corpId" placeholder="请输入企业微信id">
                   <el-option
@@ -177,6 +192,8 @@
         groupList: [],
         brandList: [],
         hotelType:'',
+        alias:'',//酒店注册名
+        deviceNumbers:'',//酒店设备号
         hotelTypeList:[{name:'普通酒店',id:'GENERAL'},{name:'联体酒店',id:'UNION'}],
         hotel: {},
         belongGroupId: '',
@@ -388,6 +405,8 @@
           contact_phone: this.contactPhone,
           contact_position: this.contactPosition,
           type:this.hotelType,
+          device_numbers:this.deviceNumbers,
+          alias:this.alias,
           showRec:this.hotelType==='GENERAL'?false:true,
           onsuccess: body => {
             this.isEditInfo = false;
@@ -419,7 +438,8 @@
         this.contactPhone = this.hotel.contact_phone;
         this.contactPosition = this.hotel.contact_position;
         this.hotelType=this.hotel.type
-
+        this.deviceNumbers=this.hotel.device_numbers;
+        this.alias=this.hotel.alias;
         let region = this.provinceList.find(v => v.name == this.province);
         if (region !== undefined) {
           this.provinceCode = region.code;

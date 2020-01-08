@@ -86,6 +86,19 @@
             <td>{{ obj.lvyeUploadCount}}</td>
             <td>{{ obj.lvyeRoomUploadCount}}</td>
           </tr>
+          <tr v-if="tableData.length>0">
+            <td></td>
+            <td>汇总</td>
+            <td>{{  'roomTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'orderTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'orderRoomTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'wqtOrderTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'wqtRoomTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'wqtCheckInTotalCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'identityCheckCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'lvyeUploadCount' | sumCloumn(tableData)}}</td>
+            <td>{{  'lvyeRoomUploadCount' | sumCloumn(tableData)}}</td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -126,10 +139,17 @@
         xcxHotelList:'',
       }
     },
-    computed:{
-      ...mapState([
-
-      ]),
+    computed: {
+      sumAmount(){
+        return this.tableData.prods.map(
+          row=>row.prod_amount).reduce(
+          (acc, cur) => (parseFloat(cur) + acc), 0)
+      },
+      sumMoney(){
+        return this.order.prods.map(
+          row=>row.prod_amount*row.prod_price).reduce(
+          (acc, cur) => (parseFloat(cur) + acc), 0)
+      }
     },
     methods:{
       ...mapActions([
@@ -203,6 +223,11 @@
         }
         return result;
       },
+      sumCloumn(msg,tableData) {
+        return tableData.map(
+          row=>row[msg]).reduce(
+          (acc, cur) => (parseFloat(cur) + acc), 0)
+      }
     },
     mounted(){
       this.initHotelList();
