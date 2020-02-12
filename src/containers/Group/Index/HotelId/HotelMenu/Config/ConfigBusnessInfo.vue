@@ -269,19 +269,19 @@
             </span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.sign)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/签名.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>电子签名</span>
-              <p>客人是否需要在支付后签名。</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.sign)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/签名.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>电子签名</span>-->
+              <!--<p>客人是否需要在支付后签名。</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !enabledSign, 'tag_text_green': enabledSign}">{{enabledSign ? '已开通' : '未开通'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.rcPrint)">
             <div class="item_img">
@@ -296,19 +296,20 @@
                   :class="{'tag_text_red': !hasSetRc, 'tag_text_green': hasSetRc}">{{hasSetRc ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.enableRCstatus)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>RC单是否开启字段</span>
-              <p>RC单是否开启字段</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>
-          </button>
-        </el-col>
+
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.enableRCstatus)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/认证.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>RC单是否开启字段</span>-->
+              <!--<p>RC单是否开启字段</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !rcStatus, 'tag_text_green': rcStatus}">{{rcStatus ? '已开通' : '未开通'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.accessServiceType)">
             <div class="item_img">
@@ -347,9 +348,6 @@
             <span class="tag_text"
                   :class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>
           </button>
-        </el-col>
-        <el-col :span="8">
-          <button style="border:0;"></button>
         </el-col>
         <div class="content-title">
           <span>其他配置</span>
@@ -1101,43 +1099,63 @@
           <!-- RC单打印 -->
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
-              <span>模版名称</span>
-              <el-upload
-                ref="upload"
-                class="upload-demo el-right"
-                :headers="setHeader"
-                :action="rcgethotelid"
-                :on-success="getUploadData"
-                :auto-upload="false">
-                <el-button slot="trigger" size="small" type="primary" v-if="!templateUrl">选取文件</el-button>
-                <el-button slot="trigger" size="small" type="primary" v-if="templateUrl">重新选择</el-button>
-                <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
-              </el-upload>
-              <div>
-                <a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>
-              </div>
-            </div>
-            <div class="item-form">
-              <span>电子签名</span>
-              <el-radio v-model="perRoom" label="1">一房一签</el-radio>
-              <el-radio v-model="perRoom" label="2">一人一签</el-radio>
-            </div>
-            <div style="margin: -0.5rem 0 0.5rem 9rem ;color: #9B9B9B;margin-top: -0.5rem">
-              <span>注：一房一签：只需有第一位入住人签名，同住人无需再签名</span><br>
-              <span style="margin-left: 2rem">一人一签：要求每位入住人都签名</span>
-            </div>
-            <div class="item-form">
-              <span>默认自动打印</span><br>
+              <span>RC单是否开启字段</span>
               <el-switch
-                v-model="autoPrintVal"
+                v-model="rcStatus"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
             </div>
-            <div class="item-form">
-              <span>打印机名称</span>
-              <el-input class="el-right" v-model="rcPrintDeviceName" placeholder="请输入打印机名称"></el-input>
+            <div  v-show="rcStatus">
+              <div class="item-form">
+                <span>模版名称</span>
+                <el-upload
+                  ref="upload"
+                  class="upload-demo el-right"
+                  :headers="setHeader"
+                  :action="rcgethotelid"
+                  :on-success="getUploadData"
+                  :auto-upload="false">
+                  <el-button slot="trigger" size="small" type="primary" v-if="!templateUrl">选取文件</el-button>
+                  <el-button slot="trigger" size="small" type="primary" v-if="templateUrl">重新选择</el-button>
+                  <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
+                </el-upload>
+                <div>
+                  <a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>
+                </div>
+              </div>
+              <div class="item-form">
+                <span>是否开通电子签名？</span>
+                <el-switch
+                  v-model="enabledSign"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+              <div class="item-form" v-show="enabledSign">
+                <span>电子签名</span>
+                <el-radio v-model="perRoom" label="1">一房一签</el-radio>
+                <el-radio v-model="perRoom" label="2">一人一签</el-radio>
+              </div>
+              <div style="margin: -0.5rem 0 0.5rem 9rem ;color: #9B9B9B;margin-top: -0.5rem" v-show="enabledSign">
+                <span>注：一房一签：只需有第一位入住人签名，同住人无需再签名</span><br>
+                <span style="margin-left: 2rem">一人一签：要求每位入住人都签名</span>
+              </div>
+              <div class="item-form">
+                <span>默认自动打印</span><br>
+                <el-switch
+                  v-model="autoPrintVal"
+                  on-color="#13ce66"
+                  off-color="#ff4949">
+                </el-switch>
+              </div>
+              <div class="item-form">
+                <span>打印机名称</span>
+                <el-input class="el-right" v-model="rcPrintDeviceName" placeholder="请输入打印机名称"></el-input>
+              </div>
+
             </div>
+
           </div>
           <div v-if="showType === enumShowType.enableRCstatus">
             <div class="item-form">
@@ -2666,6 +2684,13 @@
               "auto_print": this.autoPrintVal ? 1 : 0,
               'deviceName':this.rcPrintDeviceName,
             }
+            this.patchConfigData({
+
+            });
+            this.patchConfigData({
+              "rc_status": this.rcStatus.toString(),
+              enabled_sign: this.enabledSign.toString()
+            });
             this.mySetRCconfig(data);
             return;
           case enumShowType.enableRCstatus:

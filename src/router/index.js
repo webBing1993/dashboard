@@ -74,6 +74,7 @@ import Brand from '@/containers/Group/Index/GroupId/GroupIdMenu/Brand.vue'
 import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHotelList.vue'
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
+import FaceDevice from '@/containers/Group/Index/HotelId/HotelMenu/FaceDevice.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionArea.vue'
@@ -95,6 +96,8 @@ import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMi
 // 6级路由
 import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/DeviceList.vue'
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
+import faceDeviceList from '@/containers/Group/Index/HotelId/HotelMenu/faceDevice/faceDevice.vue'
+import EditFaceDevice from '@/containers/Group/Index/HotelId/HotelMenu/faceDevice/EditFaceDevice.vue'
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigSysInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSysInfo.vue'
@@ -223,6 +226,22 @@ const main = [
                             name: 'RelationDevice',
                             component: RelationDevice
                           }
+                        ]
+                      },
+                      {
+                        path: 'faceDevice',
+                        component: FaceDevice,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'faceDeviceList',
+                            component: faceDeviceList
+                          },
+                          {
+                            path: 'editFaceDevice',
+                            name: 'editFaceDevice',
+                            component: EditFaceDevice
+                          },
                         ]
                       },
                       {

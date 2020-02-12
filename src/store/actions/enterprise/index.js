@@ -15,5 +15,6 @@ module.exports = {
   ...require('./prodConfig'),
   ...require('./recharge'),
   ...require('./hotelAccount'),
-  ...require('./configMicro')
+  ...require('./configMicro'),
+  ...require('./faceDevice')
 }

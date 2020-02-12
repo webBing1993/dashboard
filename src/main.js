@@ -30,6 +30,7 @@ import tableList from '@/modules/Tables/table-list.vue'
 import tableHotel from '@/modules/Tables/table-hotel.vue'
 import tableBrand from '@/modules/Tables/table-brand.vue'
 import tableDevice from '@/modules/Tables/table-device.vue'
+import tableFaceDevice from '@/modules/Tables/table-facedevice.vue'
 import tableRoom from '@/modules/Tables/table-room.vue'
 import tableRoomType from '@/modules/Tables/table-roomtype.vue'
 import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
@@ -62,6 +63,7 @@ Vue.component('table-list', tableList)
 Vue.component('table-hotel', tableHotel)
 Vue.component('table-brand', tableBrand)
 Vue.component('table-device', tableDevice)
+Vue.component('table-facedevice', tableFaceDevice)
 Vue.component('table-room', tableRoom)
 Vue.component('table-roomtype', tableRoomType)
 Vue.component('table-miniapp', tableMiniApp)
