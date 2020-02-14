@@ -890,6 +890,10 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form">
+              <span>最大发卡数量</span>
+              <el-input class="el-right" v-model="max_card_number" placeholder="未填写表示不限制"></el-input>
+            </div>
           </div>
           <!--旅业系统配置弹框-->
           <div v-if="showType === enumShowType.lvyeReportType">
@@ -986,6 +990,7 @@
     reviewRoomNum:9,       //旅业房号核验配置
     roomCard:10,     //房卡配置
     moreLvyeReportType:11,//多旅业系统配置
+
   }
   //弹框标题类型
   const typeTitles = ['是否删除',
@@ -1196,6 +1201,7 @@
         isShowPMSDialog:true,
 
         queryDel:false,
+        max_card_number:''
       }
 
     },
@@ -1580,7 +1586,7 @@
           this.issuedCardRuleVal = configData.issued_card_rule;
           this.inteRoomLock = configData.integration_room_lock == 'true' ? true : false;
           this.send_card_by_lan=configData.send_card_by_lan == 'true' ? true : false;
-
+          this.max_card_number=configData.max_card_number ;
 
           //是否续住
           this.pmsCheckIn =configData.pms_enable_extension == 'true' ? true : false
@@ -2056,6 +2062,7 @@
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
             this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
+            this.max_card_number =this.configData.max_card_number ;
             break;
 
           case enumShowType.lvyeReportType:
@@ -2274,6 +2281,7 @@
               issued_card_rule: this.issuedCardRuleVal,
               integration_room_lock: this.inteRoomLock.toString(),
               send_card_by_lan:this.send_card_by_lan .toString(),
+              max_card_number:this.max_card_number
             };
             break;
           case enumShowType.lvyeReportType: {
