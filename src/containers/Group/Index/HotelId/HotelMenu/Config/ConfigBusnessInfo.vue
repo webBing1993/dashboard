@@ -437,19 +437,19 @@
                   :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <el-col :span="8">
-          <button @click="dialogConfig(enumShowType.checkInPrint)">
-            <div class="item_img">
-              <img src="../../../../../../assets/images/认证.png" alt="a">
-            </div>
-            <div class="item-text">
-              <span>入住单配置</span>
-              <p>配置是否打印入住单</p>
-            </div>
-            <span class="tag_text"
-                  :class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>
-          </button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button @click="dialogConfig(enumShowType.checkInPrint)">-->
+            <!--<div class="item_img">-->
+              <!--<img src="../../../../../../assets/images/认证.png" alt="a">-->
+            <!--</div>-->
+            <!--<div class="item-text">-->
+              <!--<span>入住单配置</span>-->
+              <!--<p>配置是否打印入住单</p>-->
+            <!--</div>-->
+            <!--<span class="tag_text"-->
+                  <!--:class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>-->
+          <!--</button>-->
+        <!--</el-col>-->
       </el-row>
 
       <!--/弹框页-->
@@ -1099,7 +1099,7 @@
           <!-- RC单打印 -->
           <div v-if="showType === enumShowType.rcPrint">
             <div class="item-form">
-              <span>RC单是否开启字段</span>
+              <span>是否启用RC单功能</span>
               <el-switch
                 v-model="rcStatus"
                 on-color="#13ce66"
