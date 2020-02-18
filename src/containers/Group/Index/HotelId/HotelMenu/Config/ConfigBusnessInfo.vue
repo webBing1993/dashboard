@@ -1121,7 +1121,7 @@
                   <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
                 </el-upload>
                 <div>
-                  <a :href="templateUrl" v-if="templateUrl">rc单模板预览</a>
+                  <a :href="templateUrl" v-if="templateUrl">RC单模版下载</a>
                 </div>
               </div>
               <div class="item-form">
