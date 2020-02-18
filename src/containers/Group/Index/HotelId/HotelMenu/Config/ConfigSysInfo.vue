@@ -890,9 +890,10 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="item-form">
+            <div class="item-form" v-if="issuedCardRuleVal=='OTM'">
               <span>最大发卡数量</span>
-              <el-input class="el-right" v-model="max_card_number" placeholder="未填写表示不限制"></el-input>
+              <el-input class="el-right"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                        onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" v-model="max_card_number" placeholder="未填写表示不限制"></el-input>
             </div>
           </div>
           <!--旅业系统配置弹框-->
