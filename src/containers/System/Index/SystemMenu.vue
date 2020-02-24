@@ -6,6 +6,7 @@
       <router-link to="/system/wechatpay">微信支付</router-link>
       <router-link to="/system/alipay">支付宝支付</router-link>
       <router-link to="/system/howmuch">好码齐支付</router-link>
+      <router-link to="/system/chinaums">银联支付</router-link>
       <!--<router-link to="/system/miniappmsg">小程序消息模板</router-link>-->
       <router-link to="/system/servemessage">服务消息模板管理</router-link>
       <router-link to="/system/qrcodecreate">二维码生成</router-link>

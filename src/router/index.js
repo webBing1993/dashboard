@@ -17,6 +17,7 @@ import GroupId from '@/containers/Group/Index/GroupId.vue'
 import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddAlipay from '@/containers/System/Index/AddAlipay.vue'
+import AddChinaums from '@/containers/System/Index/AddChinaums.vue'
 import AddHowMuch from '@/containers/System/Index/AddHowMuch.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
@@ -38,6 +39,7 @@ import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import AlipayList from '@/containers/System/Index/SystemMenu/AlipayList.vue'
+import ChinaumsList from '@/containers/System/Index/SystemMenu/ChinaumsList.vue'
 import HowMuchList from '@/containers/System/Index/SystemMenu/HowMuchList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
@@ -413,6 +415,11 @@ const main = [
             component: AddAlipay,
           },
           {
+            path: 'AddChinaums',
+            name: 'AddChinaums',
+            component: AddChinaums,
+          },
+          {
             path: 'addhowmuch',
             name: 'AddHowMuch',
             component: AddHowMuch,
@@ -440,6 +447,11 @@ const main = [
                 path: 'alipay',
                 name: 'AlipayList',
                 component: AlipayList
+              },
+              {
+                path: 'chinaums',
+                name: 'ChinaumsList',
+                component: ChinaumsList
               },
               {
                 path: 'howmuch',

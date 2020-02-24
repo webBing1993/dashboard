@@ -72,6 +72,33 @@
           </div>
         </div>
       </div>
+      <!--银联支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">银联支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持银联支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="chinaumsConfig('chinaums')">配置</span>
+            <span :class="isChinaumsUse?'noUse':'payConfig_main_btn2'" @click="useConfig('chinaums')">{{isChinaumsUse?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isChinaumsUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="chinaumsDeviceList"
+              @change="chooseDevice('chinaums')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--前台支付配置-->
       <!--<div class="payConfig_main">-->
         <!--<div class="payConfig_main_top">-->
@@ -150,6 +177,33 @@
             <el-checkbox-group
               v-model="alipayYuDeviceList"
               @change="chooseDevice('alipayYu')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
+      <!--银联预授权配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">银联预授权</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持支付宝预授权</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="chinaumsConfig('chinaumsYu')">配置</span>
+            <span :class="isChinaumsYuUse?'noUse':'payConfig_main_btn2'" @click="useConfig('chinaumsYu')">{{isChinaumsYuUse?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isChinaumsYuUse">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="chinaumsYuDeviceList"
+              @change="chooseDevice('chinaumsYu')"
             >
               <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
             </el-checkbox-group>
@@ -427,6 +481,39 @@
               <el-button :disabled="!alipayvalidate" type="primary" @click="alipaySubmit">确 定</el-button>
           </span>
       </el-dialog>
+      <!--银联支付、预授权配置弹框-->
+      <el-dialog
+        :title="payType=='chinaums'?'银联支付参数配置':'银联支付预授权参数配置'"
+        :visible.sync="chinaumsDialog"
+        width="50%"
+        center>
+        <div class="item_large" v-if="payType=='chinaums'">
+          <span>商户账号</span>
+          <el-select v-model="chinaumsConfigName" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of ChinaumsList"
+              :key="obj.id"
+              :label="obj.name"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <div class="item_large" v-else>
+          <span>商户账号</span>
+          <el-select v-model="chinaumsConfigNameYu" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of ChinaumsList"
+              :key="obj.id"
+              :label="obj.name"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+              <el-button @click="hideDialog">取 消</el-button>
+              <el-button :disabled="!alipayvalidate" type="primary" @click="chinaumsSubmit">确 定</el-button>
+          </span>
+      </el-dialog>
       <!--前台支付配置弹框-->
       <el-dialog
         title="前台支付"
@@ -522,6 +609,7 @@ export default {
       wechatDialog: false, // 控制微信支付配置弹框
       wechatYuDialog:false, //控制微信预授权配置弹框
       alipayDialog: false, // 控制支付宝支付配置弹框
+      chinaumsDialog: false, // 控制支付宝支付配置弹框
       prosceniumDialog: false, // 控制前台支付配置弹框
       defaultDialog:false,     //默认支付方式
       howmuchDialog:false,   //好码齐支付配置弹框
@@ -532,9 +620,11 @@ export default {
 
       wechatDeviceList: [], // 微信支付设备列表
       alipayDeviceList: [], // 支付宝支付设备列表
+      chinaumsDeviceList: [], // 银联支付设备列表
       prosceniumDeviceList: [], // 前台支付设备列表
       wechatYuDeviceList:[],  //微信预授权设备列表
       alipayYuDeviceList:[],   //支付宝预授权设备列表
+      chinaumsYuDeviceList:[],
       howmuchDeviceList:[],   //好码齐设备列表
       pmsDeviceList:[],       //pms设备列表
       pmsWechatDeviceList:[],     //PMS微信支付设备列表
@@ -542,9 +632,11 @@ export default {
 
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
-      isProsceniumUse: false,    //前台支付是否启用
+      isProsceniumUse: false,    //前台支付是否启用chinaums
+      isChinaumsUse: false,      //银联支付是否启用
       isWechatYuUse:false,      //微信预授权是否启用
       isAlipayYuUse:false,      //支付宝预授权是否启用
+      isChinaumsYuUse: false,      //银联支付预授权是否启用
       isHowmuchUse:false,        //好码齐是否启用
       isPmsUse:false,           //PMS支付
       isPmsWechatUse:false,     //PMS微信支付
@@ -572,18 +664,24 @@ export default {
       mchIdTempYu: '',
       providerAppIdTempYu: '',
       providerMchIdTempYu: '',
-
+      wechatYudefault:{},
 
       accountdata:'',
       accountYudata:'',
       pay_config_key:'',
       payType:'',
 
-      wechatYudefault:{},
+
 
       howmuchList:[],    //所有好码齐支付列表
       howmuchId:'',             //好码齐支付id
       howmuchIdData:'',
+
+      ChinaumsList:[],   //所有银联支付列表
+      chinaumsConfigName:'',
+      chinaumsConfigNameYu:'',
+      chinaumsConfigNameData:'',
+      chinaumsConfigNameDataYu:'',
 
       defaultConfigList:[{id:'0',name:'无'},{id:'1',name:'支付'},{id:'2',name:'预授权'}],
       defaultPayMode:0,
@@ -592,7 +690,7 @@ export default {
   },
   methods: {
     ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices',
-      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig',
+      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig','getChinaumsList',
       'defaultPayModeConfig'//默认支付方式配置
     ]),
     //去配置
@@ -613,13 +711,14 @@ export default {
       }else if(this.payType=="howmuch"){
         this.howmuchDialog=true;
         this.initHowmuchAll();
+      }else if(this.payType=="chinaums"||this.payType=="chinaumsYu"){
+        this.chinaumsDialog=true;
+        this.initChinaums();
       }
     },
     //打开配置默认支付方式对话框
     defaultConfig(){
       this.defaultDialog=true;
-
-
     },
     defaultDialogCancel(){
       this.defaultDialog=false;
@@ -628,7 +727,9 @@ export default {
     defaultDialogSubmit(){
       console.log(this.isPmsUse,this.pmsDeviceList);
       if(this.defaultPayMode=='1'){
-        if( !((this.isWechatUse&&this.wechatDeviceList.length>0) ||(this.isAlipayUse&&this.alipayDeviceList.length>0)||(this.isPmsUse && this.pmsDeviceList.length>0)||(this.isPmsWechatUse && this.pmsWechatDeviceList.length>0))){
+        if( !((this.isWechatUse&&this.wechatDeviceList.length>0) ||(this.isAlipayUse&&this.alipayDeviceList.length>0)
+          ||(this.isPmsUse && this.pmsDeviceList.length>0)||(this.isPmsWechatUse && this.pmsWechatDeviceList.length>0)||(this.isChinaumsUse && this.chinaumsDeviceList.length>0)
+        )){
           this.$message({
             message: '请选择可以支付的设备',
             type: 'warning'
@@ -636,7 +737,8 @@ export default {
           return
         }
       }else if(this.defaultPayMode=='2'){
-        if(!((this.isWechatYuUse&&this.wechatYuDeviceList.length>0)||(this.isAlipayYuUse&&this.alipayYuDeviceList.length>0)||(this.isPmsAlipayYuUse&&this.pmsAlipayYuDeviceList.length>0))){
+        if(!((this.isWechatYuUse&&this.wechatYuDeviceList.length>0)||(this.isAlipayYuUse&&this.alipayYuDeviceList.length>0)
+          ||(this.isPmsAlipayYuUse&&this.pmsAlipayYuDeviceList.length>0) ||(this.isChinaumsYuUse&&this.chinaumsYuDeviceList.length>0))){
           this.$message({
             message: '请选择可以预授权支付的设备',
             type: 'warning'
@@ -685,7 +787,20 @@ export default {
         }
       })
     },
-
+    chinaumsConfig(type){
+      this.chinaumsDialog = true;
+      this.payType=type;
+      this.initChinaums();
+    },
+    initChinaums(){
+      this.getChinaumsList({
+        page: 1,
+        size: 5000,
+        onsuccess: body => {
+          this.ChinaumsList=body.data;
+        }
+      })
+    },
     //打开支付宝配置对话框
     alipayConfig (type) {
       this.alipayDialog = true;
@@ -742,6 +857,16 @@ export default {
         this.pay_config_key='pmspay_alipay_authority_config';
         if(this.isPmsAlipayYuUse){
           data={"devices":this.pmsAlipayYuDeviceList} // 设备
+        }
+      } else if (type == 'chinaums') {
+        this.pay_config_key='unionpay_config';
+        if(this.isChinaumsUse){
+          data={"devices":this.chinaumsDeviceList} // 设备
+        }
+      }else if (type == 'chinaumsYu') {
+        this.pay_config_key='unionpay_authority_config';
+        if(this.isChinaumsYuUse){
+          data={"devices":this.chinaumsYuDeviceList} // 设备
         }
       }
       this.patchPayConfigData(data);
@@ -883,6 +1008,26 @@ export default {
         data = {
           "enable": this.isPmsAlipayYuUse, // 启用：true  停用：false
         }
+      }else if(type == 'chinaums'){
+        if((this.chinaumsConfigName== ''||this.chinaumsConfigName== undefined) && this.isHowmuchUse==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isChinaumsUse = !this.isChinaumsUse;
+        this.pay_config_key='unionpay_config';
+        data={
+          "enable":this.isChinaumsUse, // 启用：true  停用：false
+        }
+      }else if(type == 'chinaumsYu'){
+        if((this.chinaumsConfigNameYu== ''||this.chinaumsConfigNameYu== undefined) && this.isHowmuchUse==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isChinaumsYuUse= !this.isChinaumsYuUse;
+        this.pay_config_key='unionpay_authority_config';
+        data={
+          "enable":this.isChinaumsYuUse, // 启用：true  停用：false
+        }
       }
 
       this.patchPayConfigData(data);
@@ -948,6 +1093,14 @@ export default {
           this.alipayDialog=false;
           this.accountYu=this.accountYudata;
         }
+      if(this.payType=='chinaums'){
+        this.chinaumsDialog=false;
+        this.chinaumsConfigName=this.chinaumsConfigNameData;
+      }
+      if(this.payType=='chinaumsYu'){
+        this.chinaumsDialog=false;
+        this.chinaumsConfigNameYu=this.chinaumsConfigNameDataYu;
+      }
 
         if( type == 'wechatYu'){
           this.wechatYuDialog=false;
@@ -978,7 +1131,6 @@ export default {
           provider: this.providerYu,
           provider_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
           provider_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
-
         }
       }
       console.log(data);
@@ -1024,6 +1176,23 @@ export default {
         }
       }
       this.patchConfigData(data);
+    },
+    chinaumsSubmit(){
+      this.chinaumsDialog=false;
+      let data={};
+      if(this.payType=='chinaums'){
+        this.pay_config_key='unionpay_config';
+        data={
+          "pay_config_id":this.chinaumsConfigName, // 支付宝商户配置ID
+        }
+      }else{
+        this.pay_config_key='unionpay_authority_config';
+        data={
+          "pay_config_id":this.chinaumsConfigNameYu, // 支付宝商户配置ID
+        }
+      }
+
+      this.patchPayConfigData(data);
     },
     //支付宝配置保存
     alipaySubmit(){
@@ -1126,7 +1295,30 @@ export default {
              this.accountdata=body.data.alipay_config.alipay_config_id;
              this.account=this.accountdata;
            }
-
+           //银联支付设备默认配置
+           if(body.data.unionpay_config!=null){
+             if(body.data.unionpay_config.enable!=undefined){
+               this.isChinaumsUse=JSON.parse(body.data.unionpay_config.enable);          //支付宝设备是否启用
+             }
+             if(body.data.unionpay_config.devices!=undefined){
+               this.chinaumsDeviceList=body.data.unionpay_config.devices; // 支付宝支付设备列表
+               this.chinaumsDeviceList=this.deviceFilter( this.chinaumsDeviceList);
+             }
+             this.chinaumsConfigNameData=body.data.unionpay_config.pay_config_id;
+             this.chinaumsConfigName=this.chinaumsConfigNameData;
+           }
+           //银联支付设备默认配置
+           if(body.data.unionpay_authority_config!=null){
+             if(body.data.unionpay_authority_config.enable!=undefined){
+               this.isChinaumsYuUse=JSON.parse(body.data.unionpay_authority_config.enable);          //支付宝设备是否启用
+             }
+             if(body.data.unionpay_authority_config.devices!=undefined){
+               this.chinaumsYuDeviceList=body.data.unionpay_authority_config.devices; // 支付宝支付设备列表
+               this.chinaumsYuDeviceList=this.deviceFilter( this.chinaumsYuDeviceList);
+             }
+             this.chinaumsConfigNameDataYu=body.data.unionpay_authority_config.pay_config_id;
+             this.chinaumsConfigNameYu=this.chinaumsConfigNameDataYu;
+           }
            //支付宝预授权默认配置
            if(body.data.alipay_authority_config!=null){
              if(body.data.alipay_authority_config.enable!=undefined) {

@@ -92,7 +92,17 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button @click="dialogConfig(enumShowType.storeminiApp)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/小程序.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>酒店商城支付配置</span>
+              <p>关联酒店商城支付配置。</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':appId , 'tag_text_green':appId}">{{appId ? '已配置' : '未配置'}}</span>
+          </button>
         </el-col>
         <el-col :span="8">
           <button style="border:0;"></button>
@@ -576,6 +586,63 @@
               <div class="item-form">
                 <span>服务商mch_id</span>
                 <el-select class="el-right" v-model="providerMchIdTemp" filterable placeholder="请选择服务商mch_id">
+                  <el-option
+                    v-for="(obj, index) of providerMchIdList"
+                    :key="obj.value"
+                    :label="obj.value"
+                    :value="obj.value">
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+          </div>
+          <!--酒店商城支付配置弹框-->
+          <div v-if="showType === enumShowType. storeminiApp">
+            <div class="item-form">
+              <span>服务商模式</span>
+              <el-switch
+                v-model="providerYu"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>小程序app_id</span>
+              <el-select class="el-right" v-model="appIdTempYu" filterable placeholder="请选择小程序">
+                <el-option
+                  v-for="(obj, index) of miniAppList"
+                  :key="obj.app_id"
+                  :label="`${obj.app_id} | ${obj.app_name}`"
+                  :value="`${obj.app_id} | ${obj.app_name}`">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>商户mch_id</span>
+              <el-select class="el-right" v-model="mchIdTempYu" filterable placeholder="请输入商户号">
+                <el-option
+                  v-for="(obj, index) of mchIdList"
+                  :key="obj.value"
+                  :label="obj.value"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
+            <div v-show="providerYu">
+              <div class="item-form">
+                <span>服务商app_id</span>
+                <el-select class="el-right" v-model="providerAppIdTempYu" filterable placeholder="请选择服务商app_id">
+                  <el-option
+                    v-for="(obj, index) of miniAppList"
+                    :key="obj.app_id"
+                    :label="`${obj.app_id} | ${obj.app_name}`"
+                    :value="`${obj.app_id} | ${obj.app_name}`">
+                  </el-option>
+                </el-select>
+              </div>
+              <div class="item-form">
+                <span>服务商mch_id</span>
+                <el-select class="el-right" v-model="providerMchIdTempYu" filterable placeholder="请选择服务商mch_id">
                   <el-option
                     v-for="(obj, index) of providerMchIdList"
                     :key="obj.value"
@@ -1333,6 +1400,7 @@
     xiezhuRoomNos:27,       //房间同步列表配置
     enabled_send_to_xiezhu:28 ,  // 是否同步到携程配置
     checkInPrint:29,   //入住单配置
+    storeminiApp:30 //酒店商城支付配置
 
   }
 
@@ -1342,7 +1410,8 @@
     '闪开发票配置',
     '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
-    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置','入住单配置'
+    '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置','入住单配置',
+    '酒店商城支付配置'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1533,6 +1602,13 @@
         checkInPrint:false,   //是否开启入住单配置
         UploadCheckInPrint:'',//模板路径
         checkInPrintName:'',//打印机名称
+
+        providerYu: false,
+        appIdTempYu: '',
+        mchIdTempYu: '',
+        providerAppIdTempYu: '',
+        providerMchIdTempYu: '',
+        wechatYudefault:{},
       }
     },
     mounted() {
@@ -1553,6 +1629,42 @@
         showReception: state => state.enterprise.showReception,
         showMoreLvyeConfig:  state => state.enterprise.showMoreLvyeConfig
       }),
+      appIdYu: {
+        get() {
+          if (!this.appIdTempYu) return '';
+          return this.appIdTempYu.split(' | ')[0];
+        },
+        set(val) {
+          val.app_id ? this.appIdTempYu = `${val.app_id} | ${val.app_name}` : this.appIdTempYu = '';
+        }
+      },
+      mchIdYu: {
+        get() {
+          if (!this.mchIdTempYu) return '';
+          return this.mchIdTempYu.split(' | ')[0];
+        },
+        set(val) {
+          val.mch_id ? this.mchIdTempYu = `${val.mch_id} | ${val.mch_name}` : this.mchIdTempYu = '';
+        }
+      },
+      providerAppIdYu: {
+        get() {
+          if (!this.providerAppIdTempYu) return '';
+          return this.providerAppIdTempYu.split(' | ')[0];
+        },
+        set(val) {
+          val.provider_app_id ? this.providerAppIdTempYu = `${val.provider_app_id} | ${val.provider_app_name}` : this.providerAppIdTempYu = '';
+        }
+      },
+      providerMchIdYu: {
+        get() {
+          if (!this.providerMchIdTempYu) return '';
+          return this.providerMchIdTempYu.split(' | ')[0];
+        },
+        set(val) {
+          val.provider_mch_id ? this.providerMchIdTempYu = `${val.provider_mch_id} | ${val.provider_mch_name}` : this.providerMchIdTempYu = '';
+        }
+      },
       rcgethotelid() {
         return "/virgo/fileUpload/" + this.$route.params.hotelid
       },
@@ -1677,6 +1789,12 @@
         }
         return tool.isNotBlank(this.appId) && tool.isNotBlank(this.mchId) && tool.isNotBlank(this.providerAppId) && tool.isNotBlank(this.providerMchId);
       },
+      validateStoreminiApp() {
+        if (!this.providerYu) {
+          return tool.isNotBlank(this.appIdYu) && tool.isNotBlank(this.mchIdYu);
+        }
+        return tool.isNotBlank(this.appIdYu) && tool.isNotBlank(this.mchIdYu) && tool.isNotBlank(this.providerAppIdYu) && tool.isNotBlank(this.providerMchIdYu);
+      },
       validatemaxAllowRoomcount() {
         return tool.isNotBlank(this.maxAllowRoomcount) && !isNaN(+this.maxAllowRoomcount)
       },
@@ -1766,6 +1884,9 @@
             break;
           case enumShowType.miniApp:
             result = this.validateminiApp;
+            break;
+          case enumShowType.storeminiApp:
+            result = this.validateStoreminiApp;
             break;
           case enumShowType.autoRefund:
             result = true;
@@ -2038,10 +2159,27 @@
         'showalert',
         'goto',
         'RCconfig',
-        "setRCconfig",
-        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload','getDevicePayConfig'
+        "setRCconfig",'getWechatpay',
+        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload','getDevicePayConfig','patchPayConfig'
 
       ]),
+      //获取微信预授权默认配置项
+      initStroeConfig(){
+        this.getWechatpay({
+          hotel_id: this.$route.params.hotelid,
+          key:"store_trade_miniapp_config",
+          onsuccess:body=>{
+            if(body.data!=null){
+              this.wechatYudefault=body.data;
+              this.appIdYu=body.data;
+              this.mchIdYu = body.data;
+              this.providerYu = body.data.provider ? true : false;
+              this.providerAppIdYu=body.data;
+              this.providerMchIdYu=body.data;
+            }
+          }
+        })
+      },
       //获取支付设备配置是否已配置
       initDevicePayConfig(){
 
@@ -2118,6 +2256,11 @@
         this.showType = type;
         this.showDialog = true;
         if (type === enumShowType.miniApp) {
+          this.getMiniAppLists();
+          this.wechatList();
+        }
+        if(type == enumShowType.storeminiApp){
+          this.initStroeConfig()
           this.getMiniAppLists();
           this.wechatList();
         }
@@ -2413,6 +2556,12 @@
               this.checkInPrint=obj.openCheckinRc== 'true' ? true : false;
             }
             break;
+          case enumShowType.storeminiApp:
+                this.appIdYu=this.wechatYudefault;
+                this.mchIdYu = this.wechatYudefault;
+                this.providerYu = this.wechatYudefault.provider ? true : false;
+                this.providerAppIdYu=this.wechatYudefault;
+                this.providerMchIdYu=this.wechatYudefault;
           default:
         }
       },
@@ -2462,6 +2611,56 @@
                 provider_mch_name: this.providerMchName
               }
             }
+          }
+            break;
+          case enumShowType.storeminiApp: {
+            let data1={};
+            data1 = {
+              "devices": [],
+              "enable": "true",
+              "wechat_pay": {
+                app_id: this.appIdYu,
+                mch_id: this.mchIdYu,
+                provider: this.providerYu,
+                provider_app_id: this.providerAppIdYu,   // 子商户mchId 非必需
+                provider_mch_id: this.providerMchIdYu,    // 是否是服务商模式 必需
+              }
+            }
+            // if (this.provider) {
+            //   data1 = {
+            //     "devices": [],
+            //     "enable": "true",
+            //     "wechat_pay": {
+            //       "provider_app_id": "wx9e8acf0e268a133",
+            //       "provider_mch_id": "1521877433",
+            //       "provider": true,
+            //       "app_id": "wxea8cdf09f921d544",
+            //       "mch_id": "1524799744"
+            //     }
+            //   }
+            // } else {
+            //   data1 = {
+            //     "devices": [],
+            //     "enable": "true",
+            //     "wechat_pay": {
+            //       "provider_app_id": "wx9e8acf0e268a133",
+            //       "provider_mch_id": "1521877433",
+            //       "provider": true,
+            //       "app_id": "wxea8cdf09f921d544",
+            //       "mch_id": "1524799744"
+            //     }
+            //   }
+            // }
+            this.patchPayConfig({
+              hotel_id: this.$route.params.hotelid,
+              pay_config_key:'store_trade_miniapp_config',
+              data:data1,
+              onsuccess: (body) => {
+                console.log('修改了1111111111111')
+                this.showDialog = false;
+                this.getConfigs();
+              }
+            })
           }
             break;
           case enumShowType.autoRefund:
