@@ -493,7 +493,7 @@
             <el-option
               v-for="(obj, index) of ChinaumsList"
               :key="obj.id"
-              :label="obj.name"
+              :label="obj.configName"
               :value="obj.id">
             </el-option>
           </el-select>
@@ -504,7 +504,7 @@
             <el-option
               v-for="(obj, index) of ChinaumsList"
               :key="obj.id"
-              :label="obj.name"
+              :label="obj.configName"
               :value="obj.id">
             </el-option>
           </el-select>
