@@ -421,6 +421,17 @@
                 </el-switch>
               </div>
             </div>
+            <!--千里马PMS-->
+            <div v-show="pmsType == '19' ">
+              <div class="item-form">
+                <span>用户名</span>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入酒店usercode"></el-input>
+              </div>
+              <div class="item-form">
+                <span>密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入酒店password"></el-input>
+              </div>
+            </div>
             <!--罗盘PMS-->
             <div v-show="pmsType == '20' ">
               <div class="item-form">
@@ -1340,6 +1351,10 @@
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else if( this.pmsType == '21'){
             return tool.isNotBlank(this.app_key) && tool.isNotBlank(this.app_secret)
+          }else if( this.pmsType == '19'){
+            return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.password)
+          }else if ( this.pmsType == '20'|| this.pmsType == '16') {
+            return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else {
             return true;
           }
@@ -2101,6 +2116,7 @@
       },
       submitDialog() {
         let data;
+        console.log(11111111,this.pmsType);
         switch (this.showType) {
           case enumShowType.PMS: {
             let paramData = {
@@ -2187,6 +2203,13 @@
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
               }
+            }else if (this.pmsType == '19' ){
+
+              data = {
+                ...paramData,
+                "usercode":this.userCode, // 用户名
+                "password":this.password, // 密码
+              }
             }else if(this.pmsType == '21'){
               data = {
                 ...paramData,
@@ -2199,6 +2222,7 @@
                 ...paramData
               }
             }
+            console.log(1111,this.pmsType);
             this.modifyPms(data);
             return;
           }
