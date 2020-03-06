@@ -17,6 +17,7 @@ import GroupId from '@/containers/Group/Index/GroupId.vue'
 import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddAlipay from '@/containers/System/Index/AddAlipay.vue'
+import AddChinaums from '@/containers/System/Index/AddChinaums.vue'
 import AddHowMuch from '@/containers/System/Index/AddHowMuch.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
@@ -38,6 +39,7 @@ import AddHotel from '@/containers/Group/Index/GroupId/AddHotel.vue'
 import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import AlipayList from '@/containers/System/Index/SystemMenu/AlipayList.vue'
+import ChinaumsList from '@/containers/System/Index/SystemMenu/ChinaumsList.vue'
 import HowMuchList from '@/containers/System/Index/SystemMenu/HowMuchList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
@@ -74,6 +76,7 @@ import Brand from '@/containers/Group/Index/GroupId/GroupIdMenu/Brand.vue'
 import GroupHotelList from '@/containers/Group/Index/GroupId/GroupIdMenu/GroupHotelList.vue'
 import HotelInfo from '@/containers/Group/Index/HotelId/HotelMenu/HotelInfo.vue'
 import Device from '@/containers/Group/Index/HotelId/HotelMenu/Device.vue'
+import FaceDevice from '@/containers/Group/Index/HotelId/HotelMenu/faceDevice.vue'
 import Room from '@/containers/Group/Index/HotelId/HotelMenu/Room.vue'
 import RoomType from '@/containers/Group/Index/HotelId/HotelMenu/RoomType.vue'
 import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionArea.vue'
@@ -95,6 +98,8 @@ import AddMiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg/AddMi
 // 6级路由
 import DeviceList from '@/containers/Group/Index/HotelId/HotelMenu/Device/DeviceList.vue'
 import EditDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/EditDevice.vue'
+import faceDeviceList from '@/containers/Group/Index/HotelId/HotelMenu/faceDevice/faceDevice.vue'
+import EditFaceDevice from '@/containers/Group/Index/HotelId/HotelMenu/faceDevice/EditFaceDevice.vue'
 import RelationDevice from '@/containers/Group/Index/HotelId/HotelMenu/Device/RelationDevice.vue'
 import ConfigInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigInfo.vue'
 import ConfigSysInfo from '@/containers/Group/Index/HotelId/HotelMenu/Config/ConfigSysInfo.vue'
@@ -223,6 +228,22 @@ const main = [
                             name: 'RelationDevice',
                             component: RelationDevice
                           }
+                        ]
+                      },
+                      {
+                        path: 'faceDevice',
+                        component: FaceDevice,
+                        children: [
+                          {
+                            path: '/',
+                            name: 'faceDeviceList',
+                            component: faceDeviceList
+                          },
+                          {
+                            path: 'editFaceDevice',
+                            name: 'editFaceDevice',
+                            component: EditFaceDevice
+                          },
                         ]
                       },
                       {
@@ -394,6 +415,11 @@ const main = [
             component: AddAlipay,
           },
           {
+            path: 'AddChinaums',
+            name: 'AddChinaums',
+            component: AddChinaums,
+          },
+          {
             path: 'addhowmuch',
             name: 'AddHowMuch',
             component: AddHowMuch,
@@ -421,6 +447,11 @@ const main = [
                 path: 'alipay',
                 name: 'AlipayList',
                 component: AlipayList
+              },
+              {
+                path: 'chinaums',
+                name: 'ChinaumsList',
+                component: ChinaumsList
               },
               {
                 path: 'howmuch',

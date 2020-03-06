@@ -421,6 +421,17 @@
                 </el-switch>
               </div>
             </div>
+            <!--千里马PMS-->
+            <div v-show="pmsType == '19' ">
+              <div class="item-form">
+                <span>用户名</span>
+                <el-input class="el-right" v-model="userCode" placeholder="请输入酒店usercode"></el-input>
+              </div>
+              <div class="item-form">
+                <span>密码</span>
+                <el-input class="el-right" v-model="password" placeholder="请输入酒店password"></el-input>
+              </div>
+            </div>
             <!--罗盘PMS-->
             <div v-show="pmsType == '20' ">
               <div class="item-form">
@@ -890,6 +901,11 @@
                 </el-option>
               </el-select>
             </div>
+            <div class="item-form" v-if="issuedCardRuleVal=='OTM'">
+              <span>最大发卡数量</span>
+              <el-input class="el-right"  onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                        onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" v-model="max_card_number" placeholder="未填写表示不限制"></el-input>
+            </div>
           </div>
           <!--旅业系统配置弹框-->
           <div v-if="showType === enumShowType.lvyeReportType">
@@ -986,6 +1002,7 @@
     reviewRoomNum:9,       //旅业房号核验配置
     roomCard:10,     //房卡配置
     moreLvyeReportType:11,//多旅业系统配置
+
   }
   //弹框标题类型
   const typeTitles = ['是否删除',
@@ -1196,6 +1213,7 @@
         isShowPMSDialog:true,
 
         queryDel:false,
+        max_card_number:''
       }
 
     },
@@ -1333,6 +1351,10 @@
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else if( this.pmsType == '21'){
             return tool.isNotBlank(this.app_key) && tool.isNotBlank(this.app_secret)
+          }else if( this.pmsType == '19'){
+            return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.password)
+          }else if ( this.pmsType == '20'|| this.pmsType == '16') {
+            return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else {
             return true;
           }
@@ -1580,7 +1602,7 @@
           this.issuedCardRuleVal = configData.issued_card_rule;
           this.inteRoomLock = configData.integration_room_lock == 'true' ? true : false;
           this.send_card_by_lan=configData.send_card_by_lan == 'true' ? true : false;
-
+          this.max_card_number=configData.max_card_number ;
 
           //是否续住
           this.pmsCheckIn =configData.pms_enable_extension == 'true' ? true : false
@@ -2056,6 +2078,7 @@
             this.issuedCardRuleVal = this.configData.issued_card_rule;
             this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
             this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
+            this.max_card_number =this.configData.max_card_number ;
             break;
 
           case enumShowType.lvyeReportType:
@@ -2093,6 +2116,7 @@
       },
       submitDialog() {
         let data;
+        console.log(11111111,this.pmsType);
         switch (this.showType) {
           case enumShowType.PMS: {
             let paramData = {
@@ -2179,6 +2203,13 @@
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
               }
+            }else if (this.pmsType == '19' ){
+
+              data = {
+                ...paramData,
+                "usercode":this.userCode, // 用户名
+                "password":this.password, // 密码
+              }
             }else if(this.pmsType == '21'){
               data = {
                 ...paramData,
@@ -2191,6 +2222,7 @@
                 ...paramData
               }
             }
+            console.log(1111,this.pmsType);
             this.modifyPms(data);
             return;
           }
@@ -2274,6 +2306,7 @@
               issued_card_rule: this.issuedCardRuleVal,
               integration_room_lock: this.inteRoomLock.toString(),
               send_card_by_lan:this.send_card_by_lan .toString(),
+              max_card_number:this.max_card_number
             };
             break;
           case enumShowType.lvyeReportType: {

@@ -30,11 +30,13 @@ import tableList from '@/modules/Tables/table-list.vue'
 import tableHotel from '@/modules/Tables/table-hotel.vue'
 import tableBrand from '@/modules/Tables/table-brand.vue'
 import tableDevice from '@/modules/Tables/table-device.vue'
+import tableFaceDevice from '@/modules/Tables/table-facedevice.vue'
 import tableRoom from '@/modules/Tables/table-room.vue'
 import tableRoomType from '@/modules/Tables/table-roomtype.vue'
 import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
 import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
 import tableAlipay from '@/modules/Tables/table-alipay.vue'
+import tableChinaums from '@/modules/Tables/table-chinaums.vue'
 import tableHowmuch from '@/modules/Tables/table-howmuch.vue'
 import tableMiniappmsg from '@/modules/Tables/table-miniappmsg.vue'
 import tableServerMassage from '@/modules/Tables/table-servermassage.vue'
@@ -62,11 +64,13 @@ Vue.component('table-list', tableList)
 Vue.component('table-hotel', tableHotel)
 Vue.component('table-brand', tableBrand)
 Vue.component('table-device', tableDevice)
+Vue.component('table-facedevice', tableFaceDevice)
 Vue.component('table-room', tableRoom)
 Vue.component('table-roomtype', tableRoomType)
 Vue.component('table-miniapp', tableMiniApp)
 Vue.component('table-wechatpay', tableWechatpay)
 Vue.component('table-alipay', tableAlipay)
+Vue.component('table-chinaums', tableChinaums)
 Vue.component('table-howmuch', tableHowmuch)
 Vue.component('table-miniappmsg', tableMiniappmsg)
 Vue.component('table-server-massage', tableServerMassage)

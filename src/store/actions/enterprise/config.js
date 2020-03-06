@@ -210,6 +210,8 @@ module.exports = {
     }
     else if (param.data.pms_type == 20) {
       urlQuery = `/hotel/${param.hotel_id}/pmsLuoPan`;
+    }else if (param.data.pms_type == 19) {
+      urlQuery = `/hotel/${param.hotel_id}/pmsLyXr`;
     }else if(param.data.pms_type == 21) {
       urlQuery = `/hotel/${param.hotel_id}/pms`;
     }

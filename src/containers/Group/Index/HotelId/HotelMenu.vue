@@ -16,6 +16,7 @@
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/config2'">待删除</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">门店设备</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/device'">设备管理</router-link>
+      <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/faceDevice'">刷脸设备管理</router-link>
       <a style="color: #4A4A4A;font-size: 16px;margin-top: 10px;font-weight: 600">上线管理</a>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/onlinestatus'">上线状态</router-link>
       <router-link :to="'/group/' + groupId + '/hotel/' + hotelId + '/hotelStaff'">酒店员工</router-link>
