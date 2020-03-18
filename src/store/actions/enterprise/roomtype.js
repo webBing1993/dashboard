@@ -22,12 +22,7 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/roomtype/config/${param.hotel_id}`,
       method:'put',
-      body: {
-        room_type_id: param.room_type_id,
-        name: param.name,
-        max_guest_count: param.max_guest_count,
-        pms_code: param.pms_code,
-      },
+      body: param.data,
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }

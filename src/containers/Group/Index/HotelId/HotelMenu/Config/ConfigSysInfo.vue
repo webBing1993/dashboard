@@ -204,6 +204,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="true"
+        @close="hideDialog(showType)"
       >
         <!--@close="closeMorelvye(showType)"-->
         <div class="dialog-content">
@@ -2068,7 +2069,7 @@
           });
         });
       },
-      //弹框取消按钮
+      //弹框取消按钮弹框
       hideDialog() {
         this.showDialog = false;
         switch (this.showType) {
