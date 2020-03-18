@@ -447,19 +447,19 @@
                   :class="{'tag_text_red': !enablebreakfast, 'tag_text_green': enablebreakfast}">{{enablebreakfast ? '已开通' : '未开通'}}</span>
           </button>
         </el-col>
-        <!--<el-col :span="8">-->
-          <!--<button @click="dialogConfig(enumShowType.checkInPrint)">-->
-            <!--<div class="item_img">-->
-              <!--<img src="../../../../../../assets/images/认证.png" alt="a">-->
-            <!--</div>-->
-            <!--<div class="item-text">-->
-              <!--<span>入住单配置</span>-->
-              <!--<p>配置是否打印入住单</p>-->
-            <!--</div>-->
-            <!--<span class="tag_text"-->
-                  <!--:class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>-->
-          <!--</button>-->
-        <!--</el-col>-->
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.checkInPrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>入住单配置</span>
+              <p>配置是否打印入住单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -469,7 +469,7 @@
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         :show-close="true"
-        @close="closeMorelvye(showType)"
+        @close="hideDialog(showType)"
       >
         <div class="dialog-content">
 
@@ -2305,9 +2305,26 @@
         })
       },
       closeMorelvye(type){
-        if(type===enumShowType.moreLvyeReportType){
-          // this.getMoreLvyes();
-          this.setTip=false;
+        // if(type===enumShowType.moreLvyeReportType){
+        //   // this.getMoreLvyes();
+        //   this.setTip=false;
+        // }
+        if(type===enumShowType.breakfastStemFrom){
+          this.breakfastStemFrom = this.configData.breakfast_stem_from;
+          if(this.configData.contain_price_info!=null&&this.configData.contain_price_info!=''){
+            this.breakfastList=JSON.parse(this.configData.contain_price_info);
+          }else{
+            this.breakfastList=[{"code":"","breakfast":"","description":""}]
+          }
+          this.enabled_download_breakfastexcel=this.configData.enabled_download_breakfastexcel == 'true' ? true : false;
+          this.excelfieldList=JSON.parse(this.configData.breakfast_excel_row);
+          this.excelfield=[];
+          for(let i=0;i<this.excelfieldList.length;i++){
+            if(this.excelfieldList[i].enableShow=='1'){
+              let a=this.excelfieldList[i].id;
+              this.excelfield.push(a);
+            }
+          }
         }
       },
 
