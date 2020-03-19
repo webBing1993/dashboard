@@ -101,7 +101,7 @@
               <p>关联酒店商城支付配置。</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':appIdYu , 'tag_text_green':appIdYu}">{{appIdYu ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':appIdTempYu , 'tag_text_green':appIdTempYu}">{{appIdTempYu ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -1616,6 +1616,7 @@
       this.getRCConfigeds();
       this.getAccessServiceType();
       this.initDevicePayConfig();
+      this.initStroeConfig();
       var arr = new Set([ [1,2],[1,2],[3,4]]);
       console.log(arr);
     },
@@ -2260,7 +2261,7 @@
           this.wechatList();
         }
         if(type == enumShowType.storeminiApp){
-          this.initStroeConfig()
+          // this.initStroeConfig()
           this.getMiniAppLists();
           this.wechatList();
         }
