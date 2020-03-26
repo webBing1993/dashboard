@@ -268,6 +268,7 @@
       },
 
       edit(obj) {
+        console.log('obj',obj);
         this.maxGuestCount = obj.max_guest_count;
         this.roomTypeId = obj.room_type_id;
         this.roomtypeName = obj.names;
@@ -277,7 +278,10 @@
         this.additionalInfo=obj.additionalInfo;
         if(obj.features!=null&&obj.features!=''){
           this.roomTipList=obj.features.split(',');
+        }else{
+          this.roomTipList=[];
         }
+        console.log(this.additionalInfo,this.roomTipList);
         this.showDialog = true;
       },
 
