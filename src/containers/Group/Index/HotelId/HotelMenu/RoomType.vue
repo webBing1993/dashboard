@@ -39,6 +39,30 @@
               </el-option>
             </el-select>
           </div>
+          <div class="item-form">
+            <div style="width:120px;"><p>房型标签</p><span style="font-size: 10px;">最多10个</span></div>
+            <div style="display: flex;flex-wrap: wrap; width:80%;" class="roomTip">
+              <div style="position:relative;" v-for="(item,index ) of roomTipList">
+                <el-input maxlength="5" v-model="roomTipList[index]"  @blur="roomTipListBlur(index)" style="width:100px;height:40px;text-align: center;line-height: 40px;margin-right:20px;margin-bottom:20px;"> </el-input>
+                <div @click="delRoomTip(index)" style="background-color: red;font-size:20px;color:#ffffff;position: absolute;top:0;right:20px;width:20px;height:20px;border-radius: 40px;text-align: center;line-height: 16px;">
+                  -
+                </div>
+              </div>
+              <el-input v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" style="width:100px;height:40px;text-align: center;line-height: 40px; " @blur="roomTipBlur"></el-input>
+            </div>
+          </div>
+          <div class="item-form">
+            <span style="margin-right:20px;">政策服务</span>
+            <el-input
+              style="width:80%;"
+              type="textarea"
+              placeholder="请输入300个字以内"
+              v-model="additionalInfo"
+              maxlength="300"
+              show-word-limit
+            >
+            </el-input>
+          </div>
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="hideDialog">取 消</el-button>
@@ -72,6 +96,30 @@
           <div class="item-form">
             <span>可住人数</span>
             <el-input v-model="roomCanLiveInNum" placeholder="请输入内容"></el-input>
+          </div>
+          <div class="item-form">
+            <div style="width:100px;"><p>房型标签</p><span style="font-size: 10px;">最多10个</span></div>
+            <div style="display: flex;flex-wrap: wrap; width:80%;" class="roomTip">
+              <div style="position:relative;" v-for="(item,index ) of roomTipList">
+                <el-input maxlength="5" v-model="roomTipList[index]" placeholder="" @change="roomTipListBlur(index)" style="width:100px;height:40px;text-align: center;line-height: 40px;margin-right:20px;margin-bottom:20px;"> </el-input>
+                <div @click="delRoomTip(index)" style="background-color: red;font-size:20px;color:#ffffff;position: absolute;top:0;right:20px;width:20px;height:20px;border-radius: 40px;text-align: center;line-height: 16px;">
+                  -
+                </div>
+              </div>
+              <el-input v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" style="width:100px;height:40px;text-align: center;line-height: 40px; " @blur="roomTipBlur"></el-input>
+            </div>
+          </div>
+          <div class="item-form">
+            <span>政策服务</span>
+            <el-input
+              style="width:80%;"
+              type="textarea"
+              placeholder="请输入300个字以内"
+              v-model="additionalInfo"
+              maxlength="300"
+              show-word-limit
+            >
+            </el-input>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -159,6 +207,9 @@
         roomNum: '',
         roomCanLiveInNum: '',
         PmsConnectionStatus: false,
+        roomTip:'添加标签',
+        roomTipList:[],
+        additionalInfo:''
       }
     },
     methods: {
@@ -171,6 +222,22 @@
         'checkPmsConnection',//判断pms对接了吗
 
       ]),
+      roomTipListBlur(index){
+        console.log('list',this.roomTipList);
+        if(this.roomTipList[index]==''){
+          this.roomTipList.splice(index,1);
+        }
+      },
+      delRoomTip(index){
+          this.roomTipList.splice(index,1);
+      },
+      roomTipBlur(){
+        console.log('this.roomTip',this.roomTip)
+        if(this.roomTip!=''){
+          this.roomTipList.push(this.roomTip);
+        }
+        this.roomTip='添加标签';
+      },
       _checkPmsConnection(){
         this.checkPmsConnection({
           hotel_id: this.$route.params.hotelid,
@@ -201,20 +268,26 @@
       },
 
       edit(obj) {
-          console.log(obj)
+        console.log('obj',obj);
         this.maxGuestCount = obj.max_guest_count;
         this.roomTypeId = obj.room_type_id;
-        this.roomtypeName = obj.name;
+        this.roomtypeName = obj.names;
         this.roomtypeCode = obj.pms_code;
         this.roomNum = obj.room_num;
         this.roomCanLiveInNum = obj.max_guest_count;
+        this.additionalInfo=obj.additionalInfo;
+        if(obj.features!=null&&obj.features!=''){
+          this.roomTipList=obj.features.split(',');
+        }else{
+          this.roomTipList=[];
+        }
+        console.log(this.additionalInfo,this.roomTipList);
         this.showDialog = true;
       },
 
       _del(obj){
         this.roomTypeId = obj.room_type_id;
         this.delRoomTypeDialog = true
-        console.log(obj)
         this.roomtypeCode = obj.pms_code
         this.roomtypeName = obj.name
 
@@ -247,9 +320,12 @@
       },
 
       modify() {
+        let list=this.roomTipList.join(',');
         if (this.PmsConnectionStatus) {//对接了pms的
           let data = {
-            max_guest_count: this.maxGuestCount
+            max_guest_count: this.maxGuestCount,
+            features:list,
+            additionalInfo:this.additionalInfo,
           }
 
           this.patchRoomType({
@@ -261,12 +337,17 @@
             }
           })
         } else {
+
           this.ChangeRoomType({
             hotel_id: this.$route.params.hotelid,
-            room_type_id: this.roomTypeId,
-            name: this.roomtypeName,
-            max_guest_count: this.roomCanLiveInNum,
-            pms_code: this.roomtypeCode,
+            data:{
+              room_type_id: this.roomTypeId,
+              name: this.roomtypeName,
+              max_guest_count: this.roomCanLiveInNum,
+              features:list,
+              additionalInfo:this.additionalInfo,
+              pms_code: this.roomtypeCode,
+            },
             onsuccess: body => {
               this.showDialog = false;
               this.getList();
@@ -315,7 +396,6 @@
       margin: 25px;
     }
   }
-
   .content_room {
     font-size: 16px;
     color: #4A4A4A;
@@ -359,8 +439,11 @@
         margin-bottom: 20px;
         .el-input {
           width: 80%;
-
         }
+      }
+     /deep/ .roomTip>.el-input .el-input__inner{
+        color:#34A82B;
+        background-color:#C2E9C1;
       }
       span {
         font-size: 16px;
