@@ -2072,6 +2072,7 @@
       //弹框取消按钮弹框
       hideDialog() {
         this.showDialog = false;
+
         switch (this.showType) {
           case enumShowType.PMS:
             this.wqtPublicNo=this.pmsData.pms_worker_id;
@@ -2118,6 +2119,8 @@
             break;
           case enumShowType.wechatPay:
             this.initPMSPayConfig();
+            this.activeName2='first';
+            console.log('1111111',this.activeName2);
             break;
           case enumShowType.syncSpaceTime:
             //this.syncSpaceTime = this.configData.sync_space_time;
