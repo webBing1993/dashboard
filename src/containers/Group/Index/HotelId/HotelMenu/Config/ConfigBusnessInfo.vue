@@ -346,6 +346,19 @@
                   :class="{'tag_text_red':!breakfastStemFrom, 'tag_text_green':breakfastStemFrom}">{{breakfastStemFrom ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.autoCheckFuse)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/卡券.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>自动挂账结算配置</span>
+              <p>配置自动挂账结算规则</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!autoCheckFuse, 'tag_text_green':autoCheckFuse}">{{autoCheckFuse ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig(enumShowType.enabled_send_to_xiezhu)">-->
             <!--<div class="item_img">-->
@@ -359,9 +372,9 @@
                   <!--:class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>-->
           <!--</button>-->
         <!--</el-col>-->
-        <el-col :span="8">
-          <button style="border:0;"></button>
-        </el-col>
+        <!--<el-col :span="8">-->
+          <!--<button style="border:0;"></button>-->
+        <!--</el-col>-->
         <div class="content-title">
           <span>其他配置</span>
         </div>
@@ -928,6 +941,29 @@
               </el-select>
             </div>
             <div v-show="cashPledgeType != '' && cashPledgeType != 'none_cash_pledge'">
+              <div class="item-form" v-show="cashPledgeType == 'by_room_type'">
+                <span>固定值</span>
+                <el-input class="el-right" v-model="fixedVal" placeholder="" disabled></el-input>
+              </div>
+              <div class="item-form" v-show="cashPledgeType == 'by_room_type'">
+                <span>房型列表</span>
+                <div class="el-right">
+                  <el-table
+                    :data="tableData"
+                    style="width: 100%">
+                    <el-table-column
+                      prop="name"
+                      label="房型名称">
+                    </el-table-column>
+                    <el-table-column
+                      label="押金">
+                      <template slot-scope="scope">
+                        <el-input class="el-right" v-model="scope.row.value" placeholder="请输入"></el-input>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+                </div>
+              </div>
               <div class="item-form" v-show="cashPledgeType == 'fixed_cash_pledge'">
                 <span>固定押金金额</span>
                 <el-input class="el-right" v-model="fixedCashPledge" placeholder="请输入固定押金金额"></el-input>
@@ -992,6 +1028,29 @@
               >
                 <el-checkbox v-for="item in  excelfieldList" :label="item.id" :key="item.id">{{item.des}}</el-checkbox>
               </el-checkbox-group>
+            </div>
+          </div>
+          <!-- 自动结算配置弹框-->
+          <div v-if="showType === enumShowType.autoCheckFuse">
+            <div class="item-form">
+              <span>自动挂账</span>
+              <el-switch
+                v-model="autoCheck"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>退房自动结算</span>
+              <el-switch
+                v-model="autoCheckFuse"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>查房结账时间0-120min</span>
+              <el-input class="el-right" v-model="autoTime" placeholder="查房结账时间" min="0" max="120"></el-input>
             </div>
           </div>
           <!--定制化配置弹框-->
@@ -1403,8 +1462,8 @@
     xiezhuRoomNos:27,       //房间同步列表配置
     enabled_send_to_xiezhu:28 ,  // 是否同步到携程配置
     checkInPrint:29,   //入住单配置
-    storeminiApp:30 //酒店商城支付配置
-
+    storeminiApp:30, //酒店商城支付配置
+    autoCheckFuse: 31 // 自动结算配置
   }
 
   //弹框标题类型
@@ -1414,7 +1473,7 @@
     '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
     '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置','入住单配置',
-    '酒店商城支付配置'
+    '酒店商城支付配置', '自动挂账结算'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1503,7 +1562,11 @@
           {name: '无押金', value: 'none_cash_pledge'},
           {name: '固定押金', value: 'fixed_cash_pledge'},
           {name: '首晚房费', value: 'first_day_of_room_price'},
-          {name: '最大系数', value: 'multiple_of_cash_pledge'}],
+          {name: '最大系数', value: 'multiple_of_cash_pledge'},
+          {name: '按房型', value: 'by_room_type'},
+        ],
+        fixedVal: '固定值',
+        tableData: [],    // 房型列表
         fixedCashPledge: '',
         multipleOfCashPledge: '',
         roundUpToInteger: false,
@@ -1612,10 +1675,13 @@
         providerAppIdTempYu: '',
         providerMchIdTempYu: '',
         wechatYudefault:{},
+        autoCheckFuse: false,
+        autoCheck: false,
+        autoTime: 60
       }
     },
     mounted() {
-      this.getConfigs();
+      this.getHotelList();
       this.getRCConfigeds();
       this.getAccessServiceType();
       this.initDevicePayConfig();
@@ -1824,6 +1890,8 @@
             return tool.isNotBlank(this.dayOfIncidentals) && !isNaN(+this.dayOfIncidentals)
           }
           return true;
+        }else if (this.cashPledgeType == 'by_room_type') {
+          return true;
         }
       },
       validateQrcodeCreate() {
@@ -1868,6 +1936,13 @@
             return true
           }else{
             return true;
+          }
+      },
+      validateautoCheckFuse() {
+          if (this.autoTime != '') {
+              return true
+          }else {
+              return false
           }
       },
       validateXiezhuRoomNos(){
@@ -1921,6 +1996,9 @@
             break;
           case enumShowType.breakfastStemFrom:
             result = this.validatebreakfastStemFrom;
+            break;
+          case enumShowType.autoCheckFuse:
+            result = this.validateautoCheckFuse;
             break;
           case enumShowType.customization:
             result = true;
@@ -2164,9 +2242,29 @@
         'goto',
         'RCconfig',
         "setRCconfig",'getWechatpay',
-        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload','getDevicePayConfig','patchPayConfig'
+        "getRCConfiged",'updateSingerConfig','getSingerConfig','isDeleteCatch','getServiceTypeScript','saveScriptUpload','getDevicePayConfig','patchPayConfig', 'hotelList'
 
       ]),
+
+      // 获取房型list
+      getHotelList() {
+        this.hotelList({
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+              console.log('body', body);
+            if (body.errcode == 0) {
+              if (body.data && body.data.length != 0) {
+                  body.data.forEach(item => {
+                      item.value = ''
+                  })
+              }
+              this.tableData = body.data;
+              this.getConfigs();
+            }
+          }
+        })
+      },
+
       //获取微信预授权默认配置项
       initStroeConfig(){
         this.getWechatpay({
@@ -2804,6 +2902,34 @@
               if (this.hasDayOfIncidentals) {
                 cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
               }
+            } else if(this.cashPledgeType == 'by_room_type') {
+              cash_pledge_config = {
+                ...tempData,
+                round_up_to_integer: this.roundUpToInteger,
+                has_day_of_incidentals: this.hasDayOfIncidentals
+              }
+              if (this.hasDayOfIncidentals) {
+                cash_pledge_config.day_of_incidentals = +this.dayOfIncidentals;
+              }
+                let num = 0;
+               this.tableData.forEach(i => {
+                  if (i.value === '') {
+                    this.showtoast({
+                      text: '房型价格填写不全',
+                      type: 'warning'
+                    });
+                    return
+                  }else {
+                      num++;
+                  }
+              });
+              if (num == this.tableData.length) {
+                let obj = {};
+                this.tableData.forEach(item => {
+                  obj[item.pms_id] = item.value*100;
+                });
+                cash_pledge_config.fixed_cash_by_room_type = JSON.stringify(obj);
+              }
             }
             data = {
               cash_pledge_config
@@ -2841,6 +2967,15 @@
               }
             }
             break;
+          case enumShowType.autoCheckFuse:
+              let obj_ = {};
+              obj_.power_on = this.autoCheckFuse;
+              obj_.account_time_lasting = this.autoTime;
+              data = {
+                  "auto_settle_account": JSON.stringify(obj_),
+                  'auto_buying_on_credit': this.autoCheck
+              };
+              break;
           case enumShowType.customization:
             data = {
               "enabled_mirror_introduce": this.mirrorIntro.toString(),
@@ -2991,7 +3126,42 @@
       },
       getConfigs() {
         this.getConfig({
-          hotel_id: this.$route.params.hotelid
+          hotel_id: this.$route.params.hotelid,
+          onsuccess: body => {
+              if (body.errcode == 0) {
+                let arr = body.data;
+                for(let key in arr) {
+                  if (key == 'cash_pledge_config') {
+                    console.log(1111, arr[key]);
+                    for (let i in arr[key]) {
+                      if (i == 'cash_pledge_type') {
+                        this.cashPledgeType = arr[key][i];
+                      }
+                      if (i == 'fixed_cash_by_room_type') {
+                        let lists = JSON.parse(arr[key][i]);
+                        if (this.cashPledgeType == 'by_room_type') {
+                          if (this.tableData.length != 0) {
+                            this.tableData.forEach(item => {
+                                for(let p in lists) {
+                                    if (item.pms_id == p) {
+                                        item.value = parseFloat(lists[p])/100;
+                                    }
+                                }
+                            })
+                          }
+                        }
+                      }
+                    }
+                  }else if (i == 'auto_settle_account') {
+                      let list = JSON.parse(arr[i]);
+                      this.autoCheckFuse = list.power_on;
+                      this.autoTime = list.account_time_lasting;
+                  }else if (i == 'auto_buying_on_credit') {
+                      this.autoCheck = arr[i];
+                  }
+                }
+              }
+          }
         })
       },
       //修改服务端数据
@@ -3090,6 +3260,7 @@
       padding: 24px 20px 0 8px;
       .content-title {
         display: flex;
+        width: 100%;
         align-items: center;
         justify-content: space-between;
         font-size: 16px;
@@ -3394,7 +3565,7 @@
 
   //我的
   .el-dialog__headerbtn {
-    padding-top: 12px;
+    /*padding-top: 12px;*/
   }
 
   .reg {

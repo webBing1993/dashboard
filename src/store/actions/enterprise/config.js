@@ -423,6 +423,17 @@ module.exports = {
     })
   },
 
+  // 获取房型list
+  hotelList(ctx, param){
+    ctx.dispatch('resource', {
+      url: `/roomtype/${param.hotel_id}`,
+      method: 'GET',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
   //获取商户类型
   getMchNames(ctx, param){
     ctx.dispatch('resource', {
