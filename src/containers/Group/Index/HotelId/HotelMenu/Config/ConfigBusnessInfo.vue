@@ -356,7 +356,7 @@
               <p>配置自动挂账结算规则</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!autoCheckFuse, 'tag_text_green':autoCheckFuse}">{{autoCheckFuse ? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':(!autoCheckFuse || !autoCheck), 'tag_text_green':(autoCheckFuse || autoCheck)}">{{(autoCheckFuse || autoCheck) ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <!--<el-col :span="8">-->
@@ -1939,7 +1939,7 @@
           }
       },
       validateautoCheckFuse() {
-          if (this.autoTime != '') {
+          if ((this.autoTime != '' && this.autoCheckFuse) || !this.autoCheckFuse) {
               return true
           }else {
               return false
@@ -2154,11 +2154,39 @@
             this.fixedCashPledge = configData.cash_pledge_config.fixed_cash_pledge;
             this.multipleOfCashPledge = configData.cash_pledge_config.multiple_of_cash_pledge;
             this.roundUpToInteger = configData.cash_pledge_config.round_up_to_integer;
-            ;
             this.hasDayOfIncidentals = configData.cash_pledge_config.has_day_of_incidentals;
-            ;
             this.dayOfIncidentals = configData.cash_pledge_config.day_of_incidentals;
+            for (let i in configData.cash_pledge_config) {
+              if (i == 'cash_pledge_type') {
+                this.cashPledgeType = configData.cash_pledge_config[i];
+              }
+              if (i == 'fixed_cash_by_room_type') {
+                let lists = JSON.parse(configData.cash_pledge_config[i]);
+                if (this.cashPledgeType == 'by_room_type') {
+                  if (this.tableData.length != 0) {
+                    this.tableData.forEach(item => {
+                      for(let p in lists) {
+                        if (item.pms_id == p) {
+                          item.value = parseFloat(lists[p])/100;
+                        }
+                      }
+                    })
+                  }
+                }
+              }
+            }
           }
+
+          // 自动退账挂账
+          if (tool.isNotBlank(configData.auto_settle_account)) {
+            let list = JSON.parse(configData.auto_settle_account);
+            this.autoCheckFuse = list.power_on;
+            this.autoTime = list.account_time_lasting;
+          }
+          if (tool.isNotBlank(configData.auto_buying_on_credit)) {
+            this.autoCheck = configData.auto_buying_on_credit == 'true' ? true : false;
+          }
+
           //早餐券配置
           this.breakfastStemFrom = configData.breakfast_stem_from;
           if(configData.contain_price_info!=null&&configData.contain_price_info!=''){
@@ -3127,41 +3155,6 @@
       getConfigs() {
         this.getConfig({
           hotel_id: this.$route.params.hotelid,
-          onsuccess: body => {
-              if (body.errcode == 0) {
-                let arr = body.data;
-                for(let key in arr) {
-                  if (key == 'cash_pledge_config') {
-                    console.log(1111, arr[key]);
-                    for (let i in arr[key]) {
-                      if (i == 'cash_pledge_type') {
-                        this.cashPledgeType = arr[key][i];
-                      }
-                      if (i == 'fixed_cash_by_room_type') {
-                        let lists = JSON.parse(arr[key][i]);
-                        if (this.cashPledgeType == 'by_room_type') {
-                          if (this.tableData.length != 0) {
-                            this.tableData.forEach(item => {
-                                for(let p in lists) {
-                                    if (item.pms_id == p) {
-                                        item.value = parseFloat(lists[p])/100;
-                                    }
-                                }
-                            })
-                          }
-                        }
-                      }
-                    }
-                  }else if (i == 'auto_settle_account') {
-                      let list = JSON.parse(arr[i]);
-                      this.autoCheckFuse = list.power_on;
-                      this.autoTime = list.account_time_lasting;
-                  }else if (i == 'auto_buying_on_credit') {
-                      this.autoCheck = arr[i];
-                  }
-                }
-              }
-          }
         })
       },
       //修改服务端数据
