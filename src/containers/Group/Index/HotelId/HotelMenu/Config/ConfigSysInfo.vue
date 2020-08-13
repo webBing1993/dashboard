@@ -228,6 +228,10 @@
                 <span>酒店PMS编码</span>
                 <el-input class="el-right" v-model="hotelPmsCode" placeholder="请输入酒店PMS编码"></el-input>
               </div>
+              <div class="item-form" v-show="pmsType == '20' ">
+                <span>酒店集团编码</span>
+                <el-input class="el-right" v-model="hotelGroupCode" placeholder="请输入酒店集团编码"></el-input>
+              </div>
               <div class="item-form">
                 <span>酒店服务地址</span>
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
@@ -1399,6 +1403,7 @@
         return '';
       },
       validatePMS() {
+          console.log('this.pmsType', this.pmsType);
         if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsType) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
           if (this.pmsType == '1') {
              return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
@@ -1408,7 +1413,9 @@
             return tool.isNotBlank(this.dcKey)
           } else if (this.pmsType == '17') {
             return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.appKey) && tool.isNotBlank(this.hotelGroupCode)
-          }else if ( this.pmsType == '20'|| this.pmsType == '16') {
+          }else if ( this.pmsType == '20') {
+            return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password) && tool.isNotBlank(this.hotelGroupCode)
+          }else if ( this.pmsType == '16') {
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else if( this.pmsType == '21'){
             return tool.isNotBlank(this.app_key) && tool.isNotBlank(this.app_secret)
@@ -2270,6 +2277,7 @@
                 ...paramData,
                 "user_name":this.userName, // 用户名
                 "password":this.password, // 密码
+                "hotel_group_code": this.hotelGroupCode,
               }
             }else if (this.pmsType == '19' ){
 
