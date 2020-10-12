@@ -2942,11 +2942,7 @@
                 let num = 0;
                this.tableData.forEach(i => {
                   if (i.value === '') {
-                    this.showtoast({
-                      text: '房型价格填写不全',
-                      type: 'warning'
-                    });
-                    return
+
                   }else {
                       num++;
                   }
@@ -2957,6 +2953,12 @@
                   obj[item.pms_id] = item.value*100;
                 });
                 cash_pledge_config.fixed_cash_by_room_type = JSON.stringify(obj);
+              }else {
+                this.showtoast({
+                  text: '房型价格填写不全',
+                  type: 'warning'
+                });
+                return
               }
             }
             data = {

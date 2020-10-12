@@ -59,11 +59,37 @@
               <img src="../../../../../../assets/images/同步.png" alt="a">
             </div>
             <div class="item-text">
-              <span>PMS同步频率</span>
+              <span>PMS同步</span>
               <p>设置自动同步周期</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !syncSpaceTime, 'tag_text_green': syncSpaceTime}">{{syncSpaceTime ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.spaceTime)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/同步.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>PMS同步（新）</span>
+              <p>设置自动分步周期</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !isScheduledSure, 'tag_text_green': isScheduledSure}">{{isScheduledSure ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.consumptionCodeSure)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/标签.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>PMS消费码</span>
+              <p>设置消费码</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !consumptionCode, 'tag_text_green': consumptionCode}">{{consumptionCode ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <!--<el-col :span="8">-->
@@ -452,6 +478,14 @@
               <span>备注</span>
               <el-input class="el-right" v-model="remark" placeholder="备注"></el-input>
             </div>
+            <div class="item-form" v-show="pmsType == '12' ">
+              <span>锁房原因</span>
+              <el-input class="el-right" v-model="reason" placeholder="锁房原因"></el-input>
+            </div>
+            <div class="item-form" v-show="pmsType == '12' ">
+              <span>预订类型</span>
+              <el-input class="el-right" v-model="restype" placeholder="预订类型"></el-input>
+            </div>
             <div class="item-form">
               <span>是否对接退房接口</span>
               <el-switch
@@ -733,6 +767,44 @@
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
+            </div>
+          </div>
+          <!--Pms分步频率弹框-->
+          <div v-if="showType === enumShowType.spaceTime">
+            <div class="item-form">
+              <span>是否启用同步？</span>
+              <el-switch
+                v-model="isScheduledSure"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form" v-if="isScheduledSure">
+              <span>预订单同步</span>
+              <el-input class="el-right" v-model="subscribeTime" placeholder="5">
+                <template slot="append">
+                  <span>单\次</span>
+                </template>
+              </el-input>
+            </div>
+            <div class="item-form" v-if="isScheduledSure">
+              <span>在住单同步</span>
+              <el-input class="el-right" v-model="liveInTime" placeholder="5">
+                <template slot="append">
+                  <span>单\次</span>
+                </template>
+              </el-input>
+            </div>
+          </div>
+          <!--消费码弹框-->
+          <div v-if="showType === enumShowType.consumptionCodeSure">
+            <div class="item-form">
+              <span>钟点房消费码</span>
+              <el-input class="el-right" v-model="consumptionCode" placeholder="0001"></el-input>
+            </div>
+            <div class="item-form">
+              <span>名称</span>
+              <el-input class="el-right" v-model="consumptionName" placeholder="名称"></el-input>
             </div>
           </div>
           <!--开通酒店业务类型配置-->
@@ -1067,6 +1139,8 @@
     reviewRoomNum:9,       //旅业房号核验配置
     roomCard:10,     //房卡配置
     moreLvyeReportType:11,//多旅业系统配置
+    spaceTime:12,//PMS分布频率
+    consumptionCodeSure: 13,  // 消费码配置
 
   }
   //弹框标题类型
@@ -1117,6 +1191,8 @@
         xrbs_siteId:'',
         xrbs_employeeNum:'',
         xrbs_moduleNum:'',
+        restype:'',
+        reason:'',
         //绿云,西软
         crsURL: '',
         hotelGroupCode: '',
@@ -1166,6 +1242,15 @@
         syncTime:'', //同步时间
         startTime:'',//开始时间
         endTime:'',//结束时间
+
+// **********PMS分步频率*********************
+        isScheduledSure: false,
+        subscribeTime: 5,
+        liveInTime: 5,
+
+// **********消费码配置*********************
+        consumptionCode: '',
+        consumptionName: '',
 
 // **********无证核验*********************
         withoutCardConfig:false,
@@ -1472,6 +1557,17 @@
         // }
 
       },
+      validateSpace() {
+          if (!this.isScheduledSure) {
+              return true
+          }else {
+              return tool.isNotBlank(this.subscribeTime) && tool.isNotBlank(this.liveInTime)
+          }
+      },
+
+      validateConsumption() {
+        return tool.isNotBlank(this.consumptionCode) && tool.isNotBlank(this.consumptionName)
+      },
 
       validatewxHotel() {
         return tool.isNotBlank(this.wxHotelId);
@@ -1523,6 +1619,12 @@
             break;
           case enumShowType.syncSpaceTime:
             result = true;
+            break;
+          case enumShowType.spaceTime:
+            result = this.validateSpace;
+            break;
+          case enumShowType.consumptionCodeSure:
+            result = this.validateConsumption;
             break;
           case enumShowType.withoutCard:
             result = this.validateWithoutCard;
@@ -1584,6 +1686,8 @@
           this.PMSAppSecret = this.pmsData.app_secret;
           this.userCode = this.pmsData.usercode;
           this.password = this.pmsData.password;
+          this.restype = this.pmsData.restype;
+          this.reason = this.pmsData.reason;
           //别样红
           this.billServiceUrl = this.pmsData.bill_service_url;
           this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1640,7 +1744,16 @@
           this.scheduledSure = configData.scheduled;
           this.inputOrderId = configData.max_order_day
           let extract_time = configData.extract_start_time+','+configData.extract_end_time
-          this.syncTime =extract_time.split(',')
+          this.syncTime =extract_time.split(',');
+
+          // PMS分步频率
+          this.isScheduledSure = configData.order_schedule_config ? JSON.parse(configData.order_schedule_config).power_on : false;
+          this.subscribeTime = configData.order_schedule_config ? JSON.parse(configData.order_schedule_config).preorder_refresh_limit ? parseFloat(JSON.parse(configData.order_schedule_config).preorder_refresh_limit) : 5 :5;
+          this.liveInTime = configData.order_schedule_config ? JSON.parse(configData.order_schedule_config).checked_in_limit ? parseFloat(JSON.parse(configData.order_schedule_config).checked_in_limit) : 5 : 5;
+
+          // 消费码
+          this.consumptionCode = JSON.parse(configData.consume_bill_item).code;
+          this.consumptionName = JSON.parse(configData.consume_bill_item).name;
 
           //无证核验
           this.withoutCardConfig=configData.enable_identity_check_undocumented== 'true' ? true : false;
@@ -1819,7 +1932,9 @@
         this.appKey = "";
         this.PMSAppSecret = "";
         this.userCode = "";
-        this.password = ""
+        this.password = "";
+        this.restype = "";
+        this.reason = "";
         //别样红
         this.billServiceUrl = "";
         this.crmServiceUrl = "";
@@ -2097,6 +2212,8 @@
             this.PMSAppSecret = this.pmsData.app_secret;
             this.userCode = this.pmsData.usercode;
             this.password = this.pmsData.password;
+            this.restype = this.pmsData.restype;
+            this.reason = this.pmsData.reason;
             //别样红
             this.billServiceUrl = this.pmsData.bill_service_url;
             this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -2135,6 +2252,15 @@
             this.syncTime = extract_time.split(',')
             this.inputOrderId = this.configData.max_order_day
             this.scheduledSure = this.configData.scheduled
+            break;
+          case enumShowType.spaceTime:
+            this.isScheduledSure = this.configData.order_schedule_config ? JSON.parse(this.configData.order_schedule_config).power_on : false;
+            this.subscribeTime = this.configData.order_schedule_config ? JSON.parse(this.configData.order_schedule_config).preorder_refresh_limit ? JSON.parse(parseFloat(this.configData.order_schedule_config).preorder_refresh_limit) : 5 : 5;
+            this.liveInTime = this.configData.order_schedule_config ? JSON.parse(this.configData.order_schedule_config).checked_in_limit ? JSON.parse(parseFloat(this.configData.order_schedule_config).checked_in_limit) : 5 : 5;
+            break;
+          case enumShowType.consumptionCodeSure:
+            this.consumptionCode = JSON.parse(this.configData.consume_bill_item).code;
+            this.consumptionName = JSON.parse(this.configData.consume_bill_item).name;
             break;
           case enumShowType.withoutCard:
             this.appValue=this.configData.business_mode;
@@ -2251,7 +2377,9 @@
                   cmmcode:this.xrbs_CRM,
                   pcid:this.xrbs_siteId,
                   empno:this.xrbs_employeeNum,
-                  modu:this.xrbs_moduleNum
+                  modu:this.xrbs_moduleNum,
+                  reason:this.reason,
+                  restype:this.restype,
               }
             }else if (this.pmsType == '16' ){
               data = {
@@ -2342,6 +2470,23 @@
               //max_order_day:(this.inputOrderId.replace(/\s*/g,"") == "") ? 1 : this.inputOrderId.replace(/\s*/g,"")
               max_order_day:this.inputOrderId!=(null || undefined || '') ? this.inputOrderId : '1',
 
+            }
+            break;
+          case enumShowType.spaceTime:
+            data = {
+              order_schedule_config: JSON.stringify({
+                power_on: this.isScheduledSure,
+                preorder_refresh_limit:this.subscribeTime.toString(),
+                checked_in_limit:this.liveInTime.toString()
+              })
+            }
+            break;
+          case enumShowType.consumptionCodeSure:
+            data = {
+              consume_bill_item: JSON.stringify({
+                code: this.consumptionCode,
+                name:this.consumptionName
+              })
             }
             break;
           case enumShowType.withoutCard://无证核验
@@ -2607,6 +2752,7 @@
         align-items: center;
         justify-content: space-between;
         font-size: 16px;
+        width: 100%;
         margin-bottom: 18px;
         padding: 0 0 0 12px;
         i {
