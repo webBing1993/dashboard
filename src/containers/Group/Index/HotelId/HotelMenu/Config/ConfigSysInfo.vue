@@ -453,7 +453,7 @@
               </div>
             </div>
             <!--千里马PMS-->
-            <div v-show="pmsType == '19' ">
+            <div v-show="pmsType == '19' || pmsType == '23'">
               <div class="item-form">
                 <span>用户名</span>
                 <el-input class="el-right" v-model="userCode" placeholder="请输入酒店usercode"></el-input>
@@ -716,6 +716,36 @@
                 <div class="item_large">
                   <span>银联授权取消代码</span>
                   <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店支付宝授权取消代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="工行支付" name="eight">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in statusa" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':''}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
                 </div>
                 <div class="item_large">
                   <span>房租房费关键词</span>
@@ -1488,7 +1518,7 @@
         return '';
       },
       validatePMS() {
-          console.log('this.pmsType', this.pmsType);
+          console.log('this.pmsType', this.pmsType, this.pmsId);
         if (tool.isNotBlank(this.pmsId) && tool.isNotBlank(this.pmsType) && tool.isNotBlank(this.hotelPmsCode) && tool.isNotBlank(this.hotelServiceUrl)) {
           if (this.pmsType == '1') {
              return tool.isNotBlank(this.billServiceUrl) && tool.isNotBlank(this.crmServiceUrl) && tool.isNotBlank(this.orderServiceUrl) && tool.isNotBlank(this.secServiceUrl) && tool.isNotBlank(this.userName) && tool.isNotBlank(this.userPass)
@@ -1504,7 +1534,7 @@
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
           }else if( this.pmsType == '21'){
             return tool.isNotBlank(this.app_key) && tool.isNotBlank(this.app_secret)
-          }else if( this.pmsType == '19'){
+          }else if( this.pmsType == '19' || this.pmsType == '23'){
             return tool.isNotBlank(this.userCode) && tool.isNotBlank(this.password)
           }else if ( this.pmsType == '20'|| this.pmsType == '16') {
             return tool.isNotBlank(this.userName) && tool.isNotBlank(this.password)
@@ -1900,7 +1930,6 @@
             } else {
               this.isHaveRoomNumReviewList = false
             }
-
             this.total = parseInt(headers['x-total'])
           }
         })
@@ -2005,6 +2034,8 @@
             key='pms_unionpay_config';             break;
           case 'seven' :
             key='pms_unionpay_authority_config';             break;
+          case 'eight' :
+            key='pms_icbcpay_config';             break;
         }
         this.getPMSPayConfig({
           hotel_id: this.$route.params.hotelid,
@@ -2127,8 +2158,14 @@
         } else if (type === enumShowType.moreLvyeReportType){
           this.goto({name: 'moreLvyeConfig'});
           return;
+        }else if (type === enumShowType.roomCard) {
+          this.supportRoomCard = this.configData.support_room_card == 'true' ? true : false;
+          this.issuedCardRuleVal = this.configData.issued_card_rule;
+          this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
+          this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
+          this.max_card_number=this.configData.max_card_number ;
         }
-          this.showDialog = true;
+        this.showDialog = true;
       },
       wechatList() {
 //        this.getWechatpayList({
@@ -2407,7 +2444,7 @@
                 "password":this.password, // 密码
                 "hotel_group_code": this.hotelGroupCode,
               }
-            }else if (this.pmsType == '19' ){
+            }else if (this.pmsType == '19' ||this.pmsType == '23' ){
 
               data = {
                 ...paramData,
@@ -2448,6 +2485,8 @@
                 key='pms_unionpay_config';             break;
               case 'seven' :
                 key='pms_unionpay_authority_config';             break;
+              case 'eight' :
+                key='pms_icbcpay_config';             break;
             }
 
             data = {

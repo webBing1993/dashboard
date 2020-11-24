@@ -46,8 +46,8 @@
               <img src="../../../../../../assets/images/小程序.png" alt="a">
             </div>
             <div class="item-text">
-              <span>设备支付配置</span>
-              <p>关联设备支付配置。</p>
+              <span>支付方式配置</span>
+              <p>关联支付方式配置。</p>
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red':!enableDevicePayConfig , 'tag_text_green':appId}">{{enableDevicePayConfig ? '已配置' : '未配置'}}</span>
@@ -1213,6 +1213,17 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>上门散客</span>
+              <div class="item_form_1">
+                <span>00:00</span>
+                <span>-</span>
+                <el-select v-model="walk_in_pole_time" :automatic-dropdown="true" placeholder="选择时间">
+                  <el-option :label="item" :value="item" v-for="item in timeSecList"></el-option>
+                </el-select>
+                <span>入住算为当天离店</span>
+              </div>
+            </div>
           </div>
           <!--电子签名配置-->
           <div v-if="showType === enumShowType.sign">
@@ -1622,6 +1633,8 @@
          //入住规则
         enabledAdvancedLiveIn:false,
         check_in_room_order:false,
+        walk_in_pole_time: '',
+        timeSecList: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11'],
         //电子签名
         enabledSign: false,
 
@@ -1656,7 +1669,7 @@
         //是否推送白名单到餐券设备
         enablebreakfast:false,
 
-        //设备支付配置是否配置
+        //支付方式配置是否配置
         enableDevicePayConfig:false,
 
         //房间同步列表配置
@@ -2237,6 +2250,7 @@
           //入住规则配置
           this.enabledAdvancedLiveIn = configData.no_phone_checkin == 'true' ? true : false;
           this.check_in_room_order=configData.check_in_room_order == 'true' ? true : false;
+          this.walk_in_pole_time=configData.walk_in_pole_time;
           //电子签名
           this.enabledSign = configData.enabled_sign == 'true' ? true : false;
 
@@ -2679,6 +2693,7 @@
           case enumShowType.advancedLiveIn:
             this.enabledAdvancedLiveIn = this.configData.no_phone_checkin == 'true' ? true : false;
             this.check_in_room_order=this.configData.check_in_room_order == 'true' ? true : false;
+            this.walk_in_pole_time=this.configData.walk_in_pole_time;
             break;
           case enumShowType.sign:
             this.enabledSign = this.configData.enabled_sign == 'true' ? true : false;
@@ -3055,6 +3070,7 @@
             data = {
               no_phone_checkin:this.enabledAdvancedLiveIn.toString(),
               'check_in_room_order':this.check_in_room_order.toString(),
+              'walk_in_pole_time': this.walk_in_pole_time.toString(),
             }
             break;
           case enumShowType.sign:
@@ -3389,6 +3405,23 @@
               }
               .el-radio {
                 margin-left: 16px;
+              }
+            }
+            .item_form_1 {
+              margin-left: 16px;
+              min-width: auto;
+              display: inline-flex;
+              align-items: center;
+              justify-content: flex-start;
+              span {
+                margin-right: 10px;
+              }
+              .el-select {
+                width: 120px !important;
+                margin-right: 10px;
+                .el-input {
+                  width: 100% !important;
+                }
               }
             }
             article {

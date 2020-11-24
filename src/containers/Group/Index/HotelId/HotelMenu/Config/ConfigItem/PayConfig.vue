@@ -237,6 +237,33 @@
           </div>
         </div>
       </div>
+      <!--工行支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">工行支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持工行支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="icbcConfig('icbc')">配置</span>
+            <span :class="isIcbc?'noUse':'payConfig_main_btn2'" @click="useConfig('icbc')">{{isIcbc?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isIcbc">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="icbcDeviceList"
+              @change="chooseDevice('icbc')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--PMS支付宝-->
       <div class="payConfig_main">
         <div class="payConfig_main_top">
@@ -561,6 +588,28 @@
               <el-button :disabled="!howmuchvalidate" type="primary" @click="howmuchSubmit">确 定</el-button>
           </span>
       </el-dialog>
+      <!--工行支付弹框-->
+      <el-dialog
+        title="工行支付参数配置"
+        :visible.sync="icbcDialog"
+        width="50%"
+        center>
+        <div class="item_large">
+          <span>商户账号</span>
+          <el-select v-model="icbcId" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of icbcList"
+              :key="obj.id"
+              :label="obj.mchName"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+              <el-button @click="hideIcbcDialog">取 消</el-button>
+              <el-button :disabled="!icbcvalidate" type="primary" @click="icbcSubmit">确 定</el-button>
+          </span>
+      </el-dialog>
       <!--默认支付方式弹框-->
       <el-dialog
         title="配置默认支付方式"
@@ -613,6 +662,7 @@ export default {
       prosceniumDialog: false, // 控制前台支付配置弹框
       defaultDialog:false,     //默认支付方式
       howmuchDialog:false,   //好码齐支付配置弹框
+      icbcDialog:false,   //工行支付配置弹框
       promptDialog: false, // 是否配置提示弹框
       inform: false,       //前台通知待办是否打开
       deviceList: [],      //所有设备列表
@@ -629,7 +679,7 @@ export default {
       pmsDeviceList:[],       //pms设备列表
       pmsWechatDeviceList:[],     //PMS微信支付设备列表
       pmsAlipayYuDeviceList:[],       //PMS支付宝预授权支付设备列表
-
+      icbcDeviceList: [],         // 工行支付
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
       isProsceniumUse: false,    //前台支付是否启用chinaums
@@ -638,6 +688,7 @@ export default {
       isAlipayYuUse:false,      //支付宝预授权是否启用
       isChinaumsYuUse: false,      //银联支付预授权是否启用
       isHowmuchUse:false,        //好码齐是否启用
+      isIcbc:false,        //工行是否启用
       isPmsUse:false,           //PMS支付
       isPmsWechatUse:false,     //PMS微信支付
       isPmsAlipayYuUse:false,     //PMS支付宝预授权支付
@@ -677,6 +728,10 @@ export default {
       howmuchId:'',             //好码齐支付id
       howmuchIdData:'',
 
+      icbcId: '',   // 工行支付id
+      icbcIdData: '',
+      icbcList: [],     // 所有工行支付列表
+
       ChinaumsList:[],   //所有银联支付列表
       chinaumsConfigName:'',
       chinaumsConfigNameYu:'',
@@ -690,7 +745,7 @@ export default {
   },
   methods: {
     ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices',
-      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig','getChinaumsList',
+      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig','getChinaumsList', 'getIcbcAll',
       'defaultPayModeConfig'//默认支付方式配置
     ]),
     //去配置
@@ -711,6 +766,9 @@ export default {
       }else if(this.payType=="howmuch"){
         this.howmuchDialog=true;
         this.initHowmuchAll();
+      }else if(this.payType=="icbc"){
+        this.icbcDialog=true;
+        this.initIcbcAll();
       }else if(this.payType=="chinaums"||this.payType=="chinaumsYu"){
         this.chinaumsDialog=true;
         this.initChinaums();
@@ -779,11 +837,25 @@ export default {
       this.payType=type;
       this.initHowmuchAll();
     },
+    icbcConfig(type){
+      this.icbcDialog = true;
+      console.log('弹框类型',type);
+      this.payType=type;
+      this.initIcbcAll();
+    },
     //请求好码齐支付所有数据
     initHowmuchAll(){
       this.getHowmuchAll({
         onsuccess: body => {
           this.howmuchList=body.data;
+        }
+      })
+    },
+    //请求工行支付所有数据
+    initIcbcAll(){
+      this.getIcbcAll({
+        onsuccess: body => {
+          this.icbcList=body.data;
         }
       })
     },
@@ -843,6 +915,11 @@ export default {
         if(this.isHowmuchUse){
           data={"devices":this.howmuchDeviceList} // 设备
         }
+      }else if (type == 'icbc'){
+        this.pay_config_key='icbc_pay_config';
+        if(this.isIcbc){
+          data={"devices":this.icbcDeviceList} // 设备
+        }
       }else if (type == 'pms'){
         this.pay_config_key='pmspay_alipay_config';
         if(this.isPmsUse){
@@ -876,7 +953,7 @@ export default {
       console.log(this.isPmsUse ,this.isPmsWechatUse,this.isPmsAlipayYuUse);
       if(type == 'pms' || type == 'pmsWechat'|| type == 'pmsAlipayYu' ){
           if(!this.isPmsUse ||!this.isPmsWechatUse || !this.isPmsAlipayYuUse){
-            if( this.isWechatUse || this.isAlipayUse || this.isWechatYuUse || this.isAlipayYuUse  ||this.isHowmuchUse){
+            if( this.isWechatUse || this.isAlipayUse || this.isWechatYuUse || this.isAlipayYuUse  ||this.isHowmuchUse || this.isIcbc){
               this.$message({
                 message: ' 请停用其他非PMS支付方式',
                 type: 'warning'
@@ -990,6 +1067,24 @@ export default {
         data={
           "enable":this.isHowmuchUse, // 启用：true  停用：false
         }
+      }else if(type == 'icbc'){
+        if((this.icbcId== ''||this.icbcId == undefined) && this.isIcbc==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isIcbc = !this.isIcbc;
+        this.pay_config_key='icbc_pay_config';
+        if(this.isIcbc){
+          data={
+            "enable":this.isIcbc, // 启用：true  停用：false
+            "devices":this.wechatDeviceList, // 设备
+          }
+        }else{
+          data={
+            "enable":this.isIcbc, // 启用：true  停用：false
+            "devices":[], // 设备
+          }
+        }
       }else if(type == 'pms'){
         this.isPmsUse = !this.isPmsUse;
         this.pay_config_key='pmspay_alipay_config';
@@ -1009,7 +1104,7 @@ export default {
           "enable": this.isPmsAlipayYuUse, // 启用：true  停用：false
         }
       }else if(type == 'chinaums'){
-        if((this.chinaumsConfigName== ''||this.chinaumsConfigName== undefined) && this.isHowmuchUse==false ){
+        if((this.chinaumsConfigName== ''||this.chinaumsConfigName== undefined) && this.isHowmuchUse==false && this.isIcbc == false ){
           this.promptDialog=true;
           return;
         }
@@ -1019,7 +1114,7 @@ export default {
           "enable":this.isChinaumsUse, // 启用：true  停用：false
         }
       }else if(type == 'chinaumsYu'){
-        if((this.chinaumsConfigNameYu== ''||this.chinaumsConfigNameYu== undefined) && this.isHowmuchUse==false ){
+        if((this.chinaumsConfigNameYu== ''||this.chinaumsConfigNameYu== undefined) && this.isHowmuchUse==false && this.isIcbc == false ){
           this.promptDialog=true;
           return;
         }
@@ -1363,6 +1458,20 @@ export default {
                this.howmuchIdData=this.howmuchId;
              }
            }
+           // 工行支付
+           if(body.data.icbc_pay_config!=null){
+             if(body.data.icbc_pay_config.enable!=undefined){
+               this.isIcbc=JSON.parse(body.data.icbc_pay_config.enable);
+             }
+             if(body.data.icbc_pay_config.devices!=undefined){
+               this.icbcDeviceList=body.data.icbc_pay_config.devices; // 支付宝支付设备列表
+               this.icbcDeviceList =this.deviceFilter(this.icbcDeviceList);
+             }
+             if(body.data.icbc_pay_config.icbc_pay_config_id!=undefined){
+               this.icbcId=body.data.icbc_pay_config.icbc_pay_config_id;
+               this.icbcIdData=this.icbcId;
+             }
+           }
            //pms支付宝支付
            if(body.data.pmspay_alipay_config!=null){
              if(body.data.pmspay_alipay_config.enable!=undefined){
@@ -1424,6 +1533,20 @@ export default {
       this.pay_config_key='howmuch_pay_config';
       let data={
         "howmuch_pay_config_id":this.howmuchId, // 好码齐商户配置ID
+      }
+      this.patchPayConfigData(data);
+    },
+    //取消工行弹框
+    hideIcbcDialog(){
+      this.icbcDialog=false;
+      this.icbcId=this.icbcIdData;
+    },
+    //工行确认配置
+    icbcSubmit(){
+      this.icbcDialog=false;
+      this.pay_config_key='icbc_pay_config';
+      let data={
+        "icbc_pay_config_id":this.icbcId, // 好码齐商户配置ID
       }
       this.patchPayConfigData(data);
     },
@@ -1578,6 +1701,9 @@ export default {
     },
     howmuchvalidate(){
       return tool.isNotBlank(this.howmuchId)
+    },
+    icbcvalidate(){
+      return tool.isNotBlank(this.icbcId)
     },
 
   },

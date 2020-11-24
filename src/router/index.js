@@ -18,6 +18,7 @@ import AddMiniApp from '@/containers/System/Index/AddMiniApp.vue'
 import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddAlipay from '@/containers/System/Index/AddAlipay.vue'
 import AddChinaums from '@/containers/System/Index/AddChinaums.vue'
+import AddIcbc from '@/containers/System/Index/AddIcbc.vue'
 import AddHowMuch from '@/containers/System/Index/AddHowMuch.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
@@ -40,6 +41,7 @@ import MiniAppList from '@/containers/System/Index/SystemMenu/MiniAppList.vue'
 import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vue'
 import AlipayList from '@/containers/System/Index/SystemMenu/AlipayList.vue'
 import ChinaumsList from '@/containers/System/Index/SystemMenu/ChinaumsList.vue'
+import paymentIcbc from '@/containers/System/Index/SystemMenu/paymentIcbc.vue'
 import HowMuchList from '@/containers/System/Index/SystemMenu/HowMuchList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
@@ -83,6 +85,7 @@ import ReceptionArea from '@/containers/Group/Index/HotelId/HotelMenu/ReceptionA
 import Config from '@/containers/Group/Index/HotelId/HotelMenu/Config.vue'
 import OnlineStatus from '@/containers/Group/Index/HotelId/HotelMenu/OnlineStatus.vue'
 import HotelStaffList from '@/containers/Group/Index/HotelId/HotelMenu/hotelStaffList.vue'
+import veriffication from '@/containers/Group/Index/HotelId/HotelMenu/veriffication.vue'
 import manageProdVersion from '@/containers/Group/Index/HotelId/HotelMenu/manageProdVersion.vue'
 
 import rechargeDetail from '@/containers/Group/Index/HotelId/HotelMenu/rechargeDetail.vue'
@@ -362,6 +365,11 @@ const main = [
                         component: HotelStaffList
                       },
                       {
+                        path: 'veriffication',
+                        name: 'veriffication',
+                        component: veriffication
+                      },
+                      {
                         path: 'manageProdVersion',
                         name: 'manageProdVersion',
                         component: manageProdVersion
@@ -420,6 +428,11 @@ const main = [
             component: AddChinaums,
           },
           {
+            path: 'AddIcbc',
+            name: 'AddIcbc',
+            component: AddIcbc,
+          },
+          {
             path: 'addhowmuch',
             name: 'AddHowMuch',
             component: AddHowMuch,
@@ -452,6 +465,11 @@ const main = [
                 path: 'chinaums',
                 name: 'ChinaumsList',
                 component: ChinaumsList
+              },
+              {
+                path: 'paymentIcbc',
+                name: 'paymentIcbc',
+                component: paymentIcbc
               },
               {
                 path: 'howmuch',

@@ -14,6 +14,7 @@ const config = {
 Vue.use(VeeValidate, config)
 
 // Mockdata
+import './mixins'
 // import './mock';
 
 Vue.config.productionTip = false
@@ -37,6 +38,7 @@ import tableMiniApp from '@/modules/Tables/table-miniapp.vue'
 import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
 import tableAlipay from '@/modules/Tables/table-alipay.vue'
 import tableChinaums from '@/modules/Tables/table-chinaums.vue'
+import tableIcbc from '@/modules/Tables/table-icbc.vue'
 import tableHowmuch from '@/modules/Tables/table-howmuch.vue'
 import tableMiniappmsg from '@/modules/Tables/table-miniappmsg.vue'
 import tableServerMassage from '@/modules/Tables/table-servermassage.vue'
@@ -47,6 +49,7 @@ import tableRoomNumReview from '@/modules/Tables/table-roomNumReview.vue'
 import tableLvyeCop from '@/modules/Tables/table-lvyeCop.vue'
 import tableLvyeStaff from '@/modules/Tables/table-lvyeStaff.vue'
 import tableProdBaseConfig from '@/modules/Tables/table-prodBaseConfig.vue'
+import tableVerify from '@/modules/Tables/table-verify.vue'
 // 运营中心
 import tableLinkList from '@/modules/Tables/operate/table-LinkList.vue'
 import tableOrderCheckIn from '@/modules/Tables/table-orderCheckIn.vue'
@@ -71,6 +74,7 @@ Vue.component('table-miniapp', tableMiniApp)
 Vue.component('table-wechatpay', tableWechatpay)
 Vue.component('table-alipay', tableAlipay)
 Vue.component('table-chinaums', tableChinaums)
+Vue.component('table-icbc', tableIcbc)
 Vue.component('table-howmuch', tableHowmuch)
 Vue.component('table-miniappmsg', tableMiniappmsg)
 Vue.component('table-server-massage', tableServerMassage)
@@ -81,6 +85,7 @@ Vue.component('table-roomNumReview',tableRoomNumReview)
 Vue.component('table-lvyeCop',tableLvyeCop)
 Vue.component('table-lvyeStaff',tableLvyeStaff)
 Vue.component('table-prodBaseConfig',tableProdBaseConfig)
+Vue.component('table-verify',tableVerify)
 // 运营中心
 Vue.component('table-LinkList',tableLinkList)
 Vue.component('table-OrderCheckIn',tableOrderCheckIn)

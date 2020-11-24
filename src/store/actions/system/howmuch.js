@@ -65,6 +65,15 @@ module.exports = {
       }
     })
   },
+  getIcbcAll(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/icbcPay/all',
+      method:'POST',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
   //银联支付
   getChinaumsList(ctx, param) {
     ctx.dispatch('resource', {
@@ -98,6 +107,58 @@ module.exports = {
       url: `/chinaumsConfig/${param.chinaumsId}`,
       method:'PUT',
       body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 工行支付
+  getIcbcPayList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/icbcPay/page',
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0',
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      method:'POST',
+      body: {},
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
+  // 添加工行支付
+  addIcbcPayConfig(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/icbcPay/save',
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 修改工行支付
+  updateIcbc(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/icbcPay/update`,
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 工行支付详情
+  icbcDetail(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/icbcPay/`+param.id,
+      method:'GET',
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }
