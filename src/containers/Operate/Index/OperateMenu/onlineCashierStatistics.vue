@@ -2,13 +2,13 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row  style="margin-bottom:20px;">
+      <el-row  class="el_row">
         <el-col :span="2">
-          <div class="hotelitle" style="text-align: left">
+          <div class="hotelitle">
             <span>酒店名称</span>
           </div>
         </el-col>
-        <el-col :span="4" style="text-align: left">
+        <el-col :span="4" class="hotelitle">
           <div>
             <el-select v-model="selectHotel" filterable clearable placeholder="请选择">
               <el-option
@@ -53,7 +53,7 @@
             <span>交易类型</span>
           </div>
         </el-col>
-        <el-col :span="4" style="text-align: left">
+        <el-col :span="4" class="hotelitle">
           <div>
             <el-select v-model="selectTradeType" filterable placeholder="请选择">
               <el-option
@@ -66,13 +66,13 @@
           </div>
         </el-col>
       </el-row>
-      <el-row  style="margin-bottom:20px;">
+      <el-row>
         <el-col :span="2">
-          <div class="hotelitle" style="text-align: left">
+          <div class="hotelitle">
             <span>交易状态</span>
           </div>
         </el-col>
-        <el-col :span="4" style="text-align: left">
+        <el-col :span="4" class="hotelitle">
           <div>
             <el-select v-model="tradeStatus" filterable placeholder="请选择">
               <el-option
@@ -89,12 +89,12 @@
             <span>订单号</span>
           </div>
         </el-col>
-        <el-col :span="6" style="text-align: left">
+        <el-col :span="6" class="hotelitle">
           <div>
             <el-input v-model="orderId"  placeholder="请输入订单号"></el-input>
           </div>
         </el-col>
-        <el-col :span="3" style="width:80px;height:44px;"></el-col>
+        <el-col :span="3" class="el_col_w"></el-col>
         <el-col :span="4">
           <div class="selectButton" @click="selectClick">
               查询
@@ -342,6 +342,17 @@
       margin-bottom: 20px;
       width: 100%;
       text-align: left;
+    }
+
+    .el_row {
+      margin-bottom:20px;
+      .hotelitle {
+        text-align: left
+      }
+      .el_col_w {
+        width:80px;
+        height:44px;
+      }
     }
 
     .firstdate {

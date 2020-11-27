@@ -16,7 +16,7 @@
         <td><input type="text" placeholder="请输入" v-model="obj.description"></td>
         <td>
           <a class="v-options pointer" @click="edit(obj,index)" v-if="index==0">添加</a>
-          <a class="v-options pointer" style="color:#D0011B" @click="config(obj,index)" v-else>删除</a>
+          <a class="v-options pointer options_red" @click="config(obj,index)" v-else>删除</a>
         </td>
       </tr>
       </tbody>
@@ -132,6 +132,10 @@
   .v-options {
     color: #39C240;
     padding-left: 10px;
+  }
+
+  .options_red {
+    color:#D0011B
   }
 
   .v-options:first-child {

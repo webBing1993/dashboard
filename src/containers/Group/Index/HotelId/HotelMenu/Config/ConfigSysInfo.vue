@@ -10,19 +10,19 @@
         <el-col :span="8">
           <button @click="isWipeCatch">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
-            <div class="item-text" style="color:#D0011B;">
+            <div class="item-text text_red">
               <span>清除缓存</span>
               <p>更改配置后请清除缓存</p>
             </div>
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <div class="content-title">
            <span>PMS配置</span>
@@ -82,7 +82,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.consumptionCodeSure)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>PMS消费码</span>
@@ -137,7 +137,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.isShowPoliceHandeld)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>公安验证是否显示已处理列表配置</span>
@@ -151,7 +151,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.reviewRoomNum)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>旅业房间号核对配置</span>
@@ -203,7 +203,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <div class="content-title">
           <span>房卡配置</span>
@@ -504,7 +504,7 @@
                 <el-input class="el-right" v-model="item.url"></el-input>
                 <img src="../../../../../../assets/images/减少.png" class="reduceImg" @click="reduceAlterUrl(index)">
               </div>
-              <div style="margin-left: 9rem">
+              <div class="item_form_btn">
                 <el-button plain @click="addAlterUrl"> 添加一个备选网址</el-button>
               </div>
             </div>
@@ -881,16 +881,12 @@
           <!--无证核验配置-->
           <div v-if="showType === enumShowType.withoutCard">
             <div class="item-form">
-              <span style="width: 155px">无证核验</span>
+              <span class="item_form_w15">无证核验</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="withoutCardConfig"></el-switch>
             </div>
-            <!--<div class="item-form" v-if="withoutCardConfig">-->
-            <!--<span style="width: 155px">充值金额（元）</span>-->
-            <!--<el-input class="el-right" v-model="rangeMoney" style="display:block"></el-input>-->
-            <!--</div>-->
             <div class="item-form" v-if="withoutCardConfig">
-              <span style="width: 155px">付费来源</span>
-              <div style="margin-left:20px">
+              <span class="item_form_w15">付费来源</span>
+              <div class="item_form_l20">
                 <!--<el-checkbox-group v-model="checkedMoney" @change="handleCheckedCitiesChange">-->
                 <!--<el-checkbox v-for="sta in moneyStatus" :label="sta" :key="sta">{{(sta =='1')?'酒店付费':'顾客付费'}}</el-checkbox>-->
                 <!--</el-checkbox-group>-->
@@ -899,24 +895,17 @@
               </div>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
-              <span style="width: 155px">无证核验金额（元）</span>
-              <el-input class="el-right" v-model="checkMoney" style="display:block"></el-input>
+              <span class="item_form_w15">无证核验金额（元）</span>
+              <el-input class="el-right el_right_block" v-model="checkMoney"></el-input>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
-              <span style="width: 155px">余额不足提醒金额（元）</span>
-              <el-input class="el-right"v-model="balanceTip" style="display:block"></el-input>
+              <span class="item_form_w15">余额不足提醒金额（元）</span>
+              <el-input class="el-right el_right_block"v-model="balanceTip"></el-input>
             </div>
             <div class="item-form" v-if="withoutCardConfig">
-              <span style="width: 155px">备注</span>
-              <el-input class="el-right"v-model="beizhu" style="display:block" placeholder="关联到消费记录中的备注"></el-input>
+              <span class="item_form_w15">备注</span>
+              <el-input class="el-right el_right_block"v-model="beizhu" placeholder="关联到消费记录中的备注"></el-input>
             </div>
-            <!--<div class="item-form" v-if="withoutCardConfig">-->
-            <!--<span style="width: 155px">无证收费方式</span>-->
-            <!--<el-select v-model="collectionManner" placeholder="请选择无证收费方式" style="width:60%;margin-left:16px!important">-->
-            <!--<el-option v-for="(item, index) in collection" :key="index" :label="item.methods" :value="item.id">-->
-            <!--</el-option>-->
-            <!--</el-select>-->
-            <!--</div>-->
           </div>
           <!--人脸识别配置弹框-->
           <div v-if="showType === enumShowType.facein">
@@ -2845,6 +2834,9 @@
                 margin-top: 5px;
               }
             }
+            .text_red {
+              color:#D0011B;
+            }
             .tag_text {
               position: absolute;
               top: 5px;
@@ -2860,6 +2852,9 @@
             .tag_text_gray {
               color: #9B9B9B;
             }
+          }
+          .noborder {
+            border:0;
           }
         }
         button {
@@ -2930,6 +2925,18 @@
               .el-radio {
                 margin-left: 16px;
               }
+            }
+            .item_form_btn {
+              margin-left: 9rem
+            }
+            .item_form_w15 {
+              width: 155px
+            }
+            .el_right_block {
+              display:block
+            }
+            .item_form_l20 {
+              margin-left:20px
             }
             article {
               ul {

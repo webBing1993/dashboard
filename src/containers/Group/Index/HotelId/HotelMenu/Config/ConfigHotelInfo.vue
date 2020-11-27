@@ -100,7 +100,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>房间标签配置</span>
@@ -113,7 +113,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.fastCard)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>极速领卡配置</span>
@@ -127,7 +127,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.CustomerOperate)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>订单操作配置</span>
@@ -141,7 +141,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.ticketPrint)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>是否打印小票配置</span>
@@ -155,7 +155,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedLiveIn)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>入住规则配置</span>
@@ -167,7 +167,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>退离规则配置</span>
@@ -181,7 +181,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.hotelAreaCode)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店行政区划代码配置</span>
@@ -195,7 +195,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.qrCodeCreate)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店二维码配置</span>
@@ -209,7 +209,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>分房配置</span>
@@ -223,7 +223,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.identityCheck)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>开启身份核验功能</span>
@@ -237,7 +237,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.PADshowContent)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>PAD界面内容显示配置</span>
@@ -251,7 +251,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.informCoResident)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>同住人未到提醒配置</span>
@@ -278,7 +278,7 @@
         <el-col :span="8" v-show="false">
           <button @click="dialogConfig(enumShowType.appManage)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>应用功能配置管理</span>
@@ -292,7 +292,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.appManage2)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>企业微信应用功能配置</span>
@@ -306,7 +306,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.reviewRoomNum)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>旅业房间号核对配置</span>
@@ -320,7 +320,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.isShowPoliceHandeld)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>公安验证是否显示已处理列表配置</span>
@@ -334,7 +334,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.keyAccess)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>关键通道配置</span>
@@ -351,7 +351,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>值房通是否显示多房订单</span>
@@ -365,7 +365,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.deviceDeposit)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店设备是否缴纳押金及押金金额</span>
@@ -478,24 +478,16 @@
           </div>
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
-              <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
+              <span class="item_form_min_width">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
             <div class="item-form">
-              <span style="min-width: 210px; ">开启选房时间</span>
+              <span class="item_form_min_width">开启选房时间</span>
               <el-time-picker class="el-right" value-format="HH:mm:ss"
                 v-model="setHouseTime"
                 placeholder="选择时间">
               </el-time-picker>
             </div>
-            <!--<div class="item-form">-->
-              <!--<span style="min-width: 210px; ">是否允许选房</span>-->
-              <!--<el-switch-->
-                <!--v-model="selectHouseSure"-->
-                <!--on-color="#13ce66"-->
-                <!--off-color="#ff4949">-->
-              <!--</el-switch>-->
-            <!--</div>-->
           </div>
           <div v-if="showType === enumShowType.syncSpaceTime">
             <div class="item-form">
@@ -551,11 +543,11 @@
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 126px">现付</span>
+              <span class="item_form_w126">现付</span>
               <el-input class="el-right" v-model="nowpayKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 126px">现付例外</span>
+              <span class="item_form_w126">现付例外</span>
               <el-input class="el-right" v-model="nowpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
@@ -589,14 +581,14 @@
             <div class="item-tag">
               <span>房间标签</span>
               <div class="tag-input">
-                <div style="height: 40px; margin-bottom: 12px;" v-for="(obj, index) in roomTags">
+                <div class="roomTagsLists" v-for="(obj, index) in roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签"></el-input>
                 </div>
                 <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="roomTags.length > 1"
+                  <button class="btn1" v-show="roomTags.length > 1"
                           @click="subtractRoomTags">-
                   </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addRoomTags">+</button>
+                  <button class="btn2" @click="addRoomTags">+</button>
                 </div>
               </div>
             </div>
@@ -730,10 +722,10 @@
             </div>
             <div class="item-form">
               <span>二维码code</span>
-              <el-input class="el-right" v-model="qrCode" style="display:block"></el-input>
+              <el-input class="el-right el_right_block" v-model="qrCode"></el-input>
             </div>
-            <div class="item-form" style="margin-left: 9rem;margin-top: -0.5rem">
-              <p style="color: #868686;">运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
+            <div class="item-form item_form_lt">
+              <p>运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
             </div>
             <div class="item-form">
               <span>备注</span>
@@ -762,24 +754,24 @@
           </div>
           <div v-if="showType === enumShowType.PADshowContent">
             <div class="item-form">
-              <span style="width: 155px">未查找到订单界面提示语</span>
-              <el-input class="el-right" v-model="notFoundMark" style="display:block"></el-input>
+              <span class="item_form_w15">未查找到订单界面提示语</span>
+              <el-input class="el-right el_right_block" v-model="notFoundMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">申请退房完成界面提示语</span>
-              <el-input class="el-right" v-model="checkOutMark" style="display:block;"></el-input>
+              <span class="item_form_w15">申请退房完成界面提示语</span>
+              <el-input class="el-right el_right_block" v-model="checkOutMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">非设备入住退房提示语</span>
-              <el-input class="el-right" v-model="noDeviceCheckInMark" style="display:block"></el-input>
+              <span class="item_form_w15">非设备入住退房提示语</span>
+              <el-input class="el-right el_right_block" v-model="noDeviceCheckInMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">退房失败以后提示语</span>
-              <el-input class="el-right" v-model="failedCheckOutMark" style="display:block"></el-input>
+              <span class="item_form_w15">退房失败以后提示语</span>
+              <el-input class="el-right el_right_block" v-model="failedCheckOutMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">酒店客服电话</span>
-              <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
+              <span class="item_form_w15">酒店客服电话</span>
+              <el-input class="el-right el_right_block" v-model="hotelServiceTelMark"></el-input>
             </div>
             <div class="item-form">
               <span>是否在人证通显示完整房号</span>
@@ -793,7 +785,7 @@
           <div v-if="showType === enumShowType.informCoResident">
             <div class="item-form">
               <span>酒店同住人未到时通知发送间隔</span>
-              <el-input class="el-right" style="margin-right: 10px" v-model="timeStep"></el-input>
+              <el-input class="el-right el_right_right" v-model="timeStep"></el-input>
               小时
             </div>
           </div>
@@ -999,7 +991,7 @@
         title="点击下载二维码"
         :visible.sync="showQrImgContent">
         <div class="qrcode-img">
-          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"
+          <img @click="downloadImg" :class="isBigQrImg? 'img1': 'img2'"
                :src="qrImgUrl"/>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -2584,8 +2576,29 @@
   .el-radio {
     margin-left: 16px;
   }
-
+    .item_form_min_width {
+      min-width: 210px;
+    }
+    .item_form_w126 {
+      width: 126px
+    }
+    .item_form_w15 {
+      width: 155px;
+    }
+    .el_right_block {
+      display:block
+    }
+    .el_right_right {
+      margin-right: 10px
+    }
   }
+    .item_form_lt {
+      margin-left: 9rem;
+      margin-top: -0.5rem;
+      p {
+        color: #868686;
+      }
+    }
   article {
 
   ul {
@@ -2653,8 +2666,19 @@
     height: 20px;
     width: 20px;
   }
-
+    .btn1 {
+      border-color: #D0011B;
+      color: #D0011B
+    }
+    .btn2 {
+      border-color: #39C240;
+      color: #39C240
+    }
   }
+    .roomTagsLists {
+      height: 40px;
+      margin-bottom: 12px;
+    }
   }
   }
 
@@ -2757,6 +2781,14 @@
   .qrcode-img {
     display: flex;
     justify-content: center;
+    .img1 {
+      height: 280px;
+      width: 280px;
+    }
+    .img2 {
+      height: 140px;
+      width: 140px;
+    }
   }
 
   /*//我的*/

@@ -8,7 +8,7 @@
       <div class="tableList dataTable">
         <el-table
           :data="tableData"
-          style="width: 100%">
+          width="100%">
           <el-table-column prop="id" label="ID" width="180"></el-table-column>
           <el-table-column prop="name" label="名称" width="180"></el-table-column>
           <el-table-column label="操作">
@@ -28,7 +28,7 @@
             <el-input v-model="Dateform.name" maxlength="30"minlength="1" ></el-input>
           </el-form-item>
           <el-form-item label="上传信息">
-            <img style="width: 100px;height: 100px" :src="Dateform.logoUrl" alt="">
+            <img class="img_wh" :src="Dateform.logoUrl" alt="">
             <el-upload
               class="upload-demo el-right"
               :action="scriptUpload"
@@ -448,6 +448,10 @@
       background: none;
       border: none;
       margin-top: -80px;
+    }
+    .img_wh {
+      width: 100px;
+      height: 100px
     }
   }
 </style>

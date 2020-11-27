@@ -16,7 +16,7 @@
                    @close="handleClose"
                    center>
           <div class="rec">
-            <div class="item-form" style="font-weight: bolder">基本信息</div>
+            <div class="item-form item_weight">基本信息</div>
             <div class="item-form">
               <span class="itemTitle">产品版本</span>
               <el-input v-model="versionName" placeholder="请输入产品版本号" class="input"></el-input>
@@ -279,6 +279,9 @@
                 border-color: #a9bdd1;
                 width: 80%
               }
+            }
+            .item_weight {
+              font-weight: bolder
             }
             article {
               ul {

@@ -8,7 +8,7 @@
       <div>
         <el-table
           :data="tableData"
-          style="width: 100%">
+          width="100%">
           <el-table-column label="ID" type="index"></el-table-column>
           <el-table-column prop="name" label="素材名"></el-table-column>
           <el-table-column prop="updateTime" label="更新时间">
@@ -99,12 +99,11 @@
 
 
                   </el-upload>
-                  <video style="width: 300px;height: 200px" v-if="viewStatus ||editStatus " :autoplay="playVideo"
+                  <video width="300" height="200" v-if="viewStatus ||editStatus " :autoplay="playVideo"
                          :src="form.uplodGetUrl"></video>
                 </div>
 
-                <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent"
-                             style="margin-top:30px;"></el-progress>
+                <el-progress v-if="videoFlag == true" :percentage="videoUploadPercent" class="el_progress"></el-progress>
               </div>
 
 
@@ -638,6 +637,9 @@
         video {
           margin-left: 60px;
         }
+      }
+      .el_progress {
+        margin-top:30px;
       }
     }
 

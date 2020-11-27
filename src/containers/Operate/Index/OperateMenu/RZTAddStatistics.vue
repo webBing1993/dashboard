@@ -2,7 +2,7 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row style="margin-bottom:20px;">
+      <el-row class="el_row">
         <el-col :span="2">
           <div class="datetitle">
             <span>日期</span>
@@ -172,6 +172,9 @@
       margin-bottom:20px;
       width:100%;
       text-align: left;
+    }
+    .el_row {
+      margin-bottom:20px;
     }
     .firstdate{
       .el-date-editor.el-input,.el-date-editor.el-input__inner{

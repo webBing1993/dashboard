@@ -8,7 +8,8 @@
       <div class="dataTable">
         <el-table
           :data="tableData"
-          style="width: 100%" height="500px">
+          width="100%"
+          height="500">
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="广告商"></el-table-column>
           <el-table-column label="操作">

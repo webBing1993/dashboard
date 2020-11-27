@@ -20,7 +20,7 @@
         <td >{{ obj.max_guest_count }}</td>
         <td>
           <a class="v-options pointer" @click="edit(obj)">编辑</a>
-          <a v-if="!obj.is_pms" class="v-options pointer" style="color: #F43530" @click="del(obj)">删除</a>
+          <a v-if="!obj.is_pms" class="v-options pointer options_red" @click="del(obj)">删除</a>
         </td>
       </tr>
       </tbody>
@@ -127,6 +127,10 @@
   .v-options {
     color: #39C240;
     padding-left: 10px;
+  }
+
+  .options_red {
+    color: #F43530
   }
 
   .v-options:first-child {

@@ -8,7 +8,8 @@
       <div class="dataTable">
         <el-table
           :data="tableData"
-          style="width: 100%" height="500px">
+          width="100%"
+          height="500">
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="materialName" label="素材名"></el-table-column>
           <el-table-column prop="scopeName" label="分组"></el-table-column>

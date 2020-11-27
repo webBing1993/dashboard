@@ -4,7 +4,7 @@
       <div class="content-configsummary" v-show="!isEmptyConfigData()">
         <h1>配置汇总</h1>
         <div class="configsummary_item">
-          <h3 style="padding-top: 15px">PMS对接配置</h3>
+          <h3 class="toph3">PMS对接配置</h3>
           <p>PMS品牌id: {{pmsData.pms_id}}</p>
           <p>PMS品牌: {{pmsData.pms_name}}</p>
           <p>酒店PMS编码: {{pmsData.hotel_pmscode}}</p>
@@ -270,6 +270,9 @@
         color: #9B9B9B;
         line-height: 40px;
         padding: 0 0 0 23px;
+      }
+      .toph3 {
+        padding-top: 15px
       }
       p {
         font-size: 14px;

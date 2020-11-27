@@ -9,19 +9,19 @@
         <el-col :span="8">
           <button @click="isWipeCatch">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
-            <div class="item-text" style="color:#D0011B;">
+            <div class="item-text text_red">
               <span>清除缓存</span>
               <p>更改配置后请清除缓存</p>
             </div>
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
 
         <div class="content-title">
@@ -105,7 +105,7 @@
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
 
         <div class="content-title">
@@ -126,7 +126,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedCheckout)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>退离规则配置</span>
@@ -153,7 +153,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.autoGiveRoom)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>分房配置</span>
@@ -167,7 +167,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>房间标签配置</span>
@@ -190,25 +190,6 @@
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--<el-col :span="8">-->
-          <!--<button @click="dialogConfig(enumShowType.xiezhuRoomNos)">-->
-            <!--<div class="item_img">-->
-              <!--<img src="../../../../../../assets/images/列表.png" alt="a">-->
-            <!--</div>-->
-            <!--<div class="item-text">-->
-              <!--<span>房间同步列表配置</span>-->
-              <!--<p>房间同步列表</p>-->
-            <!--</div>-->
-            <!--<span class="tag_text"-->
-                  <!--:class="{'tag_text_red': !xiezhuRoomNos, 'tag_text_green':xiezhuRoomNos}">{{xiezhuRoomNos ? '已配置' : '未配置'}}</span>-->
-          <!--</button>-->
-        <!--</el-col>-->
-        <!--<el-col :span="8">-->
-          <!--<button style="border:0;"></button>-->
-        <!--</el-col>-->
-        <!--<el-col :span="8">-->
-          <!--<button style="border:0;"></button>-->
-        <!--</el-col>-->
         <div class="content-title">
           <span>订单相关配置</span>
         </div>
@@ -255,7 +236,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.advancedLiveIn)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>入住规则配置</span>
@@ -268,7 +249,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.zftShowMoreRoom)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>值房通是否显示多房订单</span>
@@ -359,22 +340,6 @@
                   :class="{'tag_text_red':(!autoCheckFuse || !autoCheck), 'tag_text_green':(autoCheckFuse || autoCheck)}">{{(autoCheckFuse || autoCheck) ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
-        <!--<el-col :span="8">-->
-          <!--<button @click="dialogConfig(enumShowType.enabled_send_to_xiezhu)">-->
-            <!--<div class="item_img">-->
-              <!--<img src="../../../../../../assets/images/卡券.png" alt="a">-->
-            <!--</div>-->
-            <!--<div class="item-text">-->
-              <!--<span>同步到携程系统配置</span>-->
-              <!--<p>是否同步到携程系统</p>-->
-            <!--</div>-->
-            <!--<span class="tag_text"-->
-                  <!--:class="{'tag_text_red':!enabled_send_to_xiezhu, 'tag_text_green':enabled_send_to_xiezhu}">{{enabled_send_to_xiezhu ? '已配置' : '未配置'}}</span>-->
-          <!--</button>-->
-        <!--</el-col>-->
-        <!--<el-col :span="8">-->
-          <!--<button style="border:0;"></button>-->
-        <!--</el-col>-->
         <div class="content-title">
           <span>其他配置</span>
         </div>
@@ -394,14 +359,14 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.keyAccess)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>关键通道配置</span>
               <p>配置关键通道</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red': !enableKeyAccess , 'tag_text_green': enableKeyAccess }">{{enableKeyAccess ? '已开通' : '未开通'}}
+                  :class="{'tag_text_red': (!enableKeyAccess && !enableKeyAccess_) , 'tag_text_green': (enableKeyAccess || enableKeyAccess_) }">{{(enableKeyAccess||enableKeyAccess_) ? '已开通' : '未开通'}}
             </span>
             <!--<span class="tag_text"-->
             <!--:class="{'tag_text_red': !configData.enable_pull_identity_guest_info , 'tag_text_green': configData.enable_pull_identity_guest_info }">{{configData.enable_pull_identity_guest_info ? '已配置' : '未配置'}}-->
@@ -411,7 +376,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.qrCodeCreate)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店二维码配置</span>
@@ -425,7 +390,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.deviceDeposit)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店设备是否缴纳押金及押金金额</span>
@@ -502,16 +467,16 @@
             </div>
             <div v-show="enabledInvoice">
               <div class="item-tag2">
-                <span style="min-width: 102px;">发票类型</span>
+                <span>发票类型</span>
                 <div class="tag-input">
                   <div v-for="(obj, index) of invoiceName">
                     <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
                   </div>
                   <div class="tag-btn">
-                    <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
+                    <button v-show="invoiceName.length > 1"
                             @click="subtractInvoiceName">-
                     </button>
-                    <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
+                    <button class="addInvoiceName" @click="addInvoiceName">+</button>
                   </div>
                 </div>
               </div>
@@ -535,18 +500,18 @@
               </el-checkbox-group>
             </div>
             <div class="item-tag2">
-              <span>code</span>
+              <span class="minwidthtag">code</span>
               <div class="tag-input">
-                <div style="display: flex" v-for="(obj, index) in invoiceCode">
+                <div class="invoiceCodeLists" v-for="(obj, index) in invoiceCode">
                   <el-input class="el-right" v-model="invoiceCode[index]" placeholder="请输入code"></el-input>
                   <el-button v-show="invoiceCode[index]" @click.native="creatQrcode(invoiceCode[index])">生成二维码
                   </el-button>
                 </div>
                 <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceCode.length > 1"
+                  <button class="btn1" v-show="invoiceCode.length > 1"
                           @click="subtractInvoiceCode">-
                   </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addInvoiceCode">+</button>
+                  <button class="btn2" @click="addInvoiceCode">+</button>
                 </div>
               </div>
             </div>
@@ -884,13 +849,13 @@
             <div class="item-tag">
               <span>房间标签</span>
               <div class="tag-input1">
-                <div style="height: 40px; margin-bottom: 12px;display:flex;align-items: center" v-for="(obj, index) in roomTags">
+                <div class="roomTagsLists" v-for="(obj, index) in roomTags">
                   <el-input class="el-right" v-model="roomTags[index]" placeholder="请输入房间标签(不能超过3个汉字)" maxlength="3"></el-input>
                   <div class="tag-btn">
-                    <button class="button1" style="color: #D0011B;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #D0011B; margin-left: 5px;padding-bottom: 2px;background-color: #fff;"
+                    <button class="button1"
                             @click="subtractRoomTags(index)">-
                     </button>
-                    <button v-if="index==roomTags.length-1" style="color: #39C240;width:20px;height:20px;border-radius:50px;outline: none;border:1px solid #39C240; margin-left: 5px;padding-bottom: 2px;background-color: #fff;" @click="addRoomTags">+</button>
+                    <button v-if="index==roomTags.length-1" class="addRoomTagBtn" @click="addRoomTags">+</button>
                   </div>
                 </div>
 
@@ -900,7 +865,7 @@
           <!--可选房配置-->
           <div v-if="showType === enumShowType.maxAllowRoomcount">
             <div class="item-form">
-              <span style="margin-right:80px">是否开启在线选房？</span>
+              <span class="item_form_r80">是否开启在线选房？</span>
               <el-switch
                 v-model="isMaxAllow"
                 on-color="#13ce66"
@@ -908,24 +873,10 @@
               </el-switch>
             </div>
             <div class="item-form" v-if="isMaxAllow">
-              <span style="min-width: 210px; ">请输入选房列表最大展示房间数量</span>
+              <span class="item_form_w20">请输入选房列表最大展示房间数量</span>
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
-            <!--<div class="item-form" v-if="isMaxAllow">-->
-              <!--<span style="min-width: 210px; ">开启选房时间</span>-->
-              <!--<el-time-picker class="el-right" value-format="HH:mm:ss"-->
-                              <!--v-model="setHouseTime"-->
-                              <!--placeholder="选择时间">-->
-              <!--</el-time-picker>-->
-            <!--</div>-->
-            <!--<div class="item-form">-->
-            <!--<span style="min-width: 210px; ">是否允许选房</span>-->
-            <!--<el-switch-->
-            <!--v-model="selectHouseSure"-->
-            <!--on-color="#13ce66"-->
-            <!--off-color="#ff4949">-->
-            <!--</el-switch>-->
-            <!--</div>-->
+
           </div>
           <!--押金配置-->
           <div v-if="showType === enumShowType.cashPledge">
@@ -950,7 +901,7 @@
                 <div class="el-right">
                   <el-table
                     :data="tableData"
-                    style="width: 100%">
+                    width="100%">
                     <el-table-column
                       prop="name"
                       label="房型名称">
@@ -1008,7 +959,7 @@
                 </el-option>
               </el-select>
             </div>
-            <div class="item-form" style="padding-top:30px;" v-if="breakfastStemFrom=='PMS'">
+            <div class="item-form item_form_t30" v-if="breakfastStemFrom=='PMS'">
               <table-breakfast :list="breakfastList" @delBreakfast="delBreakfast" @addBreakfast="addBreakfast"></table-breakfast>
             </div>
             <div class="item-form">
@@ -1020,7 +971,7 @@
               </el-switch>
             </div>
             <div class="item-form" v-if="enabled_download_breakfastexcel">
-              <span style="opacity: 0.4;font-family: PingFangSC-Regular;color: #000000;">请选择需要显示的字段</span>
+              <span class="item_form_span">请选择需要显示的字段</span>
             </div>
             <div class="deviceList" v-if="enabled_download_breakfastexcel">
               <el-checkbox-group
@@ -1082,6 +1033,14 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>推送白名单到server版关键通道</span>
+              <el-switch
+                v-model="enableKeyAccess_"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--酒店二维码配置-->
           <div v-if="showType === enumShowType.qrCodeCreate">
@@ -1102,10 +1061,10 @@
             </div>
             <div class="item-form">
               <span>二维码code</span>
-              <el-input class="el-right" v-model="qrCode" style="display:block"></el-input>
+              <el-input class="el-right el_right_block" v-model="qrCode"></el-input>
             </div>
-            <div class="item-form" style="margin-left: 9rem;margin-top: -0.5rem">
-              <p style="color: #868686;">运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
+            <div class="item-form item_form_l9">
+              <p>运营人员线下微信扫描获取参数，或酒店方拍摄二维码图片发送给我们</p>
             </div>
             <div class="item-form">
               <span>备注</span>
@@ -1146,11 +1105,11 @@
               <el-input class="el-right" v-model="postpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 126px">现付</span>
+              <span class="item_form_w126">现付</span>
               <el-input class="el-right" v-model="nowpayKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 126px">现付例外</span>
+              <span class="item_form_w126">现付例外</span>
               <el-input class="el-right" v-model="nowpayExclusionKeyword" placeholder="现付"></el-input>
             </div>
             <div class="item-form">
@@ -1219,7 +1178,7 @@
                 <span>00:00</span>
                 <span>-</span>
                 <el-select v-model="walk_in_pole_time" :automatic-dropdown="true" placeholder="选择时间">
-                  <el-option :label="item" :value="item" v-for="item in timeSecList"></el-option>
+                  <el-option :label="item" :value="item" v-for="item in timeSecList" :key="item"></el-option>
                 </el-select>
                 <span>入住算为当天离店</span>
               </div>
@@ -1258,7 +1217,7 @@
                   :auto-upload="false">
                   <el-button slot="trigger" size="small" type="primary" v-if="!templateUrl">选取文件</el-button>
                   <el-button slot="trigger" size="small" type="primary" v-if="templateUrl">重新选择</el-button>
-                  <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
+                  <el-button class="btn" size="small" type="submit" @click="submitUpload">上传</el-button>
                 </el-upload>
                 <div>
                   <a :href="templateUrl" v-if="templateUrl">RC单模版下载</a>
@@ -1277,9 +1236,9 @@
                 <el-radio v-model="perRoom" label="1">一房一签</el-radio>
                 <el-radio v-model="perRoom" label="2">一人一签</el-radio>
               </div>
-              <div style="margin: -0.5rem 0 0.5rem 9rem ;color: #9B9B9B;margin-top: -0.5rem" v-show="enabledSign">
+              <div class="item_form_mc" v-show="enabledSign">
                 <span>注：一房一签：只需有第一位入住人签名，同住人无需再签名</span><br>
-                <span style="margin-left: 2rem">一人一签：要求每位入住人都签名</span>
+                <span>一人一签：要求每位入住人都签名</span>
               </div>
               <div class="item-form">
                 <span>默认自动打印</span><br>
@@ -1399,7 +1358,7 @@
                 :auto-upload="false">
                 <el-button slot="trigger" size="small" type="primary" v-if="! UploadCheckInPrint">选取文件</el-button>
                 <el-button slot="trigger" size="small" type="primary" v-if=" UploadCheckInPrint">重新选择</el-button>
-                <el-button style="margin-left: 10px;" size="small" type="submit" @click="submitUpload">上传</el-button>
+                <el-button class="btn" size="small" type="submit" @click="submitUpload">上传</el-button>
               </el-upload>
               <div>
                 <a :href="UploadCheckInPrint" v-if="UploadCheckInPrint">入住单模板预览</a>
@@ -1422,7 +1381,7 @@
         title="点击下载二维码"
         :visible.sync="showQrImgContent">
         <div class="qrcode-img">
-          <img @click="downloadImg" :style="isBigQrImg?{height:'280px',width:'280px'}:{height:'140px',width:'140px'}"
+          <img @click="downloadImg" :class="isBigQrImg? 'img1': 'img2'"
                :src="qrImgUrl"/>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -1598,6 +1557,7 @@
         mirrorBrand:false,
         //关键通道配置
         enableKeyAccess: false,
+        enableKeyAccess_: false,
 
         //酒店二维码配置
         QR_CodeVal: false,
@@ -2222,6 +2182,7 @@
           this.mirrorBrand=configData.enabled_mirror_brand=='true'?true:false;
           //关键通道配置
           this.enableKeyAccess = configData.enable_pull_identity_guest_info == 'true' ? true : false
+          this.enableKeyAccess_ = configData.new_enable_pull_identity_guest_info == 'true' ? true : false
 
           //酒店设备是否配置
           if(configData.device_deposit!=undefined){
@@ -2664,6 +2625,7 @@
             break;
           case enumShowType.keyAccess:
             this.enableKeyAccess = this.configData.enable_pull_identity_guest_info == 'true' ? true : false
+            this.enableKeyAccess_ = this.configData.new_enable_pull_identity_guest_info == 'true' ? true : false
             break;
           case enumShowType.deviceDeposit:
             //酒店设备是否配置
@@ -3029,7 +2991,8 @@
             break;
           case enumShowType.keyAccess:
             data = {
-              enable_pull_identity_guest_info: this.enableKeyAccess.toString()
+              enable_pull_identity_guest_info: this.enableKeyAccess.toString(),
+              new_enable_pull_identity_guest_info: this.enableKeyAccess_.toString(),
             }
             break;
           case enumShowType.qrCodeCreate:
@@ -3328,6 +3291,9 @@
                 margin-top: 5px;
               }
             }
+            .text_red {
+              color:#D0011B;
+            }
             .tag_text {
               position: absolute;
               top: 5px;
@@ -3349,10 +3315,16 @@
           width: 100%;
           height: 90px;
         }
+        .noborder {
+          border: 0;
+        }
       }
       .el-right {
         width: 300px;
         margin-left: 16px;
+      }
+      .el_right_block {
+        display:block
       }
       .el-dialog {
         width: 68%;
@@ -3406,6 +3378,40 @@
               .el-radio {
                 margin-left: 16px;
               }
+              .item_form_r80 {
+                margin-right:80px
+              }
+              .item_form_w20 {
+                min-width: 210px;
+              }
+              .item_form_span {
+                opacity: 0.4;
+                font-family: PingFangSC-Regular;
+                color: #000000;
+              }
+              .item_form_l9 {
+                margin-left: 9rem;
+                margin-top: -0.5rem;
+                p {
+                  color: #868686;
+                }
+              }
+              .item_form_w126 {
+                width: 126px;
+              }
+              .btn {
+                margin-left: 10px;
+              }
+            }
+            .item_form_t30 {
+              padding-top:30px;
+            }
+            .item_form_mc {
+              margin: -0.5rem 0 0.5rem 9rem ;
+              color: #9B9B9B;
+              span:last-of-type {
+                margin-left: 2rem
+              }
             }
             .item_form_1 {
               margin-left: 16px;
@@ -3456,6 +3462,9 @@
                 min-width: 110px;
                 text-align: end;
               }
+              .minwidthtag {
+                min-width: 102px;
+              }
               .tag-input {
                 position: relative;
                 margin-left: 16px;
@@ -3477,7 +3486,28 @@
                     background-color: #ffffff;
                     height: 20px;
                     width: 20px;
+                     color: #D0011B;
+                     border-radius:50px;
+                     outline: none;
+                     border:1px solid #D0011B;
+                     margin-left: 5px;
+                     padding-bottom: 2px;
+                     background-color: #fff;
                   }
+                  .addRoomTagBtn {
+                    color: #39C240;
+                    width:20px;
+                    height:20px;
+                    border-radius:50px;
+                    outline: none;
+                    border:1px solid #39C240;
+                    margin-left: 5px;
+                    padding-bottom: 2px;
+                    background-color: #fff;
+                  }
+                }
+                .invoiceCodeLists {
+                  display: flex
                 }
               }
               .tag-input1 {
@@ -3501,6 +3531,12 @@
                     height: 20px;
                     width: 20px;
                   }
+                }
+                .roomTagsLists {
+                  height: 40px;
+                  margin-bottom: 12px;
+                  display:flex;
+                  align-items: center
                 }
               }
             }
@@ -3535,6 +3571,17 @@
                     background-color: #ffffff;
                     height: 20px;
                     width: 20px;
+                  }
+                  .btn1 {
+                    border-color: #D0011B;
+                    color: #D0011B
+                  }
+                  .btn2 {
+                    border-color: #39C240;
+                    color: #39C240
+                  }
+                  .addInvoiceName {
+                    border-color: #39C240; color: #39C240
                   }
                 }
               }
@@ -3589,6 +3636,14 @@
   .qrcode-img {
     display: flex;
     justify-content: center;
+    .img1 {
+      height:280px;
+      width:280px
+    }
+    .img2 {
+      height:140px;
+      width:140px
+    }
   }
 
   //我的

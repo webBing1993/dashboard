@@ -49,13 +49,14 @@
                   :value="item.code">
                 </el-option>
               </el-select>
-          </div></el-col>
+            </div>
+          </el-col>
           <el-col :span="2"><div class="mright">交易单号</div></el-col>
           <el-col :span="2"><div class="firstdate">
             <el-input v-model="transactionNumber"></el-input></div>
           </el-col>
           <el-col :span="2">
-            <div style="text-align:right">
+            <div class="col_right">
              <el-button @click="query">查询</el-button>
           </div></el-col>
         </el-row>
@@ -68,7 +69,7 @@
           <el-col :span="2"><div class="mcenter">金额总计</div></el-col>
           <el-col :span="3"><el-input v-model="columnTotals" :disabled="true"></el-input></el-col>
           <el-col :span="3">
-            <div style="text-align:right">
+            <div class="col_right">
               <el-button @click="makeInvoice">开票</el-button>
             </div>
             </el-col>
@@ -80,7 +81,7 @@
         </el-row>
         <!--<table-ConsumptionRecord :list="consumptionlist" :page="pageNo" :size="pageSize"></table-ConsumptionRecord>-->
          <!---------表格------->
-        <el-table ref="multipleTable" :data="consumptlist" stripe tooltip-effect="dark" style="width: 100%" class="tableContent" @selection-change="handleSelectionChange">
+        <el-table ref="multipleTable" :data="consumptlist" stripe tooltip-effect="dark" width="100%" class="tableContent" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55">
           </el-table-column>
           <el-table-column  prop="transactionNumber" label="交易单号" width="120">
@@ -404,6 +405,9 @@
         color: #4A4A4A;
         /*margin-bottom:20px;*/
         margin:20px 0
+      }
+      .col_right {
+        text-align:right
       }
       .firstdate{
         /deep/  .el-date-editor.el-input,.el-date-editor.el-input__inner{

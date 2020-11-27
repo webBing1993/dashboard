@@ -7,7 +7,7 @@
       </div>
       <div>
         <el-table :data="tableData"
-                  style="width: 100%">
+                  width="100%">
           <el-table-column prop="id" label="ID"></el-table-column>
           <el-table-column prop="name" label="组名"></el-table-column>
           <el-table-column label="操作">

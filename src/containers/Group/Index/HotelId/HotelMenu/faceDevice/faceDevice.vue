@@ -4,7 +4,7 @@
        <div class="content_devicelist">
            <div class="devicelist_title">
              <div class="devicelist_title_left">
-               <span style="margin-right:90px">刷脸设备管理</span>
+               <span>刷脸设备管理</span>
              </div>
              <div>
                <el-button type="success" @click.native="add">绑定刷脸设备</el-button>
@@ -150,6 +150,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      span {
+        margin-right:90px
+      }
       .left_div{
         display: flex;
         align-items: center;

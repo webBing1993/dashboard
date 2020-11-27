@@ -40,21 +40,21 @@
             </el-select>
           </div>
           <div class="item-form">
-            <div style="width:120px;"><p>房型标签</p><span style="font-size: 10px;">最多10个</span></div>
-            <div style="display: flex;flex-wrap: wrap; width:80%;" class="roomTip">
-              <div style="position:relative;" v-for="(item,index ) of roomTipList">
-                <el-input maxlength="5" v-model="roomTipList[index]"  @blur="roomTipListBlur(index)" style="width:100px;height:40px;text-align: center;line-height: 40px;margin-right:20px;margin-bottom:20px;"> </el-input>
-                <div @click="delRoomTip(index)" style="background-color: red;font-size:20px;color:#ffffff;position: absolute;top:0;right:20px;width:20px;height:20px;border-radius: 40px;text-align: center;line-height: 16px;">
+            <div class="item_list"><p>房型标签</p><span>最多10个</span></div>
+            <div class="roomTip">
+              <div class="roomTipLists" v-for="(item,index ) of roomTipList">
+                <el-input maxlength="5" v-model="roomTipList[index]"  @blur="roomTipListBlur(index)" class="roomTipInput"> </el-input>
+                <div @click="delRoomTip(index)" class="delRoomTip">
                   -
                 </div>
               </div>
-              <el-input v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" style="width:100px;height:40px;text-align: center;line-height: 40px; " @blur="roomTipBlur"></el-input>
+              <el-input class="roomTipElInput" v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" @blur="roomTipBlur"></el-input>
             </div>
           </div>
           <div class="item-form">
-            <span style="margin-right:20px;">政策服务</span>
+            <span class="item_top">政策服务</span>
             <el-input
-              style="width:80%;"
+              class="textareaBox"
               type="textarea"
               placeholder="请输入300个字以内"
               v-model="additionalInfo"
@@ -98,21 +98,21 @@
             <el-input v-model="roomCanLiveInNum" placeholder="请输入内容"></el-input>
           </div>
           <div class="item-form">
-            <div style="width:100px;"><p>房型标签</p><span style="font-size: 10px;">最多10个</span></div>
-            <div style="display: flex;flex-wrap: wrap; width:80%;" class="roomTip">
-              <div style="position:relative;" v-for="(item,index ) of roomTipList">
-                <el-input maxlength="5" v-model="roomTipList[index]" placeholder="" @change="roomTipListBlur(index)" style="width:100px;height:40px;text-align: center;line-height: 40px;margin-right:20px;margin-bottom:20px;"> </el-input>
-                <div @click="delRoomTip(index)" style="background-color: red;font-size:20px;color:#ffffff;position: absolute;top:0;right:20px;width:20px;height:20px;border-radius: 40px;text-align: center;line-height: 16px;">
+            <div class="item_form_list"><p>房型标签</p><span>最多10个</span></div>
+            <div class="roomTip">
+              <div class="roomTipLists" v-for="(item,index ) of roomTipList">
+                <el-input maxlength="5" v-model="roomTipList[index]" placeholder="" @change="roomTipListBlur(index)" class="roomTipInput"> </el-input>
+                <div @click="delRoomTip(index)" class="delRoomTip">
                   -
                 </div>
               </div>
-              <el-input v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" style="width:100px;height:40px;text-align: center;line-height: 40px; " @blur="roomTipBlur"></el-input>
+              <el-input v-show="roomTipList.length<10" v-model="roomTip" maxlength="5"   @focus="roomTip=''" class="roomTipElInput" @blur="roomTipBlur"></el-input>
             </div>
           </div>
           <div class="item-form">
             <span>政策服务</span>
             <el-input
-              style="width:80%;"
+              class="textareaBox"
               type="textarea"
               placeholder="请输入300个字以内"
               v-model="additionalInfo"
@@ -437,8 +437,61 @@
         flex-direction: row;
         /*justify-content: space-between;*/
         margin-bottom: 20px;
+        .item_form_list {
+          width:100px;
+          span {
+            font-size: 10px;
+          }
+        }
         .el-input {
           width: 80%;
+        }
+        .item_list {
+          width:120px;
+          span {
+            font-size: 10px;
+          }
+        }
+        .roomTip {
+          display: flex;
+          flex-wrap: wrap;
+          width:80%;
+          .roomTipLists {
+            position:relative;
+            .roomTipInput {
+              width:100px;
+              height:40px;
+              text-align: center;
+              line-height: 40px;
+              margin-right:20px;
+              margin-bottom:20px;
+            }
+            .roomTipElInput {
+              width:100px;
+              height:40px;
+              text-align: center;
+              line-height: 40px;
+            }
+            .delRoomTip {
+              background-color: red;
+              font-size:20px;
+              color:#ffffff;
+              position: absolute;
+              top:0;
+              right:20px;
+              width:20px;
+              height:20px;
+              border-radius: 40px;
+              text-align: center;
+              line-height: 16px;
+            }
+          }
+        }
+        .item_top {
+          margin-right:20px;
+        }
+        .textareaBox {
+          width:80%;
         }
       }
      /deep/ .roomTip>.el-input .el-input__inner{

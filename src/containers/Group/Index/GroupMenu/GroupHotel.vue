@@ -3,7 +3,7 @@
     <div class="module-wrapper">
       <h3>门店管理（{{total}}家门店）</h3>
       <div class="search-bar">
-        <el-input v-model="searchVal" @keyup.13.native="getList" placeholder="请输入门店的名称或子账户编码或酒店注册名或酒店设备号" style="width:50%"></el-input>
+        <el-input class="search_input" v-model="searchVal" @keyup.13.native="getList" placeholder="请输入门店的名称或子账户编码或酒店注册名或酒店设备号"></el-input>
         <el-input v-model="device_id" @keyup.13.native="getList" placeholder="请输入deviceID查找"></el-input>
         <el-select v-model="version_name_value" placeholder="版本">
           <el-option
@@ -237,6 +237,9 @@
       padding: 15px 23px 0 26px;
       .el-input{
         width: 30%;
+      }
+      .search_input {
+        width:50%
       }
       .el-button--success{
        width: 100px;

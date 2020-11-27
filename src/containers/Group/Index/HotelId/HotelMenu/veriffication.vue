@@ -2,6 +2,17 @@
   <div>
     <div class="module-wrapper">
       <div class="search-bar">
+        <div class="content-item">
+          <span>核验状态</span>
+          <el-select class="el-right" @change="saarchList" v-model="identityStatus" placeholder="请选择核验状态">
+            <el-option
+              v-for="(obj, index) of identityStatusList"
+              :key="obj.id"
+              :label="obj.name"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
         <el-input class="el-right" v-model="searchVal" @keyup.13.native="getList" placeholder="输入姓名"></el-input>
         <el-input class="el-right" v-model="searchVal_" @keyup.13.native="getList" placeholder="输入房号"></el-input>
         <el-button type="success" @click.native="getList">搜索</el-button>
@@ -97,6 +108,28 @@
       return {
         searchVal: '',
         searchVal_: '',
+        identityStatus: 'ALL',
+        identityStatusList: [
+          {
+            name: '全部',
+            id: 'ALL'
+          },
+          {
+            name: '自动通过',
+            id: ' AUTO_AGREED'
+          },
+          {
+            name: '通过',
+            id: ' AGREED'
+          },
+          {
+            name: '验证不通过',
+            id: ' AUTO_REFUSED'
+          },{
+            name: '不通过',
+            id: ' REFUSED'
+          }
+        ],
         list: [],
         page: 1,
         size: 20,
@@ -232,13 +265,13 @@
       remoteMethod(query) {
         if (query !== '') {
           this.loading = true;
-          setTimeout(() => {
+          this.$nextTick(() => {
             this.loading = false;
             this.options = this.rooms.filter(item => {
               return item.value.toLowerCase()
                   .indexOf(query.toLowerCase()) > -1;
             });
-          }, 200);
+          })
         } else {
           this.options = [];
         }
@@ -273,10 +306,21 @@
         this.page = val;
         this.getList();
       },
+      // 搜索
+      saarchList() {
+        this.page = 1;
+        this.getList();
+      },
       getList() {
-        this.getVerifyList({
+        let data = {
           keyword: this.searchVal,
           roomNo: this.searchVal_,
+        };
+        if (this.identityStatus != 'ALL') {
+            data.identityStatus = this.identityStatus
+        }
+        this.getVerifyList({
+          data: data,
           hotelId: this.$route.params.hotelid,
           page: this.page.toString(),
           size: this.size.toString(),
@@ -320,8 +364,19 @@
       width: 100%;
       padding: 16px 23px 15px 25px;
       box-sizing: border-box;
+      .content-item {
+        display: inline-flex;
+        width: 30%;
+        align-items: center;
+        .el-select {
+          margin-left: 15px;
+          .el-input {
+            width: 100%;
+          }
+        }
+      }
       .el-input {
-        width: 68%;
+        width: 30%;
         margin-right: 17px;
       }
       .el-button {

@@ -16,7 +16,7 @@
                    @close="handleClose"
                    center>
           <div class="rec">
-            <div class="item-form" style="font-weight: bolder">基本信息</div>
+            <div class="item-form item_blow">基本信息</div>
             <div class="item-form">
               <span class="itemTitle">名称</span>
               <el-input v-model="name" placeholder="请输入内容" class="input"></el-input>
@@ -31,7 +31,7 @@
             </div>
           </div>
           <div class="rec">
-            <div class="item-form" style="font-weight: bolder">配置</div>
+            <div class="item-form item_blow">配置</div>
             <div class="item-form">
               <span class="itemTitle">关联房型</span>
               <div class="recCheckbox">
@@ -331,6 +331,9 @@
               .input {
                 width: 80%;
               }
+            }
+            .item_blow {
+              font-weight: bolder
             }
             article {
               ul {

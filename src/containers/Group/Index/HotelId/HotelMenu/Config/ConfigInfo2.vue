@@ -49,7 +49,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.identityCheck)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>开启身份核验功能</span>
@@ -63,7 +63,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.fastCard)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>极速领卡配置</span>
@@ -77,7 +77,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.CustomerOperate)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>订单操作配置</span>
@@ -104,7 +104,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.hotelAreaCode)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>酒店行政区划代码配置</span>
@@ -118,7 +118,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.PADshowContent)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>PAD界面内容显示配置</span>
@@ -132,7 +132,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.informCoResident)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>同住人未到提醒配置</span>
@@ -172,7 +172,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.ticketPrint)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>是否打印小票配置</span>
@@ -225,7 +225,7 @@
         <el-col :span="8">
           <button @click="dialogConfig(enumShowType.integral)">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>摇一摇获取积分</span>
@@ -262,14 +262,14 @@
             </div>
           </div>
           <div v-if="showType === enumShowType.WxHotelRegister">
-            <div style="font-size: 14px;font-weight: 400;color: #6d6e6e;margin-left: 35px;line-height: 2em">
-              <p style="margin-top: 30px"><span style="margin-right: 20px">微信酒店ID:</span>
+            <div class="showTypeDiv">
+              <p><span>微信酒店ID:</span>
                 <label v-if="RegistersWxHotelId">{{RegistersWxHotelId ? RegistersWxHotelId : '系统异常1'}}</label>
                 <label v-if="wxHotelId">{{wxHotelId ? wxHotelId : '系统异常2'}}</label>
               </p>
               <div>
                 <div v-if="1">
-                  <el-button style="width: 200px;margin-top: 30px" @click="isDelete()">删除</el-button>
+                  <el-button class="delBtn" @click="isDelete()">删除</el-button>
                 </div>
               </div>
             </div>
@@ -342,24 +342,24 @@
           <!--PAD内容显示配置弹框-->
           <div v-if="showType === enumShowType.PADshowContent">
             <div class="item-form">
-              <span style="width: 155px">未查找到订单界面提示语</span>
-              <el-input class="el-right" v-model="notFoundMark" style="display:block"></el-input>
+              <span class="item_form_w15">未查找到订单界面提示语</span>
+              <el-input class="el-right el_right_block" v-model="notFoundMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">申请退房完成界面提示语</span>
-              <el-input class="el-right" v-model="checkOutMark" style="display:block;"></el-input>
+              <span class="item_form_w15">申请退房完成界面提示语</span>
+              <el-input class="el-right el_right_block" v-model="checkOutMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">非设备入住退房提示语</span>
-              <el-input class="el-right" v-model="noDeviceCheckInMark" style="display:block"></el-input>
+              <span class="item_form_w15">非设备入住退房提示语</span>
+              <el-input class="el-right el_right_block" v-model="noDeviceCheckInMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">退房失败以后提示语</span>
-              <el-input class="el-right" v-model="failedCheckOutMark" style="display:block"></el-input>
+              <span class="item_form_w15">退房失败以后提示语</span>
+              <el-input class="el-right el_right_block" v-model="failedCheckOutMark"></el-input>
             </div>
             <div class="item-form">
-              <span style="width: 155px">酒店客服电话</span>
-              <el-input class="el-right" v-model="hotelServiceTelMark" style="display:block"></el-input>
+              <span class="item_form_w15">酒店客服电话</span>
+              <el-input class="el-right el_right_block" v-model="hotelServiceTelMark"></el-input>
             </div>
             <div class="item-form">
               <span>是否在人证通显示完整房号</span>
@@ -374,7 +374,7 @@
           <div v-if="showType === enumShowType.informCoResident">
             <div class="item-form">
               <span>酒店同住人未到时通知发送间隔</span>
-              <el-input class="el-right" style="margin-right: 10px" v-model="timeStep"></el-input>
+              <el-input class="el-right el_right_right" v-model="timeStep"></el-input>
               小时
             </div>
           </div>
@@ -426,7 +426,7 @@
         <!--优图面部通行证配置-->
         <div v-if="showType === enumShowType.facein">
           <div class="item-form">
-            <span style="width: 155px">优图面部通行证</span>
+            <span class="item_form_w15">优图面部通行证</span>
             <el-switch on-color="#13ce66"off-color="#ff4949" v-model="facein"></el-switch>
           </div>
         </div>
@@ -442,16 +442,16 @@
           </div>
           <div v-show="enabledInvoice">
             <div class="item-tag2">
-              <span style="min-width: 102px;">发票类型</span>
+              <span class="tagSpan">发票类型</span>
               <div class="tag-input">
                 <div v-for="(obj, index) of invoiceName">
                   <el-input class="el-right" v-model="invoiceName[index]" placeholder="请输入发票类型"></el-input>
                 </div>
                 <div class="tag-btn">
-                  <button style="border-color: #D0011B;color: #D0011B" v-show="invoiceName.length > 1"
+                  <button class="btn1" v-show="invoiceName.length > 1"
                           @click="subtractInvoiceName">-
                   </button>
-                  <button style="border-color: #39C240; color: #39C240" @click="addInvoiceName">+</button>
+                  <button class="btn2" @click="addInvoiceName">+</button>
                 </div>
               </div>
             </div>
@@ -479,7 +479,7 @@
         </div>
         <div v-if="showType === enumShowType.integral">
           <div class="item-form">
-            <span style="width: 155px">摇一摇获取积分</span>
+            <span class="">摇一摇获取积分</span>
             <el-switch on-color="#13ce66"off-color="#ff4949" v-model="integral"></el-switch>
           </div>
         </div>
@@ -1217,6 +1217,9 @@
             display: flex;
             align-items: center;
             margin-bottom: 10px;
+            .tagSpan {
+              min-width: 102px;
+            }
             & > span {
               display: inline-block;
               min-width: 110px;
@@ -1321,6 +1324,32 @@
                 margin-left: 16px;
               }
             }
+            .item_form_w15 {
+              width: 155px
+            }
+            .el_right_block {
+              display:block
+            }
+            .el_right_right {
+              margin-right: 10px
+            }
+            .showTypeDiv {
+              font-size: 14px;
+              font-weight: 400;
+              color: #6d6e6e;
+              margin-left: 35px;
+              line-height: 2em;
+              p {
+                margin-top: 30px;
+                span {
+                  margin-right: 20px
+                }
+              }
+              .delBtn {
+                width: 200px;
+                margin-top: 30px
+              }
+            }
             article {
               ul {
                 font-size: 14px;
@@ -1374,6 +1403,14 @@
                     background-color: #ffffff;
                     height: 20px;
                     width: 20px;
+                  }
+                  .btn1 {
+                    border-color: #D0011B;
+                    color: #D0011B
+                  }
+                  .btn2 {
+                    border-color: #39C240;
+                    color: #39C240
                   }
                 }
               }

@@ -142,7 +142,9 @@
 
             </div>
             <div class="content-item">
-              <div id="mapContainer"></div>
+              <!--<div id="mapContainer"></div>-->
+              <baidu-map id="mapContainer" :center="center" :zoom="zoom" @ready="handler" @click="getClickInfo" :scroll-wheel-zoom='true'>
+              </baidu-map>
               <span class="item-text">请点击地图确认坐标<p>lat: {{latitude}} &nbsp lng: {{longitude}}</p></span>
               <span class="help is-danger" v-show="!isChooseLocation">请选择坐标!</span>
             </div>
@@ -219,7 +221,9 @@
         contactPosition: '',
         isEditInfo: false,
         isEditContact: false,
-        isChooseLocation: true
+        isChooseLocation: true,
+        center: {lng: 116.397128, lat: 39.916527},
+        zoom: 10
       }
     },
     computed: {
@@ -460,7 +464,26 @@
         let cityObj = stateObj.city.find(v => v.name == this.area);
         if (cityObj === undefined) cityObj = this.areaList[0];
         this.areaCode = cityObj.code;
-        this.initMap();
+//        this.initMap();
+//        this.handler();
+        this.center.lng = this.longitude;
+        this.center.lat = this.latitude;
+      },
+      handler ({BMap, map}) {
+        var point = new BMap.Point(this.longitude, this.latitude)
+        map.centerAndZoom(point, 10)
+        var marker = new BMap.Marker(point) // 创建标注
+        map.addOverlay(marker) // 将标注添加到地图中
+        var circle = new BMap.Circle(point, 6, { strokeColor: 'Red', strokeWeight: 6, strokeOpacity: 1, Color: 'Red', fillColor: '#f03' })
+        map.addOverlay(circle)
+      },
+      getClickInfo (e) {
+        console.log(e.point.lng)
+        console.log(e.point.lat)
+        this.center.lng = e.point.lng;
+        this.center.lat = e.point.lat;
+        this.latitude = e.point.lat;
+        this.longitude = e.point.lng;
       },
       initMap() {
 
@@ -639,7 +662,7 @@
 
             #mapContainer {
               width: 100%;
-              min-height: 260px;
+              height: 260px;
             }
             .item-text {
               font-size: 14px;

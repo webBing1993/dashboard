@@ -4,8 +4,8 @@
       <div class="content_devicelist">
         <div class="devicelist_title">
           <div class="devicelist_title_left">
-            <span style="margin-right:90px">设备管理</span>
-            <div class="left_div" style="margin-right:30px">
+            <span>设备管理</span>
+            <div class="left_div">
                 <span>是否缴纳设备押金 : &nbsp; </span>
                 <span :class="isDevicePaid?'deviceAmount':'noDeviceAmoint'">{{isDevicePaid?'是':'否'}}</span>
             </div>
@@ -150,10 +150,16 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        span {
+          margin-right:90px
+        }
         .left_div{
           display: flex;
           align-items: center;
           justify-content: space-between;
+        }
+        .left_div:first-of-type {
+          margin-right:30px
         }
       }
       span {

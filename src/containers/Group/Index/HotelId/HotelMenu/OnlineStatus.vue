@@ -20,7 +20,7 @@
               <div class="label-input_items" v-for="(obj, index) in memo">
                 <el-input class="el-right" v-model="memo[index]" placeholder="请填写上线阻碍内容或JIRA链接"></el-input>
                 <button class="tag-minus" v-if="(index+1) < memo.length " @click="subtractMemo(index)">-</button>
-                <button class="tag-add" v-if="(index+1) === memo.length" style="border-color: #39C240; color: #39C240"
+                <button class="tag-add" v-if="(index+1) === memo.length"
                         @click="addMemo">+
                 </button>
               </div>
@@ -167,12 +167,13 @@
           right: -38px;
           border-radius: 50px;
           outline: none;
-          border: solid 1px;
+          border: solid 1px #39C240;
           margin-left: 5px;
           padding-bottom: 2px;
           background-color: #ffffff;
           height: 20px;
           width: 20px;
+          color: #39C240
         }
 
       }

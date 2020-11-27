@@ -8,19 +8,19 @@
         <el-col :span="8">
           <button @click="isWipeCatch">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
-            <div class="item-text" style="color:#D0011B;">
+            <div class="item-text text_red">
               <span>清除缓存</span>
               <p>更改配置后请清除缓存</p>
             </div>
           </button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <el-col :span="8">
-          <button style="border:0;"></button>
+          <button class="noborder"></button>
         </el-col>
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig('facein','优图面部通行证配置')">-->
@@ -41,7 +41,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('guest','客史记录配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>客史记录</span>
@@ -54,7 +54,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('hotelinfo','基础信息配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>基础信息</span>
@@ -67,7 +67,7 @@
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig('wifi','wifi管理配置')">-->
             <!--<div class="item_img">-->
-              <!--<img src="../../../../../../assets/images/标签.png" alt="a">-->
+              <!--<img src="../../../../../../assets/imaitem_1.png.png" alt="a">-->
             <!--</div>-->
             <!--<div class="item-text">-->
               <!--<span>WIFI管理</span>-->
@@ -80,7 +80,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('activity','活动广告配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>活动广告</span>
@@ -93,7 +93,7 @@
         <!--<el-col :span="8">-->
           <!--<button @click="dialogConfig('integral','摇一摇获取积分配置')">-->
             <!--<div class="item_img">-->
-              <!--<img src="../../../../../../assets/images/标签.png" alt="a">-->
+              <!--<img src="../../../../../../assets/imaitem_1.png.png" alt="a">-->
             <!--</div>-->
             <!--<div class="item-text">-->
               <!--<span>摇一摇获取积分</span>-->
@@ -109,7 +109,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('roomService','专属管家配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>专属管家</span>
@@ -122,7 +122,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('roomRestricts','客房权益配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>客房权益</span>
@@ -135,7 +135,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('car','车牌登记配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>车牌登记</span>
@@ -148,7 +148,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('invoice','预约发票配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>预约发票</span>
@@ -161,7 +161,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('guestControl','智能客控配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>智能客控</span>
@@ -174,7 +174,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('guestContinue','续住配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>续住</span>
@@ -187,7 +187,7 @@
         <el-col :span="8">
           <button @click="dialogConfig('guestCheckout','退房配置')">
             <div class="item_img">
-              <img src="../../../../../../assets/images/标签.png" alt="a">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
             </div>
             <div class="item-text">
               <span>退房</span>
@@ -222,50 +222,50 @@
           <!--优图面部通行证配置-->
           <div v-if="this.showType=='facein'">
             <div class="item-form">
-              <span style="width: 155px">优图面部通行证</span>
+              <span class="item_form_w15">优图面部通行证</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="facein"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='guest'">
             <div class="item-form">
-              <span style="width: 155px">客史记录</span>
+              <span class="item_form_w15">客史记录</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guest"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='hotelinfo'">
             <div class="item-form">
-              <span style="width: 155px">基础信息</span>
+              <span class="item_form_w15">基础信息</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="hotelinfo"></el-switch>
             </div>
           </div>
           <!--<div v-if="this.showType=='wifi'">-->
             <!--<div class="item-form">-->
-              <!--<span style="width: 155px">WIFI管理</span>-->
+              <!--<span class="item_form_w15">WIFI管理</span>-->
               <!--<el-switch on-color="#13ce66"off-color="#ff4949" v-model="wifi"></el-switch>-->
             <!--</div>-->
          <!--</div>-->
           <div v-if="this.showType=='activity'">
             <div class="item-form">
-              <span style="width: 155px">活动广告</span>
+              <span class="item_form_w15">活动广告</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="activity"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='integral'">
             <div class="item-form">
-              <span style="width: 155px">摇一摇获取积分</span>
+              <span class="item_form_w15">摇一摇获取积分</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="integral"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='roomService'">
             <div class="item-form-service">
               <div class="item-form-header">
-                <span style="width: 155px">专属管家</span>
+                <span class="item_form_w15">专属管家</span>
                 <el-switch on-color="#13ce66"off-color="#ff4949" v-model="roomService"></el-switch>
               </div>
               <div class="hotel_server_main_checkList" v-if="roomService">
                 <p class="hotel_server_main_checkList_span2">选择支持在线客专属管家的房型</p>
                 <p class="hotel_server_main_p2">（不选表示不启用该功能）</p>
-                <div style="margin-top: 10px">
+                <div class="hotel_server_top10">
                   <el-checkbox-group
                     v-model="checkedServer2"
                     >
@@ -277,37 +277,37 @@
           </div>
           <div v-if="this.showType=='roomRestricts'">
             <div class="item-form">
-              <span style="width: 155px">客房权益</span>
+              <span class="item_form_w15">客房权益</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="roomRestricts"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='car'">
             <div class="item-form">
-              <span style="width: 155px">车牌登记</span>
+              <span class="item_form_w15">车牌登记</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="car"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='invoice'">
             <div class="item-form">
-              <span style="width: 155px">预约发票</span>
+              <span class="item_form_w15">预约发票</span>
               <el-switch on-color="#13ce66" off-color="#ff4949" v-model="invoice"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='guestControl'">
             <div class="item-form">
-              <span style="width: 155px">智能客控</span>
+              <span class="item_form_w15">智能客控</span>
               <el-switch on-color="#13ce66" off-color="#ff4949" v-model="guestControl"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='guestContinue'">
             <div class="item-form">
-              <span style="width: 155px">续住</span>
+              <span class="item_form_w15">续住</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guestContinue"></el-switch>
             </div>
           </div>
           <div v-if="this.showType=='guestCheckout'">
             <div class="item-form">
-              <span style="width: 155px">退房</span>
+              <span class="item_form_w15">退房</span>
               <el-switch on-color="#13ce66"off-color="#ff4949" v-model="guestCheckout"></el-switch>
             </div>
           </div>
@@ -643,6 +643,9 @@
                 margin-top: 5px;
               }
             }
+            .text_red {
+              color:#D0011B;
+            }
             .tag_text {
               position: absolute;
               top: 5px;
@@ -658,6 +661,9 @@
             .tag_text_gray {
               color: #9B9B9B;
             }
+          }
+          .noborder {
+            border:0;
           }
         }
         button {
@@ -723,6 +729,9 @@
                 margin-left: 16px;
               }
             }
+            .item_form_w15 {
+              width: 155px;
+            }
             .item-form-service{
               display: flex;
               min-height: 80px;
@@ -760,6 +769,9 @@
               }
               .hotel_server_main_checkList{
                 padding: 10px 0 10px 0;
+                .hotel_server_top10 {
+                  margin-top: 10px
+                }
                 .hotel_server_main_checkList_span{
                   display: inline-block;
                   margin: 10px 0;

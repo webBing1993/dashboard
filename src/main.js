@@ -13,6 +13,11 @@ const config = {
 }
 Vue.use(VeeValidate, config)
 
+import BaiduMap from 'vue-baidu-map'
+Vue.use(BaiduMap, {
+  ak: 'UUkuaL7PjyWWq8T8BeM6TbUD4LYlsTTG'
+});
+
 // Mockdata
 import './mixins'
 // import './mock';

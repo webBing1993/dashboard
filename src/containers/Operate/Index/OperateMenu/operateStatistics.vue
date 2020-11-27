@@ -2,13 +2,13 @@
   <el-main>
     <div class="module-wrapper">
       <div class="title">筛选</div>
-      <el-row style="margin-bottom:20px;">
+      <el-row class="el_row">
         <el-col :span="2">
-          <div class="hotelitle" style="text-align: left">
+          <div class="hotelitle">
             <span>酒店名称</span>
           </div>
         </el-col>
-        <el-col :span="4" style="text-align: left">
+        <el-col :span="4" class="hotelitle">
           <div>
             <el-select v-model="selectHotel" filterable placeholder="请选择">
               <el-option
@@ -255,6 +255,12 @@
       margin-bottom:20px;
       width:100%;
       text-align: left;
+    }
+    .el_row {
+      margin-bottom:20px;
+      .hotelitle {
+        text-align: left;
+      }
     }
     .firstdate{
       .el-date-editor.el-input,.el-date-editor.el-input__inner{

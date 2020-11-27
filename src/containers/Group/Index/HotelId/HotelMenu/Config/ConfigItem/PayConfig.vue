@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="module-wrapper" style="margin:20px 0 20px 20px;">
+    <div class="module-wrapper">
       <div class="payConfig_header">
         <i class="el-icon-arrow-left"></i> <span @click="goto(-1)"> 返回</span> <div>设备支付配置</div>
       </div>
@@ -562,7 +562,7 @@
           </div>
         </div>
         <span slot="footer" class="dialog-footer">
-         <el-button style="background-color:#00CD78;color:#ffffff" @click="proSubmit">保 存</el-button>
+         <el-button @click="proSubmit" class="proSubmitBtn">保 存</el-button>
       </span>
       </el-dialog>
 
@@ -638,10 +638,10 @@
         :visible.sync="promptDialog"
         width="50%"
         center>
-        <div style="width:100%;text-align: center">该支付方式暂无配置参数，请先进行配置后启用</div>
-        <span slot="footer" class="dialog-footer">
-        <el-button style="background-color:#00CD78;color:#ffffff" @click="promptDialog = false">取消</el-button>
-         <el-button style="background-color:#00CD78;color:#ffffff" @click="goConfig">去配置</el-button>
+        <div class="dialog_center">该支付方式暂无配置参数，请先进行配置后启用</div>
+        <span slot="footer" class="dialog-footer dialog_footer">
+        <el-button @click="promptDialog = false">取消</el-button>
+         <el-button @click="goConfig">去配置</el-button>
       </span>
       </el-dialog>
     </div>
@@ -1720,6 +1720,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+  .module-wrapper {
+    margin:20px 0 20px 20px;
+  }
    .payConfig_header{
      display:flex;
      flex-direction: row;
@@ -1873,6 +1876,10 @@ export default {
          color: #ffffff;
        }
      }
+     .proSubmitBtn {
+       background-color:#00CD78;
+       color:#ffffff
+     }
      .el-button--primary {
        background-color: transparent;
        border: solid 1px #979797;
@@ -1880,4 +1887,18 @@ export default {
      }
    }
  }
+  .dialog_center {
+    width:100%;
+    text-align: center;
+  }
+  .dialog_footer {
+    .el-button:first-of-type {
+      background-color:#00CD78;
+      color:#ffffff
+    }
+    .el-button:last-of-type {
+      background-color:#00CD78;
+      color:#ffffff
+    }
+  }
 </style>

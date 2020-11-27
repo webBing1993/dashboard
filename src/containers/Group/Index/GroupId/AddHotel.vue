@@ -136,9 +136,11 @@
 
             </div>
             <div class="content-item">
-              <div id="mapContainer"></div>
+              <!--<div id="mapContainer"></div>-->
+              <baidu-map id="mapContainer" :center="center" :zoom="zoom" @ready="handler" @click="getClickInfo" :scroll-wheel-zoom='true'>
+              </baidu-map>
               <span class="map-text">请点击地图确认坐标 lat: {{lat}} lng: {{lng}}</span>
-              <span class="help is-danger" style="margin-left: 0" v-show="!isChooseLocation">请选择坐标!</span>
+              <span class="help is-danger is-danger-left" v-show="!isChooseLocation">请选择坐标!</span>
             </div>
           </div>
         </div>
@@ -200,7 +202,9 @@
         contactPosition: '',
         isChooseLocation: true,
         showAreaSelect: true,
-        corpIdList:[]
+        corpIdList:[],
+        center: {lng: 116.397128, lat: 39.916527},
+        zoom: 10
       }
     },
     computed: {
@@ -334,6 +338,22 @@
           }
         })
       },
+      handler ({BMap, map}) {
+        var point = new BMap.Point(116.397128, 39.916527)
+        map.centerAndZoom(point, 10)
+        var marker = new BMap.Marker(point) // 创建标注
+        map.addOverlay(marker) // 将标注添加到地图中
+        var circle = new BMap.Circle(point, 6, { strokeColor: 'Red', strokeWeight: 6, strokeOpacity: 1, Color: 'Red', fillColor: '#f03' })
+        map.addOverlay(circle)
+      },
+      getClickInfo (e) {
+        console.log(e.point.lng)
+        console.log(e.point.lat)
+        this.center.lng = e.point.lng;
+        this.center.lat = e.point.lat;
+        this.lat = e.point.lat;
+        this.lng = e.point.lng;
+      },
       initMap() {
         center = new qq.maps.LatLng(39.916527, 116.397128);  //默认北京
         map = new qq.maps.Map(document.getElementById("mapContainer"), {
@@ -400,7 +420,7 @@
 
       this.groupId = this.$route.params.id;
 
-      this.initMap();
+//      this.initMap();
       this.getCorpid()
     }
   }
@@ -468,6 +488,10 @@
               color: #ff3860;
             }
 
+            .is-danger-left {
+              margin-left: 0
+            }
+
             .content-address {
               display: flex;
               align-items: center;
@@ -504,7 +528,7 @@
             }
             #mapContainer {
               width: 100%;
-              min-height: 260px;
+              height: 260px;
             }
             .map-text {
               width: 100%;
