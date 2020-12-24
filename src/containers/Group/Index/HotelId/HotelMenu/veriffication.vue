@@ -90,9 +90,9 @@
             <span>{{ changeItem.reportOutStatus == 'NONE' ? '未上传' : changeItem.reportOutStatus == 'FAILED' ? '上传失败' : changeItem.reportOutStatus == 'PENDING' ? '上传中' : changeItem.reportOutStatus == 'SUCCESS' ? '上传成功' : '不上传' }}</span>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" :loading="onSubmitInLoading" @click="onSubmitIn" v-if="changeItem.roomNo && (changeItem.reportInStatus == 'NONE' || changeItem.reportInStatus == 'FAILED' || changeItem.reportInStatus == 'SUCCESS')">{{ (changeItem.reportInStatus == 'NONE' || changeItem.reportInStatus == 'FAILED') ? '入住' :  '换房' }}上传</el-button>
-            <el-button type="primary" v-if="changeItem.reportInStatus == 'SUCCESS'" :loading="onSubmitOutLoading" @click="onSubmitOut">离店上传</el-button>
-            <el-button :loading="onSaveLoading" type="primary" @click="onSave">保存</el-button>
+            <el-button type="primary" :loading="onSubmitInLoading" @click="onSubmitIn" v-if="changeItem.roomNo && (changeItem.reportInStatus == 'NONE' || changeItem.reportInStatus == 'FAILED' || changeItem.reportInStatus == 'SUCCESS') && changeItem.reportOutStatus != 'SUCCESS' && changeItem.reportOutStatus != 'UNREPORTED' && changeItem.reportOutStatus != 'PENDING'">{{ (changeItem.reportInStatus == 'NONE' || changeItem.reportInStatus == 'FAILED') ? '入住' :  '换房' }}上传</el-button>
+            <el-button type="primary" v-if="changeItem.reportInStatus == 'SUCCESS' && changeItem.reportOutStatus != 'SUCCESS' && changeItem.reportOutStatus != 'UNREPORTED' && changeItem.reportOutStatus != 'PENDING'" :loading="onSubmitOutLoading" @click="onSubmitOut">离店上传</el-button>
+            <el-button :loading="onSaveLoading" v-if="changeItem.reportOutStatus != 'SUCCESS' && changeItem.reportOutStatus != 'UNREPORTED' && changeItem.reportOutStatus != 'PENDING'" type="primary" @click="onSave">保存</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -158,6 +158,7 @@
     },
     methods: {
       ...mapActions([
+        'showtoast',
         'getVerifyList',
         'getRoomList',
         'getverifyDetail',
@@ -227,6 +228,27 @@
             roomNo: this.changeItem.roomNo
           };
           if (this.changeItem.scene == 'FACE_CHECK') {
+              if (this.changeItem.idcard == '') {
+                this.showtoast({
+                  text: '请输入您的身份证',
+                  type: 'error'
+                });
+                return false;
+              }
+              if (this.changeItem.idcard.length != 18) {
+                this.showtoast({
+                  text: '请输入正确的身份证号码',
+                  type: 'error'
+                });
+                return false;
+              }
+              if (!this.checkIdCard(this.changeItem.idcard)) {
+                this.showtoast({
+                  text: '请输入正确的身份证号码',
+                  type: 'error'
+                });
+                return false;
+              }
               data.idcard = this.changeItem.idcard;
               data.address = this.changeItem.address;
           }
@@ -391,6 +413,9 @@
     .content_table {
       padding: 0 23px 0 25px;
       overflow-y: auto;
+    }
+    /deep/ .el-form-item {
+      margin-bottom: 10px;
     }
   }
 </style>

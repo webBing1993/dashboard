@@ -40,6 +40,10 @@
               <span>门锁序列号</span>
               <el-input class="el-right" v-model="roomLockSn" placeholder="请输入门锁序列号"></el-input>
             </div>
+            <div class="item-form">
+              <span>分房值</span>
+              <el-input class="el-right" v-model="weight" placeholder="请输入分房值"></el-input>
+            </div>
           </div>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -63,7 +67,7 @@
 
   const typeTitles = [' ',
     '房间标签配置',
-    '门锁配置'
+    '配置'
   ];
 
 
@@ -84,6 +88,7 @@
         total: 0,
         roomfeatureDesc: [],
         roomLockSn: '',
+        weight: '',
         canSyncData: true
       }
     },
@@ -113,6 +118,7 @@
       config(obj) {
         this.tempObj = obj;
         this.roomLockSn = obj.room_lock_sn;
+        this.weight = obj.weight;
 
         this.showType = this.enumShowType.config;
         this.showDialog = true;
@@ -150,6 +156,7 @@
             data = {
               roomfeature_desc: this.tempObj.roomfeature_desc,
               room_lock_sn: this.roomLockSn,
+              weight: this.weight,
             }
             break;
 
@@ -176,20 +183,24 @@
 
             headers['x-current-page'] ? this.page = +headers['x-current-page'] : null;
             headers['x-total'] ? this.total = +headers['x-total'] : null;
-            
+
             this.list = body.data;
           }
         })
       },
       modify(data) {
         this.modifyRoom({
-          ...data,
           hotel_id: this.$route.params.hotelid,
           room_id: this.tempObj.room_id,
-          building_name: this.tempObj.building_name,
-          floor_name: this.tempObj.floor_name,
-          room_num: this.tempObj.room_num,
-          room_type_name: this.tempObj.room_type_name,
+          data: {
+            hotel_id: this.$route.params.hotelid,
+            room_id: this.tempObj.room_id,
+            building_name: this.tempObj.building_name,
+            floor_name: this.tempObj.floor_name,
+            room_num: this.tempObj.room_num,
+            room_type_name: this.tempObj.room_type_name,
+            ...data,
+          },
           onsuccess: body => {
             this.showDialog = false;
             this.getList();

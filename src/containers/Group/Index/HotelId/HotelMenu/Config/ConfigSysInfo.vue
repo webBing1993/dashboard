@@ -272,6 +272,10 @@
                 <span>hotelGroupCode</span>
                 <el-input class="el-right" v-model="hotelGroupCode" placeholder="请输入hotelGroupCode，选填"></el-input>
               </div>
+              <div class="item-form" v-if="pmsType == '14'">
+                <span>ClentId</span>
+                <el-input class="el-right" v-model="ClentId" placeholder="请输入ClentId，选填"></el-input>
+              </div>
               <div class="item-form">
                 <span>appKey</span>
                 <el-input class="el-right" v-model="appKey" placeholder="请输入appkey，选填"></el-input>
@@ -1215,6 +1219,7 @@
         //绿云,西软
         crsURL: '',
         hotelGroupCode: '',
+        ClentId: '',
         appKey: '',
         PMSAppSecret: '',
         userCode: '',
@@ -1707,6 +1712,8 @@
           this.password = this.pmsData.password;
           this.restype = this.pmsData.restype;
           this.reason = this.pmsData.reason;
+          // 君庭
+          this.ClentId = this.pmsData.client_id;
           //别样红
           this.billServiceUrl = this.pmsData.bill_service_url;
           this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -1949,6 +1956,7 @@
         this.hotelGroupCode = "";
         this.appKey = "";
         this.PMSAppSecret = "";
+        this.ClentId = "";
         this.userCode = "";
         this.password = "";
         this.restype = "";
@@ -2240,6 +2248,10 @@
             this.password = this.pmsData.password;
             this.restype = this.pmsData.restype;
             this.reason = this.pmsData.reason;
+
+            // 君庭
+            this.ClentId = this.pmsData.client_id;
+
             //别样红
             this.billServiceUrl = this.pmsData.bill_service_url;
             this.crmServiceUrl = this.pmsData.crm_service_url;
@@ -2366,6 +2378,9 @@
                 app_secret: this.PMSAppSecret,
                 usercode: this.userCode,
                 password: this.password,
+              }
+              if (this.pmsType == '14') {
+                  data.client_id = this.ClentId
               }
             } else if (this.pmsType == '1' ) {
               data = {

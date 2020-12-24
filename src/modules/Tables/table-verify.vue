@@ -10,6 +10,7 @@
         <th>入离时间</th>
         <th>核验类型</th>
         <th>入住上传状态</th>
+        <th>操作</th>
       </tr>
       </thead>
       <tbody>

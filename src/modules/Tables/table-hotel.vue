@@ -17,7 +17,7 @@
       <tr v-for="(obj, index) in list" v-bind:key="index">
         <td>{{ ++index + (page - 1) * size }}</td>
         <td>{{ obj.assemble_code }}</td>
-        <td class="pointer" @click="detail(obj)">{{ obj.name }}</td>
+        <td class="pointer" @click="detail(obj)">{{ obj.name }} <span @click.stop="">[{{ obj.id }}]</span></td>
         <td class="pointer" @click="belongGroup(obj)">{{ obj.group_name }}</td>
         <td class="pointer">{{obj.type==='UNION'?'联体酒店':'普通酒店'}}</td>
         <td>{{ obj.brand_name }}</td>
@@ -171,6 +171,10 @@
   .pointer {
     cursor: pointer;
     color: #39C240 !important;
+    span {
+      cursor: text;
+      color: #757575;
+    }
   }
 
   .circle-green, .circle-red, .circle-yellow, .circle-gray {

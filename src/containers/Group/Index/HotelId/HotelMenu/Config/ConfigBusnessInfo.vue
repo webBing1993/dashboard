@@ -441,6 +441,19 @@
                   :class="{'tag_text_red': !checkInPrint, 'tag_text_green': checkInPrint}">{{checkInPrint ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.checkOutPrint)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/认证.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>退房单配置</span>
+              <p>配置是否打印退房单</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !checkOutPrint, 'tag_text_green': checkOutPrint}">{{checkOutPrint ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
       </el-row>
 
       <!--/弹框页-->
@@ -716,6 +729,22 @@
               <span>是否支持插卡退房（新）</span>
               <el-switch
                 v-model="enabledRoomCardCheckout"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>是否支持PMS入住退房</span>
+              <el-switch
+                v-model="pmsCheckInCardOut"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>退房免查房</span>
+              <el-switch
+                v-model="checkOutWithoutCheck"
                 on-color="#13ce66"
                 off-color="#ff4949">
               </el-switch>
@@ -1369,6 +1398,39 @@
               <el-input class="el-right" v-model="checkInPrintName" placeholder="请输入打印机名称"></el-input>
             </div>
           </div>
+
+          <!-- 退房单配置弹框-->
+          <div v-if="showType === enumShowType.checkOutPrint">
+            <div class="item-form">
+              <span>开启打印退房单</span>
+              <el-switch
+                v-model="checkOutPrint"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>模版名称</span>
+              <el-upload
+                ref="upload"
+                class="upload-demo el-right"
+                :headers="setHeader"
+                :action="checkInPrintUpload"
+                :on-success="getUploadDataCheckOut"
+                :auto-upload="false">
+                <el-button slot="trigger" size="small" type="primary" v-if="! UploadCheckOutPrint">选取文件</el-button>
+                <el-button slot="trigger" size="small" type="primary" v-if=" UploadCheckOutPrint">重新选择</el-button>
+                <el-button class="btn" size="small" type="submit" @click="submitUpload">上传</el-button>
+              </el-upload>
+              <div>
+                <a :href="UploadCheckOutPrint" v-if="UploadCheckOutPrint">退房单模板预览</a>
+              </div>
+            </div>
+            <div class="item-form">
+              <span>打印机名称</span>
+              <el-input class="el-right" v-model="checkOutPrintName" placeholder="请输入打印机名称"></el-input>
+            </div>
+          </div>
         </div>
         <!--footer-->
         <div slot="footer" class="dialog-footer">
@@ -1433,7 +1495,8 @@
     enabled_send_to_xiezhu:28 ,  // 是否同步到携程配置
     checkInPrint:29,   //入住单配置
     storeminiApp:30, //酒店商城支付配置
-    autoCheckFuse: 31 // 自动结算配置
+    autoCheckFuse: 31, // 自动结算配置
+    checkOutPrint: 32 // 退房单配置
   }
 
   //弹框标题类型
@@ -1508,6 +1571,8 @@
         enabledAdvancedCheckoutHouse:false,    //是否判断客房消费
         enabledDeviceNeedSign:false,// 设备账单是否签名
         enabledRoomCardCheckout:false,//是否支持插卡退房
+        pmsCheckInCardOut:false,//是否支持PMS入住退房
+        checkOutWithoutCheck:false,//退房免查房
         //脏房配置
         isSupportVd: true,
         isSupportDirtyCheckin:false,
@@ -1516,7 +1581,7 @@
         autoGiveRoomVal:false,
 
         autoGiveRoomRule:'',
-        autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'}],
+        autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'},{name:'分房值从大到小',value:'room_weight_desc'}],
         //酒店标签配置
         roomTags: [''],
         wechatpayList: [],
@@ -1641,6 +1706,11 @@
         checkInPrint:false,   //是否开启入住单配置
         UploadCheckInPrint:'',//模板路径
         checkInPrintName:'',//打印机名称
+
+        // 退房单配置
+        checkOutPrint:false,   //是否开启退房单配置
+        UploadCheckOutPrint:'',//模板路径
+        checkOutPrintName:'',//打印机名称
 
         providerYu: false,
         appIdTempYu: '',
@@ -2022,6 +2092,9 @@
           case enumShowType.checkInPrint:
             result = true;
             break;
+          case enumShowType.checkOutPrint:
+            result = true;
+            break;
           default:
             result = false;
         }
@@ -2098,6 +2171,8 @@
           this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
           this.enabledDeviceNeedSign=configData.bill_device_need_sign == 'true' ?true:false;
           this.enabledRoomCardCheckout=configData.enabled_room_card_checkout=='true'?true:false;
+          this.pmsCheckInCardOut=configData.pms_check_in_card_out=='true'?true:false;
+          this.checkOutWithoutCheck=configData.check_out_without_check=='true'?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
           this.isSupportDirtyCheckin=configData.is_support_dirty_checkin=='true'?true:false;
@@ -2232,6 +2307,12 @@
                 this.checkInPrintName=obj.printDeviceName;
                 this.checkInPrint=obj.openCheckinRc== 'true' ? true : false;
                 console.log("this.UploadCheckInPrint",this.UploadCheckInPrint);
+            }
+            if(configData.check_out_print_bill){
+                let obj=JSON.parse(configData.check_out_print_bill);
+                this.UploadCheckOutPrint=obj.templateUrl;
+                this.checkOutPrintName=obj.printerName;
+                this.checkOutPrint=obj.print== 'true' ? true : false;
             }
         }
       },
@@ -2442,6 +2523,10 @@
         this.UploadCheckInPrint = res.data
         console.log('---->', this.UploadCheckInPrint)
       },
+      getUploadDataCheckOut(res){
+        this.UploadCheckOutPrint = res.data
+        console.log('---->', this.UploadCheckOutPrint)
+      },
       submitUpload() {
         this.$refs.upload.submit();
       },
@@ -2564,6 +2649,8 @@
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
             this.enabledRoomCardCheckout=this.configData.enabled_room_card_checkout=='true'?true:false;
+            this.pmsCheckInCardOut=this.configData.pms_check_in_card_out=='true'?true:false;
+            this.checkOutWithoutCheck=this.configData.check_out_without_check=='true'?true:false;
             break;
           case enumShowType.advancedCheckout:
             this.enabledAdvancedCheckout = this.configData.advanced_checkout == 'true' ? true : false;
@@ -2678,6 +2765,14 @@
               this.UploadCheckInPrint=obj.templateUrl;
               this.checkInPrintName=obj.printDeviceName;
               this.checkInPrint=obj.openCheckinRc== 'true' ? true : false;
+            }
+            break;
+          case enumShowType.checkOutPrint:
+            if(this.configData.check_out_print_bill){
+              let obj1=JSON.parse(this.configData.check_out_print_bill);
+              this.UploadCheckOutPrint=obj1.templateUrl;
+              this.checkOutPrintName=obj1.printerName;
+              this.checkOutPrint=obj1.print== 'true' ? true : false;
             }
             break;
           case enumShowType.storeminiApp:
@@ -2810,6 +2905,8 @@
               enable_auto_checkout: this.enableAutoCheckout.toString(),
               bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
               enabled_room_card_checkout:this.enabledRoomCardCheckout.toString(),
+              pms_check_in_card_out:this.pmsCheckInCardOut.toString(),
+              check_out_without_check:this.checkOutWithoutCheck.toString(),
             }
             break;
           case enumShowType.advancedCheckout:
@@ -3115,6 +3212,16 @@
             }
             data = {
               "guest_checkin_rc": JSON.stringify(obj)
+            }
+            break
+          case enumShowType.checkOutPrint:
+            let obj1={
+              templateUrl:this.UploadCheckOutPrint,
+              printerName:this.checkOutPrintName,
+              print:this.checkOutPrint.toString(),
+            }
+            data = {
+              "check_out_print_bill": JSON.stringify(obj1)
             }
             break
           default:null
