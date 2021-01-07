@@ -19,6 +19,7 @@ import AddWechatpay from '@/containers/System/Index/AddWechatpay.vue'
 import AddAlipay from '@/containers/System/Index/AddAlipay.vue'
 import AddChinaums from '@/containers/System/Index/AddChinaums.vue'
 import AddIcbc from '@/containers/System/Index/AddIcbc.vue'
+import AddBank from '@/containers/System/Index/AddBank.vue'
 import AddHowMuch from '@/containers/System/Index/AddHowMuch.vue'
 import AddServeMessage from '@/containers/System/Index/AddServeMessage.vue'
 import SystemMenu from '@/containers/System/Index/SystemMenu.vue'
@@ -42,6 +43,7 @@ import WechatPayList from '@/containers/System/Index/SystemMenu/WechatPayList.vu
 import AlipayList from '@/containers/System/Index/SystemMenu/AlipayList.vue'
 import ChinaumsList from '@/containers/System/Index/SystemMenu/ChinaumsList.vue'
 import paymentIcbc from '@/containers/System/Index/SystemMenu/paymentIcbc.vue'
+import kunlunBank from '@/containers/System/Index/SystemMenu/kunlunBank.vue'
 import HowMuchList from '@/containers/System/Index/SystemMenu/HowMuchList.vue'
 import MiniAppMsg from '@/containers/System/Index/SystemMenu/MiniAppMsg.vue'
 import QR_Code_create from '@/containers/System/Index/SystemMenu/QR_Code_Create.vue'
@@ -433,6 +435,11 @@ const main = [
             component: AddIcbc,
           },
           {
+            path: 'AddBank',
+            name: 'AddBank',
+            component: AddBank,
+          },
+          {
             path: 'addhowmuch',
             name: 'AddHowMuch',
             component: AddHowMuch,
@@ -470,6 +477,11 @@ const main = [
                 path: 'paymentIcbc',
                 name: 'paymentIcbc',
                 component: paymentIcbc
+              },
+              {
+                path: 'kunlunBank',
+                name: 'kunlunBank',
+                component: kunlunBank
               },
               {
                 path: 'howmuch',

@@ -764,6 +764,66 @@
                   <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
                 </div>
               </el-tab-pane>
+              <el-tab-pane label="昆仑银行支付" name="nine">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in statusa" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':''}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="昆仑银行预授权支付" name="ten">
+                <div class="item_large">
+                  <span>支付方式</span>
+                  <div>
+                    <el-checkbox-group v-model="checkedStatus" @change="handleCheckedStatusChange">
+                      <el-checkbox v-for="sta in statusa" :label="sta" :key="sta">{{(sta=='2')?'扫码支付':''}}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
+                </div>
+                <div class="item_large">
+                  <span>账务收款代码</span>
+                  <el-input class="el-right" v-model="payCode" placeholder="请输入酒店微信账务收款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>账务退款代码</span>
+                  <el-input class="el-right" v-model="refundCode" placeholder="请输入酒店微信账务退款代码"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>房租房费关键词</span>
+                  <el-input class="el-right" v-model="dayrentName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>支付项目名</span>
+                  <el-input class="el-right" v-model="payName" placeholder="请输入"></el-input>
+                </div>
+                <div class="item_large">
+                  <span>退款项目名</span>
+                  <el-input class="el-right" v-model="refundName" placeholder="请输入"></el-input>
+                </div>
+              </el-tab-pane>
             </el-tabs>
           </div>
           <!--Pms同步频率弹框-->
@@ -2033,6 +2093,10 @@
             key='pms_unionpay_authority_config';             break;
           case 'eight' :
             key='pms_icbcpay_config';             break;
+          case 'nine' :
+            key='pms_kunlun_pay_config';             break;
+          case 'ten' :
+            key='pms_kunlun_pay_authority_config';             break;
         }
         this.getPMSPayConfig({
           hotel_id: this.$route.params.hotelid,
@@ -2491,6 +2555,10 @@
                 key='pms_unionpay_authority_config';             break;
               case 'eight' :
                 key='pms_icbcpay_config';             break;
+              case 'nine' :
+                key='pms_kunlun_pay_config';             break;
+              case 'ten' :
+                key='pms_kunlun_pay_authority_config';             break;
             }
 
             data = {

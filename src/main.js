@@ -44,6 +44,7 @@ import tableWechatpay from '@/modules/Tables/table-wechatpay.vue'
 import tableAlipay from '@/modules/Tables/table-alipay.vue'
 import tableChinaums from '@/modules/Tables/table-chinaums.vue'
 import tableIcbc from '@/modules/Tables/table-icbc.vue'
+import tableBank from '@/modules/Tables/table-bank.vue'
 import tableHowmuch from '@/modules/Tables/table-howmuch.vue'
 import tableMiniappmsg from '@/modules/Tables/table-miniappmsg.vue'
 import tableServerMassage from '@/modules/Tables/table-servermassage.vue'
@@ -80,6 +81,7 @@ Vue.component('table-wechatpay', tableWechatpay)
 Vue.component('table-alipay', tableAlipay)
 Vue.component('table-chinaums', tableChinaums)
 Vue.component('table-icbc', tableIcbc)
+Vue.component('table-bank', tableBank)
 Vue.component('table-howmuch', tableHowmuch)
 Vue.component('table-miniappmsg', tableMiniappmsg)
 Vue.component('table-server-massage', tableServerMassage)

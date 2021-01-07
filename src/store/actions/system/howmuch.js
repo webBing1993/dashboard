@@ -74,6 +74,16 @@ module.exports = {
       }
     })
   },
+  // 昆仑银行支付
+  getBankAll(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/kunlunConfig/all',
+      method:'POST',
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
   //银联支付
   getChinaumsList(ctx, param) {
     ctx.dispatch('resource', {
@@ -159,6 +169,69 @@ module.exports = {
     ctx.dispatch('resource', {
       url: `/icbcPay/`+param.id,
       method:'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 昆仑银行支付详情
+  bankDetail(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/kunlunConfig/`+param.id,
+      method:'GET',
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 昆仑银行支付
+  getBankPayList(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/kunlunConfig/page',
+      headers: {
+        'X-Current-Page': param.page || '1',
+        'X-Page-Size': param.size || '0',
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      method:'POST',
+      body: {},
+      onSuccess: (body, headers) => {
+        param.onsuccess ? param.onsuccess(body, headers) : null
+      }
+    })
+  },
+
+  // 添加昆仑银行支付
+  addBankPayConfig(ctx, param) {
+    ctx.dispatch('resource', {
+      url: '/kunlunConfig/save',
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+
+  // 修改昆仑银行支付
+  updateBank(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/kunlunConfig/update`,
+      method:'POST',
+      body: param.data,
+      onSuccess: body => {
+        param.onsuccess ? param.onsuccess(body) : null
+      }
+    })
+  },
+  // 删除昆仑银行支付
+  detailBank(ctx, param) {
+    ctx.dispatch('resource', {
+      url: `/kunlunConfig/`+param.id,
+      method:'DELETE',
+      body: param.data,
       onSuccess: body => {
         param.onsuccess ? param.onsuccess(body) : null
       }

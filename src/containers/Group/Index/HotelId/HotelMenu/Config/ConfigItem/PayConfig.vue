@@ -264,6 +264,60 @@
           </div>
         </div>
       </div>
+      <!--昆仑银行支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">昆仑银行支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持昆仑银行支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="bankConfig('bank')">配置</span>
+            <span :class="isBank?'noUse':'payConfig_main_btn2'" @click="useConfig('bank')">{{isBank?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isBank">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="bankDeviceList"
+              @change="chooseDevice('bank')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
+      <!--昆仑银行预授权支付配置-->
+      <div class="payConfig_main">
+        <div class="payConfig_main_top">
+          <div>
+            <p class="payConfig_main_p1">昆仑银行预授权支付</p>
+            <p class="payConfig_main_p2">开启后可选择设备支持昆仑银行预授权支付</p>
+          </div>
+          <div class="payConfig_main_right">
+            <span class="payConfig_main_btn1" @click="bankysConfig('bankys')">配置</span>
+            <span :class="isBankys?'noUse':'payConfig_main_btn2'" @click="useConfig('bankys')">{{isBankys?'停用':'启用'}}</span>
+          </div>
+        </div>
+        <div class="chooseDevice" v-if="isBankys">
+          <div class="chooseDevice_div">
+            <p class="chooseDevice_p1">选择需要启用的设备</p>
+            <p class="chooseDevice_p2">更改配置，需重启设备生效</p>
+          </div>
+          <div class="deviceList">
+            <el-checkbox-group
+              v-model="bankysDeviceList"
+              @change="chooseDevice('bankys')"
+            >
+              <el-checkbox v-for="item in deviceList" :label="item.id" :key="item.id">{{item.name}}</el-checkbox>
+            </el-checkbox-group>
+          </div>
+        </div>
+      </div>
       <!--PMS支付宝-->
       <div class="payConfig_main">
         <div class="payConfig_main_top">
@@ -610,6 +664,50 @@
               <el-button :disabled="!icbcvalidate" type="primary" @click="icbcSubmit">确 定</el-button>
           </span>
       </el-dialog>
+      <!--昆仑银行支付弹框-->
+      <el-dialog
+        title="昆仑银行支付参数配置"
+        :visible.sync="bankDialog"
+        width="50%"
+        center>
+        <div class="item_large">
+          <span>商户账号</span>
+          <el-select v-model="bankId" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of bankList"
+              :key="obj.id"
+              :label="obj.mchName"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+              <el-button @click="hideBankDialog">取 消</el-button>
+              <el-button :disabled="!bankvalidate" type="primary" @click="bankSubmit">确 定</el-button>
+          </span>
+      </el-dialog>
+      <!--昆仑银行预授权支付弹框-->
+      <el-dialog
+        title="昆仑银行预授权支付参数配置"
+        :visible.sync="bankysDialog"
+        width="50%"
+        center>
+        <div class="item_large">
+          <span>商户账号</span>
+          <el-select v-model="bankysId" slot="prepend" placeholder="请选择">
+            <el-option
+              v-for="(obj, index) of bankList"
+              :key="obj.id"
+              :label="obj.mchName"
+              :value="obj.id">
+            </el-option>
+          </el-select>
+        </div>
+        <span slot="footer" class="dialog-footer">
+              <el-button @click="hideBankysDialog">取 消</el-button>
+              <el-button :disabled="!bankysvalidate" type="primary" @click="bankysSubmit">确 定</el-button>
+          </span>
+      </el-dialog>
       <!--默认支付方式弹框-->
       <el-dialog
         title="配置默认支付方式"
@@ -663,6 +761,8 @@ export default {
       defaultDialog:false,     //默认支付方式
       howmuchDialog:false,   //好码齐支付配置弹框
       icbcDialog:false,   //工行支付配置弹框
+      bankDialog:false,   //昆仑银行支付配置弹框
+      bankysDialog:false,   //昆仑银行预授权支付配置弹框
       promptDialog: false, // 是否配置提示弹框
       inform: false,       //前台通知待办是否打开
       deviceList: [],      //所有设备列表
@@ -680,6 +780,8 @@ export default {
       pmsWechatDeviceList:[],     //PMS微信支付设备列表
       pmsAlipayYuDeviceList:[],       //PMS支付宝预授权支付设备列表
       icbcDeviceList: [],         // 工行支付
+      bankDeviceList: [],         // 昆仑银行支付
+      bankysDeviceList: [],         // 昆仑银行预授权支付
       isWechatUse: false,      //微信设备是否启用
       isAlipayUse: false,          //支付宝设备是否启用
       isProsceniumUse: false,    //前台支付是否启用chinaums
@@ -689,6 +791,8 @@ export default {
       isChinaumsYuUse: false,      //银联支付预授权是否启用
       isHowmuchUse:false,        //好码齐是否启用
       isIcbc:false,        //工行是否启用
+      isBank:false,        //昆仑银行是否启用
+      isBankys:false,        //昆仑银行预授权是否启用
       isPmsUse:false,           //PMS支付
       isPmsWechatUse:false,     //PMS微信支付
       isPmsAlipayYuUse:false,     //PMS支付宝预授权支付
@@ -731,7 +835,11 @@ export default {
       icbcId: '',   // 工行支付id
       icbcIdData: '',
       icbcList: [],     // 所有工行支付列表
-
+      bankId: '',   // 昆仑银行支付id
+      bankIdData: '',
+      bankList: [],   // 所有昆仑银行支付列表
+      bankysId: '',   // 昆仑银行预授权支付id
+      bankysIdData: '',
       ChinaumsList:[],   //所有银联支付列表
       chinaumsConfigName:'',
       chinaumsConfigNameYu:'',
@@ -745,7 +853,7 @@ export default {
   },
   methods: {
     ...mapActions(['goto','getMchNames','getMiniAppList','getWechatpayProvider','patchConfig','getDevices',
-      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig','getChinaumsList', 'getIcbcAll',
+      'patchPayConfig','getDevicePayConfig','getWechatpay','getHowmuchAll','getConfig','getChinaumsList', 'getIcbcAll', 'getBankAll',
       'defaultPayModeConfig'//默认支付方式配置
     ]),
     //去配置
@@ -769,6 +877,12 @@ export default {
       }else if(this.payType=="icbc"){
         this.icbcDialog=true;
         this.initIcbcAll();
+      }else if(this.payType=="bank"){
+        this.bankDialog=true;
+        this.initBankAll();
+      }else if(this.payType=="bankys"){
+        this.bankysDialog=true;
+        this.initBankAll();
       }else if(this.payType=="chinaums"||this.payType=="chinaumsYu"){
         this.chinaumsDialog=true;
         this.initChinaums();
@@ -843,6 +957,18 @@ export default {
       this.payType=type;
       this.initIcbcAll();
     },
+    bankConfig(type){
+      this.bankDialog = true;
+      console.log('弹框类型',type);
+      this.payType=type;
+      this.initBankAll();
+    },
+    bankysConfig(type){
+      this.bankysDialog = true;
+      console.log('弹框类型',type);
+      this.payType=type;
+      this.initBankAll();
+    },
     //请求好码齐支付所有数据
     initHowmuchAll(){
       this.getHowmuchAll({
@@ -856,6 +982,14 @@ export default {
       this.getIcbcAll({
         onsuccess: body => {
           this.icbcList=body.data;
+        }
+      })
+    },
+    //请求昆仑银行支付所有数据
+    initBankAll(){
+      this.getBankAll({
+        onsuccess: body => {
+          this.bankList=body.data;
         }
       })
     },
@@ -919,6 +1053,16 @@ export default {
         this.pay_config_key='icbc_pay_config';
         if(this.isIcbc){
           data={"devices":this.icbcDeviceList} // 设备
+        }
+      }else if (type == 'bank'){
+        this.pay_config_key='kunlun_pay_config';
+        if(this.isBank){
+          data={"devices":this.bankDeviceList} // 设备
+        }
+      }else if (type == 'bankys'){
+        this.pay_config_key='kunlun_pay_authority_config';
+        if(this.isBankys){
+          data={"devices":this.bankysDeviceList} // 设备
         }
       }else if (type == 'pms'){
         this.pay_config_key='pmspay_alipay_config';
@@ -1085,6 +1229,42 @@ export default {
             "devices":[], // 设备
           }
         }
+      }else if(type == 'bank'){
+        if((this.bankId== ''||this.bankId == undefined) && this.isBank==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isBank = !this.isBank;
+        this.pay_config_key='kunlun_pay_config';
+        if(this.isBank){
+          data={
+            "enable":this.isBank, // 启用：true  停用：false
+            "devices":this.wechatDeviceList, // 设备
+          }
+        }else{
+          data={
+            "enable":this.isBank, // 启用：true  停用：false
+            "devices":[], // 设备
+          }
+        }
+      }else if(type == 'bankys'){
+        if((this.bankysId== ''||this.bankysId == undefined) && this.isBankys==false ){
+          this.promptDialog=true;
+          return;
+        }
+        this.isBankys = !this.isBankys;
+        this.pay_config_key='kunlun_pay_authority_config';
+        if(this.isBankys){
+          data={
+            "enable":this.isBankys, // 启用：true  停用：false
+            "devices":this.wechatDeviceList, // 设备
+          }
+        }else{
+          data={
+            "enable":this.isBankys, // 启用：true  停用：false
+            "devices":[], // 设备
+          }
+        }
       }else if(type == 'pms'){
         this.isPmsUse = !this.isPmsUse;
         this.pay_config_key='pmspay_alipay_config';
@@ -1104,7 +1284,7 @@ export default {
           "enable": this.isPmsAlipayYuUse, // 启用：true  停用：false
         }
       }else if(type == 'chinaums'){
-        if((this.chinaumsConfigName== ''||this.chinaumsConfigName== undefined) && this.isHowmuchUse==false && this.isIcbc == false ){
+        if((this.chinaumsConfigName== ''||this.chinaumsConfigName== undefined) && this.isHowmuchUse==false && this.isIcbc == false && this.isBank == false && this.isBankys == false ){
           this.promptDialog=true;
           return;
         }
@@ -1114,7 +1294,7 @@ export default {
           "enable":this.isChinaumsUse, // 启用：true  停用：false
         }
       }else if(type == 'chinaumsYu'){
-        if((this.chinaumsConfigNameYu== ''||this.chinaumsConfigNameYu== undefined) && this.isHowmuchUse==false && this.isIcbc == false ){
+        if((this.chinaumsConfigNameYu== ''||this.chinaumsConfigNameYu== undefined) && this.isHowmuchUse==false && this.isIcbc == false && this.isBank == false && this.isBankys == false){
           this.promptDialog=true;
           return;
         }
@@ -1472,6 +1652,34 @@ export default {
                this.icbcIdData=this.icbcId;
              }
            }
+           // 昆仑银行支付
+           if(body.data.kunlun_pay_config!=null){
+             if(body.data.kunlun_pay_config.enable!=undefined){
+               this.isBank=JSON.parse(body.data.kunlun_pay_config.enable);
+             }
+             if(body.data.kunlun_pay_config.devices!=undefined){
+               this.bankDeviceList=body.data.kunlun_pay_config.devices; // 支付宝支付设备列表
+               this.bankDeviceList =this.deviceFilter(this.bankDeviceList);
+             }
+             if(body.data.kunlun_pay_config.kunlun_pay_config_id!=undefined){
+               this.bankId=body.data.kunlun_pay_config.kunlun_pay_config_id;
+               this.bankIdData=this.bankId;
+             }
+           }
+           // 昆仑银行预授权支付
+           if(body.data.kunlun_pay_authority_config!=null){
+             if(body.data.kunlun_pay_authority_config.enable!=undefined){
+               this.isBankys=JSON.parse(body.data.kunlun_pay_authority_config.enable);
+             }
+             if(body.data.kunlun_pay_authority_config.devices!=undefined){
+               this.bankysDeviceList=body.data.kunlun_pay_authority_config.devices; // 支付宝支付设备列表
+               this.bankysDeviceList =this.deviceFilter(this.bankysDeviceList);
+             }
+             if(body.data.kunlun_pay_authority_config.kunlun_pay_authority_config_id!=undefined){
+               this.bankysId=body.data.kunlun_pay_authority_config.kunlun_pay_authority_config_id;
+               this.bankysIdData=this.bankysId;
+             }
+           }
            //pms支付宝支付
            if(body.data.pmspay_alipay_config!=null){
              if(body.data.pmspay_alipay_config.enable!=undefined){
@@ -1547,6 +1755,34 @@ export default {
       this.pay_config_key='icbc_pay_config';
       let data={
         "icbc_pay_config_id":this.icbcId, // 好码齐商户配置ID
+      }
+      this.patchPayConfigData(data);
+    },
+    //取消昆仑支付弹框
+    hideBankDialog(){
+      this.bankDialog=false;
+      this.bankId=this.bankIdData;
+    },
+    //昆仑支付确认配置
+    bankSubmit(){
+      this.bankDialog=false;
+      this.pay_config_key='kunlun_pay_config';
+      let data={
+        "kunlun_pay_config_id":this.bankId,
+      }
+      this.patchPayConfigData(data);
+    },
+    //取消昆仑预授权支付弹框
+    hideBankysDialog(){
+      this.bankysDialog=false;
+      this.bankysId=this.bankysIdData;
+    },
+    //昆仑预授权支付确认配置
+    bankysSubmit(){
+      this.bankysDialog=false;
+      this.pay_config_key='kunlun_pay_authority_config';
+      let data={
+        "kunlun_pay_authority_config_id":this.bankysId,
       }
       this.patchPayConfigData(data);
     },
@@ -1704,6 +1940,12 @@ export default {
     },
     icbcvalidate(){
       return tool.isNotBlank(this.icbcId)
+    },
+    bankvalidate(){
+      return tool.isNotBlank(this.bankId)
+    },
+    bankysvalidate(){
+      return tool.isNotBlank(this.bankysId)
     },
 
   },

@@ -147,7 +147,7 @@
               <p>配置酒店对脏房的态度</p>
             </div>
             <span class="tag_text"
-                  :class="{'tag_text_red':!(isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard), 'tag_text_green': (isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard)}">{{ isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard? '已配置' : '未配置'}}</span>
+                  :class="{'tag_text_red':!(isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard || autoChangeDirtyToClean), 'tag_text_green': (isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard || autoChangeDirtyToClean)}">{{ isSupportVd || isSupportDirtyCheckin|| isDirtyCheckinSendCard || autoChangeDirtyToClean? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <el-col :span="8">
@@ -188,6 +188,19 @@
             </div>
             <span class="tag_text"
                   :class="{'tag_text_red': !maxAllowRoomcount, 'tag_text_green':maxAllowRoomcount}">{{maxAllowRoomcount ? '已配置' : '未配置'}}</span>
+          </button>
+        </el-col>
+        <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.continueToLive)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/列表.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>房间续住</span>
+              <p>配置用户续住</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red': !continueExtend, 'tag_text_green':continueExtend}">{{continueExtend ? '已配置' : '未配置'}}</span>
           </button>
         </el-col>
         <div class="content-title">
@@ -843,6 +856,14 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form">
+              <span>脏房自动换净房</span>
+              <el-switch
+                v-model="autoChangeDirtyToClean"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
           </div>
           <!--分房配置-->
           <div v-if="showType === enumShowType.autoGiveRoom">
@@ -906,6 +927,33 @@
               <el-input class="el-right" v-model="maxAllowRoomcount" placeholder="请输入选房列表最大展示房间数量"></el-input>
             </div>
 
+          </div>
+
+          <!-- 续住配置-->
+          <div v-if="showType === enumShowType.continueToLive">
+            <div class="item-form">
+              <span>是否支持续住</span>
+              <el-switch
+                v-model="continueExtend"
+                on-color="#13ce66"
+                off-color="#ff4949">
+              </el-switch>
+            </div>
+            <div class="item-form">
+              <span>最多允许续住天数</span>
+              <el-select class="el-right" v-model="continueMax" placeholder="请选择最多允许续住天数">
+                <el-option
+                  v-for="(obj, index) in continueDayList"
+                  :key="index"
+                  :label="obj"
+                  :value="obj">
+                </el-option>
+              </el-select>
+            </div>
+            <div class="item-form">
+              <span>不允许续住的渠道码</span>
+              <el-input class="el-right" v-model="continueExclude" placeholder="多个请用|隔开"></el-input>
+            </div>
           </div>
           <!--押金配置-->
           <div v-if="showType === enumShowType.cashPledge">
@@ -1476,6 +1524,7 @@
     autoGiveRoom: 9,//自动分房
     roomTags: 10,  //房间标签配置
     maxAllowRoomcount: 11,  //最大房间数量配置
+    continueToLive: 33,  //续住配置
     cashPledge: 12, //押金配置
     breakfastStemFrom: 13,  //早餐券配置
     customization:14, //定制化配置
@@ -1506,7 +1555,7 @@
     '小程序配置','退款业务配置配置', '支付小票配置','插卡退房配置','退离规则配置',  '脏房配置','分房配置','房间标签配置','在线选房配置', '押金配置',
     '早餐券配置', '定制化配置',  '关键通道配置',    '酒店二维码配置', '酒店设备押金配置','自动确认预付款配置',  '预登记短信配置','值房通是否显示多房订单',
     '入住规则配置','电子签名配置' , 'RC单打印',    'RC单是否开启字段','推送白名单到餐券设备','订单关键字脚本配置','房间同步列表配置','是否同步到携程配置','入住单配置',
-    '酒店商城支付配置', '自动挂账结算'
+    '酒店商城支付配置', '自动挂账结算', '退房单配置', '房间续住'
   ]
 
   import {mapActions, mapGetters, mapState, mapMutations} from 'vuex'
@@ -1577,6 +1626,7 @@
         isSupportVd: true,
         isSupportDirtyCheckin:false,
         isDirtyCheckinSendCard:false,
+        autoChangeDirtyToClean:false,
         //自动分房配置
         autoGiveRoomVal:false,
 
@@ -1590,6 +1640,12 @@
         maxAllowRoomcount: '10',
         setHouseTime:'',//选房时间
         // selectHouseSure:false,//是否允许选房
+        // 续住配置
+        continueExtend: false,   // 是否支持续住
+        continueMode: '',     // 续住模式
+        continueMax: '5',      // 最大续住天数
+        continueDayList: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
+        continueExclude: '',    // 不允许续住的渠道码
         isMaxAllow:false,
         //押金配置
         cashPledgeType: '',
@@ -2034,6 +2090,9 @@
           case enumShowType.maxAllowRoomcount:
             result = this.validatemaxAllowRoomcount;
             break;
+          case enumShowType.continueToLive:
+            result = true;
+            break;
           case enumShowType.cashPledge:
             result = this.validatecashPledge;
             break;
@@ -2177,6 +2236,7 @@
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
           this.isSupportDirtyCheckin=configData.is_support_dirty_checkin=='true'?true:false;
           this.isDirtyCheckinSendCard=configData.dirty_checkin_send_card=='true'?true:false;
+          this.autoChangeDirtyToClean=configData.auto_change_dirty_to_clean=='true'?true:false;
 
           //是否自动分房配置
 
@@ -2194,6 +2254,11 @@
           this.maxAllowRoomcount = configData.max_allow_roomcount;
           this.isMaxAllow=configData.enabled_self_selected_room == 'true' ? true : false;
 
+          // 续住
+          this.continueExtend = configData.extend_order_room ? JSON.parse(configData.extend_order_room).extend == 'true' ? true : false : false;
+          this.continueMode = configData.extend_order_room ? JSON.parse(configData.extend_order_room).mode : '';
+          this.continueMax = configData.extend_order_room ? JSON.parse(configData.extend_order_room).max : '5';
+          this.continueExclude = configData.extend_order_room ? JSON.parse(configData.extend_order_room).exclude : '';
           // this.selectHouseSure = configData.enable_select_house == 'true' ? true : false;
 
           //押金配置
@@ -2665,6 +2730,7 @@
             this.isSupportVd = this.configData.is_support_vd == '1' ? true : false;
             this.isSupportDirtyCheckin=this.configData.is_support_dirty_checkin=='true'?true:false;
             this.isDirtyCheckinSendCard=this.configData.dirty_checkin_send_card=='true'?true:false;
+            this.autoChangeDirtyToClean=this.configData.auto_change_dirty_to_clean=='true'?true:false;
             break;
           case enumShowType.autoGiveRoom:
             this.autoGiveRoomVal = this.configData.enabled_auto_give_room == 'true' ? true : false;
@@ -2680,6 +2746,12 @@
             this.maxAllowRoomcount = this.configData.max_allow_roomcount;
 
             // this.selectHouseSure = this.configData.enable_select_house == 'true' ? true : false;
+            break;
+          case enumShowType.continueToLive:
+            this.continueExtend = this.configData.extend_order_room ? JSON.parse(this.configData.extend_order_room).extend == 'true' ? true : false : false;
+            this.continueMode = this.configData.extend_order_room ? JSON.parse(this.configData.extend_order_room).mode : '';
+            this.continueMax = this.configData.extend_order_room ? JSON.parse(this.configData.extend_order_room).max : '5';
+            this.continueExclude = this.configData.extend_order_room ? JSON.parse(this.configData.extend_order_room).exclude : '';
             break;
           case enumShowType.cashPledge:
             this.cashPledgeType = this.configData.cash_pledge_config.cash_pledge_type;
@@ -2926,12 +2998,14 @@
                 is_support_vd: this.isSupportVd ? '1' : '0',
                 'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
                 'dirty_checkin_send_card':this.isDirtyCheckinSendCard.toString(),
+                'auto_change_dirty_to_clean':this.autoChangeDirtyToClean.toString(),
               }
             }else{
               data = {
                 is_support_vd: this.isSupportVd ? '1' : '0',
                 'is_support_dirty_checkin':this.isSupportDirtyCheckin.toString(),
                 'dirty_checkin_send_card':'false',
+                'auto_change_dirty_to_clean':this.autoChangeDirtyToClean.toString(),
               }
             }
             break;
@@ -2964,6 +3038,17 @@
               max_allow_roomcount: this.maxAllowRoomcount,
 
               // enable_select_house:this.selectHouseSure
+            }
+            break;
+          case enumShowType.continueToLive:
+            let continueObj = {
+              "extend": this.continueExtend.toString(),
+              "mode": this.continueMode,
+              "max": this.continueMax.toString(),
+              "exclude": this.continueExclude,
+            };
+            data = {
+              extend_order_room: JSON.stringify(continueObj),
             }
             break;
           case enumShowType.cashPledge: {
@@ -3461,8 +3546,8 @@
               margin-bottom: 10px;
               & > span {
                 display: inline-block;
-                min-width: 110px;
-                text-align: end;
+                min-width: 112px !important;
+                text-align: start !important;
               }
               .el-select {
                 width: 100%;
@@ -3522,7 +3607,7 @@
             }
             .item_form_1 {
               margin-left: 16px;
-              min-width: auto;
+              min-width: 70%;
               display: inline-flex;
               align-items: center;
               justify-content: flex-start;
@@ -3566,7 +3651,7 @@
               margin-bottom: 10px;
               & > span {
                 display: inline-block;
-                min-width: 110px;
+                min-width: 112px;
                 text-align: end;
               }
               .minwidthtag {
@@ -3777,5 +3862,11 @@
     width:2rem;
     height: 2rem;
     margin-left: 1rem;
+  }
+  .el-select-dropdown {
+    z-index: 2029 !important;
+  }
+  .el-dialog__wrapper {
+    /*z-index: 2020 !important;*/
   }
 </style>

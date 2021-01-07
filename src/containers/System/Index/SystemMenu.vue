@@ -8,6 +8,7 @@
       <router-link to="/system/howmuch">好码齐支付</router-link>
       <router-link to="/system/chinaums">银联支付</router-link>
       <router-link to="/system/paymentIcbc">工行支付</router-link>
+      <router-link to="/system/kunlunBank">昆仑银行支付</router-link>
       <!--<router-link to="/system/miniappmsg">小程序消息模板</router-link>-->
       <router-link to="/system/servemessage">服务消息模板管理</router-link>
       <router-link to="/system/qrcodecreate">二维码生成</router-link>
