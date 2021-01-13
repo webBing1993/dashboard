@@ -1852,8 +1852,8 @@
           this.checkedMoney = configData.nocard_pay_mode
 
           //人脸识别配置
-          this.faceinPassValue = configData.facein_pass_value ? +configData.facein_pass_value : 70;
-          this.faceinRejectValue = configData.facein_reject_value ? +configData.facein_reject_value : 70;
+          this.faceinPassValue = configData.facein_pass_value ? parseFloat(configData.facein_pass_value) : 70;
+          this.faceinRejectValue = configData.facein_reject_value ? parseFloat(configData.facein_reject_value) : 70;
           this.faceTongdao = configData.identity_check_channel === 'YOUTU' ? '腾讯优图' : '厦门身份宝';
           this.identityAccount = configData.shenfenbao_hotel_account;
           this.shenfenbaoRejectManual = configData.shenfenbao_reject_manual;
@@ -2201,7 +2201,6 @@
 
       dialogConfig(type) {
           console.log('------>',type)
-        this.showType = type;
         if (type === enumShowType.PMS && this.PMSBrandList.length == 0) {
           this.getPMSBrandLists();
         } else if (type === enumShowType.wxHotel) {
@@ -2225,7 +2224,12 @@
           this.inteRoomLock = this.configData.integration_room_lock == 'true' ? true : false;
           this.send_card_by_lan=this.configData.send_card_by_lan == 'true' ? true : false;
           this.max_card_number=this.configData.max_card_number ;
+        }else if (type === enumShowType.facein) {
+          //人脸识别配置
+          this.faceinPassValue = this.configData.facein_pass_value ? parseFloat(this.configData.facein_pass_value) : 70;
+          this.faceinRejectValue = this.configData.facein_reject_value ? parseFloat(this.configData.facein_reject_value) : 70;
         }
+        this.showType = type;
         this.showDialog = true;
       },
       wechatList() {
@@ -2368,8 +2372,8 @@
             this.appValue=this.configData.business_mode;
             break;
           case enumShowType.facein:
-            this.faceinPassValue = this.configData.facein_pass_value ? +this.configData.facein_pass_value : 70;
-            this.faceinRejectValue = this.configData.facein_reject_value ? +this.configData.facein_reject_value : 70;
+            this.faceinPassValue = this.configData.facein_pass_value ? parseFloat(configData.facein_pass_value) : 70;
+            this.faceinRejectValue = this.configData.facein_reject_value ? parseFloat(this.configData.facein_reject_value) : 70;
             this.similarity=this.configData.show_similarity== 'true' ? true : false;
             this.autoIdentityCheckVal===this.configData.enabled_auto_identity_check ==='true' ? true : false;
             break;
