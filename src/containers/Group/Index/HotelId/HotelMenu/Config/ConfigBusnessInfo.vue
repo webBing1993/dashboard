@@ -754,6 +754,17 @@
                 off-color="#ff4949">
               </el-switch>
             </div>
+            <div class="item-form" v-if="pmsCheckInCardOut">
+              <span>账务不平</span>
+              <el-select v-model="bill_not_balance_apply" placeholder="请选择">
+                <el-option
+                  v-for="(obj, index) of applyList"
+                  :key="index"
+                  :label="obj.name"
+                  :value="obj.value">
+                </el-option>
+              </el-select>
+            </div>
             <div class="item-form">
               <span>退房免查房</span>
               <el-switch
@@ -1254,8 +1265,8 @@
               <div class="item_form_1">
                 <span>00:00</span>
                 <span>-</span>
-                <el-select v-model="walk_in_pole_time" :automatic-dropdown="true" placeholder="选择时间">
-                  <el-option :label="item" :value="item" v-for="item in timeSecList" :key="item"></el-option>
+                <el-select v-model="walk_in_pole_time" placeholder="选择时间">
+                  <el-option :label="item" :value="item" v-for="(item, index) in timeSecList" :key="index"></el-option>
                 </el-select>
                 <span>入住算为当天离店</span>
               </div>
@@ -1621,6 +1632,17 @@
         enabledDeviceNeedSign:false,// 设备账单是否签名
         enabledRoomCardCheckout:false,//是否支持插卡退房
         pmsCheckInCardOut:false,//是否支持PMS入住退房
+        applyList: [
+          {
+            name: '提示前台处理',
+            value: 'false'
+          },
+          {
+            name: '发送退房申请',
+            value: 'true'
+          }
+        ],      // 账务不平list选择
+        bill_not_balance_apply: 'false',  // 账务不平选择
         checkOutWithoutCheck:false,//退房免查房
         //脏房配置
         isSupportVd: true,
@@ -2230,7 +2252,8 @@
           this.enabledAdvancedCheckoutHouse =configData.need_check_expense == 'true' ? true : false;
           this.enabledDeviceNeedSign=configData.bill_device_need_sign == 'true' ?true:false;
           this.enabledRoomCardCheckout=configData.enabled_room_card_checkout=='true'?true:false;
-          this.pmsCheckInCardOut=configData.pms_check_in_card_out=='true'?true:false;
+          this.pmsCheckInCardOut=configData.pms_check_in_card_out ? JSON.parse(configData.pms_check_in_card_out).power_on == 'true'?true:false:false;
+          this.bill_not_balance_apply=configData.pms_check_in_card_out ? JSON.parse(configData.pms_check_in_card_out).bill_not_balance_apply : 'false';
           this.checkOutWithoutCheck=configData.check_out_without_check=='true'?true:false;
           //脏房配置
           this.isSupportVd = configData.is_support_vd == '1' ? true : false;
@@ -2714,7 +2737,8 @@
             this.enableAutoCheckout = this.configData.enable_auto_checkout == 'true' ? true : false;
             this.enabledDeviceNeedSign=this.configData.bill_device_need_sign == 'true' ?true:false;
             this.enabledRoomCardCheckout=this.configData.enabled_room_card_checkout=='true'?true:false;
-            this.pmsCheckInCardOut=this.configData.pms_check_in_card_out=='true'?true:false;
+            this.pmsCheckInCardOut=this.configData.pms_check_in_card_out ? JSON.parse(this.configData.pms_check_in_card_out).power_on=='true'?true:false:false;
+            this.bill_not_balance_apply=this.configData.pms_check_in_card_out ? JSON.parse(this.configData.pms_check_in_card_out).bill_not_balance_apply:'false';
             this.checkOutWithoutCheck=this.configData.check_out_without_check=='true'?true:false;
             break;
           case enumShowType.advancedCheckout:
@@ -2973,11 +2997,15 @@
             }
             break;
           case enumShowType.autoCheckout:
+            let pmsCheckInCardOutObj = {
+              power_on: this.pmsCheckInCardOut.toString(),
+              bill_not_balance_apply: this.bill_not_balance_apply
+            };
             data = {
               enable_auto_checkout: this.enableAutoCheckout.toString(),
               bill_device_need_sign:this.enabledDeviceNeedSign.toString(),
               enabled_room_card_checkout:this.enabledRoomCardCheckout.toString(),
-              pms_check_in_card_out:this.pmsCheckInCardOut.toString(),
+              pms_check_in_card_out: JSON.stringify(pmsCheckInCardOutObj),
               check_out_without_check:this.checkOutWithoutCheck.toString(),
             }
             break;
