@@ -2365,8 +2365,8 @@
             this.liveInTime = this.configData.order_schedule_config ? JSON.parse(this.configData.order_schedule_config).checked_in_limit ? JSON.parse(parseFloat(this.configData.order_schedule_config).checked_in_limit) : 5 : 5;
             break;
           case enumShowType.consumptionCodeSure:
-            this.consumptionCode = JSON.parse(this.configData.consume_bill_item).code;
-            this.consumptionName = JSON.parse(this.configData.consume_bill_item).name;
+            this.consumptionCode = this.configData.consume_bill_item ? JSON.parse(this.configData.consume_bill_item).code : '';
+            this.consumptionName = this.configData.consume_bill_item ? JSON.parse(this.configData.consume_bill_item).name : '';
             break;
           case enumShowType.withoutCard:
             this.appValue=this.configData.business_mode;
