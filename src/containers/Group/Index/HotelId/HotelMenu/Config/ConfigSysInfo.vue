@@ -263,7 +263,7 @@
                 <el-input class="el-right" v-model="hotelServiceUrl" placeholder="请输入酒店服务地址"></el-input>
               </div>
             </div>
-            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14' ">
+            <div v-show="pmsType == '2' || pmsType == '7'|| pmsType == '11'||pmsType == '14' || pmsType == '22' ">
               <div class="item-form">
                 <span>crsURL</span>
                 <el-input class="el-right" v-model="crsURL" placeholder="请输入crsURL，选填"></el-input>
@@ -2437,7 +2437,7 @@
               pms_worker_id:this.wqtPublicNo,
               pms_enable_extension:this.pmsCheckIn
             };
-            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14' || this.pmsType == '17') {
+            if (this.pmsType == '7' || this.pmsType == '2'||this.pmsType == '11'||this.pmsType == '14' || this.pmsType == '17' || this.pmsType == '22') {
               data = {
                 ...paramData,
                 crs_url: this.crsURL,
