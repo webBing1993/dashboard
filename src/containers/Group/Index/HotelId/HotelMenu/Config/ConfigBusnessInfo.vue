@@ -165,6 +165,20 @@
           </button>
         </el-col>
         <el-col :span="8">
+          <button @click="dialogConfig(enumShowType.roomContral)">
+            <div class="item_img">
+              <img src="../../../../../../assets/images/item_1.png" alt="a">
+            </div>
+            <div class="item-text">
+              <span>房间控制</span>
+              <p>设置某些房间不通过自助机办理，适用于自动分房、上门散客、钟点房、在线选房</p>
+            </div>
+            <span class="tag_text"
+                  :class="{'tag_text_red':!roomContralVal, 'tag_text_green':roomContralVal}">{{roomContralVal ? '已配置' : '未配置'}}
+            </span>
+          </button>
+        </el-col>
+        <el-col :span="8">
           <button @click="dialogConfig(enumShowType.roomTags)">
             <div class="item_img">
               <img src="../../../../../../assets/images/item_1.png" alt="a">
@@ -843,14 +857,14 @@
           </div>
           <!--脏房配置-->
           <div v-if="showType === enumShowType.supportVd">
-            <div class="item-form">
-              <span>是否支持分脏房？</span>
-              <el-switch
-                v-model="isSupportVd"
-                on-color="#13ce66"
-                off-color="#ff4949">
-              </el-switch>
-            </div>
+            <!--<div class="item-form">-->
+              <!--<span>是否支持分脏房？</span>-->
+              <!--<el-switch-->
+                <!--v-model="isSupportVd"-->
+                <!--on-color="#13ce66"-->
+                <!--off-color="#ff4949">-->
+              <!--</el-switch>-->
+            <!--</div>-->
             <div class="item-form">
               <span>是否允许住脏？</span>
               <el-switch
@@ -903,6 +917,13 @@
                               v-model="setHouseTime"
                               placeholder="选择时间">
               </el-time-picker>
+            </div>
+          </div>
+          <!--房间控制-->
+          <div v-if="showType === enumShowType.roomContral">
+            <div class="item-form">
+              <span>房间号</span>
+              <el-input class="el-right" v-model="roomContralVal" placeholder="请输入房间号(多个房间请使用英文逗号隔开)"></el-input>
             </div>
           </div>
           <!--房间标签-->
@@ -1556,7 +1577,8 @@
     checkInPrint:29,   //入住单配置
     storeminiApp:30, //酒店商城支付配置
     autoCheckFuse: 31, // 自动结算配置
-    checkOutPrint: 32 // 退房单配置
+    checkOutPrint: 32, // 退房单配置
+    roomContral: 34 // 房间控制
   }
 
   //弹框标题类型
@@ -1654,6 +1676,7 @@
 
         autoGiveRoomRule:'',
         autoGiveRoomRuleList:[{name:'房号从小到大',value:'room_no_asc'},{name:'房号从大到小',value:'room_no_desc'},{name:'楼层从高到低',value:'floor_desc'},{name:'楼层从低到高',value:'floor_asc'},{name:'分房值从大到小',value:'room_weight_desc'}],
+        roomContralVal: '',   // 房间控制中房间号
         //酒店标签配置
         roomTags: [''],
         wechatpayList: [],
@@ -1986,6 +2009,9 @@
         }
         return tool.isNotBlank(this.appIdYu) && tool.isNotBlank(this.mchIdYu) && tool.isNotBlank(this.providerAppIdYu) && tool.isNotBlank(this.providerMchIdYu);
       },
+      validateRoomContral() {
+        return tool.isNotBlank(this.roomContralVal)
+      },
       validatemaxAllowRoomcount() {
         return tool.isNotBlank(this.maxAllowRoomcount) && !isNaN(+this.maxAllowRoomcount)
       },
@@ -2105,6 +2131,9 @@
             break;
           case enumShowType.autoGiveRoom:
             result = true;
+            break;
+          case enumShowType.roomContral:
+            result = this.validateRoomContral;
             break;
           case enumShowType.roomTags:
             result = true;
@@ -2266,6 +2295,9 @@
           this.autoGiveRoomVal = configData.enabled_auto_give_room == 'true' ? true : false;
           this.autoGiveRoomRule= configData.assign_room_no_rules;
           this.setHouseTime = configData.allow_give_room;
+
+          // 房间控制配置
+          this.roomContralVal = configData.give_room_ignored_rooms ? configData.give_room_ignored_rooms : '';
 
           //酒店标签配置
           if (tool.isNotBlank(configData.room_tags)) {
@@ -2762,6 +2794,9 @@
             this.autoGiveRoomRule= this.configData.assign_room_no_rules;
             this.setHouseTime = this.configData.allow_give_room
             break;
+          case enumShowType.roomContral:
+            this.roomContralVal = this.configData.give_room_ignored_rooms ? this.configData.give_room_ignored_rooms : '';
+            break;
           case enumShowType.roomTags:
             this.roomTags = this.configData.room_tags.length > 0 ? [...this.configData.room_tags] : [''];
             break;
@@ -3055,6 +3090,12 @@
                 'assign_room_no_rules':''
               };
             }
+
+            break;
+          case enumShowType.roomContral:
+            data = {
+              'give_room_ignored_rooms': this.roomContralVal.toString()
+            };
 
             break;
           case enumShowType.roomTags:
