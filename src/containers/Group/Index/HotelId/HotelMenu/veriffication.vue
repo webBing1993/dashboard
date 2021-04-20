@@ -335,7 +335,7 @@
       },
       getList() {
         let data = {
-          keyword: this.searchVal,
+          name: this.searchVal,
           roomNo: this.searchVal_,
         };
         if (this.identityStatus != 'ALL') {
